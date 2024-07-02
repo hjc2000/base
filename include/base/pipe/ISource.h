@@ -27,10 +27,6 @@ namespace base
 		/// @note 主动取消不会冲洗消费者。
 		///
 		/// @return 成功返回 0，失败返回负数的错误代码
-		/// @note 此错误代码直接来自 ReadData。
-		/// @note 调用本对象的 ReadData 方法读取数据，将数据送给消费者的过程中，如果遇到 ReadData
-		/// 方法返回了负数，说明 数据源——本对象 发生了错误，可能是读取到文件尾，没有更多数据了，
-		/// 或者其他错误。这时候会冲洗消费者，然后原封不动地返回 ReadData 方法所返回的错误代码。
 		virtual int PumpTo(base::IConsumer<T> &consumer,
 						   std::shared_ptr<base::CancellationToken> cancellationToken)
 		{
@@ -38,6 +34,7 @@ namespace base
 			{
 				if (cancellationToken->IsCancellationRequested())
 				{
+					// 主动取消需要尽快退出，所以不冲洗消费者
 					throw base::TaskCanceledException{"PumpTo 函数被取消。"};
 				}
 
@@ -45,10 +42,12 @@ namespace base
 				int ret = ReadData(data);
 				if (ret < 0)
 				{
+					// 收到负数的错误代码，冲洗消费者后返回错误代码
 					consumer.Flush();
 					return ret;
 				}
 
+				// 读取成功，向消费者送入数据
 				consumer.SendData(data);
 			}
 		}
