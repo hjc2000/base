@@ -41,3 +41,24 @@ std::string base::ToHexString(uint64_t number)
 	string_stream << "0x" << std::hex << number;
 	return string_stream.str();
 }
+
+std::string base::ToHexString(uint8_t *buffer, int32_t size)
+{
+	if (size <= 0)
+	{
+		return "";
+	}
+
+	std::stringstream string_stream;
+	for (int i = 0; i < size; i++)
+	{
+		string_stream << base::ToHexString(buffer[i]) << ", ";
+		if ((i + 1) % 20 == 0)
+		{
+			string_stream << '\n';
+		}
+	}
+
+	string_stream << '\n';
+	return string_stream.str();
+}

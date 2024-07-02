@@ -19,4 +19,6 @@ namespace base
 
 	std::string ToHexString(int64_t number);
 	std::string ToHexString(uint64_t number);
+
+	std::string ToHexString(uint8_t *buffer, int32_t size);
 }
