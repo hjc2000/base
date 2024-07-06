@@ -8,7 +8,8 @@
 namespace base
 {
 	/// @brief 具有循环缓冲区的流
-	class CircleBufferMemoryStream : public base::Stream
+	class CircleBufferMemoryStream
+		: public base::Stream
 	{
 	private:
 		uint8_t *_buffer;
@@ -22,12 +23,10 @@ namespace base
 		///	 	  尾部 - 1 才是指向有效元素。（前提是缓冲区不为空）
 		int32_t _tail;
 
-		/// <summary>
-		///		队列是否已满。当头指针和尾指针重叠时，有 2 种情况：
-		///			1. 缓冲区为空
-		///			2. 缓冲区满
-		///		此字段用来区分这两种情况。
-		/// </summary>
+		/// @brief 队列是否已满。当头指针和尾指针重叠时，有 2 种情况：
+		/// @li 缓冲区为空
+		/// @li 缓冲区满
+		/// 此字段用来区分这两种情况。
 		bool _is_full;
 
 		void AddHead(int32_t value);
