@@ -55,7 +55,7 @@ void JoinedStream::SetLength(int64_t value)
 
 int32_t JoinedStream::Read(uint8_t *buffer, int32_t offset, int32_t count)
 {
-	while (1)
+	while (true)
 	{
 		if (!_current_stream)
 		{
