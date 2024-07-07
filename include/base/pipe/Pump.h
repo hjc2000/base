@@ -1,16 +1,17 @@
 #pragma once
 #include <base/container/List.h>
 #include <base/delegate/Delegate.h>
-#include <base/pipe/IPipeSource.h>
+#include <base/pipe/IPump.h>
 #include <base/pipe/ISource.h>
-#include <base/task/CancellationToken.h>
 #include <stdexcept>
 
 namespace base
 {
+	/// @brief 实现一个普通的泵
+	/// @tparam T
 	template <typename T>
 	class Pump
-		: base::IPipeSource<T>
+		: public base::IPump<T>
 	{
 	private:
 		std::shared_ptr<base::ISource<T>> _source;
@@ -28,6 +29,8 @@ namespace base
 			_source = source;
 		}
 
+		/// @brief 消费者列表
+		/// @return
 		base::IList<std::shared_ptr<base::IConsumer<T>>> &ConsumerList() override
 		{
 			return _consumer_list;
@@ -41,7 +44,9 @@ namespace base
 			return _before_sending_data_to_consumers_event;
 		}
 
-		virtual void PumpDataToConsumers(std::shared_ptr<base::CancellationToken> cancellation_token)
+		/// @brief 将数据从源中取出，泵送给每一个消费者
+		/// @param cancellation_token
+		void PumpDataToConsumers(std::shared_ptr<base::CancellationToken> cancellation_token) override
 		{
 			T data{};
 			while (true)
@@ -54,13 +59,13 @@ namespace base
 				int ret = _source->ReadData(data);
 				if (ret < 0)
 				{
-					base::IPipeSource<T>::FlushEachConsumer();
+					base::IPump<T>::FlushEachConsumer();
 					return;
 				}
 
 				// 触发回调。允许在每次将数据送给消费者之前通过事件回调修改数据
 				_before_sending_data_to_consumers_event(data);
-				base::IPipeSource<T>::SendDataToEachConsumer(data);
+				base::IPump<T>::SendDataToEachConsumer(data);
 			}
 		}
 	};
