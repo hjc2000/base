@@ -1,14 +1,20 @@
 #pragma once
-#include <base/IUnsubscribeToken.h>
-#include <functional>
+#include <base/IEvent.h>
 #include <map>
-#include <memory>
 #include <stdint.h>
 
 namespace base
 {
+	/// @brief 委托类
+	/// @note 本类继承了 IEvent 接口。一个类如果只想让外部订阅和取消订阅，不想让外部能够触发事件，
+	/// 则可以将委托类对象作为私有字段，然后提供一个函数，返回 IEvent 的引用，这样外部就只能订阅和
+	/// 取消订阅，无法触发事件了。
+	///
+	/// @tparam ReturnType
+	/// @tparam ...Args
 	template <typename ReturnType, typename... Args>
 	class Delegate
+		: public base ::IEvent<ReturnType, Args...>
 	{
 	private:
 		std::map<uint64_t, std::function<ReturnType(Args...)>> _functions;
@@ -31,7 +37,7 @@ namespace base
 		/// @param func 要订阅的回调
 		/// @return 返回用来取消订阅的令牌。
 		/// @warning 禁止在 Delegate 对象析构后使用取消令牌。
-		std::shared_ptr<base::IUnsubscribeToken> Subscribe(std::function<ReturnType(Args...)> func)
+		std::shared_ptr<base::IUnsubscribeToken> Subscribe(std::function<ReturnType(Args...)> func) override
 		{
 			class UnsubscribeToken
 				: public base::IUnsubscribeToken
