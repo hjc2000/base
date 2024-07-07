@@ -15,7 +15,6 @@ namespace base
 	private:
 		std::shared_ptr<base::ISource<T>> _source;
 		base::List<std::shared_ptr<base::IConsumer<T>>> _consumer_list;
-		bool _pump_started = false;
 		base::Delegate<void(T &data)> _before_sending_data_to_consumers_event;
 
 	public:
@@ -44,7 +43,6 @@ namespace base
 
 		virtual void PumpDataToConsumers(std::shared_ptr<base::CancellationToken> cancellation_token)
 		{
-			_pump_started = true;
 			T data{};
 			while (true)
 			{
