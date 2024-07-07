@@ -3,7 +3,7 @@
 #define HAS_THREAD 0
 #endif
 
-#include <base/IEvent.h>
+#include <base/delegate/IEvent.h>
 #include <map>
 #include <stdint.h>
 
@@ -18,14 +18,13 @@ namespace base
 	/// 则可以将 Delegate 对象作为私有字段，然后提供一个函数，返回 IEvent 的引用，这样外部就只能订阅和
 	/// 取消订阅，无法触发事件了。
 	///
-	/// @tparam ReturnType
 	/// @tparam ...Args
-	template <typename ReturnType, typename... Args>
+	template <typename... Args>
 	class Delegate
-		: public base ::IEvent<ReturnType, Args...>
+		: public base ::IEvent<Args...>
 	{
 	private:
-		std::map<uint64_t, std::function<ReturnType(Args...)>> _functions;
+		std::map<uint64_t, std::function<void(Args...)>> _functions;
 		uint64_t _next_id = 0;
 
 #if HAS_THREAD
@@ -53,14 +52,14 @@ namespace base
 		/// @param func 要订阅的回调
 		/// @return 返回用来取消订阅的令牌。
 		/// @warning 禁止在 Delegate 对象析构后使用取消令牌。
-		std::shared_ptr<base::IUnsubscribeToken> Subscribe(std::function<ReturnType(Args...)> func) override
+		std::shared_ptr<base::IUnsubscribeToken> Subscribe(std::function<void(Args...)> func) override
 		{
 			class UnsubscribeToken
 				: public base::IUnsubscribeToken
 			{
 			public:
 				uint64_t _id = 0;
-				Delegate<ReturnType, Args...> *_delegate;
+				Delegate<Args...> *_delegate;
 
 				void Unsubscribe() override
 				{

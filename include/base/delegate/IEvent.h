@@ -1,11 +1,11 @@
 #pragma once
-#include <base/IUnsubscribeToken.h>
+#include <base/delegate/IUnsubscribeToken.h>
 #include <functional>
 #include <memory>
 
 namespace base
 {
-	template <typename ReturnType, typename... Args>
+	template <typename... Args>
 	class IEvent
 	{
 	public:
@@ -15,6 +15,6 @@ namespace base
 		/// @param func 要订阅的回调
 		/// @return 返回用来取消订阅的令牌。
 		/// @warning 禁止在 Delegate 对象析构后使用取消令牌。
-		virtual std::shared_ptr<base::IUnsubscribeToken> Subscribe(std::function<ReturnType(Args...)> func) = 0;
+		virtual std::shared_ptr<base::IUnsubscribeToken> Subscribe(std::function<void(Args...)> func) = 0;
 	};
 } // namespace base
