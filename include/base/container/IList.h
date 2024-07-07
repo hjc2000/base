@@ -7,12 +7,22 @@ namespace base
 	{
 	public:
 		virtual ~IList() = default;
-		virtual void Add(const T &item) = 0;
-		virtual void Insert(int index, const T &item) = 0;
-		virtual bool Remove(const T &item) = 0;
+
+		virtual void Add(T const &item) = 0;
+
+		virtual void Add(IList<T> &list)
+		{
+			for (T &item : list)
+			{
+				Add(item);
+			}
+		}
+
+		virtual void Insert(int index, T const &item) = 0;
+		virtual bool Remove(T const &item) = 0;
 		virtual void RemoveAt(int index) = 0;
-		virtual int IndexOf(const T &item) const = 0;
-		virtual bool Contains(const T &item) const = 0;
+		virtual int IndexOf(T const &item) const = 0;
+		virtual bool Contains(T const &item) const = 0;
 		virtual void Clear() = 0;
 		virtual int Count() const = 0;
 		virtual T &operator[](int index) = 0;
@@ -60,11 +70,9 @@ namespace base
 		}
 #pragma endregion
 
-		/// <summary>
-		///		两个 IList 对象的指针相等时才认为相等。
-		/// </summary>
-		/// <param name="another"></param>
-		/// <returns></returns>
+		/// @brief 两个 IList 对象的指针相等时才认为相等。
+		/// @param another
+		/// @return
 		bool operator==(IList<T> const &another) const
 		{
 			return this == &another;
