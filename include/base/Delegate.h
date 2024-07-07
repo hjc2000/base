@@ -28,34 +28,28 @@ namespace base
 
 	public:
 		/// @brief 订阅
-		/// @param func
-		/// @return
+		/// @param func 要订阅的回调
+		/// @return 返回用来取消订阅的令牌。
+		/// @warning 禁止在 Delegate 对象析构后使用取消令牌。
 		std::shared_ptr<base::IUnsubscribeToken> Subscribe(std::function<ReturnType(Args...)> func)
 		{
 			class UnsubscribeToken
 				: public base::IUnsubscribeToken
 			{
-			private:
+			public:
 				uint64_t _id = 0;
 				Delegate<ReturnType, Args...> *_delegate;
-				friend class Delegate<ReturnType, Args...>;
 
-				UnsubscribeToken(Delegate<ReturnType, Args...> *delegate, uint64_t id)
-				{
-					_delegate = delegate;
-					_id = id;
-				}
-
-			public:
 				void Unsubscribe() override
 				{
 					_delegate->Unsubscribe(_id);
 				}
 			};
 
-			uint64_t id = _next_id++;
-			std::shared_ptr<UnsubscribeToken> token{new UnsubscribeToken{{this, id}}};
-			_functions[id] = func;
+			std::shared_ptr<UnsubscribeToken> token{new UnsubscribeToken{}};
+			token->_id = _next_id++;
+			token->_delegate = this;
+			_functions[token->_id] = func;
 			return token;
 		}
 
