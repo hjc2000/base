@@ -30,7 +30,7 @@ namespace base
 			{
 				if (consumer)
 				{
-					consumer->SendFrame(data);
+					consumer->SendData(data);
 				}
 			}
 		}
