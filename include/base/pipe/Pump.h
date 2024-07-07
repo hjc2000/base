@@ -1,5 +1,6 @@
 #pragma once
 #include <base/container/List.h>
+#include <base/delegate/Delegate.h>
 #include <base/pipe/IPipeSource.h>
 #include <base/pipe/ISource.h>
 #include <base/task/CancellationToken.h>
@@ -15,7 +16,7 @@ namespace base
 		std::shared_ptr<base::ISource<T>> _source;
 		base::List<std::shared_ptr<base::IConsumer<T>>> _consumer_list;
 		bool _pump_started = false;
-		std::function<void(T &data)> _on_before_sending_data_to_consumer;
+		base::Delegate<void(T &data)> _before_sending_data_to_consumers_event;
 
 	public:
 		Pump(std::shared_ptr<base::ISource<T>> source)
@@ -33,17 +34,12 @@ namespace base
 			return _consumer_list;
 		}
 
-		/// @brief 订阅事件 BeforeSendingDataToConsumerEvent
-		/// @note 此回调在每次从源中读出一个数据，在送给管道下级的消费者之前会被触发。
-		/// @param func
-		void SubscribeToBeforeSendingDataToConsumerEvent(std::function<void(T &data)> func)
+		/// @brief 在每次将数据送给所有消费者时会触发此事件
+		/// @warning 没有线程的环境中，禁止在开始泵送数据后订阅和取消订阅事件。
+		/// @return
+		base::IEvent<void(T &data)> &BeforeSendingDataToConsumersEvent()
 		{
-			if (_pump_started)
-			{
-				throw std::runtime_error{"泵启动后不允许订阅事件"};
-			}
-
-			_on_before_sending_data_to_consumer = func;
+			return _before_sending_data_to_consumers_event;
 		}
 
 		virtual void PumpDataToConsumers(std::shared_ptr<base::CancellationToken> cancellation_token)
@@ -65,11 +61,7 @@ namespace base
 				}
 
 				// 触发回调。允许在每次将数据送给消费者之前通过事件回调修改数据
-				if (_on_before_sending_data_to_consumer)
-				{
-					_on_before_sending_data_to_consumer(data);
-				}
-
+				_before_sending_data_to_consumers_event(data);
 				base::IPipeSource<T>::SendDataToEachConsumer(data);
 			}
 		}
