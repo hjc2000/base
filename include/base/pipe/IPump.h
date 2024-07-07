@@ -27,6 +27,9 @@ namespace base
 		virtual void PumpDataToConsumers(std::shared_ptr<base::CancellationToken> cancellation_token) = 0;
 
 #if HAS_THREAD
+		/// @brief 启动后台线程，将数据从源中取出，泵送给每个消费者。
+		/// @note 此调用不会阻塞，会立即返回。
+		/// @param cancellation_token
 		virtual void PumpDataToConsumersAsync(std::shared_ptr<base::CancellationToken> cancellation_token)
 		{
 			auto thread_func = [this, cancellation_token]()
