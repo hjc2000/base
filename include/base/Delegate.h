@@ -1,6 +1,8 @@
 #pragma once
+#include <base/IUnsubscribeToken.h>
 #include <functional>
 #include <map>
+#include <memory>
 #include <stdint.h>
 
 namespace base
@@ -15,47 +17,44 @@ namespace base
 		/// @brief 取消订阅方法
 		/// @param id
 		/// @return
-		bool Unsubscribe(uint64_t id)
+		void Unsubscribe(uint64_t id)
 		{
 			auto it = _functions.find(id);
 			if (it != _functions.end())
 			{
 				_functions.erase(it);
-				return true;
 			}
-
-			return false;
 		}
 
 	public:
-		class UnsubscribeToken
-		{
-		private:
-			uint64_t _id = 0;
-			Delegate<ReturnType, Args...> *_delegate;
-			friend class Delegate<ReturnType, Args...>;
-
-			UnsubscribeToken(Delegate<ReturnType, Args...> *delegate, uint64_t id)
-			{
-				_delegate = delegate;
-				_id = id;
-			}
-
-		public:
-			bool Unsubscribe()
-			{
-				bool result = _delegate->Unsubscribe(_id);
-				return result;
-			}
-		};
-
 		/// @brief 订阅
 		/// @param func
 		/// @return
-		UnsubscribeToken Subscribe(std::function<ReturnType(Args...)> func)
+		std::shared_ptr<base::IUnsubscribeToken> Subscribe(std::function<ReturnType(Args...)> func)
 		{
+			class UnsubscribeToken
+				: public base::IUnsubscribeToken
+			{
+			private:
+				uint64_t _id = 0;
+				Delegate<ReturnType, Args...> *_delegate;
+				friend class Delegate<ReturnType, Args...>;
+
+				UnsubscribeToken(Delegate<ReturnType, Args...> *delegate, uint64_t id)
+				{
+					_delegate = delegate;
+					_id = id;
+				}
+
+			public:
+				void Unsubscribe() override
+				{
+					_delegate->Unsubscribe(_id);
+				}
+			};
+
 			uint64_t id = _next_id++;
-			UnsubscribeToken token{this, id};
+			std::shared_ptr<UnsubscribeToken> token{new UnsubscribeToken{{this, id}}};
 			_functions[id] = func;
 			return token;
 		}
