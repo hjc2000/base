@@ -1,7 +1,15 @@
 #pragma once
+#ifndef HAS_THREAD
+#define HAS_THREAD 0
+#endif
+
 #include <base/IEvent.h>
 #include <map>
 #include <stdint.h>
+
+#if HAS_THREAD
+#include <mutex>
+#endif
 
 namespace base
 {
@@ -20,11 +28,19 @@ namespace base
 		std::map<uint64_t, std::function<ReturnType(Args...)>> _functions;
 		uint64_t _next_id = 0;
 
+#if HAS_THREAD
+		std::mutex _lock;
+#endif
+
 		/// @brief 取消订阅方法
 		/// @param id
 		/// @return
 		void Unsubscribe(uint64_t id)
 		{
+#if HAS_THREAD
+			std::lock_guard l{_lock};
+#endif
+
 			auto it = _functions.find(id);
 			if (it != _functions.end())
 			{
@@ -55,6 +71,11 @@ namespace base
 			std::shared_ptr<UnsubscribeToken> token{new UnsubscribeToken{}};
 			token->_id = _next_id++;
 			token->_delegate = this;
+
+#if HAS_THREAD
+			std::lock_guard l{_lock};
+#endif
+
 			_functions[token->_id] = func;
 			return token;
 		}
@@ -63,6 +84,10 @@ namespace base
 		/// @param ...args
 		void Invoke(Args... args)
 		{
+#if HAS_THREAD
+			std::lock_guard l{_lock};
+#endif
+
 			for (auto &func : _functions)
 			{
 				func.second(args...);
