@@ -63,6 +63,8 @@ namespace base
 			}
 		}
 
+		/// @brief 伪函数
+		/// @param ...args
 		void operator()(Args... args)
 		{
 			Invoke(args...);
