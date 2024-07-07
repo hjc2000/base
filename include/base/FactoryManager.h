@@ -31,6 +31,8 @@ namespace base
 
 		/// @brief 用户在实例化模板后需要在源文件中提供此静态方法的实现。
 		/// @return
-		static std::shared_ptr<T> DefaultFactory();
+		static std::shared_ptr<T> DefaultFactory()
+		{
+		}
 	};
 } // namespace base
