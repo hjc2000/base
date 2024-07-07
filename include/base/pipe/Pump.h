@@ -10,7 +10,7 @@ namespace base
 	/// @brief 实现一个普通的泵
 	/// @tparam T
 	template <typename T>
-	class Pump
+	class Pump final
 		: public base::IPump<T>
 	{
 	private:
