@@ -11,6 +11,8 @@
 
 namespace base
 {
+	/// @brief 工厂管理者
+	/// @tparam FactoryType 工厂类
 	template <typename FactoryType>
 	class FactoryManager
 	{
