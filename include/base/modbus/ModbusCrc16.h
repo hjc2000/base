@@ -44,7 +44,7 @@ namespace base
 		void Add(uint8_t data);
 
 		template <size_t length>
-		void Add(std::array<uint8_t, length> datas)
+		void Add(std::array<uint8_t, length> const &datas)
 		{
 			for (uint8_t data : datas)
 			{
@@ -52,7 +52,7 @@ namespace base
 			}
 		}
 
-		void Add(std::vector<uint8_t> datas);
+		void Add(std::vector<uint8_t> const &datas);
 
 		void Add(base::IList<uint8_t> const &datas);
 

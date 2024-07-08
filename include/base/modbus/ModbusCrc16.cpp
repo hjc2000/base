@@ -21,7 +21,7 @@ void ModbusCrc16::Add(uint8_t data)
 	}
 }
 
-void base::ModbusCrc16::Add(std::vector<uint8_t> datas)
+void base::ModbusCrc16::Add(std::vector<uint8_t> const &datas)
 {
 	for (uint8_t data : datas)
 	{
