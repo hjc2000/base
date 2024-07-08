@@ -62,9 +62,8 @@ namespace base
 		///
 		/// @param dst_stream
 		/// @param cancellationToken
-		virtual void CopyTo(
-			std::shared_ptr<base::Stream> dst_stream,
-			std::shared_ptr<base::CancellationToken> cancellationToken);
+		virtual void CopyTo(std::shared_ptr<base::Stream> dst_stream,
+							std::shared_ptr<base::CancellationToken> cancellationToken);
 
 		/// @brief 冲洗流
 		/// @note 对于写入的数据，作用是将其从内部缓冲区转移到底层。

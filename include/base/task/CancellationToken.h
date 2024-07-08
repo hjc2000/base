@@ -25,6 +25,8 @@ namespace base
 	class CancellationToken
 	{
 	private:
+		CancellationToken() = default;
+
 		friend class CancellationTokenSource;
 
 #if HAS_THREAD
@@ -37,6 +39,10 @@ namespace base
 		void Cancel();
 
 	public:
+		/// @brief 获取一个不被取消令牌源管理的取消令牌。此令牌永远无法被取消。
+		/// @return
+		static std::shared_ptr<CancellationToken> None();
+
 		/// @brief 是否需要取消
 		/// @return
 		bool IsCancellationRequested() const;

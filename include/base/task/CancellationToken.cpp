@@ -35,6 +35,12 @@ void CancellationToken::Cancel()
 	}
 }
 
+std::shared_ptr<CancellationToken> base::CancellationToken::None()
+{
+	static std::shared_ptr<CancellationToken> o{new CancellationToken{}};
+	return o;
+}
+
 bool CancellationToken::IsCancellationRequested() const
 {
 	return _is_cancellation_request;
@@ -42,6 +48,11 @@ bool CancellationToken::IsCancellationRequested() const
 
 uint64_t CancellationToken::Register(std::function<void(void)> func)
 {
+	if (this == None().get())
+	{
+		throw std::runtime_error{"不要对 None 调用 Register 方法"};
+	}
+
 #if HAS_THREAD
 	std::lock_guard l(_lock);
 #endif
@@ -54,6 +65,11 @@ uint64_t CancellationToken::Register(std::function<void(void)> func)
 
 void CancellationToken::Unregister(uint64_t id)
 {
+	if (this == None().get())
+	{
+		return;
+	}
+
 #if HAS_THREAD
 	std::lock_guard l(_lock);
 #endif

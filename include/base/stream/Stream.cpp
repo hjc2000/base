@@ -34,9 +34,8 @@ int32_t Stream::ReadExactly(uint8_t *buffer, int32_t offset, int32_t count)
 	}
 }
 
-void Stream::CopyTo(
-	std::shared_ptr<base::Stream> dst_stream,
-	std::shared_ptr<base::CancellationToken> cancellationToken)
+void Stream::CopyTo(std::shared_ptr<base::Stream> dst_stream,
+					std::shared_ptr<base::CancellationToken> cancellationToken)
 {
 #if HAS_THREAD
 	uint8_t temp_buf[1024 * 16];
@@ -46,7 +45,7 @@ void Stream::CopyTo(
 
 	while (true)
 	{
-		if (cancellationToken && cancellationToken->IsCancellationRequested())
+		if (cancellationToken->IsCancellationRequested())
 		{
 			throw base::TaskCanceledException{};
 		}
