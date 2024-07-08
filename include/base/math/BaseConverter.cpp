@@ -1,5 +1,5 @@
-#include"BaseConverter.h"
-#include<math.h>
+#include "BaseConverter.h"
+#include <math.h>
 
 using namespace std;
 
@@ -11,8 +11,7 @@ std::vector<uint8_t> base::BaseConverter::ConvertBase(uint64_t num, uint8_t base
 		uint64_t mod = num % base;
 		result.push_back(mod);
 		num /= base;
-	}
-	while (num > 0);
+	} while (num > 0);
 	return result;
 }
 

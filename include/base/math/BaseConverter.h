@@ -1,12 +1,10 @@
 #pragma once
-#include<stdint.h>
-#include<vector>
+#include <stdint.h>
+#include <vector>
 
 namespace base
 {
-	/// <summary>
-	///		进制转换器
-	/// </summary>
+	/// @brief 进制转换器
 	class BaseConverter
 	{
 	private:
