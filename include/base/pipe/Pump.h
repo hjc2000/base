@@ -17,7 +17,7 @@ namespace base
 	private:
 		std::shared_ptr<base::ISource<T>> _source;
 		base::List<std::shared_ptr<base::IConsumer<T>>> _consumer_list;
-		base::Delegate<void(T &data)> _before_sending_data_to_consumers_event;
+		base::Delegate<T &> _before_sending_data_to_consumers_event;
 
 	public:
 		Pump(std::shared_ptr<base::ISource<T>> source)
@@ -40,7 +40,7 @@ namespace base
 		/// @brief 在每次将数据送给所有消费者时会触发此事件
 		/// @warning 没有线程的环境中，禁止在开始泵送数据后订阅和取消订阅事件。
 		/// @return
-		base::IEvent<void(T &data)> &BeforeSendingDataToConsumersEvent()
+		base::IEvent<T &> &BeforeSendingDataToConsumersEvent()
 		{
 			return _before_sending_data_to_consumers_event;
 		}
