@@ -57,9 +57,6 @@ namespace base
 		virtual void Write(uint8_t const *buffer, int32_t offset, int32_t count) = 0;
 
 		/// @brief 将本流拷贝到 dst_stream 中。
-		/// @note 对于有操作系统的平台（判断依据 HAS_THREAD 宏），使用 16kB 的临时缓冲区来拷贝。
-		/// @note 对于无操作系统的平台，通常是单片机，使用 128B 的临时缓冲区来拷贝。
-		///
 		/// @param dst_stream
 		/// @param cancellationToken
 		virtual void CopyTo(std::shared_ptr<base::Stream> dst_stream,

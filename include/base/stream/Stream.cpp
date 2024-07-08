@@ -38,7 +38,7 @@ void Stream::CopyTo(std::shared_ptr<base::Stream> dst_stream,
 					std::shared_ptr<base::CancellationToken> cancellationToken)
 {
 #if HAS_THREAD
-	uint8_t temp_buf[1024 * 16];
+	uint8_t temp_buf[1024];
 #else
 	uint8_t temp_buf[128];
 #endif
