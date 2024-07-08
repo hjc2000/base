@@ -1,13 +1,13 @@
 #pragma once
-#include<algorithm>
-#include<base/container/IList.h>
-#include<stdexcept>
-#include<vector>
+#include <algorithm>
+#include <base/container/IList.h>
+#include <stdexcept>
+#include <vector>
 
 namespace base
 {
-	template<typename T>
-	class List :public base::IList<T>
+	template <typename T>
+	class List : public base::IList<T>
 	{
 	private:
 		std::vector<T> _vector;
@@ -20,7 +20,8 @@ namespace base
 		List<T> &operator=(std::vector<T> const &value);
 
 		void Add(T const &item) override;
-		void Add(List<T> const &another);
+		using IList<T>::Add;
+
 		void Insert(int const index, T const &item) override;
 		bool Remove(T const &item) override;
 		void RemoveAt(int const index) override;
@@ -46,60 +47,51 @@ namespace base
 		bool operator==(List<T> const &another) const;
 	};
 
-	#pragma region 实现
-	template<typename T>
+#pragma region 实现
+	template <typename T>
 	inline List<T>::List(List<T> const &another)
 	{
 		_vector = another._vector;
 	}
 
-	template<typename T>
+	template <typename T>
 	inline List<T>::List(std::vector<T> const &o)
 	{
 		_vector = o;
 	}
 
-	template<typename T>
+	template <typename T>
 	inline List<T> &List<T>::operator=(List<T> const &value)
 	{
 		_vector = value._vector;
 		return *this;
 	}
 
-	template<typename T>
+	template <typename T>
 	inline List<T> &List<T>::operator=(std::vector<T> const &value)
 	{
 		_vector = value;
 		return *this;
 	}
 
-	template<typename T>
+	template <typename T>
 	inline void List<T>::Add(T const &item)
 	{
 		_vector.push_back(item);
 	}
 
-	template<typename T>
-	inline void List<T>::Add(List<T> const &another)
-	{
-		for (int i = 0; i < another.Count(); i++)
-		{
-			Add(another[i]);
-		}
-	}
-
-	template<typename T>
+	template <typename T>
 	inline void List<T>::Insert(int const index, T const &item)
 	{
 		if (index < 0 || index > int(_vector.size()))
 		{
-			throw std::out_of_range { "索引超出范围" };
+			throw std::out_of_range{"索引超出范围"};
 		}
 
 		_vector.insert(_vector.begin() + index, item);
 	}
 
-	template<typename T>
+	template <typename T>
 	inline bool List<T>::Remove(T const &item)
 	{
 		auto it = std::find(_vector.begin(), _vector.end(), item);
@@ -112,18 +104,18 @@ namespace base
 		return false; // 如果没有找到元素，返回 false
 	}
 
-	template<typename T>
+	template <typename T>
 	inline void List<T>::RemoveAt(int const index)
 	{
 		if (index < 0 || index >= (int)_vector.size())
 		{
-			throw std::out_of_range { "索引超出范围" };
+			throw std::out_of_range{"索引超出范围"};
 		}
 
 		_vector.erase(_vector.begin() + index);
 	}
 
-	template<typename T>
+	template <typename T>
 	inline int List<T>::IndexOf(T const &item) const
 	{
 		auto it = std::find(_vector.begin(), _vector.end(), item);
@@ -135,56 +127,56 @@ namespace base
 		return -1; // 如果没有找到元素，返回 -1
 	}
 
-	template<typename T>
+	template <typename T>
 	inline bool List<T>::Contains(T const &item) const
 	{
 		return std::find(_vector.begin(), _vector.end(), item) != _vector.end();
 	}
 
-	template<typename T>
+	template <typename T>
 	inline void List<T>::Clear()
 	{
 		_vector.clear();
 	}
 
-	template<typename T>
+	template <typename T>
 	inline int List<T>::Count() const
 	{
 		return (int)_vector.size();
 	}
 
-	template<typename T>
+	template <typename T>
 	inline T &List<T>::operator[](int const index)
 	{
 		if (index < 0 || index >= int(_vector.size()))
 		{
-			throw std::out_of_range { "索引超出范围" };
+			throw std::out_of_range{"索引超出范围"};
 		}
 
 		return _vector[index];
 	}
 
-	template<typename T>
+	template <typename T>
 	inline T const &List<T>::operator[](int const index) const
 	{
 		if (index < 0 || index >= int(_vector.size()))
 		{
-			throw std::out_of_range { "索引超出范围" };
+			throw std::out_of_range{"索引超出范围"};
 		}
 
 		return _vector[index];
 	}
 
-	template<typename T>
+	template <typename T>
 	inline std::vector<T> List<T>::ToVector()
 	{
 		return _vector;
 	}
 
-	template<typename T>
+	template <typename T>
 	inline bool List<T>::operator==(List<T> const &another) const
 	{
 		return _vector == another._vector;
 	}
-	#pragma endregion
+#pragma endregion
 }

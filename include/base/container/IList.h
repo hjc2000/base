@@ -10,9 +10,9 @@ namespace base
 
 		virtual void Add(T const &item) = 0;
 
-		virtual void Add(IList<T> &list)
+		virtual void Add(IList<T> const &list)
 		{
-			for (T &item : list)
+			for (T const &item : list)
 			{
 				Add(item);
 			}
@@ -59,6 +59,18 @@ namespace base
 			}
 		};
 
+		IListIterator begin()
+		{
+			return IListIterator(this, 0);
+		}
+
+		IListIterator end()
+		{
+			return IListIterator(this, Count());
+		}
+#pragma endregion
+
+#pragma region const迭代器
 		class IListConstIterator
 		{
 		private:
@@ -77,27 +89,17 @@ namespace base
 				return (*_list)[_index];
 			}
 
-			IListIterator &operator++()
+			IListConstIterator &operator++()
 			{
 				++_index;
 				return *this;
 			}
 
-			bool operator!=(IListIterator const &other) const
+			bool operator!=(IListConstIterator const &other) const
 			{
 				return _index != other._index;
 			}
 		};
-
-		IListIterator begin()
-		{
-			return IListIterator(this, 0);
-		}
-
-		IListIterator end()
-		{
-			return IListIterator(this, Count());
-		}
 
 		IListConstIterator begin() const
 		{
