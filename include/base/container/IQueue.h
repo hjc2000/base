@@ -1,16 +1,15 @@
 #pragma once
-#include<stdint.h>
+#include <stdint.h>
 
 namespace base
 {
-	/// <summary>
-	///		队列接口
-	/// </summary>
-	template<typename T>
+	/// @brief 队列接口
+	/// @tparam T
+	template <typename T>
 	class IQueue
 	{
 	public:
-		virtual ~IQueue() { }
+		virtual ~IQueue() = default;
 
 	public:
 		virtual uint64_t Count() const = 0;
