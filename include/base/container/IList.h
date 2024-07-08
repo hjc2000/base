@@ -42,7 +42,37 @@ namespace base
 			{
 			}
 
-			T &operator*() const
+			T &operator*()
+			{
+				return (*_list)[_index];
+			}
+
+			IListIterator &operator++()
+			{
+				++_index;
+				return *this;
+			}
+
+			bool operator!=(IListIterator const &other) const
+			{
+				return _index != other._index;
+			}
+		};
+
+		class IListConstIterator
+		{
+		private:
+			IList<T> const *_list;
+			int _index;
+
+		public:
+			IListConstIterator(IList<T> const *list, int index)
+				: _list(list),
+				  _index(index)
+			{
+			}
+
+			T const &operator*()
 			{
 				return (*_list)[_index];
 			}
@@ -67,6 +97,16 @@ namespace base
 		IListIterator end()
 		{
 			return IListIterator(this, Count());
+		}
+
+		IListConstIterator begin() const
+		{
+			return IListConstIterator(this, 0);
+		}
+
+		IListConstIterator end() const
+		{
+			return IListConstIterator(this, Count());
 		}
 #pragma endregion
 
