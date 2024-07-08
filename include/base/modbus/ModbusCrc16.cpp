@@ -29,6 +29,14 @@ void base::ModbusCrc16::Add(std::vector<uint8_t> datas)
 	}
 }
 
+void base::ModbusCrc16::Add(base::IList<uint8_t> const &datas)
+{
+	for (uint8_t data : datas)
+	{
+		Add(data);
+	}
+}
+
 uint16_t ModbusCrc16::RegisterValue()
 {
 	return _crc16_register;

@@ -1,10 +1,12 @@
 #pragma once
 #include <array>
+#include <base/container/IList.h>
 #include <stdint.h>
 #include <vector>
 
 namespace base
 {
+	/// @brief modbus CRC16 校验器。
 	class ModbusCrc16
 	{
 	private:
@@ -51,6 +53,8 @@ namespace base
 		}
 
 		void Add(std::vector<uint8_t> datas);
+
+		void Add(base::IList<uint8_t> const &datas);
 
 		/// @brief CRC16 寄存器的值。
 		/// @return
