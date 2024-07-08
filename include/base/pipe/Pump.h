@@ -3,6 +3,7 @@
 #include <base/delegate/Delegate.h>
 #include <base/pipe/IPump.h>
 #include <base/pipe/ISource.h>
+#include <base/task/TaskCanceledException.h>
 #include <stdexcept>
 
 namespace base
@@ -53,7 +54,7 @@ namespace base
 			{
 				if (cancellation_token->IsCancellationRequested())
 				{
-					return;
+					throw base::TaskCanceledException{};
 				}
 
 				int ret = _source->ReadData(data);
