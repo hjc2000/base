@@ -27,9 +27,9 @@ namespace base
 	private:
 		int _max_count;
 		Queue<T> _queue;
+		std::atomic_bool _disposed = false;
 
 #if HAS_THREAD
-		std::atomic_bool _disposed = false;
 		std::mutex _lock;
 		std::condition_variable _can_tack_out;
 #endif
