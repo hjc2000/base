@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.8)
 include($ENV{cpp_lib_build_scripts_path}/cmake-module/setup.cmake)
 include(target_import_boost)
+include(target_import_nlohmann_json)
 
 set(ProjectName base)
 project(${ProjectName})
@@ -12,6 +13,7 @@ set(CMAKE_C_STANDARD 17)
 add_library(${ProjectName})
 target_import_src(${ProjectName})
 target_import_boost(${ProjectName} PUBLIC)
+target_import_nlohmann_json(${ProjectName} PUBLIC)
 
 if(has_thread)
 	message(STATUS "此平台拥有线程")
