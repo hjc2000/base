@@ -56,6 +56,11 @@ namespace base
 
 		void Add(base::IList<uint8_t> const &datas);
 
+		/// @brief 重置 CRC16 寄存器。
+		/// @warning 在开始新的一轮 CRC 校验前需要调用本方法重置 CRC16 寄存器，否则本轮添加的
+		/// 数据会和上一轮的混在一起，继续往 CRC16 寄存器中叠加。
+		void ResetRegister();
+
 		/// @brief CRC16 寄存器的值。
 		/// @return
 		uint16_t RegisterValue();

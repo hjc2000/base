@@ -37,6 +37,11 @@ void base::ModbusCrc16::Add(base::IList<uint8_t> const &datas)
 	}
 }
 
+void base::ModbusCrc16::ResetRegister()
+{
+	_crc16_register = UINT16_MAX;
+}
+
 uint16_t ModbusCrc16::RegisterValue()
 {
 	return _crc16_register;
