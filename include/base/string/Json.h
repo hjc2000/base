@@ -6,7 +6,7 @@
 namespace base
 {
 	using Json = nlohmann::json;
-	using JsonTypeError = Json::type_error;
+	using JsonTypeException = Json::type_error;
 
 	class IJsonSerializable
 		: public ICanToString
