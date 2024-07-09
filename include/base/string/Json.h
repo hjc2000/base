@@ -1,5 +1,5 @@
 #pragma once
-#include <base/string/ToString.h>
+#include <base/string/ICanToString.h>
 #include <nlohmann/json.hpp>
 #include <string>
 
