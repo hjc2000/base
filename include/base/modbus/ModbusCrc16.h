@@ -59,6 +59,7 @@ namespace base
 		/// @brief 重置 CRC16 寄存器。
 		/// @warning 在开始新的一轮 CRC 校验前需要调用本方法重置 CRC16 寄存器，否则本轮添加的
 		/// 数据会和上一轮的混在一起，继续往 CRC16 寄存器中叠加。
+		/// @note 如果每轮校验都重新构造一个新的本类对象，则无需调用本方法。
 		void ResetRegister();
 
 		/// @brief CRC16 寄存器的值。
