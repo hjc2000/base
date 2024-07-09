@@ -10,9 +10,7 @@ namespace base
 		int32_t _buffer_size;
 		uint8_t *_buffer;
 
-		/// <summary>
-		///		指向当前要读或写的位置。Read 和 Write 会操作的第一个字节就是 _position 指向的字节。
-		/// </summary>
+		/// @brief 指向当前要读或写的位置。Read 和 Write 会操作的第一个字节就是 _position 指向的字节。
 		int32_t _position = 0;
 
 		/// @brief 流的长度。
