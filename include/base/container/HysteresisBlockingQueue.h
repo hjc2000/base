@@ -34,10 +34,10 @@ namespace base
 		std::atomic_bool _flushed = false;
 
 		/// @brief 队列容量的上限。
-		size_t _max = 0;
+		int32_t _max = 0;
 
 		/// @brief 队列元素数量小于此值时取消对入队的阻塞。
-		size_t _threshold = 0;
+		int32_t _threshold = 0;
 
 		base::SafeQueue<T> _queue;
 
@@ -53,12 +53,12 @@ namespace base
 	public:
 		/// @brief 构造函数
 		/// @param max 队列能容纳的元素的最大数量。
-		HysteresisBlockingQueue(size_t max)
+		HysteresisBlockingQueue(int32_t max)
 		{
 			using namespace std;
-			if (max == 0)
+			if (max <= 0)
 			{
-				throw std::invalid_argument{"最大值不能是 0"};
+				throw std::invalid_argument{"最大值不能 <= 0"};
 			}
 
 			_max = max;
@@ -89,7 +89,7 @@ namespace base
 
 		/// @brief 队列中当前元素个数
 		/// @return
-		uint64_t Count() const override
+		int32_t Count() const override
 		{
 			// _queue 线程安全，这里不需要加锁。
 			return _queue.Count();

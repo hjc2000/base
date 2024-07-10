@@ -19,7 +19,7 @@ namespace base
 	public:
 		/// @brief 当前队列中元素的数量。
 		/// @return
-		uint64_t Count() const override
+		int32_t Count() const override
 		{
 			return _queue.size();
 		}

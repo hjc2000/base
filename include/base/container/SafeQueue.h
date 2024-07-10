@@ -15,17 +15,18 @@ namespace base
 	/// @brief 线程安全的队列，加了互斥锁。
 	/// @tparam T
 	template <typename T>
-	class SafeQueue : public base::IQueue<T>
+	class SafeQueue
+		: public base::IQueue<T>
 	{
 	private:
 		std::queue<T> _queue;
 		std::mutex _lock;
-		std::atomic<uint64_t> _count = 0;
+		std::atomic<int32_t> _count = 0;
 
 	public:
 		/// @brief 队列中元素的数量。
 		/// @return
-		uint64_t Count() const override
+		int32_t Count() const override
 		{
 			return _count;
 		}
