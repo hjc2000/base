@@ -1,6 +1,6 @@
 #include "AutoBitConverter.h"
 #include <algorithm>
-#include <base/BitConverter.h>
+#include <base/bit/BitConverter.h>
 
 using namespace base;
 
