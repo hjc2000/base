@@ -118,6 +118,7 @@ void base::MemoryStream::Write(uint8_t const *buffer, int32_t offset, int32_t co
 	_position += count;
 	if (_position > _length)
 	{
+		// 写完后当前位置超过流的长度，则将流的长度设为当前位置，使流的长度增大。
 		_length = _position;
 	}
 }
