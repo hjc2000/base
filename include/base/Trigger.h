@@ -8,12 +8,12 @@ namespace base
 	///		更新的结果。
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	template<typename T>
+	template <typename T>
 	class Trigger
 	{
 	private:
-		T _output { };
-		T _input { };
+		T _output{};
+		T _input{};
 
 		/// <summary>
 		///		从来没有更新过输出
