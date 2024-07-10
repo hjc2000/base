@@ -6,6 +6,9 @@ namespace base
 	/// @brief 借用指针工厂
 	class RentedPtrFactory
 	{
+	private:
+		RentedPtrFactory() = delete;
+
 	public:
 		/// @brief 创建一个借用指针。
 		/// @note 借用指针实际上是一格共享指针，这个共享指针的删除器什么也不做，不会释放内存。
