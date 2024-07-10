@@ -9,9 +9,6 @@ namespace base
 	{
 	private:
 		Bit() = delete;
-		Bit(Bit const &o) = delete;
-		Bit(Bit const &&o) = delete;
-		Bit &operator=(Bit const &o) = delete;
 
 	public:
 #pragma region HighZeroCount
