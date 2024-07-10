@@ -4,7 +4,8 @@
 
 namespace base
 {
-	class MemoryStream : public base::Stream
+	class MemoryStream
+		: public base::Stream
 	{
 	private:
 		int32_t _buffer_size;
@@ -24,54 +25,39 @@ namespace base
 		/// @brief
 		/// @param max_size 内部缓冲区的最大尺寸。小于等于 0 会抛出异常。
 		MemoryStream(int32_t max_size);
+		~MemoryStream();
 
-		~MemoryStream()
-		{
-			delete[] _buffer;
-		}
-
-		uint8_t *Buffer()
-		{
-			return _buffer;
-		}
+		/// @brief 获取本流的缓冲区
+		/// @return
+		uint8_t *Buffer();
 
 		/// @brief 获取内部缓冲区大小。这就是本流能够储存的最大的字节数。
 		/// @return
-		int32_t BufferSize() const
-		{
-			return _buffer_size;
-		}
+		int32_t BufferSize() const;
 
 		/// @brief 从当前 Position 到 Length，总共有多少个可读字节。
-		/// @note 是 Length - Position，不是 max_size - Position，
-		/// 	  因为 Length 指向的字节以及后面的字节都是垃圾数据。
-		///
 		/// @return
-		int32_t AvaliableToRead() const
-		{
-			return _length - _position;
-		}
+		int32_t AvaliableToRead() const;
 
 		/// @brief 从当前的 Position 开始，缓冲区中剩余的可写入空间。
-		///	@note 不是 Length - Position，而是 max_size - Position。
-		///
 		/// @return
-		int32_t AvaliableToWrite() const
-		{
-			return _buffer_size - _position;
-		}
+		int32_t AvaliableToWrite() const;
 
 		bool CanRead() override;
-
 		bool CanWrite() override;
-
 		bool CanSeek() override;
 
+		/// @brief 本流的长度。
+		/// @note 写入多少字节，长度就是多少。长度不是指缓冲区的大小。
+		/// @return
 		int64_t Length() override;
 
-		/// @brief
-		/// @param value
-		/// @exception std::invalid_argument -- value 大于 max_size 会抛出异常。
+		/// @brief 设置本流的长度。
+		/// @note 一般是用来减小长度以丢弃末尾的数据。如果是增大长度，会导致流的末尾出现一些
+		/// 垃圾数据。
+		///
+		/// @param value 要设置成的长度。
+		/// @exception value 大于 max_size 会抛出 std::invalid_argument。
 		void SetLength(int64_t value) override;
 
 		/// @brief
@@ -79,7 +65,7 @@ namespace base
 		/// @param offset
 		/// @param count
 		/// @return
-		/// @exception std::invalid_argument -- buffer 为空指针会抛出 std::invalid_argument 异常。
+		/// @exception buffer 为空指针会抛出 std::invalid_argument 异常。
 		int32_t Read(uint8_t *buffer, int32_t offset, int32_t count) override;
 
 		/// @brief
@@ -95,11 +81,7 @@ namespace base
 		void Close() override;
 
 		/// @brief 清空流，将 长度和位置都恢复为 0.
-		void Clear()
-		{
-			_position = 0;
-			_length = 0;
-		}
+		void Clear();
 
 		int64_t Position() override;
 		void SetPosition(int64_t value) override;

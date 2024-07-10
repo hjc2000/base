@@ -11,6 +11,31 @@ base::MemoryStream::MemoryStream(int32_t max_size)
 	_buffer = new uint8_t[max_size];
 }
 
+base::MemoryStream::~MemoryStream()
+{
+	delete[] _buffer;
+}
+
+uint8_t *base::MemoryStream::Buffer()
+{
+	return _buffer;
+}
+
+int32_t base::MemoryStream::BufferSize() const
+{
+	return _buffer_size;
+}
+
+int32_t base::MemoryStream::AvaliableToRead() const
+{
+	return _length - _position;
+}
+
+int32_t base::MemoryStream::AvaliableToWrite() const
+{
+	return _buffer_size - _position;
+}
+
 bool base::MemoryStream::CanRead()
 {
 	return true;
@@ -103,6 +128,12 @@ void base::MemoryStream::Flush()
 
 void base::MemoryStream::Close()
 {
+}
+
+void base::MemoryStream::Clear()
+{
+	_position = 0;
+	_length = 0;
 }
 
 int64_t base::MemoryStream::Position()
