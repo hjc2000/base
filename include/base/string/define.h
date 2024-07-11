@@ -1,15 +1,27 @@
 #pragma once
-#ifndef HAS_THREAD
-#define HAS_THREAD 0
-#endif
 
-#if HAS_THREAD
-#include <format>
+/* 将传进来的代码文本变成字符串。
+ * 例如
+ * 		DEFINE_TO_STR(hello)
+ * 会被展开成代码
+ * 		"hello"
+ * 相当于你在展开位置写了一个 "hello" 字面量。
+ */
+#define DEFINE_TO_STR(x) #x
 
-// 代码位置字符串。使用此宏，会在使用的地方展开并获取指示代码位置的字符串。
-#define CODE_POS_STR std::format("\n\n-- 代码位置：文件：{}，函数：{}，行号：{}。>> \n", \
-								 __FILE__, __func__, __LINE__)                           \
-						 .c_str()
-#else
-#define CODE_POS_STR __FILE__
-#endif
+/* 将传进来的宏定义的值变成字符串。
+ * 例如已经定义了一个宏
+ *  	#define NUM 1
+ * 使用
+ * 		DEFINE_VALUE_TO_STR(NUM)
+ * NUM 首先会被展开，相当于
+ * 		DEFINE_VALUE_TO_STR(1)
+ * 接着 DEFINE_VALUE_TO_STR 又被展开，相当于
+ * 		DEFINE_TO_STR(1)
+ * 于是得到字符串字面量
+ * 		"1"
+ * 相当于你直接在展开的位置写下了 "1" 这样的代码。
+ */
+#define DEFINE_VALUE_TO_STR(x) DEFINE_TO_STR(x)
+
+#define CODE_POS_STR "文件：" __FILE__ " 行号：" DEFINE_VALUE_TO_STR(__LINE__)
