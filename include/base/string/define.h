@@ -24,4 +24,4 @@
  */
 #define DEFINE_VALUE_TO_STR(x) DEFINE_TO_STR(x)
 
-#define CODE_POS_STR "文件：" __FILE__ " 行号：" DEFINE_VALUE_TO_STR(__LINE__)
+#define CODE_POS_STR "文件：" __FILE__ " 行号：" DEFINE_VALUE_TO_STR(__LINE__) " >>\n"
