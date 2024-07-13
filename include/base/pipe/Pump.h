@@ -12,7 +12,8 @@ namespace base
 	/// @tparam T
 	template <typename T>
 	class Pump final
-		: public base::IPump<T>
+		: public base::IPump,
+		  public base::IPipeSource<T>
 	{
 	private:
 		std::shared_ptr<base::ISource<T>> _source;
@@ -60,13 +61,13 @@ namespace base
 				int ret = _source->ReadData(data);
 				if (ret < 0)
 				{
-					base::IPump<T>::FlushEachConsumer();
+					base::IPipeSource<T>::FlushEachConsumer();
 					return;
 				}
 
 				// 触发回调。允许在每次将数据送给消费者之前通过事件回调修改数据
 				_before_sending_data_to_consumers_event(data);
-				base::IPump<T>::SendDataToEachConsumer(data);
+				base::IPipeSource<T>::SendDataToEachConsumer(data);
 			}
 		}
 	};
