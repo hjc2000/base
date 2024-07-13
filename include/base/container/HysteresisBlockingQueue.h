@@ -71,8 +71,8 @@ namespace base
 		}
 
 		/// @brief 释放
-		/// @note 清空队列。
-		/// @note 取消所有阻塞。
+		/// @note 会清空队列。
+		/// @note 会取消所有阻塞，并且不再具有阻塞能力。
 		void Dispose() override
 		{
 			if (_disposed)
