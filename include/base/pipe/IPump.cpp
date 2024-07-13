@@ -1,5 +1,10 @@
 #include "IPump.h"
 
+#if HAS_THREAD
+#include <iostream>
+#include <thread>
+#endif
+
 void base::IPump::PumpDataToConsumersAsync(std::shared_ptr<base::CancellationToken> cancellation_token)
 {
 	auto thread_func = [this, cancellation_token]()

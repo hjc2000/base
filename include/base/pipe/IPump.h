@@ -6,11 +6,6 @@
 #include <base/pipe/IPipeSource.h>
 #include <base/task/CancellationToken.h>
 
-#if HAS_THREAD
-#include <iostream>
-#include <thread>
-#endif
-
 namespace base
 {
 	/// @brief 泵接口
