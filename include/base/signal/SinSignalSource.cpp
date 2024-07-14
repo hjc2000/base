@@ -1,4 +1,5 @@
 #include "SinSignalSource.h"
+#include <math.h>
 #include <stdexcept>
 
 base::SinSignalSource::SinSignalSource(base::Fraction sin_periodic)

@@ -1,7 +1,6 @@
 #pragma once
 #include <base/signal/ISignalSource.h>
 #include <base/signal/PeriodicSamplingClock.h>
-#include <math.h>
 
 namespace base
 {
