@@ -19,7 +19,6 @@ namespace base
 		std::shared_ptr<base::ISource<T>> _source;
 		base::List<std::shared_ptr<base::IConsumer<T>>> _consumer_list;
 		base::Delegate<T &> _before_sending_data_to_consumers_event;
-		std::atomic_bool _do_not_flush_consumers = false;
 
 	public:
 		Pump(std::shared_ptr<base::ISource<T>> source)
@@ -47,19 +46,6 @@ namespace base
 			return _before_sending_data_to_consumers_event;
 		}
 
-		/// @brief 表示 “不要冲洗消费者” 的标志。
-		/// @return
-		bool DoNotFlushConsumersFlag()
-		{
-			return _do_not_flush_consumers;
-		}
-		/// @brief 设置表示 “不要冲洗消费者” 的标志。
-		/// @param value
-		void SetDoNotFlushConsumersFlag(bool value)
-		{
-			_do_not_flush_consumers = value;
-		}
-
 		/// @brief 将数据从源中取出，泵送给每一个消费者
 		/// @param cancellation_token
 		void PumpDataToConsumers(std::shared_ptr<base::CancellationToken> cancellation_token) override
@@ -75,11 +61,7 @@ namespace base
 				int ret = _source->ReadData(data);
 				if (ret < 0)
 				{
-					if (!_do_not_flush_consumers)
-					{
-						base::IPipeSource<T>::FlushEachConsumer();
-					}
-
+					base::IPipeSource<T>::FlushEachConsumer();
 					return;
 				}
 
