@@ -12,6 +12,7 @@ namespace base
 		base::Fraction _period{};
 		base::Fraction _time{};
 
+		/// @brief 将 _time 调整到 1 个最小正周期以内。
 		void AdjustTime();
 
 	public:
@@ -19,51 +20,21 @@ namespace base
 		/// @param period
 		PeriodicSamplingClock(base::Fraction period);
 
-#pragma region 四则运算符
-		PeriodicSamplingClock &operator+=(base::Fraction value)
-		{
-			_time += value;
-			AdjustTime();
-			return *this;
-		}
-
-		PeriodicSamplingClock &operator-=(base::Fraction value)
-		{
-			_time -= value;
-			AdjustTime();
-			return *this;
-		}
-
-		PeriodicSamplingClock &operator*=(base::Fraction value)
-		{
-			_time *= value;
-			AdjustTime();
-			return *this;
-		}
-
-		PeriodicSamplingClock &operator/=(base::Fraction value)
-		{
-			_time /= value;
-			AdjustTime();
-			return *this;
-		}
-#pragma endregion
+		PeriodicSamplingClock &operator+=(base::Fraction value);
+		PeriodicSamplingClock &operator-=(base::Fraction value);
+		PeriodicSamplingClock &operator*=(base::Fraction value);
+		PeriodicSamplingClock &operator/=(base::Fraction value);
 
 		/// @brief 本时钟的周期
 		/// @return
-		base::Fraction Period() const
-		{
-			return _period;
-		}
+		base::Fraction Period() const;
 
-		base::Fraction Time() const
-		{
-			return _time;
-		}
+		/// @brief 时间
+		/// @return
+		base::Fraction Time() const;
 
-		explicit operator base::Fraction() const
-		{
-			return _time;
-		}
+		/// @brief 将本时钟强制转换为分数。
+		/// @note 此分数的意义是时间，即相当于调用 Time 方法。
+		explicit operator base::Fraction() const;
 	};
 } // namespace base

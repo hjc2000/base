@@ -3,6 +3,8 @@
 
 namespace base
 {
+	/// @brief 信号源接口。
+	/// @tparam SignalType 信号值的类型。
 	template <typename SignalType>
 	class ISignalSource
 	{

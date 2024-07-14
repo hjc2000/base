@@ -6,8 +6,6 @@
 namespace base
 {
 	/// @brief 正弦信号源 y = sin(w * t)
-	/// @note 正弦信号的周期在构造函数中设置。
-	/// @note 根据 base::ISignalSource 接口要求，采样间隔在函数中设置。
 	/// @note 使用步骤：
 	/// 	@li 构造
 	/// 	@li 设置采样间隔
