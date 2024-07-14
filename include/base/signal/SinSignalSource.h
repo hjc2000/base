@@ -11,7 +11,7 @@ namespace base
 	/// 	@li 打开
 	/// 	@li 开始采样
 	class SinSignalSource
-		: base::ISignalSource<double>
+		: public base::ISignalSource<double>
 	{
 	private:
 		base::Fraction _sample_interval{1, 10};
