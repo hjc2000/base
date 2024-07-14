@@ -75,7 +75,11 @@ namespace base
 				int ret = _source->ReadData(data);
 				if (ret < 0)
 				{
-					base::IPipeSource<T>::FlushEachConsumer();
+					if (!_do_not_flush_consumers)
+					{
+						base::IPipeSource<T>::FlushEachConsumer();
+					}
+
 					return;
 				}
 
