@@ -54,9 +54,11 @@ shared_ptr<FileStream> FileStream::Open(std::string url)
 	if (!filesystem::exists(url))
 	{
 		// 文件不存在
-		throw std::runtime_error(std::format("{} 文件 {} 不存在。",
-											 CODE_POS_STR,
-											 url));
+		throw std::runtime_error{
+			std::format("{} 文件 {} 不存在。",
+						CODE_POS_STR,
+						url),
+		};
 	}
 
 	if (filesystem::is_directory(url))
@@ -69,6 +71,7 @@ shared_ptr<FileStream> FileStream::Open(std::string url)
 	}
 
 	shared_ptr<FileStream> fs{new FileStream{url}};
+
 	fs->_fs = shared_ptr<fstream>{
 		new fstream{
 			url,
@@ -143,11 +146,13 @@ int64_t FileStream::Length()
 
 	// seek 到文件末尾
 	_fs->seekg(0, _fs->end);
+
 	// 记录文件末尾的位置（最后一个字节之后一个字节，所以 end_pos 等于文件长度）
 	int64_t end_pos = _fs->tellg();
 
 	// seek 回原来的位置
 	_fs->seekg(current_pos);
+
 	return end_pos;
 }
 
