@@ -34,14 +34,16 @@ int32_t base::BlockingCircleBufferMemoryStream::Read(uint8_t *buffer, int32_t of
 	std::unique_lock l(_lock);
 
 	// 等待流中有数据可用
-	_buffer_avaliable.wait(l, [&]() -> bool
-						   {
+	auto p_func = [&]() -> bool
+	{
 		if (_stream_closed)
 		{
 			return true;
 		}
 
-		return _mstream.Length(); });
+		return _mstream.Length();
+	};
+	_buffer_avaliable.wait(l, p_func);
 
 	int64_t have_read = _mstream.Read(buffer, offset, count);
 	_buffer_consumed.notify_all();
@@ -60,14 +62,16 @@ void base::BlockingCircleBufferMemoryStream::Write(uint8_t const *buffer, int32_
 		}
 
 		// 等待流缓冲区中有空间可写
-		_buffer_consumed.wait(l, [&]() -> bool
-							  {
+		auto p_func = [&]() -> bool
+		{
 			if (_stream_closed)
 			{
 				return true;
 			}
 
-			return _mstream.AvailableToWrite(); });
+			return _mstream.AvailableToWrite();
+		};
+		_buffer_consumed.wait(l, p_func);
 
 		int64_t should_write = std::min(_mstream.AvailableToWrite(), count);
 		_mstream.Write(buffer, offset, should_write);
