@@ -35,25 +35,19 @@ namespace base
 		}
 
 #pragma region 工厂函数
-		/// <summary>
-		///		用创建模式打开文件流，无论如何都会创建一个新的空白文件。会覆盖旧的。
-		/// </summary>
-		/// <param name="url">文件路径</param>
-		/// <returns>创建文件成功则返回 FileStream 对象。创建失败会抛出异常，不会返回空指针。</returns>
-		/// <exception cref="Exception">创建失败会抛出异常。</exception>
+		/// @brief 用创建模式打开文件流，无论如何都会创建一个新的空白文件。会覆盖旧的。
+		/// @param url 文件路径
+		/// @return 创建文件成功则返回 FileStream 对象。创建失败会抛出异常，不会返回空指针。
 		static std::shared_ptr<FileStream> CreateNewAnyway(std::string url);
 
-		/// <summary>
-		///		用打开模式打开一个文件。如果文件不存在，此函数不会创建文件。
-		/// </summary>
-		/// <param name="url">文件路径</param>
-		/// <returns>如果文件存在，且成功打开，则返回 FileStream 对象。失败会抛出异常，不会返回空指针。</returns>
-		/// <exception cref="Exception">
-		///		* 如果文件不存在，会引发异常。
-		///		* 如果传进来的 url 不是文件，而是目录，会引发异常
-		/// </exception>
+		/// @brief 用打开模式打开一个文件。如果文件不存在，此函数不会创建文件。
+		/// @param url 文件路径
+		/// @return 如果文件存在，且成功打开，则返回 FileStream 对象。失败会抛出异常，不会返回空指针。
 		static std::shared_ptr<FileStream> Open(std::string url);
 
+		/// @brief 以只读方式打开文件。
+		/// @param url 文件的路径。
+		/// @return 成功打开则返回 FileStream 对象。失败会抛出异常，不会返回空指针。
 		static std::shared_ptr<FileStream> OpenReadOnly(std::string url);
 #pragma endregion
 
