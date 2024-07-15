@@ -1,6 +1,6 @@
-#include "BlockingCircleBufferMemoryStream.h"
-
 #if HAS_THREAD
+
+#include "BlockingCircleBufferMemoryStream.h"
 
 bool base::BlockingCircleBufferMemoryStream::CanRead()
 {

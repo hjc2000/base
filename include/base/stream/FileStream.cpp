@@ -1,9 +1,9 @@
+#if HAS_THREAD
+
 #include "FileStream.h"
 
 using namespace std;
 using namespace base;
-
-#if HAS_THREAD
 
 bool FileStream::CanRead()
 {

@@ -1,9 +1,10 @@
+#if HAS_THREAD
+
 #include "TaskCompletionSignal.h"
 
 using namespace std;
 using namespace base;
 
-#if HAS_THREAD
 TaskCompletionSignal::TaskCompletionSignal(bool completed)
 {
 	_completed = completed;
@@ -68,4 +69,5 @@ void TaskCompletionSignal::Reset()
 	std::lock_guard l(_mtx);
 	_completed = false;
 }
+
 #endif // HAS_THREAD

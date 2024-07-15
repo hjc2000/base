@@ -4,6 +4,7 @@
 #endif
 
 #if HAS_THREAD
+
 #include <atomic>
 #include <condition_variable>
 #include <functional>
@@ -43,4 +44,5 @@ namespace base
 		void Reset();
 	};
 }
+
 #endif // HAS_THREAD

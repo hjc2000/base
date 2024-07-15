@@ -4,6 +4,7 @@
 #endif
 
 #if HAS_THREAD
+
 #include <base/stream/CircleBufferMemoryStream.h>
 #include <condition_variable>
 #include <mutex>
