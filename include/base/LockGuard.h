@@ -10,7 +10,8 @@ namespace base
 		virtual void Unlock() = 0;
 	};
 
-	/// @brief 锁守卫
+	/// @brief 锁守卫。
+	/// @note 构造时加锁，析构时解锁。
 	class LockGuard
 	{
 	private:
@@ -26,6 +27,26 @@ namespace base
 		~LockGuard()
 		{
 			_lock.Unlock();
+		}
+	};
+
+	/// @brief 解锁守卫。
+	/// @note 构造时解锁，析构时加锁。与 LockGuard 相反。
+	class UnlockGuard
+	{
+	private:
+		base::ILock &_lock;
+
+	public:
+		UnlockGuard(base::ILock &lock)
+			: _lock(lock)
+		{
+			_lock.Unlock();
+		}
+
+		~UnlockGuard()
+		{
+			_lock.Lock();
 		}
 	};
 }
