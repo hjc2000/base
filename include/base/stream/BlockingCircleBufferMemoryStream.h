@@ -11,24 +11,19 @@
 
 namespace base
 {
-	/// <summary>
-	///		带阻塞功能的环形缓冲区的内存流。
-	/// </summary>
-	class BlockingCircleBufferMemoryStream : public base::Stream
+	/// @brief 带阻塞功能的环形缓冲区的内存流。
+	class BlockingCircleBufferMemoryStream
+		: public base::Stream
 	{
 	private:
 		base::CircleBufferMemoryStream _mstream;
 		std::mutex _lock;
 		std::atomic_bool _stream_closed = false;
 
-		/// <summary>
-		///		流中的数据被消费了，现在处于不是满的状态
-		/// </summary>
+		/// @brief 流中的数据被消费了，现在处于不是满的状态
 		std::condition_variable _buffer_consumed;
 
-		/// <summary>
-		///		流中有数据可用。
-		/// </summary>
+		/// @brief 流中有数据可用。
 		std::condition_variable _buffer_avaliable;
 
 	public:
@@ -51,11 +46,9 @@ namespace base
 		void Write(uint8_t const *buffer, int32_t offset, int32_t count) override;
 		void Flush() override;
 
-		/// <summary>
-		///		结束流。
-		///		- 结束后，写入的数据会被丢弃。Read 方法在读取完缓冲区的数据后，将永远返回 0.
-		///		- 结束后，会取消所有阻塞，且不会再阻塞。
-		/// </summary>
+		/// @brief 结束流。
+		/// @note 结束后，写入的数据会被丢弃。Read 方法在读取完缓冲区的数据后，将永远返回 0.
+		/// @note 结束后，会取消所有阻塞，且不会再阻塞。
 		void Close() override;
 
 		int64_t Position() override;
