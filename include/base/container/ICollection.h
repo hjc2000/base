@@ -37,6 +37,11 @@ namespace base
 		std::array<ItemType, ItemCount> &_array;
 
 	public:
+		ArrayCollection(std::array<ItemType, ItemCount> array)
+			: _array(array)
+		{
+		}
+
 		ArrayCollection(std::array<ItemType, ItemCount> &array)
 			: _array(array)
 		{
