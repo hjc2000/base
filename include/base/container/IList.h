@@ -1,48 +1,60 @@
 #pragma once
+#include <base/container/ICollection.h>
 
 namespace base
 {
-	template <typename T>
+	template <typename ItemType>
 	class IList
+		: public ICollection<int, ItemType>
 	{
 	public:
 		virtual ~IList() = default;
 
-		virtual void Add(T const &item) = 0;
-
-		virtual void Add(IList<T> const &list)
+		ItemType Get(int key) const override
 		{
-			for (T const &item : list)
+			return (*this)[key];
+		}
+
+		void Put(int key, ItemType const &item) override
+		{
+			(*this)[key] = item;
+		}
+
+		virtual void Add(ItemType const &item) = 0;
+
+		virtual void Add(IList<ItemType> const &list)
+		{
+			for (ItemType const &item : list)
 			{
 				Add(item);
 			}
 		}
 
-		virtual void Insert(int index, T const &item) = 0;
-		virtual bool Remove(T const &item) = 0;
+		virtual void Insert(int index, ItemType const &item) = 0;
+		virtual bool Remove(ItemType const &item) = 0;
 		virtual void RemoveAt(int index) = 0;
-		virtual int IndexOf(T const &item) const = 0;
-		virtual bool Contains(T const &item) const = 0;
+		virtual int IndexOf(ItemType const &item) const = 0;
+		virtual bool Contains(ItemType const &item) const = 0;
 		virtual void Clear() = 0;
 		virtual int Count() const = 0;
-		virtual T &operator[](int index) = 0;
-		virtual T const &operator[](int index) const = 0;
+		virtual ItemType &operator[](int index) = 0;
+		virtual ItemType const &operator[](int index) const = 0;
 
 #pragma region 迭代器
 		class IListIterator
 		{
 		private:
-			IList<T> *_list;
+			IList<ItemType> *_list;
 			int _index;
 
 		public:
-			IListIterator(IList<T> *list, int index)
+			IListIterator(IList<ItemType> *list, int index)
 				: _list(list),
 				  _index(index)
 			{
 			}
 
-			T &operator*()
+			ItemType &operator*()
 			{
 				return (*_list)[_index];
 			}
@@ -74,17 +86,17 @@ namespace base
 		class IListConstIterator
 		{
 		private:
-			IList<T> const *_list;
+			IList<ItemType> const *_list;
 			int _index;
 
 		public:
-			IListConstIterator(IList<T> const *list, int index)
+			IListConstIterator(IList<ItemType> const *list, int index)
 				: _list(list),
 				  _index(index)
 			{
 			}
 
-			T const &operator*()
+			ItemType const &operator*()
 			{
 				return (*_list)[_index];
 			}
@@ -115,7 +127,7 @@ namespace base
 		/// @brief 两个 IList 对象的指针相等时才认为相等。
 		/// @param another
 		/// @return
-		bool operator==(IList<T> const &another) const
+		bool operator==(IList<ItemType> const &another) const
 		{
 			return this == &another;
 		}
