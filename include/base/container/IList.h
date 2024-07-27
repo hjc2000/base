@@ -7,18 +7,6 @@
 
 namespace base
 {
-	template <typename T, bool IsConst>
-	struct ConstPasser
-	{
-		using type = T;
-	};
-
-	template <typename T>
-	struct ConstPasser<T, true>
-	{
-		using type = T const;
-	};
-
 	template <typename ItemType>
 	class IList
 		: public ICollection<int, ItemType>
@@ -70,7 +58,9 @@ namespace base
 			: public base::IForwardIterator<IListIterator<ItItemType>, ItItemType>
 		{
 		private:
-			using ListType = typename base::ConstPasser<IList<ItemType>, base::IsConstType<ItItemType>()>::type;
+			using ListType = typename base::TypeSelector<base::IsConstType<ItItemType>(),
+														 IList<ItemType> const,
+														 IList<ItemType>>::Type;
 
 			ListType *_list;
 			int _index;

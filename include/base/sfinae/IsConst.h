@@ -2,7 +2,7 @@
 
 namespace base
 {
-	template <typename T>
+	template <typename Type>
 	struct IsConst
 	{
 		static consteval bool Value()
@@ -11,8 +11,8 @@ namespace base
 		}
 	};
 
-	template <typename T>
-	struct IsConst<T const>
+	template <typename Type>
+	struct IsConst<Type const>
 	{
 		static consteval bool Value()
 		{
