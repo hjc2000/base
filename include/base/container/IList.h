@@ -1,6 +1,7 @@
 #pragma once
 #include <array>
 #include <base/container/ICollection.h>
+#include <base/container/IIterator.h>
 
 namespace base
 {
@@ -51,6 +52,7 @@ namespace base
 
 #pragma region 迭代器
 		class IListIterator
+			: public base::IForwardIterator<IListIterator, ItemType>
 		{
 		private:
 			IList<ItemType> *_list;
@@ -63,20 +65,22 @@ namespace base
 			{
 			}
 
-			ItemType &operator*()
+			ItemType &operator*() override
 			{
 				return (*_list)[_index];
 			}
 
-			IListIterator &operator++()
+			using base::IForwardIterator<IListIterator, ItemType>::operator++;
+
+			IListIterator &operator++() override
 			{
 				++_index;
 				return *this;
 			}
 
-			bool operator!=(IListIterator const &other) const
+			bool operator==(IListIterator const &o) const override
 			{
-				return _index != other._index;
+				return _index == o._index;
 			}
 		};
 
