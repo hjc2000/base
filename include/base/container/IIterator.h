@@ -2,6 +2,9 @@
 
 namespace base
 {
+	/// @brief 迭代器接口。
+	/// @tparam TypeSelf 本接口的派生类将 TypeSelf 设置为自己的类型。
+	/// @tparam ItemType 被迭代元素的类型。
 	template <typename TypeSelf, typename ItemType>
 	class IForwardIterator
 	{

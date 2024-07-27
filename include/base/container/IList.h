@@ -58,6 +58,17 @@ namespace base
 			: public base::IForwardIterator<IListIterator<ItItemType>, ItItemType>
 		{
 		private:
+			/// @brief 类型选择器，用来选择迭代器持有的是 IList<ItemType> const 还是
+			/// IList<ItemType> 类型的列表。
+			///
+			/// IList<ItemType> 中 const 版本的 begin 函数中将 this 指针传递给本迭代器的构造函数，
+			/// const 版本的 begin 中的 this 指针是 IList<ItemType> const * 类型，也就是说此时
+			/// 本迭代器会持有一个 const 容器，这个容器无法增删，容器内的元素也是 const 的，也就无法
+			/// 改。
+			///
+			/// 为了让本迭代器类的构造函数适应 IList<ItemType> const * 和 IList<ItemType> * ，
+			/// 并在不同情况下让本类的 _list 字段是这两种类型，需要利用模板元编程来确定 _list 的
+			/// 类型。
 			using ListType = typename base::TypeSelector<base::IsConstType<ItItemType>(),
 														 IList<ItemType> const,
 														 IList<ItemType>>::Type;
