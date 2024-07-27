@@ -2,21 +2,11 @@
 #include <array>
 #include <base/container/ICollection.h>
 #include <base/container/IIterator.h>
+#include <base/sfinae/IsConst.h>
+#include <base/sfinae/TypeSelector.h>
 
 namespace base
 {
-	template <typename T>
-	struct IsConst
-	{
-		static constexpr bool value = false;
-	};
-
-	template <typename T>
-	struct IsConst<T const>
-	{
-		static constexpr bool value = true;
-	};
-
 	template <typename T, bool IsConst>
 	struct ConstPasser
 	{
@@ -80,7 +70,7 @@ namespace base
 			: public base::IForwardIterator<IListIterator<ItItemType>, ItItemType>
 		{
 		private:
-			using ListType = typename base::ConstPasser<IList<ItemType>, IsConst<ItItemType>::value>::type;
+			using ListType = typename base::ConstPasser<IList<ItemType>, base::IsConstType<ItItemType>()>::type;
 
 			ListType *_list;
 			int _index;
