@@ -51,89 +51,58 @@ namespace base
 		virtual ItemType const &operator[](int index) const = 0;
 
 #pragma region 迭代器
+		template <typename ItItemType, typename ListType>
 		class IListIterator
-			: public base::IForwardIterator<IListIterator, ItemType>
+			: public base::IForwardIterator<IListIterator<ItItemType, ListType>, ItItemType>
 		{
 		private:
-			IList<ItemType> *_list;
+			ListType *_list;
 			int _index;
 
 		public:
-			IListIterator(IList<ItemType> *list, int index)
+			IListIterator(ListType *list, int index)
 				: _list(list),
 				  _index(index)
 			{
 			}
 
-			ItemType &operator*() override
+			ItItemType &operator*() override
 			{
 				return (*_list)[_index];
 			}
 
-			using base::IForwardIterator<IListIterator, ItemType>::operator++;
+			using base::IForwardIterator<IListIterator<ItItemType, ListType>, ItItemType>::operator++;
 
-			IListIterator &operator++() override
+			IListIterator<ItItemType, ListType> &operator++() override
 			{
 				++_index;
 				return *this;
 			}
 
-			bool operator==(IListIterator const &o) const override
+			bool operator==(IListIterator<ItItemType, ListType> const &o) const override
 			{
 				return _index == o._index;
 			}
 		};
 
-		IListIterator begin()
+		IListIterator<ItemType, IList<ItemType>> begin()
 		{
-			return IListIterator(this, 0);
+			return IListIterator<ItemType, IList<ItemType>>(this, 0);
 		}
 
-		IListIterator end()
+		IListIterator<ItemType, IList<ItemType>> end()
 		{
-			return IListIterator(this, Count());
-		}
-#pragma endregion
-
-#pragma region const迭代器
-		class IListConstIterator
-		{
-		private:
-			IList<ItemType> const *_list;
-			int _index;
-
-		public:
-			IListConstIterator(IList<ItemType> const *list, int index)
-				: _list(list),
-				  _index(index)
-			{
-			}
-
-			ItemType const &operator*()
-			{
-				return (*_list)[_index];
-			}
-
-			IListConstIterator &operator++()
-			{
-				++_index;
-				return *this;
-			}
-
-			bool operator!=(IListConstIterator const &other) const
-			{
-				return _index != other._index;
-			}
-		};
-
-		IListConstIterator begin() const
-		{
-			return IListConstIterator(this, 0);
+			return IListIterator<ItemType, IList<ItemType>>(this, Count());
 		}
 
-		IListConstIterator end() const
+		IListIterator<ItemType const, IList<ItemType> const> begin() const
 		{
-			return IListConstIterator(this, Count());
+			return IListIterator<ItemType const, IList<ItemType> const>(this, 0);
+		}
+
+		IListIterator<ItemType const, IList<ItemType> const> end() const
+		{
+			return IListIterator<ItemType const, IList<ItemType> const>(this, Count());
 		}
 #pragma endregion
 
