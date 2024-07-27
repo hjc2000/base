@@ -10,14 +10,11 @@ namespace base
 		/// @return
 		virtual ItemType &operator*() = 0;
 
-		ItemType *operator->()
-		{
-			return &operator*();
-		}
-
 		/// @brief 前缀递增
 		/// @return
 		virtual TypeSelf &operator++() = 0;
+
+		virtual bool operator==(TypeSelf const &o) const = 0;
 
 		/// @brief 后缀递增
 		/// @param
@@ -27,7 +24,10 @@ namespace base
 			return operator++();
 		}
 
-		virtual bool operator==(TypeSelf const &o) const = 0;
+		ItemType *operator->()
+		{
+			return &operator*();
+		}
 
 		bool operator!=(TypeSelf const &o) const
 		{
