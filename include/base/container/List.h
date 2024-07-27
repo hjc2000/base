@@ -19,8 +19,8 @@ namespace base
 		List<T> &operator=(List<T> const &value);
 		List<T> &operator=(std::vector<T> const &value);
 
-		void Add(T const &item) override;
 		using IList<T>::Add;
+		void Add(T const &item) override;
 
 		void Insert(int const index, T const &item) override;
 		bool Remove(T const &item) override;

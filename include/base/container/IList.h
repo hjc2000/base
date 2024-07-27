@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <base/container/ICollection.h>
 
 namespace base
@@ -23,6 +24,14 @@ namespace base
 		virtual void Add(ItemType const &item) = 0;
 
 		virtual void Add(IList<ItemType> const &list)
+		{
+			for (ItemType const &item : list)
+			{
+				Add(item);
+			}
+		}
+
+		virtual void Add(std::initializer_list<ItemType> const &list)
 		{
 			for (ItemType const &item : list)
 			{
