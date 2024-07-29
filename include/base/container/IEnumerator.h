@@ -1,0 +1,15 @@
+#pragma once
+
+namespace base
+{
+	/// @brief 迭代器接口
+	/// @tparam ItemType
+	template <typename ItemType>
+	class IEnumerator
+	{
+	public:
+		virtual ItemType &CurrentValue() = 0;
+		virtual bool MoveNext() = 0;
+		virtual void Reset() = 0;
+	};
+}

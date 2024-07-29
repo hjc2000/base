@@ -1,4 +1,4 @@
-#include "IIterator.h"
+#include "IEnumerable.h"
 #include <iostream>
 
 void base::TestIntEnumerable()
