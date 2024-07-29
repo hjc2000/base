@@ -39,4 +39,60 @@ namespace base
 		}
 #pragma endregion
 	};
+
+	/// @brief 迭代器接口
+	/// @tparam ItemType
+	template <typename ItemType>
+	class IEnumerator
+	{
+	public:
+		virtual ItemType CurrentValue() = 0;
+		virtual bool MoveNext() = 0;
+		virtual void Reset() = 0;
+	};
+
+	/// @brief 将 IEnumerator 包装为 C++ 迭代器
+	/// @tparam ItemType
+	template <typename ItemType>
+	class IEnumeratorForwardIterator
+		: public IForwardIterator<IEnumeratorForwardIterator<ItemType>, ItemType>
+	{
+	private:
+		IEnumerator<ItemType> &_enumertor;
+
+	public:
+		IEnumeratorForwardIterator(IEnumerator<ItemType> &enumertor)
+			: _enumertor(_enumertor)
+		{
+			_enumertor.MoveNext();
+		}
+
+		/// @brief 解引用
+		/// @return
+		ItemType &operator*()
+		{
+			return _enumertor.CurrentValue();
+		}
+
+		/// @brief 前缀递增
+		/// @return
+		IEnumeratorForwardIterator<ItemType> &operator++()
+		{
+			return *this;
+		}
+
+		bool operator==(IEnumeratorForwardIterator<ItemType> const &o) const
+		{
+			return !_enumertor.MoveNext();
+		}
+	};
+
+	/// @brief 可迭代容器接口。
+	/// @tparam ItemType
+	template <typename ItemType>
+	class IEnumerable
+	{
+	public:
+		virtual IEnumerator<ItemType> GetEnumerator() = 0;
+	};
 }
