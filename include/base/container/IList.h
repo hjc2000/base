@@ -1,7 +1,9 @@
 #pragma once
 #include <array>
 #include <base/container/ICollection.h>
+#include <base/container/IEnumerable.h>
 #include <base/container/IIterator.h>
+#include <base/container/StdContainerEnumerable.h>
 #include <base/sfinae/IsConst.h>
 #include <base/sfinae/TypeSelector.h>
 
@@ -9,8 +11,90 @@ namespace base
 {
 	template <typename ItemType>
 	class IList
-		: public ICollection<int, ItemType>
+		: public ICollection<int, ItemType>,
+		  public base::IEnumerable<ItemType>
 	{
+	private:
+		template <typename IListEnumeratorItemType>
+		class IListEnumerator
+			: public base::IEnumerator<IListEnumeratorItemType>
+		{
+		private:
+			IList<IListEnumeratorItemType> *_list;
+			int _index = 0;
+			bool _is_first_move = true;
+
+		public:
+			IListEnumerator(IList<IListEnumeratorItemType> *list)
+			{
+				_list = list;
+			}
+
+			IListEnumeratorItemType &CurrentValue() override
+			{
+				return (*_list)[_index];
+			}
+
+			bool MoveNext() override
+			{
+				if (_is_first_move)
+				{
+					_is_first_move = false;
+				}
+				else
+				{
+					_index++;
+				}
+
+				return _index < _list->Count();
+			}
+
+			void Reset() override
+			{
+				_index = 0;
+			}
+		};
+
+		template <typename IListEnumeratorItemType>
+		class IListConstEnumerator
+			: public base::IEnumerator<IListEnumeratorItemType const>
+		{
+		private:
+			IList<IListEnumeratorItemType> const *_list;
+			int _index = 0;
+			bool _is_first_move = true;
+
+		public:
+			IListConstEnumerator(IList<IListEnumeratorItemType> const *list)
+			{
+				_list = list;
+			}
+
+			IListEnumeratorItemType const &CurrentValue() override
+			{
+				return (*_list)[_index];
+			}
+
+			bool MoveNext() override
+			{
+				if (_is_first_move)
+				{
+					_is_first_move = false;
+				}
+				else
+				{
+					_index++;
+				}
+
+				return _index < _list->Count();
+			}
+
+			void Reset() override
+			{
+				_index = 0;
+			}
+		};
+
 	public:
 		virtual ~IList() = default;
 
@@ -53,73 +137,14 @@ namespace base
 		virtual ItemType const &operator[](int index) const = 0;
 
 #pragma region 迭代器
-		template <typename ItItemType>
-		class IListIterator
-			: public base::IForwardIterator<IListIterator<ItItemType>, ItItemType>
+		std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() override
 		{
-		private:
-			/// @brief 类型选择器，用来选择迭代器持有的是 IList<ItemType> const 还是
-			/// IList<ItemType> 类型的列表。
-			///
-			/// IList<ItemType> 中 const 版本的 begin 函数中将 this 指针传递给本迭代器的构造函数，
-			/// const 版本的 begin 中的 this 指针是 IList<ItemType> const * 类型，也就是说此时
-			/// 本迭代器会持有一个 const 容器，这个容器无法增删，容器内的元素也是 const 的，也就无法
-			/// 改。
-			///
-			/// 为了让本迭代器类的构造函数适应 IList<ItemType> const * 和 IList<ItemType> * ，
-			/// 并在不同情况下让本类的 _list 字段是这两种类型，需要利用模板元编程来确定 _list 的
-			/// 类型。
-			using ListType = typename base::TypeSelector<base::IsConstType<ItItemType>(),
-														 IList<ItemType> const,
-														 IList<ItemType>>::Type;
-
-			ListType *_list;
-			int _index;
-
-		public:
-			IListIterator(ListType *list, int index)
-				: _list(list),
-				  _index(index)
-			{
-			}
-
-			ItItemType &operator*() override
-			{
-				return (*_list)[_index];
-			}
-
-			using base::IForwardIterator<IListIterator<ItItemType>, ItItemType>::operator++;
-
-			IListIterator<ItItemType> &operator++() override
-			{
-				++_index;
-				return *this;
-			}
-
-			bool operator==(IListIterator<ItItemType> const &o) const override
-			{
-				return _index == o._index;
-			}
-		};
-
-		IListIterator<ItemType> begin()
-		{
-			return IListIterator<ItemType>(this, 0);
+			return std::shared_ptr<IEnumerator<ItemType>>{new IListEnumerator<ItemType>{this}};
 		}
 
-		IListIterator<ItemType> end()
+		std::shared_ptr<IEnumerator<ItemType const>> GetEnumerator() const override
 		{
-			return IListIterator<ItemType>(this, Count());
-		}
-
-		IListIterator<ItemType const> begin() const
-		{
-			return IListIterator<ItemType const>(this, 0);
-		}
-
-		IListIterator<ItemType const> end() const
-		{
-			return IListIterator<ItemType const>(this, Count());
+			return std::shared_ptr<IEnumerator<ItemType const>>{new IListConstEnumerator<ItemType>{this}};
 		}
 #pragma endregion
 
