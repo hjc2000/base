@@ -55,6 +55,46 @@ namespace base
 			}
 		};
 
+		template <typename IListEnumeratorItemType>
+		class IListConstEnumerator
+			: public base::IEnumerator<IListEnumeratorItemType const>
+		{
+		private:
+			IList<IListEnumeratorItemType> const *_list;
+			int _index = 0;
+			bool _is_first_move = true;
+
+		public:
+			IListConstEnumerator(IList<IListEnumeratorItemType> const *list)
+			{
+				_list = list;
+			}
+
+			IListEnumeratorItemType const &CurrentValue() override
+			{
+				return (*_list)[_index];
+			}
+
+			bool MoveNext() override
+			{
+				if (_is_first_move)
+				{
+					_is_first_move = false;
+				}
+				else
+				{
+					_index++;
+				}
+
+				return _index < _list->Count();
+			}
+
+			void Reset() override
+			{
+				_index = 0;
+			}
+		};
+
 	public:
 		virtual ~IList() = default;
 
@@ -104,7 +144,7 @@ namespace base
 
 		std::shared_ptr<IEnumerator<ItemType const>> GetEnumerator() const override
 		{
-			return std::shared_ptr<IEnumerator<ItemType>>{new IListEnumerator<ItemType>{const_cast<IList<ItemType>>(this)}};
+			return std::shared_ptr<IEnumerator<ItemType const>>{new IListConstEnumerator<ItemType>{this}};
 		}
 #pragma endregion
 
