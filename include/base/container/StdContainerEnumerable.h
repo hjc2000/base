@@ -8,6 +8,7 @@
 
 namespace base
 {
+	// C++ 迭代器类要满足的要求。
 	template <typename T>
 	concept IsIterator = requires(T &c) {
 		c++;
@@ -15,7 +16,7 @@ namespace base
 		*c;
 	};
 
-	/// @brief std 容器的迭代器。
+	/// @brief 将 std 容器的迭代器包装为 IEnumerator。
 	/// @tparam ItemType 被迭代元素的类型。
 	/// @tparam IteratorType 迭代器类型。
 	template <typename ItemType, IsIterator IteratorType>
@@ -29,8 +30,7 @@ namespace base
 		bool _is_first_move = true;
 
 	public:
-		StdContainerEnumerator(IteratorType begin_iterator,
-							   IteratorType end_iterator)
+		StdContainerEnumerator(IteratorType begin_iterator, IteratorType end_iterator)
 		{
 			_current_iterator = begin_iterator;
 			_begin_iterator = begin_iterator;
@@ -69,6 +69,7 @@ namespace base
 		}
 	};
 
+	// C++ 可迭代容器要满足的条件。
 	template <typename T>
 	concept IsIterable = requires(T &c) {
 		c.begin();
