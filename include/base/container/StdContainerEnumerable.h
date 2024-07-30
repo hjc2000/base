@@ -29,8 +29,7 @@ namespace base
 		bool _is_first_move = true;
 
 	public:
-		StdContainerEnumerator(IteratorType begin_iterator,
-							   IteratorType end_iterator)
+		StdContainerEnumerator(IteratorType begin_iterator, IteratorType end_iterator)
 		{
 			_current_iterator = begin_iterator;
 			_begin_iterator = begin_iterator;
