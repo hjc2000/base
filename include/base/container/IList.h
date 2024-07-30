@@ -10,91 +10,93 @@
 namespace base
 {
 	template <typename ItemType>
+	class IList;
+
+	template <typename IListEnumeratorItemType>
+	class IListEnumerator
+		: public base::IEnumerator<IListEnumeratorItemType>
+	{
+	private:
+		IList<IListEnumeratorItemType> *_list;
+		int _index = 0;
+		bool _is_first_move = true;
+
+	public:
+		IListEnumerator(IList<IListEnumeratorItemType> *list)
+		{
+			_list = list;
+		}
+
+		IListEnumeratorItemType &CurrentValue() override
+		{
+			return (*_list)[_index];
+		}
+
+		bool MoveNext() override
+		{
+			if (_is_first_move)
+			{
+				_is_first_move = false;
+			}
+			else
+			{
+				_index++;
+			}
+
+			return _index < _list->Count();
+		}
+
+		void Reset() override
+		{
+			_index = 0;
+		}
+	};
+
+	template <typename IListEnumeratorItemType>
+	class IListConstEnumerator
+		: public base::IEnumerator<IListEnumeratorItemType const>
+	{
+	private:
+		IList<IListEnumeratorItemType> const *_list;
+		int _index = 0;
+		bool _is_first_move = true;
+
+	public:
+		IListConstEnumerator(IList<IListEnumeratorItemType> const *list)
+		{
+			_list = list;
+		}
+
+		IListEnumeratorItemType const &CurrentValue() override
+		{
+			return (*_list)[_index];
+		}
+
+		bool MoveNext() override
+		{
+			if (_is_first_move)
+			{
+				_is_first_move = false;
+			}
+			else
+			{
+				_index++;
+			}
+
+			return _index < _list->Count();
+		}
+
+		void Reset() override
+		{
+			_index = 0;
+		}
+	};
+
+	template <typename ItemType>
 	class IList
 		: public ICollection<int, ItemType>,
 		  public base::IEnumerable<ItemType>
 	{
-	private:
-		template <typename IListEnumeratorItemType>
-		class IListEnumerator
-			: public base::IEnumerator<IListEnumeratorItemType>
-		{
-		private:
-			IList<IListEnumeratorItemType> *_list;
-			int _index = 0;
-			bool _is_first_move = true;
-
-		public:
-			IListEnumerator(IList<IListEnumeratorItemType> *list)
-			{
-				_list = list;
-			}
-
-			IListEnumeratorItemType &CurrentValue() override
-			{
-				return (*_list)[_index];
-			}
-
-			bool MoveNext() override
-			{
-				if (_is_first_move)
-				{
-					_is_first_move = false;
-				}
-				else
-				{
-					_index++;
-				}
-
-				return _index < _list->Count();
-			}
-
-			void Reset() override
-			{
-				_index = 0;
-			}
-		};
-
-		template <typename IListEnumeratorItemType>
-		class IListConstEnumerator
-			: public base::IEnumerator<IListEnumeratorItemType const>
-		{
-		private:
-			IList<IListEnumeratorItemType> const *_list;
-			int _index = 0;
-			bool _is_first_move = true;
-
-		public:
-			IListConstEnumerator(IList<IListEnumeratorItemType> const *list)
-			{
-				_list = list;
-			}
-
-			IListEnumeratorItemType const &CurrentValue() override
-			{
-				return (*_list)[_index];
-			}
-
-			bool MoveNext() override
-			{
-				if (_is_first_move)
-				{
-					_is_first_move = false;
-				}
-				else
-				{
-					_index++;
-				}
-
-				return _index < _list->Count();
-			}
-
-			void Reset() override
-			{
-				_index = 0;
-			}
-		};
-
 	public:
 		virtual ~IList() = default;
 
