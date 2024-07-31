@@ -25,7 +25,7 @@ void base::Initializer::Initialize()
 		catch (...)
 		{
 		}
-
-		InitFunctionVector().~vector();
 	}
+
+	InitFunctionVector().~vector();
 }
