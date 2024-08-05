@@ -6,6 +6,7 @@ IndentCaseLabels: false
 IndentCaseBlocks: true
 SortIncludes: CaseInsensitive
 PackConstructorInitializers: Never
+IndentPPDirectives: BeforeHash
 InsertNewlineAtEOF: true  
 
 BraceWrapping:
