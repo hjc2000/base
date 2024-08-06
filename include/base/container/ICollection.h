@@ -1,5 +1,6 @@
 #pragma once
-#include <array>
+#include <base/container/IEnumerable.h>
+#include <map>
 
 namespace base
 {
@@ -8,10 +9,12 @@ namespace base
 	/// @tparam ItemType
 	template <typename KeyType, typename ItemType>
 	class IReadOnlyCollection
+		: public base::IEnumerable<ItemType>
 	{
 	public:
 		virtual int Count() const = 0;
 		virtual ItemType Get(KeyType key) const = 0;
+		virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() = 0;
 	};
 
 	/// @brief 集合接口。
@@ -27,5 +30,6 @@ namespace base
 		virtual int Count() const = 0;
 		virtual ItemType Get(KeyType key) const = 0;
 		virtual void Put(KeyType key, ItemType const &item) = 0;
+		virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() = 0;
 	};
 }

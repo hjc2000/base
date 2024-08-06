@@ -11,8 +11,7 @@ namespace base
 {
 	template <typename ItemType>
 	class IList
-		: public ICollection<int, ItemType>,
-		  public base::IEnumerable<ItemType>
+		: public ICollection<int, ItemType>
 	{
 	private:
 #pragma region IListEnumerator
