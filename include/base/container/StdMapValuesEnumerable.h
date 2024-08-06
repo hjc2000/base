@@ -4,6 +4,9 @@
 
 namespace base
 {
+	/// @brief 用来迭代 std::map 中的值的迭代器。
+	/// @tparam KeyType
+	/// @tparam ItemType
 	template <typename KeyType, typename ItemType>
 	class StdMapValuesEnumerator
 		: public base::IEnumerator<ItemType>
@@ -45,6 +48,9 @@ namespace base
 		}
 	};
 
+	/// @brief 将 std::map 包装成可被迭代值的对象。
+	/// @tparam KeyType
+	/// @tparam ItemType
 	template <typename KeyType, typename ItemType>
 	class StdMapValuesEnumerable
 		: base::IEnumerable<ItemType>
