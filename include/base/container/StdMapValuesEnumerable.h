@@ -32,6 +32,7 @@ namespace base
 		{
 			if (_first_move)
 			{
+				_first_move = false;
 				_current_it = _map->begin();
 			}
 			else
