@@ -1,5 +1,6 @@
-#if HAS_THREAD
 #include "StdContainerEnumerable.h"
+
+#if HAS_THREAD
 #include <iostream>
 #include <vector>
 
