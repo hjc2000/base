@@ -12,7 +12,7 @@
 namespace base
 {
 	/// @brief 带阻塞功能的环形缓冲区的内存流。
-	class BlockingCircleBufferMemoryStream
+	class BlockingCircleBufferMemoryStream final
 		: public base::Stream
 	{
 	private:

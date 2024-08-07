@@ -10,7 +10,7 @@
 namespace base
 {
 	/// @brief 时间插值器。
-	class TimeInterpolator
+	class TimeInterpolator final
 	{
 	private:
 		/// @brief 每次调用 SyncTime 方法就会捕获当前世界时间的毫秒数存到此字段。

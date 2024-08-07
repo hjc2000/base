@@ -8,7 +8,7 @@ namespace base
 	/// @tparam KeyType
 	/// @tparam ItemType
 	template <typename KeyType, typename ItemType>
-	class StdMapValuesEnumerator
+	class StdMapValuesEnumerator final
 		: public base::IEnumerator<ItemType>
 	{
 	private:
@@ -53,7 +53,7 @@ namespace base
 	/// @tparam KeyType
 	/// @tparam ItemType
 	template <typename KeyType, typename ItemType>
-	class StdMapValuesEnumerable
+	class StdMapValuesEnumerable final
 		: base::IEnumerable<ItemType>
 	{
 	private:

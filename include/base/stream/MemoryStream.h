@@ -4,7 +4,7 @@
 
 namespace base
 {
-	class MemoryStream
+	class MemoryStream final
 		: public base::Stream
 	{
 	private:

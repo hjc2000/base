@@ -6,7 +6,7 @@
 namespace base
 {
 	/// @brief 分数类
-	class Fraction
+	class Fraction final
 	{
 	private:
 		int64_t _num = 0;

@@ -21,7 +21,7 @@ namespace base
 	///
 	/// @tparam T
 	template <typename T>
-	class DataChach
+	class DataChach final
 		: public IDisposable
 	{
 	private:

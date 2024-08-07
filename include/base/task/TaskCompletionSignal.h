@@ -13,7 +13,7 @@
 
 namespace base
 {
-	class TaskCompletionSignal
+	class TaskCompletionSignal final
 	{
 	private:
 		std::mutex _mtx;

@@ -12,7 +12,7 @@ namespace base
 
 	/// @brief 锁守卫。
 	/// @note 构造时加锁，析构时解锁。
-	class LockGuard
+	class LockGuard final
 	{
 	private:
 		base::ILock &_lock;
@@ -32,7 +32,7 @@ namespace base
 
 	/// @brief 解锁守卫。
 	/// @note 构造时解锁，析构时加锁。与 LockGuard 相反。
-	class UnlockGuard
+	class UnlockGuard final
 	{
 	private:
 		base::ILock &_lock;

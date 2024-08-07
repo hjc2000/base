@@ -11,7 +11,7 @@
 
 namespace base
 {
-	class DateTime
+	class DateTime final
 	{
 	public:
 		/// @brief 用毫秒来获取当前的 UTC 时间。

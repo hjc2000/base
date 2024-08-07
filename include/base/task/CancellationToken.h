@@ -22,7 +22,7 @@ namespace base
 	/// @brief 取消令牌
 	/// @warning 没有将宏变量 HAS_THREAD 定义为真的话，本类的所有操作都没有互斥锁保护，
 	/// 此时只有 IsCancellationRequested 方法是线程安全的，因为它只读。
-	class CancellationToken
+	class CancellationToken final
 	{
 	private:
 		CancellationToken() = default;

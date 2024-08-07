@@ -4,7 +4,7 @@
 namespace base
 {
 	/// @brief 取消令牌源
-	class CancellationTokenSource
+	class CancellationTokenSource final
 	{
 	private:
 		std::shared_ptr<CancellationToken> _token{new CancellationToken{}};

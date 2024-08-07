@@ -10,7 +10,7 @@ namespace base
 	/// 	@li 设置采样间隔
 	/// 	@li 打开
 	/// 	@li 开始采样
-	class SinSignalSource
+	class SinSignalSource final
 		: public base::ISignalSource<double>
 	{
 	private:

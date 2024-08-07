@@ -6,7 +6,7 @@
 namespace base
 {
 	/// @brief 构造时设置好通信对方的大小端，进行转换时能够自动进行大小端转换。
-	class AutoBitConverter
+	class AutoBitConverter final
 	{
 	private:
 		std::endian _remote_endian;

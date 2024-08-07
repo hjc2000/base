@@ -20,7 +20,7 @@ namespace base
 	/// @tparam ItemType 被迭代元素的类型。
 	/// @tparam IteratorType 迭代器类型。
 	template <typename ItemType, IsIterator IteratorType>
-	class StdContainerEnumerator
+	class StdContainerEnumerator final
 		: public base::IEnumerator<ItemType>
 	{
 	private:
@@ -80,7 +80,7 @@ namespace base
 	/// @tparam ItemType 被迭代元素的类型
 	/// @tparam ContainerType 容器类型
 	template <typename ItemType, IsIterable ContainerType>
-	class StdContainerEnumerable
+	class StdContainerEnumerable final
 		: public IEnumerable<ItemType>
 	{
 	private:

@@ -4,7 +4,7 @@
 namespace base
 {
 	/// @brief 借用指针工厂
-	class RentedPtrFactory
+	class RentedPtrFactory final
 	{
 	private:
 		RentedPtrFactory() = delete;

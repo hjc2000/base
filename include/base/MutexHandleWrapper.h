@@ -17,7 +17,7 @@ namespace base
 	///
 	/// @tparam T
 	template <typename T>
-	class MutexHandleWrapper
+	class MutexHandleWrapper final
 	{
 	private:
 #if HAS_THREAD

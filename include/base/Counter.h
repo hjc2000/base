@@ -7,7 +7,7 @@ namespace base
 	/// @brief 计数器。计数到最大值后会归 0.
 	/// @tparam T 此类型必须是无符号整型
 	template <typename T>
-	class Counter
+	class Counter final
 	{
 	private:
 		T _max_value;

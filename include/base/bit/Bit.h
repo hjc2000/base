@@ -5,7 +5,7 @@
 namespace base
 {
 	/// @brief 静态类。提供一些位操作的函数。
-	class Bit
+	class Bit final
 	{
 	private:
 		Bit() = delete;

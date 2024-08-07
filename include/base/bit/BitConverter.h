@@ -4,7 +4,7 @@
 
 namespace base
 {
-	class BitConverter
+	class BitConverter final
 	{
 	private:
 		BitConverter() = delete;

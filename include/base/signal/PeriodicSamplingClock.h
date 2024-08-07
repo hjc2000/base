@@ -6,7 +6,7 @@ namespace base
 {
 	/// @brief 周期采样时钟。
 	/// @note 时间大于一个周期时会自动减去整数倍的周期，调整到一个周期以内。
-	class PeriodicSamplingClock
+	class PeriodicSamplingClock final
 	{
 	private:
 		base::Fraction _period{};

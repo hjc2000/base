@@ -13,7 +13,7 @@
 
 namespace base
 {
-	class FileStream
+	class FileStream final
 		: public base::Stream
 	{
 	private:

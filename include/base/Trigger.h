@@ -8,7 +8,7 @@ namespace base
 	///
 	/// @tparam T
 	template <typename T>
-	class Trigger
+	class Trigger final
 	{
 	private:
 		T _output{};

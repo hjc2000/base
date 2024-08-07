@@ -21,7 +21,7 @@ namespace base
 	///
 	/// @tparam T
 	template <typename T>
-	class HysteresisBlockingQueue
+	class HysteresisBlockingQueue final
 		: public base::IQueue<T>,
 		  public base::IDisposable
 	{

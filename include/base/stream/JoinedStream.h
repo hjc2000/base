@@ -6,7 +6,7 @@
 
 namespace base
 {
-	class JoinedStream
+	class JoinedStream final
 		: public base::Stream
 	{
 	private:

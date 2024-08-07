@@ -8,7 +8,7 @@
 namespace base
 {
 	/// @brief 具有循环缓冲区的流
-	class CircleBufferMemoryStream
+	class CircleBufferMemoryStream final
 		: public base::Stream
 	{
 	private:

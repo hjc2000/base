@@ -16,7 +16,7 @@ namespace base
 	/// @brief 管道队列
 	/// @tparam T
 	template <typename T>
-	class PipeBlockingQueue
+	class PipeBlockingQueue final
 		: public base::IConsumer<T>,
 		  public base::ISource<T>,
 		  public base::IDisposable
@@ -26,6 +26,11 @@ namespace base
 		std::atomic_bool _disposed = false;
 
 	public:
+		~PipeBlockingQueue()
+		{
+			Dispose();
+		}
+
 		/// @brief 释放队列
 		/// @note 释放后队列会被清空。所以如果想要取消阻塞，但又希望能够读出残留的数据，进行
 		/// 收尾，调用 Flush 方法而不是本方法。

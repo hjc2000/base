@@ -7,7 +7,7 @@
 namespace base
 {
 	/// @brief modbus CRC16 校验器。
-	class ModbusCrc16
+	class ModbusCrc16 final
 	{
 	private:
 		uint16_t _crc16_register = UINT16_MAX;

@@ -15,7 +15,7 @@ namespace base
 	/// @brief 线程安全的队列，加了互斥锁。
 	/// @tparam T
 	template <typename T>
-	class SafeQueue
+	class SafeQueue final
 		: public base::IQueue<T>
 	{
 	private:

@@ -20,7 +20,7 @@ namespace base
 	///
 	/// @tparam ...Args
 	template <typename... Args>
-	class Delegate
+	class Delegate final
 		: public base ::IEvent<Args...>
 	{
 	private:
@@ -54,7 +54,7 @@ namespace base
 		/// @warning 禁止在 Delegate 对象析构后使用取消令牌。
 		std::shared_ptr<base::IUnsubscribeToken> Subscribe(std::function<void(Args...)> func) override
 		{
-			class UnsubscribeToken
+			class UnsubscribeToken final
 				: public base::IUnsubscribeToken
 			{
 			public:

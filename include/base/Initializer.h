@@ -5,7 +5,7 @@
 namespace base
 {
 	/// @brief 初始化器。
-	class Initializer
+	class Initializer final
 	{
 	private:
 		/// @brief 获取储存初始化函数的向量。

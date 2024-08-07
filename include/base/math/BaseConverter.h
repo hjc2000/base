@@ -5,7 +5,7 @@
 namespace base
 {
 	/// @brief 进制转换器
-	class BaseConverter
+	class BaseConverter final
 	{
 	private:
 		BaseConverter() = delete;

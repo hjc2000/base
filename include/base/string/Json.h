@@ -12,7 +12,7 @@ namespace base
 		: public ICanToString
 	{
 	public:
-		~IJsonSerializable() = default;
+		virtual ~IJsonSerializable() = default;
 
 		virtual Json ToJson() = 0;
 
