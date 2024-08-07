@@ -27,7 +27,8 @@ namespace base
 		std::condition_variable _buffer_avaliable;
 
 	public:
-		BlockingCircleBufferMemoryStream(int32_t max_size) : _mstream(max_size)
+		BlockingCircleBufferMemoryStream(int32_t max_size)
+			: _mstream(max_size)
 		{
 		}
 

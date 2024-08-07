@@ -9,6 +9,8 @@ namespace base
 	class IForwardIterator
 	{
 	public:
+		virtual ~IForwardIterator() = default;
+
 		/// @brief 解引用
 		/// @return
 		virtual ItemType &operator*() = 0;

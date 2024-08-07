@@ -11,7 +11,6 @@ namespace base
 	public:
 		virtual ~IQueue() = default;
 
-	public:
 		virtual int32_t Count() const = 0;
 		virtual T Dequeue() = 0;
 		virtual bool TryDequeue(T &out) = 0;
