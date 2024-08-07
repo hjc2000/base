@@ -23,51 +23,34 @@ namespace base
 
 		/// @brief 如果被包装对象是空指针，则返回 true。
 		/// @return
-		bool IsNull() const;
+		bool IsNull() const
+		{
+			return WrappedObj() == nullptr;
+		}
 
 		/// @brief 访问本类中储存的被包装类型对象的指针
 		/// @return
-		T *operator->() const;
+		T *operator->() const
+		{
+			return WrappedObj();
+		}
 
 		/// @brief 将本类对象强制转换为被包装类型的指针
-		operator T *() const;
+		operator T *() const
+		{
+			return WrappedObj();
+		}
 
 		/// @brief 将本类对象强制转换为被包装类型的指针的指针。
 		/// 本函数返回的是指针的指针，也就是可以用来将被包装对象替换成另一个对象。
-		operator T **();
+		operator T **()
+		{
+			return &WrappedObj();
+		}
 
-		bool operator==(Wrapper<T> const &o) const;
+		bool operator==(Wrapper<T> const &o) const
+		{
+			return WrappedObj() == o.WrappedObj();
+		}
 	};
-
-	/* 实现 */
-
-	template <class T>
-	inline bool Wrapper<T>::IsNull() const
-	{
-		return WrappedObj() == nullptr;
-	}
-
-	template <class T>
-	inline T *Wrapper<T>::operator->() const
-	{
-		return WrappedObj();
-	}
-
-	template <class T>
-	inline Wrapper<T>::operator T *() const
-	{
-		return WrappedObj();
-	}
-
-	template <class T>
-	inline Wrapper<T>::operator T **()
-	{
-		return &WrappedObj();
-	}
-
-	template <class T>
-	inline bool Wrapper<T>::operator==(Wrapper<T> const &o) const
-	{
-		return WrappedObj() == o.WrappedObj();
-	}
 }
