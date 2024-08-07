@@ -1,12 +1,13 @@
-#include"Wrapper.h"
-#include<memory>
+#include "Wrapper.h"
+#include <memory>
 
 using namespace base;
 
-class IntWrapper :public Wrapper<int>
+class IntWrapper final
+	: public Wrapper<int>
 {
 private:
-	int *_num = new int { 0 };
+	int *_num = new int{0};
 
 public:
 	~IntWrapper()

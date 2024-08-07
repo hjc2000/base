@@ -26,6 +26,8 @@ namespace base
 				_enumerator = enumerator;
 			}
 
+			virtual ~ConstEnumerator() = default;
+
 			ConstEnumeratorItemType const &CurrentValue() override
 			{
 				return _enumerator->CurrentValue();

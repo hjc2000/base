@@ -30,6 +30,8 @@ namespace base
 				_list = list;
 			}
 
+			virtual ~IListEnumerator() = default;
+
 			IListEnumeratorItemType &CurrentValue() override
 			{
 				return (*_list)[_index];

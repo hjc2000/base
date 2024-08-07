@@ -11,7 +11,8 @@ namespace base
 	///
 	/// @tparam T
 	template <typename T>
-	class Queue final : public IQueue<T>
+	class Queue final
+		: public IQueue<T>
 	{
 	private:
 		std::queue<T> _queue;

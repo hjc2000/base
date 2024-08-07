@@ -7,7 +7,8 @@
 namespace base
 {
 	template <typename ItemType>
-	class List final : public base::IList<ItemType>
+	class List final
+		: public base::IList<ItemType>
 	{
 	private:
 		std::vector<ItemType> _vector;
