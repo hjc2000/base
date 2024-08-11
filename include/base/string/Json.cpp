@@ -2,5 +2,5 @@
 
 std::string base::IJsonSerializable::ToString()
 {
-	return ToJson().dump(4);
+    return ToJson().dump(4);
 }

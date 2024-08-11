@@ -5,17 +5,16 @@
 
 namespace base
 {
-	using Json = nlohmann::json;
-	using JsonTypeException = Json::type_error;
+    using Json = nlohmann::json;
+    using JsonTypeException = Json::type_error;
 
-	class IJsonSerializable
-		: public ICanToString
-	{
-	public:
-		virtual ~IJsonSerializable() = default;
+    class IJsonSerializable : public ICanToString
+    {
+    public:
+        virtual ~IJsonSerializable() = default;
 
-		virtual Json ToJson() = 0;
+        virtual Json ToJson() = 0;
 
-		std::string ToString() override;
-	};
-}
+        std::string ToString() override;
+    };
+} // namespace base

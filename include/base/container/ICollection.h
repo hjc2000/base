@@ -4,36 +4,36 @@
 
 namespace base
 {
-	/// @brief 只读集合接口。
-	/// @tparam KeyType
-	/// @tparam ItemType
-	template <typename KeyType, typename ItemType>
-	class IReadOnlyCollection
-		: public base::IEnumerable<ItemType>
-	{
-	public:
-		virtual ~IReadOnlyCollection() = default;
+    /// @brief 只读集合接口。
+    /// @tparam KeyType
+    /// @tparam ItemType
+    template <typename KeyType, typename ItemType>
+    class IReadOnlyCollection :
+        public base::IEnumerable<ItemType>
+    {
+    public:
+        virtual ~IReadOnlyCollection() = default;
 
-		virtual int Count() const = 0;
-		virtual ItemType Get(KeyType key) const = 0;
-		virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() = 0;
-	};
+        virtual int Count() const = 0;
+        virtual ItemType Get(KeyType key) const = 0;
+        virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() = 0;
+    };
 
-	/// @brief 集合接口。
-	/// @tparam KeyType
-	/// @tparam ItemType
-	template <typename KeyType, typename ItemType>
-	class ICollection
-		: public IReadOnlyCollection<KeyType, ItemType>
-	{
-	public:
-		virtual ~ICollection() = default;
+    /// @brief 集合接口。
+    /// @tparam KeyType
+    /// @tparam ItemType
+    template <typename KeyType, typename ItemType>
+    class ICollection :
+        public IReadOnlyCollection<KeyType, ItemType>
+    {
+    public:
+        virtual ~ICollection() = default;
 
-		ICollection() = default;
+        ICollection() = default;
 
-		virtual int Count() const = 0;
-		virtual ItemType Get(KeyType key) const = 0;
-		virtual void Put(KeyType key, ItemType const &item) = 0;
-		virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() = 0;
-	};
-}
+        virtual int Count() const = 0;
+        virtual ItemType Get(KeyType key) const = 0;
+        virtual void Put(KeyType key, ItemType const &item) = 0;
+        virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() = 0;
+    };
+} // namespace base

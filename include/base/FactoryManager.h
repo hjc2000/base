@@ -11,46 +11,46 @@
 
 namespace base
 {
-	/// @brief 工厂管理者
-	/// @tparam FactoryType 工厂类
-	template <typename FactoryType>
-	class FactoryManager
-	{
-	private:
-		std::shared_ptr<FactoryType> _costom_factory = nullptr;
+    /// @brief 工厂管理者
+    /// @tparam FactoryType 工厂类
+    template <typename FactoryType>
+    class FactoryManager
+    {
+    private:
+        std::shared_ptr<FactoryType> _costom_factory = nullptr;
 
 #if HAS_THREAD
-		std::mutex _lock;
+        std::mutex _lock;
 #endif
 
-	public:
-		virtual ~FactoryManager() = default;
+    public:
+        virtual ~FactoryManager() = default;
 
-		/// @brief 设置了自定义工厂后就会返回自定义工厂，否则返回默认工厂。
-		/// @return
-		std::shared_ptr<FactoryType> Factory()
-		{
+        /// @brief 设置了自定义工厂后就会返回自定义工厂，否则返回默认工厂。
+        /// @return
+        std::shared_ptr<FactoryType> Factory()
+        {
 #if HAS_THREAD
-			std::lock_guard l{_lock};
+            std::lock_guard l{_lock};
 #endif
 
-			if (_costom_factory)
-			{
-				return _costom_factory;
-			}
+            if (_costom_factory)
+            {
+                return _costom_factory;
+            }
 
-			return DefaultFactory();
-		}
+            return DefaultFactory();
+        }
 
-		void SetCustomFactory(std::shared_ptr<FactoryType> o)
-		{
+        void SetCustomFactory(std::shared_ptr<FactoryType> o)
+        {
 #if HAS_THREAD
-			std::lock_guard l{_lock};
+            std::lock_guard l{_lock};
 #endif
 
-			_costom_factory = o;
-		}
+            _costom_factory = o;
+        }
 
-		virtual std::shared_ptr<FactoryType> DefaultFactory() = 0;
-	};
+        virtual std::shared_ptr<FactoryType> DefaultFactory() = 0;
+    };
 } // namespace base
