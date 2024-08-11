@@ -1,5 +1,3 @@
 {
 	"C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
-	"files.insertFinalNewline": true,
-	"files.trimFinalNewlines": true,
 }
