@@ -54,7 +54,8 @@ namespace base
         /// @warning 禁止在 Delegate 对象析构后使用取消令牌。
         std::shared_ptr<base::IUnsubscribeToken> Subscribe(std::function<void(Args...)> func) override
         {
-            class UnsubscribeToken final : public base::IUnsubscribeToken
+            class UnsubscribeToken final :
+                public base::IUnsubscribeToken
             {
             public:
                 uint64_t _id = 0;
