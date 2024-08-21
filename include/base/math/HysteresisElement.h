@@ -18,6 +18,7 @@ namespace base
         double _fallen_threshold = 0;
         bool _current_output = false;
         bool _last_output = false;
+        double _x = 0;
 
     public:
         /// @brief 迟滞特性环节。
@@ -43,6 +44,12 @@ namespace base
             return _fallen_threshold;
         }
 
+        /// @brief 改变上升阈值和下降阈值。
+        /// @note 会导致输出发生变化。
+        /// @param rising_threshold
+        /// @param fallen_threshold
+        void ChangeThreshold(double rising_threshold, double fallen_threshold);
+
         /// @brief 上升阈值减去下降阈值，得到的窗口宽度。
         /// @return
         double WindowWidth() const
@@ -62,6 +69,13 @@ namespace base
         /// @param x
         /// @return
         bool Input(double x);
+
+        /// @brief 当前的输入值。
+        /// @return
+        double CurrentInput()
+        {
+            return _x;
+        }
 
         /// @brief 当前输出值。
         /// @return
