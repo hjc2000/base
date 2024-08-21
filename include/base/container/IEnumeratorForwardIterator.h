@@ -1,6 +1,6 @@
 #pragma once
 #include <base/container/IEnumerator.h>
-#include <base/container/IIterator.h>
+#include <base/container/IForwardIterator.h>
 #include <memory>
 
 namespace base

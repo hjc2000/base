@@ -2,7 +2,7 @@
 #include <array>
 #include <base/container/ICollection.h>
 #include <base/container/IEnumerable.h>
-#include <base/container/IIterator.h>
+#include <base/container/IForwardIterator.h>
 #include <base/container/StdContainerEnumerable.h>
 #include <base/sfinae/IsConst.h>
 #include <base/sfinae/TypeSelector.h>
@@ -17,7 +17,8 @@ namespace base
 #pragma region IListEnumerator
 
         template <typename IListEnumeratorItemType>
-        class IListEnumerator : public base::IEnumerator<IListEnumeratorItemType>
+        class IListEnumerator :
+            public base::IEnumerator<IListEnumeratorItemType>
         {
         private:
             IList<IListEnumeratorItemType> *_list;
