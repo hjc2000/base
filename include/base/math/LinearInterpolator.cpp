@@ -16,7 +16,7 @@ base::LinearInterpolator::LinearInterpolator(double start_value, double end_valu
     _current_value = start_value;
 }
 
-bool base::LinearInterpolator::IsCompleted()
+bool base::LinearInterpolator::IsCompleted() const
 {
     if (_start_value <= _end_value)
     {

@@ -55,7 +55,7 @@ namespace base
             return _step_length;
         }
 
-        bool IsCompleted();
+        bool IsCompleted() const;
 
         double CurrentValue() const
         {
