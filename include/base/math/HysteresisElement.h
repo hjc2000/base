@@ -20,35 +20,51 @@ namespace base
         bool _last_output = false;
 
     public:
+        /// @brief 迟滞特性环节。
+        /// @param rising_threshold 上升阈值。
+        /// @param fallen_threshold 下降阈值。
         HysteresisElement(double rising_threshold, double fallen_threshold)
         {
             _rising_threshold = rising_threshold;
             _fallen_threshold = fallen_threshold;
         }
 
+        /// @brief 上升阈值。
+        /// @return
         double RisingThreshold() const
         {
             return _rising_threshold;
         }
 
+        /// @brief 下降阈值。
+        /// @return
         double FallenThreshold() const
         {
             return _fallen_threshold;
         }
 
+        /// @brief 上升阈值减去下降阈值，得到的窗口宽度。
+        /// @return
         double WindowWidth() const
         {
             return _rising_threshold - _fallen_threshold;
         }
 
+        /// @brief 将窗口在 x 轴上平移。
+        /// @param delta_x 位移。负数则窗口向左移动，正数则窗口向右移动。
         void MoveX(double delta_x)
         {
             _rising_threshold += delta_x;
             _fallen_threshold += delta_x;
         }
 
+        /// @brief 向迟滞特性环节输入一个值，并获取该值引起的输出。
+        /// @param x
+        /// @return
         bool Input(double x);
 
+        /// @brief 当前输出值。
+        /// @return
         bool CurrentOutput() const
         {
             return _current_output;
