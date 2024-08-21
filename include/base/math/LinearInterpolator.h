@@ -3,6 +3,25 @@
 
 namespace base
 {
+    /// @brief 线性插值器的步数。
+    class LinearInterpolator_StepCount
+    {
+    private:
+        int _value = 0;
+
+    public:
+        LinearInterpolator_StepCount(int value)
+        {
+            _value = value;
+        }
+
+        int Value() const
+        {
+            return _value;
+        }
+    };
+
+    /// @brief 线性插值器
     class LinearInterpolator final
     {
     private:
@@ -13,7 +32,8 @@ namespace base
 
     public:
         LinearInterpolator(double start_value, double end_value, double step_length);
-        LinearInterpolator(double start_value, double end_value, int step_count);
+
+        LinearInterpolator(double start_value, double end_value, LinearInterpolator_StepCount step_count);
 
         double StartValue() const
         {
@@ -36,6 +56,11 @@ namespace base
         }
 
         bool IsCompleted();
+
+        double CurrentValue()
+        {
+            return _current_value;
+        }
 
         /// @brief 前缀递增
         /// @return

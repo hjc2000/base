@@ -8,11 +8,11 @@ base::LinearInterpolator::LinearInterpolator(double start_value, double end_valu
     _current_value = start_value;
 }
 
-base::LinearInterpolator::LinearInterpolator(double start_value, double end_value, int step_count)
+base::LinearInterpolator::LinearInterpolator(double start_value, double end_value, LinearInterpolator_StepCount step_count)
 {
     _start_value = start_value;
     _end_value = end_value;
-    _step_length = (end_value - start_value) / step_count;
+    _step_length = (end_value - start_value) / step_count.Value();
     _current_value = start_value;
 }
 
