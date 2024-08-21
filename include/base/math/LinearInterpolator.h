@@ -57,7 +57,7 @@ namespace base
 
         bool IsCompleted();
 
-        double CurrentValue()
+        double CurrentValue() const
         {
             return _current_value;
         }
