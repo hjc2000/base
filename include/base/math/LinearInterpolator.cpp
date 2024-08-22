@@ -1,10 +1,10 @@
 #include "LinearInterpolator.h"
 
-base::LinearInterpolator::LinearInterpolator(double start_value, double end_value, double step_length)
+base::LinearInterpolator::LinearInterpolator(double start_value, double end_value, LinearInterpolator_StepLength step_length)
 {
     _start_value = start_value;
     _end_value = end_value;
-    _step_length = step_length;
+    _step_length = step_length.Value();
     _current_value = start_value;
 }
 

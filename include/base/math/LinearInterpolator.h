@@ -21,6 +21,24 @@ namespace base
         }
     };
 
+    /// @brief 线性插值器的步长
+    class LinearInterpolator_StepLength
+    {
+    private:
+        double _value = 0;
+
+    public:
+        LinearInterpolator_StepLength(double value)
+        {
+            _value = value;
+        }
+
+        double Value() const
+        {
+            return _value;
+        }
+    };
+
     /// @brief 线性插值器
     class LinearInterpolator final
     {
@@ -31,7 +49,7 @@ namespace base
         double _current_value = 0;
 
     public:
-        LinearInterpolator(double start_value, double end_value, double step_length);
+        LinearInterpolator(double start_value, double end_value, LinearInterpolator_StepLength step_length);
 
         LinearInterpolator(double start_value, double end_value, LinearInterpolator_StepCount step_count);
 
