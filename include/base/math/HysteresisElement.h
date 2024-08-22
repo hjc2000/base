@@ -10,8 +10,43 @@ namespace base
         Fall,
     };
 
+    class HysteresisElement_RisingThreshold
+    {
+    private:
+        double _value = 0;
+
+    public:
+        HysteresisElement_RisingThreshold(double value)
+        {
+            _value = value;
+        }
+
+        double Value() const
+        {
+            return _value;
+        }
+    };
+
+    class HysteresisElement_FallenThreshold
+    {
+    private:
+        double _value = 0;
+
+    public:
+        HysteresisElement_FallenThreshold(double value)
+        {
+            _value = value;
+        }
+
+        double Value() const
+        {
+            return _value;
+        }
+    };
+
     /// @brief 迟滞特性环节。
     class HysteresisElement final
+
     {
     private:
         double _rising_threshold = 0;
@@ -24,10 +59,10 @@ namespace base
         /// @brief 迟滞特性环节。
         /// @param rising_threshold 上升阈值。
         /// @param fallen_threshold 下降阈值。
-        HysteresisElement(double rising_threshold, double fallen_threshold)
+        HysteresisElement(HysteresisElement_RisingThreshold rising_threshold, HysteresisElement_FallenThreshold fallen_threshold)
         {
-            _rising_threshold = rising_threshold;
-            _fallen_threshold = fallen_threshold;
+            _rising_threshold = rising_threshold.Value();
+            _fallen_threshold = fallen_threshold.Value();
         }
 
         /// @brief 上升阈值。
