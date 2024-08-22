@@ -16,7 +16,7 @@ namespace base
         double _value = 0;
 
     public:
-        HysteresisElement_RisingThreshold(double value)
+        explicit HysteresisElement_RisingThreshold(double value)
         {
             _value = value;
         }
@@ -33,7 +33,7 @@ namespace base
         double _value = 0;
 
     public:
-        HysteresisElement_FallenThreshold(double value)
+        explicit HysteresisElement_FallenThreshold(double value)
         {
             _value = value;
         }
@@ -59,7 +59,8 @@ namespace base
         /// @brief 迟滞特性环节。
         /// @param rising_threshold 上升阈值。
         /// @param fallen_threshold 下降阈值。
-        HysteresisElement(HysteresisElement_RisingThreshold rising_threshold, HysteresisElement_FallenThreshold fallen_threshold)
+        HysteresisElement(HysteresisElement_RisingThreshold const &rising_threshold,
+                          HysteresisElement_FallenThreshold const &fallen_threshold)
         {
             _rising_threshold = rising_threshold.Value();
             _fallen_threshold = fallen_threshold.Value();

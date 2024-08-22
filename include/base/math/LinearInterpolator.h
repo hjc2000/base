@@ -10,7 +10,7 @@ namespace base
         int _value = 0;
 
     public:
-        LinearInterpolator_StepCount(int value)
+        explicit LinearInterpolator_StepCount(int value)
         {
             _value = value;
         }
@@ -28,7 +28,7 @@ namespace base
         double _value = 0;
 
     public:
-        LinearInterpolator_StepLength(double value)
+        explicit LinearInterpolator_StepLength(double value)
         {
             _value = value;
         }
@@ -49,9 +49,13 @@ namespace base
         double _current_value = 0;
 
     public:
-        LinearInterpolator(double start_value, double end_value, LinearInterpolator_StepLength step_length);
+        LinearInterpolator(double start_value,
+                           double end_value,
+                           LinearInterpolator_StepLength const &step_length);
 
-        LinearInterpolator(double start_value, double end_value, LinearInterpolator_StepCount step_count);
+        LinearInterpolator(double start_value,
+                           double end_value,
+                           LinearInterpolator_StepCount const &step_count);
 
         double StartValue() const
         {

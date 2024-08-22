@@ -1,6 +1,8 @@
 #include "LinearInterpolator.h"
 
-base::LinearInterpolator::LinearInterpolator(double start_value, double end_value, LinearInterpolator_StepLength step_length)
+base::LinearInterpolator::LinearInterpolator(double start_value,
+                                             double end_value,
+                                             LinearInterpolator_StepLength const &step_length)
 {
     _start_value = start_value;
     _end_value = end_value;
@@ -8,7 +10,9 @@ base::LinearInterpolator::LinearInterpolator(double start_value, double end_valu
     _current_value = start_value;
 }
 
-base::LinearInterpolator::LinearInterpolator(double start_value, double end_value, LinearInterpolator_StepCount step_count)
+base::LinearInterpolator::LinearInterpolator(double start_value,
+                                             double end_value,
+                                             LinearInterpolator_StepCount const &step_count)
 {
     _start_value = start_value;
     _end_value = end_value;
