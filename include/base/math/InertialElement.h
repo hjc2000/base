@@ -3,6 +3,9 @@
 
 namespace base
 {
+#pragma region 参数类
+
+    /// @brief 惯性时间常数
     class InertialElement_TimeConstant
     {
     private:
@@ -20,6 +23,7 @@ namespace base
         }
     };
 
+    /// @brief 采样周期
     class InertialElement_SampleInterval
     {
     private:
@@ -36,6 +40,8 @@ namespace base
             return _value;
         }
     };
+
+#pragma endregion
 
     /// @brief 一阶惯性环节。
     class InertialElement final
@@ -58,10 +64,24 @@ namespace base
         /// @brief 向惯性环节输入一个值，并获取该值产生的输出。
         /// @param x
         /// @return
-        double Input(double x)
-        {
-            _current_output = _ky * _current_output + _kx * x;
-            return _current_output;
-        }
+        double Input(double x);
+
+        /// @brief 当前的输出。
+        /// @return
+        double CurrentOutput() const;
+
+        /// @brief 更改惯性时间常数
+        /// @param inertial_time_constant
+        void ChangeParameter(InertialElement_TimeConstant const &inertial_time_constant);
+
+        /// @brief 更改采样周期
+        /// @param sample_interval
+        void ChangeParameter(InertialElement_SampleInterval const &sample_interval);
+
+        /// @brief 更改惯性时间常数和采样周期。
+        /// @param inertial_time_constant
+        /// @param sample_interval
+        void ChangeParameter(InertialElement_TimeConstant const &inertial_time_constant,
+                             InertialElement_SampleInterval const &sample_interval);
     };
 } // namespace base
