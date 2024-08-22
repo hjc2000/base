@@ -86,6 +86,6 @@ namespace base
 
         /// @brief 检查最近一次输入后输出的变化情况。
         /// @return
-        HysteresisElement_OutputChange OutputChange();
+        HysteresisElement_OutputChange OutputChange() const;
     };
 } // namespace base
