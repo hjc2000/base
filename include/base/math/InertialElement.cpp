@@ -17,6 +17,11 @@ double base::InertialElement::CurrentOutput() const
     return _current_output;
 }
 
+void base::InertialElement::SetCurrentOutput(double value)
+{
+    _current_output = value;
+}
+
 void base::InertialElement::ChangeParameter(InertialElement_TimeConstant const &inertial_time_constant)
 {
     _inertial_time_constant = inertial_time_constant.Value();

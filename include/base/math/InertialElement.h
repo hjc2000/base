@@ -70,6 +70,11 @@ namespace base
         /// @return
         double CurrentOutput() const;
 
+        /// @brief 直接更改当前输出值。
+        /// @note 可以用来更改惯性环节的初态。
+        /// @param value
+        void SetCurrentOutput(double value);
+
         /// @brief 更改惯性时间常数
         /// @param inertial_time_constant
         void ChangeParameter(InertialElement_TimeConstant const &inertial_time_constant);
