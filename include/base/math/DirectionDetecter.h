@@ -4,6 +4,8 @@
 
 namespace base
 {
+#pragma region 参数类
+
     /// @brief 上升阈值
     /// @note 本次输入值比上次增加多少就认为当前方向是上升。
     class DirectionDetecter_RisingThreshold
@@ -52,6 +54,21 @@ namespace base
         }
     };
 
+#pragma endregion
+
+    /// @brief 方向的变化
+    enum class DirectionDetecter_DirectionChange
+    {
+        /// @brief 方向没有变化
+        None,
+
+        /// @brief 从上升方向变成了下降方向
+        FromRisingToFalling,
+
+        /// @brief 从下降方向变成了上升方向
+        FromFallingToRising,
+    };
+
     /// @brief 方向检测器。
     class DirectionDetecter
     {
@@ -69,6 +86,14 @@ namespace base
         {
             _rising_threshold = rising_threshold.Value();
             _fallen_threshold = fallen_threshold.Value();
+        }
+
+        DirectionDetecter_DirectionChange Input(int64_t value)
+        {
+            if (value - _last_input > _rising_threshold)
+            {
+                // 当前是上升方向
+            }
         }
     };
 } // namespace base
