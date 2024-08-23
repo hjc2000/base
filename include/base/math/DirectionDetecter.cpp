@@ -2,6 +2,25 @@
 
 using namespace base;
 
+void base::DirectionDetecter::UpdateDirectionChangeField()
+{
+    if (_last_direction == DirectionDetecter_Direction::Falling &&
+        _current_direction == DirectionDetecter_Direction::Rising)
+    {
+        _direction_change = DirectionDetecter_DirectionChange::FromFallingToRising;
+        return;
+    }
+
+    if (_last_direction == DirectionDetecter_Direction::Rising &&
+        _current_direction == DirectionDetecter_Direction::Falling)
+    {
+        _direction_change = DirectionDetecter_DirectionChange::FromRisingToFalling;
+        return;
+    }
+
+    _direction_change = DirectionDetecter_DirectionChange::None;
+}
+
 base::DirectionDetecter::DirectionDetecter(base::DirectionDetecter_RisingThreshold const &rising_threshold,
                                            base::DirectionDetecter_FallenThreshold const &fallen_threshold,
                                            DirectionDetecter_Direction initial_direction,
@@ -24,56 +43,39 @@ void base::DirectionDetecter::Input(int64_t value)
     {
         // 移动量超过阈值，不是干扰
         // 当前是上升方向
-        _last_direction = _current_direction;
         _current_direction = DirectionDetecter_Direction::Rising;
-
         if (_last_direction != _current_direction)
         {
             // 上次相对锚点移动的的方向与这次相对锚点移动的方向不同，发生了方向变化。
             // 记录转折点
             _turning_point = _anchor_point;
+            UpdateDirectionChangeField();
         }
 
         // 移动量超过阈值，不是干扰，将锚点移动到当前位置
         _anchor_point = _current_position;
+        _last_direction = _current_direction;
+        return;
     }
-    else if (_current_position - _anchor_point < _fallen_threshold)
+
+    if (_current_position - _anchor_point < _fallen_threshold)
     {
         // 移动量超过阈值，不是干扰
-        _last_direction = _current_direction;
+        // 当前是下降方向
         _current_direction = DirectionDetecter_Direction::Falling;
-
         if (_last_direction != _current_direction)
         {
             // 上次相对锚点移动的的方向与这次相对锚点移动的方向不同，发生了方向变化。
             // 记录转折点
             _turning_point = _anchor_point;
+            UpdateDirectionChangeField();
         }
 
         // 移动量超过阈值，不是干扰，将锚点移动到当前位置
         _anchor_point = _current_position;
+        _last_direction = _current_direction;
+        return;
     }
-}
 
-int64_t base::DirectionDetecter::TurningPoint() const
-{
-    return _turning_point;
-}
-
-DirectionDetecter_DirectionChange base::DirectionDetecter::DirectionChange() const
-{
-    if (_last_direction == DirectionDetecter_Direction::Falling &&
-        _current_direction == DirectionDetecter_Direction::Rising)
-    {
-        return DirectionDetecter_DirectionChange::FromFallingToRising;
-    }
-    else if (_last_direction == DirectionDetecter_Direction::Rising &&
-             _current_direction == DirectionDetecter_Direction::Falling)
-    {
-        return DirectionDetecter_DirectionChange::FromRisingToFalling;
-    }
-    else
-    {
-        return DirectionDetecter_DirectionChange::None;
-    }
+    _direction_change = base::DirectionDetecter_DirectionChange::None;
 }

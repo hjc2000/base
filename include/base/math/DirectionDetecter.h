@@ -56,6 +56,7 @@ namespace base
 
 #pragma endregion
 
+#pragma region 枚举
     /// @brief 当前方向
     enum class DirectionDetecter_Direction
     {
@@ -75,6 +76,7 @@ namespace base
         /// @brief 从下降方向变成了上升方向
         FromFallingToRising,
     };
+#pragma endregion
 
     /// @brief 方向检测器。
     class DirectionDetecter
@@ -82,13 +84,19 @@ namespace base
     private:
         int64_t _rising_threshold = 1;
         int64_t _fallen_threshold = 1;
+
         int64_t _current_position = 0;
         int64_t _anchor_point = 0;
+
         DirectionDetecter_Direction _current_direction = DirectionDetecter_Direction::Falling;
         DirectionDetecter_Direction _last_direction = DirectionDetecter_Direction::Falling;
 
         /// @brief 方向切换瞬间的输入值
         int64_t _turning_point = 0;
+        DirectionDetecter_DirectionChange _direction_change = DirectionDetecter_DirectionChange::None;
+
+        /// @brief 更新 _direction_change 字段。
+        void UpdateDirectionChangeField();
 
     public:
         /// @brief 构造方向检测器
@@ -105,20 +113,35 @@ namespace base
         /// @param value
         void Input(int64_t value);
 
+        /// @brief 当前位置。
+        /// @note 没调用过 Input 则是初始位置。调用过 Input 则是最近一次调用 Input 时传入的值。
+        /// @return
         int64_t CurrentPosition() const
         {
             return _current_position;
         }
 
+        /// @brief 锚点位置。
+        /// @note 调用 Input 时会将新输入的值与锚点比较。新输入的值大于锚点，并且增量超过了上升阈值，
+        /// 则认为当前方向是上升。新输入的值小于锚点，并且减量超过了下降阈值，则认为当前方向是下降。
+        /// @return
         int64_t AnchorPoint() const
         {
             return _anchor_point;
         }
 
-        /// @brief 转折点。即方向切换的点。
+        /// @brief 最近一次转折点。即最近一次方向切换的点。
         /// @return
-        int64_t TurningPoint() const;
+        int64_t TurningPoint() const
+        {
+            return _turning_point;
+        }
 
-        DirectionDetecter_DirectionChange DirectionChange() const;
+        /// @brief 检查最近一次输入后方向的变化情况。
+        /// @return
+        DirectionDetecter_DirectionChange DirectionChange() const
+        {
+            return _direction_change;
+        }
     };
 } // namespace base
