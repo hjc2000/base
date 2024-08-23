@@ -58,6 +58,7 @@ void base::DirectionDetecter::Input(int64_t value)
         return;
     }
 
+    // 将当前输入与锚点比较
     if (_current_position - _anchor_point <= _fallen_threshold)
     {
         // 移动量超过阈值，不是干扰
@@ -90,7 +91,7 @@ void base::Test_DirectionDetecter()
         0,
     };
 
-    for (int i = 0; i < 30; i++)
+    for (int i = 0; i < 40; i++)
     {
         detecter.Input(i);
         if (detecter.DirectionChange() == base::DirectionDetecter_DirectionChange::FromFallingToRising)
@@ -103,7 +104,7 @@ void base::Test_DirectionDetecter()
         }
     }
 
-    for (int i = 30; i > 0; i--)
+    for (int i = 40; i > 0; i--)
     {
         detecter.Input(i);
         if (detecter.DirectionChange() == base::DirectionDetecter_DirectionChange::FromFallingToRising)
