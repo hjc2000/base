@@ -31,7 +31,8 @@ HysteresisElement_OutputChange base::HysteresisElement::OutputChange() const
     {
         return HysteresisElement_OutputChange::Rise;
     }
-    else if (_last_output && !_current_output)
+
+    if (_last_output && !_current_output)
     {
         return HysteresisElement_OutputChange::Fall;
     }
