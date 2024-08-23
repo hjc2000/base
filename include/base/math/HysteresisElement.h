@@ -10,12 +10,15 @@ namespace base
         Fall,
     };
 
+    /// @brief 上升阈值
     class HysteresisElement_RisingThreshold
     {
     private:
         double _value = 0;
 
     public:
+        /// @brief 上升阈值
+        /// @param value
         explicit HysteresisElement_RisingThreshold(double value)
         {
             _value = value;
@@ -27,12 +30,15 @@ namespace base
         }
     };
 
+    /// @brief 下降阈值
     class HysteresisElement_FallenThreshold
     {
     private:
         double _value = 0;
 
     public:
+        /// @brief 下降阈值
+        /// @param value
         explicit HysteresisElement_FallenThreshold(double value)
         {
             _value = value;
@@ -46,7 +52,6 @@ namespace base
 
     /// @brief 迟滞特性环节。
     class HysteresisElement final
-
     {
     private:
         double _rising_threshold = 0;
