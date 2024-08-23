@@ -7,7 +7,7 @@ namespace base
 #pragma region 参数类
 
     /// @brief 上升阈值
-    /// @note 本次输入值比上次增加多少就认为当前方向是上升。
+    /// @note 本次输入值比锚点增加多少就认为当前方向是上升。
     class DirectionDetecter_RisingThreshold
     {
     private:
@@ -31,7 +31,7 @@ namespace base
     };
 
     /// @brief 下降阈值
-    /// @note 本次输入值比上次减少多少就认为当前方向是下降。
+    /// @note 本次输入值比锚点减少多少就认为当前方向是下降。
     class DirectionDetecter_FallenThreshold
     {
     private:
@@ -40,9 +40,9 @@ namespace base
     public:
         explicit DirectionDetecter_FallenThreshold(int64_t value)
         {
-            if (value <= 0)
+            if (value >= 0)
             {
-                throw std::invalid_argument{"不允许 <= 0"};
+                throw std::invalid_argument{"不允许 >= 0"};
             }
 
             _value = value;
@@ -55,6 +55,13 @@ namespace base
     };
 
 #pragma endregion
+
+    /// @brief 当前方向
+    enum class DirectionDetecter_Direction
+    {
+        Rising,
+        Falling,
+    };
 
     /// @brief 方向的变化
     enum class DirectionDetecter_DirectionChange
@@ -75,25 +82,43 @@ namespace base
     private:
         int64_t _rising_threshold = 1;
         int64_t _fallen_threshold = 1;
-        int64_t _last_input = 0;
+        int64_t _current_position = 0;
+        int64_t _anchor_point = 0;
+        DirectionDetecter_Direction _current_direction = DirectionDetecter_Direction::Falling;
+        DirectionDetecter_Direction _last_direction = DirectionDetecter_Direction::Falling;
 
         /// @brief 方向切换瞬间的输入值
-        int64_t _input_value_at_direction_changing = 0;
+        int64_t _turning_point = 0;
 
     public:
+        /// @brief 构造方向检测器
+        /// @param rising_threshold 上升阈值。当前输入值比锚点值大多少才会认为当前方向是上升。
+        /// @param fallen_threshold 下降阈值。当前输入值比锚点值小多少才会认为当前方向是下降。
+        /// @param initial_direction 初始方向。
+        /// @param initial_value 初始值。第一次输入值后会与此值比较。
         DirectionDetecter(base::DirectionDetecter_RisingThreshold const &rising_threshold,
-                          base::DirectionDetecter_FallenThreshold const &fallen_threshold)
+                          base::DirectionDetecter_FallenThreshold const &fallen_threshold,
+                          DirectionDetecter_Direction initial_direction,
+                          int64_t initial_value);
+
+        /// @brief 输入一个值，会与历史比较以检测方向的变化。
+        /// @param value
+        void Input(int64_t value);
+
+        int64_t CurrentPosition() const
         {
-            _rising_threshold = rising_threshold.Value();
-            _fallen_threshold = fallen_threshold.Value();
+            return _current_position;
         }
 
-        DirectionDetecter_DirectionChange Input(int64_t value)
+        int64_t AnchorPoint() const
         {
-            if (value - _last_input > _rising_threshold)
-            {
-                // 当前是上升方向
-            }
+            return _anchor_point;
         }
+
+        /// @brief 转折点。即方向切换的点。
+        /// @return
+        int64_t TurningPoint() const;
+
+        DirectionDetecter_DirectionChange DirectionChange() const;
     };
 } // namespace base
