@@ -1,6 +1,15 @@
 #pragma once
+
+#ifndef HAS_THREAD
+#define HAS_THREAD 0
+#endif
+
 #include <stdexcept>
 #include <stdint.h>
+
+#if HAS_THREAD
+#include <iostream>
+#endif
 
 namespace base
 {
@@ -122,8 +131,6 @@ namespace base
         }
 
         /// @brief 锚点位置。
-        /// @note 调用 Input 时会将新输入的值与锚点比较。新输入的值大于锚点，并且增量超过了上升阈值，
-        /// 则认为当前方向是上升。新输入的值小于锚点，并且减量超过了下降阈值，则认为当前方向是下降。
         /// @return
         int64_t AnchorPoint() const
         {
@@ -144,4 +151,9 @@ namespace base
             return _direction_change;
         }
     };
+
+#if HAS_THREAD
+    void Test_DirectionDetecter();
+#endif
+
 } // namespace base
