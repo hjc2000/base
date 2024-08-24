@@ -1,4 +1,7 @@
 #pragma once
+#ifndef HAS_THREAD
+#define HAS_THREAD 0
+#endif
 
 namespace base
 {
@@ -73,7 +76,7 @@ namespace base
         /// @brief 设置当前的反馈值。
         /// @param value
         /// @return
-        double SetFeedback(double value)
+        void SetFeedback(double value)
         {
             _current_output = value * _feedback_div;
         }
@@ -86,4 +89,8 @@ namespace base
             return sample_interval * _feedback_div / _k_error;
         }
     };
+
+#if HAS_THREAD
+    void Test_ChXFilter();
+#endif
 } // namespace base
