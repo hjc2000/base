@@ -82,6 +82,9 @@ void base::DirectionDetecter::Input(int64_t value)
 }
 
 #if HAS_THREAD
+
+#include <iostream>
+
 void base::Test_DirectionDetecter()
 {
     base::DirectionDetecter detecter{

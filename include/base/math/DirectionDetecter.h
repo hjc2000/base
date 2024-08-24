@@ -7,10 +7,6 @@
 #include <stdexcept>
 #include <stdint.h>
 
-#if HAS_THREAD
-#include <iostream>
-#endif
-
 namespace base
 {
 #pragma region 参数类

@@ -84,10 +84,7 @@ namespace base
         /// @brief 惯性时间常数
         /// @param sample_interval
         /// @return
-        double TimeConstant(double sample_interval)
-        {
-            return sample_interval * _feedback_div / _k_error;
-        }
+        double TimeConstant(double sample_interval);
     };
 
 #if HAS_THREAD
