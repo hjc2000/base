@@ -13,8 +13,6 @@ namespace base
     class IPump
     {
     public:
-        virtual ~IPump() = default;
-
         /// @brief 将数据从源中取出，泵送给所有消费者
         /// @param cancellation_token
         virtual void PumpDataToConsumers(std::shared_ptr<base::CancellationToken> cancellation_token) = 0;

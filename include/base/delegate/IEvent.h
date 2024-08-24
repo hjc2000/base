@@ -9,8 +9,6 @@ namespace base
     class IEvent
     {
     public:
-        virtual ~IEvent() = default;
-
         /// @brief 订阅
         /// @param func 要订阅的回调
         /// @return 返回用来取消订阅的令牌。

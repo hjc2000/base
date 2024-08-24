@@ -15,8 +15,6 @@ namespace base
         std::shared_ptr<IEnumerator<ItemType>> _enumertor;
 
     public:
-        virtual ~IEnumeratorForwardIterator() = default;
-
         IEnumeratorForwardIterator(std::shared_ptr<IEnumerator<ItemType>> enumertor)
         {
             _enumertor = enumertor;

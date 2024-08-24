@@ -12,8 +12,6 @@ namespace base
         public base::IEnumerable<ItemType>
     {
     public:
-        virtual ~IReadOnlyCollection() = default;
-
         virtual int Count() const = 0;
         virtual ItemType Get(KeyType key) const = 0;
         virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() = 0;
@@ -27,8 +25,6 @@ namespace base
         public IReadOnlyCollection<KeyType, ItemType>
     {
     public:
-        virtual ~ICollection() = default;
-
         ICollection() = default;
 
         virtual int Count() const = 0;

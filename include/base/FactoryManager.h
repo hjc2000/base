@@ -24,8 +24,6 @@ namespace base
 #endif
 
     public:
-        virtual ~FactoryManager() = default;
-
         /// @brief 设置了自定义工厂后就会返回自定义工厂，否则返回默认工厂。
         /// @return
         std::shared_ptr<FactoryType> Factory()

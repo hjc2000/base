@@ -6,8 +6,6 @@ namespace base
     class IConsumer
     {
     public:
-        virtual ~IConsumer() = default;
-
         /// @brief 向消费者送入数据
         /// @param data
         virtual void SendData(T &data) = 0;

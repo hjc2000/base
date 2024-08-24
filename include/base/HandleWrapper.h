@@ -13,8 +13,6 @@ namespace base
     class HandleWrapper
     {
     public:
-        virtual ~HandleWrapper() = default;
-
         virtual T &Handle() = 0;
 
         T *operator->()

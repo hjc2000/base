@@ -27,8 +27,6 @@ namespace base
                 _enumerator = enumerator;
             }
 
-            virtual ~ConstEnumerator() = default;
-
             ConstEnumeratorItemType const &CurrentValue() override
             {
                 return _enumerator->CurrentValue();
@@ -48,8 +46,6 @@ namespace base
 #pragma endregion
 
     public:
-        virtual ~IEnumerable() = default;
-
         virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() = 0;
 
         std::shared_ptr<IEnumerator<ItemType const>> GetEnumerator() const

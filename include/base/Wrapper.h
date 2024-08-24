@@ -13,7 +13,6 @@ namespace base
 
     public:
         Wrapper() = default;
-        virtual ~Wrapper() = default;
 
         /// @brief 被包装对象一般应该是通过指针指向的位于堆中的对象，因为这样允许运行时更换被包装对象。
         /// 本函数返回的是指针的引用，允许修改指针的指向。

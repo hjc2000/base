@@ -12,8 +12,6 @@ namespace base
     class IPipeSource
     {
     public:
-        virtual ~IPipeSource() = default;
-
         /// @brief 消费者列表
         /// @return
         virtual base::IList<std::shared_ptr<base::IConsumer<T>>> &ConsumerList() = 0;

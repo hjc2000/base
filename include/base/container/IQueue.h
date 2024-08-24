@@ -9,8 +9,6 @@ namespace base
     class IQueue
     {
     public:
-        virtual ~IQueue() = default;
-
         virtual int32_t Count() const = 0;
         virtual T Dequeue() = 0;
         virtual bool TryDequeue(T &out) = 0;

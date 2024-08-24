@@ -9,8 +9,6 @@ namespace base
     class ISignalSource
     {
     public:
-        virtual ~ISignalSource() = default;
-
         /// @brief 采样间隔。单位：秒。
         /// @return
         virtual base::Fraction SampleInterval() const = 0;

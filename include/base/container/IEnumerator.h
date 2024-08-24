@@ -9,8 +9,6 @@ namespace base
     class IEnumerator
     {
     public:
-        virtual ~IEnumerator() = default;
-
         virtual ItemType &CurrentValue() = 0;
         virtual bool MoveNext() = 0;
         virtual void Reset() = 0;

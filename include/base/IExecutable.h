@@ -2,9 +2,9 @@
 
 namespace base
 {
-    class IDisposable
+    class IExecutable
     {
     public:
-        virtual void Dispose() = 0;
+        virtual void Execute() = 0;
     };
 } // namespace base

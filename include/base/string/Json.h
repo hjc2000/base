@@ -11,8 +11,6 @@ namespace base
     class IJsonSerializable : public ICanToString
     {
     public:
-        virtual ~IJsonSerializable() = default;
-
         virtual Json ToJson() = 0;
 
         std::string ToString() override;

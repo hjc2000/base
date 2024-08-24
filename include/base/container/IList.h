@@ -31,8 +31,6 @@ namespace base
                 _list = list;
             }
 
-            virtual ~IListEnumerator() = default;
-
             IListEnumeratorItemType &CurrentValue() override
             {
                 return (*_list)[_index];
@@ -61,8 +59,6 @@ namespace base
 #pragma endregion
 
     public:
-        virtual ~IList() = default;
-
         ItemType Get(int key) const override
         {
             return (*this)[key];
