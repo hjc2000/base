@@ -46,6 +46,8 @@ namespace base
 
 #pragma endregion
 
+    /// @brief 利用负反馈的积分环节形成惯性环节。采用的是先对积分环节做差分近似，
+    /// 然后用迭代形成闭环。
     class ChXFilter
     {
     private:
@@ -66,6 +68,14 @@ namespace base
         double Feedback() const
         {
             return _current_output / _feedback_div;
+        }
+
+        /// @brief 设置当前的反馈值。
+        /// @param value
+        /// @return
+        double SetFeedback(double value)
+        {
+            _current_output = value * _feedback_div;
         }
 
         /// @brief 惯性时间常数
