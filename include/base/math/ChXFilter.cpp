@@ -39,6 +39,7 @@ double base::ChXFilter::TimeConstant(double sample_interval)
 void base::Test_ChXFilter()
 {
     double x = 15;
+    double sapmle_interval = 0.002;
 
 #pragma region 测试 ChXFilter
     std::cout << "测试 ChXFilter" << std::endl;
@@ -48,7 +49,7 @@ void base::Test_ChXFilter()
         base::ChXFilter_FeedbackDiv{1000},
     };
 
-    std::cout << "惯性时间常数 = " << filter.TimeConstant(0.002) << std::endl;
+    std::cout << "惯性时间常数 = " << filter.TimeConstant(sapmle_interval) << std::endl;
 
     for (int i = 0; i < 500; i++)
     {
@@ -63,8 +64,8 @@ void base::Test_ChXFilter()
     std::cout << "测试 InertialElement" << std::endl;
 
     base::InertialElement inertial_filter{
-        base::InertialElement_TimeConstant{filter.TimeConstant(0.002)},
-        base::InertialElement_SampleInterval{0.002},
+        base::InertialElement_TimeConstant{filter.TimeConstant(sapmle_interval)},
+        base::InertialElement_SampleInterval{sapmle_interval},
     };
 
     for (int i = 0; i < 500; i++)
