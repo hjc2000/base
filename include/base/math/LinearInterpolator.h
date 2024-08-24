@@ -3,8 +3,47 @@
 
 namespace base
 {
+#pragma region 选项类
+
+    /// @brief 线性插值器的起始值
+    class LinearInterpolator_StartVlaue
+    {
+    private:
+        double _value = 0;
+
+    public:
+        explicit LinearInterpolator_StartVlaue(double value)
+        {
+            _value = value;
+        }
+
+        double Value() const
+        {
+            return _value;
+        }
+    };
+
+    /// @brief 线性插值器的起始值
+    class LinearInterpolator_EndVlaue
+    {
+    private:
+        double _value = 0;
+
+    public:
+        explicit LinearInterpolator_EndVlaue(double value)
+        {
+            _value = value;
+        }
+
+        double Value() const
+        {
+            return _value;
+        }
+    };
+
     /// @brief 线性插值器的步数。
     class LinearInterpolator_StepCount
+
     {
     private:
         int _value = 0;
@@ -39,6 +78,8 @@ namespace base
         }
     };
 
+#pragma endregion
+
     /// @brief 线性插值器
     class LinearInterpolator final
     {
@@ -49,12 +90,12 @@ namespace base
         double _current_value = 0;
 
     public:
-        LinearInterpolator(double start_value,
-                           double end_value,
+        LinearInterpolator(LinearInterpolator_StartVlaue const &start_value,
+                           LinearInterpolator_EndVlaue const &end_value,
                            LinearInterpolator_StepLength const &step_length);
 
-        LinearInterpolator(double start_value,
-                           double end_value,
+        LinearInterpolator(LinearInterpolator_StartVlaue const &start_value,
+                           LinearInterpolator_EndVlaue const &end_value,
                            LinearInterpolator_StepCount const &step_count);
 
         double StartValue() const

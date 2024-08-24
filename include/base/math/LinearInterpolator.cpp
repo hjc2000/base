@@ -1,23 +1,23 @@
 #include "LinearInterpolator.h"
 
-base::LinearInterpolator::LinearInterpolator(double start_value,
-                                             double end_value,
+base::LinearInterpolator::LinearInterpolator(LinearInterpolator_StartVlaue const &start_value,
+                                             LinearInterpolator_EndVlaue const &end_value,
                                              LinearInterpolator_StepLength const &step_length)
 {
-    _start_value = start_value;
-    _end_value = end_value;
+    _start_value = start_value.Value();
+    _end_value = end_value.Value();
     _step_length = step_length.Value();
-    _current_value = start_value;
+    _current_value = _start_value;
 }
 
-base::LinearInterpolator::LinearInterpolator(double start_value,
-                                             double end_value,
+base::LinearInterpolator::LinearInterpolator(LinearInterpolator_StartVlaue const &start_value,
+                                             LinearInterpolator_EndVlaue const &end_value,
                                              LinearInterpolator_StepCount const &step_count)
 {
-    _start_value = start_value;
-    _end_value = end_value;
-    _step_length = (end_value - start_value) / step_count.Value();
-    _current_value = start_value;
+    _start_value = start_value.Value();
+    _end_value = end_value.Value();
+    _step_length = (_end_value - _start_value) / step_count.Value();
+    _current_value = _start_value;
 }
 
 bool base::LinearInterpolator::IsCompleted() const
