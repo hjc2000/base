@@ -2,13 +2,7 @@
 
 namespace base
 {
-    /// @brief 输出的变化
-    enum class HysteresisElement_OutputChange
-    {
-        None,
-        Rise,
-        Fall,
-    };
+#pragma region 参数类
 
     /// @brief 上升阈值
     class HysteresisElement_RisingThreshold
@@ -48,6 +42,16 @@ namespace base
         {
             return _value;
         }
+    };
+
+#pragma endregion
+
+    /// @brief 输出的变化
+    enum class HysteresisElement_OutputChange
+    {
+        None,
+        Rise,
+        Fall,
     };
 
     /// @brief 迟滞特性环节。
