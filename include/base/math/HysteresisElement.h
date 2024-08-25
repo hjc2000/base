@@ -80,11 +80,21 @@ namespace base
             return _rising_threshold;
         }
 
+        void SetRisingThreshold(double value)
+        {
+            _rising_threshold = value;
+        }
+
         /// @brief 下降阈值。
         /// @return
         double FallenThreshold() const
         {
             return _fallen_threshold;
+        }
+
+        void SetFallenThreshold(double value)
+        {
+            _fallen_threshold = value;
         }
 
         /// @brief 改变上升阈值和下降阈值。
