@@ -16,12 +16,12 @@ namespace base
     class DirectionDetecter_RisingThreshold
     {
     private:
-        int64_t _value = 0;
+        double _value = 0;
 
     public:
         /// @brief 上升阈值
         /// @param value
-        explicit DirectionDetecter_RisingThreshold(int64_t value)
+        explicit DirectionDetecter_RisingThreshold(double value)
         {
             if (value <= 0)
             {
@@ -31,7 +31,7 @@ namespace base
             _value = value;
         }
 
-        int64_t Value() const
+        double Value() const
         {
             return _value;
         }
@@ -42,12 +42,12 @@ namespace base
     class DirectionDetecter_FallenThreshold
     {
     private:
-        int64_t _value = 0;
+        double _value = 0;
 
     public:
         /// @brief 下降阈值
         /// @param value
-        explicit DirectionDetecter_FallenThreshold(int64_t value)
+        explicit DirectionDetecter_FallenThreshold(double value)
         {
             if (value >= 0)
             {
@@ -57,7 +57,7 @@ namespace base
             _value = value;
         }
 
-        int64_t Value() const
+        double Value() const
         {
             return _value;
         }
@@ -91,17 +91,17 @@ namespace base
     class DirectionDetecter
     {
     private:
-        int64_t _rising_threshold = 1;
-        int64_t _fallen_threshold = 1;
+        double _rising_threshold = 1;
+        double _fallen_threshold = 1;
 
-        int64_t _current_position = 0;
-        int64_t _anchor_point = 0;
+        double _current_position = 0;
+        double _anchor_point = 0;
 
         DirectionDetecter_Direction _current_direction = DirectionDetecter_Direction::Falling;
         DirectionDetecter_Direction _last_direction = DirectionDetecter_Direction::Falling;
 
         /// @brief 方向切换瞬间的输入值
-        int64_t _turning_point = 0;
+        double _turning_point = 0;
         DirectionDetecter_DirectionChange _direction_change = DirectionDetecter_DirectionChange::None;
 
         /// @brief 更新 _direction_change 字段。
@@ -116,30 +116,30 @@ namespace base
         DirectionDetecter(base::DirectionDetecter_RisingThreshold const &rising_threshold,
                           base::DirectionDetecter_FallenThreshold const &fallen_threshold,
                           DirectionDetecter_Direction initial_direction,
-                          int64_t initial_anchor);
+                          double initial_anchor);
 
         /// @brief 输入一个值，会与历史比较以检测方向的变化。
         /// @param value
-        void Input(int64_t value);
+        void Input(double value);
 
         /// @brief 当前位置。
         /// @note 没调用过 Input 则是初始位置。调用过 Input 则是最近一次调用 Input 时传入的值。
         /// @return
-        int64_t CurrentPosition() const
+        double CurrentPosition() const
         {
             return _current_position;
         }
 
         /// @brief 锚点位置。
         /// @return
-        int64_t AnchorPoint() const
+        double AnchorPoint() const
         {
             return _anchor_point;
         }
 
         /// @brief 最近一次转折点。即最近一次方向切换的点。
         /// @return
-        int64_t TurningPoint() const
+        double TurningPoint() const
         {
             return _turning_point;
         }

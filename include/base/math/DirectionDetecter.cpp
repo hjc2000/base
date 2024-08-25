@@ -24,7 +24,7 @@ void base::DirectionDetecter::UpdateDirectionChangeField()
 base::DirectionDetecter::DirectionDetecter(base::DirectionDetecter_RisingThreshold const &rising_threshold,
                                            base::DirectionDetecter_FallenThreshold const &fallen_threshold,
                                            DirectionDetecter_Direction initial_direction,
-                                           int64_t initial_anchor)
+                                           double initial_anchor)
 {
     _rising_threshold = rising_threshold.Value();
     _fallen_threshold = fallen_threshold.Value();
@@ -34,7 +34,7 @@ base::DirectionDetecter::DirectionDetecter(base::DirectionDetecter_RisingThresho
     _current_position = initial_anchor;
 }
 
-void base::DirectionDetecter::Input(int64_t value)
+void base::DirectionDetecter::Input(double value)
 {
     _current_position = value;
 
