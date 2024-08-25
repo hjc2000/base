@@ -61,6 +61,32 @@ namespace base
     public:
         ChXFilter(ChXFilter_KError const &k_error, ChXFilter_FeedbackDiv const &feedback_div);
 
+        double KError() const
+        {
+            return _k_error;
+        }
+
+        void SetKError(double value)
+        {
+            _k_error = value;
+        }
+
+        double FeedbackDiv() const
+        {
+            return _feedback_div;
+        }
+
+        void SetFeedbackDiv(double value)
+        {
+            _feedback_div = value;
+        }
+
+        void ChangeParameter(ChXFilter_KError const &k_error, ChXFilter_FeedbackDiv const &feedback_div)
+        {
+            _k_error = k_error.Value();
+            _feedback_div = feedback_div.Value();
+        }
+
         /// @brief 输入一个值，并获取反馈输出。
         /// @param x
         /// @return
