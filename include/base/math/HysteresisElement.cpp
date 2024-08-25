@@ -2,10 +2,11 @@
 
 using namespace base;
 
-void base::HysteresisElement::ChangeThreshold(double rising_threshold, double fallen_threshold)
+void base::HysteresisElement::ChangeThreshold(HysteresisElement_RisingThreshold const &rising_threshold,
+                                              HysteresisElement_FallenThreshold const &fallen_threshold)
 {
-    _rising_threshold = rising_threshold;
-    _fallen_threshold = fallen_threshold;
+    _rising_threshold = rising_threshold.Value();
+    _fallen_threshold = fallen_threshold.Value();
     Input(_x);
 }
 

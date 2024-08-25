@@ -31,9 +31,10 @@ namespace base
 
         /// @brief 改变上升阈值和下降阈值。
         /// @note 会导致输出发生变化。
-        /// @param rising_threshold
-        /// @param fallen_threshold
-        void ChangeThreshold(double rising_threshold, double fallen_threshold)
+        /// @param rising_threshold 上升阈值
+        /// @param fallen_threshold 下降阈值
+        void ChangeThreshold(HysteresisElement_RisingThreshold const &rising_threshold,
+                             HysteresisElement_FallenThreshold const &fallen_threshold)
         {
             _hys.ChangeThreshold(rising_threshold, fallen_threshold);
         }

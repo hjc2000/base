@@ -46,6 +46,7 @@ namespace base
 
 #pragma endregion
 
+#pragma region 枚举
     /// @brief 输出的变化
     enum class HysteresisElement_OutputChange
     {
@@ -53,6 +54,7 @@ namespace base
         Rise,
         Fall,
     };
+#pragma endregion
 
     /// @brief 迟滞特性环节。
     class HysteresisElement final
@@ -91,9 +93,10 @@ namespace base
 
         /// @brief 改变上升阈值和下降阈值。
         /// @note 会导致输出发生变化。
-        /// @param rising_threshold
-        /// @param fallen_threshold
-        void ChangeThreshold(double rising_threshold, double fallen_threshold);
+        /// @param rising_threshold 上升阈值
+        /// @param fallen_threshold 下降阈值
+        void ChangeThreshold(HysteresisElement_RisingThreshold const &rising_threshold,
+                             HysteresisElement_FallenThreshold const &fallen_threshold);
 
         /// @brief 上升阈值减去下降阈值，得到的窗口宽度。
         /// @return
