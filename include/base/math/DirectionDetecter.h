@@ -144,6 +144,16 @@ namespace base
             return _turning_point;
         }
 
+        DirectionDetecter_Direction CurrentDirection() const
+        {
+            return _current_direction;
+        }
+
+        DirectionDetecter_Direction LastDirection() const
+        {
+            return _last_direction;
+        }
+
         /// @brief 检查最近一次输入后方向的变化情况。
         /// @return
         DirectionDetecter_DirectionChange DirectionChange() const
