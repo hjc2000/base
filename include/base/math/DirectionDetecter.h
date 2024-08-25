@@ -63,6 +63,26 @@ namespace base
         }
     };
 
+    /// @brief 初始锚点
+    class DirectionDetecter_InitialAnchor
+    {
+    private:
+        double _value = 0;
+
+    public:
+        /// @brief 初始锚点
+        /// @param value
+        explicit DirectionDetecter_InitialAnchor(double value)
+        {
+            _value = value;
+        }
+
+        double Value() const
+        {
+            return _value;
+        }
+    };
+
 #pragma endregion
 
 #pragma region 枚举
@@ -116,7 +136,7 @@ namespace base
         DirectionDetecter(base::DirectionDetecter_RisingThreshold const &rising_threshold,
                           base::DirectionDetecter_FallenThreshold const &fallen_threshold,
                           DirectionDetecter_Direction initial_direction,
-                          double initial_anchor);
+                          DirectionDetecter_InitialAnchor const &initial_anchor);
 
         /// @brief 输入一个值，会与历史比较以检测方向的变化。
         /// @param value
