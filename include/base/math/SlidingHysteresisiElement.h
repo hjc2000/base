@@ -22,11 +22,21 @@ namespace base
             return _hys.RisingThreshold();
         }
 
+        void SetRisingThreshold(double value)
+        {
+            _hys.SetRisingThreshold(value);
+        }
+
         /// @brief 下降阈值。
         /// @return
         double FallenThreshold() const
         {
             return _hys.FallenThreshold();
+        }
+
+        void SetFallenThreshold(double value)
+        {
+            _hys.SetFallenThreshold(value);
         }
 
         /// @brief 改变上升阈值和下降阈值。
