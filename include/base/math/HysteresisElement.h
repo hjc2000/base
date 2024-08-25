@@ -71,11 +71,7 @@ namespace base
         /// @param rising_threshold 上升阈值。
         /// @param fallen_threshold 下降阈值。
         HysteresisElement(HysteresisElement_RisingThreshold const &rising_threshold,
-                          HysteresisElement_FallenThreshold const &fallen_threshold)
-        {
-            _rising_threshold = rising_threshold.Value();
-            _fallen_threshold = fallen_threshold.Value();
-        }
+                          HysteresisElement_FallenThreshold const &fallen_threshold);
 
         /// @brief 上升阈值。
         /// @return
