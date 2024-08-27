@@ -16,11 +16,15 @@ namespace base
         std::shared_ptr<std::map<KeyType, ItemType>> _map;
 
     public:
+        /// @brief 将 std::map 包装成可被迭代值的对象。
+        /// @param map
         StdMapValuesEnumerable(std::shared_ptr<std::map<KeyType, ItemType>> map)
         {
             _map = map;
         }
 
+        /// @brief 获取迭代器。
+        /// @return
         std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() override
         {
             return std::shared_ptr<IEnumerator<ItemType>>{

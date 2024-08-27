@@ -17,6 +17,8 @@ namespace base
         bool _first_move = true;
 
     public:
+        /// @brief 用来迭代 std::map 中的值的迭代器。
+        /// @param map
         StdMapValuesEnumerator(std::map<KeyType, ItemType> *map)
         {
             _map = map;
