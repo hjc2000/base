@@ -15,6 +15,8 @@ namespace base
         std::shared_ptr<IEnumerator<ItemType>> _enumertor;
 
     public:
+        /// @brief 将 IEnumerator 包装为 C++ 迭代器
+        /// @param enumertor
         IEnumeratorForwardIterator(std::shared_ptr<IEnumerator<ItemType>> enumertor)
         {
             _enumertor = enumertor;
@@ -35,6 +37,9 @@ namespace base
             return *this;
         }
 
+        /// @brief 相等运算符
+        /// @param o
+        /// @return
         bool operator==(IEnumeratorForwardIterator<ItemType> const &o) const override
         {
             /* C++ 范围 for 的机制是先判断不等于 end() 然后解引用。然后递增，进入下一循环。
