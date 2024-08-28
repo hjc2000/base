@@ -1,7 +1,6 @@
 #pragma once
 #include <base/container/ICollection.h>
 #include <base/container/StdMapValuesEnumerable.h>
-#include <functional>
 #include <map>
 
 namespace base
@@ -15,14 +14,6 @@ namespace base
 
     public:
         Collection() = default;
-
-        Collection(std::function<void()> init_func)
-        {
-            if (init_func)
-            {
-                init_func();
-            }
-        }
 
         Collection(std::initializer_list<std::pair<KeyType, ItemType>> const &list)
         {
