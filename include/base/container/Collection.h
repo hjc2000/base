@@ -15,12 +15,34 @@ namespace base
     public:
         Collection() = default;
 
+        Collection(Collection const &o)
+        {
+            *this = o;
+        }
+
+        Collection(std::map<KeyType, ItemType> const &o)
+        {
+            *this = o;
+        }
+
         Collection(std::initializer_list<std::pair<KeyType, ItemType>> const &list)
         {
             for (auto pair : list)
             {
                 _map.insert(pair);
             }
+        }
+
+        Collection &operator=(Collection const &o)
+        {
+            _map = o._map;
+            return *this;
+        }
+
+        Collection &operator=(std::map<KeyType, ItemType> const &o)
+        {
+            _map = o;
+            return *this;
         }
 
         /// @brief 获取元素个数。
