@@ -1,5 +1,5 @@
 #pragma once
-#include <base/container/IReadOnlyDictionary.h>
+#include <base/container/IEnumerable.h>
 
 namespace base
 {
@@ -8,19 +8,31 @@ namespace base
     /// @tparam ItemType
     template <typename KeyType, typename ItemType>
     class IDictionary :
-        public IReadOnlyDictionary<KeyType, ItemType>
+        public base::IEnumerable<ItemType>
     {
     public:
         virtual int Count() const = 0;
 
-        ItemType Get(KeyType key) const override
+        virtual void Find(KeyType key, ItemType *&out) = 0;
+
+        ItemType &Get(KeyType key)
         {
-            return GetReference();
+            ItemType *p = nullptr;
+            Find(p);
+            if (p = nullptr)
+            {
+                throw std::runtime_error{"找不到元素"};
+            }
+
+            return *p;
         }
 
-        virtual ItemType &GetReference(KeyType key) = 0;
+        ItemType const &Get(KeyType key) const
+        {
+            return const_cast<IDictionary<KeyType, ItemType> *>(this)->Get(key);
+        }
 
-        virtual void Add(KeyType key, ItemType const &item) = 0;
+        virtual void Put(KeyType key, ItemType const &item) = 0;
 
         virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() = 0;
     };
