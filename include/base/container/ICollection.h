@@ -3,7 +3,8 @@
 
 namespace base
 {
-    /// @brief 集合接口。集合被迭代的仅仅是元素，而不是键值对。这点与字典不同。
+    /// @brief 集合接口。
+    /// @note 集合被迭代的仅仅是元素，而不是键值对。这点与字典不同。
     /// @tparam KeyType
     /// @tparam ItemType
     template <typename KeyType, typename ItemType>
