@@ -1,21 +1,8 @@
 #pragma once
-#include <base/container/IEnumerable.h>
+#include <base/container/IReadOnlyDictionary.h>
 
 namespace base
 {
-    /// @brief 只读字典接口。
-    /// @tparam KeyType
-    /// @tparam ItemType
-    template <typename KeyType, typename ItemType>
-    class IReadOnlyDictionary :
-        public base::IEnumerable<ItemType>
-    {
-    public:
-        virtual int Count() const = 0;
-        virtual ItemType Get(KeyType key) const = 0;
-        virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() = 0;
-    };
-
     /// @brief 字典接口。
     /// @tparam KeyType
     /// @tparam ItemType
@@ -26,7 +13,11 @@ namespace base
     public:
         virtual int Count() const = 0;
 
-        virtual ItemType Get(KeyType key) const = 0;
+        ItemType Get(KeyType key) const override
+        {
+            return GetReference();
+        }
+
         virtual ItemType &GetReference(KeyType key) = 0;
 
         virtual void Add(KeyType key, ItemType const &item) = 0;
