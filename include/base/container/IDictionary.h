@@ -1,14 +1,13 @@
 #pragma once
 #include <base/container/IEnumerable.h>
-#include <map>
 
 namespace base
 {
-    /// @brief 只读集合接口。
+    /// @brief 只读字典接口。
     /// @tparam KeyType
     /// @tparam ItemType
     template <typename KeyType, typename ItemType>
-    class IReadOnlyCollection :
+    class IReadOnlyDictionary :
         public base::IEnumerable<ItemType>
     {
     public:
@@ -17,12 +16,12 @@ namespace base
         virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() = 0;
     };
 
-    /// @brief 集合接口。
+    /// @brief 字典接口。
     /// @tparam KeyType
     /// @tparam ItemType
     template <typename KeyType, typename ItemType>
-    class ICollection :
-        public IReadOnlyCollection<KeyType, ItemType>
+    class IDictionary :
+        public IReadOnlyDictionary<KeyType, ItemType>
     {
     public:
         virtual int Count() const = 0;
