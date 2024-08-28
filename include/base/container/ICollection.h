@@ -18,13 +18,18 @@ namespace base
 
         /// @brief 查找元素。
         /// @param key 键
-        /// @param out 指针。找到了此指针会被修改为指向该元素。找不到则赋值为空指针。
-        virtual void Find(KeyType key, ItemType *&out) = 0;
+        /// @return 指针。找到了返回元素的指针，找不到返回空指针。
+        virtual ItemType *Find(KeyType key) = 0;
 
         /// @brief 放入一个元素。本来不存在，会添加；本来就存在了，会覆盖。
         /// @param key
         /// @param item
         virtual void Put(KeyType key, ItemType const &item) = 0;
+
+        /// @brief 移除一个元素。
+        /// @param key 键
+        /// @return 移除成功返回 true，元素不存在返回 false。
+        virtual bool Remove(KeyType key) = 0;
 
         virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() = 0;
 
