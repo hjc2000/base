@@ -40,8 +40,7 @@ namespace base
         /// @return
         ItemType &Get(KeyType key)
         {
-            ItemType *p = nullptr;
-            Find(key);
+            ItemType *p = Find(key);
             if (p == nullptr)
             {
                 throw std::runtime_error{"找不到元素"};
