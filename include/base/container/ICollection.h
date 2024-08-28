@@ -25,8 +25,6 @@ namespace base
         public IReadOnlyCollection<KeyType, ItemType>
     {
     public:
-        ICollection() = default;
-
         virtual int Count() const = 0;
         virtual ItemType Get(KeyType key) const = 0;
         virtual void Put(KeyType key, ItemType const &item) = 0;

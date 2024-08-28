@@ -1,6 +1,5 @@
 #pragma once
 #include <array>
-#include <base/container/ICollection.h>
 #include <base/container/IEnumerable.h>
 #include <base/container/IForwardIterator.h>
 #include <base/container/StdContainerEnumerable.h>
@@ -11,7 +10,7 @@ namespace base
 {
     template <typename ItemType>
     class IList :
-        public ICollection<int, ItemType>
+        public base::IEnumerable<ItemType>
     {
     private:
 #pragma region IListEnumerator
@@ -59,16 +58,6 @@ namespace base
 #pragma endregion
 
     public:
-        ItemType Get(int key) const override
-        {
-            return (*this)[key];
-        }
-
-        void Put(int key, ItemType const &item) override
-        {
-            (*this)[key] = item;
-        }
-
         virtual void Add(ItemType const &item) = 0;
 
         virtual void Add(IList<ItemType> const &list)
