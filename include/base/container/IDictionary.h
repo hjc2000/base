@@ -25,8 +25,12 @@ namespace base
     {
     public:
         virtual int Count() const = 0;
+
         virtual ItemType Get(KeyType key) const = 0;
-        virtual void Put(KeyType key, ItemType const &item) = 0;
+        virtual ItemType &GetReference(KeyType key) = 0;
+
+        virtual void Add(KeyType key, ItemType const &item) = 0;
+
         virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() = 0;
     };
 } // namespace base
