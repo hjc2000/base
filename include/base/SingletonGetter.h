@@ -7,13 +7,15 @@ namespace base
 {
     template <typename SingletonType>
     class SingletonGetter :
-        public base::ILock
+        protected base::ILock
     {
     private:
         inline static std::unique_ptr<SingletonType> _p;
 
     protected:
         virtual std::unique_ptr<SingletonType> Create() = 0;
+        virtual void Lock() = 0;
+        virtual void Unlock() = 0;
 
     public:
         SingletonType &Instance()
@@ -31,6 +33,16 @@ namespace base
 
             _p = Create();
             return *_p;
+        }
+
+        SingletonType &operator*()
+        {
+            return Instance();
+        }
+
+        SingletonType *operator->()
+        {
+            return &Instance();
         }
     };
 } // namespace base
