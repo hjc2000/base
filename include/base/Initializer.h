@@ -11,6 +11,7 @@ namespace base
         /// @brief 获取储存初始化函数的向量。
         /// @return 返回向量的引用。
         static std::vector<std::function<void()>> &InitFunctionVector();
+        static bool _has_initialized;
 
     public:
         /// @brief 构造函数。会将传进来的初始化函数添加到向量中。

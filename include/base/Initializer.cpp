@@ -1,4 +1,7 @@
 #include "Initializer.h"
+#include <base/Guard.h>
+
+bool base::Initializer::_has_initialized = false;
 
 std::vector<std::function<void()>> &base::Initializer::InitFunctionVector()
 {
@@ -13,19 +16,24 @@ base::Initializer::Initializer(std::function<void()> init_func)
 
 void base::Initializer::Initialize()
 {
-    for (auto &func : InitFunctionVector())
+    if (_has_initialized)
     {
-        try
-        {
-            if (func)
-            {
-                func();
-            }
-        }
-        catch (...)
-        {
-        }
+        return;
     }
 
-    InitFunctionVector().~vector();
+    _has_initialized = true;
+
+    // 确保发生了异常也能将向量析构
+    base::Guard g{[]()
+                  {
+                      InitFunctionVector().~vector();
+                  }};
+
+    for (auto &func : InitFunctionVector())
+    {
+        if (func)
+        {
+            func();
+        }
+    }
 }
