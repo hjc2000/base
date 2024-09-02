@@ -21,6 +21,8 @@ namespace base
 
         SecondPeriod &operator=(SecondPeriod const &o);
 
+#pragma region 强制类型转换
+
         explicit operator base::Fraction() const
         {
             return _value;
@@ -35,6 +37,8 @@ namespace base
         {
             return std::chrono::milliseconds{static_cast<std::chrono::seconds>(*this)};
         }
+
+#pragma endregion
 
         SecondPeriod operator-() const;
         SecondPeriod operator+(SecondPeriod const &value) const;

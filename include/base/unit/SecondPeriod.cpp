@@ -32,6 +32,8 @@ base::SecondPeriod base::SecondPeriod::operator-() const
     return -_value;
 }
 
+#pragma region 重载四则运算符
+
 base::SecondPeriod base::SecondPeriod::operator+(SecondPeriod const &value) const
 {
     return _value + static_cast<base::Fraction>(value);
@@ -51,6 +53,10 @@ base::SecondPeriod base::SecondPeriod::operator/(SecondPeriod const &value) cons
 {
     return _value / static_cast<base::Fraction>(value);
 }
+
+#pragma endregion
+
+#pragma region 重载自改变四则运算符
 
 base::SecondPeriod &base::SecondPeriod::operator+=(SecondPeriod const &value)
 {
@@ -75,6 +81,10 @@ base::SecondPeriod &base::SecondPeriod::operator/=(SecondPeriod const &value)
     _value /= static_cast<base::Fraction>(value);
     return *this;
 }
+
+#pragma endregion
+
+#pragma region 重载全局运算符
 
 std::ostream &operator<<(std::ostream &ostream, base::SecondPeriod const &right)
 {
@@ -101,3 +111,5 @@ base::SecondPeriod operator/(int64_t left, base::SecondPeriod const &right)
 {
     return left / static_cast<base::Fraction>(right);
 }
+
+#pragma endregion
