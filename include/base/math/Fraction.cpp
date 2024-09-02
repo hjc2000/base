@@ -266,9 +266,9 @@ bool base::Fraction::operator>=(Fraction const &value) const
 
 #pragma region 全局重载运算符
 
-std::ostream &operator<<(std::ostream &ostream, base::Fraction const &fraction)
+std::ostream &operator<<(std::ostream &ostream, base::Fraction const &right)
 {
-    ostream << fraction.ToString();
+    ostream << right.ToString();
     return ostream;
 }
 

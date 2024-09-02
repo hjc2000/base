@@ -75,3 +75,29 @@ base::SecondPeriod &base::SecondPeriod::operator/=(SecondPeriod const &value)
     _value /= static_cast<base::Fraction>(value);
     return *this;
 }
+
+std::ostream &operator<<(std::ostream &ostream, base::SecondPeriod const &right)
+{
+    ostream << static_cast<base::Fraction>(right);
+    return ostream;
+}
+
+base::SecondPeriod operator+(int64_t left, base::SecondPeriod const &right)
+{
+    return left + static_cast<base::Fraction>(right);
+}
+
+base::SecondPeriod operator-(int64_t left, base::SecondPeriod const &right)
+{
+    return left - static_cast<base::Fraction>(right);
+}
+
+base::SecondPeriod operator*(int64_t left, base::SecondPeriod const &right)
+{
+    return left * static_cast<base::Fraction>(right);
+}
+
+base::SecondPeriod operator/(int64_t left, base::SecondPeriod const &right)
+{
+    return left / static_cast<base::Fraction>(right);
+}

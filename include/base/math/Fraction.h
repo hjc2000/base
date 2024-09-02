@@ -91,7 +91,7 @@ namespace base
     };
 } // namespace base
 
-std::ostream &operator<<(std::ostream &ostream, base::Fraction const &fraction);
+std::ostream &operator<<(std::ostream &ostream, base::Fraction const &right);
 base::Fraction operator+(int64_t left, base::Fraction const &right);
 base::Fraction operator-(int64_t left, base::Fraction const &right);
 base::Fraction operator*(int64_t left, base::Fraction const &right);

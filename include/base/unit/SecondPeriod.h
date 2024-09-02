@@ -48,3 +48,9 @@ namespace base
         SecondPeriod &operator/=(SecondPeriod const &value);
     };
 } // namespace base
+
+std::ostream &operator<<(std::ostream &ostream, base::SecondPeriod const &right);
+base::SecondPeriod operator+(int64_t left, base::SecondPeriod const &right);
+base::SecondPeriod operator-(int64_t left, base::SecondPeriod const &right);
+base::SecondPeriod operator*(int64_t left, base::SecondPeriod const &right);
+base::SecondPeriod operator/(int64_t left, base::SecondPeriod const &right);
