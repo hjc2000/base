@@ -15,11 +15,6 @@ namespace base
         Hz(int64_t value);
         Hz(base::Period const &value);
 
-        base::Fraction Value() const
-        {
-            return _value;
-        }
-
         explicit operator base::Fraction() const
         {
             return _value;
