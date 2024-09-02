@@ -3,17 +3,17 @@
 
 namespace base
 {
-    class Period;
+    class Hz;
 
-    class Hz
+    class Period
     {
     private:
-        base::Fraction _value{1};
+        base::Fraction _value;
 
     public:
-        Hz(base::Fraction const &value);
-        Hz(int64_t value);
-        Hz(base::Period const &value);
+        Period(base::Fraction const &value);
+        Period(int64_t value);
+        Period(base::Hz const &value);
 
         base::Fraction Value() const
         {
