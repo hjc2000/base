@@ -1,6 +1,8 @@
 #include "Seconds.h"
 #include <base/unit/Hz.h>
 
+#pragma region 构造函数
+
 base::Seconds::Seconds(Seconds const &o)
 {
     _value = o._value;
@@ -36,11 +38,15 @@ base::Seconds::Seconds(std::chrono::microseconds const &value)
     _value = base::Fraction{value.count()} / 1000 / 1000;
 }
 
+#pragma endregion
+
 base::Seconds &base::Seconds::operator=(Seconds const &o)
 {
     _value = o._value;
     return *this;
 }
+
+#pragma region 重载强制转换运算符
 
 base::Seconds::operator base::Fraction() const
 {
@@ -61,6 +67,8 @@ base::Seconds::operator std::chrono::microseconds() const
 {
     return std::chrono::microseconds{static_cast<int64_t>(_value * 1000 * 1000)};
 }
+
+#pragma endregion
 
 base::Seconds base::Seconds::operator-() const
 {
