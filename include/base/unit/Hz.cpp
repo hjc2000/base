@@ -13,7 +13,7 @@ base::Hz::Hz(int64_t value)
 
 base::Hz::Hz(base::Period const &value)
 {
-    _value = value.Value().Reciprocal();
+    _value = static_cast<base::Fraction>(value).Reciprocal();
 }
 
 base::Hz base::Hz::operator-() const
@@ -23,44 +23,44 @@ base::Hz base::Hz::operator-() const
 
 base::Hz base::Hz::operator+(Hz const &value) const
 {
-    return _value + value.Value();
+    return _value + static_cast<base::Fraction>(value);
 }
 
 base::Hz base::Hz::operator-(Hz const &value) const
 {
-    return _value - value.Value();
+    return _value - static_cast<base::Fraction>(value);
 }
 
 base::Hz base::Hz::operator*(Hz const &value) const
 {
-    return _value * value.Value();
+    return _value * static_cast<base::Fraction>(value);
 }
 
 base::Hz base::Hz::operator/(Hz const &value) const
 {
-    return _value / value.Value();
+    return _value / static_cast<base::Fraction>(value);
 }
 
 base::Hz &base::Hz::operator+=(Hz const &value)
 {
-    _value += value.Value();
+    _value += static_cast<base::Fraction>(value);
     return *this;
 }
 
 base::Hz &base::Hz::operator-=(Hz const &value)
 {
-    _value -= value.Value();
+    _value -= static_cast<base::Fraction>(value);
     return *this;
 }
 
 base::Hz &base::Hz::operator*=(Hz const &value)
 {
-    _value *= value.Value();
+    _value *= static_cast<base::Fraction>(value);
     return *this;
 }
 
 base::Hz &base::Hz::operator/=(Hz const &value)
 {
-    _value /= value.Value();
+    _value /= static_cast<base::Fraction>(value);
     return *this;
 }

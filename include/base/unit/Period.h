@@ -20,6 +20,11 @@ namespace base
             return _value;
         }
 
+        explicit operator base::Fraction() const
+        {
+            return _value;
+        }
+
         Period operator-() const;
         Period operator+(Period const &value) const;
         Period operator-(Period const &value) const;

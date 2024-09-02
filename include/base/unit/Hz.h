@@ -20,6 +20,11 @@ namespace base
             return _value;
         }
 
+        explicit operator base::Fraction() const
+        {
+            return _value;
+        }
+
         Hz operator-() const;
         Hz operator+(Hz const &value) const;
         Hz operator-(Hz const &value) const;
