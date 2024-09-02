@@ -31,11 +31,6 @@ namespace base
         Fraction(Fraction const &o);
 
         Fraction &operator=(Fraction const &o);
-
-        /// @brief 将整型赋值给分数，则变为分子为该整型，分母为 1 的分数。
-        /// @param o
-        /// @return
-        Fraction &operator=(int64_t o);
 #pragma endregion
 
         int64_t Num() const;

@@ -32,13 +32,6 @@ Fraction &base::Fraction::operator=(Fraction const &o)
     return *this;
 }
 
-Fraction &base::Fraction::operator=(int64_t o)
-{
-    SetNum(o);
-    SetDen(1);
-    return *this;
-}
-
 #pragma endregion
 
 int64_t base::Fraction::Num() const
