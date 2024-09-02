@@ -24,29 +24,10 @@ namespace base
 
         Seconds &operator=(Seconds const &o);
 
-#pragma region 强制类型转换
-
-        explicit operator base::Fraction() const
-        {
-            return _value;
-        }
-
-        explicit operator std::chrono::seconds() const
-        {
-            return std::chrono::seconds{static_cast<int64_t>(_value)};
-        }
-
-        explicit operator std::chrono::milliseconds() const
-        {
-            return std::chrono::milliseconds{static_cast<int64_t>(_value * 1000)};
-        }
-
-        explicit operator std::chrono::microseconds() const
-        {
-            return std::chrono::microseconds{static_cast<int64_t>(_value * 1000 * 1000)};
-        }
-
-#pragma endregion
+        explicit operator base::Fraction() const;
+        explicit operator std::chrono::seconds() const;
+        explicit operator std::chrono::milliseconds() const;
+        explicit operator std::chrono::microseconds() const;
 
         Seconds operator-() const;
         Seconds operator+(Seconds const &value) const;
