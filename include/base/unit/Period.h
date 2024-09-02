@@ -19,5 +19,16 @@ namespace base
         {
             return _value;
         }
+
+        Period operator-() const;
+        Period operator+(Period const &value) const;
+        Period operator-(Period const &value) const;
+        Period operator*(Period const &value) const;
+        Period operator/(Period const &value) const;
+
+        Period &operator+=(Period const &value);
+        Period &operator-=(Period const &value);
+        Period &operator*=(Period const &value);
+        Period &operator/=(Period const &value);
     };
 } // namespace base
