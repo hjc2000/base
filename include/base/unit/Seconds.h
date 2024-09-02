@@ -28,6 +28,7 @@ namespace base
         explicit operator std::chrono::seconds() const;
         explicit operator std::chrono::milliseconds() const;
         explicit operator std::chrono::microseconds() const;
+        explicit operator int64_t() const;
 
         Seconds operator-() const;
         Seconds operator+(Seconds const &value) const;

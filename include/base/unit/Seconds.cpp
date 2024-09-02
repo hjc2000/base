@@ -68,6 +68,11 @@ base::Seconds::operator std::chrono::microseconds() const
     return std::chrono::microseconds{static_cast<int64_t>(_value * 1000 * 1000)};
 }
 
+base::Seconds::operator int64_t() const
+{
+    return static_cast<int64_t>(_value);
+}
+
 #pragma endregion
 
 base::Seconds base::Seconds::operator-() const
