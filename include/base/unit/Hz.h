@@ -3,7 +3,7 @@
 
 namespace base
 {
-    class SecondPeriod;
+    class Seconds;
 
     class Hz
     {
@@ -15,7 +15,7 @@ namespace base
         Hz(Hz const &o);
         Hz(base::Fraction const &value);
         Hz(int64_t value);
-        Hz(base::SecondPeriod const &value);
+        Hz(base::Seconds const &value);
 
         Hz &operator=(Hz const &o);
 
