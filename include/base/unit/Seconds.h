@@ -41,6 +41,11 @@ namespace base
             return std::chrono::milliseconds{static_cast<int64_t>(_value * 1000)};
         }
 
+        explicit operator std::chrono::microseconds() const
+        {
+            return std::chrono::microseconds{static_cast<int64_t>(_value * 1000 * 1000)};
+        }
+
 #pragma endregion
 
         Seconds operator-() const;
