@@ -36,3 +36,9 @@ namespace base
         Hz &operator/=(Hz const &value);
     };
 } // namespace base
+
+std::ostream &operator<<(std::ostream &ostream, base::Hz const &right);
+base::Hz operator+(int64_t left, base::Hz const &right);
+base::Hz operator-(int64_t left, base::Hz const &right);
+base::Hz operator*(int64_t left, base::Hz const &right);
+base::Hz operator/(int64_t left, base::Hz const &right);

@@ -75,3 +75,29 @@ base::Hz &base::Hz::operator/=(Hz const &value)
     _value /= static_cast<base::Fraction>(value);
     return *this;
 }
+
+std::ostream &operator<<(std::ostream &ostream, base::Hz const &right)
+{
+    ostream << static_cast<base::Fraction>(right);
+    return ostream;
+}
+
+base::Hz operator+(int64_t left, base::Hz const &right)
+{
+    return left + static_cast<base::Fraction>(right);
+}
+
+base::Hz operator-(int64_t left, base::Hz const &right)
+{
+    return left - static_cast<base::Fraction>(right);
+}
+
+base::Hz operator*(int64_t left, base::Hz const &right)
+{
+    return left * static_cast<base::Fraction>(right);
+}
+
+base::Hz operator/(int64_t left, base::Hz const &right)
+{
+    return left / static_cast<base::Fraction>(right);
+}
