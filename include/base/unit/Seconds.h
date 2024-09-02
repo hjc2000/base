@@ -18,6 +18,9 @@ namespace base
         Seconds(base::Fraction const &value);
         Seconds(int64_t value);
         Seconds(base::Hz const &value);
+        Seconds(std::chrono::seconds const &value);
+        Seconds(std::chrono::milliseconds const &value);
+        Seconds(std::chrono::microseconds const &value);
 
         Seconds &operator=(Seconds const &o);
 
@@ -35,7 +38,7 @@ namespace base
 
         explicit operator std::chrono::milliseconds() const
         {
-            return std::chrono::milliseconds{static_cast<std::chrono::seconds>(*this)};
+            return std::chrono::milliseconds{static_cast<int64_t>(_value * 1000)};
         }
 
 #pragma endregion
