@@ -1,5 +1,6 @@
 #pragma once
 #include <base/math/Fraction.h>
+#include <chrono>
 
 namespace base
 {
@@ -23,6 +24,16 @@ namespace base
         explicit operator base::Fraction() const
         {
             return _value;
+        }
+
+        explicit operator std::chrono::seconds() const
+        {
+            return std::chrono::seconds{static_cast<int64_t>(_value)};
+        }
+
+        explicit operator std::chrono::milliseconds() const
+        {
+            return std::chrono::milliseconds{static_cast<std::chrono::seconds>(*this)};
         }
 
         SecondPeriod operator-() const;
