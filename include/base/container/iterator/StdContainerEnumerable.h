@@ -3,7 +3,7 @@
 #define HAS_THREAD 0
 #endif
 
-#include <base/container/IEnumerable.h>
+#include <base/container/iterator/IEnumerable.h>
 #include <memory>
 
 namespace base
