@@ -32,6 +32,11 @@ namespace base
             }
 
             _p = Create();
+            if (_p == nullptr)
+            {
+                throw std::runtime_error{"禁止将 Create 函数实现为返回空指针。"};
+            }
+
             return *_p;
         }
 
