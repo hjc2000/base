@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <stdexcept>
 
 namespace base
 {
@@ -11,6 +12,7 @@ namespace base
     std::shared_ptr<T> GetInstance()
     {
         static_assert(false, "未实现的特化版本");
+        throw std::runtime_error{"未实现的特化版本"};
     }
 
 } // namespace base
