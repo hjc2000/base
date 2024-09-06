@@ -6,23 +6,23 @@
 namespace base
 {
     /// @brief 单例获取器。
-    /// @tparam SingletonType
-    template <typename SingletonType>
+    /// @tparam T
+    template <typename T>
     class SingletonGetter :
         protected base::ILock
     {
     private:
-        inline static std::unique_ptr<SingletonType> _p;
+        inline static std::unique_ptr<T> _p;
 
     protected:
-        virtual std::unique_ptr<SingletonType> Create() = 0;
+        virtual std::unique_ptr<T> Create() = 0;
         virtual void Lock() = 0;
         virtual void Unlock() = 0;
 
     public:
         /// @brief 获取单例的引用
         /// @return
-        SingletonType &Instance()
+        T &Instance()
         {
             if (_p != nullptr)
             {
@@ -46,14 +46,14 @@ namespace base
 
         /// @brief 重载解引用运算符，用来获取单例的引用。
         /// @return
-        SingletonType &operator*()
+        T &operator*()
         {
             return Instance();
         }
 
         /// @brief 重载指针式的成员访问运算符，用来访问单例对象的成员。
         /// @return
-        SingletonType *operator->()
+        T *operator->()
         {
             return &Instance();
         }
