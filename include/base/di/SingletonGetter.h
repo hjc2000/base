@@ -58,16 +58,4 @@ namespace base
             return &Instance();
         }
     };
-
-    /// @brief 借助 SingletonGetter 获取单例。
-    /// @note 本函数简化了单例的获取过程，不用再手动构造一个 SingletonGetter 了。
-    /// 但是，单例的提供者仍然需要派生 SingletonGetter 来提供单例。
-    /// @tparam SingletonType
-    /// @return
-    template <typename SingletonType>
-    SingletonType &GetSingletonInstance()
-    {
-        SingletonGetter<SingletonType> getter;
-        return getter.Instance();
-    }
 } // namespace base
