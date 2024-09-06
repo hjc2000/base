@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <stdexcept>
 
 namespace base
@@ -7,7 +8,7 @@ namespace base
     /// @tparam SingletonType
     /// @return
     template <typename SingletonType>
-    SingletonType &CreateInstance()
+    std::shared_ptr<SingletonType> CreateInstance()
     {
         throw std::runtime_error{"未实现的特化版本"};
     }
