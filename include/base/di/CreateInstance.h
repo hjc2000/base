@@ -3,11 +3,11 @@
 
 namespace base
 {
-    /// @brief 获取单例。用来实现依赖注入。
+    /// @brief 创建一个实例。用来实现依赖注入。
     /// @tparam SingletonType
     /// @return
     template <typename SingletonType>
-    SingletonType &GetSingletonInstance()
+    SingletonType &CreateInstance()
     {
         throw std::runtime_error{"未实现的特化版本"};
     }
