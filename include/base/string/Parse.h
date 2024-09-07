@@ -8,7 +8,8 @@ namespace base
     template <typename TRet>
     TRet Parse(std::string const &param)
     {
-        throw std::runtime_error{"此重载未实现"};
+        static_assert(false, "未实现的特化版本。");
+        throw std::runtime_error{"未实现的特化版本。"};
     }
 
     /// @brief 特化版本：从 std::string 解析为 int
