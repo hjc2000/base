@@ -1,54 +1,52 @@
 #pragma once
-#ifndef HAS_THREAD
-#define HAS_THREAD 0
-#endif
-
 #include <memory>
-
-#if HAS_THREAD
-#include <mutex>
-#endif
 
 namespace base
 {
     /// @brief 工厂管理者
     /// @tparam FactoryType 工厂类
+    /// @note 工厂类 FactoryType 应该是接口，而不是可实例化的非抽象类，这样工厂管理者才有
+    /// 存在的意义。
     template <typename FactoryType>
     class FactoryManager
     {
     private:
         std::shared_ptr<FactoryType> _costom_factory = nullptr;
 
-#if HAS_THREAD
-        std::mutex _lock;
-#endif
-
     public:
-        /// @brief 设置了自定义工厂后就会返回自定义工厂，否则返回默认工厂。
+        /// @brief 获取工厂实例。
+        /// @note 设置了自定义工厂后就会返回自定义工厂，否则返回默认工厂。
         /// @return
         std::shared_ptr<FactoryType> Factory()
         {
-#if HAS_THREAD
-            std::lock_guard l{_lock};
-#endif
-
-            if (_costom_factory)
+            /* 利用共享指针的赋值运算符是原子操作这一特性，将 _costom_factory
+             * 捕获到 ret 中，这样就不用在判断过程中对 _costom_factory 加锁了。
+             */
+            std::shared_ptr<FactoryType> ret = _costom_factory;
+            if (ret)
             {
-                return _costom_factory;
+                return ret;
             }
 
-            return DefaultFactory();
+            ret = DefaultFactory();
+            if (ret == nullptr)
+            {
+                throw std::runtime_error{"不存在默认工厂，必须设置自定义工厂。"};
+            }
+
+            return ret;
         }
 
+        /// @brief 设置自定义工厂
+        /// @param o
         void SetCustomFactory(std::shared_ptr<FactoryType> o)
         {
-#if HAS_THREAD
-            std::lock_guard l{_lock};
-#endif
-
             _costom_factory = o;
         }
 
+        /// @brief 默认工厂
+        /// @note 默认的工厂。如果不存在默认，可以实现为返回空指针。
+        /// @return
         virtual std::shared_ptr<FactoryType> DefaultFactory() = 0;
     };
 } // namespace base
