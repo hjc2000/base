@@ -11,12 +11,17 @@ namespace base
     class FactoryManager
     {
     private:
+        /// @brief 用来储存自定义工厂类对象。
         std::shared_ptr<FactoryType> _costom_factory = nullptr;
 
     public:
         /// @brief 获取工厂实例。
         /// @note 设置了自定义工厂后就会返回自定义工厂，否则返回默认工厂。
-        /// @return
+        ///
+        /// @return 返回工厂类对象的共享指针。
+        /// @note 返回共享指针而不是引用是因为如果返回的是自定义工厂类的话，自定义工厂类
+        /// 是随时可能被替换的，如果返回的是引用，自定义工厂类被替换时智能指针会把旧的工厂
+        /// 类对象给析构了，并释放内存，这就会引发内存错误。
         std::shared_ptr<FactoryType> Factory()
         {
             /* 利用共享指针的赋值运算符是原子操作这一特性，将 _costom_factory
