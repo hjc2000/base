@@ -38,9 +38,9 @@ void Stream::CopyTo(std::shared_ptr<base::Stream> dst_stream,
                     std::shared_ptr<base::CancellationToken> cancellationToken)
 {
 #if HAS_THREAD
-    uint8_t temp_buf[1024];
+    uint8_t temp_buffer[1024];
 #else
-    uint8_t temp_buf[128];
+    uint8_t temp_buffer[32];
 #endif
 
     while (true)
@@ -50,12 +50,12 @@ void Stream::CopyTo(std::shared_ptr<base::Stream> dst_stream,
             throw base::TaskCanceledException{};
         }
 
-        int32_t have_read = Read(temp_buf, 0, sizeof(temp_buf));
+        int32_t have_read = Read(temp_buffer, 0, sizeof(temp_buffer));
         if (have_read == 0)
         {
             return;
         }
 
-        dst_stream->Write(temp_buf, 0, have_read);
+        dst_stream->Write(temp_buffer, 0, have_read);
     }
 }
