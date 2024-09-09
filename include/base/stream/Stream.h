@@ -15,6 +15,8 @@ namespace base
         virtual bool CanWrite() = 0;
         virtual bool CanSeek() = 0;
 
+        /// @brief 流的长度
+        /// @return
         virtual int64_t Length() = 0;
         virtual void SetLength(int64_t value) = 0;
 
@@ -71,6 +73,8 @@ namespace base
         /// @note 关闭后对流的操作将会引发异常。
         virtual void Close() = 0;
 
+        /// @brief 流当前的位置
+        /// @return
         virtual int64_t Position() = 0;
         virtual void SetPosition(int64_t value) = 0;
     };
