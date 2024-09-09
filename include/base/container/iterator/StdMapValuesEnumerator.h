@@ -1,5 +1,5 @@
 #pragma once
-#include <base/container/iterator/IEnumerable.h>
+#include <base/container/iterator/IEnumerator.h>
 #include <map>
 
 namespace base
@@ -14,7 +14,7 @@ namespace base
     private:
         std::map<KeyType, ItemType> *_map;
         decltype(_map->begin()) _current_it;
-        bool _first_move = true;
+        bool _is_first_move = true;
 
     public:
         /// @brief 用来迭代 std::map 中的值的迭代器。
@@ -22,6 +22,7 @@ namespace base
         StdMapValuesEnumerator(std::map<KeyType, ItemType> *map)
         {
             _map = map;
+            _current_it = _map->begin();
             Reset();
         }
 
@@ -32,9 +33,9 @@ namespace base
 
         bool MoveNext() override
         {
-            if (_first_move)
+            if (_is_first_move)
             {
-                _first_move = false;
+                _is_first_move = false;
                 _current_it = _map->begin();
             }
             else

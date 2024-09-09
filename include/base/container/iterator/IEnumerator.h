@@ -3,7 +3,7 @@
 
 namespace base
 {
-    /// @brief 迭代器接口
+    /// @brief C# 风格的迭代器接口
     /// @tparam ItemType
     template <typename ItemType>
     class IEnumerator
