@@ -51,6 +51,7 @@ namespace base
 
             void Reset() override
             {
+                _is_first_move = true;
                 _index = 0;
             }
         };

@@ -72,6 +72,7 @@ namespace base
         /// @brief 将迭代器重置到第一个元素的位置。
         void Reset() override
         {
+            _is_first_move = true;
             _current_iterator = _begin_iterator;
         }
     };

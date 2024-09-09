@@ -47,6 +47,7 @@ namespace base
 
         void Reset() override
         {
+            _is_first_move = true;
             _current_it = _map->begin();
         }
     };
