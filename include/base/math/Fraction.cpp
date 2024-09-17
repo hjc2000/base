@@ -325,3 +325,13 @@ base::Fraction operator/(int64_t left, base::Fraction const &right)
 }
 
 #pragma endregion
+
+int64_t std::floor(base::Fraction const &value)
+{
+    return value.Floor();
+}
+
+int64_t std::ceil(base::Fraction const &value)
+{
+    return value.Ceil();
+}

@@ -97,3 +97,16 @@ base::Fraction operator+(int64_t left, base::Fraction const &right);
 base::Fraction operator-(int64_t left, base::Fraction const &right);
 base::Fraction operator*(int64_t left, base::Fraction const &right);
 base::Fraction operator/(int64_t left, base::Fraction const &right);
+
+namespace std
+{
+    /// @brief 向下取整
+    /// @param value
+    /// @return
+    int64_t floor(base::Fraction const &value);
+
+    /// @brief 向上取整
+    /// @param value
+    /// @return
+    int64_t ceil(base::Fraction const &value);
+} // namespace std
