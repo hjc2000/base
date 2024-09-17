@@ -134,9 +134,20 @@ Fraction base::Fraction::Reciprocal() const
 int64_t base::Fraction::Floor() const
 {
     int64_t ret = Div();
-    if (Mod())
+    if (*this < 0)
     {
-        ret -= 1;
+        if (Mod())
+        {
+            ret -= 1;
+        }
+    }
+    else
+    {
+        /* 因为 C++ 除法近 0 截断，所以如果 Div >0 ，本来就是向下取整了，
+         * 不用再额外的操作了。
+         *
+         * Div = 0 就更不用说了，也不用什么额外的操作，直接返回 0 就完事了。
+         */
     }
 
     return ret;
@@ -145,9 +156,15 @@ int64_t base::Fraction::Floor() const
 int64_t base::Fraction::Ceil() const
 {
     int64_t ret = Div();
-    if (Mod())
+    if (*this > 0)
     {
-        ret += 1;
+        if (Mod())
+        {
+            ret += 1;
+        }
+    }
+    else
+    {
     }
 
     return ret;
