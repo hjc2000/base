@@ -131,6 +131,28 @@ Fraction base::Fraction::Reciprocal() const
     return ret.Simplify();
 }
 
+int64_t base::Fraction::Floor() const
+{
+    int64_t ret = Div();
+    if (Mod())
+    {
+        ret -= 1;
+    }
+
+    return ret;
+}
+
+int64_t base::Fraction::Ceil() const
+{
+    int64_t ret = Div();
+    if (Mod())
+    {
+        ret += 1;
+    }
+
+    return ret;
+}
+
 Fraction &base::Fraction::operator+=(Fraction const &value)
 {
     *this = *this + value;

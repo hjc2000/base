@@ -13,7 +13,6 @@ namespace base
         int64_t _den = 1;
 
     public:
-#pragma region 生命周期
         /// @brief 默认构造，分子为 0，分母为 1.
         Fraction() = default;
 
@@ -31,7 +30,6 @@ namespace base
         Fraction(Fraction const &o);
 
         Fraction &operator=(Fraction const &o);
-#pragma endregion
 
         int64_t Num() const;
         void SetNum(int64_t value);
@@ -52,6 +50,14 @@ namespace base
         /// @brief 倒数
         /// @return
         Fraction Reciprocal() const;
+
+        /// @brief 向下取整
+        /// @return
+        int64_t Floor() const;
+
+        /// @brief 向上取整
+        /// @return
+        int64_t Ceil() const;
 
         Fraction &operator+=(Fraction const &value);
         Fraction &operator-=(Fraction const &value);
