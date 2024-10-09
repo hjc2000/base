@@ -6,6 +6,8 @@
 
 namespace base
 {
+    /// @brief 基于 std::vector 的列表。
+    /// @tparam ItemType
     template <typename ItemType>
     class List final :
         public base::IList<ItemType>
@@ -34,18 +36,6 @@ namespace base
         List<ItemType> &operator=(List<ItemType> const &value)
         {
             _vector = value._vector;
-            return *this;
-        }
-
-        List<ItemType> &operator=(std::vector<ItemType> const &value)
-        {
-            _vector = value;
-            return *this;
-        }
-
-        List<ItemType> &operator=(std::initializer_list<ItemType> const &list)
-        {
-            Add(list);
             return *this;
         }
 
