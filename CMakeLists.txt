@@ -23,3 +23,17 @@ else()
 endif()
 
 set(CMAKE_INSTALL_PREFIX $ENV{cpp_lib_build_scripts_path}/${platform}/.libs/${ProjectName}/)
+
+# 添加测试程序
+if(1)
+	add_executable(test ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
+
+	target_link_libraries(${ProjectName} PUBLIC -Wl,--start-group)
+	target_link_libraries(test ${ProjectName})
+	target_link_libraries(${ProjectName} PUBLIC -Wl,--end-group)
+
+	install(TARGETS test
+			RUNTIME DESTINATION bin
+			LIBRARY DESTINATION lib
+			ARCHIVE DESTINATION lib)
+endif()
