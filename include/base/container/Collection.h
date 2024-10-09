@@ -39,12 +39,6 @@ namespace base
             return *this;
         }
 
-        Collection &operator=(std::map<KeyType, ItemType> const &o)
-        {
-            _map = o;
-            return *this;
-        }
-
         /// @brief 获取元素个数。
         /// @return
         int Count() const override
