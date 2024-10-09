@@ -1,3 +1,5 @@
+#include <array>
+#include <base/container/Array.h>
 #include <base/container/Dictionary.h>
 #include <base/container/List.h>
 #include <format>
@@ -5,18 +7,12 @@
 
 int main()
 {
-    base::Dictionary<int, int> dic{
-        {1, 2},
-        {2, 2},
-        {3, 2},
-    };
-
-    for (auto &pair : dic)
+    int buffer[6] = {1, 2, 3, 4, 5, 6};
+    base::Array<int, 10> arr{};
+    arr.CopyFrom(buffer, 0, sizeof(buffer) / sizeof(int));
+    for (int i : arr)
     {
-        std::cout << std::format("key = {}, value = {}",
-                                 pair.first,
-                                 pair.second)
-                  << std::endl;
+        std::cout << i << std::endl;
     }
 
     return 0;
