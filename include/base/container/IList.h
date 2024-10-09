@@ -8,6 +8,8 @@
 
 namespace base
 {
+    /// @brief 列表接口
+    /// @tparam ItemType
     template <typename ItemType>
     class IList :
         public base::IEnumerable<ItemType>
@@ -87,17 +89,19 @@ namespace base
         virtual ItemType &operator[](int index) = 0;
         virtual ItemType const &operator[](int index) const = 0;
 
+        /// @brief 获取迭代器
+        /// @return
         std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() override
         {
             return std::shared_ptr<IEnumerator<ItemType>>{new IListEnumerator<ItemType>{this}};
         }
 
         /// @brief 两个 IList 对象的指针相等时才认为相等。
-        /// @param another
+        /// @param o
         /// @return
-        bool operator==(IList<ItemType> const &another) const
+        bool operator==(IList<ItemType> const &o) const
         {
-            return this == &another;
+            return this == &o;
         }
     };
 } // namespace base
