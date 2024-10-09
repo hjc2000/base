@@ -81,10 +81,7 @@ namespace base
 
         Dictionary(std::initializer_list<std::pair<KeyType, ValueType>> const &list)
         {
-            for (auto &pair : list)
-            {
-                Add(pair);
-            }
+            Add(list);
         }
 
         Dictionary &operator=(Dictionary const &o)

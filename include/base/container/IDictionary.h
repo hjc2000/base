@@ -95,6 +95,16 @@ namespace base
             Add(pair.first, pair.second);
         }
 
+        /// @brief 将列表中的键值对添加到字典中。添加过程中，如果键重复，会抛出异常。
+        /// @param list
+        void Add(std::initializer_list<std::pair<KeyType, ValueType>> const &list)
+        {
+            for (auto &pair : list)
+            {
+                Add(pair);
+            }
+        }
+
 #pragma endregion
     };
 } // namespace base
