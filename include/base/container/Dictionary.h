@@ -69,12 +69,28 @@ namespace base
     public:
         Dictionary() = default;
 
+        Dictionary(Dictionary const &o)
+        {
+            *this = o;
+        }
+
+        Dictionary(std::map<KeyType, ValueType> const &o)
+        {
+            _map = o;
+        }
+
         Dictionary(std::initializer_list<std::pair<KeyType, ValueType>> const &list)
         {
             for (auto &pair : list)
             {
                 Add(pair);
             }
+        }
+
+        Dictionary &operator=(Dictionary const &o)
+        {
+            _map = o._map;
+            return *this;
         }
 
         using base::IDictionary<KeyType, ValueType>::Add;

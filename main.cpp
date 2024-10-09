@@ -1,5 +1,6 @@
 #include <base/container/Dictionary.h>
 #include <base/container/List.h>
+#include <format>
 #include <iostream>
 
 int main()
@@ -12,7 +13,10 @@ int main()
 
     for (auto &pair : dic)
     {
-        std::cout << pair.first << std::endl;
+        std::cout << std::format("key = {}, value = {}",
+                                 pair.first,
+                                 pair.second)
+                  << std::endl;
     }
 
     return 0;
