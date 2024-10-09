@@ -4,15 +4,10 @@
 
 int main()
 {
-    base::List<int> list{};
-    for (int i = 0; i < 10; i++)
+    std::map<int, int> m{};
+    for (auto &pair : m)
     {
-        list.Add(i);
-    }
-
-    for (int i : list)
-    {
-        std::cout << i << std::endl;
+        std::cout << pair.first << std::endl;
     }
 
     return 0;
