@@ -3,21 +3,20 @@
 
 namespace base
 {
+    /// @brief 字典
+    /// @tparam KeyType
+    /// @tparam ValueType
     template <typename KeyType, typename ValueType>
     class Dictionary :
         public base::IDictionary<KeyType, ValueType>
     {
-    public:
-        using ConstKeyPair = std::pair<KeyType const, ValueType>;
-        using Pair = std::pair<KeyType, ValueType>;
-
     private:
         std::map<KeyType, ValueType> _map{};
 
 #pragma region 迭代器类
 
         class Enumerator :
-            public IEnumerator<ConstKeyPair>
+            public IEnumerator<std::pair<KeyType const, ValueType>>
         {
         private:
             std::map<KeyType, ValueType> *_map = nullptr;
@@ -36,7 +35,7 @@ namespace base
 
             /// @brief 获取当前值的引用
             /// @return
-            ConstKeyPair &CurrentValue() override
+            std::pair<KeyType const, ValueType> &CurrentValue() override
             {
                 return *_it;
             }
@@ -86,7 +85,7 @@ namespace base
             _map = o;
         }
 
-        Dictionary(std::initializer_list<Pair> const &list)
+        Dictionary(std::initializer_list<std::pair<KeyType, ValueType>> const &list)
         {
             Add(list);
         }
@@ -145,9 +144,9 @@ namespace base
 
         /// @brief 获取迭代器
         /// @return
-        std::shared_ptr<IEnumerator<ConstKeyPair>> GetEnumerator() override
+        std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>> GetEnumerator() override
         {
-            return std::shared_ptr<IEnumerator<ConstKeyPair>>{
+            return std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>>{
                 new Enumerator{&_map},
             };
         }
