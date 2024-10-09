@@ -1,11 +1,16 @@
-#include <base/container/IDictionary.h>
+#include <base/container/Dictionary.h>
 #include <base/container/List.h>
 #include <iostream>
 
 int main()
 {
-    std::map<int, int> m{};
-    for (auto &pair : m)
+    base::Dictionary<int, int> dic{
+        {1, 2},
+        {2, 2},
+        {3, 2},
+    };
+
+    for (auto &pair : dic)
     {
         std::cout << pair.first << std::endl;
     }

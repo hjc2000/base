@@ -10,7 +10,7 @@ namespace base
     /// @tparam ValueType
     template <typename KeyType, typename ValueType>
     class IDictionary :
-        public base::IEnumerable<ValueType>
+        public base::IEnumerable<std::pair<KeyType const, ValueType>>
     {
     public:
         /// @brief 获取元素个数。
@@ -20,17 +20,17 @@ namespace base
         /// @brief 查找元素。
         /// @param key 键
         /// @return 指针。找到了返回元素的指针，找不到返回空指针。
-        virtual ValueType *Find(KeyType key) = 0;
+        virtual ValueType *Find(KeyType const &key) = 0;
 
         /// @brief 移除一个元素。
         /// @param key 键
         /// @return 移除成功返回 true，元素不存在返回 false。
-        virtual bool Remove(KeyType key) = 0;
+        virtual bool Remove(KeyType const &key) = 0;
 
         /// @brief 设置一个元素。本来不存在，会添加；本来就存在了，会覆盖。
         /// @param key
         /// @param item
-        virtual void Set(KeyType key, ValueType const &item) = 0;
+        virtual void Set(KeyType const &key, ValueType const &item) = 0;
 
         /// @brief 获取迭代器
         /// @return
@@ -41,7 +41,7 @@ namespace base
         /// @brief 获取元素。找不到会抛出异常。
         /// @param key
         /// @return
-        ValueType &Get(KeyType key)
+        ValueType &Get(KeyType const &key)
         {
             ValueType *p = Find(key);
             if (p == nullptr)
@@ -55,7 +55,7 @@ namespace base
         /// @brief 获取元素。找不到会抛出异常。
         /// @param key
         /// @return
-        ValueType const &Get(KeyType key) const
+        ValueType const &Get(KeyType const &key) const
         {
             return const_cast<IDictionary<KeyType, ValueType> *>(this)->Get(key);
         }
@@ -63,7 +63,7 @@ namespace base
         /// @brief 检查字典中是否包含指定的键。
         /// @param key
         /// @return 包含则返回 true，不包含则返回 false。
-        bool Contains(KeyType key) const
+        bool Contains(KeyType const &key) const
         {
             ValueType *p = const_cast<IDictionary<KeyType, ValueType> *>(this)->Find(key);
             if (p == nullptr)
@@ -77,7 +77,7 @@ namespace base
         /// @brief 添加一个键值对到字典中。如果此键已经存在，会抛出异常。
         /// @param key
         /// @param item
-        void Add(KeyType key, ValueType const &item)
+        void Add(KeyType const &key, ValueType const &item)
         {
             if (Contains(key))
             {
@@ -90,7 +90,7 @@ namespace base
 
         /// @brief 添加一个键值对到字典中。如果此键已经存在，会抛出异常。
         /// @param pair
-        void Add(std::pair<KeyType, ValueType> pair)
+        void Add(std::pair<KeyType, ValueType> const &pair)
         {
             Add(pair.first, pair.second);
         }

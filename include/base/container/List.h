@@ -30,7 +30,7 @@ namespace base
 
         List(std::initializer_list<ItemType> const &list)
         {
-            *this = list;
+            _vector = list;
         }
 
         List<ItemType> &operator=(List<ItemType> const &value)
