@@ -1,4 +1,5 @@
 #include <array>
+#include <base/bit/BitConverter.h>
 #include <base/container/Array.h>
 #include <base/container/Dictionary.h>
 #include <base/container/List.h>
@@ -7,13 +8,8 @@
 
 int main()
 {
-    int buffer[6] = {1, 2, 3, 4, 5, 6};
-    base::Array<int, 10> arr{};
-    arr.CopyFrom(buffer, 0, sizeof(buffer) / sizeof(int));
-    for (int i : arr)
-    {
-        std::cout << i << std::endl;
-    }
-
-    return 0;
+    uint16_t num = 666;
+    std::array<uint8_t, sizeof(num)> bytes = base::BitConverter::GetBytes(num);
+    num = base::BitConverter::ToUInt16(bytes.data(), 0);
+    std::cout << num << std::endl;
 }

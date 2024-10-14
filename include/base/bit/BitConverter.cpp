@@ -6,31 +6,39 @@ using namespace base;
 
 uint16_t base::BitConverter::ToUInt16(uint8_t const *buffer, int32_t offset)
 {
-    uint16_t const *p = reinterpret_cast<uint16_t const *>(buffer + offset);
-    return *p;
+    uint16_t ret;
+
+    std::copy(buffer + offset,
+              buffer + offset + sizeof(ret),
+              reinterpret_cast<uint8_t *>(&ret));
+
+    return ret;
 }
 
 int16_t base::BitConverter::ToInt16(uint8_t const *buffer, int32_t offset)
 {
-    int16_t const *p = reinterpret_cast<int16_t const *>(buffer + offset);
-    return *p;
+    return static_cast<int16_t>(ToUInt16(buffer, offset));
 }
 
 uint16_t base::BitConverter::ToUInt16(uint8_t high, uint8_t low)
 {
-    return ((uint16_t)high << 8) | low;
+    return (static_cast<uint16_t>(high) << 8) | low;
 }
 
 uint32_t base::BitConverter::ToUInt32(uint8_t const *buffer, int32_t offset)
 {
-    uint32_t const *p = reinterpret_cast<uint32_t const *>(buffer + offset);
-    return *p;
+    uint32_t ret;
+
+    std::copy(buffer + offset,
+              buffer + offset + sizeof(ret),
+              reinterpret_cast<uint8_t *>(&ret));
+
+    return ret;
 }
 
 int32_t base::BitConverter::ToInt32(uint8_t const *buffer, int32_t offset)
 {
-    int32_t const *p = reinterpret_cast<int32_t const *>(buffer + offset);
-    return *p;
+    return static_cast<int32_t>(ToUInt32(buffer, offset));
 }
 
 uint32_t base::BitConverter::ToUInt32(uint8_t b3, uint8_t b2, uint8_t b1, uint8_t b0)
@@ -42,31 +50,45 @@ uint32_t base::BitConverter::ToUInt32(uint8_t b3, uint8_t b2, uint8_t b1, uint8_
 
 uint32_t base::BitConverter::ToUInt32(uint16_t high, uint16_t low)
 {
-    return ((uint32_t)high << 16) | low;
+    return (static_cast<uint32_t>(high) << 16) | low;
 }
 
 uint64_t base::BitConverter::ToUInt64(uint8_t const *buffer, int32_t offset)
 {
-    uint64_t const *p = reinterpret_cast<uint64_t const *>(buffer + offset);
-    return *p;
+    uint64_t ret;
+
+    std::copy(buffer + offset,
+              buffer + offset + sizeof(ret),
+              reinterpret_cast<uint8_t *>(&ret));
+
+    return ret;
 }
 
 int64_t base::BitConverter::ToInt64(uint8_t const *buffer, int32_t offset)
 {
-    int64_t const *p = reinterpret_cast<int64_t const *>(buffer + offset);
-    return *p;
+    return static_cast<int64_t>(ToUInt64(buffer, offset));
 }
 
 float base::BitConverter::ToFloat(uint8_t const *buffer, int32_t offset)
 {
-    float const *p = reinterpret_cast<float const *>(buffer + offset);
-    return *p;
+    float ret;
+
+    std::copy(buffer + offset,
+              buffer + offset + sizeof(ret),
+              reinterpret_cast<uint8_t *>(&ret));
+
+    return ret;
 }
 
 double base::BitConverter::ToDouble(uint8_t const *buffer, int32_t offset)
 {
-    double const *p = reinterpret_cast<double const *>(buffer + offset);
-    return *p;
+    double ret;
+
+    std::copy(buffer + offset,
+              buffer + offset + sizeof(ret),
+              reinterpret_cast<uint8_t *>(&ret));
+
+    return ret;
 }
 
 #pragma endregion
