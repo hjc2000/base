@@ -127,6 +127,16 @@ namespace base
             return _arr[index];
         }
 
+        ItemType const &operator[](int index) const
+        {
+            if (index < 0 || index >= MaxCount)
+            {
+                throw std::out_of_range{"index 超出范围。"};
+            }
+
+            return _arr[index];
+        }
+
         /// @brief 获取迭代器
         /// @return
         std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() override
@@ -161,7 +171,7 @@ namespace base
         /// @param out_buffer
         /// @param offset
         /// @param count
-        void CopyTo(int start, ItemType *out_buffer, int offset, int count)
+        void CopyTo(int start, ItemType *out_buffer, int offset, int count) const
         {
             if (start > MaxCount)
             {
