@@ -101,7 +101,7 @@ namespace base
         /// @param count
         Array(ItemType const *buffer, int offset, int count)
         {
-            CopyFrom(buffer, offset, count);
+            CopyFrom(0, buffer, offset, count);
         }
 
         /// @brief 将 o 的数据拷贝过来。
@@ -136,15 +136,6 @@ namespace base
             };
         }
 
-        /// @brief 将 buffer 的 offset 处开始的 count 个元素拷贝过来。
-        /// @param buffer
-        /// @param offset
-        /// @param count
-        void CopyFrom(ItemType const *buffer, int offset, int count)
-        {
-            CopyFrom(0, buffer, offset, count);
-        }
-
         /// @brief 将 buffer 的 offset 处开始的 count 个元素拷贝过来，放置到本对象内部数组的 start 处。
         /// @param start 从本对象内部数组的此处开始放置。
         /// @param buffer 数据源缓冲区。
@@ -154,15 +145,35 @@ namespace base
         {
             if (start > MaxCount)
             {
-                throw std::out_of_range{"start 超出缓冲区范围。"};
+                throw std::out_of_range{"start 超出缓冲区范围，CopyFrom 失败。"};
             }
 
             if (start + count > MaxCount)
             {
-                throw std::out_of_range{"数组放不下，CopyFrom 失败"};
+                throw std::out_of_range{"数组放不下，CopyFrom 失败。"};
             }
 
             std::copy(buffer + offset, buffer + offset + count, _arr.data() + start);
+        }
+
+        /// @brief 将本对象内部缓冲区的数据从 start 处开始，拷贝到 out_buffer 的 offset 处，总共拷贝 count 个。
+        /// @param start
+        /// @param out_buffer
+        /// @param offset
+        /// @param count
+        void CopyTo(int start, ItemType *out_buffer, int offset, int count)
+        {
+            if (start > MaxCount)
+            {
+                throw std::out_of_range{"start 超出缓冲区范围，CopyTo 失败。"};
+            }
+
+            if (start + count > MaxCount)
+            {
+                throw std::out_of_range{"没有那么多数据拷贝到外部数组，CopyTo 失败。"};
+            }
+
+            std::copy(_arr.data() + start, _arr.data() + start + count, out_buffer + offset);
         }
 
         /// @brief 数组的大小
