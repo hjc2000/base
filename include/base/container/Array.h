@@ -7,13 +7,13 @@ namespace base
 {
     /// @brief 数组
     /// @tparam ItemType
-    /// @tparam MaxCount
-    template <typename ItemType, int MaxCount>
+    /// @tparam TCount
+    template <typename ItemType, int TCount>
     class Array :
         public base::IEnumerable<ItemType>
     {
     private:
-        std::array<ItemType, MaxCount> _arr{};
+        std::array<ItemType, TCount> _arr{};
 
 #pragma region 迭代器
 
@@ -23,10 +23,10 @@ namespace base
         private:
             int _index = 0;
             bool _first_move = true;
-            std::array<ItemType, MaxCount> &_arr;
+            std::array<ItemType, TCount> &_arr;
 
         public:
-            Enumerator(std::array<ItemType, MaxCount> &arr)
+            Enumerator(std::array<ItemType, TCount> &arr)
                 : _arr(arr)
             {
                 Reset();
@@ -52,7 +52,7 @@ namespace base
                     _index++;
                 }
 
-                if (_index < 0 || _index >= MaxCount)
+                if (_index < 0 || _index >= TCount)
                 {
                     return false;
                 }
@@ -83,7 +83,7 @@ namespace base
         /// @param list
         Array(std::initializer_list<ItemType> const &list)
         {
-            if (list.size() > MaxCount)
+            if (list.size() > TCount)
             {
                 throw std::out_of_range{"数组太小了，无法放下初始化列表"};
             }
@@ -106,7 +106,7 @@ namespace base
 
         /// @brief 将 o 的数据拷贝过来。
         /// @param o
-        Array(std::array<ItemType, MaxCount> const &o)
+        Array(std::array<ItemType, TCount> const &o)
         {
             _arr = o;
         }
@@ -119,7 +119,7 @@ namespace base
 
         ItemType &operator[](int index)
         {
-            if (index < 0 || index >= MaxCount)
+            if (index < 0 || index >= TCount)
             {
                 throw std::out_of_range{"index 超出范围。"};
             }
@@ -129,7 +129,7 @@ namespace base
 
         ItemType const &operator[](int index) const
         {
-            if (index < 0 || index >= MaxCount)
+            if (index < 0 || index >= TCount)
             {
                 throw std::out_of_range{"index 超出范围。"};
             }
@@ -153,12 +153,12 @@ namespace base
         /// @param count 要拷贝多少个数据。
         void CopyFrom(int start, ItemType const *buffer, int offset, int count)
         {
-            if (start > MaxCount)
+            if (start > TCount)
             {
                 throw std::out_of_range{"start 超出缓冲区范围，CopyFrom 失败。"};
             }
 
-            if (start + count > MaxCount)
+            if (start + count > TCount)
             {
                 throw std::out_of_range{"数组放不下，CopyFrom 失败。"};
             }
@@ -173,12 +173,12 @@ namespace base
         /// @param count
         void CopyTo(int start, ItemType *out_buffer, int offset, int count) const
         {
-            if (start > MaxCount)
+            if (start > TCount)
             {
                 throw std::out_of_range{"start 超出缓冲区范围，CopyTo 失败。"};
             }
 
-            if (start + count > MaxCount)
+            if (start + count > TCount)
             {
                 throw std::out_of_range{"没有那么多数据拷贝到外部数组，CopyTo 失败。"};
             }
@@ -190,7 +190,7 @@ namespace base
         /// @return
         int Count() const
         {
-            return MaxCount;
+            return TCount;
         }
 
         /// @brief 获取底层的缓冲区
