@@ -7,13 +7,13 @@ namespace base
 {
     /// @brief 数组
     /// @tparam ItemType
-    /// @tparam Count
-    template <typename ItemType, int Count>
+    /// @tparam MaxCount
+    template <typename ItemType, int MaxCount>
     class Array :
         public base::IEnumerable<ItemType>
     {
     private:
-        std::array<ItemType, Count> _arr{};
+        std::array<ItemType, MaxCount> _arr{};
 
 #pragma region 迭代器
 
@@ -23,10 +23,10 @@ namespace base
         private:
             int _index = 0;
             bool _first_move = true;
-            std::array<ItemType, Count> &_arr;
+            std::array<ItemType, MaxCount> &_arr;
 
         public:
-            Enumerator(std::array<ItemType, Count> &arr)
+            Enumerator(std::array<ItemType, MaxCount> &arr)
                 : _arr(arr)
             {
                 Reset();
@@ -52,7 +52,7 @@ namespace base
                     _index++;
                 }
 
-                if (_index < 0 || _index >= Count)
+                if (_index < 0 || _index >= MaxCount)
                 {
                     return false;
                 }
@@ -83,7 +83,7 @@ namespace base
         /// @param list
         Array(std::initializer_list<ItemType> const &list)
         {
-            if (list.size() > Count)
+            if (list.size() > MaxCount)
             {
                 throw std::out_of_range{"数组太小了，无法放下初始化列表"};
             }
@@ -106,7 +106,7 @@ namespace base
 
         /// @brief 将 o 的数据拷贝过来。
         /// @param o
-        Array(std::array<ItemType, Count> const &o)
+        Array(std::array<ItemType, MaxCount> const &o)
         {
             _arr = o;
         }
@@ -119,7 +119,7 @@ namespace base
 
         ItemType &operator[](int index)
         {
-            if (index < 0 || index >= Count)
+            if (index < 0 || index >= MaxCount)
             {
                 throw std::out_of_range{"index 超出范围。"};
             }
@@ -136,18 +136,47 @@ namespace base
             };
         }
 
-        /// @brief 将裸数组的元素拷贝过来。
+        /// @brief 将 buffer 的 offset 处开始的 count 个元素拷贝过来。
         /// @param buffer
         /// @param offset
         /// @param count
         void CopyFrom(ItemType const *buffer, int offset, int count)
         {
-            if (count > Count)
+            CopyFrom(0, buffer, offset, count);
+        }
+
+        /// @brief 将 buffer 的 offset 处开始的 count 个元素拷贝过来，放置到本对象内部数组的 start 处。
+        /// @param start 从本对象内部数组的此处开始放置。
+        /// @param buffer 数据源缓冲区。
+        /// @param offset 从 buffer 的 offset 处开始拷贝。
+        /// @param count 要拷贝多少个数据。
+        void CopyFrom(int start, ItemType const *buffer, int offset, int count)
+        {
+            if (start > MaxCount)
+            {
+                throw std::out_of_range{"start 超出缓冲区范围。"};
+            }
+
+            if (start + count > MaxCount)
             {
                 throw std::out_of_range{"数组放不下，CopyFrom 失败"};
             }
 
-            std::copy(buffer + offset, buffer + offset + count, _arr.data());
+            std::copy(buffer + offset, buffer + offset + count, _arr.data() + start);
+        }
+
+        /// @brief 数组的大小
+        /// @return
+        int Count() const
+        {
+            return MaxCount;
+        }
+
+        /// @brief 获取底层的缓冲区
+        /// @return
+        ItemType *Buffer()
+        {
+            return _arr.data();
         }
     };
 } // namespace base
