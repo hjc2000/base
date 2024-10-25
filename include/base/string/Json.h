@@ -13,8 +13,12 @@ namespace base
         public ICanToString
     {
     public:
+        /// @brief 序列化为 json
+        /// @return
         virtual Json ToJson() const = 0;
 
+        /// @brief 利用序列化出的 Json 对象，将本对象转化为 json 字符串。
+        /// @return
         std::string ToString() const override;
     };
 } // namespace base
