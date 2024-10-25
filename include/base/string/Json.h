@@ -8,11 +8,13 @@ namespace base
     using Json = nlohmann::json;
     using JsonTypeException = Json::type_error;
 
-    class IJsonSerializable : public ICanToString
+    /// @brief 继承此接口表示能将对象序列化为 json
+    class IJsonSerializable :
+        public ICanToString
     {
     public:
-        virtual Json ToJson() = 0;
+        virtual Json ToJson() const = 0;
 
-        std::string ToString() override;
+        std::string ToString() const override;
     };
 } // namespace base
