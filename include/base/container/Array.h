@@ -111,12 +111,18 @@ namespace base
             _arr = o;
         }
 
+        /// @brief 赋值运算符。
+        /// @param o
+        /// @return
         Array &operator=(Array const &o)
         {
             _arr = o._arr;
             return *this;
         }
 
+        /// @brief 索引数组中的元素。
+        /// @param index
+        /// @return
         ItemType &operator[](int index)
         {
             if (index < 0 || index >= TCount)
@@ -127,6 +133,9 @@ namespace base
             return _arr[index];
         }
 
+        /// @brief 索引数组中的元素。
+        /// @param index
+        /// @return
         ItemType const &operator[](int index) const
         {
             Array<ItemType, TCount> *self = const_cast<Array<ItemType, TCount> *>(this);
