@@ -9,7 +9,10 @@
 int main()
 {
     uint16_t num = 666;
-    std::array<uint8_t, sizeof(num)> bytes = base::BitConverter::GetBytes(num);
-    num = base::BitConverter::ToUInt16(bytes.data(), 0);
+    base::Array<uint8_t, sizeof(num)> bytes = base::BitConverter::GetBytes(num);
+    num = base::BitConverter::ToUInt16(bytes.Buffer(), 0);
     std::cout << num << std::endl;
+
+    base::Array<uint8_t, sizeof(num)> const &ref = bytes;
+    std::cout << static_cast<int>(ref[1]) << std::endl;
 }

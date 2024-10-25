@@ -129,12 +129,8 @@ namespace base
 
         ItemType const &operator[](int index) const
         {
-            if (index < 0 || index >= TCount)
-            {
-                throw std::out_of_range{"index 超出范围。"};
-            }
-
-            return _arr[index];
+            Array<ItemType, TCount> *self = const_cast<Array<ItemType, TCount> *>(this);
+            return (*self)[index];
         }
 
         /// @brief 获取迭代器
