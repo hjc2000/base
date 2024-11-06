@@ -3,7 +3,7 @@
 #if HAS_THREAD
 std::ostream &operator<<(std::ostream &stream, base::ICanToString const &o)
 {
-    stream << o;
+    stream << o.ToString();
     return stream;
 }
 #endif
