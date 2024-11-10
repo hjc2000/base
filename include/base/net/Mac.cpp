@@ -16,6 +16,16 @@ base::Mac &base::Mac::operator=(Mac const &o)
     return *this;
 }
 
+uint8_t &base::Mac::operator[](int index)
+{
+    return _mac_buffer[index];
+}
+
+uint8_t const &base::Mac::operator[](int index) const
+{
+    return _mac_buffer[index];
+}
+
 base::Mac::operator base::Array<uint8_t, 6>() const
 {
     return _mac_buffer;
