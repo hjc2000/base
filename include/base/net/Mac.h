@@ -5,6 +5,8 @@
 namespace base
 {
     /// @brief MAC 地址
+    /// @note 按照小端序存放。即书写 MAC 字符串时，最右边的，即最低字节，存放在本对象的低索引处；
+    /// 字符串最左边的，即最高字节，存放在本对象的最高索引处。
     class Mac
     {
     private:
