@@ -78,10 +78,9 @@ std::string base::Mac::ToString() const
     std::string ret{};
     bool first_loop = true;
 
-    base::ToHexStringOption option{
-        .with_0x_prefix = false,
-        .width = 2,
-    };
+    base::ToHexStringOption option{};
+    option.with_0x_prefix = false;
+    option.width = 2;
 
     for (uint8_t value : _mac_buffer)
     {
