@@ -102,7 +102,7 @@ namespace base
                 throw std::out_of_range{
                     std::string{"本数组无法在 start = "} +
                         std::to_string(start) +
-                        std::string{" 的情况下放下初始化列表。"},
+                        std::string{" 的情况下装下初始化列表。"},
                 };
             }
 
