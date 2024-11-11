@@ -1,4 +1,5 @@
 #pragma once
+#include <base/define.h>
 #include <cstdint>
 
 namespace base
@@ -8,12 +9,28 @@ namespace base
         namespace dcp
         {
             /// @brief DCP 请求帧中的服务 ID.
-            enum class ServiceId : uint8_t
+            class ServiceId
             {
-                Get = 0x03,
-                Set = 0x04,
-                Identify = 0x05,
-                Hello = 0x06,
+            public:
+                static_function consteval uint8_t Get()
+                {
+                    return 0x03;
+                }
+
+                static_function consteval uint8_t Set()
+                {
+                    return 0x04;
+                }
+
+                static_function consteval uint8_t Identify()
+                {
+                    return 0x05;
+                }
+
+                static_function consteval uint8_t Hello()
+                {
+                    return 0x06;
+                }
             };
         } // namespace dcp
     } // namespace profinet
