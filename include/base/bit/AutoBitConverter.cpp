@@ -4,19 +4,19 @@
 
 using namespace base;
 
-bool base::AutoBitConverter::ShouldReverse()
-{
-    return std::endian::native != _remote_endian;
-}
-
 base::AutoBitConverter::AutoBitConverter(std::endian remote_endian)
     : _remote_endian(remote_endian)
 {
 }
 
+bool base::AutoBitConverter::ShouldReverse() const
+{
+    return std::endian::native != _remote_endian;
+}
+
 #pragma region 转成数字类型
 
-uint16_t base::AutoBitConverter::ToUInt16(uint8_t const *buffer, int32_t offset)
+uint16_t base::AutoBitConverter::ToUInt16(uint8_t const *buffer, int32_t offset) const
 {
     uint16_t ret = BitConverter::ToUInt16(buffer, offset);
     uint8_t *p = reinterpret_cast<uint8_t *>(&ret);
@@ -28,7 +28,7 @@ uint16_t base::AutoBitConverter::ToUInt16(uint8_t const *buffer, int32_t offset)
     return ret;
 }
 
-int16_t base::AutoBitConverter::ToInt16(uint8_t const *buffer, int32_t offset)
+int16_t base::AutoBitConverter::ToInt16(uint8_t const *buffer, int32_t offset) const
 {
     int16_t ret = BitConverter::ToInt16(buffer, offset);
     uint8_t *p = reinterpret_cast<uint8_t *>(&ret);
@@ -40,7 +40,7 @@ int16_t base::AutoBitConverter::ToInt16(uint8_t const *buffer, int32_t offset)
     return ret;
 }
 
-uint32_t base::AutoBitConverter::ToUInt32(uint8_t const *buffer, int32_t offset)
+uint32_t base::AutoBitConverter::ToUInt32(uint8_t const *buffer, int32_t offset) const
 {
     uint32_t ret = BitConverter::ToUInt32(buffer, offset);
     uint8_t *p = reinterpret_cast<uint8_t *>(&ret);
@@ -52,7 +52,7 @@ uint32_t base::AutoBitConverter::ToUInt32(uint8_t const *buffer, int32_t offset)
     return ret;
 }
 
-int32_t base::AutoBitConverter::ToInt32(uint8_t const *buffer, int32_t offset)
+int32_t base::AutoBitConverter::ToInt32(uint8_t const *buffer, int32_t offset) const
 {
     int32_t ret = BitConverter::ToInt32(buffer, offset);
     uint8_t *p = reinterpret_cast<uint8_t *>(&ret);
@@ -64,7 +64,7 @@ int32_t base::AutoBitConverter::ToInt32(uint8_t const *buffer, int32_t offset)
     return ret;
 }
 
-uint64_t base::AutoBitConverter::ToUInt64(uint8_t const *buffer, int32_t offset)
+uint64_t base::AutoBitConverter::ToUInt64(uint8_t const *buffer, int32_t offset) const
 {
     uint64_t ret = BitConverter::ToUInt64(buffer, offset);
     uint8_t *p = reinterpret_cast<uint8_t *>(&ret);
@@ -76,7 +76,7 @@ uint64_t base::AutoBitConverter::ToUInt64(uint8_t const *buffer, int32_t offset)
     return ret;
 }
 
-int64_t base::AutoBitConverter::ToInt64(uint8_t const *buffer, int32_t offset)
+int64_t base::AutoBitConverter::ToInt64(uint8_t const *buffer, int32_t offset) const
 {
     int64_t ret = BitConverter::ToInt64(buffer, offset);
     uint8_t *p = reinterpret_cast<uint8_t *>(&ret);
@@ -88,7 +88,7 @@ int64_t base::AutoBitConverter::ToInt64(uint8_t const *buffer, int32_t offset)
     return ret;
 }
 
-float base::AutoBitConverter::ToFloat(uint8_t const *buffer, int32_t offset)
+float base::AutoBitConverter::ToFloat(uint8_t const *buffer, int32_t offset) const
 {
     float ret = BitConverter::ToFloat(buffer, offset);
     uint8_t *p = reinterpret_cast<uint8_t *>(&ret);
@@ -100,7 +100,7 @@ float base::AutoBitConverter::ToFloat(uint8_t const *buffer, int32_t offset)
     return ret;
 }
 
-double base::AutoBitConverter::ToDouble(uint8_t const *buffer, int32_t offset)
+double base::AutoBitConverter::ToDouble(uint8_t const *buffer, int32_t offset) const
 {
     double ret = BitConverter::ToDouble(buffer, offset);
     uint8_t *p = reinterpret_cast<uint8_t *>(&ret);
@@ -116,7 +116,7 @@ double base::AutoBitConverter::ToDouble(uint8_t const *buffer, int32_t offset)
 
 #pragma region 转到缓冲区
 
-void base::AutoBitConverter::GetBytes(uint16_t value, uint8_t *out_buffer, int32_t offset)
+void base::AutoBitConverter::GetBytes(uint16_t value, uint8_t *out_buffer, int32_t offset) const
 {
     BitConverter::GetBytes(value, out_buffer, offset);
     if (ShouldReverse())
@@ -125,7 +125,7 @@ void base::AutoBitConverter::GetBytes(uint16_t value, uint8_t *out_buffer, int32
     }
 }
 
-void base::AutoBitConverter::GetBytes(int16_t value, uint8_t *out_buffer, int32_t offset)
+void base::AutoBitConverter::GetBytes(int16_t value, uint8_t *out_buffer, int32_t offset) const
 {
     BitConverter::GetBytes(value, out_buffer, offset);
     if (ShouldReverse())
@@ -134,7 +134,7 @@ void base::AutoBitConverter::GetBytes(int16_t value, uint8_t *out_buffer, int32_
     }
 }
 
-void base::AutoBitConverter::GetBytes(uint32_t value, uint8_t *out_buffer, int32_t offset)
+void base::AutoBitConverter::GetBytes(uint32_t value, uint8_t *out_buffer, int32_t offset) const
 {
     BitConverter::GetBytes(value, out_buffer, offset);
     if (ShouldReverse())
@@ -143,7 +143,7 @@ void base::AutoBitConverter::GetBytes(uint32_t value, uint8_t *out_buffer, int32
     }
 }
 
-void base::AutoBitConverter::GetBytes(int32_t value, uint8_t *out_buffer, int32_t offset)
+void base::AutoBitConverter::GetBytes(int32_t value, uint8_t *out_buffer, int32_t offset) const
 {
     BitConverter::GetBytes(value, out_buffer, offset);
     if (ShouldReverse())
@@ -152,7 +152,7 @@ void base::AutoBitConverter::GetBytes(int32_t value, uint8_t *out_buffer, int32_
     }
 }
 
-void base::AutoBitConverter::GetBytes(uint64_t value, uint8_t *out_buffer, int32_t offset)
+void base::AutoBitConverter::GetBytes(uint64_t value, uint8_t *out_buffer, int32_t offset) const
 {
     BitConverter::GetBytes(value, out_buffer, offset);
     if (ShouldReverse())
@@ -161,7 +161,7 @@ void base::AutoBitConverter::GetBytes(uint64_t value, uint8_t *out_buffer, int32
     }
 }
 
-void base::AutoBitConverter::GetBytes(int64_t value, uint8_t *out_buffer, int32_t offset)
+void base::AutoBitConverter::GetBytes(int64_t value, uint8_t *out_buffer, int32_t offset) const
 {
     BitConverter::GetBytes(value, out_buffer, offset);
     if (ShouldReverse())
@@ -170,7 +170,7 @@ void base::AutoBitConverter::GetBytes(int64_t value, uint8_t *out_buffer, int32_
     }
 }
 
-void base::AutoBitConverter::GetBytes(float value, uint8_t *out_buffer, int32_t offset)
+void base::AutoBitConverter::GetBytes(float value, uint8_t *out_buffer, int32_t offset) const
 {
     BitConverter::GetBytes(value, out_buffer, offset);
     if (ShouldReverse())
@@ -179,7 +179,7 @@ void base::AutoBitConverter::GetBytes(float value, uint8_t *out_buffer, int32_t 
     }
 }
 
-void base::AutoBitConverter::GetBytes(double value, uint8_t *out_buffer, int32_t offset)
+void base::AutoBitConverter::GetBytes(double value, uint8_t *out_buffer, int32_t offset) const
 {
     BitConverter::GetBytes(value, out_buffer, offset);
     if (ShouldReverse())
@@ -192,7 +192,7 @@ void base::AutoBitConverter::GetBytes(double value, uint8_t *out_buffer, int32_t
 
 #pragma region 转成字节数组
 
-std::array<uint8_t, 2> base::AutoBitConverter::GetBytes(uint16_t value)
+std::array<uint8_t, 2> base::AutoBitConverter::GetBytes(uint16_t value) const
 {
     std::array<uint8_t, 2> ret = BitConverter::GetBytes(value);
     if (ShouldReverse())
@@ -203,7 +203,7 @@ std::array<uint8_t, 2> base::AutoBitConverter::GetBytes(uint16_t value)
     return ret;
 }
 
-std::array<uint8_t, 2> base::AutoBitConverter::GetBytes(int16_t value)
+std::array<uint8_t, 2> base::AutoBitConverter::GetBytes(int16_t value) const
 {
     std::array<uint8_t, 2> ret = BitConverter::GetBytes(value);
     if (ShouldReverse())
@@ -214,7 +214,7 @@ std::array<uint8_t, 2> base::AutoBitConverter::GetBytes(int16_t value)
     return ret;
 }
 
-std::array<uint8_t, 4> base::AutoBitConverter::GetBytes(uint32_t value)
+std::array<uint8_t, 4> base::AutoBitConverter::GetBytes(uint32_t value) const
 {
     std::array<uint8_t, 4> ret = BitConverter::GetBytes(value);
     if (ShouldReverse())
@@ -225,7 +225,7 @@ std::array<uint8_t, 4> base::AutoBitConverter::GetBytes(uint32_t value)
     return ret;
 }
 
-std::array<uint8_t, 4> base::AutoBitConverter::GetBytes(int32_t value)
+std::array<uint8_t, 4> base::AutoBitConverter::GetBytes(int32_t value) const
 {
     std::array<uint8_t, 4> ret = BitConverter::GetBytes(value);
     if (ShouldReverse())
@@ -236,7 +236,7 @@ std::array<uint8_t, 4> base::AutoBitConverter::GetBytes(int32_t value)
     return ret;
 }
 
-std::array<uint8_t, 8> base::AutoBitConverter::GetBytes(uint64_t value)
+std::array<uint8_t, 8> base::AutoBitConverter::GetBytes(uint64_t value) const
 {
     std::array<uint8_t, 8> ret = BitConverter::GetBytes(value);
     if (ShouldReverse())
@@ -247,7 +247,7 @@ std::array<uint8_t, 8> base::AutoBitConverter::GetBytes(uint64_t value)
     return ret;
 }
 
-std::array<uint8_t, 8> base::AutoBitConverter::GetBytes(int64_t value)
+std::array<uint8_t, 8> base::AutoBitConverter::GetBytes(int64_t value) const
 {
     std::array<uint8_t, 8> ret = BitConverter::GetBytes(value);
     if (ShouldReverse())
@@ -258,7 +258,7 @@ std::array<uint8_t, 8> base::AutoBitConverter::GetBytes(int64_t value)
     return ret;
 }
 
-std::array<uint8_t, 4> base::AutoBitConverter::GetBytes(float value)
+std::array<uint8_t, 4> base::AutoBitConverter::GetBytes(float value) const
 {
     std::array<uint8_t, 4> ret = BitConverter::GetBytes(value);
     if (ShouldReverse())
@@ -269,7 +269,7 @@ std::array<uint8_t, 4> base::AutoBitConverter::GetBytes(float value)
     return ret;
 }
 
-std::array<uint8_t, 8> base::AutoBitConverter::GetBytes(double value)
+std::array<uint8_t, 8> base::AutoBitConverter::GetBytes(double value) const
 {
     std::array<uint8_t, 8> ret = BitConverter::GetBytes(value);
     if (ShouldReverse())

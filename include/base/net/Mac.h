@@ -1,5 +1,6 @@
 #pragma once
 #include <base/container/Array.h>
+#include <base/string/ICanToString.h>
 #include <bit>
 #include <cstdint>
 
@@ -8,7 +9,8 @@ namespace base
     /// @brief MAC 地址
     /// @note 按照小端序存放。即书写 MAC 字符串时，最右边的，即最低字节，存放在本对象的低索引处；
     /// 字符串最左边的，即最高字节，存放在本对象的最高索引处。
-    class Mac
+    class Mac :
+        public base::ICanToString
     {
     private:
         base::Array<uint8_t, 6> _mac_buffer{};
@@ -60,5 +62,9 @@ namespace base
         /// @note 最高字节的最低位为 1 则是多播地址，为 0 则是单播地址。
         /// @return 是多播地址返回 true，不是则返回 false.
         bool IsMulticastAddress() const;
+
+        /// @brief 转化为字符串
+        /// @return
+        std::string ToString() const override;
     };
 } // namespace base

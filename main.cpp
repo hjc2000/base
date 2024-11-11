@@ -3,16 +3,16 @@
 #include <base/container/Array.h>
 #include <base/container/Dictionary.h>
 #include <base/container/List.h>
+#include <base/string/ToHexString.h>
 #include <format>
 #include <iostream>
 
 int main()
 {
-    uint16_t num = 666;
-    base::Array<uint8_t, sizeof(num)> bytes = base::BitConverter::GetBytes(num);
-    num = base::BitConverter::ToUInt16(bytes.Buffer(), 0);
-    std::cout << num << std::endl;
+    base::ToHexStringOption option{
+        .with_0x_prefix = false,
+        .width = 4,
+    };
 
-    base::Array<uint8_t, sizeof(num)> const &ref = bytes;
-    std::cout << static_cast<int>(ref[1]) << std::endl;
+    std::cout << base::ToHexString(static_cast<uint8_t>(66), option) << std::endl;
 }

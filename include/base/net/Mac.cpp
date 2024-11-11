@@ -1,5 +1,8 @@
 #include "Mac.h"
 #include <base/bit/AutoBitConverter.h>
+#include <base/string/ToHexString.h>
+
+#pragma region 构造函数
 
 base::Mac::Mac(base::Array<uint8_t, 6> const &mac_buffer)
 {
@@ -8,12 +11,20 @@ base::Mac::Mac(base::Array<uint8_t, 6> const &mac_buffer)
 
 base::Mac::Mac(std::endian endian, base::Array<uint8_t, 6> const &mac_buffer)
 {
+    _mac_buffer = mac_buffer;
+    if (std::endian::little != endian)
+    {
+        // 保存到本数组中的 MAC 地址要是小端序，如果传进来的是大端序，需要翻转。
+        _mac_buffer.Reverse();
+    }
 }
 
 base::Mac::Mac(Mac const &o)
 {
     _mac_buffer = o._mac_buffer;
 }
+
+#pragma endregion
 
 base::Mac &base::Mac::operator=(Mac const &o)
 {
@@ -28,6 +39,9 @@ base::Mac::operator base::Array<uint8_t, 6>() const
 
 base::Mac::operator uint64_t() const
 {
+    /* _mac_buffer 中的数据此时被当作远程字节序，也是小端序。转换成整型，需要根据本机字节序
+     * 决定是否需要翻转。
+     */
     base::AutoBitConverter converter{std::endian::little};
     uint64_t value = converter.ToUInt64(_mac_buffer.Buffer(), 0);
     return value;
@@ -57,4 +71,30 @@ bool base::Mac::IsMulticastAddress() const
 {
     // 最高字节的最低位为 1 则是多播地址，为 0 则是单播地址。
     return _mac_buffer[5] & 0x01;
+}
+
+std::string base::Mac::ToString() const
+{
+    std::string ret{};
+    bool first_loop = true;
+
+    base::ToHexStringOption option{
+        .with_0x_prefix = false,
+        .width = 2,
+    };
+
+    for (uint8_t value : _mac_buffer)
+    {
+        if (first_loop)
+        {
+            first_loop = false;
+            ret = base::ToHexString(value, option);
+        }
+        else
+        {
+            ret = base::ToHexString(value, option) + '-' + ret;
+        }
+    }
+
+    return ret;
 }
