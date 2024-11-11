@@ -2,6 +2,7 @@
 #include <array>
 #include <base/container/iterator/IEnumerable.h>
 #include <stdexcept>
+#include <string>
 
 namespace base
 {
@@ -72,23 +73,39 @@ namespace base
 #pragma endregion
 
     public:
+        /// @brief 无参构造。
+        /// @note 构造出的数组的元素也全部使用无参构造函数初始化。
         Array() = default;
 
-        Array(Array const &o)
+        /// @brief 拷贝构造函数。
+        /// @param o
+        Array(Array<ItemType, TCount> const &o)
         {
             *this = o;
         }
 
         /// @brief 将初始化列表的数据拷贝过来。
-        /// @param list
+        /// @param list 初始化列表。
         Array(std::initializer_list<ItemType> const &list)
+            : Array(0, list)
         {
-            if (list.size() > TCount)
+        }
+
+        /// @brief 将初始化列表的数据拷贝过来，放在指定的起始位置。
+        /// @param start 起始位置。
+        /// @param list 初始化列表。
+        Array(int start, std::initializer_list<ItemType> const &list)
+        {
+            if (start + list.size() > TCount)
             {
-                throw std::out_of_range{"数组太小了，无法放下初始化列表"};
+                throw std::out_of_range{
+                    std::string{"本数组无法在 start = "} +
+                        std::to_string(start) +
+                        std::string{" 的情况下放下初始化列表。"},
+                };
             }
 
-            int i = 0;
+            int i = start;
             for (auto &item : list)
             {
                 _arr[i++] = item;
@@ -96,9 +113,9 @@ namespace base
         }
 
         /// @brief 将裸数组的元素拷贝过来。
-        /// @param buffer
-        /// @param offset
-        /// @param count
+        /// @param buffer 数据源缓冲区。
+        /// @param offset 从 buffer 的 offset 处开始拷贝。
+        /// @param count 要拷贝多少个数据。
         Array(ItemType const *buffer, int offset, int count)
         {
             CopyFrom(0, buffer, offset, count);
@@ -114,7 +131,7 @@ namespace base
         /// @brief 赋值运算符。
         /// @param o
         /// @return
-        Array &operator=(Array const &o)
+        Array<ItemType, TCount> &operator=(Array<ItemType, TCount> const &o)
         {
             _arr = o._arr;
             return *this;
@@ -171,11 +188,11 @@ namespace base
             std::copy(buffer + offset, buffer + offset + count, _arr.data() + start);
         }
 
-        /// @brief 将本对象内部缓冲区的数据从 start 处开始，拷贝到 out_buffer 的 offset 处，总共拷贝 count 个。
-        /// @param start
-        /// @param out_buffer
-        /// @param offset
-        /// @param count
+        /// @brief 将本数组的数据拷贝到 out_buffer.
+        /// @param start 从本数组的 start 处开始拷贝数据到 out_buffer.
+        /// @param out_buffer 数据目的地缓冲区。
+        /// @param offset 拷贝到 out_buffer 的 offset 处。
+        /// @param count 拷贝多少个数据。
         void CopyTo(int start, ItemType *out_buffer, int offset, int count) const
         {
             if (start > TCount)
@@ -201,6 +218,13 @@ namespace base
         /// @brief 获取底层的缓冲区
         /// @return
         ItemType *Buffer()
+        {
+            return _arr.data();
+        }
+
+        /// @brief 获取底层的缓冲区
+        /// @return
+        ItemType const *Buffer() const
         {
             return _arr.data();
         }

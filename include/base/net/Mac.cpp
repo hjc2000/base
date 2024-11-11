@@ -30,3 +30,13 @@ uint8_t const &base::Mac::operator[](int index) const
 {
     return _mac_buffer[index];
 }
+
+base::Array<uint8_t, 3> base::Mac::Oui() const
+{
+    return base::Array<uint8_t, 3>{_mac_buffer.Buffer(), 0, 3};
+}
+
+void base::Mac::SetOui(base::Array<uint8_t, 3> const &value)
+{
+    _mac_buffer.CopyFrom(0, value.Buffer(), 0, 3);
+}

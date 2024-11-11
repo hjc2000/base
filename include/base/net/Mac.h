@@ -39,5 +39,13 @@ namespace base
         /// @param index
         /// @return
         uint8_t const &operator[](int index) const;
+
+        /// @brief 获取 MAC 地址中的 OUI.
+        /// @return
+        base::Array<uint8_t, 3> Oui() const;
+
+        /// @brief 设置 OUI.
+        /// @param value
+        void SetOui(base::Array<uint8_t, 3> const &value);
     };
 } // namespace base
