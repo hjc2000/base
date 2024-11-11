@@ -11,8 +11,8 @@ namespace base
         class MulticastMacCollection
         {
         public:
-            static_function base::Mac DcpIdentify();
-            static_function base::Mac DcpHello();
+            static_function base::Mac const DcpIdentify();
+            static_function base::Mac const DcpHello();
         };
     } // namespace profinet
 } // namespace base
