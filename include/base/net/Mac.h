@@ -16,6 +16,9 @@ namespace base
         base::Array<uint8_t, 6> _mac_buffer{};
 
     public:
+        /// @brief 无参构造函数。构造出来的 MAC 地址是全 0.
+        Mac() = default;
+
         /// @brief 构造函数。
         /// @param mac_buffer MAC 地址数组。该缓冲区内的 MAC 地址必须是按小端序存放。
         Mac(base::Array<uint8_t, 6> const &mac_buffer);
@@ -38,6 +41,7 @@ namespace base
         /// 原理是将 MAC 地址拷贝到 base::Array<uint8_t, 6> 中。
         explicit operator base::Array<uint8_t, 6>() const;
 
+        /// @brief 将 MAC 地址转换为无符号整型。
         explicit operator uint64_t() const;
 
         /// @brief 访问 MAC 地址中指定索引的值。
