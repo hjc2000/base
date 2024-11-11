@@ -1,5 +1,6 @@
 #pragma once
 #include <base/container/Array.h>
+#include <bit>
 #include <cstdint>
 
 namespace base
@@ -14,8 +15,13 @@ namespace base
 
     public:
         /// @brief 构造函数。
-        /// @param mac_buffer 该缓冲区内的 MAC 地址必须是按小端序存放。
+        /// @param mac_buffer MAC 地址数组。该缓冲区内的 MAC 地址必须是按小端序存放。
         Mac(base::Array<uint8_t, 6> const &mac_buffer);
+
+        /// @brief 构造函数
+        /// @param endian 你传入的 MAC 地址数组是大端序的还是小端序的
+        /// @param mac_buffer MAC 地址数组。可以是大端序也可以是小端序，只要 endian 参数正确指明就行。
+        Mac(std::endian endian, base::Array<uint8_t, 6> const &mac_buffer);
 
         /// @brief 拷贝构造函数。
         /// @param o

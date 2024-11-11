@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 #include <array>
 #include <base/container/iterator/IEnumerable.h>
 #include <stdexcept>
@@ -227,6 +228,12 @@ namespace base
         ItemType const *Buffer() const
         {
             return _arr.data();
+        }
+
+        /// @brief 翻转数组
+        void Reverse()
+        {
+            std::reverse(_arr.begin(), _arr.end());
         }
     };
 } // namespace base
