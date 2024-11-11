@@ -1,4 +1,5 @@
 #pragma once
+#include <base/define.h>
 #include <stdint.h>
 #include <vector>
 
@@ -18,7 +19,7 @@ namespace base
         /// <param name="num"></param>
         /// <param name="base"></param>
         /// <returns></returns>
-        static std::vector<uint8_t> ConvertBase(uint64_t num, uint8_t base);
+        static_function std::vector<uint8_t> ConvertBase(uint64_t num, uint8_t base);
 
         /// <summary>
         ///		num 向量里存放的是 base 进制数。每一位占一个字节。第 0 字节表示最低位。
@@ -26,7 +27,7 @@ namespace base
         /// <param name="num"></param>
         /// <param name="base"></param>
         /// <returns></returns>
-        static uint64_t ToNumber(std::vector<uint8_t> const &num, uint8_t base);
+        static_function uint64_t ToNumber(std::vector<uint8_t> const &num, uint8_t base);
 
         /// <summary>
         ///		将整型转为 8421 BCD 码。每个码都独立放到一个字节中。虽然说每个码只需要 4 位，
@@ -35,6 +36,6 @@ namespace base
         /// </summary>
         /// <param name="num"></param>
         /// <returns></returns>
-        static std::vector<uint8_t> To8421BCD(uint64_t num);
+        static_function std::vector<uint8_t> To8421BCD(uint64_t num);
     };
 } // namespace base

@@ -3,6 +3,8 @@
 using namespace std;
 using namespace base;
 
+std::shared_ptr<base::CancellationToken> CancellationToken::_none_cancellation_token{new base::CancellationToken{}};
+
 void CancellationToken::Cancel()
 {
     /* 只有取消过一次，即调用本函数一次后，_is_cancellation_request
@@ -37,8 +39,7 @@ void CancellationToken::Cancel()
 
 std::shared_ptr<CancellationToken> base::CancellationToken::None()
 {
-    static std::shared_ptr<CancellationToken> o{new CancellationToken{}};
-    return o;
+    return _none_cancellation_token;
 }
 
 bool CancellationToken::IsCancellationRequested() const
@@ -57,8 +58,7 @@ uint64_t CancellationToken::Register(std::function<void(void)> func)
     std::lock_guard l(_lock);
 #endif
 
-    static uint64_t id = 0;
-    uint64_t current_id = id++;
+    uint64_t current_id = _id++;
     _delegates[current_id] = func;
     return current_id;
 }

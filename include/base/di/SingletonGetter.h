@@ -1,4 +1,5 @@
 #pragma once
+#include <base/define.h>
 #include <base/Guard.h>
 #include <base/LockGuard.h>
 #include <memory>
@@ -12,7 +13,7 @@ namespace base
         protected base::ILock
     {
     private:
-        inline static std::unique_ptr<T> _p;
+        inline static_field std::unique_ptr<T> _p;
 
     protected:
         virtual std::unique_ptr<T> Create() = 0;

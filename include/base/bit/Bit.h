@@ -1,4 +1,5 @@
 #pragma once
+#include <base/define.h>
 #include <bit>
 #include <stdint.h>
 
@@ -16,7 +17,7 @@ namespace base
         /// @brief 从最高位开始数，有多少个连续的 0.
         /// @param num
         /// @return
-        static constexpr int HighZeroCount(uint8_t num)
+        static_function constexpr int HighZeroCount(uint8_t num)
         {
             return std::countl_zero(num);
         }
@@ -24,7 +25,7 @@ namespace base
         /// @brief 从最高位开始数，有多少个连续的 0.
         /// @param num
         /// @return
-        static constexpr int HighZeroCount(uint16_t num)
+        static_function constexpr int HighZeroCount(uint16_t num)
         {
             return std::countl_zero(num);
         }
@@ -32,7 +33,7 @@ namespace base
         /// @brief 从最高位开始数，有多少个连续的 0.
         /// @param num
         /// @return
-        static constexpr int HighZeroCount(uint32_t num)
+        static_function constexpr int HighZeroCount(uint32_t num)
         {
             return std::countl_zero(num);
         }
@@ -40,7 +41,7 @@ namespace base
         /// @brief 从最高位开始数，有多少个连续的 0.
         /// @param num
         /// @return
-        static constexpr int HighZeroCount(uint64_t num)
+        static_function constexpr int HighZeroCount(uint64_t num)
         {
             return std::countl_zero(num);
         }
@@ -54,7 +55,7 @@ namespace base
         ///
         /// @param num
         /// @return
-        static constexpr int HighestOneBitIndex(uint8_t num)
+        static_function constexpr int HighestOneBitIndex(uint8_t num)
         {
             int count = HighZeroCount(num);
             return 8 - count - 1;
@@ -65,7 +66,7 @@ namespace base
         ///
         /// @param num
         /// @return
-        static constexpr int HighestOneBitIndex(uint16_t num)
+        static_function constexpr int HighestOneBitIndex(uint16_t num)
         {
             int count = HighZeroCount(num);
             return 16 - count - 1;
@@ -76,7 +77,7 @@ namespace base
         ///
         /// @param num
         /// @return
-        static constexpr int HighestOneBitIndex(uint32_t num)
+        static_function constexpr int HighestOneBitIndex(uint32_t num)
         {
             int count = HighZeroCount(num);
             return 32 - count - 1;
@@ -87,7 +88,7 @@ namespace base
         ///
         /// @param num
         /// @return
-        static constexpr int HighestOneBitIndex(uint64_t num)
+        static_function constexpr int HighestOneBitIndex(uint64_t num)
         {
             int count = HighZeroCount(num);
             return 64 - count - 1;
@@ -102,7 +103,7 @@ namespace base
         ///
         /// @param num
         /// @return
-        static constexpr uint8_t AlignToLeft(uint8_t num)
+        static_function constexpr uint8_t AlignToLeft(uint8_t num)
         {
             return num << HighZeroCount(num);
         }
@@ -112,7 +113,7 @@ namespace base
         ///
         /// @param num
         /// @return
-        static constexpr uint16_t AlignToLeft(uint16_t num)
+        static_function constexpr uint16_t AlignToLeft(uint16_t num)
         {
             return num << HighZeroCount(num);
         }
@@ -122,7 +123,7 @@ namespace base
         ///
         /// @param num
         /// @return
-        static constexpr uint32_t AlignToLeft(uint32_t num)
+        static_function constexpr uint32_t AlignToLeft(uint32_t num)
         {
             return num << HighZeroCount(num);
         }
@@ -132,7 +133,7 @@ namespace base
         ///
         /// @param num
         /// @return
-        static constexpr uint64_t AlignToLeft(uint64_t num)
+        static_function constexpr uint64_t AlignToLeft(uint64_t num)
         {
             return num << HighZeroCount(num);
         }

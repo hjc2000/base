@@ -4,6 +4,7 @@
 #endif
 
 #include <atomic>
+#include <base/define.h>
 #include <chrono>
 #include <functional>
 #include <iostream>
@@ -36,12 +37,15 @@ namespace base
         std::atomic_bool _is_cancellation_request = false;
         std::map<uint64_t, std::function<void(void)>> _delegates;
 
+        inline static_field uint64_t _id = 0;
+        static_field std::shared_ptr<CancellationToken> _none_cancellation_token;
+
         void Cancel();
 
     public:
         /// @brief 获取一个不被取消令牌源管理的取消令牌。此令牌永远无法被取消。
         /// @return
-        static std::shared_ptr<CancellationToken> None();
+        static_function std::shared_ptr<CancellationToken> None();
 
         /// @brief 是否需要取消
         /// @return

@@ -1,4 +1,5 @@
 #pragma once
+#include <base/define.h>
 
 namespace base
 {
@@ -10,7 +11,7 @@ namespace base
     template <typename Type>
     struct IsConst
     {
-        static consteval bool Value()
+        static_function consteval bool Value()
         {
             return false;
         }
@@ -23,7 +24,7 @@ namespace base
     template <typename Type>
     struct IsConst<Type const>
     {
-        static consteval bool Value()
+        static_function consteval bool Value()
         {
             return true;
         }
