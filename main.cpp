@@ -10,6 +10,6 @@
 
 int main()
 {
-    base::Mac mac{std::endian::big, {}};
+    base::Mac mac{std::endian::big, {0x01, 0x0e, 0xcf, 0x00, 0x04, 0x00}};
     std::cout << mac << std::endl;
 }
