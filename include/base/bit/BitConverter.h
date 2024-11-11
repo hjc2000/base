@@ -10,9 +10,6 @@ namespace base
     {
     private:
         BitConverter() = delete;
-        BitConverter(BitConverter const &o) = delete;
-        BitConverter(BitConverter const &&o) = delete;
-        BitConverter &operator=(BitConverter const &o) = delete;
 
     public:
 #pragma region 转数字
@@ -27,6 +24,11 @@ namespace base
         /// @param offset
         /// @return
         static_function int16_t ToInt16(uint8_t const *buffer, int32_t offset);
+
+        /// @brief 将高字节和低字节拼接成 uint16_t.
+        /// @param high
+        /// @param low
+        /// @return
         static_function uint16_t ToUInt16(uint8_t high, uint8_t low);
 
         /// @brief 从缓冲区中 offset 处开始，反序列化出 uint32_t
@@ -40,7 +42,19 @@ namespace base
         /// @param offset
         /// @return
         static_function int32_t ToInt32(uint8_t const *buffer, int32_t offset);
+
+        /// @brief 将 4 个字节拼接成 uint32_t. b0 是最低字节，b3 是最高字节。
+        /// @param b3 最高字节
+        /// @param b2
+        /// @param b1
+        /// @param b0 最低字节
+        /// @return
         static_function uint32_t ToUInt32(uint8_t b3, uint8_t b2, uint8_t b1, uint8_t b0);
+
+        /// @brief 将低 uint16_t 和高 uint16_t 拼接成 uint32_t.
+        /// @param high
+        /// @param low
+        /// @return
         static_function uint32_t ToUInt32(uint16_t high, uint16_t low);
 
         /// @brief 从缓冲区中 offset 处开始，反序列化出 uint64_t
