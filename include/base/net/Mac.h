@@ -30,6 +30,8 @@ namespace base
         /// 原理是将 MAC 地址拷贝到 base::Array<uint8_t, 6> 中。
         explicit operator base::Array<uint8_t, 6>() const;
 
+        explicit operator uint64_t() const;
+
         /// @brief 访问 MAC 地址中指定索引的值。
         /// @param index
         /// @return
@@ -47,5 +49,10 @@ namespace base
         /// @brief 设置 OUI.
         /// @param value
         void SetOui(base::Array<uint8_t, 3> const &value);
+
+        /// @brief 本地址是否是多播地址。
+        /// @note 最高字节的最低位为 1 则是多播地址，为 0 则是单播地址。
+        /// @return 是多播地址返回 true，不是则返回 false.
+        bool IsMulticastAddress() const;
     };
 } // namespace base
