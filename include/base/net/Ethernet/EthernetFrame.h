@@ -1,5 +1,5 @@
 #pragma once
-#include <base/net/Ethernet/enum/LengthTypeEnum.h>
+#include <base/net/ethernet/enum/LengthTypeEnum.h>
 #include <base/net/Mac.h>
 #include <base/stream/Span.h>
 #include <cstdint>
