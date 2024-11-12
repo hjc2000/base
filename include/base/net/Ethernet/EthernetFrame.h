@@ -11,8 +11,6 @@ namespace base
     public:
         /// @brief 构造函数
         /// @param span 引用的内存。
-        /// @note 通过解析引用的内存，为一些字段赋值，并尽可能避免内存复制。例如 _payload 字段会直接
-        /// 用 span 的 Slice 方法切片出一个小 Span 而不是将载荷复制到一个数组中。
         EthernetFrame(base::Span span);
 
         /// @brief 前导码。

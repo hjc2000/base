@@ -6,15 +6,25 @@ namespace base
     /// @brief DCP 头部
     class DcpHeader
     {
+    private:
+        base::Span _span;
+
     public:
         DcpHeader(base::Span span);
 
-        uint8_t _service_id = 0;
-        uint8_t _service_type = 0;
-        uint32_t _xid = 0;
-        uint16_t _response_delay_factor = 0;
-        uint16_t _data_length = 0;
+        uint8_t ServiceId() const;
+        void SetServiceId(uint8_t value);
 
-        void Serialize(base::Span &out_span);
+        uint8_t ServiceType() const;
+        void SetServiceType(uint8_t value);
+
+        uint32_t Xid() const;
+        void SetXid(uint32_t value);
+
+        uint16_t ResponseDelayFactor() const;
+        void SetResponseDelayFactor(uint16_t value);
+
+        uint16_t DataLength() const;
+        void SetDataLength(uint16_t value);
     };
 } // namespace base
