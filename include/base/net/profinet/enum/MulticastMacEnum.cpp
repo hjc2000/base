@@ -1,4 +1,4 @@
-#include "MulticastMacCollection.h"
+#include "MulticastMacEnum.h"
 
 namespace
 {
@@ -6,12 +6,12 @@ namespace
     constinit uint8_t _dcp_hello_mac_buffer[] = {0x01, 0x0e, 0xcf, 0x00, 0x00, 0x01};
 } // namespace
 
-base::Mac const base::profinet::MulticastMacCollection::DcpIdentify()
+base::Mac const base::profinet::MulticastMacEnum::DcpIdentify()
 {
     return base::Mac{std::endian::big, base::Array<uint8_t, 6>{_dcp_identify_mac_buffer, 0, 6}};
 }
 
-base::Mac const base::profinet::MulticastMacCollection::DcpHello()
+base::Mac const base::profinet::MulticastMacEnum::DcpHello()
 {
     return base::Mac{std::endian::big, base::Array<uint8_t, 6>{_dcp_hello_mac_buffer, 0, 6}};
 }

@@ -8,7 +8,7 @@ namespace base
     namespace profinet
     {
         /// @brief 多播 MAC 地址集合
-        class MulticastMacCollection
+        class MulticastMacEnum
         {
         public:
             static_function base::Mac const DcpIdentify();
