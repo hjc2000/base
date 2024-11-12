@@ -2,6 +2,11 @@
 #include <algorithm>
 #include <stdexcept>
 
+base::Span const base::Span::CreateReadOnlySpan(uint8_t const *buffer, int size)
+{
+    return base::Span{const_cast<uint8_t *>(buffer), size};
+}
+
 base::Span::Span(uint8_t *buffer, int size)
 {
     if (buffer == nullptr)
@@ -75,6 +80,11 @@ base::Span base::Span::Slice(int start, int size)
     return base::Span{_buffer + start, size};
 }
 
+base::Span const base::Span::Slice(int start, int size) const
+{
+    return const_cast<base::Span *>(this)->Slice(start, size);
+}
+
 void base::Span::Reverse()
 {
     std::reverse(_buffer, _buffer + _size);
@@ -89,5 +99,17 @@ void base::Span::CopyFrom(int start, base::Span const &span)
 
     std::copy(span.Buffer(),
               span.Buffer() + span.Size(),
+              _buffer + start);
+}
+
+void base::Span::CopyFrom(int start, uint8_t const *buffer, int offset, int count)
+{
+    if (start + count > _size)
+    {
+        throw std::out_of_range{"本 Span 装不下传进来的这个缓冲区。"};
+    }
+
+    std::copy(buffer + offset,
+              buffer + offset + count,
               _buffer + start);
 }
