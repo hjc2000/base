@@ -1,6 +1,6 @@
 #include "EthernetFrame.h"
 
-base::ethernet::EthernetFrame::EthernetFrame(base::Span span)
+base::ethernet::EthernetFrame::EthernetFrame(base::Span const &span)
 {
 }
 

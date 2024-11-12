@@ -14,7 +14,7 @@ namespace base
             base::Span _span;
 
         public:
-            DcpHeader(base::Span span);
+            DcpHeader(base::Span const &span);
 
             ServiceIdEnum ServiceId() const;
             void SetServiceId(ServiceIdEnum value);

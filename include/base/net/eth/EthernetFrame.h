@@ -14,7 +14,7 @@ namespace base
         public:
             /// @brief 构造函数
             /// @param span 引用的内存。
-            EthernetFrame(base::Span span);
+            EthernetFrame(base::Span const &span);
 
             /// @brief 前导码。
             inline static uint8_t constinit _preamble[7] = {0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA};

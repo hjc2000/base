@@ -1,6 +1,6 @@
 #include "DcpHeader.h"
 
-base::profinet::DcpHeader::DcpHeader(base::Span span)
+base::profinet::DcpHeader::DcpHeader(base::Span const &span)
 {
     _span = span;
 }
