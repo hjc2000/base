@@ -1,7 +1,6 @@
 #pragma once
 #include <base/net/Mac.h>
 #include <base/stream/Span.h>
-#include <base/stream/Stream.h>
 #include <cstdint>
 
 namespace base
@@ -10,34 +9,28 @@ namespace base
     class EthernetFrame
     {
     public:
-        /// @brief 从流中反序列化出以太网帧
-        /// @param stream
-        /// @return
-        bool TryDeserialize(base::Stream &stream)
-        {
-            return false;
-        }
-
-        /// @brief 将以太网帧序列化到流中
-        /// @param stream
-        void Serialize(base::Stream &stream)
+        /// @brief 构造函数
+        /// @param span 引用的内存。
+        /// @note 通过解析引用的内存，为一些字段赋值，并尽可能避免内存复制。例如 _payload 字段会直接
+        /// 用 span 的 Slice 方法切片出一个小 Span 而不是将载荷复制到一个数组中。
+        EthernetFrame(base::Span span)
         {
         }
 
         /// @brief 前导码。
-        uint8_t _preamble[7] = {0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA};
+        inline static uint8_t constinit _preamble[7] = {0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA};
 
         /// @brief 帧起始符。
-        uint8_t _frame_start_character = 0xAB;
+        inline static uint8_t constinit _frame_start_character = 0xAB;
 
         /// @brief 目的 MAC 地址。
         base::Mac _destination_mac{};
 
         /// @brief 源 MAC 地址。
-        base::Mac _source_mac[6] = {};
+        base::Mac _source_mac{};
 
-        /// @brief 802.1Q标签
-        uint8_t _802_1q_tag[4] = {};
+        /// @brief 802.1Q标签。大小：4 字节。
+        base::Span _802_1q_tag{};
 
         /// @brief 类型或长度。
         /// @note 整型值小于等于 1500，则表示长度，大于 1500 则表示帧类型。当含义是帧类型时，
@@ -46,14 +39,14 @@ namespace base
         /// 	@li 0x0800：表示IPv4数据包
         /// 	@li 0x0806：表示ARP请求
         /// 	@li 0x86DD：表示IPv6数据包
-        uint16_t _type_or_length = {};
+        uint16_t _type_or_length{};
 
         /// @brief 载荷数据。
         /// @note 最大大小 1500 字节。
         /// @note 如果不满 46 字节，需要后面填充 0，使其达到 46 字节。
         base::Span _payload;
 
-        /// @brief 冗余校验序列。
-        uint8_t _frame_check_sequence[4] = {};
+        /// @brief 冗余校验序列。大小：4 字节。
+        base::Span _frame_check_sequence;
     };
 } // namespace base
