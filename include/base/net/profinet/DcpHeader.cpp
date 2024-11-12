@@ -1,51 +1,51 @@
 #include "DcpHeader.h"
 
-base::DcpHeader::DcpHeader(base::Span span)
+base::profinet::DcpHeader::DcpHeader(base::Span span)
 {
     _span = span;
 }
 
-uint8_t base::DcpHeader::ServiceId() const
+base::profinet::ServiceIdEnum base::profinet::DcpHeader::ServiceId() const
+{
+    return base::profinet::ServiceIdEnum::Get;
+}
+
+void base::profinet::DcpHeader::SetServiceId(base::profinet::ServiceIdEnum value)
+{
+}
+
+base::profinet::ServiceTypeEnum base::profinet::DcpHeader::ServiceType() const
+{
+    return ServiceTypeEnum();
+}
+
+void base::profinet::DcpHeader::SetServiceType(ServiceTypeEnum value)
+{
+}
+
+uint32_t base::profinet::DcpHeader::Xid() const
 {
     return 0;
 }
 
-void base::DcpHeader::SetServiceId(uint8_t value)
+void base::profinet::DcpHeader::SetXid(uint32_t value)
 {
 }
 
-uint8_t base::DcpHeader::ServiceType() const
-{
-    return 0;
-}
-
-void base::DcpHeader::SetServiceType(uint8_t value)
-{
-}
-
-uint32_t base::DcpHeader::Xid() const
+uint16_t base::profinet::DcpHeader::ResponseDelayFactor() const
 {
     return 0;
 }
 
-void base::DcpHeader::SetXid(uint32_t value)
+void base::profinet::DcpHeader::SetResponseDelayFactor(uint16_t value)
 {
 }
 
-uint16_t base::DcpHeader::ResponseDelayFactor() const
-{
-    return 0;
-}
-
-void base::DcpHeader::SetResponseDelayFactor(uint16_t value)
-{
-}
-
-uint16_t base::DcpHeader::DataLength() const
+uint16_t base::profinet::DcpHeader::DataLength() const
 {
     return 0;
 }
 
-void base::DcpHeader::SetDataLength(uint16_t value)
+void base::profinet::DcpHeader::SetDataLength(uint16_t value)
 {
 }

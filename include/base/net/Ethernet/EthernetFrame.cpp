@@ -1,59 +1,59 @@
 #include "EthernetFrame.h"
 
-base::EthernetFrame::EthernetFrame(base::Span span)
+base::ethernet::EthernetFrame::EthernetFrame(base::Span span)
 {
 }
 
-base::Mac base::EthernetFrame::DestinationMac() const
-{
-    return base::Mac();
-}
-
-void base::EthernetFrame::SetDestinationMac(base::Mac const &value)
-{
-}
-
-base::Mac base::EthernetFrame::SourceMac() const
+base::Mac base::ethernet::EthernetFrame::DestinationMac() const
 {
     return base::Mac();
 }
 
-void base::EthernetFrame::SetSourceMac(base::Mac const &value)
+void base::ethernet::EthernetFrame::SetDestinationMac(base::Mac const &value)
 {
 }
 
-base::Span base::EthernetFrame::VlanTag() const
+base::Mac base::ethernet::EthernetFrame::SourceMac() const
 {
-    return base::Span();
+    return base::Mac();
 }
 
-void base::EthernetFrame::SetVlanTag(base::Span const &value)
-{
-}
-
-uint16_t base::EthernetFrame::TypeOrLength() const
-{
-    return 0;
-}
-
-void base::EthernetFrame::SetTypeOrLength(uint16_t value)
+void base::ethernet::EthernetFrame::SetSourceMac(base::Mac const &value)
 {
 }
 
-base::Span base::EthernetFrame::Payload() const
+base::Span base::ethernet::EthernetFrame::VlanTag() const
 {
     return base::Span();
 }
 
-void base::EthernetFrame::SetPayload(base::Span const &value)
+void base::ethernet::EthernetFrame::SetVlanTag(base::Span const &value)
 {
 }
 
-base::Span base::EthernetFrame::FrameCheckSequence() const
+base::ethernet::LengthTypeEnum base::ethernet::EthernetFrame::TypeOrLength() const
+{
+    return base::ethernet::LengthTypeEnum::IP;
+}
+
+void base::ethernet::EthernetFrame::SetTypeOrLength(LengthTypeEnum value)
+{
+}
+
+base::Span base::ethernet::EthernetFrame::Payload() const
 {
     return base::Span();
 }
 
-void base::EthernetFrame::SetFrameCheckSequence(base::Span const &value)
+void base::ethernet::EthernetFrame::SetPayload(base::Span const &value)
+{
+}
+
+base::Span base::ethernet::EthernetFrame::FrameCheckSequence() const
+{
+    return base::Span();
+}
+
+void base::ethernet::EthernetFrame::SetFrameCheckSequence(base::Span const &value)
 {
 }
