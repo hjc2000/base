@@ -1,5 +1,6 @@
 #pragma once
 #include <base/net/Mac.h>
+#include <base/stream/Span.h>
 #include <base/stream/Stream.h>
 #include <cstdint>
 
@@ -48,8 +49,9 @@ namespace base
         uint16_t _type_or_length = {};
 
         /// @brief 载荷数据。
+        /// @note 最大大小 1500 字节。
         /// @note 如果不满 46 字节，需要后面填充 0，使其达到 46 字节。
-        uint8_t _payload[1500] = {};
+        base::Span _payload;
 
         /// @brief 冗余校验序列。
         uint8_t _frame_check_sequence[4] = {};

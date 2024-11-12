@@ -46,5 +46,11 @@ namespace base
         {
             return _size;
         }
+
+        /// @brief 将本 Span 切片，得到一个更小的 Span.
+        /// @param start 切片起始位置。
+        /// @param size 切片大小。
+        /// @return
+        base::Span Slice(int start, int size);
     };
 } // namespace base

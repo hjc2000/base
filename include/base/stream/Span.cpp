@@ -58,3 +58,13 @@ uint8_t const *base::Span::Buffer() const
 {
     return _buffer;
 }
+
+base::Span base::Span::Slice(int start, int size)
+{
+    if (start + size > _size)
+    {
+        throw std::out_of_range{"切片超出范围"};
+    }
+
+    return base::Span{_buffer + start, size};
+}
