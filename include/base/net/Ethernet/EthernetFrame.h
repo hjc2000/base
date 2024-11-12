@@ -13,9 +13,7 @@ namespace base
         /// @param span 引用的内存。
         /// @note 通过解析引用的内存，为一些字段赋值，并尽可能避免内存复制。例如 _payload 字段会直接
         /// 用 span 的 Slice 方法切片出一个小 Span 而不是将载荷复制到一个数组中。
-        EthernetFrame(base::Span span)
-        {
-        }
+        EthernetFrame(base::Span span);
 
         /// @brief 前导码。
         inline static uint8_t constinit _preamble[7] = {0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA};
@@ -24,13 +22,13 @@ namespace base
         inline static uint8_t constinit _frame_start_character = 0xAB;
 
         /// @brief 目的 MAC 地址。
-        base::Mac _destination_mac{};
+        base::Mac _destination_mac;
 
         /// @brief 源 MAC 地址。
-        base::Mac _source_mac{};
+        base::Mac _source_mac;
 
         /// @brief 802.1Q标签。大小：4 字节。
-        base::Span _802_1q_tag{};
+        base::Span _802_1q_tag;
 
         /// @brief 类型或长度。
         /// @note 整型值小于等于 1500，则表示长度，大于 1500 则表示帧类型。当含义是帧类型时，

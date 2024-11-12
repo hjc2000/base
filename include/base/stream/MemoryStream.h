@@ -34,6 +34,9 @@ namespace base
 
         /// @brief 此构造函数会让本对象引用一段内存，但不持有它。这可以提供流式操作外部内存的途径。
         /// @warning 必须保证本对象生存期内，外部的这段内存始终存活。
+        /// @note 引用 span 后不会让流的长度变成 span 的大小。如果 span 中都是有效数据，需要读取的话，
+        /// 需要调用 SetLength 方法将流的长度设置为 span 的大小，这样才能读取，否则会认为流中无数据可读。
+        ///
         /// @param span
         MemoryStream(base::Span const &span);
 

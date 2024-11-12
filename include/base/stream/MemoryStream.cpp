@@ -72,7 +72,7 @@ void base::MemoryStream::SetLength(int64_t value)
 
 int32_t base::MemoryStream::Read(uint8_t *buffer, int32_t offset, int32_t count)
 {
-    if (!buffer)
+    if (buffer == nullptr)
     {
         throw std::invalid_argument{"buffer 不能是空指针"};
     }
