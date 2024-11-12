@@ -43,15 +43,20 @@ namespace base
 
         /// @brief 所引用的内存大小
         /// @return
-        int Size() const
-        {
-            return _size;
-        }
+        int Size() const;
 
         /// @brief 将本 Span 切片，得到一个更小的 Span.
         /// @param start 切片起始位置。
         /// @param size 切片大小。
         /// @return
         base::Span Slice(int start, int size);
+
+        /// @brief 翻转本 Span 所引用的内存段。
+        void Reverse();
+
+        /// @brief 将 span 所引用的内存的数据拷贝到本对象所引用的内存中。
+        /// @param start 要放在本对象所引用的内存中的起始位置。
+        /// @param span 要被拷贝的内存段。
+        void CopyFrom(int start, base::Span const &span);
     };
 } // namespace base

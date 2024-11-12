@@ -1,4 +1,5 @@
 #include "Span.h"
+#include <algorithm>
 #include <stdexcept>
 
 base::Span::Span(uint8_t *buffer, int size)
@@ -59,6 +60,11 @@ uint8_t const *base::Span::Buffer() const
     return _buffer;
 }
 
+int base::Span::Size() const
+{
+    return _size;
+}
+
 base::Span base::Span::Slice(int start, int size)
 {
     if (start + size > _size)
@@ -67,4 +73,21 @@ base::Span base::Span::Slice(int start, int size)
     }
 
     return base::Span{_buffer + start, size};
+}
+
+void base::Span::Reverse()
+{
+    std::reverse(_buffer, _buffer + _size);
+}
+
+void base::Span::CopyFrom(int start, base::Span const &span)
+{
+    if (start + span.Size() > _size)
+    {
+        throw std::out_of_range{"本 Span 装不下传进来的这个 Span."};
+    }
+
+    std::copy(span.Buffer(),
+              span.Buffer() + span.Size(),
+              _buffer + start);
 }
