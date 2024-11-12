@@ -4,7 +4,9 @@
 
 namespace base
 {
-    class MemoryStream final : public base::Stream
+    /// @brief 内存流
+    class MemoryStream final :
+        public base::Stream
     {
     private:
         int32_t _buffer_size;
