@@ -8,6 +8,8 @@ namespace base
         class NameOfStationType
         {
         public:
+            NameOfStationType() = default;
+
             uint8_t DevicePropertiesOption() const;
         };
     } // namespace profinet

@@ -8,6 +8,7 @@ namespace base
         class NameOfStationBlockRes
         {
         public:
+            NameOfStationBlockRes() = default;
         };
     } // namespace profinet
 } // namespace base

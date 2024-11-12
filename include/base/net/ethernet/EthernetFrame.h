@@ -12,6 +12,9 @@ namespace base
         class EthernetFrame
         {
         public:
+            /// @brief 构造一个没有引用任何内存的以太网帧
+            EthernetFrame() = default;
+
             /// @brief 构造函数
             /// @param span 引用的内存。
             EthernetFrame(base::Span const &span);

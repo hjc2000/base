@@ -11,6 +11,7 @@ namespace base
             base::Span _span;
 
         public:
+            DcpHelloRequestPdu() = default;
             DcpHelloRequestPdu(base::Span const &span);
 
             /// @brief DCP 头部
