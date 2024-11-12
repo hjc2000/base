@@ -32,6 +32,11 @@ base::Mac &base::Mac::operator=(Mac const &o)
     return *this;
 }
 
+base::Array<uint8_t, 6> const &base::Mac::InternalArray() const
+{
+    return _mac_buffer;
+}
+
 base::Mac::operator base::Array<uint8_t, 6>() const
 {
     return _mac_buffer;
