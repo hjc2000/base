@@ -5,15 +5,14 @@ namespace base
 {
     namespace profinet
     {
-        class NameOfStationBlockRes
+        class NameOfStationBlock
         {
         public:
-            NameOfStationBlockRes() = default;
-            NameOfStationBlockRes(base::Span const &span);
+            NameOfStationBlock() = default;
+            NameOfStationBlock(base::Span const &span);
 
             base::profinet::NameOfStationType Type() const;
             uint16_t BlockLength() const;
-            uint16_t BlockInfo() const;
 
             /// @brief 设备名称字符串。长度范围：[1, 240]
             /// @return

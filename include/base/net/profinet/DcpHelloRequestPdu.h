@@ -17,8 +17,6 @@ namespace base
             /// @brief DCP 头部
             /// @return
             base::profinet::DcpHeader Header() const;
-
-            uint16_t BlockLength() const;
         };
     } // namespace profinet
 } // namespace base

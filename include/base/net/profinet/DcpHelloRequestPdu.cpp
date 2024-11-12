@@ -9,8 +9,3 @@ base::profinet::DcpHeader base::profinet::DcpHelloRequestPdu::Header() const
 {
     return base::profinet::DcpHeader{};
 }
-
-uint16_t base::profinet::DcpHelloRequestPdu::BlockLength() const
-{
-    return 0;
-}
