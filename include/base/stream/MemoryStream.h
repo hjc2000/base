@@ -12,6 +12,9 @@ namespace base
     {
     private:
         std::unique_ptr<uint8_t[]> _buffer;
+
+        /// @brief 引用 _buffer 字段的内存或引用从构造函数中传进来的外部内存。
+        /// @note 让本类对象具有引用外部内存的能力，避免拷贝整个缓冲区，可以提高性能。
         base::Span _span{};
 
         /// @brief 指向当前要读或写的位置。Read 和 Write 会操作的第一个字节就是 _position 指向的字节。
@@ -90,6 +93,8 @@ namespace base
         /// @brief 清空流，将 长度和位置都恢复为 0.
         void Clear();
 
+        /// @brief 流的位置
+        /// @return
         int64_t Position() override;
         void SetPosition(int64_t value) override;
     };
