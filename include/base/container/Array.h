@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <array>
 #include <base/container/iterator/IEnumerable.h>
+#include <base/stream/Span.h>
 #include <stdexcept>
 #include <string>
 
@@ -234,6 +235,13 @@ namespace base
         void Reverse()
         {
             std::reverse(_arr.begin(), _arr.end());
+        }
+
+        /// @brief 获取引用着本数组的内存的 Span.
+        /// @return
+        base::Span AsSpan()
+        {
+            return base::Span{_arr.data(), _arr.size()};
         }
     };
 } // namespace base
