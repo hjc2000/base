@@ -1,5 +1,7 @@
 #pragma once
+#include <base/stream/Span.h>
 #include <base/stream/Stream.h>
+#include <memory>
 #include <stdexcept>
 
 namespace base
@@ -9,8 +11,8 @@ namespace base
         public base::Stream
     {
     private:
-        int32_t _buffer_size;
-        uint8_t *_buffer;
+        std::unique_ptr<uint8_t[]> _buffer;
+        base::Span _span{};
 
         /// @brief 指向当前要读或写的位置。Read 和 Write 会操作的第一个字节就是 _position 指向的字节。
         int32_t _position = 0;
@@ -23,10 +25,14 @@ namespace base
         int32_t _length = 0;
 
     public:
-        /// @brief
+        /// @brief 此构造函数会在堆上分配一段内存。
         /// @param max_size 内部缓冲区的最大尺寸。小于等于 0 会抛出异常。
         MemoryStream(int32_t max_size);
-        ~MemoryStream();
+
+        /// @brief 此构造函数会让本对象引用一段内存，但不持有它。这可以提供流式操作外部内存的途径。
+        /// @warning 必须保证本对象生存期内，外部的这段内存始终存活。
+        /// @param span
+        MemoryStream(base::Span const &span);
 
         /// @brief 获取本流的缓冲区
         /// @return

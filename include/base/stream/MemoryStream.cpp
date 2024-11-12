@@ -7,23 +7,23 @@ base::MemoryStream::MemoryStream(int32_t max_size)
         throw std::invalid_argument{"max_size 不能小于等于 0。"};
     }
 
-    _buffer_size = max_size;
-    _buffer = new uint8_t[max_size];
+    _buffer = std::unique_ptr<uint8_t[]>{new uint8_t[max_size]};
+    _span = base::Span{_buffer.get(), max_size};
 }
 
-base::MemoryStream::~MemoryStream()
+base::MemoryStream::MemoryStream(base::Span const &span)
 {
-    delete[] _buffer;
+    _span = span;
 }
 
 uint8_t *base::MemoryStream::Buffer()
 {
-    return _buffer;
+    return _span.Buffer();
 }
 
 int32_t base::MemoryStream::BufferSize() const
 {
-    return _buffer_size;
+    return _span.Size();
 }
 
 int32_t base::MemoryStream::AvaliableToRead() const
@@ -33,7 +33,7 @@ int32_t base::MemoryStream::AvaliableToRead() const
 
 int32_t base::MemoryStream::AvaliableToWrite() const
 {
-    return _buffer_size - _position;
+    return _span.Size() - _position;
 }
 
 bool base::MemoryStream::CanRead()
@@ -58,7 +58,7 @@ int64_t base::MemoryStream::Length()
 
 void base::MemoryStream::SetLength(int64_t value)
 {
-    if (value > _buffer_size)
+    if (value > _span.Size())
     {
         throw std::invalid_argument{"value 不能大于缓冲区大小。"};
     }
@@ -92,8 +92,8 @@ int32_t base::MemoryStream::Read(uint8_t *buffer, int32_t offset, int32_t count)
         have_read = count;
     }
 
-    std::copy(_buffer + _position,
-              _buffer + _position + have_read,
+    std::copy(_span.Buffer() + _position,
+              _span.Buffer() + _position + have_read,
               buffer + offset);
 
     return have_read;
@@ -113,7 +113,7 @@ void base::MemoryStream::Write(uint8_t const *buffer, int32_t offset, int32_t co
 
     std::copy(buffer + offset,
               buffer + offset + count,
-              _buffer + _position);
+              _span.Buffer() + _position);
 
     _position += count;
     if (_position > _length)
