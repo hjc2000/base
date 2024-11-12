@@ -11,7 +11,7 @@ namespace base
             NameOfStationBlockRes() = default;
             NameOfStationBlockRes(base::Span const &span);
 
-            base::profinet::NameOfStationType Type() const;
+            base::profinet::NameOfStationType NameOfStationType() const;
             uint16_t BlockLength() const;
             uint16_t BlockInfo() const;
 
