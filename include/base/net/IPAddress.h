@@ -5,6 +5,7 @@
 
 namespace base
 {
+    /// @brief IP 地址类型。
     enum class IPAddressType
     {
         IPV4,
@@ -20,6 +21,14 @@ namespace base
         IPAddressType _type = IPAddressType::IPV4;
 
     public:
+        /// @brief 构造一个未指定的 IP 地址。此时表现为 IPV4 的 0.0.0.0.
+        IPAddress();
+
+        /// @brief 构造一个未指定的 IP 地址。此时可以指定期望的 IP 地址版本。
+        /// 无论是对 IPV4 还是 IPV6，构造出来的地址的所有字节都是 0.
+        /// @param type
+        IPAddress(IPAddressType type);
+
         /// @brief 构造一个 IPV4 地址。
         /// @param endian ip_address_buffer 中 IP 地址的字节序。
         /// @param ip_address_buffer 存放着 IPV4 地址的缓冲区。
@@ -30,6 +39,10 @@ namespace base
         /// @param ip_address_buffer 存放着 IPV6 地址的缓冲区。
         IPAddress(std::endian endian, base::Array<uint8_t, 16> const &ip_address_buffer);
 
+        IPAddress(IPAddress const &o);
+        IPAddress &operator=(IPAddress const &o);
+
         uint8_t &operator[](int index);
+        uint8_t operator[](int index) const;
     };
 } // namespace base
