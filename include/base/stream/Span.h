@@ -5,6 +5,8 @@ namespace base
 {
     /// @brief 引用一段连续内存，不持有这段内存。
     /// @warning 要求本类对象的生命周期内，引用的外部内存始终存活。
+    /// @note 本类的很多方法都有 const 修饰符。这并不是说不会改变所引用的内存，而是不会改变本对象的字段，
+    /// 即不会变成引用别的内存，或者更改引用的内存段大小。
     class Span
     {
     private:
@@ -12,12 +14,6 @@ namespace base
         int _size = 0;
 
     public:
-        /// @brief 创建一个只读的 Span，引用一段只读的内存。
-        /// @param buffer
-        /// @param size
-        /// @return
-        base::Span const CreateReadOnlySpan(uint8_t const *buffer, int size);
-
         /// @brief 无参构造函数。引用一段空内存。
         /// @note 可以通过 Size 属性判断本对象是否引用到了有效的内存。
         Span() = default;
@@ -38,16 +34,11 @@ namespace base
         /// @return
         Span &operator=(Span const &o);
 
-        uint8_t &operator[](int index);
-        uint8_t operator[](int index) const;
+        uint8_t &operator[](int index) const;
 
         /// @brief 所引用的内存。
         /// @return
-        uint8_t *Buffer();
-
-        /// @brief 所引用的内存。
-        /// @return
-        uint8_t const *Buffer() const;
+        uint8_t *Buffer() const;
 
         /// @brief 所引用的内存大小
         /// @return
@@ -57,27 +48,21 @@ namespace base
         /// @param start 切片起始位置。
         /// @param size 切片大小。
         /// @return
-        base::Span Slice(int start, int size);
-
-        /// @brief 切出一个只读切片。
-        /// @param start 切片起始位置。
-        /// @param size 切片大小。
-        /// @return
-        base::Span const Slice(int start, int size) const;
+        base::Span Slice(int start, int size) const;
 
         /// @brief 翻转本 Span 所引用的内存段。
-        void Reverse();
+        void Reverse() const;
 
         /// @brief 将 span 所引用的内存的数据拷贝到本对象所引用的内存中。
         /// @param start 要放在本对象所引用的内存中的起始位置。
         /// @param span 要被拷贝的内存段。
-        void CopyFrom(int start, base::Span const &span);
+        void CopyFrom(int start, base::Span const &span) const;
 
         /// @brief 将一段内存拷贝到本对象所引用的内存中。
         /// @param start 要放在本对象所引用的内存中的起始位置。
         /// @param buffer 数据源缓冲区。
         /// @param offset 在 buffer 中的偏移量。
         /// @param count 要拷贝多少个字节。
-        void CopyFrom(int start, uint8_t const *buffer, int offset, int count);
+        void CopyFrom(int start, uint8_t const *buffer, int offset, int count) const;
     };
 } // namespace base

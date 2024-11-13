@@ -2,11 +2,6 @@
 #include <algorithm>
 #include <stdexcept>
 
-base::Span const base::Span::CreateReadOnlySpan(uint8_t const *buffer, int size)
-{
-    return base::Span{const_cast<uint8_t *>(buffer), size};
-}
-
 base::Span::Span(uint8_t *buffer, int size)
 {
     if (buffer == nullptr)
@@ -35,7 +30,7 @@ base::Span &base::Span::operator=(Span const &o)
     return *this;
 }
 
-uint8_t &base::Span::operator[](int index)
+uint8_t &base::Span::operator[](int index) const
 {
     if (index < 0 || index >= _size)
     {
@@ -45,22 +40,7 @@ uint8_t &base::Span::operator[](int index)
     return _buffer[index];
 }
 
-uint8_t base::Span::operator[](int index) const
-{
-    if (index < 0 || index >= _size)
-    {
-        throw std::out_of_range{"索引超出范围"};
-    }
-
-    return _buffer[index];
-}
-
-uint8_t *base::Span::Buffer()
-{
-    return _buffer;
-}
-
-uint8_t const *base::Span::Buffer() const
+uint8_t *base::Span::Buffer() const
 {
     return _buffer;
 }
@@ -70,7 +50,7 @@ int base::Span::Size() const
     return _size;
 }
 
-base::Span base::Span::Slice(int start, int size)
+base::Span base::Span::Slice(int start, int size) const
 {
     if (start + size > _size)
     {
@@ -80,17 +60,12 @@ base::Span base::Span::Slice(int start, int size)
     return base::Span{_buffer + start, size};
 }
 
-base::Span const base::Span::Slice(int start, int size) const
-{
-    return const_cast<base::Span *>(this)->Slice(start, size);
-}
-
-void base::Span::Reverse()
+void base::Span::Reverse() const
 {
     std::reverse(_buffer, _buffer + _size);
 }
 
-void base::Span::CopyFrom(int start, base::Span const &span)
+void base::Span::CopyFrom(int start, base::Span const &span) const
 {
     if (start + span.Size() > _size)
     {
@@ -102,7 +77,7 @@ void base::Span::CopyFrom(int start, base::Span const &span)
               _buffer + start);
 }
 
-void base::Span::CopyFrom(int start, uint8_t const *buffer, int offset, int count)
+void base::Span::CopyFrom(int start, uint8_t const *buffer, int offset, int count) const
 {
     if (start + count > _size)
     {
