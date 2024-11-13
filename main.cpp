@@ -5,30 +5,17 @@
 #include <base/container/List.h>
 #include <base/net/Mac.h>
 #include <base/stream/MemoryStream.h>
+#include <base/string/StringHelper.h>
 #include <base/string/ToHexString.h>
 #include <format>
 #include <iostream>
 
 int main()
 {
-    uint8_t buffer[20] = {};
-    for (uint8_t i = 0; i < sizeof(buffer); i++)
+    std::string str = "123,456,789";
+    std::vector<std::string> str_vector = base::Split(str, ',');
+    for (std::string &str : str_vector)
     {
-        buffer[i] = i;
-    }
-
-    base::Span span{buffer, sizeof(buffer)};
-    base::MemoryStream stream{span};
-    stream.SetLength(span.Size());
-
-    {
-        uint8_t buffer[20] = {};
-        stream.Read(buffer, 0, sizeof(buffer));
-        base::ToHexStringOption option;
-        option.width = 2;
-        for (uint8_t num : buffer)
-        {
-            std::cout << base::ToHexString(num) << std::endl;
-        }
+        std::cout << str << std::endl;
     }
 }
