@@ -12,7 +12,13 @@ namespace base
             NameOfStationBlockRes(base::Span const &span);
 
             base::profinet::NameOfStationType NameOfStationType() const;
+
+            /// @brief DCP Block Length
+            /// @return
             uint16_t BlockLength() const;
+
+            /// @brief DCP Block Info
+            /// @return
             uint16_t BlockInfo() const;
 
             /// @brief 设备名称字符串。长度范围：[1, 240]
