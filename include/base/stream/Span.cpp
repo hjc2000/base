@@ -1,5 +1,6 @@
 #include "Span.h"
 #include <algorithm>
+#include <base/stream/ReadOnlySpan.h>
 #include <stdexcept>
 
 base::Span::Span(uint8_t *buffer, int size)
@@ -75,6 +76,11 @@ void base::Span::CopyFrom(int start, base::Span const &span) const
     std::copy(span.Buffer(),
               span.Buffer() + span.Size(),
               _buffer + start);
+}
+
+void base::Span::CopyFrom(int start, base::ReadOnlySpan const &span) const
+{
+    CopyFrom(start, span.Buffer(), 0, span.Size());
 }
 
 void base::Span::CopyFrom(int start, uint8_t const *buffer, int offset, int count) const

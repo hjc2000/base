@@ -3,6 +3,8 @@
 
 namespace base
 {
+    class ReadOnlySpan;
+
     /// @brief 引用一段连续内存，不持有这段内存。
     /// @warning 要求本类对象的生命周期内，引用的外部内存始终存活。
     /// @note 本类的很多方法都有 const 修饰符。这并不是说不会改变所引用的内存，而是不会改变本对象的字段，
@@ -57,6 +59,11 @@ namespace base
         /// @param start 要放在本对象所引用的内存中的起始位置。
         /// @param span 要被拷贝的内存段。
         void CopyFrom(int start, base::Span const &span) const;
+
+        /// @brief 将一个 ReadOnlySpan 所引用的内存的数据拷贝过来。
+        /// @param start 要放在本对象所引用的内存中的起始位置。
+        /// @param span 要被拷贝的内存段。
+        void CopyFrom(int start, base::ReadOnlySpan const &span) const;
 
         /// @brief 将一段内存拷贝到本对象所引用的内存中。
         /// @param start 要放在本对象所引用的内存中的起始位置。
