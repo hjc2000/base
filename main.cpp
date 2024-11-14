@@ -3,6 +3,7 @@
 #include <base/container/Array.h>
 #include <base/container/Dictionary.h>
 #include <base/container/List.h>
+#include <base/net/IPAddress.h>
 #include <base/net/Mac.h>
 #include <base/stream/MemoryStream.h>
 #include <base/string/StringHelper.h>
@@ -12,10 +13,15 @@
 
 int main()
 {
-    std::string str = "123,456,789";
-    std::vector<std::string> str_vector = base::Split(str, ',');
-    for (std::string &str : str_vector)
-    {
-        std::cout << str << std::endl;
-    }
+    base::IPAddress ip{
+        std::endian::big,
+        base::Array<uint8_t, 4>{
+            192,
+            168,
+            1,
+            1,
+        },
+    };
+
+    std::cout << ip << std::endl;
 }

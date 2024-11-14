@@ -41,11 +41,17 @@ namespace base
         /// @param ip_address_buffer 存放着 IPV6 地址的缓冲区。
         IPAddress(std::endian endian, base::Array<uint8_t, 16> const &ip_address_buffer);
 
+        /// @brief 拷贝构造函数。
+        /// @param o
         IPAddress(IPAddress const &o);
+
+        /// @brief 赋值运算符。
+        /// @param o
+        /// @return
         IPAddress &operator=(IPAddress const &o);
 
         uint8_t &operator[](int index);
-        uint8_t operator[](int index) const;
+        uint8_t const &operator[](int index) const;
 
         /// @brief 转化为字符串
         /// @return

@@ -1,4 +1,5 @@
 #include "IPAddress.h"
+#include <base/string/ToHexString.h>
 #include <stdexcept>
 
 base::IPAddress::IPAddress()
@@ -77,7 +78,7 @@ uint8_t &base::IPAddress::operator[](int index)
     return _span[index];
 }
 
-uint8_t base::IPAddress::operator[](int index) const
+uint8_t const &base::IPAddress::operator[](int index) const
 {
     if (index < 0 || index >= _span.Size())
     {
@@ -90,11 +91,40 @@ uint8_t base::IPAddress::operator[](int index) const
 std::string base::IPAddress::ToString() const
 {
     std::string ret;
+    base::ToHexStringOption option;
+    option.width = 2;
+    option.with_0x_prefix = false;
+
     if (_type == IPAddressType::IPV4)
     {
+        bool first_loop = true;
+        for (uint8_t num : _span)
+        {
+            if (first_loop)
+            {
+                first_loop = false;
+            }
+            else
+            {
+                ret = '.' + ret;
+            }
+
+            ret = std::to_string(num) + ret;
+        }
     }
     else
     {
+        int loop_times = 0;
+        for (uint8_t num : _span)
+        {
+            if (loop_times > 0 && loop_times % 2 == 0)
+            {
+                ret = ':' + ret;
+            }
+
+            ret = base::ToHexString(num, option) + ret;
+            loop_times++;
+        }
     }
 
     return ret;
