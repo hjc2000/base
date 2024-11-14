@@ -4,7 +4,8 @@
 
 namespace base
 {
-    class ReadOnlySpan
+    class ReadOnlySpan :
+        public base::IEnumerable<uint8_t const>
     {
     private:
         uint8_t const *_buffer = nullptr;
@@ -35,7 +36,7 @@ namespace base
         /// @return
         ReadOnlySpan &operator=(ReadOnlySpan const &o);
 
-        uint8_t operator[](int index) const;
+        uint8_t const &operator[](int index) const;
 
         /// @brief 所引用的内存。
         /// @return
@@ -50,5 +51,9 @@ namespace base
         /// @param size 切片大小。
         /// @return
         base::ReadOnlySpan Slice(int start, int size) const;
+
+        /// @brief 获取非 const 迭代器
+        /// @return
+        std::shared_ptr<base::IEnumerator<uint8_t const>> GetEnumerator() override;
     };
 } // namespace base

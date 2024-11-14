@@ -50,11 +50,11 @@ namespace base
     public:
         /// @brief 获取非 const 迭代器
         /// @return
-        virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() = 0;
+        virtual std::shared_ptr<base::IEnumerator<ItemType>> GetEnumerator() = 0;
 
         /// @brief 获取 const 迭代器
         /// @return
-        std::shared_ptr<IEnumerator<ItemType const>> GetEnumerator() const
+        std::shared_ptr<base::IEnumerator<ItemType const>> GetEnumerator() const
         {
             return std::shared_ptr<IEnumerator<ItemType const>>{
                 new ConstEnumerator<ItemType>{

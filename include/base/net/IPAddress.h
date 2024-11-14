@@ -1,6 +1,7 @@
 #pragma once
 #include <base/container/Array.h>
 #include <base/stream/Span.h>
+#include <base/string/ICanToString.h>
 #include <bit>
 
 namespace base
@@ -13,7 +14,8 @@ namespace base
     };
 
     /// @brief IP 地址。兼容 IPV4 和 IPV6.
-    class IPAddress
+    class IPAddress :
+        public base::ICanToString
     {
     private:
         base::Array<uint8_t, 16> _ip_address_buffer;
@@ -44,5 +46,9 @@ namespace base
 
         uint8_t &operator[](int index);
         uint8_t operator[](int index) const;
+
+        /// @brief 转化为字符串
+        /// @return
+        std::string ToString() const override;
     };
 } // namespace base

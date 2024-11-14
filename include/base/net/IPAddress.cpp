@@ -86,3 +86,16 @@ uint8_t base::IPAddress::operator[](int index) const
 
     return _span[index];
 }
+
+std::string base::IPAddress::ToString() const
+{
+    std::string ret;
+    if (_type == IPAddressType::IPV4)
+    {
+    }
+    else
+    {
+    }
+
+    return ret;
+}

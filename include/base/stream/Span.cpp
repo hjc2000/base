@@ -94,3 +94,55 @@ void base::Span::CopyFrom(int start, uint8_t const *buffer, int offset, int coun
               buffer + offset + count,
               _buffer + start);
 }
+
+std::shared_ptr<base::IEnumerator<uint8_t>> base::Span::GetEnumerator()
+{
+    class Enumerator :
+        public base::IEnumerator<uint8_t>
+    {
+    private:
+        Span *_span = nullptr;
+        bool _first_move = true;
+        int _index = 0;
+
+    public:
+        Enumerator(Span *span)
+        {
+            _span = span;
+            Reset();
+        }
+
+        /// @brief 获取当前值的引用
+        /// @return
+        uint8_t &CurrentValue() override
+        {
+            return (*_span)[_index];
+        }
+
+        /// @brief 迭代器前进到下一个值
+        /// @return
+        bool MoveNext() override
+        {
+            if (_first_move)
+            {
+                _first_move = false;
+            }
+            else
+            {
+                _index++;
+            }
+
+            return _index < _span->Size();
+        }
+
+        /// @brief 将迭代器重置到容器开始的位置。
+        /// @note 开始位置是第一个元素前。也就是说重置后，要调用一次 MoveNext 才能获取到第一个值。
+        void Reset() override
+        {
+            _first_move = true;
+            _index = 0;
+        }
+    };
+
+    return std::shared_ptr<IEnumerator<uint8_t>>{new Enumerator{this}};
+}
