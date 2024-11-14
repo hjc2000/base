@@ -21,14 +21,19 @@ namespace base
     private:
         std::queue<T> _queue;
         std::mutex _lock;
-        std::atomic<int32_t> _count = 0;
 
     public:
+        /// @brief 构造一个空的队列。
+        /// @note 因为拷贝构造函数和移动构造函数无法对被拷贝和被移动的对象加锁，
+        /// 所以会引发线程安全问题，所以本类不支持拷贝和移动。
+        SafeQueue() = default;
+
         /// @brief 队列中元素的数量。
         /// @return
         int32_t Count() const override
         {
-            return _count;
+            std::lock_guard l(_lock);
+            return _queue.size();
         }
 
         /// @brief 退队。
@@ -43,7 +48,6 @@ namespace base
 
             T ret = _queue.front();
             _queue.pop();
-            _count--;
             return ret;
         }
 
@@ -60,7 +64,6 @@ namespace base
 
             out = _queue.front();
             _queue.pop();
-            _count--;
             return true;
         }
 
@@ -70,7 +73,6 @@ namespace base
         {
             std::lock_guard l(_lock);
             _queue.push(obj);
-            _count++;
         }
 
         /// @brief 清空队列。
@@ -86,7 +88,6 @@ namespace base
              */
             std::queue<T> empty_queue;
             _queue.swap(empty_queue);
-            _count = 0;
         }
     };
 } // namespace base

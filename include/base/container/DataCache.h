@@ -21,7 +21,8 @@ namespace base
     ///
     /// @tparam T
     template <typename T>
-    class DataChach final : public IDisposable
+    class DataChach final :
+        public IDisposable
     {
     private:
         int _max_count;
@@ -34,9 +35,10 @@ namespace base
 #endif
 
     public:
-        /// @brief
+        /// @brief 构造函数
+        /// @note 因为拷贝构造函数和移动构造函数无法对被拷贝和被移动的对象加锁，
+        /// 所以会引发线程安全问题，所以本类不支持拷贝和移动。
         /// @param max_count 能够缓存的最大的数据个数。
-        /// @exception max_count 必须大于等于 1，否则会抛出异常。
         DataChach(int max_count)
         {
             if (max_count < 1)
@@ -102,6 +104,7 @@ namespace base
 
                 return _queue.Count() > 0;
             };
+
             _can_tack_out.wait(l, p);
 #endif
 
