@@ -83,6 +83,25 @@ void base::Span::CopyFrom(int start, base::ReadOnlySpan const &span) const
     CopyFrom(start, span.Buffer(), 0, span.Size());
 }
 
+void base::Span::CopyFrom(int start, std::initializer_list<uint8_t> const &list) const
+{
+    if (start + static_cast<int>(list.size()) > _size)
+    {
+        throw std::out_of_range{
+            std::string{"本 Span 无法在"} +
+                " start = " +
+                std::to_string(start) +
+                " 时放下该初始化列表。",
+        };
+    }
+
+    int i = start;
+    for (uint8_t num : list)
+    {
+        _buffer[i++] = num;
+    }
+}
+
 void base::Span::CopyFrom(int start, uint8_t const *buffer, int offset, int count) const
 {
     if (start + count > _size)

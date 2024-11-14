@@ -67,6 +67,11 @@ namespace base
         /// @param span 要被拷贝的内存段。
         void CopyFrom(int start, base::ReadOnlySpan const &span) const;
 
+        /// @brief 将初始化列表拷贝到本对象所引用的内存中。
+        /// @param start 要拷贝到本 Span 所引用的内存的起始位置。
+        /// @param list 初始化列表。
+        void CopyFrom(int start, std::initializer_list<uint8_t> const &list) const;
+
         /// @brief 将一段内存拷贝到本对象所引用的内存中。
         /// @param start 要放在本对象所引用的内存中的起始位置。
         /// @param buffer 数据源缓冲区。

@@ -23,6 +23,7 @@ namespace base
         IPAddressType _type = IPAddressType::IPV4;
 
     public:
+#pragma region 生命周期
         /// @brief 构造一个未指定的 IP 地址。此时表现为 IPV4 的 0.0.0.0.
         IPAddress();
 
@@ -41,6 +42,13 @@ namespace base
         /// @param ip_address_buffer 存放着 IPV6 地址的缓冲区。
         IPAddress(std::endian endian, base::Array<uint8_t, 16> const &ip_address_buffer);
 
+        /// @brief 构造一个 IP 地址。
+        /// @note 是 IPV4 还是 IPV6 取决于初始化列表的大小。初始化列表如果是 4 字节，则构造出来
+        /// 是 IPV4 地址，如果是 16 字节，则构造出来是 IPV6 地址。如果都不是，则会抛出异常。
+        /// @param endian 初始化列表中的 IP 地址的字节序。
+        /// @param list 储存着 IP 地址的初始化列表。
+        IPAddress(std::endian endian, std::initializer_list<uint8_t> const &list);
+
         /// @brief 拷贝构造函数。
         /// @param o
         IPAddress(IPAddress const &o);
@@ -49,6 +57,7 @@ namespace base
         /// @param o
         /// @return
         IPAddress &operator=(IPAddress const &o);
+#pragma endregion
 
         uint8_t &operator[](int index);
         uint8_t const &operator[](int index) const;

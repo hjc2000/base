@@ -2,6 +2,8 @@
 #include <base/string/ToHexString.h>
 #include <stdexcept>
 
+#pragma region 生命周期
+
 base::IPAddress::IPAddress()
 {
     _type = IPAddressType::IPV4;
@@ -55,6 +57,41 @@ base::IPAddress::IPAddress(std::endian endian, base::Array<uint8_t, 16> const &i
     }
 }
 
+base::IPAddress::IPAddress(std::endian endian, std::initializer_list<uint8_t> const &list)
+{
+    if (list.size() == 4)
+    {
+        _type = IPAddressType::IPV4;
+        _span = base::Span{_ip_address_buffer.Buffer(), 4};
+        _span.CopyFrom(0, list);
+
+        // 用小端序存放 IPV4 地址
+        if (endian != std::endian::little)
+        {
+            _span.Reverse();
+        }
+    }
+    else if (list.size() == 16)
+    {
+        _type = IPAddressType::IPV6;
+        _span = base::Span{_ip_address_buffer.Buffer(), 16};
+        _span.CopyFrom(0, list);
+
+        // 用小端序存放 IPV6 地址
+        if (endian != std::endian::little)
+        {
+            _span.Reverse();
+        }
+    }
+    else
+    {
+        throw std::invalid_argument{
+            "传入的初始化列表的大小既不符合 IPV4 的 4 个字节，"
+            "也不符合 IPV6 的 16 个字节。",
+        };
+    }
+}
+
 base::IPAddress::IPAddress(IPAddress const &o)
 {
     *this = o;
@@ -67,6 +104,8 @@ base::IPAddress &base::IPAddress::operator=(IPAddress const &o)
     _type = _type;
     return *this;
 }
+
+#pragma endregion
 
 uint8_t &base::IPAddress::operator[](int index)
 {
@@ -91,6 +130,7 @@ uint8_t const &base::IPAddress::operator[](int index) const
 std::string base::IPAddress::ToString() const
 {
     std::string ret;
+
     base::ToHexStringOption option;
     option.width = 2;
     option.with_0x_prefix = false;
