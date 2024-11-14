@@ -16,14 +16,33 @@ namespace base
         std::vector<ItemType> _vector;
 
     public:
+        /// @brief 构造一个空列表。
         List() = default;
 
+        /// @brief 拷贝构造函数。
+        /// @param o
         List(List<ItemType> const &o)
         {
-            _vector = o._vector;
+            *this = o;
         }
 
+        /// @brief 移动构造函数。
+        /// @param o
+        List(List<ItemType> &&o)
+        {
+            *this = o;
+        }
+
+        /// @brief 从向量中构造。将向量的元素拷贝过来。
+        /// @param o
         List(std::vector<ItemType> const &o)
+        {
+            _vector = o;
+        }
+
+        /// @brief 从向量中构造。将向量的元素移动过来。
+        /// @param o
+        List(std::vector<ItemType> &&o)
         {
             _vector = o;
         }
@@ -33,9 +52,29 @@ namespace base
             _vector = list;
         }
 
-        List<ItemType> &operator=(List<ItemType> const &value)
+        /// @brief 赋值运算符。
+        /// @param o
+        /// @return
+        List<ItemType> &operator=(List<ItemType> const &o)
         {
-            _vector = value._vector;
+            if (this != &o)
+            {
+                _vector = o._vector;
+            }
+
+            return *this;
+        }
+
+        /// @brief 移动赋值运算符。
+        /// @param o
+        /// @return
+        List<ItemType> &operator=(List<ItemType> &&o)
+        {
+            if (this != &o)
+            {
+                _vector = std::move(o._vector);
+            }
+
             return *this;
         }
 

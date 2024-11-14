@@ -73,14 +73,33 @@ namespace base
 #pragma endregion
 
     public:
+        /// @brief 构造一个空字典。
         Dictionary() = default;
 
+        /// @brief 拷贝构造函数。
+        /// @param o
         Dictionary(Dictionary const &o)
         {
             *this = o;
         }
 
+        /// @brief 移动构造函数。
+        /// @param o
+        Dictionary(Dictionary &&o)
+        {
+            *this = o;
+        }
+
+        /// @brief 从 map 中构造。将 map 的元素复制过来。
+        /// @param o
         Dictionary(std::map<KeyType, ValueType> const &o)
+        {
+            _map = o;
+        }
+
+        /// @brief 从 map 中构造。将 map 的元素移动过来。
+        /// @param o
+        Dictionary(std::map<KeyType, ValueType> &&o)
         {
             _map = o;
         }
@@ -90,9 +109,29 @@ namespace base
             Add(list);
         }
 
+        /// @brief 赋值运算符。
+        /// @param o
+        /// @return
         Dictionary &operator=(Dictionary const &o)
         {
-            _map = o._map;
+            if (this != &o)
+            {
+                _map = o._map;
+            }
+
+            return *this;
+        }
+
+        /// @brief 移动赋值运算符。
+        /// @param o
+        /// @return
+        Dictionary &operator=(Dictionary &&o)
+        {
+            if (this != &o)
+            {
+                _map = std::move(o._map);
+            }
+
             return *this;
         }
 

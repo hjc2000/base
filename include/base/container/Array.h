@@ -86,6 +86,13 @@ namespace base
             *this = o;
         }
 
+        /// @brief 移动构造函数。
+        /// @param o
+        Array(Array<ItemType, TCount> &&o)
+        {
+            *this = o;
+        }
+
         /// @brief 将初始化列表的数据拷贝过来。
         /// @param list 初始化列表。
         Array(std::initializer_list<ItemType> const &list)
@@ -135,7 +142,24 @@ namespace base
         /// @return
         Array<ItemType, TCount> &operator=(Array<ItemType, TCount> const &o)
         {
-            _arr = o._arr;
+            if (this != &o)
+            {
+                _arr = o._arr;
+            }
+
+            return *this;
+        }
+
+        /// @brief 移动赋值运算符。
+        /// @param o
+        /// @return
+        Array<ItemType, TCount> &operator=(Array<ItemType, TCount> &&o)
+        {
+            if (this != &o)
+            {
+                _arr = std::move(o._arr);
+            }
+
             return *this;
         }
 
