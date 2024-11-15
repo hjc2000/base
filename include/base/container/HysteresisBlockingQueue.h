@@ -21,7 +21,9 @@ namespace base
     ///
     /// @tparam T
     template <typename T>
-    class HysteresisBlockingQueue final : public base::IQueue<T>, public base::IDisposable
+    class HysteresisBlockingQueue final :
+        public base::IQueue<T>,
+        public base::IDisposable
     {
     private:
         std::atomic_bool _disposed = false;
