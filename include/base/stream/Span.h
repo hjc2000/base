@@ -18,6 +18,7 @@ namespace base
         int _size = 0;
 
     public:
+#pragma region 生命周期
         /// @brief 无参构造函数。引用一段空内存。
         /// @note 可以通过 Size 属性判断本对象是否引用到了有效的内存。
         Span() = default;
@@ -37,6 +38,7 @@ namespace base
         /// @param o
         /// @return
         Span &operator=(Span const &o);
+#pragma endregion
 
         uint8_t &operator[](int index) const;
 
@@ -57,15 +59,24 @@ namespace base
         /// @brief 翻转本 Span 所引用的内存段。
         void Reverse() const;
 
+#pragma region CopyFrom
         /// @brief 将 span 所引用的内存的数据拷贝到本对象所引用的内存中。
         /// @param start 要放在本对象所引用的内存中的起始位置。
         /// @param span 要被拷贝的内存段。
         void CopyFrom(int start, base::Span const &span) const;
 
+        /// @brief 将 span 所引用的内存的数据拷贝到本对象所引用的内存中。
+        /// @param span 要被拷贝的内存段。
+        void CopyFrom(base::Span const &span) const;
+
         /// @brief 将一个 ReadOnlySpan 所引用的内存的数据拷贝过来。
         /// @param start 要放在本对象所引用的内存中的起始位置。
         /// @param span 要被拷贝的内存段。
         void CopyFrom(int start, base::ReadOnlySpan const &span) const;
+
+        /// @brief 将一个 ReadOnlySpan 所引用的内存的数据拷贝过来。
+        /// @param span 要被拷贝的内存段。
+        void CopyFrom(base::ReadOnlySpan const &span) const;
 
         /// @brief 将初始化列表拷贝到本对象所引用的内存中。
         /// @param start 要拷贝到本 Span 所引用的内存的起始位置。
@@ -78,6 +89,7 @@ namespace base
         /// @param offset 在 buffer 中的偏移量。
         /// @param count 要拷贝多少个字节。
         void CopyFrom(int start, uint8_t const *buffer, int offset, int count) const;
+#pragma endregion
 
         /// @brief 获取非 const 迭代器
         /// @return

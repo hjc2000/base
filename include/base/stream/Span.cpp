@@ -66,6 +66,8 @@ void base::Span::Reverse() const
     std::reverse(_buffer, _buffer + _size);
 }
 
+#pragma region CopyFrom
+
 void base::Span::CopyFrom(int start, base::Span const &span) const
 {
     if (start + span.Size() > _size)
@@ -78,9 +80,19 @@ void base::Span::CopyFrom(int start, base::Span const &span) const
               _buffer + start);
 }
 
+void base::Span::CopyFrom(base::Span const &span) const
+{
+    CopyFrom(0, span);
+}
+
 void base::Span::CopyFrom(int start, base::ReadOnlySpan const &span) const
 {
     CopyFrom(start, span.Buffer(), 0, span.Size());
+}
+
+void base::Span::CopyFrom(base::ReadOnlySpan const &span) const
+{
+    CopyFrom(0, span);
 }
 
 void base::Span::CopyFrom(int start, std::initializer_list<uint8_t> const &list) const
@@ -113,6 +125,8 @@ void base::Span::CopyFrom(int start, uint8_t const *buffer, int offset, int coun
               buffer + offset + count,
               _buffer + start);
 }
+
+#pragma endregion
 
 std::shared_ptr<base::IEnumerator<uint8_t>> base::Span::GetEnumerator()
 {
