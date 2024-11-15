@@ -22,6 +22,7 @@ base::profinet::DcpHeader base::profinet::DcpHelloRequestPdu::Header() const
 
 void base::profinet::DcpHelloRequestPdu::SetHeader(base::profinet::DcpHeader const &value)
 {
+    Header().Span().CopyFrom(value.Span());
 }
 
 base::profinet::NameOfStationBlockRes base::profinet::DcpHelloRequestPdu::NameOfStationBlockRes() const
@@ -31,4 +32,5 @@ base::profinet::NameOfStationBlockRes base::profinet::DcpHelloRequestPdu::NameOf
 
 void base::profinet::DcpHelloRequestPdu::SetNameOfStationBlockRes(base::profinet::NameOfStationBlockRes const &value)
 {
+    NameOfStationBlockRes().Span().CopyFrom(value.Span());
 }

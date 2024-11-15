@@ -4,6 +4,16 @@ base::profinet::NameOfStationBlockRes::NameOfStationBlockRes(base::Span const &s
 {
 }
 
+base::Span &base::profinet::NameOfStationBlockRes::Span()
+{
+    return _span;
+}
+
+base::Span const &base::profinet::NameOfStationBlockRes::Span() const
+{
+    return _span;
+}
+
 base::profinet::NameOfStationType base::profinet::NameOfStationBlockRes::NameOfStationType() const
 {
     return base::profinet::NameOfStationType();

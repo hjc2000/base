@@ -7,9 +7,15 @@ namespace base
     {
         class NameOfStationBlockRes
         {
+        private:
+            base::Span _span;
+
         public:
             NameOfStationBlockRes() = default;
             NameOfStationBlockRes(base::Span const &span);
+
+            base::Span &Span();
+            base::Span const &Span() const;
 
             base::profinet::NameOfStationType NameOfStationType() const;
 

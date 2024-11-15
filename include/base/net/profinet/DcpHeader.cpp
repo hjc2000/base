@@ -5,6 +5,16 @@ base::profinet::DcpHeader::DcpHeader(base::Span const &span)
     _span = span;
 }
 
+base::Span &base::profinet::DcpHeader::Span()
+{
+    return _span;
+}
+
+base::Span const &base::profinet::DcpHeader::Span() const
+{
+    return _span;
+}
+
 base::profinet::ServiceIdEnum base::profinet::DcpHeader::ServiceId() const
 {
     return base::profinet::ServiceIdEnum::Get;
