@@ -17,6 +17,7 @@ namespace base
             /// @brief 设备名称字符串。长度范围：[1, 240]
             /// @return
             base::Span Name() const;
+            void SetName(base::Span const &value);
         };
     } // namespace profinet
 } // namespace base

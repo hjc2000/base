@@ -18,3 +18,8 @@ base::Span base::profinet::NameOfStationBlock::Name() const
 {
     return base::Span();
 }
+
+void base::profinet::NameOfStationBlock::SetName(base::Span const &value)
+{
+    Name().CopyFrom(value);
+}
