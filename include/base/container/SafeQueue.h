@@ -32,7 +32,7 @@ namespace base
         /// @return
         int32_t Count() const override
         {
-            std::lock_guard l(_lock);
+            std::lock_guard l{_lock};
             return _queue.size();
         }
 
@@ -40,7 +40,7 @@ namespace base
         /// @return
         T Dequeue() override
         {
-            std::lock_guard l(_lock);
+            std::lock_guard l{_lock};
             if (_queue.empty())
             {
                 throw std::runtime_error("队列当前为空，无法退队");
@@ -56,7 +56,7 @@ namespace base
         /// @return 退队成功返回 true，失败返回 false
         bool TryDequeue(T &out) override
         {
-            std::lock_guard l(_lock);
+            std::lock_guard l{_lock};
             if (_queue.empty())
             {
                 return false;
@@ -71,14 +71,14 @@ namespace base
         /// @param obj
         void Enqueue(T obj) override
         {
-            std::lock_guard l(_lock);
+            std::lock_guard l{_lock};
             _queue.push(obj);
         }
 
         /// @brief 清空队列。
         void Clear() override
         {
-            std::lock_guard l(_lock);
+            std::lock_guard l{_lock};
 
             /*
              * 构造一个空的队列，然后让 _queue 与空队列交换。退出作用域后，empty_queue
