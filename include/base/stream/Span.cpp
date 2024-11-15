@@ -3,6 +3,8 @@
 #include <base/stream/ReadOnlySpan.h>
 #include <stdexcept>
 
+#pragma region 生命周期
+
 base::Span::Span(uint8_t *buffer, int size)
 {
     if (buffer == nullptr)
@@ -30,6 +32,8 @@ base::Span &base::Span::operator=(Span const &o)
     _size = o._size;
     return *this;
 }
+
+#pragma endregion
 
 uint8_t &base::Span::operator[](int index) const
 {
