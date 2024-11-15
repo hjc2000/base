@@ -23,3 +23,13 @@ uint8_t base::profinet::DataItem::Iocs() const
 void base::profinet::DataItem::SetIocs(uint8_t value)
 {
 }
+
+base::profinet::DataObjectElement base::profinet::DataItem::DataObjectElement() const
+{
+    return base::profinet::DataObjectElement();
+}
+
+void base::profinet::DataItem::SetDataObjectElement(base::profinet::DataObjectElement const &value)
+{
+    DataObjectElement().Span().CopyFrom(value.Span());
+}

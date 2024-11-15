@@ -1,4 +1,5 @@
 #pragma once
+#include <base/net/profinet/DataObjectElement.h>
 #include <base/stream/Span.h>
 
 namespace base
@@ -19,6 +20,9 @@ namespace base
 
             uint8_t Iocs() const;
             void SetIocs(uint8_t value);
+
+            base::profinet::DataObjectElement DataObjectElement() const;
+            void SetDataObjectElement(base::profinet::DataObjectElement const &value);
         };
     } // namespace profinet
 } // namespace base
