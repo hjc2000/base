@@ -7,6 +7,7 @@ namespace base
 {
     namespace profinet
     {
+        /// @brief 带有帧 ID 的应用层协议数据单元。
         class FidApdu
         {
         private:

@@ -14,3 +14,13 @@ base::Span const &base::profinet::C_SDU::Span() const
 {
     return _span;
 }
+
+base::profinet::DataItem base::profinet::C_SDU::DataItem() const
+{
+    return base::profinet::DataItem();
+}
+
+void base::profinet::C_SDU::SetDataItem(base::profinet::DataItem const &value)
+{
+    DataItem().Span().CopyFrom(value.Span());
+}

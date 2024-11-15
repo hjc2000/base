@@ -1,25 +1,24 @@
 #pragma once
-#include <base/net/profinet/DataItem.h>
 #include <base/stream/Span.h>
 
 namespace base
 {
     namespace profinet
     {
-        class C_SDU
+        class DataItem
         {
         private:
             base::Span _span;
 
         public:
-            C_SDU() = default;
-            C_SDU(base::Span const &span);
+            DataItem() = default;
+            DataItem(base::Span const &span);
 
             base::Span &Span();
             base::Span const &Span() const;
 
-            base::profinet::DataItem DataItem() const;
-            void SetDataItem(base::profinet::DataItem const &value);
+            uint8_t Iocs() const;
+            void SetIocs(uint8_t value);
         };
     } // namespace profinet
 } // namespace base
