@@ -17,6 +17,7 @@ namespace base
             FidApdu(base::Span const &span);
 
             base::Span &Span();
+            base::Span const &Span() const;
 
             base::profinet::FrameIdEnum FrameId() const;
             void SetFrameId(base::profinet::FrameIdEnum value);

@@ -10,6 +10,11 @@ base::Span &base::profinet::FidApdu::Span()
     return _span;
 }
 
+base::Span const &base::profinet::FidApdu::Span() const
+{
+    return _span;
+}
+
 base::profinet::FrameIdEnum base::profinet::FidApdu::FrameId() const
 {
     return base::profinet::FrameIdEnum();
