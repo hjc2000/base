@@ -16,6 +16,7 @@ namespace base
         std::vector<ItemType> _vector;
 
     public:
+#pragma region 生命周期
         /// @brief 构造一个空列表。
         List() = default;
 
@@ -36,13 +37,6 @@ namespace base
         /// @brief 从向量中构造。将向量的元素拷贝过来。
         /// @param o
         List(std::vector<ItemType> const &o)
-        {
-            _vector = o;
-        }
-
-        /// @brief 从向量中构造。将向量的元素移动过来。
-        /// @param o
-        List(std::vector<ItemType> &&o)
         {
             _vector = o;
         }
@@ -77,6 +71,8 @@ namespace base
 
             return *this;
         }
+
+#pragma endregion
 
         using IList<ItemType>::Add;
 

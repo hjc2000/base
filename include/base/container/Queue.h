@@ -18,6 +18,7 @@ namespace base
         std::queue<T> _queue;
 
     public:
+#pragma region 生命周期
         /// @brief 构造一个空的队列。
         Queue() = default;
 
@@ -60,6 +61,8 @@ namespace base
 
             return *this;
         }
+
+#pragma endregion
 
         /// @brief 当前队列中元素的数量。
         /// @return

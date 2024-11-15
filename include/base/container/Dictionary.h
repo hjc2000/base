@@ -73,6 +73,7 @@ namespace base
 #pragma endregion
 
     public:
+#pragma region 生命周期
         /// @brief 构造一个空字典。
         Dictionary() = default;
 
@@ -93,13 +94,6 @@ namespace base
         /// @brief 从 map 中构造。将 map 的元素复制过来。
         /// @param o
         Dictionary(std::map<KeyType, ValueType> const &o)
-        {
-            _map = o;
-        }
-
-        /// @brief 从 map 中构造。将 map 的元素移动过来。
-        /// @param o
-        Dictionary(std::map<KeyType, ValueType> &&o)
         {
             _map = o;
         }
@@ -134,6 +128,8 @@ namespace base
 
             return *this;
         }
+
+#pragma endregion
 
         using base::IDictionary<KeyType, ValueType>::Add;
 
