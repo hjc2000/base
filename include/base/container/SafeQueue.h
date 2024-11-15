@@ -20,7 +20,7 @@ namespace base
     {
     private:
         std::queue<T> _queue;
-        std::mutex _lock;
+        mutable std::mutex _lock;
 
     public:
         /// @brief 构造一个空的队列。
