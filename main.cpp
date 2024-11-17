@@ -13,5 +13,16 @@
 
 int main()
 {
-    base::TestIpAddress();
+    uint8_t buffer[] = {1, 2, 3, 4, 5, 6};
+    base::Span span{buffer, sizeof(buffer)};
+    for (uint8_t num : buffer)
+    {
+        std::cout << static_cast<int>(num) << std::endl;
+    }
+
+    span.FillWithZero();
+    for (uint8_t num : buffer)
+    {
+        std::cout << static_cast<int>(num) << std::endl;
+    }
 }
