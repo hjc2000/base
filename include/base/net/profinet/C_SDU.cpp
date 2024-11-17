@@ -24,3 +24,8 @@ void base::profinet::C_SDU::SetDataItem(base::profinet::DataItem const &value)
 {
     DataItem().Span().CopyFrom(value.Span());
 }
+
+base::Span base::profinet::C_SDU::Padding() const
+{
+    return base::Span();
+}

@@ -183,3 +183,8 @@ std::shared_ptr<base::IEnumerator<uint8_t>> base::Span::GetEnumerator()
 
     return std::shared_ptr<IEnumerator<uint8_t>>{new Enumerator{this}};
 }
+
+void base::Span::FillWithZero()
+{
+    std::fill(_buffer, _buffer + _size, 0);
+}

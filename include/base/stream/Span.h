@@ -94,5 +94,8 @@ namespace base
         /// @brief 获取非 const 迭代器
         /// @return
         std::shared_ptr<base::IEnumerator<uint8_t>> GetEnumerator() override;
+
+        /// @brief 将本 Span 所引用的内存的每一个字节都填充为 0.
+        void FillWithZero();
     };
 } // namespace base
