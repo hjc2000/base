@@ -19,8 +19,8 @@ namespace base
             base::Span const &Span() const;
 
             /// @brief 对循环周期的计数。
-            /// @note 对于 RTC-PDU，循环周期是 31.25μs，本属性对循环周期计数。接收方使用本属性来检验数据的时效性，
-            /// 以及判断是否重复或丢失。
+            /// @note 对于 RTC-PDU，循环周期是 31.25μs，本属性对循环周期计数。
+            /// 接收方使用本属性来检验数据的时效性，以及判断是否重复或丢失。
             /// @return
             uint16_t CycleCounter() const;
             void SetCycleCounter(uint16_t value);
