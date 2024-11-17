@@ -1,4 +1,9 @@
 #pragma once
+
+#ifndef HAS_THREAD
+#define HAS_THREAD 0
+#endif
+
 #include <base/container/Array.h>
 #include <base/stream/Span.h>
 #include <base/string/ICanToString.h>
@@ -66,4 +71,9 @@ namespace base
         /// @return
         std::string ToString() const override;
     };
+
+#if HAS_THREAD
+    /// @brief 测试 IPAddressType
+    void TestIpAddress();
+#endif
 } // namespace base
