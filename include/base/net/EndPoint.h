@@ -1,5 +1,5 @@
 #pragma once
-#include <base/string/ICanToString.h>
+#include <base/string/Json.h>
 
 namespace base
 {
@@ -43,13 +43,15 @@ namespace base
 
     /// @brief 终结点
     class EndPoint :
-        public base::ICanToString
+        public base::IJsonSerializable
     {
     public:
+        /// @brief 终结点所属的协议家族。
+        /// @return
         virtual base::EndPointFamily Family() const = 0;
 
-        /// @brief 转化为字符串
+        /// @brief 序列化为 json
         /// @return
-        virtual std::string ToString() const = 0;
+        virtual Json ToJson() const = 0;
     };
 } // namespace base
