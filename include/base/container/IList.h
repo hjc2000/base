@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 #include <array>
 #include <base/container/iterator/IEnumerable.h>
 #include <base/container/iterator/IForwardIterator.h>
@@ -99,6 +100,12 @@ namespace base
         bool operator==(IList<ItemType> const &o) const
         {
             return this == &o;
+        }
+
+        /// @brief 将本列表中的元素翻转。
+        void Reverse()
+        {
+            std::reverse(this->begin(), this->end());
         }
     };
 } // namespace base
