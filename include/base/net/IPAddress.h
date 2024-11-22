@@ -76,6 +76,8 @@ namespace base
         uint8_t &operator[](int index);
         uint8_t const &operator[](int index) const;
 
+        /// @brief IP 地址的类型。
+        /// @return
         IPAddressType Type() const;
 
         /// @brief 转化为字符串
