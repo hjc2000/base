@@ -60,6 +60,15 @@ namespace base
 
     public:
         virtual void Add(ItemType const &item) = 0;
+        virtual void Insert(int index, ItemType const &item) = 0;
+        virtual bool Remove(ItemType const &item) = 0;
+        virtual void RemoveAt(int index) = 0;
+        virtual int IndexOf(ItemType const &item) const = 0;
+        virtual bool Contains(ItemType const &item) const = 0;
+        virtual void Clear() = 0;
+        virtual int Count() const = 0;
+        virtual ItemType &operator[](int index) = 0;
+        virtual ItemType const &operator[](int index) const = 0;
 
         virtual void Add(IList<ItemType> const &list)
         {
@@ -76,16 +85,6 @@ namespace base
                 Add(item);
             }
         }
-
-        virtual void Insert(int index, ItemType const &item) = 0;
-        virtual bool Remove(ItemType const &item) = 0;
-        virtual void RemoveAt(int index) = 0;
-        virtual int IndexOf(ItemType const &item) const = 0;
-        virtual bool Contains(ItemType const &item) const = 0;
-        virtual void Clear() = 0;
-        virtual int Count() const = 0;
-        virtual ItemType &operator[](int index) = 0;
-        virtual ItemType const &operator[](int index) const = 0;
 
         /// @brief 获取迭代器
         /// @return
