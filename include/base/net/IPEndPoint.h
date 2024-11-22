@@ -47,5 +47,9 @@ namespace base
         /// @brief 序列化为 json
         /// @return
         Json ToJson() const override;
+
+        /// @brief 转化为字符串
+        /// @return
+        std::string ToString() const override;
     };
 } // namespace base

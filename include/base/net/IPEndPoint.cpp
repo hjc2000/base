@@ -57,3 +57,8 @@ base::Json base::IPEndPoint::ToJson() const
         {"port", _port},
     };
 }
+
+std::string base::IPEndPoint::ToString() const
+{
+    return base::IJsonSerializable::ToString();
+}
