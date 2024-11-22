@@ -36,7 +36,7 @@ namespace base
 
         /// @brief 此终结点所属的家族。
         /// @return
-        EndPointFamily Family() const override;
+        base::EndPointFamily Family() const override;
 
         base::IPAddress IPAddress() const;
         void SetIPAddress(base::IPAddress const &value);

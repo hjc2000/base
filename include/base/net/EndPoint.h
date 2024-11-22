@@ -44,6 +44,6 @@ namespace base
     class EndPoint
     {
     public:
-        virtual EndPointFamily Family() const = 0;
+        virtual base::EndPointFamily Family() const = 0;
     };
 } // namespace base
