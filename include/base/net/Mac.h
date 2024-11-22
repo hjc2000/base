@@ -1,5 +1,6 @@
 #pragma once
 #include <base/container/Array.h>
+#include <base/stream/ReadOnlySpan.h>
 #include <base/string/ICanToString.h>
 #include <bit>
 #include <cstdint>
@@ -27,6 +28,11 @@ namespace base
         /// @param endian 你传入的 MAC 地址数组是大端序的还是小端序的
         /// @param mac_buffer MAC 地址数组。可以是大端序也可以是小端序，只要 endian 参数正确指明就行。
         Mac(std::endian endian, base::Array<uint8_t, 6> const &mac_buffer);
+
+        /// @brief 从 ReadOnlySpan 中构造 MAC.
+        /// @param endian span 中的 MAC 地址的字节序。
+        /// @param span 储存着 MAC 地址的内存。会将这段内存的数据拷贝过来。
+        Mac(std::endian endian, base::ReadOnlySpan const &span);
 
         /// @brief 拷贝构造函数。
         /// @param o

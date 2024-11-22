@@ -19,6 +19,12 @@ base::Mac::Mac(std::endian endian, base::Array<uint8_t, 6> const &mac_buffer)
     }
 }
 
+base::Mac::Mac(std::endian endian, base::ReadOnlySpan const &span)
+{
+    base::Span buffer{_mac_buffer.Buffer(), _mac_buffer.Count()};
+    buffer.CopyFrom(span);
+}
+
 base::Mac::Mac(Mac const &o)
 {
     _mac_buffer = o._mac_buffer;

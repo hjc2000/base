@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <array>
 #include <base/container/iterator/IEnumerable.h>
-#include <base/stream/Span.h>
 #include <stdexcept>
 #include <string>
 

@@ -85,10 +85,39 @@ base::IPAddress::IPAddress(std::endian endian, std::initializer_list<uint8_t> co
     }
     else
     {
-        throw std::invalid_argument{
-            "传入的初始化列表的大小既不符合 IPV4 的 4 个字节，"
-            "也不符合 IPV6 的 16 个字节。",
-        };
+        throw std::invalid_argument{"传入的初始化列表的尺寸不符合要求。"};
+    }
+}
+
+base::IPAddress::IPAddress(std::endian endian, base::ReadOnlySpan const &span)
+{
+    if (span.Size() == 4)
+    {
+        _type = IPAddressType::IPV4;
+        _span = base::Span{_ip_address_buffer.Buffer(), 4};
+        _span.CopyFrom(span);
+
+        // 用小端序存放 IPV4 地址
+        if (endian != std::endian::little)
+        {
+            _span.Reverse();
+        }
+    }
+    else if (span.Size() == 16)
+    {
+        _type = IPAddressType::IPV6;
+        _span = base::Span{_ip_address_buffer.Buffer(), 16};
+        _span.CopyFrom(span);
+
+        // 用小端序存放 IPV6 地址
+        if (endian != std::endian::little)
+        {
+            _span.Reverse();
+        }
+    }
+    else
+    {
+        throw std::invalid_argument{"传入的 span 的尺寸不符合要求。"};
     }
 }
 

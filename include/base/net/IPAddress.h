@@ -5,6 +5,7 @@
 #endif
 
 #include <base/container/Array.h>
+#include <base/stream/ReadOnlySpan.h>
 #include <base/stream/Span.h>
 #include <base/string/ICanToString.h>
 #include <bit>
@@ -53,6 +54,14 @@ namespace base
         /// @param endian 初始化列表中的 IP 地址的字节序。
         /// @param list 储存着 IP 地址的初始化列表。
         IPAddress(std::endian endian, std::initializer_list<uint8_t> const &list);
+
+        /// @brief 从 ReadOnlySpan 构造 IP 地址。
+        ///
+        /// @param endian span 中 IP 地址的字节序。
+        ///
+        /// @param span 储存着 IP 地址的一段内存。
+        /// @note 构造时不是引用这段内存，而是将这段内存中的数据拷贝过来。
+        IPAddress(std::endian endian, base::ReadOnlySpan const &span);
 
         /// @brief 拷贝构造函数。
         /// @param o
