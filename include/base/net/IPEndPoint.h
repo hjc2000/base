@@ -1,10 +1,12 @@
 #pragma once
 #include <base/net/IPAddress.h>
+#include <base/string/Json.h>
 
 namespace base
 {
     /// @brief IP 终结点。
-    class IPEndPoint
+    class IPEndPoint :
+        public base::IJsonSerializable
     {
     private:
         base::IPAddress _ip_address{};
@@ -35,5 +37,9 @@ namespace base
 
         uint16_t Port() const;
         void SetPort(uint16_t value);
+
+        /// @brief 序列化为 json
+        /// @return
+        Json ToJson() const override;
     };
 } // namespace base

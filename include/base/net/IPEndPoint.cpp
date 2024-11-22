@@ -37,3 +37,11 @@ void base::IPEndPoint::SetPort(uint16_t value)
 {
     _port = value;
 }
+
+base::Json base::IPEndPoint::ToJson() const
+{
+    return base::Json{
+        {"ip", _ip_address.ToString()},
+        {"port", _port},
+    };
+}
