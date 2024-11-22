@@ -17,6 +17,7 @@ namespace base
         base::Array<uint8_t, 6> _mac_buffer{};
 
     public:
+#pragma region 生命周期
         /// @brief 无参构造函数。构造出来的 MAC 地址是全 0.
         Mac() = default;
 
@@ -42,6 +43,7 @@ namespace base
         /// @param o
         /// @return
         Mac &operator=(Mac const &o);
+#pragma endregion
 
         /// @brief 获取本对象内部的用来储存 MAC 地址的数组。
         /// @return
