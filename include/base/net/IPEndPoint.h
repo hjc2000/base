@@ -34,6 +34,8 @@ namespace base
         IPEndPoint &operator=(IPEndPoint const &o);
 #pragma endregion
 
+        /// @brief 此终结点所属的家族。
+        /// @return
         EndPointFamily Family() const override;
 
         base::IPAddress IPAddress() const;
