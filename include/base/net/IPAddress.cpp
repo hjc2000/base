@@ -156,6 +156,11 @@ uint8_t const &base::IPAddress::operator[](int index) const
     return _span[index];
 }
 
+base::IPAddressType base::IPAddress::Type() const
+{
+    return _type;
+}
+
 std::string base::IPAddress::ToString() const
 {
     std::string ret;

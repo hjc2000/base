@@ -18,6 +18,18 @@ base::IPEndPoint &base::IPEndPoint::operator=(IPEndPoint const &o)
     return *this;
 }
 
+base::EndPointFamily base::IPEndPoint::Family() const
+{
+    if (_ip_address.Type() == base::IPAddressType::IPV4)
+    {
+        return base::EndPointFamily::IPV4;
+    }
+    else
+    {
+        return base::EndPointFamily::IPV6;
+    }
+}
+
 base::IPAddress base::IPEndPoint::IPAddress() const
 {
     return _ip_address;

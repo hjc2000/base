@@ -1,4 +1,5 @@
 #pragma once
+#include <base/net/EndPoint.h>
 #include <base/net/IPAddress.h>
 #include <base/string/Json.h>
 
@@ -6,7 +7,8 @@ namespace base
 {
     /// @brief IP 终结点。
     class IPEndPoint :
-        public base::IJsonSerializable
+        public base::IJsonSerializable,
+        public base::EndPoint
     {
     private:
         base::IPAddress _ip_address{};
@@ -31,6 +33,8 @@ namespace base
         /// @return
         IPEndPoint &operator=(IPEndPoint const &o);
 #pragma endregion
+
+        EndPointFamily Family() const override;
 
         base::IPAddress IPAddress() const;
         void SetIPAddress(base::IPAddress const &value);

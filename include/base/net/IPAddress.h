@@ -76,6 +76,8 @@ namespace base
         uint8_t &operator[](int index);
         uint8_t const &operator[](int index) const;
 
+        IPAddressType Type() const;
+
         /// @brief 转化为字符串
         /// @return
         std::string ToString() const override;
