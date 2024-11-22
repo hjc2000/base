@@ -130,7 +130,7 @@ base::IPAddress &base::IPAddress::operator=(IPAddress const &o)
 {
     _ip_address_buffer = o._ip_address_buffer;
     _span = base::Span{_ip_address_buffer.Buffer(), o._span.Size()};
-    _type = _type;
+    _type = o._type;
     return *this;
 }
 
