@@ -8,20 +8,23 @@ namespace base
     namespace ethernet
     {
         /// @brief 只读的以太网帧。
-        class IReadOnlyEthernetFrame
+        class ReadOnlyEthernetFrame
         {
         public:
+            ReadOnlyEthernetFrame() = default;
+            ReadOnlyEthernetFrame(base::ReadOnlySpan const &span);
+
             /// @brief 目的 MAC 地址。
             /// @return
-            virtual base::Mac DestinationMac() const = 0;
+            base::Mac DestinationMac() const;
 
             /// @brief 源 MAC 地址。
             /// @return
-            virtual base::Mac SourceMac() const = 0;
+            base::Mac SourceMac() const;
 
             /// @brief 802.1Q标签。大小：4 字节。
             /// @return
-            virtual base::ReadOnlySpan VlanTag() const = 0;
+            base::ReadOnlySpan VlanTag() const;
 
             /// @brief 类型或长度。
             /// @note 整型值小于等于 1500，则表示长度，大于 1500 则表示帧类型。当含义是帧类型时，
@@ -33,7 +36,7 @@ namespace base
             /// 	@li 0x86DD：表示IPv6数据包
             ///
             /// @return
-            virtual base::ethernet::LengthTypeEnum TypeOrLength() const = 0;
+            base::ethernet::LengthTypeEnum TypeOrLength() const;
 
             /// @brief 载荷数据。
             /// @note 字节数的取值范围：[46, 1500].
@@ -41,7 +44,7 @@ namespace base
             /// @note 如果不满 46 字节，需要后面填充 0，使其达到 46 字节。
             /// @note 因为可能会有填充，所以需要靠 TypeOrLength 属性来识别出有效字节数。
             /// @return
-            virtual base::ReadOnlySpan Payload() const = 0;
+            base::ReadOnlySpan Payload() const;
         };
     } // namespace ethernet
 } // namespace base
