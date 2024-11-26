@@ -14,7 +14,8 @@ namespace base
             base::ReadOnlySpan _span;
 
         public:
-            ReadOnlyEthernetFrame() = default;
+            /// @brief 引用 span 指向的内存段，在此位置解析以太网帧。
+            /// @param span
             ReadOnlyEthernetFrame(base::ReadOnlySpan const &span);
 
             /// @brief 目的 MAC 地址。
