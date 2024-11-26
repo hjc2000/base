@@ -5,6 +5,7 @@
 
 namespace base
 {
+    /// @brief ToHexString 函数的选项。
     struct ToHexStringOption
     {
         /// @brief 是否有 0x 前缀
