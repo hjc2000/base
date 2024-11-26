@@ -31,7 +31,7 @@ namespace base
         /// @param o
         ReadOnlySpan(ReadOnlySpan const &o);
 
-        /// @brief 赋值运算符
+        /// @brief 赋值运算符。
         /// @param o
         /// @return
         ReadOnlySpan &operator=(ReadOnlySpan const &o);
@@ -42,7 +42,7 @@ namespace base
         /// @return
         uint8_t const *Buffer() const;
 
-        /// @brief 所引用的内存大小
+        /// @brief 所引用的内存大小。
         /// @return
         int Size() const;
 
@@ -52,7 +52,7 @@ namespace base
         /// @return
         base::ReadOnlySpan Slice(int start, int size) const;
 
-        /// @brief 获取非 const 迭代器
+        /// @brief 获取非 const 迭代器。
         /// @return
         std::shared_ptr<base::IEnumerator<uint8_t const>> GetEnumerator() override;
     };
