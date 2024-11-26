@@ -10,6 +10,9 @@ namespace base
         /// @brief 只读的以太网帧。
         class ReadOnlyEthernetFrame
         {
+        private:
+            base::ReadOnlySpan _span;
+
         public:
             ReadOnlyEthernetFrame() = default;
             ReadOnlyEthernetFrame(base::ReadOnlySpan const &span);
@@ -25,6 +28,8 @@ namespace base
             /// @brief 802.1Q标签。大小：4 字节。
             /// @return
             base::ReadOnlySpan VlanTag() const;
+
+            bool HasVlanTag() const;
 
             /// @brief 类型或长度。
             /// @note 整型值小于等于 1500，则表示长度，大于 1500 则表示帧类型。当含义是帧类型时，
