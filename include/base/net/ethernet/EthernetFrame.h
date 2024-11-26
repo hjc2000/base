@@ -11,19 +11,14 @@ namespace base
         /// @brief 以太网帧
         class EthernetFrame
         {
-        public:
-            /// @brief 构造一个没有引用任何内存的以太网帧。
-            EthernetFrame() = default;
+        private:
+            base::Span _span;
+            bool _has_vlan_tag = false;
 
+        public:
             /// @brief 构造函数。
             /// @param span 引用的内存。
             EthernetFrame(base::Span const &span);
-
-            /// @brief 前导码。
-            inline static uint8_t constinit _preamble[7] = {0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA};
-
-            /// @brief 帧起始符。
-            inline static uint8_t constinit _frame_start_character = 0xAB;
 
             /// @brief 目的 MAC 地址。
             /// @return
@@ -39,6 +34,18 @@ namespace base
             /// @return
             base::Span VlanTag() const;
             void SetVlanTag(base::Span const &value);
+
+            /// @brief 是否具有 VLAN TAG.
+            /// @return
+            bool HasVlanTag() const;
+
+            /// @brief 设置本以太网帧是否具有 VLAN TAG.
+            /// @note 当设置为有时，从类型长度字段开始往后的字段都要往后偏移 4 个字节，
+            /// 为 VLAN TAG 留出空间，否则就不留出空间。
+            /// @warning 设置为 false 后，调用 VlanTag 和 SetVlanTag 方法将引发异常。
+            /// 因为设置为 false 后相当于禁用了 VLAN TAG.
+            /// @param value
+            void SetHasVlanTag(bool value);
 
             /// @brief 类型或长度。
             /// @note 整型值小于等于 1500，则表示长度，大于 1500 则表示帧类型。当含义是帧类型时，
@@ -61,11 +68,6 @@ namespace base
             /// @return
             base::Span Payload() const;
             void SetPayload(base::Span const &value);
-
-            /// @brief 冗余校验序列。大小：4 字节。
-            /// @return
-            base::Span FrameCheckSequence() const;
-            void SetFrameCheckSequence(base::Span const &value);
         };
     } // namespace ethernet
 } // namespace base
