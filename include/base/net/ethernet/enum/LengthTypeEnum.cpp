@@ -1,4 +1,5 @@
 #include "LengthTypeEnum.h"
+#include <base/string/ToHexString.h>
 
 std::string base::ToString(base::ethernet::LengthTypeEnum value)
 {
@@ -6,31 +7,31 @@ std::string base::ToString(base::ethernet::LengthTypeEnum value)
     {
     case base::ethernet::LengthTypeEnum::IP:
         {
-            return "IP";
+            return "IP " + base::ToHexString(static_cast<uint16_t>(value));
         }
     case base::ethernet::LengthTypeEnum::ARP:
         {
-            return "ARP";
+            return "ARP " + base::ToHexString(static_cast<uint16_t>(value));
         }
     case base::ethernet::LengthTypeEnum::VlanTag:
         {
-            return "VlanTag";
+            return "VlanTag " + base::ToHexString(static_cast<uint16_t>(value));
         }
     case base::ethernet::LengthTypeEnum::Profinet:
         {
-            return "Profinet";
+            return "Profinet " + base::ToHexString(static_cast<uint16_t>(value));
         }
     case base::ethernet::LengthTypeEnum::MRP:
         {
-            return "MRP";
+            return "MRP " + base::ToHexString(static_cast<uint16_t>(value));
         }
     case base::ethernet::LengthTypeEnum::LLDP:
         {
-            return "LLDP";
+            return "LLDP " + base::ToHexString(static_cast<uint16_t>(value));
         }
     default:
         {
-            return "暂不支持将此枚举值转为字符串";
+            return "暂不支持将此枚举值转为字符串 " + base::ToHexString(static_cast<uint16_t>(value));
         }
     }
 }
