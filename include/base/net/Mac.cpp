@@ -23,6 +23,11 @@ base::Mac::Mac(std::endian endian, base::ReadOnlySpan const &span)
 {
     base::Span buffer{_mac_buffer.Buffer(), _mac_buffer.Count()};
     buffer.CopyFrom(span);
+    if (std::endian::little != endian)
+    {
+        // 保存到本数组中的 MAC 地址要是小端序，如果传进来的是大端序，需要翻转。
+        _mac_buffer.Reverse();
+    }
 }
 
 base::Mac::Mac(Mac const &o)
