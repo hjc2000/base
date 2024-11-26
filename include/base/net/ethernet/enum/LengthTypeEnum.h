@@ -1,6 +1,15 @@
 #pragma once
+#ifndef HAS_THREAD
+#define HAS_THREAD 0
+#endif
+
 #include <base/define.h>
 #include <cstdint>
+#include <string>
+
+#if HAS_THREAD
+#include <iostream>
+#endif
 
 namespace base
 {
@@ -25,4 +34,14 @@ namespace base
         };
 
     } // namespace ethernet
+
+    std::string ToString(base::ethernet::LengthTypeEnum value);
 } // namespace base
+
+#if HAS_THREAD
+/// @brief 将 base::ethernet::LengthTypeEnum 输出到输出流中。
+/// @param os
+/// @param value
+/// @return
+std::ostream &operator<<(std::ostream &os, base::ethernet::LengthTypeEnum value);
+#endif
