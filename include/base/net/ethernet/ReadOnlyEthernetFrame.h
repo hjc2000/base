@@ -29,6 +29,8 @@ namespace base
             /// @return
             base::ReadOnlySpan VlanTag() const;
 
+            /// @brief 是否具有 802.1Q标签。
+            /// @return
             bool HasVlanTag() const;
 
             /// @brief 类型或长度。
