@@ -113,3 +113,13 @@ std::string base::Mac::ToString() const
 
     return ret;
 }
+
+base::ReadOnlySpan base::Mac::AsReadOnlySpan() const
+{
+    return base::ReadOnlySpan{_mac_buffer.Buffer(), _mac_buffer.Count()};
+}
+
+base::Span base::Mac::AsSpan()
+{
+    return base::Span{_mac_buffer.Buffer(), _mac_buffer.Count()};
+}

@@ -82,5 +82,13 @@ namespace base
         /// @brief 转化为字符串
         /// @return
         std::string ToString() const override;
+
+        /// @brief 获取引用着本对象内部缓冲区的 ReadOnlySpan.
+        /// @return
+        base::ReadOnlySpan AsReadOnlySpan() const;
+
+        /// @brief 获取引用着本对象内部缓冲区的 Span.
+        /// @return
+        base::Span AsSpan();
     };
 } // namespace base

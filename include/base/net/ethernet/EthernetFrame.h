@@ -13,7 +13,7 @@ namespace base
         {
         private:
             base::Span _span;
-            bool _has_vlan_tag = false;
+            int _frame_size = 0;
 
         public:
             /// @brief 构造函数。
@@ -31,7 +31,8 @@ namespace base
             void SetSourceMac(base::Mac const &value);
 
             /// @brief 802.1Q标签。大小：4 字节。
-            /// @return
+            /// @return 如果具有 VLAN TAG，则返回引用这段内存的 Span，否则返回没有引用任何
+            /// 内存的空的 Span.
             base::Span VlanTag() const;
             void SetVlanTag(base::Span const &value);
 
@@ -39,13 +40,11 @@ namespace base
             /// @return
             bool HasVlanTag() const;
 
-            /// @brief 设置本以太网帧是否具有 VLAN TAG.
-            /// @note 当设置为有时，从类型长度字段开始往后的字段都要往后偏移 4 个字节，
-            /// 为 VLAN TAG 留出空间，否则就不留出空间。
-            /// @warning 设置为 false 后，调用 VlanTag 和 SetVlanTag 方法将引发异常。
-            /// 因为设置为 false 后相当于禁用了 VLAN TAG.
-            /// @param value
-            void SetHasVlanTag(bool value);
+            /// @brief 将 VLAN TAG 所在的 4 个字节清除，变成 0.
+            /// 这么做之后，HasVlanTag 属性就会变成 false.
+            /// @note 本函数会先判断 HasVlanTag，只有 HasVlanTag 为 true 时
+            /// 才会将 VLAN TAG 所在的 4 个字节置成 0，这可以避免在不含 VLAN TAG 时破坏帧。
+            void ClearVlanTag();
 
             /// @brief 类型或长度。
             /// @note 整型值小于等于 1500，则表示长度，大于 1500 则表示帧类型。当含义是帧类型时，
@@ -68,6 +67,11 @@ namespace base
             /// @return
             base::Span Payload() const;
             void SetPayload(base::Span const &value);
+
+            /// @brief 帧大小。有 VLAN TAG 时至少是 64 字节，无 VLAN TAG 时至少是 60 字节。
+            /// 载荷的填充字节也被计算在内。
+            /// @return
+            int FrameSize() const;
         };
     } // namespace ethernet
 } // namespace base
