@@ -60,6 +60,15 @@ namespace base
             return const_cast<IDictionary<KeyType, ValueType> *>(this)->Get(key);
         }
 
+        /// @brief 查找元素。
+        /// @param key 键
+        /// @return 指针。找到了返回元素的指针，找不到返回空指针。
+        ValueType const *Find(KeyType const &key) const
+        {
+            ValueType *p = const_cast<IDictionary<KeyType, ValueType> *>(this)->Find(key);
+            return p;
+        }
+
         /// @brief 检查字典中是否包含指定的键。
         /// @param key
         /// @return 包含则返回 true，不包含则返回 false。
