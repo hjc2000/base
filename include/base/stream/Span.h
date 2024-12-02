@@ -97,5 +97,9 @@ namespace base
 
         /// @brief 将本 Span 所引用的内存的每一个字节都填充为 0.
         void FillWithZero();
+
+        /// @brief 将所有字节填充为 value.
+        /// @param value
+        void FillWith(uint8_t value);
     };
 } // namespace base
