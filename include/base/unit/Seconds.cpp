@@ -73,6 +73,16 @@ base::Seconds::operator int64_t() const
     return static_cast<int64_t>(_value);
 }
 
+base::Seconds::operator double() const
+{
+    return static_cast<double>(_value);
+}
+
+base::Seconds::operator std::string() const
+{
+    return static_cast<std::string>(_value);
+}
+
 #pragma endregion
 
 base::Seconds base::Seconds::operator-() const

@@ -27,12 +27,17 @@ namespace base
         Seconds &operator=(Seconds const &o);
 #pragma endregion
 
+#pragma region 强制转换
         explicit operator base::Fraction() const;
         explicit operator std::chrono::seconds() const;
         explicit operator std::chrono::milliseconds() const;
         explicit operator std::chrono::microseconds() const;
         explicit operator int64_t() const;
+        explicit operator double() const;
+        explicit operator std::string() const;
+#pragma endregion
 
+#pragma region 四则运算符
         Seconds operator-() const;
         Seconds operator+(Seconds const &value) const;
         Seconds operator-(Seconds const &value) const;
@@ -43,6 +48,7 @@ namespace base
         Seconds &operator-=(Seconds const &value);
         Seconds &operator*=(Seconds const &value);
         Seconds &operator/=(Seconds const &value);
+#pragma endregion
 
 #pragma region 比较运算符
 

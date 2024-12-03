@@ -40,10 +40,29 @@ namespace base
         Hz &operator=(Hz const &o);
 #pragma endregion
 
+#pragma region 强制转换
+
         explicit operator base::Fraction() const
         {
             return _value;
         }
+
+        explicit operator int64_t() const
+        {
+            return static_cast<int64_t>(_value);
+        }
+
+        explicit operator double() const
+        {
+            return static_cast<double>(_value);
+        }
+
+        explicit operator std::string() const
+        {
+            return static_cast<std::string>(_value);
+        }
+
+#pragma endregion
 
         Hz operator-() const;
         Hz operator+(Hz const &value) const;
