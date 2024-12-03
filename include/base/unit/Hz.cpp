@@ -1,9 +1,11 @@
 #include "Hz.h"
 #include <base/unit/Seconds.h>
 
+#pragma region 生命周期
+
 base::Hz::Hz(Hz const &o)
 {
-    _value = o._value;
+    *this = o;
 }
 
 base::Hz::Hz(base::Fraction const &value)
@@ -26,6 +28,8 @@ base::Hz &base::Hz::operator=(Hz const &o)
     _value = o._value;
     return *this;
 }
+
+#pragma endregion
 
 base::Hz base::Hz::operator-() const
 {
