@@ -7,7 +7,8 @@ namespace base
     class Hz;
 
     /// @brief 周期。单位：秒。
-    class Seconds
+    class Seconds :
+        public base::ICanToString
     {
     private:
         base::Fraction _value{1};
@@ -40,6 +41,42 @@ namespace base
         Seconds &operator-=(Seconds const &value);
         Seconds &operator*=(Seconds const &value);
         Seconds &operator/=(Seconds const &value);
+
+#pragma region 比较运算符
+
+        bool operator==(Seconds const &value) const
+        {
+            return _value == value._value;
+        }
+
+        bool operator<(Seconds const &value) const
+        {
+            return _value < value._value;
+        }
+
+        bool operator>(Seconds const &value) const
+        {
+            return _value > value._value;
+        }
+
+        bool operator<=(Seconds const &value) const
+        {
+            return _value <= value._value;
+        }
+
+        bool operator>=(Seconds const &value) const
+        {
+            return _value >= value._value;
+        }
+
+#pragma endregion
+
+        /// @brief 转化为字符串
+        /// @return
+        std::string ToString() const override
+        {
+            return _value.ToString();
+        }
     };
 } // namespace base
 

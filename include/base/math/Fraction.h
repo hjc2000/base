@@ -1,4 +1,5 @@
 #pragma once
+#include <base/string/ICanToString.h>
 #include <ostream>
 #include <stdint.h>
 #include <string>
@@ -6,7 +7,8 @@
 namespace base
 {
     /// @brief 分数类
-    class Fraction final
+    class Fraction final :
+        public base::ICanToString
     {
     private:
         int64_t _num = 0;
@@ -77,7 +79,7 @@ namespace base
 
         /// @brief 将分数转化为字符串
         /// @return
-        std::string ToString() const;
+        std::string ToString() const override;
 
         explicit operator int64_t() const;
         explicit operator double() const;
