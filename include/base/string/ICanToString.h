@@ -24,3 +24,8 @@ namespace base
 #if HAS_THREAD
 std::ostream &operator<<(std::ostream &stream, base::ICanToString const &o);
 #endif
+
+namespace std
+{
+    std::string to_string(base::ICanToString const &o);
+}

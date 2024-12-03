@@ -37,6 +37,31 @@ namespace base
         Hz &operator*=(Hz const &value);
         Hz &operator/=(Hz const &value);
 
+        bool operator==(Hz const &value) const
+        {
+            return _value == value._value;
+        }
+
+        bool operator<(Hz const &value) const
+        {
+            return _value < value._value;
+        }
+
+        bool operator>(Hz const &value) const
+        {
+            return _value > value._value;
+        }
+
+        bool operator<=(Hz const &value) const
+        {
+            return _value <= value._value;
+        }
+
+        bool operator>=(Hz const &value) const
+        {
+            return _value >= value._value;
+        }
+
         /// @brief 转化为字符串
         /// @return
         std::string ToString() const override
