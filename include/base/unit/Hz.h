@@ -1,11 +1,13 @@
 #pragma once
 #include <base/math/Fraction.h>
+#include <base/string/ICanToString.h>
 
 namespace base
 {
     class Seconds;
 
-    class Hz
+    class Hz :
+        public base::ICanToString
     {
     private:
         base::Fraction _value{1};
@@ -34,6 +36,13 @@ namespace base
         Hz &operator-=(Hz const &value);
         Hz &operator*=(Hz const &value);
         Hz &operator/=(Hz const &value);
+
+        /// @brief 转化为字符串
+        /// @return
+        std::string ToString() const override
+        {
+            return _value.ToString();
+        }
     };
 } // namespace base
 
