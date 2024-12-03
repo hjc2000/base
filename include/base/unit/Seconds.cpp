@@ -1,11 +1,11 @@
 #include "Seconds.h"
 #include <base/unit/Hz.h>
 
-#pragma region 构造函数
+#pragma region 生命周期
 
 base::Seconds::Seconds(Seconds const &o)
 {
-    _value = o._value;
+    *this = o;
 }
 
 base::Seconds::Seconds(base::Fraction const &value)
@@ -38,13 +38,13 @@ base::Seconds::Seconds(std::chrono::microseconds const &value)
     _value = base::Fraction{value.count()} / 1000 / 1000;
 }
 
-#pragma endregion
-
 base::Seconds &base::Seconds::operator=(Seconds const &o)
 {
     _value = o._value;
     return *this;
 }
+
+#pragma endregion
 
 #pragma region 重载强制转换运算符
 

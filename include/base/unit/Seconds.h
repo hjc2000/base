@@ -14,6 +14,7 @@ namespace base
         base::Fraction _value{1};
 
     public:
+#pragma region 生命周期
         Seconds() = default;
         Seconds(Seconds const &o);
         Seconds(base::Fraction const &value);
@@ -24,6 +25,7 @@ namespace base
         Seconds(std::chrono::microseconds const &value);
 
         Seconds &operator=(Seconds const &o);
+#pragma endregion
 
         explicit operator base::Fraction() const;
         explicit operator std::chrono::seconds() const;
