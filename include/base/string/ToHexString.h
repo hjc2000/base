@@ -25,7 +25,6 @@ namespace base
     std::string ToHexString(int16_t number, ToHexStringOption const &option = ToHexStringOption{});
     std::string ToHexString(uint16_t number, ToHexStringOption const &option = ToHexStringOption{});
 
-    std::string ToHexString(int number, ToHexStringOption const &option = ToHexStringOption{});
     std::string ToHexString(int32_t number, ToHexStringOption const &option = ToHexStringOption{});
     std::string ToHexString(uint32_t number, ToHexStringOption const &option = ToHexStringOption{});
 

@@ -21,11 +21,6 @@ std::string base::ToHexString(uint16_t number, ToHexStringOption const &option)
     return ToHexString(static_cast<uint64_t>(number), option);
 }
 
-std::string base::ToHexString(int number, ToHexStringOption const &option)
-{
-    return ToHexString(static_cast<int32_t>(number), option);
-}
-
 std::string base::ToHexString(int32_t number, ToHexStringOption const &option)
 {
     return ToHexString(static_cast<uint64_t>(number), option);
