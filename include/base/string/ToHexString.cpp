@@ -61,17 +61,7 @@ std::string base::ToHexString(uint64_t number, ToHexStringOption const &option)
 std::string base::ToHexString(void *p, ToHexStringOption const &option)
 {
     std::stringstream string_stream;
-    if (option.with_0x_prefix)
-    {
-        string_stream << "0x";
-    }
-
-    if (option.width > 0)
-    {
-        string_stream << std::setw(option.width) << std::setfill('0');
-    }
-
-    string_stream << std::hex << p;
+    string_stream << p;
     return string_stream.str();
 }
 
