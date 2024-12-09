@@ -21,6 +21,11 @@ std::string base::ToHexString(uint16_t number, ToHexStringOption const &option)
     return ToHexString(static_cast<uint64_t>(number), option);
 }
 
+std::string base::ToHexString(int number, ToHexStringOption const &option)
+{
+    return ToHexString(static_cast<int32_t>(number), option);
+}
+
 std::string base::ToHexString(int32_t number, ToHexStringOption const &option)
 {
     return ToHexString(static_cast<uint64_t>(number), option);
@@ -50,6 +55,23 @@ std::string base::ToHexString(uint64_t number, ToHexStringOption const &option)
     }
 
     string_stream << std::hex << number;
+    return string_stream.str();
+}
+
+std::string base::ToHexString(void *p, ToHexStringOption const &option)
+{
+    std::stringstream string_stream;
+    if (option.with_0x_prefix)
+    {
+        string_stream << "0x";
+    }
+
+    if (option.width > 0)
+    {
+        string_stream << std::setw(option.width) << std::setfill('0');
+    }
+
+    string_stream << std::hex << p;
     return string_stream.str();
 }
 
