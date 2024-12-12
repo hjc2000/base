@@ -1,6 +1,8 @@
 #include "Mbps.h"
 #include <base/unit/Bps.h>
 
+#pragma region 生命周期
+
 base::Mbps::Mbps(int64_t value)
 {
     _value = value;
@@ -26,6 +28,8 @@ base::Mbps &base::Mbps::operator=(Mbps const &o)
     _value = o._value;
     return *this;
 }
+
+#pragma endregion
 
 #pragma region 重载全局运算符
 

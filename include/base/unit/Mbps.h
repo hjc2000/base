@@ -15,14 +15,21 @@ namespace base
         base::Fraction _value = 0;
 
     public:
+#pragma region 生命周期
         Mbps() = default;
         Mbps(int64_t value);
         Mbps(base::Fraction const &o);
         Mbps(Mbps const &o);
         Mbps(base::Bps const &o);
         base::Mbps &operator=(Mbps const &o);
+#pragma endregion
 
         base::Fraction &Value()
+        {
+            return _value;
+        }
+
+        base::Fraction const &Value() const
         {
             return _value;
         }

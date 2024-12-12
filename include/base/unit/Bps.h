@@ -4,6 +4,8 @@
 
 namespace base
 {
+    class Mbps;
+
     /// @brief 比特率。每秒的比特数。这里是 bit / s.
     class Bps :
         public base::ICanToString
@@ -12,11 +14,14 @@ namespace base
         base::Fraction _value = 0;
 
     public:
+#pragma region 生命周期
         Bps() = default;
         Bps(int64_t value);
         Bps(base::Fraction const &o);
+        Bps(Mbps const &o);
         Bps(Bps const &o);
         base::Bps &operator=(Bps const &o);
+#pragma endregion
 
         base::Fraction &Value()
         {
