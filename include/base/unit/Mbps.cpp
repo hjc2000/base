@@ -31,6 +31,103 @@ base::Mbps &base::Mbps::operator=(Mbps const &o)
 
 #pragma endregion
 
+#pragma region 四则运算符
+
+base::Mbps base::Mbps::operator-() const
+{
+	return -_value;
+}
+
+base::Mbps base::Mbps::operator+(Mbps const &value) const
+{
+	return _value + static_cast<base::Fraction>(value);
+}
+
+base::Mbps base::Mbps::operator-(Mbps const &value) const
+{
+	return _value - static_cast<base::Fraction>(value);
+}
+
+base::Mbps base::Mbps::operator*(Mbps const &value) const
+{
+	return _value * static_cast<base::Fraction>(value);
+}
+
+base::Mbps base::Mbps::operator/(Mbps const &value) const
+{
+	return _value / static_cast<base::Fraction>(value);
+}
+
+base::Mbps &base::Mbps::operator+=(Mbps const &value)
+{
+	_value += static_cast<base::Fraction>(value);
+	return *this;
+}
+
+base::Mbps &base::Mbps::operator-=(Mbps const &value)
+{
+	_value -= static_cast<base::Fraction>(value);
+	return *this;
+}
+
+base::Mbps &base::Mbps::operator*=(Mbps const &value)
+{
+	_value *= static_cast<base::Fraction>(value);
+	return *this;
+}
+
+base::Mbps &base::Mbps::operator/=(Mbps const &value)
+{
+	_value /= static_cast<base::Fraction>(value);
+	return *this;
+}
+
+base::Mbps base::Mbps::operator+(base::Bps const &value) const
+{
+	return *this + base::Mbps{value};
+}
+
+base::Mbps base::Mbps::operator-(base::Bps const &value) const
+{
+	return *this - base::Mbps{value};
+}
+
+base::Mbps base::Mbps::operator*(base::Bps const &value) const
+{
+	return *this * base::Mbps{value};
+}
+
+base::Mbps base::Mbps::operator/(base::Bps const &value) const
+{
+	return *this / base::Mbps{value};
+}
+
+base::Mbps &base::Mbps::operator+=(base::Bps const &value)
+{
+	*this += base::Mbps{value};
+	return *this;
+}
+
+base::Mbps &base::Mbps::operator-=(base::Bps const &value)
+{
+	*this -= base::Mbps{value};
+	return *this;
+}
+
+base::Mbps &base::Mbps::operator*=(base::Bps const &value)
+{
+	*this *= base::Mbps{value};
+	return *this;
+}
+
+base::Mbps &base::Mbps::operator/=(base::Bps const &value)
+{
+	*this /= base::Mbps{value};
+	return *this;
+}
+
+#pragma endregion
+
 #pragma region 重载全局运算符
 
 std::ostream &operator<<(std::ostream &ostream, base::Mbps const &right)

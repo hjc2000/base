@@ -59,56 +59,24 @@ namespace base
 #pragma endregion
 
 #pragma region 四则运算符
+		base::Mbps operator-() const;
+		base::Mbps operator+(Mbps const &value) const;
+		base::Mbps operator-(Mbps const &value) const;
+		base::Mbps operator*(Mbps const &value) const;
+		base::Mbps operator/(Mbps const &value) const;
+		base::Mbps &operator+=(Mbps const &value);
+		base::Mbps &operator-=(Mbps const &value);
+		base::Mbps &operator*=(Mbps const &value);
+		base::Mbps &operator/=(Mbps const &value);
 
-		Mbps operator-() const
-		{
-			return -_value;
-		}
-
-		Mbps operator+(Mbps const &value) const
-		{
-			return _value + static_cast<base::Fraction>(value);
-		}
-
-		Mbps operator-(Mbps const &value) const
-		{
-			return _value - static_cast<base::Fraction>(value);
-		}
-
-		Mbps operator*(Mbps const &value) const
-		{
-			return _value * static_cast<base::Fraction>(value);
-		}
-
-		Mbps operator/(Mbps const &value) const
-		{
-			return _value / static_cast<base::Fraction>(value);
-		}
-
-		Mbps &operator+=(Mbps const &value)
-		{
-			_value += static_cast<base::Fraction>(value);
-			return *this;
-		}
-
-		Mbps &operator-=(Mbps const &value)
-		{
-			_value -= static_cast<base::Fraction>(value);
-			return *this;
-		}
-
-		Mbps &operator*=(Mbps const &value)
-		{
-			_value *= static_cast<base::Fraction>(value);
-			return *this;
-		}
-
-		Mbps &operator/=(Mbps const &value)
-		{
-			_value /= static_cast<base::Fraction>(value);
-			return *this;
-		}
-
+		base::Mbps operator+(base::Bps const &value) const;
+		base::Mbps operator-(base::Bps const &value) const;
+		base::Mbps operator*(base::Bps const &value) const;
+		base::Mbps operator/(base::Bps const &value) const;
+		base::Mbps &operator+=(base::Bps const &value);
+		base::Mbps &operator-=(base::Bps const &value);
+		base::Mbps &operator*=(base::Bps const &value);
+		base::Mbps &operator/=(base::Bps const &value);
 #pragma endregion
 
 #pragma region 比较运算符
