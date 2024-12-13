@@ -80,40 +80,22 @@ namespace base
 #pragma endregion
 
 #pragma region 比较运算符
+		bool operator==(Mbps const &value) const;
+		bool operator<(Mbps const &value) const;
+		bool operator>(Mbps const &value) const;
+		bool operator<=(Mbps const &value) const;
+		bool operator>=(Mbps const &value) const;
 
-		bool operator==(Mbps const &value) const
-		{
-			return _value == value._value;
-		}
-
-		bool operator<(Mbps const &value) const
-		{
-			return _value < value._value;
-		}
-
-		bool operator>(Mbps const &value) const
-		{
-			return _value > value._value;
-		}
-
-		bool operator<=(Mbps const &value) const
-		{
-			return _value <= value._value;
-		}
-
-		bool operator>=(Mbps const &value) const
-		{
-			return _value >= value._value;
-		}
-
+		bool operator==(base::Bps const &value) const;
+		bool operator<(base::Bps const &value) const;
+		bool operator>(base::Bps const &value) const;
+		bool operator<=(base::Bps const &value) const;
+		bool operator>=(base::Bps const &value) const;
 #pragma endregion
 
 		/// @brief 转化为字符串
 		/// @return
-		std::string ToString() const override
-		{
-			return _value.ToString();
-		}
+		std::string ToString() const override;
 	};
 } // namespace base
 

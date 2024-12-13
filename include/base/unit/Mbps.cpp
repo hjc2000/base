@@ -128,6 +128,65 @@ base::Mbps &base::Mbps::operator/=(base::Bps const &value)
 
 #pragma endregion
 
+#pragma region 比较运算符
+
+bool base::Mbps::operator==(Mbps const &value) const
+{
+	return _value == value._value;
+}
+
+bool base::Mbps::operator<(Mbps const &value) const
+{
+	return _value < value._value;
+}
+
+bool base::Mbps::operator>(Mbps const &value) const
+{
+	return _value > value._value;
+}
+
+bool base::Mbps::operator<=(Mbps const &value) const
+{
+	return _value <= value._value;
+}
+
+bool base::Mbps::operator>=(Mbps const &value) const
+{
+	return _value >= value._value;
+}
+
+bool base::Mbps::operator==(base::Bps const &value) const
+{
+	return *this == base::Mbps{value};
+}
+
+bool base::Mbps::operator<(base::Bps const &value) const
+{
+	return *this < base::Mbps{value};
+}
+
+bool base::Mbps::operator>(base::Bps const &value) const
+{
+	return *this > base::Mbps{value};
+}
+
+bool base::Mbps::operator<=(base::Bps const &value) const
+{
+	return *this <= base::Mbps{value};
+}
+
+bool base::Mbps::operator>=(base::Bps const &value) const
+{
+	return *this >= base::Mbps{value};
+}
+
+#pragma endregion
+
+std::string base::Mbps::ToString() const
+{
+	return _value.ToString();
+}
+
 #pragma region 重载全局运算符
 
 std::ostream &operator<<(std::ostream &ostream, base::Mbps const &right)

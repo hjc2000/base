@@ -182,6 +182,11 @@ bool base::Bps::operator>=(base::Mbps const &value) const
 
 #pragma endregion
 
+std::string base::Bps::ToString() const
+{
+	return _value.ToString();
+}
+
 #pragma region 重载全局运算符
 
 std::ostream &operator<<(std::ostream &ostream, base::Bps const &right)
