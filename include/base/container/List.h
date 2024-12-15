@@ -94,7 +94,13 @@ namespace base
 
 		bool Remove(ItemType const &item) override
 		{
-			auto it = std::find(_vector.begin(), _vector.end(), item);
+			auto it = std::find_if(_vector.begin(),
+								   _vector.end(),
+								   [item](ItemType const &p)
+								   {
+									   return base::Equal(p, item);
+								   });
+
 			if (it != _vector.end())
 			{
 				_vector.erase(it);
@@ -116,7 +122,13 @@ namespace base
 
 		int IndexOf(ItemType const &item) const override
 		{
-			auto it = std::find(_vector.begin(), _vector.end(), item);
+			auto it = std::find_if(_vector.begin(),
+								   _vector.end(),
+								   [item](ItemType const &p)
+								   {
+									   return base::Equal(p, item);
+								   });
+
 			if (it != _vector.end())
 			{
 				return (int)std::distance(_vector.begin(), it); // 返回元素的索引
@@ -127,7 +139,14 @@ namespace base
 
 		bool Contains(ItemType const &item) const override
 		{
-			return std::find(_vector.begin(), _vector.end(), item) != _vector.end();
+			auto it = std::find_if(_vector.begin(),
+								   _vector.end(),
+								   [item](ItemType const &p)
+								   {
+									   return base::Equal(p, item);
+								   });
+
+			return it != _vector.end();
 		}
 
 		void Clear() override
