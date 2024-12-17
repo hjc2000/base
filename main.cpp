@@ -12,18 +12,15 @@
 #include <format>
 #include <iostream>
 
-class Test
-{
-public:
-	bool operator==(Test const &o) const
-	{
-		return this == &o;
-	}
-};
-
 int main()
 {
-	Test t1;
-	Test t2;
-	std::cout << base::Equal(t1, t2) << std::endl;
+	std::vector<uint8_t> buffer;
+	for (int i = 0; i < 16 * 16; i++)
+	{
+		buffer.push_back(i);
+	}
+
+	base::ToHexStringOption options;
+	options.width = 2;
+	std::cout << base::ToHexString(buffer.data(), buffer.size(), options) << std::endl;
 }
