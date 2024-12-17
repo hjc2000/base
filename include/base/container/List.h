@@ -96,7 +96,7 @@ namespace base
 		{
 			auto it = std::find_if(_vector.begin(),
 								   _vector.end(),
-								   [item](ItemType const &p)
+								   [&](ItemType const &p)
 								   {
 									   return base::Equal(p, item);
 								   });
@@ -124,7 +124,7 @@ namespace base
 		{
 			auto it = std::find_if(_vector.begin(),
 								   _vector.end(),
-								   [item](ItemType const &p)
+								   [&](ItemType const &p)
 								   {
 									   return base::Equal(p, item);
 								   });
@@ -141,7 +141,7 @@ namespace base
 		{
 			auto it = std::find_if(_vector.begin(),
 								   _vector.end(),
-								   [item](ItemType const &p)
+								   [&](ItemType const &p)
 								   {
 									   return base::Equal(p, item);
 								   });
