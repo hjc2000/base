@@ -3,6 +3,11 @@
 
 namespace base
 {
+	/// @brief 包装器。
+	/// @note 包装器默认情况下是独占被包装对象，并且负责在析构函数中清理被包装对象的资源，
+	/// 为了避免重复清理资源，默认情况下删除包装器的拷贝构造函数和赋值运算符。如果派生类
+	/// 允许这种行为，可以自己定义它们。
+	/// @tparam T
 	template <class T>
 	class Wrapper
 	{
@@ -12,12 +17,13 @@ namespace base
 		operator bool() = delete;
 
 	public:
+		/// @brief 允许无参构造。
+		/// @note 因为拷贝构造函数被删除，如果这里不定义无参构造，将会造成
+		/// 派生类无法构造。
 		Wrapper() = default;
 
-		/// @brief 被包装对象一般应该是通过指针指向的位于堆中的对象，因为这样允许运行时更换被包装对象。
-		/// 本函数返回的是指针的引用，允许修改指针的指向。
+		/// @brief 获取被包装对象的指针。
 		/// @return
-		virtual T *&WrappedObj() = 0;
 		virtual T *WrappedObj() const = 0;
 
 		/// @brief 如果被包装对象是空指针，则返回 true。
@@ -27,26 +33,22 @@ namespace base
 			return WrappedObj() == nullptr;
 		}
 
-		/// @brief 访问本类中储存的被包装类型对象的指针
+		/// @brief 访问本类中储存的被包装类型对象的指针。
 		/// @return
 		T *operator->() const
 		{
 			return WrappedObj();
 		}
 
-		/// @brief 将本类对象强制转换为被包装类型的指针
+		/// @brief 将本类对象强制转换为被包装类型的指针。
 		operator T *() const
 		{
 			return WrappedObj();
 		}
 
-		/// @brief 将本类对象强制转换为被包装类型的指针的指针。
-		/// 本函数返回的是指针的指针，也就是可以用来将被包装对象替换成另一个对象。
-		operator T **()
-		{
-			return &WrappedObj();
-		}
-
+		/// @brief 重载相等比较运算符。只有被包装对象的指针相同时才认为包装器相等。
+		/// @param o
+		/// @return
 		bool operator==(Wrapper<T> const &o) const
 		{
 			return WrappedObj() == o.WrappedObj();
