@@ -15,7 +15,6 @@ namespace base
 	private:
 		Wrapper(Wrapper<T> const &o) = delete;
 		void operator=(Wrapper<T> const &o) = delete;
-		operator bool() = delete;
 
 	public:
 		/// @brief 允许无参构造。
@@ -26,13 +25,6 @@ namespace base
 		/// @brief 获取被包装对象的指针。
 		/// @return
 		virtual T *WrappedObj() const = 0;
-
-		/// @brief 如果被包装对象是空指针，则返回 true。
-		/// @return
-		bool IsNull() const
-		{
-			return WrappedObj() == nullptr;
-		}
 
 		/// @brief 访问本类中储存的被包装类型对象的指针。
 		/// @return
