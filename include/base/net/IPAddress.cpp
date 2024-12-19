@@ -214,6 +214,16 @@ base::ReadOnlySpan base::IPAddress::AsReadOnlySpan() const
 	return _span;
 }
 
+base::Array<uint8_t, 16> const &base::IPAddress::InternalArray() const
+{
+	return _ip_address_buffer;
+}
+
+base::Array<uint8_t, 16> &base::IPAddress::InternalArray()
+{
+	return _ip_address_buffer;
+}
+
 #pragma region 测试
 
 #if HAS_THREAD

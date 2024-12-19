@@ -90,6 +90,14 @@ namespace base
 		/// @brief 获取引用着本对象缓冲区的 ReadOnlySpan.
 		/// @return
 		base::ReadOnlySpan AsReadOnlySpan() const;
+
+		/// @brief 获取本对象内部用来储存 IP 地址的数组。
+		/// @return
+		base::Array<uint8_t, 16> const &InternalArray() const;
+
+		/// @brief 获取本对象内部用来储存 IP 地址的数组。
+		/// @return
+		base::Array<uint8_t, 16> &InternalArray();
 	};
 
 #if HAS_THREAD

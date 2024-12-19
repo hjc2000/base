@@ -49,6 +49,10 @@ namespace base
 		/// @return
 		base::Array<uint8_t, 6> const &InternalArray() const;
 
+		/// @brief 获取本对象内部的用来储存 MAC 地址的数组。
+		/// @return
+		base::Array<uint8_t, 6> &InternalArray();
+
 #pragma region 类型转换
 		/// @brief 显示将本对象强制转换为 base::Array<uint8_t, 6>.
 		/// 原理是将 MAC 地址拷贝到 base::Array<uint8_t, 6> 中。

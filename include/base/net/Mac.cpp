@@ -48,6 +48,11 @@ base::Array<uint8_t, 6> const &base::Mac::InternalArray() const
 	return _mac_buffer;
 }
 
+base::Array<uint8_t, 6> &base::Mac::InternalArray()
+{
+	return _mac_buffer;
+}
+
 #pragma region 类型转换
 
 base::Mac::operator base::Array<uint8_t, 6>() const
