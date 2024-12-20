@@ -1,4 +1,5 @@
 #include "ToHexString.h"
+#include <algorithm>
 #include <stdexcept>
 
 namespace
@@ -15,10 +16,10 @@ namespace
 
 		if (num < 10)
 		{
-			return static_cast<uint8_t>('0') + num;
+			return '0' + num;
 		}
 
-		return static_cast<uint8_t>('a') + num - 10;
+		return 'a' + num - 10;
 	}
 } // namespace
 
@@ -59,19 +60,34 @@ std::string base::ToHexString(int64_t number, ToHexStringOption const &option)
 
 std::string base::ToHexString(uint64_t number, ToHexStringOption const &option)
 {
-	std::string ret;
-	ret.reserve(100);
+	// 64 位数据，每 4 位需要一个 16 进制数来表示
+	int reserve = 64 / 4;
+	if (option.width > reserve)
+	{
+		// 填充后宽度大于实际内容，保留的空间定为 option.width.
+		reserve = option.width;
+	}
 
+	if (option.with_0x_prefix)
+	{
+		// 还需要额外为 0x 前缀保留 2 个字节的空间。
+		reserve += 2;
+	}
+
+	std::string ret;
+	ret.reserve(reserve);
+
+	// 倒着拼接，最后需要翻转
 	while (true)
 	{
-		ret = NumToOneHex(number & 0xf) + ret;
+		ret += NumToOneHex(number & 0xf);
 		number >>= 4;
 		if (number == 0)
 		{
 			break;
 		}
 
-		if (ret.size() > 100)
+		if (static_cast<int32_t>(ret.size()) > reserve)
 		{
 			throw std::runtime_error{"ToHexString 在拼接数字时结果特别长"};
 		}
@@ -79,14 +95,15 @@ std::string base::ToHexString(uint64_t number, ToHexStringOption const &option)
 
 	while (static_cast<int32_t>(ret.size()) < option.width)
 	{
-		ret = '0' + ret;
+		ret += '0';
 	}
 
 	if (option.with_0x_prefix)
 	{
-		ret = "0x" + ret;
+		ret += "x0";
 	}
 
+	std::reverse(ret.begin(), ret.end());
 	return ret;
 }
 
@@ -106,11 +123,22 @@ std::string base::ToHexString(uint8_t *buffer,
 	}
 
 	std::string ret;
-	ret.reserve(3 * size);
+
+	/**
+	 * 对于每个数字：
+	 * 		@li 类似 0x00 这样的，占用 4 个字符。
+	 * 		@li ", " 空白及逗号再占用 2 个字符。
+	 */
+	int reserve = (4 + 2) * size;
+
+	// 每 16 个数字要有一个换行符，于是再加上 size/16
+	reserve += size / 16;
+	ret.reserve(reserve);
 
 	for (int i = 0; i < size; i++)
 	{
-		ret += base::ToHexString(buffer[i], option) + ", ";
+		ret += base::ToHexString(buffer[i], option);
+		ret += ", ";
 		if ((i + 1) % 16 == 0)
 		{
 			ret += '\n';
