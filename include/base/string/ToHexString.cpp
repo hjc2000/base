@@ -15,10 +15,10 @@ namespace
 
 		if (num < 10)
 		{
-			return '0' + num;
+			return static_cast<uint8_t>('0') + num;
 		}
 
-		return 'a' + num - 10;
+		return static_cast<uint8_t>('a') + num - 10;
 	}
 } // namespace
 
