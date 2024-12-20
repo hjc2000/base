@@ -85,8 +85,8 @@ std::string base::ToHexString(uint64_t number, ToHexStringOption const &option)
 
 std::string base::ToHexString(void *p, ToHexStringOption const &option)
 {
-	uint64_t addr = reinterpret_cast<uint64_t>(p) & static_cast<size_t>(-1);
-	return ToHexString(addr, option);
+	size_t address = reinterpret_cast<size_t>(p);
+	return ToHexString(static_cast<uint64_t>(address), option);
 }
 
 std::string base::ToHexString(uint8_t *buffer,
