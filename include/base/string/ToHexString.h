@@ -67,7 +67,7 @@ namespace base
 	/// @param p
 	/// @param option
 	/// @return
-	std::string ToHexString(void *p, ToHexStringOption const &option = ToHexStringOption{});
+	std::string ToHexString(void const *p, ToHexStringOption const &option = ToHexStringOption{});
 
 	/// @brief 将缓冲区中的每个字节变成 16 进制字符串，每个字节的字符串用逗号分隔，每
 	/// 20 个字节一行。
