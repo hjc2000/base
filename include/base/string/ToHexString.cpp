@@ -68,6 +68,11 @@ std::string base::ToHexString(uint64_t number, ToHexStringOption const &option)
 		{
 			break;
 		}
+
+		if (ret.size() > 100)
+		{
+			throw std::runtime_error{"ToHexString 在拼接数字时结果特别长"};
+		}
 	}
 
 	while (static_cast<int32_t>(ret.size()) < option.width)
