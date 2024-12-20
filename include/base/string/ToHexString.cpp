@@ -60,6 +60,8 @@ std::string base::ToHexString(int64_t number, ToHexStringOption const &option)
 std::string base::ToHexString(uint64_t number, ToHexStringOption const &option)
 {
 	std::string ret;
+	ret.reserve(100);
+
 	while (true)
 	{
 		ret = NumToOneHex(number & 0xf) + ret;
@@ -104,6 +106,8 @@ std::string base::ToHexString(uint8_t *buffer,
 	}
 
 	std::string ret;
+	ret.reserve(3 * size);
+
 	for (int i = 0; i < size; i++)
 	{
 		ret += base::ToHexString(buffer[i], option) + ", ";
