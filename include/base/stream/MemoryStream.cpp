@@ -74,7 +74,12 @@ int32_t base::MemoryStream::Read(uint8_t *buffer, int32_t offset, int32_t count)
 {
 	if (buffer == nullptr)
 	{
-		throw std::invalid_argument{"buffer 不能是空指针"};
+		throw std::invalid_argument{"buffer 不能是空指针。"};
+	}
+
+	if (count == 0)
+	{
+		throw std::invalid_argument{"不能读取 0 个字节。"};
 	}
 
 	if (AvaliableToRead() == 0)
@@ -101,9 +106,9 @@ int32_t base::MemoryStream::Read(uint8_t *buffer, int32_t offset, int32_t count)
 
 void base::MemoryStream::Write(uint8_t const *buffer, int32_t offset, int32_t count)
 {
-	if (!buffer)
+	if (buffer == nullptr)
 	{
-		throw std::invalid_argument{"buffer 不能是空指针"};
+		throw std::invalid_argument{"buffer 不能是空指针。"};
 	}
 
 	if (count > AvaliableToWrite())
