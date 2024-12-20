@@ -1,104 +1,105 @@
 #include "JoinedStream.h"
 
-using namespace base;
-
-/// @brief 尝试从队列中获取流，如果队列为空，会触发回调然后再尝试退队。如果实在获取不到新的流，
-/// 本方法会返回 nullptr。
-/// @return
-std::shared_ptr<base::Stream> JoinedStream::TryGetStream()
+std::shared_ptr<base::Stream> base::JoinedStream::TryGetStream()
 {
-    if (_stream_queue.Count() == 0 && _on_current_stream_end)
-    {
-        _on_current_stream_end();
-    }
+	if (_stream_queue.Count() == 0 && _on_current_stream_end)
+	{
+		_on_current_stream_end();
+	}
 
-    try
-    {
-        return _stream_queue.Dequeue();
-    }
-    catch (...)
-    {
-        return nullptr;
-    }
+	try
+	{
+		return _stream_queue.Dequeue();
+	}
+	catch (...)
+	{
+		return nullptr;
+	}
 }
 
-void JoinedStream::AppendStream(std::shared_ptr<base::Stream> stream)
+void base::JoinedStream::SubscribeToCurrentStreamEndEvent(std::function<void()> func)
 {
-    _stream_queue.Enqueue(stream);
+	_on_current_stream_end = func;
 }
 
-bool JoinedStream::CanRead()
+void base::JoinedStream::AppendStream(std::shared_ptr<base::Stream> stream)
 {
-    return true;
+	_stream_queue.Enqueue(stream);
 }
 
-bool JoinedStream::CanWrite()
+bool base::JoinedStream::CanRead()
 {
-    return false;
+	return true;
 }
 
-bool JoinedStream::CanSeek()
+bool base::JoinedStream::CanWrite()
 {
-    return false;
+	return false;
 }
 
-int64_t JoinedStream::Length()
+bool base::JoinedStream::CanSeek()
 {
-    throw std::runtime_error{"不支持的操作"};
+	return false;
 }
 
-void JoinedStream::SetLength(int64_t value)
+int64_t base::JoinedStream::Length()
 {
-    throw std::runtime_error{"不支持的操作"};
+	throw std::runtime_error{"不支持的操作"};
 }
 
-int32_t JoinedStream::Read(uint8_t *buffer, int32_t offset, int32_t count)
+void base::JoinedStream::SetLength(int64_t value)
 {
-    while (true)
-    {
-        if (!_current_stream)
-        {
-            _current_stream = TryGetStream();
-            if (!_current_stream)
-            {
-                return 0;
-            }
-        }
-
-        // 执行到这里说明 _current_stream 不为空
-        int32_t have_read = _current_stream->Read(buffer, offset, count);
-        if (have_read == 0)
-        {
-            // 此流结束了，应该尝试获取下一个流继续读取
-            _current_stream = nullptr;
-            continue;
-        }
-
-        _position += have_read;
-        return have_read;
-    }
+	throw std::runtime_error{"不支持的操作"};
 }
 
-void JoinedStream::Write(uint8_t const *buffer, int32_t offset, int32_t count)
+int32_t base::JoinedStream::Read(uint8_t *buffer, int32_t offset, int32_t count)
 {
-    throw std::runtime_error{"不支持的操作"};
+	while (true)
+	{
+		if (_current_stream == nullptr)
+		{
+			_current_stream = TryGetStream();
+			if (_current_stream == nullptr)
+			{
+				// 尝试获取流之后 _current_stream 仍然是空，JoinedStream 结束。
+				return 0;
+			}
+		}
+
+		// 执行到这里说明 _current_stream 不为空
+		int32_t have_read = _current_stream->Read(buffer, offset, count);
+		if (have_read == 0)
+		{
+			// 此流结束了，应该尝试获取下一个流继续读取
+			_current_stream = nullptr;
+			continue;
+		}
+
+		_position += have_read;
+		return have_read;
+	}
 }
 
-void JoinedStream::Flush()
+void base::JoinedStream::Write(uint8_t const *buffer, int32_t offset, int32_t count)
 {
-    throw std::runtime_error{"不支持的操作"};
+	throw std::runtime_error{"不支持的操作"};
 }
 
-void JoinedStream::Close()
+void base::JoinedStream::Flush()
+{
+	throw std::runtime_error{"不支持的操作"};
+}
+
+void base::JoinedStream::Close()
 {
 }
 
-int64_t JoinedStream::Position()
+int64_t base::JoinedStream::Position()
 {
-    return _position;
+	return _position;
 }
 
-void JoinedStream::SetPosition(int64_t value)
+void base::JoinedStream::SetPosition(int64_t value)
 {
-    throw std::runtime_error{"不支持的操作"};
+	throw std::runtime_error{"不支持的操作"};
 }
