@@ -1,5 +1,6 @@
 #include "Mac.h"
 #include <base/bit/AutoBitConverter.h>
+#include <base/string/define.h>
 #include <base/string/ToHexString.h>
 
 #pragma region 构造函数
@@ -21,6 +22,11 @@ base::Mac::Mac(std::endian endian, base::Array<uint8_t, 6> const &mac_buffer)
 
 base::Mac::Mac(std::endian endian, base::ReadOnlySpan const &span)
 {
+	if (span.Size() != 6)
+	{
+		throw std::invalid_argument{std::string{CODE_POS_STR} + "传进来的 span 的大小必须为 6 字节。"};
+	}
+
 	base::Span buffer{_mac_buffer.Buffer(), _mac_buffer.Count()};
 	buffer.CopyFrom(span);
 	if (std::endian::little != endian)
