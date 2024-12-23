@@ -97,12 +97,22 @@ namespace base
 		/// @return
 		base::List<std::string> Split(char separator) const;
 
+#pragma region Trim
 		/// @brief 裁剪掉字符串开头处的空白字符。
 		/// @note 关于哪些是空白字符，见 IsWhiteChar 函数。
 		/// @return
 		base::String TrimStart() const;
 
+		/// @brief 裁剪掉字符串末尾处的空白字符。
+		/// @note 关于哪些是空白字符，见 IsWhiteChar 函数。
+		/// @return
 		base::String TrimEnd() const;
+
+		/// @brief 裁剪掉字符串开头和结尾的空白字符。
+		/// @note 关于哪些是空白字符，见 IsWhiteChar 函数。
+		/// @return
+		base::String Trim() const;
+#pragma endregion
 	};
 } // namespace base
 

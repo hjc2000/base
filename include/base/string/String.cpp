@@ -125,6 +125,8 @@ base::List<std::string> base::String::Split(char separator) const
 	return ret;
 }
 
+#pragma region Trim
+
 base::String base::String::TrimStart() const
 {
 	if (_string.size() > INT32_MAX)
@@ -180,9 +182,18 @@ base::String base::String::TrimEnd() const
 		}
 	}
 
-	std::string ret{_string.data(), end_index + 1};
+	std::string ret{_string.data(), static_cast<size_t>(end_index + 1)};
 	return base::String{ret};
 }
+
+base::String base::String::Trim() const
+{
+	base::String ret = TrimStart();
+	ret = ret.TrimEnd();
+	return ret;
+}
+
+#pragma endregion
 
 base::String operator+(std::string const &left, base::String const &right)
 {
