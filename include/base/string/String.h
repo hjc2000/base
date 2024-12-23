@@ -113,6 +113,12 @@ namespace base
 		/// @return
 		base::String Trim() const;
 #pragma endregion
+
+		/// @brief 获取某个字符在字符串中的第一个索引。
+		/// @param value 要被查找索引的字符。
+		/// @return 如果字符串中存在该字符，则返回第 1 个索引。如果字符串中不存在该字符，
+		/// 则返回 -1.
+		int32_t IndexOf(char value) const;
 	};
 } // namespace base
 

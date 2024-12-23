@@ -199,6 +199,24 @@ base::String base::String::Trim() const
 
 #pragma endregion
 
+int32_t base::String::IndexOf(char value) const
+{
+	if (_string.size() > INT32_MAX)
+	{
+		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GB 内存。"};
+	}
+
+	for (int32_t i = 0; i < static_cast<int32_t>(_string.size()); i++)
+	{
+		if (_string[i] == value)
+		{
+			return i;
+		}
+	}
+
+	return -1;
+}
+
 base::String operator+(std::string const &left, base::String const &right)
 {
 	return base::String{right + left};
