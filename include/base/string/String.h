@@ -1,4 +1,6 @@
 #pragma once
+#include <base/container/List.h>
+#include <iostream>
 #include <stdexcept>
 #include <stdint.h>
 #include <string>
@@ -36,15 +38,15 @@ namespace base
 		std::string &StdString();
 		std::string const &StdString() const;
 
-		char &operator[](size_t index);
-		char const &operator[](size_t index) const;
+		char &operator[](int32_t index);
+		char const &operator[](int32_t index) const;
 
 		base::String &operator+=(base::String const &o);
 		base::String operator+(base::String const &o) const;
 
 		/// @brief 字符串长度。不包括结尾的空字符。
 		/// @return
-		size_t Length() const;
+		int32_t Length() const;
 
 #pragma region 迭代
 		using Iterator = std::string::iterator;
@@ -72,7 +74,10 @@ namespace base
 		}
 
 #pragma endregion
+
+		base::List<std::string> Split(char separator) const;
 	};
 } // namespace base
 
 base::String operator+(std::string const &left, base::String const &right);
+std::ostream &operator<<(std::ostream &os, base::String const &str);

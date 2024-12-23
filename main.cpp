@@ -7,6 +7,7 @@
 #include <base/net/Mac.h>
 #include <base/sfinae/Equal.h>
 #include <base/stream/MemoryStream.h>
+#include <base/string/String.h>
 #include <base/string/StringHelper.h>
 #include <base/string/ToHexString.h>
 #include <format>
@@ -14,13 +15,10 @@
 
 int main()
 {
-	std::vector<uint8_t> buffer;
-	for (int i = 0; i < 16 * 16; i++)
+	base::String str{"123,456,789"};
+	base::List<std::string> string_list = str.Split(',');
+	for (auto &str : string_list)
 	{
-		buffer.push_back(i);
+		std::cout << str << std::endl;
 	}
-
-	base::ToHexStringOption options;
-	options.width = 2;
-	std::cout << base::ToHexString(buffer.data(), buffer.size(), options) << std::endl;
 }
