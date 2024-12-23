@@ -113,26 +113,23 @@ base::List<base::String> base::String::Split(char separator) const
 		{
 			// 找不到分隔符，将剩余的整个 span 放到一个字符串中。
 			ret.Add(base::String{span});
-			break;
+			return ret;
 		}
 
 		// 找到分隔符
-		if (index == 0)
+		if (index > 1)
 		{
-			// 第一个字符就是分隔符
-			continue;
+			ret.Add(base::String{span.Slice(0, index)});
 		}
 
-		ret.Add(base::String{span.Slice(0, index)});
 		if (index + 1 >= span.Size())
 		{
-			break;
+			// 已经到达末尾了，没有剩余字符了
+			return ret;
 		}
 
 		span = span.Slice(index + 1, span.Size() - (index + 1));
 	}
-
-	return ret;
 }
 
 #pragma region Trim
@@ -174,7 +171,7 @@ base::String base::String::TrimEnd() const
 		return base::String{};
 	}
 
-	for (int32_t i = _string.size(); i > 0; i--)
+	for (int32_t i = _string.size() - 1; i > 0; i--)
 	{
 		if (!IsWhiteChar(_string[i]))
 		{

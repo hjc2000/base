@@ -14,12 +14,12 @@
 
 int main()
 {
-	base::String str{"123,456,789   \r\n\t "};
-	std::cout << str.Length() << std::endl;
-	str = str.TrimEnd();
-	std::cout << str.Length() << std::endl;
+	base::String str{"\n\n\t ,,123,,456,789,,   \n\n"};
+	std::cout << str << std::endl;
+	str = str.Trim();
+	std::cout << str << std::endl;
 
-	base::List<std::string> string_list = str.Split(',');
+	base::List<base::String> string_list = str.Split(',');
 	for (auto &str : string_list)
 	{
 		std::cout << str << std::endl;
