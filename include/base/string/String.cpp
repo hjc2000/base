@@ -216,6 +216,8 @@ bool base::String::Contains(char value) const
 	return IndexOf(value) >= 0;
 }
 
+#pragma region 重载全局运算符
+
 base::String operator+(std::string const &left, base::String const &right)
 {
 	return base::String{right + left};
@@ -226,3 +228,5 @@ std::ostream &operator<<(std::ostream &os, base::String const &str)
 	os << str.StdString();
 	return os;
 }
+
+#pragma endregion
