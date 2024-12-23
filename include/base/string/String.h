@@ -8,6 +8,7 @@
 
 namespace base
 {
+	/// @brief String 类的 Split 方法的选项。
 	struct StringSplitOptions
 	{
 		/// @brief 切割完之后是否对每个子字符串进行 Trim. 即去除头尾的空白字符。
