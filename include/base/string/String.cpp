@@ -1,6 +1,8 @@
 #include "String.h"
 #include <base/stream/ReadOnlySpan.h>
 
+#pragma region 生命周期
+
 base::String::String(std::string const &o)
 {
 	_string = o;
@@ -21,6 +23,8 @@ base::String &base::String::operator=(String const &o)
 	_string = o._string;
 	return *this;
 }
+
+#pragma endregion
 
 std::string &base::String::StdString()
 {
