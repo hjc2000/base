@@ -101,19 +101,50 @@ base::List<std::string> base::String::Split(char separator) const
 		if (index < 0)
 		{
 			// 找不到分隔符，将剩余的整个 span 放到一个字符串中。
-			std::string temp_str{reinterpret_cast<char const *>(span.Buffer()), span.Size()};
+			std::string temp_str{
+				reinterpret_cast<char const *>(span.Buffer()),
+				static_cast<size_t>(span.Size()),
+			};
+
 			ret.Add(temp_str);
 			break;
 		}
 
 		// 找到分隔符
 		base::ReadOnlySpan sub_span = span.Slice(0, index);
-		std::string temp_str{reinterpret_cast<char const *>(sub_span.Buffer()), sub_span.Size()};
+
+		std::string temp_str{
+			reinterpret_cast<char const *>(sub_span.Buffer()),
+			static_cast<size_t>(sub_span.Size()),
+		};
+
 		ret.Add(temp_str);
 		span = span.Slice(index + 1, span.Size() - (index + 1));
 	}
 
 	return ret;
+}
+
+base::String base::String::TrimStart() const
+{
+	if (_string.size() > INT32_MAX)
+	{
+		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GB 内存。"};
+	}
+
+	int32_t start_index = 0;
+	while (true)
+	{
+		if (!IsWhiteChar(_string[start_index]))
+		{
+			break;
+		}
+
+		start_index++;
+	}
+
+	std::string ret{_string.data() + start_index, _string.size() - start_index};
+	return base::String{ret};
 }
 
 base::String operator+(std::string const &left, base::String const &right)

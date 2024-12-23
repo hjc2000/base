@@ -12,6 +12,22 @@ namespace base
 	private:
 		std::string _string;
 
+		static constexpr bool IsWhiteChar(char value)
+		{
+			switch (value)
+			{
+			case ' ':
+			case '\t':
+			case '\r':
+			case '\n':
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
 	public:
 #pragma region 生命周期
 		/// @brief 无参构造函数。
@@ -75,7 +91,15 @@ namespace base
 
 #pragma endregion
 
+		/// @brief 根据分隔符，将字符串拆分成多个子字符串，放到列表中返回。
+		/// @param separator
+		/// @return
 		base::List<std::string> Split(char separator) const;
+
+		/// @brief 裁剪掉字符串开头处的空白字符。
+		/// @note 关于哪些是空白字符，见 IsWhiteChar 函数。
+		/// @return
+		base::String TrimStart() const;
 	};
 } // namespace base
 
