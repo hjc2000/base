@@ -96,6 +96,16 @@ namespace base
 #pragma endregion
 
 		/// @brief 根据分隔符，将字符串拆分成多个子字符串，放到列表中返回。
+		/// @note 连续在一起的分隔符不会导致切割出一个空字符串。
+		/// 例如逗号作分隔符时， "123,,456" 并不会被切割成 3 个字符串，即不会被切割成
+		/// 	@li "123"
+		/// 	@li ""
+		/// 	@li "456"
+		/// 而是会被切割成
+		/// 	@li "123"
+		/// 	@li "456"
+		/// 空字符串被丢弃。
+		///
 		/// @param separator
 		/// @return
 		base::List<base::String> Split(char separator) const;
