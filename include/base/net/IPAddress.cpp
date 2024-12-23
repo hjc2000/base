@@ -122,6 +122,23 @@ base::IPAddress::IPAddress(std::endian endian, base::ReadOnlySpan const &span)
 	}
 }
 
+base::IPAddress::IPAddress(base::String const &ip_str)
+{
+	if (ip_str.Contains('.'))
+	{
+		// 是 IPV4 地址
+		base::List<base::String> sub_string_list = ip_str.Split('.');
+	}
+	else if (ip_str.Contains(':'))
+	{
+		// 是 IPV6 地址
+	}
+	else
+	{
+		throw std::invalid_argument{"必须是点分 10 进制的 IPV4 地址或冒号分 16 进制的 IPV6 地址"};
+	}
+}
+
 base::IPAddress::IPAddress(IPAddress const &o)
 {
 	*this = o;

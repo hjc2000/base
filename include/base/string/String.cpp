@@ -1,5 +1,4 @@
 #include "String.h"
-#include <base/stream/ReadOnlySpan.h>
 
 #pragma region 生命周期
 
@@ -11,6 +10,14 @@ base::String::String(std::string const &o)
 base::String::String(char o)
 {
 	_string = o;
+}
+
+base::String::String(base::ReadOnlySpan const &o)
+{
+	_string = std::string{
+		reinterpret_cast<char const *>(o.Buffer()),
+		static_cast<size_t>(o.Size()),
+	};
 }
 
 base::String::String(String const &o)
@@ -85,44 +92,43 @@ int32_t base::String::Length() const
 	return _string.size();
 }
 
-base::List<std::string> base::String::Split(char separator) const
+base::List<base::String> base::String::Split(char separator) const
 {
 	if (_string.size() > INT32_MAX)
 	{
 		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GB 内存。"};
 	}
 
-	base::List<std::string> ret;
+	base::List<base::String> ret;
 
 	base::ReadOnlySpan span{
 		reinterpret_cast<uint8_t const *>(_string.data()),
 		static_cast<int32_t>(_string.size()),
 	};
 
-	while (span.Size() > 0)
+	while (true)
 	{
 		int32_t index = span.IndexOf(separator);
 		if (index < 0)
 		{
 			// 找不到分隔符，将剩余的整个 span 放到一个字符串中。
-			std::string temp_str{
-				reinterpret_cast<char const *>(span.Buffer()),
-				static_cast<size_t>(span.Size()),
-			};
-
-			ret.Add(temp_str);
+			ret.Add(base::String{span});
 			break;
 		}
 
 		// 找到分隔符
-		base::ReadOnlySpan sub_span = span.Slice(0, index);
+		if (index == 0)
+		{
+			// 第一个字符就是分隔符
+			continue;
+		}
 
-		std::string temp_str{
-			reinterpret_cast<char const *>(sub_span.Buffer()),
-			static_cast<size_t>(sub_span.Size()),
-		};
+		ret.Add(base::String{span.Slice(0, index)});
+		if (index + 1 >= span.Size())
+		{
+			break;
+		}
 
-		ret.Add(temp_str);
 		span = span.Slice(index + 1, span.Size() - (index + 1));
 	}
 
@@ -143,19 +149,17 @@ base::String base::String::TrimStart() const
 		return base::String{};
 	}
 
-	int32_t start_index = 0;
-	while (true)
+	for (int32_t i = 0; i < static_cast<int32_t>(_string.size()); i++)
 	{
-		if (!IsWhiteChar(_string[start_index]))
+		if (!IsWhiteChar(_string[i]))
 		{
-			break;
+			std::string ret{_string.data() + i, _string.size() - i};
+			return base::String{ret};
 		}
-
-		start_index++;
 	}
 
-	std::string ret{_string.data() + start_index, _string.size() - start_index};
-	return base::String{ret};
+	// 遍历完所有字符后都没有找到一个非空白字符，返回空字符串。
+	return base::String{};
 }
 
 base::String base::String::TrimEnd() const
@@ -170,24 +174,17 @@ base::String base::String::TrimEnd() const
 		return base::String{};
 	}
 
-	int32_t end_index = _string.size() - 1;
-	while (true)
+	for (int32_t i = _string.size(); i > 0; i--)
 	{
-		if (!IsWhiteChar(_string[end_index]))
+		if (!IsWhiteChar(_string[i]))
 		{
-			break;
-		}
-
-		end_index--;
-		if (end_index < 0)
-		{
-			// 到索引 0 处仍然是空白字符，说明整个字符串都是空白字符。直接返回空字符串。
-			return base::String{};
+			std::string ret{_string.data(), static_cast<size_t>(i + 1)};
+			return ret;
 		}
 	}
 
-	std::string ret{_string.data(), static_cast<size_t>(end_index + 1)};
-	return base::String{ret};
+	// 到索引 0 处仍然是空白字符，说明整个字符串都是空白字符。直接返回空字符串。
+	return base::String{};
 }
 
 base::String base::String::Trim() const

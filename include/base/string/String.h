@@ -1,5 +1,6 @@
 #pragma once
 #include <base/container/List.h>
+#include <base/stream/ReadOnlySpan.h>
 #include <iostream>
 #include <stdexcept>
 #include <stdint.h>
@@ -41,6 +42,8 @@ namespace base
 		/// @brief 从单个字符构造。
 		/// @param o
 		String(char o);
+
+		String(base::ReadOnlySpan const &o);
 
 		/// @brief 拷贝构造函数。
 		/// @param o
@@ -95,7 +98,7 @@ namespace base
 		/// @brief 根据分隔符，将字符串拆分成多个子字符串，放到列表中返回。
 		/// @param separator
 		/// @return
-		base::List<std::string> Split(char separator) const;
+		base::List<base::String> Split(char separator) const;
 
 #pragma region Trim
 		/// @brief 裁剪掉字符串开头处的空白字符。

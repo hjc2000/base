@@ -8,6 +8,7 @@
 #include <base/stream/ReadOnlySpan.h>
 #include <base/stream/Span.h>
 #include <base/string/ICanToString.h>
+#include <base/string/String.h>
 #include <bit>
 
 namespace base
@@ -61,6 +62,8 @@ namespace base
 		/// @param span 储存着 IP 地址的一段内存。
 		/// @note 构造时不是引用这段内存，而是将这段内存中的数据拷贝过来。
 		IPAddress(std::endian endian, base::ReadOnlySpan const &span);
+
+		IPAddress(base::String const &ip_str);
 
 		/// @brief 拷贝构造函数。
 		/// @param o
