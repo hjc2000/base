@@ -7,6 +7,7 @@
 
 namespace base
 {
+	/// @brief 对 std::string 进行包装。
 	class String
 	{
 	private:
@@ -100,6 +101,8 @@ namespace base
 		/// @note 关于哪些是空白字符，见 IsWhiteChar 函数。
 		/// @return
 		base::String TrimStart() const;
+
+		base::String TrimEnd() const;
 	};
 } // namespace base
 

@@ -132,6 +132,11 @@ base::String base::String::TrimStart() const
 		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GB 内存。"};
 	}
 
+	if (_string.size() == 0)
+	{
+		return base::String{};
+	}
+
 	int32_t start_index = 0;
 	while (true)
 	{
@@ -144,6 +149,38 @@ base::String base::String::TrimStart() const
 	}
 
 	std::string ret{_string.data() + start_index, _string.size() - start_index};
+	return base::String{ret};
+}
+
+base::String base::String::TrimEnd() const
+{
+	if (_string.size() > INT32_MAX)
+	{
+		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GB 内存。"};
+	}
+
+	if (_string.size() == 0)
+	{
+		return base::String{};
+	}
+
+	int32_t end_index = _string.size() - 1;
+	while (true)
+	{
+		if (!IsWhiteChar(_string[end_index]))
+		{
+			break;
+		}
+
+		end_index--;
+		if (end_index < 0)
+		{
+			// 到索引 0 处仍然是空白字符，说明整个字符串都是空白字符。直接返回空字符串。
+			return base::String{};
+		}
+	}
+
+	std::string ret{_string.data(), end_index + 1};
 	return base::String{ret};
 }
 
