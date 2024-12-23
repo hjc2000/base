@@ -92,7 +92,8 @@ int32_t base::String::Length() const
 	return _string.size();
 }
 
-base::List<base::String> base::String::Split(char separator) const
+base::List<base::String> base::String::Split(char separator,
+											 base::StringSplitOptions const &options) const
 {
 	if (_string.size() > INT32_MAX)
 	{
@@ -106,25 +107,43 @@ base::List<base::String> base::String::Split(char separator) const
 		static_cast<int32_t>(_string.size()),
 	};
 
+	/// @brief 在设定的选项下将字符串添加到列表中
+	/// @param o 要被添加的字符串的引用。将会根据 options 对其进行修改后添加到 ret
+	/// 列表中。
+	auto AddToListUnderOptions = [&](base::String &o)
+	{
+		if (options.trim_each_substring)
+		{
+			o = o.Trim();
+		}
+
+		ret.Add(o);
+	};
+
 	while (true)
 	{
 		int32_t index = span.IndexOf(separator);
 		if (index < 0)
 		{
-			// 找不到分隔符，将剩余的整个 span 放到一个字符串中。
-			ret.Add(base::String{span});
+			// 找不到分隔符，将剩余的整个 span 作为一个字符串。
+			base::String temp_str{span};
+			AddToListUnderOptions(temp_str);
 			return ret;
 		}
 
 		// 找到分隔符
-		if (index > 1)
-		{
-			ret.Add(base::String{span.Slice(0, index)});
-		}
-
+		base::String temp_str{span.Slice(0, index)};
+		AddToListUnderOptions(temp_str);
 		if (index + 1 >= span.Size())
 		{
 			// 已经到达末尾了，没有剩余字符了
+			if (_string[_string.size() - 1] == separator)
+			{
+				// 如果以分隔符结尾，还需要末尾再添加一个空字符串。
+				base::String temp_str{""};
+				AddToListUnderOptions(temp_str);
+			}
+
 			return ret;
 		}
 

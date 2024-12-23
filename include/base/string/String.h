@@ -8,6 +8,28 @@
 
 namespace base
 {
+	struct StringSplitOptions
+	{
+		/// @brief 切割完之后是否对每个子字符串进行 Trim. 即去除头尾的空白字符。
+		/// @note 如果 Trim 之后变成空字符串，并且 remove_empty_substring
+		/// 选项为 true，则该字符串将会被移除。
+		/// @note 默认值：false.
+		bool trim_each_substring = false;
+
+		/// @brief 如果为 true，连续在一起的分隔符不会导致切割出一个空字符串。
+		/// 例如逗号作分隔符时， "123,,456" 不会被切割成 3 个字符串，即不会被切割成
+		/// 	@li "123"
+		/// 	@li ""
+		/// 	@li "456"
+		/// 而是会被切割成
+		/// 	@li "123"
+		/// 	@li "456"
+		/// 空字符串被丢弃。
+		///
+		/// @note 默认值：true.
+		bool remove_empty_substring = true;
+	};
+
 	/// @brief 对 std::string 进行包装。
 	class String
 	{
@@ -96,19 +118,10 @@ namespace base
 #pragma endregion
 
 		/// @brief 根据分隔符，将字符串拆分成多个子字符串，放到列表中返回。
-		/// @note 连续在一起的分隔符不会导致切割出一个空字符串。
-		/// 例如逗号作分隔符时， "123,,456" 并不会被切割成 3 个字符串，即不会被切割成
-		/// 	@li "123"
-		/// 	@li ""
-		/// 	@li "456"
-		/// 而是会被切割成
-		/// 	@li "123"
-		/// 	@li "456"
-		/// 空字符串被丢弃。
-		///
 		/// @param separator
 		/// @return
-		base::List<base::String> Split(char separator) const;
+		base::List<base::String> Split(char separator,
+									   base::StringSplitOptions const &options = StringSplitOptions{}) const;
 
 #pragma region Trim
 		/// @brief 裁剪掉字符串开头处的空白字符。
