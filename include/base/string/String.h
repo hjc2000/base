@@ -87,6 +87,16 @@ namespace base
 		base::String &operator+=(base::String const &o);
 		base::String operator+(base::String const &o) const;
 
+		bool operator==(base::String const &o) const
+		{
+			return _string == o._string;
+		}
+
+		bool operator==(std::string const &o) const
+		{
+			return _string == o;
+		}
+
 		/// @brief 字符串长度。不包括结尾的空字符。
 		/// @return
 		int32_t Length() const;

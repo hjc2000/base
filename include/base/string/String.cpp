@@ -117,6 +117,11 @@ base::List<base::String> base::String::Split(char separator,
 			o = o.Trim();
 		}
 
+		if (options.remove_empty_substring && o == "")
+		{
+			return;
+		}
+
 		ret.Add(o);
 	};
 
