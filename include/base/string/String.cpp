@@ -217,6 +217,11 @@ int32_t base::String::IndexOf(char value) const
 	return -1;
 }
 
+bool base::String::Contains(char value) const
+{
+	return IndexOf(value) >= 0;
+}
+
 base::String operator+(std::string const &left, base::String const &right)
 {
 	return base::String{right + left};

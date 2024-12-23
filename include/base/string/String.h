@@ -119,6 +119,11 @@ namespace base
 		/// @return 如果字符串中存在该字符，则返回第 1 个索引。如果字符串中不存在该字符，
 		/// 则返回 -1.
 		int32_t IndexOf(char value) const;
+
+		/// @brief 检查字符串中是否存在至少 1 个指定的字符。
+		/// @param value 指定的字符。
+		/// @return 如果存在，则返回 true, 如果不存在则返回 false.
+		bool Contains(char value) const;
 	};
 } // namespace base
 
