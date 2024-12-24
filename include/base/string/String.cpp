@@ -12,6 +12,11 @@ base::String::String(char o)
 	_string = o;
 }
 
+base::String::String(char const *str)
+{
+	_string = std::string{str};
+}
+
 base::String::String(base::ReadOnlySpan const &o)
 {
 	_string = std::string{
@@ -47,7 +52,7 @@ char &base::String::operator[](int32_t index)
 {
 	if (_string.size() > INT32_MAX)
 	{
-		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GB 内存。"};
+		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
 	}
 
 	if (index > static_cast<int32_t>(_string.size()))
@@ -62,7 +67,7 @@ char const &base::String::operator[](int32_t index) const
 {
 	if (_string.size() > INT32_MAX)
 	{
-		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GB 内存。"};
+		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
 	}
 
 	if (index > static_cast<int32_t>(_string.size()))
@@ -71,6 +76,11 @@ char const &base::String::operator[](int32_t index) const
 	}
 
 	return _string[index];
+}
+
+base::String base::String::operator[](base::Range const &range) const
+{
+	return Slice(range);
 }
 
 base::String &base::String::operator+=(base::String const &o)
@@ -92,12 +102,11 @@ int32_t base::String::Length() const
 	return _string.size();
 }
 
-base::List<base::String> base::String::Split(char separator,
-											 base::StringSplitOptions const &options) const
+base::List<base::String> base::String::Split(char separator, base::StringSplitOptions const &options) const
 {
 	if (_string.size() > INT32_MAX)
 	{
-		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GB 内存。"};
+		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
 	}
 
 	base::List<base::String> ret;
@@ -137,7 +146,7 @@ base::List<base::String> base::String::Split(char separator,
 		}
 
 		// 找到分隔符
-		base::String temp_str{span.Slice(0, index)};
+		base::String temp_str{span[base::Range{0, index}]};
 		AddToListUnderOptions(temp_str);
 		if (index + 1 >= span.Size())
 		{
@@ -152,7 +161,7 @@ base::List<base::String> base::String::Split(char separator,
 			return ret;
 		}
 
-		span = span.Slice(index + 1, span.Size() - (index + 1));
+		span = span[base::Range{index + 1, span.Size()}];
 	}
 }
 
@@ -162,7 +171,7 @@ base::String base::String::TrimStart() const
 {
 	if (_string.size() > INT32_MAX)
 	{
-		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GB 内存。"};
+		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
 	}
 
 	if (_string.size() == 0)
@@ -187,7 +196,7 @@ base::String base::String::TrimEnd() const
 {
 	if (_string.size() > INT32_MAX)
 	{
-		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GB 内存。"};
+		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
 	}
 
 	if (_string.size() == 0)
@@ -195,7 +204,7 @@ base::String base::String::TrimEnd() const
 		return base::String{};
 	}
 
-	for (int32_t i = _string.size() - 1; i > 0; i--)
+	for (int32_t i = _string.size() - 1; i >= 0; i--)
 	{
 		if (!IsWhiteChar(_string[i]))
 		{
@@ -221,7 +230,7 @@ int32_t base::String::IndexOf(char value) const
 {
 	if (_string.size() > INT32_MAX)
 	{
-		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GB 内存。"};
+		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
 	}
 
 	for (int32_t i = 0; i < static_cast<int32_t>(_string.size()); i++)
@@ -238,6 +247,37 @@ int32_t base::String::IndexOf(char value) const
 bool base::String::Contains(char value) const
 {
 	return IndexOf(value) >= 0;
+}
+
+base::Span base::String::AsSpan()
+{
+	return base::Span{
+		reinterpret_cast<uint8_t *>(_string.data()),
+		static_cast<int32_t>(_string.size()),
+	};
+}
+
+base::ReadOnlySpan base::String::AsReadOnlySpan()
+{
+	return base::ReadOnlySpan{
+		reinterpret_cast<uint8_t const *>(_string.data()),
+		static_cast<int32_t>(_string.size()),
+	};
+}
+
+base::String base::String::Slice(base::Range const &range) const
+{
+	if (_string.size() > INT32_MAX)
+	{
+		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
+	}
+
+	std::string ret{
+		_string.data() + range.Begin(),
+		static_cast<size_t>(range.Size()),
+	};
+
+	return base::String{ret};
 }
 
 #pragma region 重载全局运算符

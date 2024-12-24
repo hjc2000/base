@@ -36,6 +36,11 @@ uint8_t const &base::ReadOnlySpan::operator[](int32_t index) const
 	return _buffer[index];
 }
 
+base::ReadOnlySpan base::ReadOnlySpan::operator[](base::Range const &range) const
+{
+	return Slice(range);
+}
+
 uint8_t const *base::ReadOnlySpan::Buffer() const
 {
 	return _buffer;
@@ -54,6 +59,11 @@ base::ReadOnlySpan base::ReadOnlySpan::Slice(int32_t start, int32_t size) const
 	}
 
 	return base::ReadOnlySpan{_buffer + start, size};
+}
+
+base::ReadOnlySpan base::ReadOnlySpan::Slice(base::Range const &range) const
+{
+	return Slice(range.Begin(), range.Size());
 }
 
 std::shared_ptr<base::IEnumerator<uint8_t const>> base::ReadOnlySpan::GetEnumerator()

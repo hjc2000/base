@@ -38,6 +38,11 @@ namespace base
 
 		uint8_t const &operator[](int32_t index) const;
 
+		/// @brief 获得指定范围的切片。
+		/// @param range
+		/// @return
+		base::ReadOnlySpan operator[](base::Range const &range) const;
+
 		/// @brief 所引用的内存。
 		/// @return
 		uint8_t const *Buffer() const;
@@ -51,6 +56,11 @@ namespace base
 		/// @param size 切片大小。
 		/// @return
 		base::ReadOnlySpan Slice(int32_t start, int32_t size) const;
+
+		/// @brief 获得指定范围的切片。
+		/// @param range
+		/// @return
+		base::ReadOnlySpan Slice(base::Range const &range) const;
 
 		/// @brief 获取非 const 迭代器。
 		/// @return

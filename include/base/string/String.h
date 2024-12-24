@@ -1,5 +1,6 @@
 #pragma once
 #include <base/container/List.h>
+#include <base/container/Range.h>
 #include <base/stream/ReadOnlySpan.h>
 #include <iostream>
 #include <stdexcept>
@@ -37,6 +38,8 @@ namespace base
 	private:
 		std::string _string;
 
+#pragma region IsWhiteChar
+
 		static constexpr bool IsWhiteChar(char value)
 		{
 			switch (value)
@@ -53,6 +56,8 @@ namespace base
 			return false;
 		}
 
+#pragma endregion
+
 	public:
 #pragma region 生命周期
 		/// @brief 无参构造函数。
@@ -65,6 +70,8 @@ namespace base
 		/// @brief 从单个字符构造。
 		/// @param o
 		String(char o);
+
+		String(char const *str);
 
 		String(base::ReadOnlySpan const &o);
 
@@ -84,17 +91,18 @@ namespace base
 		char &operator[](int32_t index);
 		char const &operator[](int32_t index) const;
 
+		/// @brief 获取指定范围内的子字符串。
+		/// @note 子字符串是从父字符串拷贝而来而不是引用父字符串的内存。
+		/// @param range
+		/// @return
+		base::String operator[](base::Range const &range) const;
+
 		base::String &operator+=(base::String const &o);
 		base::String operator+(base::String const &o) const;
 
 		bool operator==(base::String const &o) const
 		{
 			return _string == o._string;
-		}
-
-		bool operator==(std::string const &o) const
-		{
-			return _string == o;
 		}
 
 		/// @brief 字符串长度。不包括结尾的空字符。
@@ -161,6 +169,15 @@ namespace base
 		/// @param value 指定的字符。
 		/// @return 如果存在，则返回 true, 如果不存在则返回 false.
 		bool Contains(char value) const;
+
+		base::Span AsSpan();
+		base::ReadOnlySpan AsReadOnlySpan();
+
+		/// @brief 获取指定范围内的子字符串。
+		/// @note 子字符串是从父字符串拷贝而来而不是引用父字符串的内存。
+		/// @param range
+		/// @return
+		base::String Slice(base::Range const &range) const;
 	};
 } // namespace base
 

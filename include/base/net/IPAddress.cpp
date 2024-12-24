@@ -124,14 +124,55 @@ base::IPAddress::IPAddress(std::endian endian, base::ReadOnlySpan const &span)
 
 base::IPAddress::IPAddress(base::String const &ip_str)
 {
+	base::StringSplitOptions split_options;
+	split_options.trim_each_substring = true;
+	split_options.remove_empty_substring = false;
+
 	if (ip_str.Contains('.'))
 	{
 		// 是 IPV4 地址
-		base::List<base::String> sub_string_list = ip_str.Split('.');
+		base::List<base::String> sub_string_list = ip_str.Split('.', split_options);
+		if (sub_string_list.Count() != 4)
+		{
+			throw std::invalid_argument{"非法的 IPV4 地址字符串。"};
+		}
+
+		_type = IPAddressType::IPV4;
+		_span = base::Span{_ip_address_buffer.Buffer(), 4};
+		for (int32_t i = 0; i < 4; i++)
+		{
+			std::string str_to_be_converted = sub_string_list[i].StdString();
+			_span[i] = std::stoi(str_to_be_converted);
+		}
+
+		// 字符串是大端序表示的，所以要翻转。
+		_span.Reverse();
 	}
 	else if (ip_str.Contains(':'))
 	{
 		// 是 IPV6 地址
+		base::List<base::String> sub_string_list = ip_str.Split(':', split_options);
+		if (sub_string_list.Count() != 8)
+		{
+			throw std::invalid_argument{"非法的 IPV6 地址字符串。"};
+		}
+
+		_type = IPAddressType::IPV6;
+		_span = base::Span{_ip_address_buffer.Buffer(), 16};
+		uint16_t *ipv6_element_buffer = reinterpret_cast<uint16_t *>(_span.Buffer());
+
+		for (int32_t i = 0; i < 8; i++)
+		{
+			std::string str_to_be_converted = sub_string_list[i].StdString();
+			ipv6_element_buffer[i] = std::stoi(str_to_be_converted, nullptr, 16);
+			if (std::endian::native == std::endian::little)
+			{
+				std::reverse(&_span[i * 2], &_span[i * 2] + sizeof(uint16_t));
+			}
+		}
+
+		// 字符串是大端序表示的，所以要翻转。
+		_span.Reverse();
 	}
 	else
 	{

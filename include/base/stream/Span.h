@@ -1,5 +1,6 @@
 #pragma once
 #include <base/container/iterator/IEnumerable.h>
+#include <base/container/Range.h>
 #include <cstdint>
 
 namespace base
@@ -42,6 +43,11 @@ namespace base
 
 		uint8_t &operator[](int32_t index) const;
 
+		/// @brief 获得指定范围的切片。
+		/// @param range
+		/// @return
+		base::Span operator[](base::Range const &range) const;
+
 		/// @brief 所引用的内存。
 		/// @return
 		uint8_t *Buffer() const;
@@ -55,6 +61,11 @@ namespace base
 		/// @param size 切片大小。
 		/// @return
 		base::Span Slice(int32_t start, int32_t size) const;
+
+		/// @brief 获得指定范围的切片。
+		/// @param range
+		/// @return
+		base::Span Slice(base::Range const &range) const;
 
 		/// @brief 翻转本 Span 所引用的内存段。
 		void Reverse() const;

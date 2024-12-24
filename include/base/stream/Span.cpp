@@ -46,6 +46,11 @@ uint8_t &base::Span::operator[](int32_t index) const
 	return _buffer[index];
 }
 
+base::Span base::Span::operator[](base::Range const &range) const
+{
+	return Slice(range);
+}
+
 uint8_t *base::Span::Buffer() const
 {
 	return _buffer;
@@ -64,6 +69,11 @@ base::Span base::Span::Slice(int32_t start, int32_t size) const
 	}
 
 	return base::Span{_buffer + start, size};
+}
+
+base::Span base::Span::Slice(base::Range const &range) const
+{
+	return Slice(range.Begin(), range.Size());
 }
 
 void base::Span::Reverse() const
