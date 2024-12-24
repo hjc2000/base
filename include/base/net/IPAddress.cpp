@@ -159,6 +159,11 @@ base::IPAddress::IPAddress(base::String const &ip_str)
 
 		_type = IPAddressType::IPV6;
 		_span = base::Span{_ip_address_buffer.Buffer(), 16};
+
+		/**
+		 * IPV6 地址类似：2001:0db8:85a3:0000:0000:8a2e:0370:7334
+		 * 是是用冒号分隔的 8 个 16 进制数。每个 16 进制数都是 uint16_t 可以装下的。
+		 */
 		uint16_t *ipv6_element_buffer = reinterpret_cast<uint16_t *>(_span.Buffer());
 
 		for (int32_t i = 0; i < 8; i++)
@@ -167,6 +172,11 @@ base::IPAddress::IPAddress(base::String const &ip_str)
 			ipv6_element_buffer[i] = std::stoi(str_to_be_converted, nullptr, 16);
 			if (std::endian::native == std::endian::little)
 			{
+				/**
+				 * 如果本机是小端序，字符串转换成的数字是小端序的。
+				 * 局部翻转成大端序，这样最后整个 _span 内的每个字节都是大端序。然后一起翻转一次，整个
+				 * _span 就是小端序的了。
+				 */
 				std::reverse(&_span[i * 2], &_span[i * 2] + sizeof(uint16_t));
 			}
 		}
