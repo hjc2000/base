@@ -63,6 +63,10 @@ namespace base
 		/// @note 构造时不是引用这段内存，而是将这段内存中的数据拷贝过来。
 		IPAddress(std::endian endian, base::ReadOnlySpan const &span);
 
+		/// @brief 用标准的表示 IP 地址的字符串构造。
+		/// @note 会根据字符串格式来识别是 IPV4 地址还是 IPV6 地址。
+		/// @note IPV6 地址字符串暂不支持缩写。
+		/// @param ip_str
 		IPAddress(base::String const &ip_str);
 
 		/// @brief 拷贝构造函数。
