@@ -64,7 +64,13 @@ base::Json base::ethernet::ReadOnlyEthernetFrame::ToJson() const
 	base::Json root{
 		{"目的 MAC 地址", DestinationMac().ToString()},
 		{"源 MAC 地址", SourceMac().ToString()},
-		{"TypeOrLength", base::ToString(TypeOrLength())},
+		{
+			"TypeOrLength",
+			base::ToString(TypeOrLength()) +
+				" (十进制 " +
+				std::to_string(static_cast<int>(TypeOrLength())) +
+				")",
+		},
 		{"是否具有 VlangTag", HasVlanTag()},
 	};
 
