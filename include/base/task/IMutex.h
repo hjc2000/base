@@ -14,6 +14,8 @@ namespace base
 
 	namespace di
 	{
+		/// @brief 创建一个互斥量。
+		/// @return
 		std::shared_ptr<base::IMutex> CreateMutex();
-	}
+	} // namespace di
 } // namespace base
