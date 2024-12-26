@@ -1,0 +1,25 @@
+#pragma once
+#ifndef HAS_THREAD
+#define HAS_THREAD 0
+#endif
+
+#if HAS_THREAD
+
+#include <base/task/IMutex.h>
+#include <mutex>
+
+namespace base
+{
+	class StdMutex :
+		public base::IMutex
+	{
+	private:
+		std::mutex _lock;
+
+	public:
+		void Lock() override;
+		void Unlock() override;
+	};
+} // namespace base
+
+#endif
