@@ -58,3 +58,15 @@ base::ReadOnlySpan base::ethernet::ReadOnlyEthernetFrame::Payload() const
 		return base::ReadOnlySpan{_span.Slice(base::Range{14, _span.Size()})};
 	}
 }
+
+base::Json base::ethernet::ReadOnlyEthernetFrame::ToJson() const
+{
+	base::Json root{
+		{"目的 MAC 地址", DestinationMac().ToString()},
+		{"源 MAC 地址", SourceMac().ToString()},
+		{"TypeOrLength", base::ToString(TypeOrLength())},
+		{"是否具有 VlangTag", HasVlanTag()},
+	};
+
+	return root;
+}
