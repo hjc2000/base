@@ -25,6 +25,10 @@ std::string base::ToString(base::ethernet::LengthTypeEnum value)
 		{
 			return "MRP " + base::ToHexString(static_cast<uint16_t>(value));
 		}
+	case base::ethernet::LengthTypeEnum::EtherCAT:
+		{
+			return "EtherCAT " + base::ToHexString(static_cast<uint16_t>(value));
+		}
 	case base::ethernet::LengthTypeEnum::LLDP:
 		{
 			return "LLDP " + base::ToHexString(static_cast<uint16_t>(value));

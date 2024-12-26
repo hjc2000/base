@@ -23,6 +23,7 @@ namespace base
 
 			Profinet = 0x8892,
 			MRP = 0x88E3,
+			EtherCAT = 0x88A4,
 			LLDP = 0x88CC,
 		};
 
