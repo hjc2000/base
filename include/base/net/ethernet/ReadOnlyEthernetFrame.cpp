@@ -1,5 +1,4 @@
 #include "ReadOnlyEthernetFrame.h"
-#include <base/bit/AutoBitConverter.h>
 
 base::ethernet::ReadOnlyEthernetFrame::ReadOnlyEthernetFrame(base::ReadOnlySpan const &span)
 {
@@ -24,25 +23,23 @@ base::ReadOnlySpan base::ethernet::ReadOnlyEthernetFrame::VlanTag() const
 bool base::ethernet::ReadOnlyEthernetFrame::HasVlanTag() const
 {
 	base::ReadOnlySpan span = _span.Slice(12, 2);
-	base::AutoBitConverter converter{std::endian::big};
-	uint16_t foo = converter.ToUInt16(span.Buffer(), 0);
+	uint16_t foo = _converter.ToUInt16(span.Buffer(), 0);
 	base::ethernet::LengthTypeEnum type_or_length = static_cast<base::ethernet::LengthTypeEnum>(foo);
 	return type_or_length == base::ethernet::LengthTypeEnum::VlanTag;
 }
 
 base::ethernet::LengthTypeEnum base::ethernet::ReadOnlyEthernetFrame::TypeOrLength() const
 {
-	base::AutoBitConverter converter{std::endian::big};
 	if (HasVlanTag())
 	{
 		base::ReadOnlySpan span = _span.Slice(16, 2);
-		uint16_t type_or_length = converter.ToUInt16(span.Buffer(), 0);
+		uint16_t type_or_length = _converter.ToUInt16(span.Buffer(), 0);
 		return static_cast<base::ethernet::LengthTypeEnum>(type_or_length);
 	}
 	else
 	{
 		base::ReadOnlySpan span = _span.Slice(12, 2);
-		uint16_t type_or_length = converter.ToUInt16(span.Buffer(), 0);
+		uint16_t type_or_length = _converter.ToUInt16(span.Buffer(), 0);
 		return static_cast<base::ethernet::LengthTypeEnum>(type_or_length);
 	}
 }

@@ -1,31 +1,35 @@
 #include "EthernetFrame.h"
-#include <base/bit/AutoBitConverter.h>
 
 base::ethernet::EthernetFrame::EthernetFrame(base::Span const &span)
 {
 	_span = span;
 }
 
+base::Span base::ethernet::EthernetFrame::Span() const
+{
+	return _span;
+}
+
 base::Mac base::ethernet::EthernetFrame::DestinationMac() const
 {
-	return base::Mac{std::endian::big, _span.Slice(0, 6)};
+	return base::Mac{std::endian::big, _span.Slice(base::Range{0, 6})};
 }
 
 void base::ethernet::EthernetFrame::SetDestinationMac(base::Mac const &value)
 {
-	base::Span span = _span.Slice(0, 6);
+	base::Span span = _span.Slice(base::Range{0, 6});
 	span.CopyFrom(value.AsReadOnlySpan());
 	span.Reverse();
 }
 
 base::Mac base::ethernet::EthernetFrame::SourceMac() const
 {
-	return base::Mac{std::endian::big, _span.Slice(6, 6)};
+	return base::Mac{std::endian::big, _span.Slice(base::Range{6, 12})};
 }
 
 void base::ethernet::EthernetFrame::SetSourceMac(base::Mac const &value)
 {
-	base::Span span = _span.Slice(6, 6);
+	base::Span span = _span.Slice(base::Range{6, 12});
 	span.CopyFrom(value.AsReadOnlySpan());
 	span.Reverse();
 }
@@ -34,25 +38,22 @@ base::Span base::ethernet::EthernetFrame::VlanTag() const
 {
 	if (HasVlanTag())
 	{
-		return base::Span{_span.Slice(12, 4)};
+		return base::Span{_span.Slice(base::Range{12, 16})};
 	}
-	else
-	{
-		return base::Span{};
-	}
+
+	throw std::runtime_error{"本以太网帧不具备 VlanTag."};
 }
 
 void base::ethernet::EthernetFrame::SetVlanTag(base::Span const &value)
 {
-	base::Span span = _span.Slice(12, 4);
+	base::Span span = _span.Slice(base::Range{12, 16});
 	span.CopyFrom(value);
 }
 
 bool base::ethernet::EthernetFrame::HasVlanTag() const
 {
-	base::Span span = _span.Slice(12, 2);
-	base::AutoBitConverter converter{std::endian::big};
-	uint16_t foo = converter.ToUInt16(span.Buffer(), 0);
+	base::Span span = _span.Slice(base::Range{12, 14});
+	uint16_t foo = _converter.ToUInt16(span.Buffer(), 0);
 	base::ethernet::LengthTypeEnum type_or_length = static_cast<base::ethernet::LengthTypeEnum>(foo);
 	return type_or_length == base::ethernet::LengthTypeEnum::VlanTag;
 }
@@ -61,46 +62,44 @@ void base::ethernet::EthernetFrame::ClearVlanTag()
 {
 	if (HasVlanTag())
 	{
-		base::Span span = _span.Slice(12, 4);
+		base::Span span = _span.Slice(base::Range{12, 16});
 		span.FillWithZero();
 	}
 }
 
 base::ethernet::LengthTypeEnum base::ethernet::EthernetFrame::TypeOrLength() const
 {
-	base::AutoBitConverter converter{std::endian::big};
 	if (HasVlanTag())
 	{
-		base::Span span = _span.Slice(16, 2);
-		uint16_t type_or_length = converter.ToUInt16(span.Buffer(), 0);
+		base::Span span = _span.Slice(base::Range{16, 18});
+		uint16_t type_or_length = _converter.ToUInt16(span.Buffer(), 0);
 		return static_cast<base::ethernet::LengthTypeEnum>(type_or_length);
 	}
 	else
 	{
-		base::Span span = _span.Slice(12, 2);
-		uint16_t type_or_length = converter.ToUInt16(span.Buffer(), 0);
+		base::Span span = _span.Slice(base::Range{12, 14});
+		uint16_t type_or_length = _converter.ToUInt16(span.Buffer(), 0);
 		return static_cast<base::ethernet::LengthTypeEnum>(type_or_length);
 	}
 }
 
 void base::ethernet::EthernetFrame::SetTypeOrLength(LengthTypeEnum value)
 {
-	base::AutoBitConverter converter{std::endian::big};
 	if (HasVlanTag())
 	{
-		base::Span span = _span.Slice(16, 2);
+		base::Span span = _span.Slice(base::Range{16, 18});
 
-		converter.GetBytes(static_cast<uint16_t>(value),
-						   span.Buffer(),
-						   0);
+		_converter.GetBytes(static_cast<uint16_t>(value),
+							span.Buffer(),
+							0);
 	}
 	else
 	{
-		base::Span span = _span.Slice(12, 2);
+		base::Span span = _span.Slice(base::Range{12, 14});
 
-		converter.GetBytes(static_cast<uint16_t>(value),
-						   span.Buffer(),
-						   0);
+		_converter.GetBytes(static_cast<uint16_t>(value),
+							span.Buffer(),
+							0);
 	}
 }
 
@@ -108,23 +107,24 @@ base::Span base::ethernet::EthernetFrame::Payload() const
 {
 	if (HasVlanTag())
 	{
-		return base::Span{_span.Slice(18, FrameSize() - 18)};
+		return _span.Slice(base::Range{18, _span.Size()});
 	}
 	else
 	{
-		return base::Span{_span.Slice(14, FrameSize() - 14)};
+		return _span.Slice(base::Range{14, _span.Size()});
 	}
 }
 
-void base::ethernet::EthernetFrame::SetPayload(base::Span const &value)
+void base::ethernet::EthernetFrame::SetPayload(base::ReadOnlySpan const &value)
 {
 	if (HasVlanTag())
 	{
-		base::Span span{_span.Slice(18, _span.Size() - 18)};
+		base::Span span{_span.Slice(base::Range{18, _span.Size()})};
 		span.CopyFrom(value);
 		if (value.Size() < 46)
 		{
-			span.Slice(value.Size(), 46 - value.Size()).FillWithZero();
+			// 载荷不足 46 字节，需要填充值为 0 的字节，从而达到 46 字节。
+			span.Slice(base::Range{value.Size(), 46}).FillWithZero();
 			_frame_size = 18 + 46;
 		}
 		else
@@ -134,11 +134,12 @@ void base::ethernet::EthernetFrame::SetPayload(base::Span const &value)
 	}
 	else
 	{
-		base::Span span{_span.Slice(14, _span.Size() - 14)};
+		base::Span span{_span.Slice(base::Range{14, _span.Size()})};
 		span.CopyFrom(value);
 		if (value.Size() < 46)
 		{
-			span.Slice(value.Size(), 46 - value.Size()).FillWithZero();
+			// 载荷不足 46 字节，需要填充值为 0 的字节，从而达到 46 字节。
+			span.Slice(base::Range{value.Size(), 46}).FillWithZero();
 			_frame_size = 14 + 46;
 		}
 		else
@@ -172,4 +173,9 @@ int base::ethernet::EthernetFrame::FrameSize() const
 			return _frame_size;
 		}
 	}
+}
+
+base::Span base::ethernet::EthernetFrame::ValidDataSpan() const
+{
+	return _span.Slice(base::Range{0, FrameSize()});
 }

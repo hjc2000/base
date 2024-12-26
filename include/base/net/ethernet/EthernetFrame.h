@@ -1,7 +1,8 @@
 #pragma once
+#include <base/bit/AutoBitConverter.h>
 #include <base/net/ethernet/enum/LengthTypeEnum.h>
 #include <base/net/Mac.h>
-#include <base/stream/Span.h>
+#include <base/stream/ReadOnlySpan.h>
 #include <cstdint>
 
 namespace base
@@ -17,11 +18,14 @@ namespace base
 		private:
 			base::Span _span;
 			int _frame_size = 0;
+			base::AutoBitConverter _converter{std::endian::big};
 
 		public:
 			/// @brief 构造函数。
 			/// @param span 引用的内存。
 			EthernetFrame(base::Span const &span);
+
+			base::Span Span() const;
 
 			/// @brief 目的 MAC 地址。
 			/// @return
@@ -67,14 +71,35 @@ namespace base
 			/// @note 巨型帧可以超过 1500 字节。但是需要网络设备支持，否则会导致无法传输。
 			/// @note 如果不满 46 字节，需要后面填充 0，使其达到 46 字节。
 			/// @note 因为可能会有填充，所以需要靠 TypeOrLength 属性来识别出有效字节数。
+			/// @note 这里返回的 Span 是构造函数中交给本对象的 Span 被填充以太网头部后的全部
+			/// 剩余空间，并不是实际的有效载荷。本类是以太网帧类，无法识别出有效载荷的长度，这种
+			/// 工作只能交给上层。
 			/// @return
 			base::Span Payload() const;
-			void SetPayload(base::Span const &value);
+
+			/// @brief 设置载荷。
+			/// @note 设置后将会影响本类的 FrameSize 属性。如果 value 的大小超过 46 字节，
+			/// 则有效载荷大小就为 value 的大小。于是 FrameSize 属性就等于以太网头部加上
+			/// value 的大小。如果 value 的大小不足 46 字节，则 FrameSize 属性就等于以太网
+			/// 头部长度加上 46.
+			/// @param value
+			void SetPayload(base::ReadOnlySpan const &value);
 
 			/// @brief 帧大小。有 VLAN TAG 时至少是 64 字节，无 VLAN TAG 时至少是 60 字节。
 			/// 载荷的填充字节也被计算在内。
 			/// @return
 			int FrameSize() const;
+
+			/// @brief 从整个 span 中切割出有效数据的 span.
+			/// @note 切割范围：[0, FrameSize].
+			/// @note 构造函数中交给本对象的 span 很大，但是用户通过 SetPayload 方法设置
+			/// 的缓冲区数据可能长度较小，不能装满，于是有效数据就只占头部的一段区域，剩下的
+			/// 是无效数据。本方法用来返回有效数据所在的子 span.
+			/// @note 必须是调用过 SetPayload 方法后，本方法才能真正返回装有有效数据的 span.
+			/// @note 本类是以太网帧类，无法识别有上层协议定义的有效载荷长度，本方法识别有效载荷
+			/// 长度完全靠上次调用 SetPayload 方法所传入的 value 大小。
+			/// @return
+			base::Span ValidDataSpan() const;
 		};
 	} // namespace ethernet
 } // namespace base

@@ -1,4 +1,5 @@
 #pragma once
+#include <base/bit/AutoBitConverter.h>
 #include <base/net/ethernet/enum/LengthTypeEnum.h>
 #include <base/net/Mac.h>
 #include <base/stream/ReadOnlySpan.h>
@@ -14,6 +15,7 @@ namespace base
 		{
 		private:
 			base::ReadOnlySpan _span;
+			base::AutoBitConverter _converter{std::endian::big};
 
 		public:
 			/// @brief 引用 span 指向的内存段，在此位置解析以太网帧。
@@ -49,10 +51,10 @@ namespace base
 			base::ethernet::LengthTypeEnum TypeOrLength() const;
 
 			/// @brief 载荷数据。
-			/// @note 字节数的取值范围：[46, 1500].
-			/// @note 巨型帧可以超过 1500 字节。但是需要网络设备支持，否则会导致无法传输。
-			/// @note 如果不满 46 字节，需要后面填充 0，使其达到 46 字节。
-			/// @note 因为可能会有填充，所以需要靠 TypeOrLength 属性来识别出有效字节数。
+			/// @note 这里返回的 span 是构造函数中交给本对象的 span 去除以太网头部
+			/// 后剩余的全部子 span，用户需要自己根据有效数据的长度去除其中的有效数据，
+			/// 本类是以太网帧类，无法识别上层协议中定义的有效数据长度。所以返回的 span
+			/// 的大小会大于等于有效数据长度。
 			/// @return
 			base::ReadOnlySpan Payload() const;
 
