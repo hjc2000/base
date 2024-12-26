@@ -17,7 +17,7 @@ namespace base
 		{
 		private:
 			base::Span _span;
-			int _frame_size = 0;
+			int _valid_frame_size = 0;
 			base::AutoBitConverter _converter{std::endian::big};
 
 		public:

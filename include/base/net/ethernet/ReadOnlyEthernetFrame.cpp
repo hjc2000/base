@@ -27,8 +27,7 @@ base::ReadOnlySpan base::ethernet::ReadOnlyEthernetFrame::VlanTag() const
 
 bool base::ethernet::ReadOnlyEthernetFrame::HasVlanTag() const
 {
-	base::ReadOnlySpan span = _span.Slice(base::Range{12, 14});
-	uint16_t foo = _converter.ToUInt16(span.Buffer(), 0);
+	uint16_t foo = _converter.ToUInt16(_span.Slice(base::Range{12, 14}));
 	base::ethernet::LengthTypeEnum type_or_length = static_cast<base::ethernet::LengthTypeEnum>(foo);
 	return type_or_length == base::ethernet::LengthTypeEnum::VlanTag;
 }
@@ -37,14 +36,12 @@ base::ethernet::LengthTypeEnum base::ethernet::ReadOnlyEthernetFrame::TypeOrLeng
 {
 	if (HasVlanTag())
 	{
-		base::ReadOnlySpan span = _span.Slice(base::Range{16, 18});
-		uint16_t type_or_length = _converter.ToUInt16(span.Buffer(), 0);
+		uint16_t type_or_length = _converter.ToUInt16(_span.Slice(base::Range{16, 18}));
 		return static_cast<base::ethernet::LengthTypeEnum>(type_or_length);
 	}
 	else
 	{
-		base::ReadOnlySpan span = _span.Slice(base::Range{12, 14});
-		uint16_t type_or_length = _converter.ToUInt16(span.Buffer(), 0);
+		uint16_t type_or_length = _converter.ToUInt16(_span.Slice(base::Range{12, 14}));
 		return static_cast<base::ethernet::LengthTypeEnum>(type_or_length);
 	}
 }

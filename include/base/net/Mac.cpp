@@ -72,7 +72,13 @@ base::Mac::operator uint64_t() const
 	 * 决定是否需要翻转。
 	 */
 	base::AutoBitConverter converter{std::endian::little};
-	uint64_t value = converter.ToUInt64(_mac_buffer.Buffer(), 0);
+
+	uint64_t value = converter.ToUInt64(
+		base::ReadOnlySpan{
+			_mac_buffer.Buffer(),
+			_mac_buffer.Count(),
+		});
+
 	return value;
 }
 

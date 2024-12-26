@@ -13,12 +13,17 @@ namespace base
 		private:
 			base::Span _span;
 			base::AutoBitConverter _converter{std::endian::big};
+			int _valid_frame_size = 0;
 
 		public:
 			FidApdu() = default;
 			FidApdu(base::Span const &span);
 
 			base::Span const &Span() const;
+
+			/// @brief 装有全部有效数据的 span.
+			/// @return
+			base::Span ValidDataSpan() const;
 
 			base::profinet::FrameIdEnum FrameId() const;
 			void SetFrameId(base::profinet::FrameIdEnum value);

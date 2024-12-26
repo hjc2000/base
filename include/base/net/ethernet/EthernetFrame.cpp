@@ -52,8 +52,7 @@ void base::ethernet::EthernetFrame::SetVlanTag(base::Span const &value)
 
 bool base::ethernet::EthernetFrame::HasVlanTag() const
 {
-	base::Span span = _span.Slice(base::Range{12, 14});
-	uint16_t foo = _converter.ToUInt16(span.Buffer(), 0);
+	uint16_t foo = _converter.ToUInt16(_span.Slice(base::Range{12, 14}));
 	base::ethernet::LengthTypeEnum type_or_length = static_cast<base::ethernet::LengthTypeEnum>(foo);
 	return type_or_length == base::ethernet::LengthTypeEnum::VlanTag;
 }
@@ -71,14 +70,12 @@ base::ethernet::LengthTypeEnum base::ethernet::EthernetFrame::TypeOrLength() con
 {
 	if (HasVlanTag())
 	{
-		base::Span span = _span.Slice(base::Range{16, 18});
-		uint16_t type_or_length = _converter.ToUInt16(span.Buffer(), 0);
+		uint16_t type_or_length = _converter.ToUInt16(_span.Slice(base::Range{16, 18}));
 		return static_cast<base::ethernet::LengthTypeEnum>(type_or_length);
 	}
 	else
 	{
-		base::Span span = _span.Slice(base::Range{12, 14});
-		uint16_t type_or_length = _converter.ToUInt16(span.Buffer(), 0);
+		uint16_t type_or_length = _converter.ToUInt16(_span.Slice(base::Range{12, 14}));
 		return static_cast<base::ethernet::LengthTypeEnum>(type_or_length);
 	}
 }
@@ -87,19 +84,11 @@ void base::ethernet::EthernetFrame::SetTypeOrLength(LengthTypeEnum value)
 {
 	if (HasVlanTag())
 	{
-		base::Span span = _span.Slice(base::Range{16, 18});
-
-		_converter.GetBytes(static_cast<uint16_t>(value),
-							span.Buffer(),
-							0);
+		_converter.GetBytes(static_cast<uint16_t>(value), _span.Slice(base::Range{16, 18}));
 	}
 	else
 	{
-		base::Span span = _span.Slice(base::Range{12, 14});
-
-		_converter.GetBytes(static_cast<uint16_t>(value),
-							span.Buffer(),
-							0);
+		_converter.GetBytes(static_cast<uint16_t>(value), _span.Slice(base::Range{12, 14}));
 	}
 }
 
@@ -125,11 +114,11 @@ void base::ethernet::EthernetFrame::SetPayload(base::ReadOnlySpan const &value)
 		{
 			// 载荷不足 46 字节，需要填充值为 0 的字节，从而达到 46 字节。
 			span.Slice(base::Range{value.Size(), 46}).FillWithZero();
-			_frame_size = 18 + 46;
+			_valid_frame_size = 18 + 46;
 		}
 		else
 		{
-			_frame_size = 18 + value.Size();
+			_valid_frame_size = 18 + value.Size();
 		}
 	}
 	else
@@ -140,11 +129,11 @@ void base::ethernet::EthernetFrame::SetPayload(base::ReadOnlySpan const &value)
 		{
 			// 载荷不足 46 字节，需要填充值为 0 的字节，从而达到 46 字节。
 			span.Slice(base::Range{value.Size(), 46}).FillWithZero();
-			_frame_size = 14 + 46;
+			_valid_frame_size = 14 + 46;
 		}
 		else
 		{
-			_frame_size = 14 + value.Size();
+			_valid_frame_size = 14 + value.Size();
 		}
 	}
 }
@@ -153,24 +142,24 @@ int base::ethernet::EthernetFrame::FrameSize() const
 {
 	if (HasVlanTag())
 	{
-		if (_frame_size < 64)
+		if (_valid_frame_size < 64)
 		{
 			return 64;
 		}
 		else
 		{
-			return _frame_size;
+			return _valid_frame_size;
 		}
 	}
 	else
 	{
-		if (_frame_size < 60)
+		if (_valid_frame_size < 60)
 		{
 			return 60;
 		}
 		else
 		{
-			return _frame_size;
+			return _valid_frame_size;
 		}
 	}
 }

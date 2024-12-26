@@ -11,17 +11,20 @@ base::Span const &base::profinet::FidApdu::Span() const
 	return _span;
 }
 
+base::Span base::profinet::FidApdu::ValidDataSpan() const
+{
+	return _span.Slice(base::Range{0, _valid_frame_size});
+}
+
 base::profinet::FrameIdEnum base::profinet::FidApdu::FrameId() const
 {
-	uint16_t value = _converter.ToUInt16(_span.Buffer(), 0);
+	uint16_t value = _converter.ToUInt16(_span.Slice(base::Range{0, 2}));
 	return static_cast<base::profinet::FrameIdEnum>(value);
 }
 
 void base::profinet::FidApdu::SetFrameId(base::profinet::FrameIdEnum value)
 {
-	_converter.GetBytes(static_cast<uint16_t>(value),
-						_span.Slice(0, 2).Buffer(),
-						0);
+	_converter.GetBytes(static_cast<uint16_t>(value), _span.Slice(base::Range{0, 2}));
 }
 
 base::Span base::profinet::FidApdu::Payload() const
