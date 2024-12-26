@@ -12,4 +12,4 @@ void base::StdMutex::Unlock()
 	_lock.unlock();
 }
 
-#endif
+#endif // HAS_THREAD

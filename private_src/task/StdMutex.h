@@ -22,4 +22,4 @@ namespace base
 	};
 } // namespace base
 
-#endif
+#endif // HAS_THREAD
