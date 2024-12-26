@@ -10,6 +10,11 @@ base::Span base::ethernet::EthernetFrame::Span() const
 	return _span;
 }
 
+base::Span base::ethernet::EthernetFrame::ValidDataSpan() const
+{
+	return _span.Slice(base::Range{0, FrameSize()});
+}
+
 base::Mac base::ethernet::EthernetFrame::DestinationMac() const
 {
 	return base::Mac{std::endian::big, _span.Slice(base::Range{0, 6})};
@@ -162,9 +167,4 @@ int base::ethernet::EthernetFrame::FrameSize() const
 			return _valid_frame_size;
 		}
 	}
-}
-
-base::Span base::ethernet::EthernetFrame::ValidDataSpan() const
-{
-	return _span.Slice(base::Range{0, FrameSize()});
 }

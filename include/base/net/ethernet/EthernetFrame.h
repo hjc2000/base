@@ -25,7 +25,21 @@ namespace base
 			/// @param span 引用的内存。
 			EthernetFrame(base::Span const &span);
 
+			/// @brief 获取构造函数中传进来的 span. 这其中可能只有头部包含有效数据，
+			/// 尾部是无效数据。因为载荷大小可能不足以装满整个空间。
+			/// @return
 			base::Span Span() const;
+
+			/// @brief 从整个 span 中切割出有效数据的 span.
+			/// @note 切割范围：[0, FrameSize].
+			/// @note 构造函数中交给本对象的 span 很大，但是用户通过 SetPayload 方法设置
+			/// 的缓冲区数据可能长度较小，不能装满，于是有效数据就只占头部的一段区域，剩下的
+			/// 是无效数据。本方法用来返回有效数据所在的子 span.
+			/// @note 必须是调用过 SetPayload 方法后，本方法才能真正返回装有有效数据的 span.
+			/// @note 本类是以太网帧类，无法识别有上层协议定义的有效载荷长度，本方法识别有效载荷
+			/// 长度完全靠上次调用 SetPayload 方法所传入的 value 大小。
+			/// @return
+			base::Span ValidDataSpan() const;
 
 			/// @brief 目的 MAC 地址。
 			/// @return
@@ -89,17 +103,6 @@ namespace base
 			/// 载荷的填充字节也被计算在内。
 			/// @return
 			int FrameSize() const;
-
-			/// @brief 从整个 span 中切割出有效数据的 span.
-			/// @note 切割范围：[0, FrameSize].
-			/// @note 构造函数中交给本对象的 span 很大，但是用户通过 SetPayload 方法设置
-			/// 的缓冲区数据可能长度较小，不能装满，于是有效数据就只占头部的一段区域，剩下的
-			/// 是无效数据。本方法用来返回有效数据所在的子 span.
-			/// @note 必须是调用过 SetPayload 方法后，本方法才能真正返回装有有效数据的 span.
-			/// @note 本类是以太网帧类，无法识别有上层协议定义的有效载荷长度，本方法识别有效载荷
-			/// 长度完全靠上次调用 SetPayload 方法所传入的 value 大小。
-			/// @return
-			base::Span ValidDataSpan() const;
 		};
 	} // namespace ethernet
 } // namespace base
