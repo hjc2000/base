@@ -1,5 +1,5 @@
 #pragma once
-#include <base/net/profinet/DcpHelloRequestPdu.h>
+#include <base/bit/AutoBitConverter.h>
 #include <base/net/profinet/enum/FrameIdEnum.h>
 #include <base/stream/Span.h>
 
@@ -12,6 +12,7 @@ namespace base
 		{
 		private:
 			base::Span _span;
+			base::AutoBitConverter _converter{std::endian::big};
 
 		public:
 			FidApdu() = default;
@@ -22,10 +23,13 @@ namespace base
 			base::profinet::FrameIdEnum FrameId() const;
 			void SetFrameId(base::profinet::FrameIdEnum value);
 
-#pragma region 以下 PDU 是互斥的
-			base::profinet::DcpHelloRequestPdu DcpHelloRequestPdu() const;
-			void SetDcpHelloRequestPdu(base::profinet::DcpHelloRequestPdu const &value);
-#pragma endregion
+			/// @brief 载荷。
+			/// @return
+			base::Span Payload() const;
+
+			/// @brief 设置载荷。
+			/// @param value
+			void SetPayload(base::ReadOnlySpan const &value);
 		};
 	} // namespace profinet
 } // namespace base

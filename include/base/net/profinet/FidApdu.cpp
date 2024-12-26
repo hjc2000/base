@@ -1,4 +1,5 @@
 #include "FidApdu.h"
+#include <base/stream/ReadOnlySpan.h>
 
 base::profinet::FidApdu::FidApdu(base::Span const &span)
 {
@@ -12,22 +13,24 @@ base::Span const &base::profinet::FidApdu::Span() const
 
 base::profinet::FrameIdEnum base::profinet::FidApdu::FrameId() const
 {
-	return base::profinet::FrameIdEnum();
+	uint16_t value = _converter.ToUInt16(_span.Buffer(), 0);
+	return static_cast<base::profinet::FrameIdEnum>(value);
 }
 
 void base::profinet::FidApdu::SetFrameId(base::profinet::FrameIdEnum value)
 {
+	_converter.GetBytes(static_cast<uint16_t>(value),
+						_span.Slice(0, 2).Buffer(),
+						0);
 }
 
-base::profinet::DcpHelloRequestPdu base::profinet::FidApdu::DcpHelloRequestPdu() const
+base::Span base::profinet::FidApdu::Payload() const
 {
-	return base::profinet::DcpHelloRequestPdu();
+	return _span.Slice(base::Range(2, _span.Size()));
 }
 
-void base::profinet::FidApdu::SetDcpHelloRequestPdu(base::profinet::DcpHelloRequestPdu const &value)
+void base::profinet::FidApdu::SetPayload(base::ReadOnlySpan const &value)
 {
-	/* 因为都是对内存段的引用，所以 Set 需要将整段内存拷贝而不能指示调用类的赋值运算符，这没有用，
-	 * 赋值运算符改变的是指向内存段的指针。
-	 */
-	DcpHelloRequestPdu().Span().CopyFrom(value.Span());
+	Payload().CopyFrom(value);
+	_span.Slice(base::Range{value.Size(), _span.Size()}).FillWithZero();
 }
