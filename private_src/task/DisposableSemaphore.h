@@ -2,7 +2,7 @@
 #if HAS_THREAD
 
 #include <atomic>
-#include <base/task/ISemaphore.h>
+#include <base/task/IDisposableSemaphore.h>
 #include <semaphore>
 
 namespace base
@@ -25,7 +25,7 @@ namespace base
 	};
 
 	class DisposableSemaphore :
-		public base::ISemaphore
+		public base::IDisposableSemaphore
 	{
 	private:
 		std::counting_semaphore<INT32_MAX> _semaphore{0};

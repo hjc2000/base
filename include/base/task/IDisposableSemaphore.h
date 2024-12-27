@@ -5,6 +5,7 @@
 
 namespace base
 {
+	/// @brief 可以被 Dispose 的信号量。Dispose 之后信号量不再具有阻塞能力。
 	class IDisposableSemaphore :
 		public base::IDisposable
 	{
