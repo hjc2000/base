@@ -7,6 +7,23 @@
 
 namespace base
 {
+	class DisposableSemaphore_InitialCount
+	{
+	private:
+		int32_t _value = 0;
+
+	public:
+		explicit DisposableSemaphore_InitialCount(int32_t value)
+			: _value(value)
+		{
+		}
+
+		int32_t Value() const
+		{
+			return _value;
+		}
+	};
+
 	class DisposableSemaphore :
 		public base::ISemaphore
 	{
@@ -15,13 +32,13 @@ namespace base
 		std::atomic_bool _disposed = false;
 
 	public:
-		DisposableSemaphore(int initial_count);
+		DisposableSemaphore(base::DisposableSemaphore_InitialCount const &initial_count);
 
 		virtual void Dispose() override;
 
 		/// @brief 释放信号量。
 		/// @param count 要释放的数量。
-		virtual void Release(int count) override;
+		virtual void Release(int32_t count) override;
 
 		/// @brief 获取信号量。无限等待，永不超时。
 		virtual void Acquire() override;

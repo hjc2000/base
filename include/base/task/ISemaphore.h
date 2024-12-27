@@ -15,7 +15,7 @@ namespace base
 
 		/// @brief 释放信号量。
 		/// @param count 要释放的数量。
-		virtual void Release(int count) = 0;
+		virtual void Release(int32_t count) = 0;
 
 		/// @brief 获取信号量。无限等待，永不超时。
 		virtual void Acquire() = 0;
@@ -33,7 +33,8 @@ namespace base
 	namespace di
 	{
 		/// @brief 创建一个信号量。
+		/// @param initial_count
 		/// @return
-		std::shared_ptr<base::ISemaphore> CreateSemaphore(int initial_count);
+		std::shared_ptr<base::ISemaphore> CreateSemaphore(int32_t initial_count);
 	} // namespace di
 } // namespace base
