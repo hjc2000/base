@@ -20,6 +20,7 @@ if(has_thread)
 	target_compile_definitions(${ProjectName} PUBLIC HAS_THREAD=1)
 else()
 	message(STATUS "此平台没有线程")
+	target_compile_definitions(${ProjectName} PUBLIC HAS_THREAD=0)
 endif()
 
 set(CMAKE_INSTALL_PREFIX $ENV{cpp_lib_build_scripts_path}/${platform}/.libs/${ProjectName}/)

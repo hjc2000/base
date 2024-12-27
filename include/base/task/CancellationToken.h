@@ -1,8 +1,4 @@
 #pragma once
-#ifndef HAS_THREAD
-#define HAS_THREAD 0
-#endif
-
 #include <atomic>
 #include <base/define.h>
 #include <chrono>
@@ -18,48 +14,48 @@
 
 namespace base
 {
-    class CancellationTokenSource;
+	class CancellationTokenSource;
 
-    /// @brief 取消令牌
-    /// @warning 没有将宏变量 HAS_THREAD 定义为真的话，本类的所有操作都没有互斥锁保护，
-    /// 此时只有 IsCancellationRequested 方法是线程安全的，因为它只读。
-    class CancellationToken final
-    {
-    private:
-        CancellationToken() = default;
+	/// @brief 取消令牌
+	/// @warning 没有将宏变量 HAS_THREAD 定义为真的话，本类的所有操作都没有互斥锁保护，
+	/// 此时只有 IsCancellationRequested 方法是线程安全的，因为它只读。
+	class CancellationToken final
+	{
+	private:
+		CancellationToken() = default;
 
-        friend class CancellationTokenSource;
+		friend class CancellationTokenSource;
 
 #if HAS_THREAD
-        std::mutex _lock;
+		std::mutex _lock;
 #endif
 
-        std::atomic_bool _is_cancellation_request = false;
-        std::map<uint64_t, std::function<void(void)>> _delegates;
+		std::atomic_bool _is_cancellation_request = false;
+		std::map<uint64_t, std::function<void(void)>> _delegates;
 
-        inline static_field uint64_t _id = 0;
-        static_field std::shared_ptr<CancellationToken> _none_cancellation_token;
+		inline static_field uint64_t _id = 0;
+		static_field std::shared_ptr<CancellationToken> _none_cancellation_token;
 
-        void Cancel();
+		void Cancel();
 
-    public:
-        /// @brief 获取一个不被取消令牌源管理的取消令牌。此令牌永远无法被取消。
-        /// @return
-        static_function std::shared_ptr<CancellationToken> None();
+	public:
+		/// @brief 获取一个不被取消令牌源管理的取消令牌。此令牌永远无法被取消。
+		/// @return
+		static_function std::shared_ptr<CancellationToken> None();
 
-        /// @brief 是否需要取消
-        /// @return
-        bool IsCancellationRequested() const;
+		/// @brief 是否需要取消
+		/// @return
+		bool IsCancellationRequested() const;
 
-        /// @brief 注册一个委托，当令牌取消时会被调用。
-        /// @note 可以多次调用注册多个委托。
-        ///
-        /// @param func
-        /// @return 返回一个 id，用来标识此次注册的委托。取消时可以用此 id 取消。
-        uint64_t Register(std::function<void(void)> func);
+		/// @brief 注册一个委托，当令牌取消时会被调用。
+		/// @note 可以多次调用注册多个委托。
+		///
+		/// @param func
+		/// @return 返回一个 id，用来标识此次注册的委托。取消时可以用此 id 取消。
+		uint64_t Register(std::function<void(void)> func);
 
-        /// @brief 注销通过 Register 方法注册的委托。
-        /// @param id 委托的 id
-        void Unregister(uint64_t id);
-    };
+		/// @brief 注销通过 Register 方法注册的委托。
+		/// @param id 委托的 id
+		void Unregister(uint64_t id);
+	};
 } // namespace base

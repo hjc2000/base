@@ -1,7 +1,4 @@
 #include "IMutex.h"
-#ifndef HAS_THREAD
-#define HAS_THREAD 0
-#endif
 
 #if HAS_THREAD
 

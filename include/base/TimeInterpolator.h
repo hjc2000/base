@@ -1,7 +1,4 @@
 #pragma once
-#ifndef HAS_THREAD
-#define HAS_THREAD 0
-#endif
 
 #if HAS_THREAD
 
@@ -39,6 +36,6 @@ namespace base
 
 		void Pause();
 	};
-}
+} // namespace base
 
 #endif // HAS_THREAD

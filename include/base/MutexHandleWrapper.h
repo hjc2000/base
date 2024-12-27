@@ -1,8 +1,4 @@
 #pragma once
-#ifndef HAS_THREAD
-#define HAS_THREAD 0
-#endif
-
 #include <functional>
 
 #if HAS_THREAD
@@ -45,4 +41,4 @@ namespace base
 			_handle = handle;
 		}
 	};
-}
+} // namespace base

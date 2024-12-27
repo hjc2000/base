@@ -1,8 +1,4 @@
 #pragma once
-#ifndef HAS_THREAD
-#define HAS_THREAD 0
-#endif
-
 #if HAS_THREAD
 
 #include <base/task/IMutex.h>

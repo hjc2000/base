@@ -1,11 +1,17 @@
 #pragma once
+#include <base/IDisposable.h>
 #include <base/unit/Seconds.h>
 
 namespace base
 {
-	class ISemaphore
+	class ISemaphore :
+		public base::IDisposable
 	{
 	public:
+		/// @brief 释放本对象的资源。
+		/// @note 释放后信号量将不再具有阻塞的能力。再次尝试获取信号量将引发异常。
+		virtual void Dispose() = 0;
+
 		/// @brief 释放信号量。
 		/// @param count 要释放的数量。
 		virtual void Release(int count) = 0;
