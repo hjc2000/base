@@ -37,6 +37,6 @@ namespace base
 		/// @param initial_count 信号量的初始计数。
 		/// @return
 		std::shared_ptr<base::IDisposableSemaphore>
-		CreateDisposableSemaphore(int32_t max_count, int32_t initial_count);
+		CreateDisposableSemaphore(int32_t initial_count);
 	} // namespace di
 } // namespace base
