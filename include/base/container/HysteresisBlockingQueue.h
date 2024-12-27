@@ -1,13 +1,9 @@
 #pragma once
-
-#if HAS_THREAD
-#include <base/container/IQueue.h>
 #include <base/container/SafeQueue.h>
 #include <base/IDisposable.h>
 #include <base/string/ICanToString.h>
-#include <condition_variable>
-#include <iostream>
-#include <mutex>
+#include <base/task/IMutex.h>
+#include <base/task/ISemaphore.h>
 
 namespace base
 {
@@ -38,21 +34,21 @@ namespace base
 
 		base::SafeQueue<T> _queue;
 
-		/// @brief 非私有方法需要加锁。
-		std::mutex _not_private_methods_lock;
+		std::shared_ptr<base::IMutex> _lock = base::di::CreateMutex();
 
-		/// @brief 队列中元素数量小于阈值时条件成立。
-		std::condition_variable _queue_consumed_cv;
+		/// @brief 队列被消费了，需要入队了，就触发此信号。
+		/// @note 因为依赖 _max ，所以在构造函数中初始化。
+		std::shared_ptr<base::ISemaphore> _queue_consumed_signal = nullptr;
 
-		/// @brief 队列中元素数量大于阈值时条件成立。
-		std::condition_variable _queue_avaliable_cv;
+		/// @brief 队列中有数据，可以退队时触发此信号。
+		/// @note 初始时队列为空，无法退队，所以初始计数为 0.
+		std::shared_ptr<base::ISemaphore> _queue_avaliable_signal = base::di::CreateSemaphore(0);
 
 	public:
 		/// @brief 构造函数
 		/// @param max 队列能容纳的元素的最大数量。
 		HysteresisBlockingQueue(int32_t max)
 		{
-			using namespace std;
 			if (max <= 0)
 			{
 				throw std::invalid_argument{"最大值不能 <= 0"};
@@ -60,6 +56,9 @@ namespace base
 
 			_max = max;
 			_threshold = _max / 2;
+
+			// 初始时队列为空，允许入队 _max 次，所以初始计数为 _max.
+			_queue_consumed_signal = base::di::CreateSemaphore(_max);
 		}
 
 		~HysteresisBlockingQueue()
@@ -80,8 +79,8 @@ namespace base
 			_disposed = true;
 
 			_queue.Clear();
-			_queue_consumed_cv.notify_all();
-			_queue_avaliable_cv.notify_all();
+			_queue_consumed_signal->Dispose();
+			_queue_avaliable_signal->Dispose();
 		}
 
 		/// @brief 队列中当前元素个数
@@ -100,33 +99,33 @@ namespace base
 		/// @return 退队的元素。
 		T Dequeue() override
 		{
-			std::unique_lock<std::mutex> l(_not_private_methods_lock);
-
-			if (_disposed)
+			while (true)
 			{
-				throw std::runtime_error{"此对象已释放，不能再使用"};
-			}
-
-			auto p_func = [&]()
-			{
-				if (_disposed || _flushed)
+				if (_disposed)
 				{
-					// 释放后和冲洗后不再阻塞
-					return true;
+					throw std::runtime_error{"队列已被释放，无法退队。"};
 				}
 
-				// 等待直到队列中有元素可以退队。
-				return _queue.Count() > 0;
-			};
-			_queue_avaliable_cv.wait(l, p_func);
+				_queue_avaliable_signal->Acquire();
 
-			T element = _queue.Dequeue();
-			if (_queue.Count() <= _threshold)
-			{
-				_queue_consumed_cv.notify_all();
+				/**
+				 * 成功获取到信号量。接下来在持有互斥锁的情况下检查是否误触，以及进行操作。
+				 */
+				base::LockGuard g{*_lock};
+				if (!_flushed && _queue.Count() == 0)
+				{
+					// 没被冲洗，并且队列为空，返回头部开始新的一轮等待。
+					continue;
+				}
+
+				T element = _queue.Dequeue();
+				if (_queue.Count() <= _threshold)
+				{
+					_queue_consumed_signal->Release(_max - _queue.Count());
+				}
+
+				return element;
 			}
-
-			return element;
 		}
 
 		/// @brief 尝试退队
@@ -134,33 +133,33 @@ namespace base
 		/// @return 退队成功返回 true，失败返回 false。
 		bool TryDequeue(T &out) override
 		{
-			std::unique_lock<std::mutex> l(_not_private_methods_lock);
-
-			if (_disposed)
+			while (true)
 			{
-				throw std::runtime_error{"此对象已释放，不能再使用"};
-			}
-
-			auto p_func = [&]()
-			{
-				if (_disposed || _flushed)
+				if (_disposed)
 				{
-					// 释放后和冲洗后不再阻塞
-					return true;
+					throw std::runtime_error{"队列已被释放，无法退队。"};
 				}
 
-				// 等待直到队列中有元素可以退队。
-				return _queue.Count() > 0;
-			};
-			_queue_avaliable_cv.wait(l, p_func);
+				_queue_avaliable_signal->Acquire();
 
-			bool result = _queue.TryDequeue(out);
-			if (result && _queue.Count() <= _threshold)
-			{
-				_queue_consumed_cv.notify_all();
+				/**
+				 * 成功获取到信号量。接下来在持有互斥锁的情况下检查是否误触，以及进行操作。
+				 */
+				base::LockGuard g{*_lock};
+				if (!_flushed && _queue.Count() == 0)
+				{
+					// 没被冲洗，并且队列为空，返回头部开始新的一轮等待。
+					continue;
+				}
+
+				bool result = _queue.TryDequeue(out);
+				if (result && _queue.Count() <= _threshold)
+				{
+					_queue_consumed_signal->Release(_max - _queue.Count());
+				}
+
+				return result;
 			}
-
-			return result;
 		}
 
 		/// @brief 入队。
@@ -171,33 +170,36 @@ namespace base
 		/// @param obj
 		void Enqueue(T const &obj) override
 		{
-			std::unique_lock<std::mutex> l(_not_private_methods_lock);
-
-			if (_disposed)
+			while (true)
 			{
-				throw std::runtime_error{"此对象已释放，不能再使用"};
-			}
-
-			if (_flushed)
-			{
-				throw std::runtime_error{"队列已冲洗，无法入队。"};
-			}
-
-			auto p_func = [&]()
-			{
-				if (_disposed || _flushed)
+				if (_disposed)
 				{
-					return true;
+					throw std::runtime_error{"队列已被释放，无法入队。"};
 				}
 
-				return _queue.Count() < _max;
-			};
-			_queue_consumed_cv.wait(l, p_func);
+				if (_flushed)
+				{
+					throw std::runtime_error{"队列已被冲洗，无法入队。"};
+				}
 
-			_queue.Enqueue(obj);
-			if (_queue.Count() >= _threshold)
-			{
-				_queue_avaliable_cv.notify_all();
+				_queue_consumed_signal->Acquire();
+
+				/**
+				 * 成功获取到信号量。接下来在持有互斥锁的情况下检查是否误触，以及进行操作。
+				 */
+				base::LockGuard g{*_lock};
+				if (_queue.Count() >= _max)
+				{
+					continue;
+				}
+
+				_queue.Enqueue(obj);
+				if (_queue.Count() >= _threshold)
+				{
+					_queue_avaliable_signal->Release(_queue.Count());
+				}
+
+				return;
 			}
 		}
 
@@ -210,7 +212,7 @@ namespace base
 			}
 
 			_queue.Clear();
-			_queue_consumed_cv.notify_all();
+			_queue_consumed_signal->Release(_max);
 		}
 
 		/// @brief 冲洗队列。
@@ -224,8 +226,8 @@ namespace base
 			}
 
 			_flushed = true;
-			_queue_consumed_cv.notify_all();
-			_queue_avaliable_cv.notify_all();
+			_queue_avaliable_signal->Dispose();
+			_queue_consumed_signal->Dispose();
 		}
 
 		/// @brief 检查队列是否已被冲洗。
@@ -236,4 +238,3 @@ namespace base
 		}
 	};
 } // namespace base
-#endif // HAS_THREAD
