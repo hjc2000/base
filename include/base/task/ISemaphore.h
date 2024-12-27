@@ -1,6 +1,7 @@
 #pragma once
 #include <base/IDisposable.h>
 #include <base/unit/Seconds.h>
+#include <memory>
 
 namespace base
 {
@@ -25,4 +26,14 @@ namespace base
 		/// @return
 		virtual bool TryAcquire(base::Seconds const &timeout) = 0;
 	};
+} // namespace base
+
+namespace base
+{
+	namespace di
+	{
+		/// @brief 创建一个信号量。
+		/// @return
+		std::shared_ptr<base::ISemaphore> CreateSemaphore(int initial_count);
+	} // namespace di
 } // namespace base

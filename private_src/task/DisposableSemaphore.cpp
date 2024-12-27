@@ -2,6 +2,11 @@
 
 #if HAS_THREAD
 
+base::DisposableSemaphore::DisposableSemaphore(int initial_count)
+	: _semaphore(initial_count)
+{
+}
+
 void base::DisposableSemaphore::Dispose()
 {
 	if (_disposed)

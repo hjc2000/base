@@ -15,6 +15,8 @@ namespace base
 		std::atomic_bool _disposed = false;
 
 	public:
+		DisposableSemaphore(int initial_count);
+
 		virtual void Dispose() override;
 
 		/// @brief 释放信号量。
