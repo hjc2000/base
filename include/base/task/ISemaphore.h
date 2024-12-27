@@ -6,7 +6,7 @@
 namespace base
 {
 	/// @brief 可以被 Dispose 的信号量。Dispose 之后信号量不再具有阻塞能力。
-	class IDisposableSemaphore :
+	class ISemaphore :
 		public base::IDisposable
 	{
 	public:
@@ -36,7 +36,7 @@ namespace base
 		/// @brief 创建一个信号量。
 		/// @param initial_count 信号量的初始计数。
 		/// @return
-		std::shared_ptr<base::IDisposableSemaphore>
+		std::shared_ptr<base::ISemaphore>
 		CreateDisposableSemaphore(int32_t initial_count);
 	} // namespace di
 } // namespace base
