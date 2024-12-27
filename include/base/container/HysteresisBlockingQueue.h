@@ -98,7 +98,7 @@ namespace base
 		/// 会抛出异常。
 		///
 		/// @return 退队的元素。
-		T Dequeue()
+		T Dequeue() override
 		{
 			std::unique_lock<std::mutex> l(_not_private_methods_lock);
 
@@ -132,7 +132,7 @@ namespace base
 		/// @brief 尝试退队
 		/// @param out
 		/// @return 退队成功返回 true，失败返回 false。
-		bool TryDequeue(T &out)
+		bool TryDequeue(T &out) override
 		{
 			std::unique_lock<std::mutex> l(_not_private_methods_lock);
 
@@ -169,7 +169,7 @@ namespace base
 		/// 再次尝试入队会抛出异常。
 		///
 		/// @param obj
-		void Enqueue(T obj)
+		void Enqueue(T const &obj) override
 		{
 			std::unique_lock<std::mutex> l(_not_private_methods_lock);
 
@@ -202,7 +202,7 @@ namespace base
 		}
 
 		/// @brief 清空队列
-		void Clear()
+		void Clear() override
 		{
 			if (_disposed)
 			{

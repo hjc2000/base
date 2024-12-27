@@ -38,7 +38,7 @@ namespace base
 			base::LockGuard g{*_lock};
 			if (_queue.empty())
 			{
-				throw std::runtime_error("队列当前为空，无法退队");
+				throw std::runtime_error{"队列当前为空，无法退队"};
 			}
 
 			T ret = _queue.front();
@@ -64,7 +64,7 @@ namespace base
 
 		/// @brief 入队
 		/// @param obj
-		void Enqueue(T obj) override
+		void Enqueue(T const &obj) override
 		{
 			base::LockGuard g{*_lock};
 			_queue.push(obj);
