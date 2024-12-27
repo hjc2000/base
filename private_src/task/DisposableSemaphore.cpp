@@ -9,10 +9,10 @@ base::DisposableSemaphore::DisposableSemaphore(base::DisposableSemaphore_MaxCoun
 	_max_count = max_count.Value();
 	if (_max_count <= 0)
 	{
-		throw std::invalid_argument{"最大计数必须 >= 0."};
+		throw std::invalid_argument{"最大计数必须 > 0."};
 	}
 
-	_release_count = initial_count.Value();
+	_released_count = initial_count.Value();
 }
 
 void base::DisposableSemaphore::Dispose()
@@ -35,15 +35,28 @@ void base::DisposableSemaphore::Dispose()
 
 	{
 		std::lock_guard g{_lock};
-		_release_count += INT32_MAX;
+		_released_count += INT32_MAX;
 	}
 }
 
 void base::DisposableSemaphore::Release(int32_t count)
 {
 	std::lock_guard g{_lock};
-	_release_count += count;
-	_semaphore.release(count);
+	if (_released_count >= _max_count)
+	{
+		return;
+	}
+
+	if (_released_count + count >= _max_count)
+	{
+		_semaphore.release(_max_count - _released_count);
+		_released_count = _max_count;
+	}
+	else
+	{
+		_semaphore.release(count);
+		_released_count += count;
+	}
 }
 
 void base::DisposableSemaphore::Acquire()
@@ -55,14 +68,14 @@ void base::DisposableSemaphore::Acquire()
 
 	{
 		std::lock_guard g{_lock};
-		while (_release_count > _max_count)
+		while (_released_count > _max_count)
 		{
 			_semaphore.acquire();
-			_release_count--;
+			_released_count--;
 		}
 
-		// 这是本次获取的份。
-		_release_count--;
+		// 这是本次获取的份，即下面的一条 _semaphore.acquire() 还要获取一次信号量。
+		_released_count--;
 	}
 
 	_semaphore.acquire();
@@ -81,23 +94,23 @@ bool base::DisposableSemaphore::TryAcquire(base::Seconds const &timeout)
 
 	{
 		std::lock_guard g{_lock};
-		while (_release_count > _max_count)
+		while (_released_count > _max_count)
 		{
 			_semaphore.acquire();
-			_release_count--;
+			_released_count--;
 		}
 
 		/**
-		 * 这是本次获取的份。
+		 * 这是本次获取的份，即下面的一条 _semaphore.try_acquire_for() 还要获取一次信号量。
 		 *
 		 * 不管等会儿能不能获取成功，都先递减 _release_count，假设会成功。大不了就是释放的信号量
-		 * 计数超过 _max_count，反正前面有一个 while (_release_count > _max_count) 循环，
+		 * 计数超过 _max_count，反正前面有一个 while (_released_count > _max_count) 循环，
 		 * 超标了也没事。
 		 *
-		 * 先递减 _release_count 可以避免别的线程获取信号量时在 while (_release_count > _max_count)
+		 * 先递减 _released_count 可以避免别的线程获取信号量时在 while (_released_count > _max_count)
 		 * 循环中循环次数过多，然后被卡死在循环里面。
 		 */
-		_release_count--;
+		_released_count--;
 	}
 
 	bool result = _semaphore.try_acquire_for(static_cast<std::chrono::milliseconds>(timeout));
@@ -110,8 +123,8 @@ bool base::DisposableSemaphore::TryAcquire(base::Seconds const &timeout)
 	{
 		std::lock_guard g{_lock};
 
-		// 刚才获取信号量失败了，要将递减的 _release_count 恢复。
-		_release_count++;
+		// 刚才获取信号量失败了，要将递减的 _released_count 恢复。
+		_released_count++;
 	}
 
 	return result;
