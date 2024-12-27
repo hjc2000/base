@@ -7,6 +7,11 @@ base::DisposableSemaphore::DisposableSemaphore(int32_t initial_count)
 {
 }
 
+base::DisposableSemaphore::~DisposableSemaphore()
+{
+	Dispose();
+}
+
 void base::DisposableSemaphore::Dispose()
 {
 	if (_disposed)

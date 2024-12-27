@@ -16,12 +16,7 @@ namespace base
 
 	public:
 		DisposableSemaphore(int32_t initial_count);
-
-		~DisposableSemaphore()
-		{
-			Dispose();
-		}
-
+		~DisposableSemaphore();
 		virtual void Dispose() override;
 
 		/// @brief 释放信号量。
