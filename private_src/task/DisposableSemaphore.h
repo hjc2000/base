@@ -3,10 +3,28 @@
 
 #include <atomic>
 #include <base/task/IDisposableSemaphore.h>
+#include <mutex>
 #include <semaphore>
 
 namespace base
 {
+	class DisposableSemaphore_MaxCount
+	{
+	private:
+		int32_t _value = 0;
+
+	public:
+		explicit DisposableSemaphore_MaxCount(int32_t value)
+			: _value(value)
+		{
+		}
+
+		int32_t Value() const
+		{
+			return _value;
+		}
+	};
+
 	class DisposableSemaphore_InitialCount
 	{
 	private:
@@ -30,9 +48,13 @@ namespace base
 	private:
 		std::counting_semaphore<INT32_MAX> _semaphore{0};
 		std::atomic_bool _disposed = false;
+		int64_t _max_count = 1;
+		int64_t _release_count = 0;
+		std::mutex _lock;
 
 	public:
-		DisposableSemaphore(base::DisposableSemaphore_InitialCount const &initial_count);
+		DisposableSemaphore(base::DisposableSemaphore_MaxCount const &max_count,
+							base::DisposableSemaphore_InitialCount const &initial_count);
 
 		virtual void Dispose() override;
 
