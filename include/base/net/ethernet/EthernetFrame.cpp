@@ -109,36 +109,32 @@ base::Span base::ethernet::EthernetFrame::Payload() const
 	}
 }
 
-void base::ethernet::EthernetFrame::SetPayload(base::ReadOnlySpan const &value)
+void base::ethernet::EthernetFrame::SetValidPayloadSize(int32_t value)
 {
 	if (HasVlanTag())
 	{
-		base::Span span{_span.Slice(base::Range{18, _span.Size()})};
-		span.CopyFrom(value);
-		if (value.Size() < 46)
+		if (value < 46)
 		{
 			// 载荷不足 46 字节，需要填充值为 0 的字节，从而达到 46 字节。
-			span.Slice(base::Range{value.Size(), 46}).FillWithZero();
+			_span.Slice(18, 46).FillWithZero();
 			_valid_frame_size = 18 + 46;
 		}
 		else
 		{
-			_valid_frame_size = 18 + value.Size();
+			_valid_frame_size = 18 + value;
 		}
 	}
 	else
 	{
-		base::Span span{_span.Slice(base::Range{14, _span.Size()})};
-		span.CopyFrom(value);
-		if (value.Size() < 46)
+		if (value < 46)
 		{
 			// 载荷不足 46 字节，需要填充值为 0 的字节，从而达到 46 字节。
-			span.Slice(base::Range{value.Size(), 46}).FillWithZero();
+			_span.Slice(14, 46).FillWithZero();
 			_valid_frame_size = 14 + 46;
 		}
 		else
 		{
-			_valid_frame_size = 14 + value.Size();
+			_valid_frame_size = 14 + value;
 		}
 	}
 }
