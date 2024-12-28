@@ -115,8 +115,11 @@ void base::ethernet::EthernetFrame::SetValidPayloadSize(int32_t value)
 	{
 		if (value < 46)
 		{
-			// 载荷不足 46 字节，需要填充值为 0 的字节，从而达到 46 字节。
-			_span.Slice(18, 46).FillWithZero();
+			/**
+			 * 载荷不足 46 字节，需要填充值为 0 的字节，从而达到 46 字节。
+			 * 所以有效载荷的最后一个字节后到第 46 字节的这段内存要清零。
+			 */
+			_span.Slice(base::Range{18 + value, 18 + 46}).FillWithZero();
 			_valid_frame_size = 18 + 46;
 		}
 		else
@@ -128,8 +131,11 @@ void base::ethernet::EthernetFrame::SetValidPayloadSize(int32_t value)
 	{
 		if (value < 46)
 		{
-			// 载荷不足 46 字节，需要填充值为 0 的字节，从而达到 46 字节。
-			_span.Slice(14, 46).FillWithZero();
+			/**
+			 * 载荷不足 46 字节，需要填充值为 0 的字节，从而达到 46 字节。
+			 * 所以有效载荷的最后一个字节后到第 46 字节的这段内存要清零。
+			 */
+			_span.Slice(base::Range{14 + value, 14 + 46}).FillWithZero();
 			_valid_frame_size = 14 + 46;
 		}
 		else
