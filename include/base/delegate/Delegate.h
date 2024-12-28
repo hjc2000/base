@@ -1,12 +1,8 @@
 #pragma once
-
 #include <base/delegate/IEvent.h>
+#include <base/task/IMutex.h>
 #include <map>
 #include <stdint.h>
-
-#if HAS_THREAD
-#include <mutex>
-#endif
 
 namespace base
 {
@@ -14,7 +10,6 @@ namespace base
 	/// @note 本类继承了 IEvent 接口。一个类如果只想让外部订阅和取消订阅，不想让外部能够触发事件，
 	/// 则可以将 Delegate 对象作为私有字段，然后提供一个函数，返回 IEvent 的引用，这样外部就只能订阅和
 	/// 取消订阅，无法触发事件了。
-	///
 	/// @tparam ...Args
 	template <typename... Args>
 	class Delegate final :
@@ -23,20 +18,14 @@ namespace base
 	private:
 		std::map<uint64_t, std::function<void(Args...)>> _functions;
 		uint64_t _next_id = 0;
-
-#if HAS_THREAD
-		std::mutex _lock;
-#endif
+		std::shared_ptr<base::IMutex> _lock = base::di::CreateMutex();
 
 		/// @brief 取消订阅方法
 		/// @param id
 		/// @return
 		void Unsubscribe(uint64_t id)
 		{
-#if HAS_THREAD
-			std::lock_guard l{_lock};
-#endif
-
+			base::LockGuard g{*_lock};
 			auto it = _functions.find(id);
 			if (it != _functions.end())
 			{
@@ -64,14 +53,10 @@ namespace base
 				}
 			};
 
+			base::LockGuard g{*_lock};
 			std::shared_ptr<UnsubscribeToken> token{new UnsubscribeToken{}};
 			token->_id = _next_id++;
 			token->_delegate = this;
-
-#if HAS_THREAD
-			std::lock_guard l{_lock};
-#endif
-
 			_functions[token->_id] = func;
 			return token;
 		}
@@ -80,10 +65,7 @@ namespace base
 		/// @param ...args
 		void Invoke(Args... args)
 		{
-#if HAS_THREAD
-			std::lock_guard l{_lock};
-#endif
-
+			base::LockGuard g{*_lock};
 			for (auto &func : _functions)
 			{
 				func.second(args...);

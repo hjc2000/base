@@ -1,10 +1,7 @@
 #include "Guard.h"
-#include <stdexcept>
-
-#if HAS_THREAD
 #include <base/string/define.h>
 #include <iostream>
-#endif
+#include <stdexcept>
 
 base::Guard::Guard(std::function<void()> func)
 {
@@ -20,13 +17,12 @@ base::Guard::~Guard()
 			_func();
 		}
 	}
-#if HAS_THREAD
 	catch (std::exception const &e)
 	{
 		std::cerr << CODE_POS_STR << "Guard 在析构中执行回调遇到异常 " << e.what() << std::endl;
 	}
-#endif
 	catch (...)
 	{
+		std::cerr << CODE_POS_STR << "Guard 在析构中执行回调遇到未知异常" << std::endl;
 	}
 }
