@@ -1,6 +1,4 @@
 #pragma once
-
-#if HAS_THREAD
 #include <atomic>
 #include <base/container/HysteresisBlockingQueue.h>
 #include <base/IDisposable.h>
@@ -39,7 +37,6 @@ namespace base
 			}
 
 			_disposed = true;
-
 			_queue.Dispose();
 		}
 
@@ -76,4 +73,3 @@ namespace base
 		}
 	};
 } // namespace base
-#endif // HAS_THREAD
