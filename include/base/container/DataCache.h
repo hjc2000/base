@@ -56,7 +56,7 @@ namespace base
 
 		/// @brief 将数据放到内部队列的末尾。
 		/// @param item
-		void PushBack(T item)
+		void PushBack(T const &item)
 		{
 			if (_disposed)
 			{
