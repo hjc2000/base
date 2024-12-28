@@ -18,6 +18,12 @@ namespace base
 		/// @param count 要释放的数量。
 		virtual void Release(int32_t count) = 0;
 
+		/// @brief 释放 1 个信号量。
+		void Release()
+		{
+			Release(1);
+		}
+
 		/// @brief 获取信号量。无限等待，永不超时。
 		virtual void Acquire() = 0;
 

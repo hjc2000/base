@@ -1,10 +1,7 @@
 #pragma once
-
-#if HAS_THREAD
-
 #include <base/stream/CircleBufferMemoryStream.h>
-#include <condition_variable>
-#include <mutex>
+#include <base/task/IMutex.h>
+#include <base/task/ISemaphore.h>
 
 namespace base
 {
@@ -14,14 +11,14 @@ namespace base
 	{
 	private:
 		base::CircleBufferMemoryStream _mstream;
-		std::mutex _lock;
 		std::atomic_bool _stream_closed = false;
+		std::shared_ptr<base::IMutex> _lock = base::di::CreateMutex();
 
 		/// @brief 流中的数据被消费了，现在处于不是满的状态
-		std::condition_variable _buffer_consumed;
+		std::shared_ptr<base::ISemaphore> _buffer_consumed_signal = base::di::CreateSemaphore(1);
 
 		/// @brief 流中有数据可用。
-		std::condition_variable _buffer_avaliable;
+		std::shared_ptr<base::ISemaphore> _buffer_avaliable_signal = base::di::CreateSemaphore(0);
 
 	public:
 		BlockingCircleBufferMemoryStream(int32_t max_size)
@@ -54,5 +51,3 @@ namespace base
 #pragma endregion
 	};
 } // namespace base
-
-#endif // HAS_THREAD

@@ -71,7 +71,7 @@ namespace base
 				_queue.Dequeue();
 			}
 
-			_data_avaliable_signal->Release(1);
+			_data_avaliable_signal->Release();
 		}
 
 		/// @brief 取出数据。
@@ -86,14 +86,16 @@ namespace base
 					throw std::runtime_error{std::string{CODE_POS_STR} + "已经释放了，无法取出数据。"};
 				}
 
-				_data_avaliable_signal->Acquire();
-				base::LockGuard g{*_lock};
-				if (_queue.Count() == 0)
+				// 在持有互斥锁的条件下检查，避免误触，以及操作
 				{
-					continue;
+					base::LockGuard g{*_lock};
+					if (_queue.Count() > 0)
+					{
+						return _queue.Dequeue();
+					}
 				}
 
-				return _queue.Dequeue();
+				_data_avaliable_signal->Acquire();
 			}
 		}
 	};

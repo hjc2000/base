@@ -106,25 +106,25 @@ namespace base
 					throw std::runtime_error{"队列已被释放，无法退队。"};
 				}
 
-				_queue_avaliable_signal->Acquire();
-
-				/**
-				 * 成功获取到信号量。接下来在持有互斥锁的情况下检查是否误触，以及进行操作。
-				 */
-				base::LockGuard g{*_lock};
-				if (!_flushed && _queue.Count() == 0)
+				// 在持有互斥锁的条件下检查，避免误触，以及操作
 				{
-					// 没被冲洗，并且队列为空，返回头部开始新的一轮等待。
-					continue;
+					base::LockGuard g{*_lock};
+					if (_queue.Count() > 0)
+					{
+						T element = _queue.Dequeue();
+						if (_queue.Count() <= _threshold)
+						{
+							_queue_consumed_signal->Release(_max - _queue.Count());
+						}
+
+						return element;
+					}
 				}
 
-				T element = _queue.Dequeue();
-				if (_queue.Count() <= _threshold)
+				if (!_flushed)
 				{
-					_queue_consumed_signal->Release(_max - _queue.Count());
+					_queue_avaliable_signal->Acquire();
 				}
-
-				return element;
 			}
 		}
 
@@ -140,25 +140,25 @@ namespace base
 					throw std::runtime_error{"队列已被释放，无法退队。"};
 				}
 
-				_queue_avaliable_signal->Acquire();
-
-				/**
-				 * 成功获取到信号量。接下来在持有互斥锁的情况下检查是否误触，以及进行操作。
-				 */
-				base::LockGuard g{*_lock};
-				if (!_flushed && _queue.Count() == 0)
+				// 在持有互斥锁的条件下检查，避免误触，以及操作
 				{
-					// 没被冲洗，并且队列为空，返回头部开始新的一轮等待。
-					continue;
+					base::LockGuard g{*_lock};
+					if (_queue.Count() > 0)
+					{
+						bool result = _queue.TryDequeue(out);
+						if (_queue.Count() <= _threshold)
+						{
+							_queue_consumed_signal->Release(_max - _queue.Count());
+						}
+
+						return result;
+					}
 				}
 
-				bool result = _queue.TryDequeue(out);
-				if (result && _queue.Count() <= _threshold)
+				if (!_flushed)
 				{
-					_queue_consumed_signal->Release(_max - _queue.Count());
+					_queue_avaliable_signal->Acquire();
 				}
-
-				return result;
 			}
 		}
 
@@ -182,24 +182,22 @@ namespace base
 					throw std::runtime_error{"队列已被冲洗，无法入队。"};
 				}
 
+				// 在持有互斥锁的条件下检查，避免误触，以及操作
+				{
+					base::LockGuard g{*_lock};
+					if (_queue.Count() < _max)
+					{
+						_queue.Enqueue(obj);
+						if (_queue.Count() >= _threshold)
+						{
+							_queue_avaliable_signal->Release(_queue.Count());
+						}
+
+						return;
+					}
+				}
+
 				_queue_consumed_signal->Acquire();
-
-				/**
-				 * 成功获取到信号量。接下来在持有互斥锁的情况下检查是否误触，以及进行操作。
-				 */
-				base::LockGuard g{*_lock};
-				if (_queue.Count() >= _max)
-				{
-					continue;
-				}
-
-				_queue.Enqueue(obj);
-				if (_queue.Count() >= _threshold)
-				{
-					_queue_avaliable_signal->Release(_queue.Count());
-				}
-
-				return;
 			}
 		}
 
