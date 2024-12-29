@@ -3,41 +3,54 @@
 
 std::string base::ToString(base::ethernet::LengthTypeEnum value)
 {
+	std::string ret;
 	switch (value)
 	{
 	case base::ethernet::LengthTypeEnum::IP:
 		{
-			return "IP " + base::ToHexString(static_cast<uint16_t>(value));
+			ret = "IP";
+			break;
 		}
 	case base::ethernet::LengthTypeEnum::ARP:
 		{
-			return "ARP " + base::ToHexString(static_cast<uint16_t>(value));
+			ret = "ARP";
+			break;
 		}
 	case base::ethernet::LengthTypeEnum::VlanTag:
 		{
-			return "VlanTag " + base::ToHexString(static_cast<uint16_t>(value));
+			ret = "VlanTag";
+			break;
 		}
 	case base::ethernet::LengthTypeEnum::Profinet:
 		{
-			return "Profinet " + base::ToHexString(static_cast<uint16_t>(value));
+			ret = "Profinet";
+			break;
 		}
 	case base::ethernet::LengthTypeEnum::MRP:
 		{
-			return "MRP " + base::ToHexString(static_cast<uint16_t>(value));
+			ret = "MRP";
+			break;
 		}
 	case base::ethernet::LengthTypeEnum::EtherCAT:
 		{
-			return "EtherCAT " + base::ToHexString(static_cast<uint16_t>(value));
+			ret = "EtherCAT";
+			break;
 		}
 	case base::ethernet::LengthTypeEnum::LLDP:
 		{
-			return "LLDP " + base::ToHexString(static_cast<uint16_t>(value));
+			ret = "LLDP";
+			break;
 		}
 	default:
 		{
-			return "未知 " + base::ToHexString(static_cast<uint16_t>(value));
+			ret = "未知";
+			break;
 		}
 	}
+
+	ret += ": " + base::ToHexString(static_cast<uint16_t>(value));
+	ret += " (十进制: " + std::to_string(static_cast<uint16_t>(value)) + ")";
+	return ret;
 }
 
 std::ostream &operator<<(std::ostream &os, base::ethernet::LengthTypeEnum length_type)
