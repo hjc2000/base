@@ -33,7 +33,7 @@ namespace base
 		{
 			if (max_count < 1)
 			{
-				throw std::invalid_argument{std::string{CODE_POS_STR} + "max_count 必须大于等于 1"};
+				throw std::invalid_argument{CODE_POS_STR + "max_count 必须大于等于 1"};
 			}
 
 			_max_count = max_count;
@@ -60,7 +60,7 @@ namespace base
 		{
 			if (_disposed)
 			{
-				throw std::runtime_error{std::string{CODE_POS_STR} + "已经释放了，无法放入数据。"};
+				throw std::runtime_error{CODE_POS_STR + "已经释放了，无法放入数据。"};
 			}
 
 			base::LockGuard g{*_lock};
@@ -83,7 +83,7 @@ namespace base
 			{
 				if (_disposed)
 				{
-					throw std::runtime_error{std::string{CODE_POS_STR} + "已经释放了，无法取出数据。"};
+					throw std::runtime_error{CODE_POS_STR + "已经释放了，无法取出数据。"};
 				}
 
 				// 在持有互斥锁的条件下检查，避免误触，以及操作

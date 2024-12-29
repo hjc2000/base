@@ -10,12 +10,12 @@ base::Span::Span(uint8_t *buffer, int32_t size)
 {
 	if (buffer == nullptr)
 	{
-		throw std::invalid_argument{std::string{CODE_POS_STR} + "buffer 不能是空指针"};
+		throw std::invalid_argument{CODE_POS_STR + "buffer 不能是空指针"};
 	}
 
 	if (size <= 0)
 	{
-		throw std::invalid_argument{std::string{CODE_POS_STR} + "size 不能 <=0."};
+		throw std::invalid_argument{CODE_POS_STR + "size 不能 <=0."};
 	}
 
 	_buffer = buffer;
@@ -40,7 +40,7 @@ uint8_t &base::Span::operator[](int32_t index) const
 {
 	if (index < 0 || index >= _size)
 	{
-		throw std::out_of_range{std::string{CODE_POS_STR} + "索引超出范围"};
+		throw std::out_of_range{CODE_POS_STR + "索引超出范围"};
 	}
 
 	return _buffer[index];
@@ -65,7 +65,7 @@ base::Span base::Span::Slice(int32_t start, int32_t size) const
 {
 	if (start + size > _size)
 	{
-		throw std::out_of_range{std::string{CODE_POS_STR} + "切片超出范围"};
+		throw std::out_of_range{CODE_POS_STR + "切片超出范围"};
 	}
 
 	return base::Span{_buffer + start, size};
@@ -87,7 +87,7 @@ void base::Span::CopyFrom(int32_t start, base::Span const &span) const
 {
 	if (start + span.Size() > _size)
 	{
-		throw std::out_of_range{std::string{CODE_POS_STR} + "本 Span 装不下传进来的这个 Span."};
+		throw std::out_of_range{CODE_POS_STR + "本 Span 装不下传进来的这个 Span."};
 	}
 
 	std::copy(span.Buffer(),
@@ -114,7 +114,7 @@ void base::Span::CopyFrom(int32_t start, std::initializer_list<uint8_t> const &l
 {
 	if (start + static_cast<int32_t>(list.size()) > _size)
 	{
-		std::string message = std::string{CODE_POS_STR} +
+		std::string message = CODE_POS_STR +
 							  std::string{"本 Span 无法在"} +
 							  " start = " +
 							  std::to_string(start) +
@@ -134,7 +134,7 @@ void base::Span::CopyFrom(int32_t start, uint8_t const *buffer, int32_t offset, 
 {
 	if (start + count > _size)
 	{
-		throw std::out_of_range{std::string{CODE_POS_STR} + "本 Span 装不下传进来的这个缓冲区。"};
+		throw std::out_of_range{CODE_POS_STR + "本 Span 装不下传进来的这个缓冲区。"};
 	}
 
 	std::copy(buffer + offset,

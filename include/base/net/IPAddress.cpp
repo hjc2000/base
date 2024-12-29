@@ -86,7 +86,7 @@ base::IPAddress::IPAddress(std::endian endian, std::initializer_list<uint8_t> co
 	}
 	else
 	{
-		throw std::invalid_argument{std::string{CODE_POS_STR} + "传入的初始化列表的尺寸不符合要求。"};
+		throw std::invalid_argument{CODE_POS_STR + "传入的初始化列表的尺寸不符合要求。"};
 	}
 }
 
@@ -118,7 +118,7 @@ base::IPAddress::IPAddress(std::endian endian, base::ReadOnlySpan const &span)
 	}
 	else
 	{
-		throw std::invalid_argument{std::string{CODE_POS_STR} + "传入的 span 的尺寸不符合要求。"};
+		throw std::invalid_argument{CODE_POS_STR + "传入的 span 的尺寸不符合要求。"};
 	}
 }
 
@@ -216,7 +216,7 @@ uint8_t &base::IPAddress::operator[](int index)
 {
 	if (index < 0 || index >= _span.Size())
 	{
-		throw std::out_of_range{std::string{CODE_POS_STR} + "索引超出范围"};
+		throw std::out_of_range{CODE_POS_STR + "索引超出范围"};
 	}
 
 	return _span[index];
@@ -226,7 +226,7 @@ uint8_t const &base::IPAddress::operator[](int index) const
 {
 	if (index < 0 || index >= _span.Size())
 	{
-		throw std::out_of_range{std::string{CODE_POS_STR} + "索引超出范围"};
+		throw std::out_of_range{CODE_POS_STR + "索引超出范围"};
 	}
 
 	return _span[index];

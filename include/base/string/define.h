@@ -24,4 +24,14 @@
  */
 #define DEFINE_VALUE_TO_STR(x) DEFINE_TO_STR(x)
 
-#define CODE_POS_STR "文件：" __FILE__ " 行号：" DEFINE_VALUE_TO_STR(__LINE__) " >>\n"
+#ifdef __cplusplus
+
+#include <string>
+
+#define CODE_POS_STR std::string{"文件：" __FILE__ " 行号：" DEFINE_VALUE_TO_STR(__LINE__)} + \
+						 std::string{" 函数："} + std::string{__func__} +                     \
+						 " >>\n"
+
+#else // #ifdef __cplusplus
+#define CODE_POS_STR "\n文件：" __FILE__ " 行号：" DEFINE_VALUE_TO_STR(__LINE__) " >>\n"
+#endif // #ifdef __cplusplus

@@ -34,7 +34,7 @@ int32_t base::BlockingCircleBufferMemoryStream::Read(uint8_t *buffer, int32_t of
 	{
 		if (_stream_closed)
 		{
-			throw std::runtime_error{std::string{CODE_POS_STR} + "流已关闭，无法读取"};
+			throw std::runtime_error{CODE_POS_STR + "流已关闭，无法读取"};
 		}
 
 		// 在持有互斥锁的条件下检查，避免误触，以及操作
@@ -58,7 +58,7 @@ void base::BlockingCircleBufferMemoryStream::Write(uint8_t const *buffer, int32_
 	{
 		if (_stream_closed)
 		{
-			throw std::runtime_error{std::string{CODE_POS_STR} + "流已关闭，无法写入。"};
+			throw std::runtime_error{CODE_POS_STR + "流已关闭，无法写入。"};
 		}
 
 		{

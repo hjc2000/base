@@ -54,7 +54,7 @@ void base::TaskCompletionSignal::Wait()
 	 */
 	if (_disposed)
 	{
-		throw std::runtime_error{std::string{CODE_POS_STR} + "已经释放，无法等待。"};
+		throw std::runtime_error{CODE_POS_STR + "已经释放，无法等待。"};
 	}
 
 	while (true)

@@ -30,7 +30,7 @@ uint8_t const &base::ReadOnlySpan::operator[](int32_t index) const
 {
 	if (index < 0 || index >= _size)
 	{
-		throw std::out_of_range{std::string{CODE_POS_STR} + "索引超出范围"};
+		throw std::out_of_range{CODE_POS_STR + "索引超出范围"};
 	}
 
 	return _buffer[index];
@@ -55,7 +55,7 @@ base::ReadOnlySpan base::ReadOnlySpan::Slice(int32_t start, int32_t size) const
 {
 	if (start + size > _size)
 	{
-		throw std::out_of_range{std::string{CODE_POS_STR} + "切片超出范围"};
+		throw std::out_of_range{CODE_POS_STR + "切片超出范围"};
 	}
 
 	return base::ReadOnlySpan{_buffer + start, size};

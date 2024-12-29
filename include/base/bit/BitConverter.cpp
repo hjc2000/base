@@ -9,7 +9,7 @@ uint16_t base::BitConverter::ToUInt16(base::ReadOnlySpan const &span)
 	uint16_t ret;
 	if (span.Size() < static_cast<int32_t>(sizeof(ret)))
 	{
-		throw std::invalid_argument{std::string{CODE_POS_STR} + "传入的 span 太小。"};
+		throw std::invalid_argument{CODE_POS_STR + "传入的 span 太小。"};
 	}
 
 	std::copy(span.Buffer(),
@@ -35,7 +35,7 @@ uint32_t base::BitConverter::ToUInt32(base::ReadOnlySpan const &span)
 
 	if (span.Size() < static_cast<int32_t>(sizeof(ret)))
 	{
-		throw std::invalid_argument{std::string{CODE_POS_STR} + "传入的 span 太小。"};
+		throw std::invalid_argument{CODE_POS_STR + "传入的 span 太小。"};
 	}
 
 	std::copy(span.Buffer(),
@@ -68,7 +68,7 @@ uint64_t base::BitConverter::ToUInt64(base::ReadOnlySpan const &span)
 
 	if (span.Size() < static_cast<int32_t>(sizeof(ret)))
 	{
-		throw std::invalid_argument{std::string{CODE_POS_STR} + "传入的 span 太小。"};
+		throw std::invalid_argument{CODE_POS_STR + "传入的 span 太小。"};
 	}
 
 	std::copy(span.Buffer(),
@@ -89,7 +89,7 @@ float base::BitConverter::ToFloat(base::ReadOnlySpan const &span)
 
 	if (span.Size() < static_cast<int32_t>(sizeof(ret)))
 	{
-		throw std::invalid_argument{std::string{CODE_POS_STR} + "传入的 span 太小。"};
+		throw std::invalid_argument{CODE_POS_STR + "传入的 span 太小。"};
 	}
 
 	std::copy(span.Buffer(),
@@ -105,7 +105,7 @@ double base::BitConverter::ToDouble(base::ReadOnlySpan const &span)
 
 	if (span.Size() < static_cast<int32_t>(sizeof(ret)))
 	{
-		throw std::invalid_argument{std::string{CODE_POS_STR} + "传入的 span 太小。"};
+		throw std::invalid_argument{CODE_POS_STR + "传入的 span 太小。"};
 	}
 
 	std::copy(span.Buffer(),
@@ -123,7 +123,7 @@ void base::BitConverter::GetBytes(uint16_t value, base::Span const &span)
 {
 	if (span.Size() < static_cast<int32_t>(sizeof(value)))
 	{
-		throw std::invalid_argument{std::string{CODE_POS_STR} + "传入的 span 太小。"};
+		throw std::invalid_argument{CODE_POS_STR + "传入的 span 太小。"};
 	}
 
 	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
@@ -134,7 +134,7 @@ void base::BitConverter::GetBytes(int16_t value, base::Span const &span)
 {
 	if (span.Size() < static_cast<int32_t>(sizeof(value)))
 	{
-		throw std::invalid_argument{std::string{CODE_POS_STR} + "传入的 span 太小。"};
+		throw std::invalid_argument{CODE_POS_STR + "传入的 span 太小。"};
 	}
 
 	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
@@ -145,7 +145,7 @@ void base::BitConverter::GetBytes(uint32_t value, base::Span const &span)
 {
 	if (span.Size() < static_cast<int32_t>(sizeof(value)))
 	{
-		throw std::invalid_argument{std::string{CODE_POS_STR} + "传入的 span 太小。"};
+		throw std::invalid_argument{CODE_POS_STR + "传入的 span 太小。"};
 	}
 
 	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
@@ -156,7 +156,7 @@ void base::BitConverter::GetBytes(int32_t value, base::Span const &span)
 {
 	if (span.Size() < static_cast<int32_t>(sizeof(value)))
 	{
-		throw std::invalid_argument{std::string{CODE_POS_STR} + "传入的 span 太小。"};
+		throw std::invalid_argument{CODE_POS_STR + "传入的 span 太小。"};
 	}
 
 	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
@@ -167,7 +167,7 @@ void base::BitConverter::GetBytes(uint64_t value, base::Span const &span)
 {
 	if (span.Size() < static_cast<int32_t>(sizeof(value)))
 	{
-		throw std::invalid_argument{std::string{CODE_POS_STR} + "传入的 span 太小。"};
+		throw std::invalid_argument{CODE_POS_STR + "传入的 span 太小。"};
 	}
 
 	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
@@ -178,7 +178,7 @@ void base::BitConverter::GetBytes(int64_t value, base::Span const &span)
 {
 	if (span.Size() < static_cast<int32_t>(sizeof(value)))
 	{
-		throw std::invalid_argument{std::string{CODE_POS_STR} + "传入的 span 太小。"};
+		throw std::invalid_argument{CODE_POS_STR + "传入的 span 太小。"};
 	}
 
 	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
@@ -189,7 +189,7 @@ void base::BitConverter::GetBytes(float value, base::Span const &span)
 {
 	if (span.Size() < static_cast<int32_t>(sizeof(value)))
 	{
-		throw std::invalid_argument{std::string{CODE_POS_STR} + "传入的 span 太小。"};
+		throw std::invalid_argument{CODE_POS_STR + "传入的 span 太小。"};
 	}
 
 	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
@@ -200,7 +200,7 @@ void base::BitConverter::GetBytes(double value, base::Span const &span)
 {
 	if (span.Size() < static_cast<int32_t>(sizeof(value)))
 	{
-		throw std::invalid_argument{std::string{CODE_POS_STR} + "传入的 span 太小。"};
+		throw std::invalid_argument{CODE_POS_STR + "传入的 span 太小。"};
 	}
 
 	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
