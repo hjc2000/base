@@ -32,4 +32,8 @@ namespace base
 	std::string ToString(base::ethernet::LengthTypeEnum value);
 } // namespace base
 
+/// @brief 输出 base::ethernet::LengthTypeEnum.
+/// @param os
+/// @param length_type
+/// @return
 std::ostream &operator<<(std::ostream &os, base::ethernet::LengthTypeEnum length_type);
