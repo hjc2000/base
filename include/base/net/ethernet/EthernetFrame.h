@@ -86,7 +86,8 @@ namespace base
 			base::Span Payload() const;
 
 			/// @brief 设置有效载荷的大小。
-			/// @param value
+			/// @param value 有效载荷的大小。如果小于 46，会在有效载荷后面填充值为 0 的字节，
+			/// 使载荷达到 46 字节。
 			void SetValidPayloadSize(int32_t value);
 
 			/// @brief 帧大小。有 VLAN TAG 时至少是 64 字节，无 VLAN TAG 时至少是 60 字节。
