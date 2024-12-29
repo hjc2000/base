@@ -1,73 +1,116 @@
-#if HAS_THREAD
-
 #include "TaskCompletionSignal.h"
+#include <base/string/define.h>
 
-using namespace std;
-using namespace base;
-
-TaskCompletionSignal::TaskCompletionSignal(bool completed)
+base::TaskCompletionSignal::TaskCompletionSignal(bool completed)
 {
-    _completed = completed;
+	if (!completed)
+	{
+		// 任务初始时是未完成状态
+		Reset();
+	}
 }
 
-TaskCompletionSignal::~TaskCompletionSignal()
+base::TaskCompletionSignal::~TaskCompletionSignal()
 {
-    Dispose();
+	Dispose();
 }
 
-void TaskCompletionSignal::Dispose()
+void base::TaskCompletionSignal::Dispose()
 {
-    if (_disposed)
-    {
-        return;
-    }
+	if (_disposed)
+	{
+		return;
+	}
 
-    _disposed = true;
+	_disposed = true;
 
-    // 让正在阻塞的 Wait 立刻停止阻塞。
-    SetResult();
+	// 让正在阻塞的 Wait 立刻停止阻塞。
+	SetResult();
 }
 
-bool TaskCompletionSignal::IsCompleted()
+bool base::TaskCompletionSignal::IsCompleted()
 {
-    if (_disposed)
-    {
-        return true;
-    }
+	base::LockGuard g{*_lock};
+	if (_disposed)
+	{
+		return true;
+	}
 
-    return _completed;
+	if (_task_completion_signal == nullptr)
+	{
+		return true;
+	}
+
+	return false;
 }
 
-void TaskCompletionSignal::Wait()
+void base::TaskCompletionSignal::Wait()
 {
-    std::unique_lock<std::mutex> lock(_mtx);
+	/**
+	 * 这里的设计目标是本类对象被 Dispose 后，已经进入等待的线程不会引发异常，新的要进入
+	 * 等待的会引发异常。
+	 *
+	 * 所以在循环内检查到 _disposed 为 true 不会抛出异常。进入循环前则会。
+	 */
+	if (_disposed)
+	{
+		throw std::runtime_error{std::string{CODE_POS_STR} + "已经释放，无法等待。"};
+	}
 
-    /* 条件变量的 wait 方法会立刻检查一次谓词，所以如果 IsCompleted 属性已经是
-     * true 了，则不会阻塞，本方法会立刻返回。
-     */
-    auto p = [&]() -> bool
-    {
-        return IsCompleted();
-    };
-    _cv.wait(lock, p);
+	while (true)
+	{
+		std::shared_ptr<base::ISemaphore> signal = nullptr;
+
+		{
+			base::LockGuard g{*_lock};
+			if (_disposed)
+			{
+				return;
+			}
+
+			if (_task_completion_signal == nullptr)
+			{
+				return;
+			}
+
+			// 在持有互斥锁的情况下捕获
+			signal = _task_completion_signal;
+		}
+
+		if (signal != nullptr)
+		{
+			try
+			{
+				signal->Acquire();
+			}
+			catch (...)
+			{
+				// 信号量被 Dispose 后就会抛出异常。
+			}
+
+			return;
+		}
+	}
 }
 
-void TaskCompletionSignal::SetResult()
+void base::TaskCompletionSignal::SetResult()
 {
-    /* 这里需要竞争互斥锁，因为每次 SetResult 的调用都要保证 Wait 被释放一次，同时 Reset 方法
-     * 也要互斥锁。这样可以防止 _completed 在这里被设置为 true 后另一个线程调用 Reset 又给设置
-     * 成 false 了，于是 _cv.notify_all() 后，_cv 调用 lambda 表达式检查 IsCompleted 属性
-     * 发现为 false，又继续阻塞了。于是本来 Wait 应该被释放一次，现在直接跳过了。
-     */
-    std::lock_guard l(_mtx);
-    _completed = true;
-    _cv.notify_all(); // 通知所有等待的线程
+	base::LockGuard g{*_lock};
+	if (_task_completion_signal != nullptr)
+	{
+		_task_completion_signal->Dispose();
+		_task_completion_signal = nullptr;
+	}
 }
 
-void TaskCompletionSignal::Reset()
+void base::TaskCompletionSignal::Reset()
 {
-    std::lock_guard l(_mtx);
-    _completed = false;
-}
+	base::LockGuard g{*_lock};
+	if (_task_completion_signal != nullptr)
+	{
+		_task_completion_signal->Dispose();
+		_task_completion_signal = nullptr;
+	}
 
-#endif // HAS_THREAD
+	_task_completion_signal = base::di::CreateSemaphore(0);
+}

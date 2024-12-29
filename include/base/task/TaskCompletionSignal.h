@@ -1,8 +1,7 @@
 #pragma once
-
-#if HAS_THREAD
-
 #include <atomic>
+#include <base/task/IMutex.h>
+#include <base/task/ISemaphore.h>
 #include <condition_variable>
 #include <functional>
 #include <iostream>
@@ -13,9 +12,8 @@ namespace base
 	class TaskCompletionSignal final
 	{
 	private:
-		std::mutex _mtx;
-		std::condition_variable _cv;
-		std::atomic_bool _completed = false;
+		std::shared_ptr<base::IMutex> _lock = base::di::CreateMutex();
+		std::shared_ptr<base::ISemaphore> _task_completion_signal = nullptr;
 		std::atomic_bool _disposed = false;
 
 	public:
@@ -41,5 +39,3 @@ namespace base
 		void Reset();
 	};
 } // namespace base
-
-#endif // HAS_THREAD

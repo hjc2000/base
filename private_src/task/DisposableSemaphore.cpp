@@ -1,4 +1,5 @@
 #include "DisposableSemaphore.h"
+#include <base/string/define.h>
 
 #if HAS_THREAD
 
@@ -32,13 +33,13 @@ void base::DisposableSemaphore::Acquire()
 {
 	if (_disposed)
 	{
-		throw std::runtime_error{"信号量已经释放，无法获取。"};
+		throw std::runtime_error{std::string{CODE_POS_STR} + "信号量已经释放，无法获取。"};
 	}
 
 	_semaphore.acquire();
 	if (_disposed)
 	{
-		throw std::runtime_error{"信号量已经释放，无法获取。"};
+		throw std::runtime_error{std::string{CODE_POS_STR} + "信号量已经释放，无法获取。"};
 	}
 }
 
@@ -46,13 +47,13 @@ bool base::DisposableSemaphore::TryAcquire(base::Seconds const &timeout)
 {
 	if (_disposed)
 	{
-		throw std::runtime_error{"信号量已经释放，无法获取。"};
+		throw std::runtime_error{std::string{CODE_POS_STR} + "信号量已经释放，无法获取。"};
 	}
 
 	bool result = _semaphore.try_acquire_for(static_cast<std::chrono::milliseconds>(timeout));
 	if (_disposed)
 	{
-		throw std::runtime_error{"信号量已经释放，无法获取。"};
+		throw std::runtime_error{std::string{CODE_POS_STR} + "信号量已经释放，无法获取。"};
 	}
 
 	return result;
