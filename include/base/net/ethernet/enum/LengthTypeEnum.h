@@ -1,7 +1,6 @@
 #pragma once
 #include <base/define.h>
 #include <cstdint>
-#include <iostream>
 #include <string>
 
 namespace base
@@ -31,9 +30,3 @@ namespace base
 
 	std::string ToString(base::ethernet::LengthTypeEnum value);
 } // namespace base
-
-/// @brief 将 base::ethernet::LengthTypeEnum 输出到输出流中。
-/// @param os
-/// @param value
-/// @return
-std::ostream &operator<<(std::ostream &os, base::ethernet::LengthTypeEnum value);

@@ -39,9 +39,3 @@ std::string base::ToString(base::ethernet::LengthTypeEnum value)
 		}
 	}
 }
-
-std::ostream &operator<<(std::ostream &os, base::ethernet::LengthTypeEnum value)
-{
-	os << base::ToString(value);
-	return os;
-}

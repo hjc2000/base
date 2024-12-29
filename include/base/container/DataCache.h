@@ -5,7 +5,6 @@
 #include <base/string/define.h>
 #include <base/task/IMutex.h>
 #include <base/task/ISemaphore.h>
-#include <iostream>
 
 namespace base
 {
@@ -67,7 +66,6 @@ namespace base
 			_queue.Enqueue(item);
 			if (_queue.Count() > _max_count)
 			{
-				std::cout << "警告，数据队列元素超过最大值，丢弃最开始的数据。" << std::endl;
 				_queue.Dequeue();
 			}
 

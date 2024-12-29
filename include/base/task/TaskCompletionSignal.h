@@ -4,7 +4,6 @@
 #include <base/task/ISemaphore.h>
 #include <condition_variable>
 #include <functional>
-#include <iostream>
 #include <mutex>
 
 namespace base
