@@ -1,5 +1,6 @@
 #pragma once
 #include <base/net/IPAddress.h>
+#include <base/net/profinet/dcp/DcpServiceIdEnum.h>
 #include <base/net/profinet/enum/ServiceTypeEnum.h>
 #include <base/net/profinet/FidApdu.h>
 #include <base/stream/MemoryStream.h>
@@ -8,16 +9,8 @@ namespace base
 {
 	namespace profinet
 	{
-		/// @brief DCP 请求帧中的服务 ID.
-		enum class DcpServiceIdEnum : uint8_t
-		{
-			Get = 0x03,
-			Set = 0x04,
-			Identify = 0x05,
-			Hello = 0x06,
-		};
-
-		class DcpHelloRequestPdu
+		/// @brief DCP Hello 请求。
+		class DcpHelloRequest
 		{
 		private:
 			base::profinet::FidApdu _fid_apdu;
@@ -34,7 +27,7 @@ namespace base
 		public:
 			/// @brief 构造函数。
 			/// @param span 以太网的发送缓冲区。
-			DcpHelloRequestPdu(base::Span const &span);
+			DcpHelloRequest(base::Span const &span);
 
 			/// @brief 源 MAC 地址。
 			/// @return

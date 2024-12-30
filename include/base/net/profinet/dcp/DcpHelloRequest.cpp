@@ -1,19 +1,19 @@
-#include "DcpHelloRequestPdu.h"
+#include "DcpHelloRequest.h"
 #include <base/string/define.h>
 
 #pragma region 私有属性设置函数
 
-void base::profinet::DcpHelloRequestPdu::SetServiceId(base::profinet::DcpServiceIdEnum value)
+void base::profinet::DcpHelloRequest::SetServiceId(base::profinet::DcpServiceIdEnum value)
 {
 	_this_span[0] = static_cast<uint8_t>(value);
 }
 
-void base::profinet::DcpHelloRequestPdu::SetServiceType(base::profinet::ServiceTypeEnum value)
+void base::profinet::DcpHelloRequest::SetServiceType(base::profinet::ServiceTypeEnum value)
 {
 	_this_span[1] = static_cast<uint8_t>(value);
 }
 
-void base::profinet::DcpHelloRequestPdu::SetDataLength(uint16_t value)
+void base::profinet::DcpHelloRequest::SetDataLength(uint16_t value)
 {
 	base::Span span = _this_span.Slice(base::Range{8, 10});
 	_converter.GetBytes(value, span);
@@ -21,7 +21,7 @@ void base::profinet::DcpHelloRequestPdu::SetDataLength(uint16_t value)
 
 #pragma endregion
 
-base::profinet::DcpHelloRequestPdu::DcpHelloRequestPdu(base::Span const &span)
+base::profinet::DcpHelloRequest::DcpHelloRequest(base::Span const &span)
 	: _fid_apdu(span)
 {
 	_fid_apdu.SetFrameId(base::profinet::FrameIdEnum::DcpHelloRequest);
@@ -46,41 +46,41 @@ base::profinet::DcpHelloRequestPdu::DcpHelloRequestPdu(base::Span const &span)
 	_block_stream = std::shared_ptr<base::MemoryStream>{new base::MemoryStream{block_span}};
 }
 
-base::profinet::DcpServiceIdEnum base::profinet::DcpHelloRequestPdu::ServiceId() const
+base::profinet::DcpServiceIdEnum base::profinet::DcpHelloRequest::ServiceId() const
 {
 	return static_cast<base::profinet::DcpServiceIdEnum>(_this_span[0]);
 }
 
-base::profinet::ServiceTypeEnum base::profinet::DcpHelloRequestPdu::ServiceType() const
+base::profinet::ServiceTypeEnum base::profinet::DcpHelloRequest::ServiceType() const
 {
 	return static_cast<base::profinet::ServiceTypeEnum>(_this_span[1]);
 }
 
-uint32_t base::profinet::DcpHelloRequestPdu::Xid() const
+uint32_t base::profinet::DcpHelloRequest::Xid() const
 {
 	base::Span span = _this_span.Slice(base::Range{2, 6});
 	return _converter.ToUInt32(span);
 }
 
-void base::profinet::DcpHelloRequestPdu::SetXid(uint32_t value)
+void base::profinet::DcpHelloRequest::SetXid(uint32_t value)
 {
 	base::Span span = _this_span.Slice(base::Range{2, 6});
 	_converter.GetBytes(value, span);
 }
 
-uint16_t base::profinet::DcpHelloRequestPdu::DataLength() const
+uint16_t base::profinet::DcpHelloRequest::DataLength() const
 {
 	base::Span span = _this_span.Slice(base::Range{8, 10});
 	return _converter.ToUInt16(span);
 }
 
-void base::profinet::DcpHelloRequestPdu::ClearAllBlocks()
+void base::profinet::DcpHelloRequest::ClearAllBlocks()
 {
 	_block_stream->Clear();
 	_fid_apdu.SetValidPayloadSize(10 + _block_stream->Length());
 }
 
-void base::profinet::DcpHelloRequestPdu::PutNameOfStationBlock(std::string const &station_name)
+void base::profinet::DcpHelloRequest::PutNameOfStationBlock(std::string const &station_name)
 {
 	// 填充本块
 	{
@@ -120,10 +120,10 @@ void base::profinet::DcpHelloRequestPdu::PutNameOfStationBlock(std::string const
 	}
 }
 
-void base::profinet::DcpHelloRequestPdu::PutIPAddressInfomationBlock(bool ip_not_set,
-																	 base::IPAddress const &ip,
-																	 base::IPAddress const &gateway,
-																	 base::IPAddress const &netmask)
+void base::profinet::DcpHelloRequest::PutIPAddressInfomationBlock(bool ip_not_set,
+																  base::IPAddress const &ip,
+																  base::IPAddress const &gateway,
+																  base::IPAddress const &netmask)
 {
 	// 填充本块
 	{
