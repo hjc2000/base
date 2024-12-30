@@ -81,6 +81,7 @@ void base::profinet::DcpHelloRequestPdu::PutNameOfStationBlock(std::string const
 	uint8_t suboption = 2;
 	_block_stream->Write(&suboption, 0, 1);
 
+	// 2 字节的 block_infos 加上实际的名称长度。
 	uint16_t dcp_block_length = 2 + station_name.size();
 	_converter.GetBytes(dcp_block_length, *_block_stream);
 
