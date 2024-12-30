@@ -2,11 +2,6 @@
 
 using namespace base;
 
-int32_t Stream::ReadAtLeast(uint8_t *buffer, int32_t offset, int32_t minimum_bytes)
-{
-	return ReadExactly(buffer, offset, minimum_bytes);
-}
-
 int32_t Stream::ReadExactly(uint8_t *buffer, int32_t offset, int32_t count)
 {
 	int64_t total_read = 0;

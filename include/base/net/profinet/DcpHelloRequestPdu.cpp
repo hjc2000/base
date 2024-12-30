@@ -75,4 +75,34 @@ void base::profinet::DcpHelloRequestPdu::DeleteAllBlocks()
 
 void base::profinet::DcpHelloRequestPdu::PutNameOfStationBlock(std::string const &station_name)
 {
+	{
+		uint8_t option = 2;
+		_block_stream->Write(&option, 0, 1);
+	}
+
+	{
+		uint8_t suboption = 2;
+		_block_stream->Write(&suboption, 0, 1);
+	}
+
+	{
+		uint16_t dcp_block_length = 2 + station_name.size();
+		_converter.GetBytes(dcp_block_length, *_block_stream);
+	}
+
+	{
+		// 保留。始终为 0.
+		uint16_t block_info = 0;
+		_converter.GetBytes(block_info, *_block_stream);
+	}
+
+	_converter.GetBytes(station_name, *_block_stream);
+
+	{
+		// 填充
+		uint8_t padding = 0;
+		_block_stream->Write(&padding, 0, 1);
+	}
+
+	_fid_apdu.SetValidPayloadSize(10 + _block_stream->Length());
 }

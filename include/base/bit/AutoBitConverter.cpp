@@ -373,4 +373,15 @@ void base::AutoBitConverter::GetBytes(double value, base::Stream &stream) const
 	stream.Write(buffer, 0, sizeof(value));
 }
 
+void base::AutoBitConverter::GetBytes(std::string const &str, base::Stream &stream) const
+{
+	std::string copy = str;
+	if (ShouldReverse())
+	{
+		std::reverse(copy.begin(), copy.end());
+	}
+
+	stream.Write(reinterpret_cast<uint8_t *>(copy.data()), 0, copy.size());
+}
+
 #pragma endregion
