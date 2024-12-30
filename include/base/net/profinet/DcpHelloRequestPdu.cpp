@@ -67,7 +67,7 @@ base::Span base::profinet::DcpHelloRequestPdu::Blocks() const
 	return _this_span.Slice(base::Range{10, _this_span.Size()});
 }
 
-void base::profinet::DcpHelloRequestPdu::DeleteAllBlocks()
+void base::profinet::DcpHelloRequestPdu::ClearAllBlocks()
 {
 	_block_stream->Clear();
 	_fid_apdu.SetValidPayloadSize(10 + _block_stream->Length());

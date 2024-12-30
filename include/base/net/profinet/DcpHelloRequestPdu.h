@@ -42,7 +42,7 @@ namespace base
 			base::Span Blocks() const;
 
 			/// @brief 删除 Blocks 区域的所有块。
-			void DeleteAllBlocks();
+			void ClearAllBlocks();
 
 			/// @brief 放置描述站点名称的块。
 			/// @param station_name
