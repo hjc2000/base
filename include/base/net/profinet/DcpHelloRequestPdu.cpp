@@ -3,7 +3,7 @@
 
 #pragma region 私有属性设置函数
 
-void base::profinet::DcpHelloRequestPdu::SetServiceId(base::profinet::ServiceIdEnum value)
+void base::profinet::DcpHelloRequestPdu::SetServiceId(base::profinet::DcpServiceIdEnum value)
 {
 	_this_span[0] = static_cast<uint8_t>(value);
 }
@@ -39,16 +39,16 @@ base::profinet::DcpHelloRequestPdu::DcpHelloRequestPdu(base::Span const &span)
 	});
 
 	_this_span = _fid_apdu.Payload();
-	SetServiceId(base::profinet::ServiceIdEnum::Hello);
+	SetServiceId(base::profinet::DcpServiceIdEnum::Hello);
 	SetServiceType(base::profinet::ServiceTypeEnum::Request);
 
 	base::Span block_span = _this_span.Slice(base::Range{10, _this_span.Size()});
 	_block_stream = std::shared_ptr<base::MemoryStream>{new base::MemoryStream{block_span}};
 }
 
-base::profinet::ServiceIdEnum base::profinet::DcpHelloRequestPdu::ServiceId() const
+base::profinet::DcpServiceIdEnum base::profinet::DcpHelloRequestPdu::ServiceId() const
 {
-	return static_cast<base::profinet::ServiceIdEnum>(_this_span[0]);
+	return static_cast<base::profinet::DcpServiceIdEnum>(_this_span[0]);
 }
 
 base::profinet::ServiceTypeEnum base::profinet::DcpHelloRequestPdu::ServiceType() const
