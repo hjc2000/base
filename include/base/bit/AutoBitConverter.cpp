@@ -1,6 +1,7 @@
 #include "AutoBitConverter.h"
 #include <algorithm>
 #include <base/bit/BitConverter.h>
+#include <base/string/define.h>
 
 using namespace base;
 
@@ -28,6 +29,18 @@ uint16_t base::AutoBitConverter::ToUInt16(base::ReadOnlySpan const &span) const
 	return ret;
 }
 
+uint16_t base::AutoBitConverter::ToUInt16(base::Stream &stream) const
+{
+	uint8_t buffer[sizeof(uint16_t)];
+	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
+	if (have_read < static_cast<int32_t>(sizeof(buffer)))
+	{
+		throw std::runtime_error{CODE_POS_STR + "流中没有足够的字节。"};
+	}
+
+	return ToUInt16(base::Span{buffer, sizeof(buffer)});
+}
+
 int16_t base::AutoBitConverter::ToInt16(base::ReadOnlySpan const &span) const
 {
 	int16_t ret = BitConverter::ToInt16(span);
@@ -38,6 +51,18 @@ int16_t base::AutoBitConverter::ToInt16(base::ReadOnlySpan const &span) const
 	}
 
 	return ret;
+}
+
+int16_t base::AutoBitConverter::ToInt16(base::Stream &stream) const
+{
+	uint8_t buffer[sizeof(int16_t)];
+	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
+	if (have_read < static_cast<int32_t>(sizeof(buffer)))
+	{
+		throw std::runtime_error{CODE_POS_STR + "流中没有足够的字节。"};
+	}
+
+	return ToInt16(base::Span{buffer, sizeof(buffer)});
 }
 
 uint32_t base::AutoBitConverter::ToUInt32(base::ReadOnlySpan const &span) const
@@ -52,6 +77,18 @@ uint32_t base::AutoBitConverter::ToUInt32(base::ReadOnlySpan const &span) const
 	return ret;
 }
 
+uint32_t base::AutoBitConverter::ToUInt32(base::Stream &stream) const
+{
+	uint8_t buffer[sizeof(uint32_t)];
+	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
+	if (have_read < static_cast<int32_t>(sizeof(buffer)))
+	{
+		throw std::runtime_error{CODE_POS_STR + "流中没有足够的字节。"};
+	}
+
+	return ToUInt32(base::Span{buffer, sizeof(buffer)});
+}
+
 int32_t base::AutoBitConverter::ToInt32(base::ReadOnlySpan const &span) const
 {
 	int32_t ret = BitConverter::ToInt32(span);
@@ -62,6 +99,18 @@ int32_t base::AutoBitConverter::ToInt32(base::ReadOnlySpan const &span) const
 	}
 
 	return ret;
+}
+
+int32_t base::AutoBitConverter::ToInt32(base::Stream &stream) const
+{
+	uint8_t buffer[sizeof(int32_t)];
+	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
+	if (have_read < static_cast<int32_t>(sizeof(buffer)))
+	{
+		throw std::runtime_error{CODE_POS_STR + "流中没有足够的字节。"};
+	}
+
+	return ToInt32(base::Span{buffer, sizeof(buffer)});
 }
 
 uint64_t base::AutoBitConverter::ToUInt64(base::ReadOnlySpan const &span) const
@@ -76,6 +125,18 @@ uint64_t base::AutoBitConverter::ToUInt64(base::ReadOnlySpan const &span) const
 	return ret;
 }
 
+uint64_t base::AutoBitConverter::ToUInt64(base::Stream &stream) const
+{
+	uint8_t buffer[sizeof(uint64_t)];
+	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
+	if (have_read < static_cast<int32_t>(sizeof(buffer)))
+	{
+		throw std::runtime_error{CODE_POS_STR + "流中没有足够的字节。"};
+	}
+
+	return ToUInt64(base::Span{buffer, sizeof(buffer)});
+}
+
 int64_t base::AutoBitConverter::ToInt64(base::ReadOnlySpan const &span) const
 {
 	int64_t ret = BitConverter::ToInt64(span);
@@ -86,6 +147,18 @@ int64_t base::AutoBitConverter::ToInt64(base::ReadOnlySpan const &span) const
 	}
 
 	return ret;
+}
+
+int64_t base::AutoBitConverter::ToInt64(base::Stream &stream) const
+{
+	uint8_t buffer[sizeof(int64_t)];
+	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
+	if (have_read < static_cast<int32_t>(sizeof(buffer)))
+	{
+		throw std::runtime_error{CODE_POS_STR + "流中没有足够的字节。"};
+	}
+
+	return ToInt64(base::Span{buffer, sizeof(buffer)});
 }
 
 float base::AutoBitConverter::ToFloat(base::ReadOnlySpan const &span) const
@@ -100,6 +173,18 @@ float base::AutoBitConverter::ToFloat(base::ReadOnlySpan const &span) const
 	return ret;
 }
 
+float base::AutoBitConverter::ToFloat(base::Stream &stream) const
+{
+	uint8_t buffer[sizeof(float)];
+	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
+	if (have_read < static_cast<int32_t>(sizeof(buffer)))
+	{
+		throw std::runtime_error{CODE_POS_STR + "流中没有足够的字节。"};
+	}
+
+	return ToFloat(base::Span{buffer, sizeof(buffer)});
+}
+
 double base::AutoBitConverter::ToDouble(base::ReadOnlySpan const &span) const
 {
 	double ret = BitConverter::ToDouble(span);
@@ -110,6 +195,18 @@ double base::AutoBitConverter::ToDouble(base::ReadOnlySpan const &span) const
 	}
 
 	return ret;
+}
+
+double base::AutoBitConverter::ToDouble(base::Stream &stream) const
+{
+	uint8_t buffer[sizeof(double)];
+	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
+	if (have_read < static_cast<int32_t>(sizeof(buffer)))
+	{
+		throw std::runtime_error{CODE_POS_STR + "流中没有足够的字节。"};
+	}
+
+	return ToDouble(base::Span{buffer, sizeof(buffer)});
 }
 
 #pragma endregion
@@ -125,6 +222,17 @@ void base::AutoBitConverter::GetBytes(uint16_t value, base::Span const &span) co
 	}
 }
 
+void base::AutoBitConverter::GetBytes(uint16_t value, base::Stream &stream) const
+{
+	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
+	if (ShouldReverse())
+	{
+		std::reverse(buffer, buffer + sizeof(value));
+	}
+
+	stream.Write(buffer, 0, sizeof(value));
+}
+
 void base::AutoBitConverter::GetBytes(int16_t value, base::Span const &span) const
 {
 	base::BitConverter::GetBytes(value, span);
@@ -132,6 +240,17 @@ void base::AutoBitConverter::GetBytes(int16_t value, base::Span const &span) con
 	{
 		std::reverse(span.Buffer(), span.Buffer() + sizeof(value));
 	}
+}
+
+void base::AutoBitConverter::GetBytes(int16_t value, base::Stream &stream) const
+{
+	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
+	if (ShouldReverse())
+	{
+		std::reverse(buffer, buffer + sizeof(value));
+	}
+
+	stream.Write(buffer, 0, sizeof(value));
 }
 
 void base::AutoBitConverter::GetBytes(uint32_t value, base::Span const &span) const
@@ -143,6 +262,17 @@ void base::AutoBitConverter::GetBytes(uint32_t value, base::Span const &span) co
 	}
 }
 
+void base::AutoBitConverter::GetBytes(uint32_t value, base::Stream &stream) const
+{
+	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
+	if (ShouldReverse())
+	{
+		std::reverse(buffer, buffer + sizeof(value));
+	}
+
+	stream.Write(buffer, 0, sizeof(value));
+}
+
 void base::AutoBitConverter::GetBytes(int32_t value, base::Span const &span) const
 {
 	base::BitConverter::GetBytes(value, span);
@@ -150,6 +280,17 @@ void base::AutoBitConverter::GetBytes(int32_t value, base::Span const &span) con
 	{
 		std::reverse(span.Buffer(), span.Buffer() + sizeof(value));
 	}
+}
+
+void base::AutoBitConverter::GetBytes(int32_t value, base::Stream &stream) const
+{
+	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
+	if (ShouldReverse())
+	{
+		std::reverse(buffer, buffer + sizeof(value));
+	}
+
+	stream.Write(buffer, 0, sizeof(value));
 }
 
 void base::AutoBitConverter::GetBytes(uint64_t value, base::Span const &span) const
@@ -161,6 +302,17 @@ void base::AutoBitConverter::GetBytes(uint64_t value, base::Span const &span) co
 	}
 }
 
+void base::AutoBitConverter::GetBytes(uint64_t value, base::Stream &stream) const
+{
+	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
+	if (ShouldReverse())
+	{
+		std::reverse(buffer, buffer + sizeof(value));
+	}
+
+	stream.Write(buffer, 0, sizeof(value));
+}
+
 void base::AutoBitConverter::GetBytes(int64_t value, base::Span const &span) const
 {
 	base::BitConverter::GetBytes(value, span);
@@ -168,6 +320,17 @@ void base::AutoBitConverter::GetBytes(int64_t value, base::Span const &span) con
 	{
 		std::reverse(span.Buffer(), span.Buffer() + sizeof(value));
 	}
+}
+
+void base::AutoBitConverter::GetBytes(int64_t value, base::Stream &stream) const
+{
+	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
+	if (ShouldReverse())
+	{
+		std::reverse(buffer, buffer + sizeof(value));
+	}
+
+	stream.Write(buffer, 0, sizeof(value));
 }
 
 void base::AutoBitConverter::GetBytes(float value, base::Span const &span) const
@@ -179,6 +342,17 @@ void base::AutoBitConverter::GetBytes(float value, base::Span const &span) const
 	}
 }
 
+void base::AutoBitConverter::GetBytes(float value, base::Stream &stream) const
+{
+	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
+	if (ShouldReverse())
+	{
+		std::reverse(buffer, buffer + sizeof(value));
+	}
+
+	stream.Write(buffer, 0, sizeof(value));
+}
+
 void base::AutoBitConverter::GetBytes(double value, base::Span const &span) const
 {
 	base::BitConverter::GetBytes(value, span);
@@ -186,6 +360,17 @@ void base::AutoBitConverter::GetBytes(double value, base::Span const &span) cons
 	{
 		std::reverse(span.Buffer(), span.Buffer() + sizeof(value));
 	}
+}
+
+void base::AutoBitConverter::GetBytes(double value, base::Stream &stream) const
+{
+	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
+	if (ShouldReverse())
+	{
+		std::reverse(buffer, buffer + sizeof(value));
+	}
+
+	stream.Write(buffer, 0, sizeof(value));
 }
 
 #pragma endregion

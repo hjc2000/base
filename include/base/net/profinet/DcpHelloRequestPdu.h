@@ -2,7 +2,7 @@
 #include <base/net/profinet/enum/ServiceIdEnum.h>
 #include <base/net/profinet/enum/ServiceTypeEnum.h>
 #include <base/net/profinet/FidApdu.h>
-#include <base/net/profinet/NameOfStationBlockRes.h>
+#include <base/stream/MemoryStream.h>
 
 namespace base
 {
@@ -14,6 +14,7 @@ namespace base
 			base::profinet::FidApdu _fid_apdu;
 			base::Span _this_span;
 			base::AutoBitConverter _converter{std::endian::big};
+			std::shared_ptr<base::MemoryStream> _block_stream;
 
 #pragma region 私有属性设置函数
 			void SetServiceId(base::profinet::ServiceIdEnum value);
@@ -32,10 +33,20 @@ namespace base
 			uint32_t Xid() const;
 			void SetXid(uint32_t value);
 
+			/// @brief Blocks 的有效数据的长度。
+			/// @return
 			uint16_t DataLength() const;
 
-			base::profinet::NameOfStationBlockRes NameOfStationBlockRes() const;
-			void SetNameOfStationBlockRes(base::profinet::NameOfStationBlockRes const &value);
+			/// @brief 用来放置各种块的区域。其中有效数据的长度为：DataLength.
+			/// @return
+			base::Span Blocks() const;
+
+			/// @brief 删除 Blocks 区域的所有块。
+			void DeleteAllBlocks();
+
+			/// @brief 放置描述站点名称的块。
+			/// @param station_name
+			void PutNameOfStationBlock(std::string const &station_name);
 		};
 	} // namespace profinet
 } // namespace base

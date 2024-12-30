@@ -12,15 +12,26 @@ void base::profinet::DcpHelloRequestPdu::SetServiceType(base::profinet::ServiceT
 	_this_span[1] = static_cast<uint8_t>(value);
 }
 
+void base::profinet::DcpHelloRequestPdu::SetDataLength(uint16_t value)
+{
+	base::Span span = _this_span.Slice(base::Range{8, 10});
+	_converter.GetBytes(value, span);
+}
+
 #pragma endregion
 
 base::profinet::DcpHelloRequestPdu::DcpHelloRequestPdu(base::Span const &span)
 	: _fid_apdu(span)
 {
 	_fid_apdu.SetFrameId(base::profinet::FrameIdEnum::DcpHelloRequest);
+
+	// 一开始 Blocks 为空，只有头部信息。头部长度是 10.
+	_fid_apdu.SetValidPayloadSize(10);
+
 	_this_span = _fid_apdu.Payload();
 	SetServiceId(base::profinet::ServiceIdEnum::Hello);
 	SetServiceType(base::profinet::ServiceTypeEnum::Request);
+	_block_stream = std::shared_ptr<base::MemoryStream>{new base::MemoryStream{Blocks()}};
 }
 
 base::profinet::ServiceIdEnum base::profinet::DcpHelloRequestPdu::ServiceId() const
@@ -49,4 +60,19 @@ uint16_t base::profinet::DcpHelloRequestPdu::DataLength() const
 {
 	base::Span span = _this_span.Slice(base::Range{8, 10});
 	return _converter.ToUInt16(span);
+}
+
+base::Span base::profinet::DcpHelloRequestPdu::Blocks() const
+{
+	return _this_span.Slice(base::Range{10, _this_span.Size()});
+}
+
+void base::profinet::DcpHelloRequestPdu::DeleteAllBlocks()
+{
+	_block_stream->Clear();
+	_fid_apdu.SetValidPayloadSize(10 + _block_stream->Length());
+}
+
+void base::profinet::DcpHelloRequestPdu::PutNameOfStationBlock(std::string const &station_name)
+{
 }

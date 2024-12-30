@@ -1,6 +1,5 @@
 #include "BitConverter.h"
 #include <base/string/define.h>
-using namespace base;
 
 #pragma region 转数字类型
 
@@ -19,9 +18,33 @@ uint16_t base::BitConverter::ToUInt16(base::ReadOnlySpan const &span)
 	return ret;
 }
 
+uint16_t base::BitConverter::ToUInt16(base::Stream &stream)
+{
+	uint8_t buffer[sizeof(uint16_t)];
+	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
+	if (have_read < static_cast<int32_t>(sizeof(buffer)))
+	{
+		throw std::runtime_error{CODE_POS_STR + "流中没有足够的字节。"};
+	}
+
+	return ToUInt16(base::Span{buffer, sizeof(buffer)});
+}
+
 int16_t base::BitConverter::ToInt16(base::ReadOnlySpan const &span)
 {
 	return static_cast<int16_t>(ToUInt16(span));
+}
+
+int16_t base::BitConverter::ToInt16(base::Stream &stream)
+{
+	uint8_t buffer[sizeof(int16_t)];
+	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
+	if (have_read < static_cast<int32_t>(sizeof(buffer)))
+	{
+		throw std::runtime_error{CODE_POS_STR + "流中没有足够的字节。"};
+	}
+
+	return ToInt16(base::Span{buffer, sizeof(buffer)});
 }
 
 uint16_t base::BitConverter::ToUInt16(uint8_t high, uint8_t low)
@@ -45,9 +68,33 @@ uint32_t base::BitConverter::ToUInt32(base::ReadOnlySpan const &span)
 	return ret;
 }
 
+uint32_t base::BitConverter::ToUInt32(base::Stream &stream)
+{
+	uint8_t buffer[sizeof(uint32_t)];
+	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
+	if (have_read < static_cast<int32_t>(sizeof(buffer)))
+	{
+		throw std::runtime_error{CODE_POS_STR + "流中没有足够的字节。"};
+	}
+
+	return ToUInt32(base::Span{buffer, sizeof(buffer)});
+}
+
 int32_t base::BitConverter::ToInt32(base::ReadOnlySpan const &span)
 {
 	return static_cast<int32_t>(ToUInt32(span));
+}
+
+int32_t base::BitConverter::ToInt32(base::Stream &stream)
+{
+	uint8_t buffer[sizeof(int32_t)];
+	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
+	if (have_read < static_cast<int32_t>(sizeof(buffer)))
+	{
+		throw std::runtime_error{CODE_POS_STR + "流中没有足够的字节。"};
+	}
+
+	return ToInt32(base::Span{buffer, sizeof(buffer)});
 }
 
 uint32_t base::BitConverter::ToUInt32(uint8_t b3, uint8_t b2, uint8_t b1, uint8_t b0)
@@ -78,9 +125,33 @@ uint64_t base::BitConverter::ToUInt64(base::ReadOnlySpan const &span)
 	return ret;
 }
 
+uint64_t base::BitConverter::ToUInt64(base::Stream &stream)
+{
+	uint8_t buffer[sizeof(uint64_t)];
+	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
+	if (have_read < static_cast<int32_t>(sizeof(buffer)))
+	{
+		throw std::runtime_error{CODE_POS_STR + "流中没有足够的字节。"};
+	}
+
+	return ToUInt64(base::Span{buffer, sizeof(buffer)});
+}
+
 int64_t base::BitConverter::ToInt64(base::ReadOnlySpan const &span)
 {
 	return static_cast<int64_t>(ToUInt64(span));
+}
+
+int64_t base::BitConverter::ToInt64(base::Stream &stream)
+{
+	uint8_t buffer[sizeof(int64_t)];
+	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
+	if (have_read < static_cast<int32_t>(sizeof(buffer)))
+	{
+		throw std::runtime_error{CODE_POS_STR + "流中没有足够的字节。"};
+	}
+
+	return ToInt64(base::Span{buffer, sizeof(buffer)});
 }
 
 float base::BitConverter::ToFloat(base::ReadOnlySpan const &span)
@@ -99,6 +170,18 @@ float base::BitConverter::ToFloat(base::ReadOnlySpan const &span)
 	return ret;
 }
 
+float base::BitConverter::ToFloat(base::Stream &stream)
+{
+	uint8_t buffer[sizeof(float)];
+	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
+	if (have_read < static_cast<int32_t>(sizeof(buffer)))
+	{
+		throw std::runtime_error{CODE_POS_STR + "流中没有足够的字节。"};
+	}
+
+	return ToFloat(base::Span{buffer, sizeof(buffer)});
+}
+
 double base::BitConverter::ToDouble(base::ReadOnlySpan const &span)
 {
 	double ret;
@@ -113,6 +196,18 @@ double base::BitConverter::ToDouble(base::ReadOnlySpan const &span)
 			  reinterpret_cast<uint8_t *>(&ret));
 
 	return ret;
+}
+
+double base::BitConverter::ToDouble(base::Stream &stream)
+{
+	uint8_t buffer[sizeof(double)];
+	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
+	if (have_read < static_cast<int32_t>(sizeof(buffer)))
+	{
+		throw std::runtime_error{CODE_POS_STR + "流中没有足够的字节。"};
+	}
+
+	return ToDouble(base::Span{buffer, sizeof(buffer)});
 }
 
 #pragma endregion
@@ -130,6 +225,12 @@ void base::BitConverter::GetBytes(uint16_t value, base::Span const &span)
 	std::copy(buffer, buffer + static_cast<int32_t>(sizeof(value)), span.Buffer());
 }
 
+void base::BitConverter::GetBytes(uint16_t value, base::Stream &stream)
+{
+	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
+	stream.Write(buffer, 0, sizeof(value));
+}
+
 void base::BitConverter::GetBytes(int16_t value, base::Span const &span)
 {
 	if (span.Size() < static_cast<int32_t>(sizeof(value)))
@@ -139,6 +240,12 @@ void base::BitConverter::GetBytes(int16_t value, base::Span const &span)
 
 	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
 	std::copy(buffer, buffer + static_cast<int32_t>(sizeof(value)), span.Buffer());
+}
+
+void base::BitConverter::GetBytes(int16_t value, base::Stream &stream)
+{
+	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
+	stream.Write(buffer, 0, sizeof(value));
 }
 
 void base::BitConverter::GetBytes(uint32_t value, base::Span const &span)
@@ -152,6 +259,12 @@ void base::BitConverter::GetBytes(uint32_t value, base::Span const &span)
 	std::copy(buffer, buffer + static_cast<int32_t>(sizeof(value)), span.Buffer());
 }
 
+void base::BitConverter::GetBytes(uint32_t value, base::Stream &stream)
+{
+	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
+	stream.Write(buffer, 0, sizeof(value));
+}
+
 void base::BitConverter::GetBytes(int32_t value, base::Span const &span)
 {
 	if (span.Size() < static_cast<int32_t>(sizeof(value)))
@@ -161,6 +274,12 @@ void base::BitConverter::GetBytes(int32_t value, base::Span const &span)
 
 	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
 	std::copy(buffer, buffer + static_cast<int32_t>(sizeof(value)), span.Buffer());
+}
+
+void base::BitConverter::GetBytes(int32_t value, base::Stream &stream)
+{
+	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
+	stream.Write(buffer, 0, sizeof(value));
 }
 
 void base::BitConverter::GetBytes(uint64_t value, base::Span const &span)
@@ -174,6 +293,12 @@ void base::BitConverter::GetBytes(uint64_t value, base::Span const &span)
 	std::copy(buffer, buffer + static_cast<int32_t>(sizeof(value)), span.Buffer());
 }
 
+void base::BitConverter::GetBytes(uint64_t value, base::Stream &stream)
+{
+	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
+	stream.Write(buffer, 0, sizeof(value));
+}
+
 void base::BitConverter::GetBytes(int64_t value, base::Span const &span)
 {
 	if (span.Size() < static_cast<int32_t>(sizeof(value)))
@@ -183,6 +308,12 @@ void base::BitConverter::GetBytes(int64_t value, base::Span const &span)
 
 	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
 	std::copy(buffer, buffer + static_cast<int32_t>(sizeof(value)), span.Buffer());
+}
+
+void base::BitConverter::GetBytes(int64_t value, base::Stream &stream)
+{
+	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
+	stream.Write(buffer, 0, sizeof(value));
 }
 
 void base::BitConverter::GetBytes(float value, base::Span const &span)
@@ -196,6 +327,12 @@ void base::BitConverter::GetBytes(float value, base::Span const &span)
 	std::copy(buffer, buffer + static_cast<int32_t>(sizeof(value)), span.Buffer());
 }
 
+void base::BitConverter::GetBytes(float value, base::Stream &stream)
+{
+	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
+	stream.Write(buffer, 0, sizeof(value));
+}
+
 void base::BitConverter::GetBytes(double value, base::Span const &span)
 {
 	if (span.Size() < static_cast<int32_t>(sizeof(value)))
@@ -205,6 +342,12 @@ void base::BitConverter::GetBytes(double value, base::Span const &span)
 
 	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
 	std::copy(buffer, buffer + static_cast<int32_t>(sizeof(value)), span.Buffer());
+}
+
+void base::BitConverter::GetBytes(double value, base::Stream &stream)
+{
+	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
+	stream.Write(buffer, 0, sizeof(value));
 }
 
 #pragma endregion
