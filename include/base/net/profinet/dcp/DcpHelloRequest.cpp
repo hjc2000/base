@@ -93,33 +93,30 @@ void base::profinet::DcpHelloRequest::ClearAllBlocks()
 
 void base::profinet::DcpHelloRequest::PutNameOfStationBlock(std::string const &station_name)
 {
-	// 填充本块
+	uint8_t option = 2;
+	_block_stream->Write(&option, 0, 1);
+
+	uint8_t suboption = 2;
+	_block_stream->Write(&suboption, 0, 1);
+
+	// 2 字节的 block_infos 加上实际的名称长度。
+	uint16_t dcp_block_length = 2 + station_name.size();
+	_converter.GetBytes(dcp_block_length, *_block_stream);
+
+	// 保留。始终为 0.
+	uint16_t block_info = 0;
+	_converter.GetBytes(block_info, *_block_stream);
+
+	// 将名称字符串写入流
+	_block_stream->Write(reinterpret_cast<uint8_t const *>(station_name.data()),
+						 0,
+						 station_name.size());
+
+	// 名称如果没有 2 字节对齐，需要填充。
+	if (station_name.size() % 2 != 0)
 	{
-		uint8_t option = 2;
-		_block_stream->Write(&option, 0, 1);
-
-		uint8_t suboption = 2;
-		_block_stream->Write(&suboption, 0, 1);
-
-		// 2 字节的 block_infos 加上实际的名称长度。
-		uint16_t dcp_block_length = 2 + station_name.size();
-		_converter.GetBytes(dcp_block_length, *_block_stream);
-
-		// 保留。始终为 0.
-		uint16_t block_info = 0;
-		_converter.GetBytes(block_info, *_block_stream);
-
-		// 将名称字符串写入流
-		_block_stream->Write(reinterpret_cast<uint8_t const *>(station_name.data()),
-							 0,
-							 station_name.size());
-
-		// 名称如果没有 2 字节对齐，需要填充。
-		if (station_name.size() % 2 != 0)
-		{
-			uint8_t padding = 0;
-			_block_stream->Write(&padding, 0, 1);
-		}
+		uint8_t padding = 0;
+		_block_stream->Write(&padding, 0, 1);
 	}
 
 	UpdateSize();
@@ -130,60 +127,57 @@ void base::profinet::DcpHelloRequest::PutIPAddressInfomationBlock(bool ip_not_se
 																  base::IPAddress const &gateway,
 																  base::IPAddress const &netmask)
 {
-	// 填充本块
+	uint8_t option = 1;
+	_block_stream->Write(&option, 0, 1);
+
+	uint8_t suboption = 2;
+	_block_stream->Write(&suboption, 0, 1);
+
+	/**
+	 * IP 地址，网关，子网掩码，共 3 个 IP 地址，有 3*4=12 字节。
+	 * 还有 2 字节的 block_info.
+	 */
+	uint16_t const dcp_block_length = 2 + 3 * 4;
+	_converter.GetBytes(dcp_block_length, *_block_stream);
+
+	uint16_t block_info = ip_not_set ? 1 : 0;
+	_converter.GetBytes(block_info, *_block_stream);
+
 	{
-		uint8_t option = 1;
-		_block_stream->Write(&option, 0, 1);
-
-		uint8_t suboption = 2;
-		_block_stream->Write(&suboption, 0, 1);
-
-		/**
-		 * IP 地址，网关，子网掩码，共 3 个 IP 地址，有 3*4=12 字节。
-		 * 还有 2 字节的 block_info.
-		 */
-		uint16_t const dcp_block_length = 2 + 3 * 4;
-		_converter.GetBytes(dcp_block_length, *_block_stream);
-
-		uint16_t block_info = ip_not_set ? 1 : 0;
-		_converter.GetBytes(block_info, *_block_stream);
-
+		if (ip.Type() != base::IPAddressType::IPV4)
 		{
-			if (ip.Type() != base::IPAddressType::IPV4)
-			{
-				throw std::invalid_argument{CODE_POS_STR + "必须是 IPV4 地址。"};
-			}
-
-			uint8_t ip_buffer[4];
-			base::Span ip_buffer_span{ip_buffer, sizeof(ip_buffer)};
-			ip_buffer_span.CopyFrom(ip.AsReadOnlySpan());
-			ip_buffer_span.Reverse();
-			_block_stream->Write(ip_buffer_span.Buffer(), 0, ip_buffer_span.Size());
+			throw std::invalid_argument{CODE_POS_STR + "必须是 IPV4 地址。"};
 		}
+
+		uint8_t ip_buffer[4];
+		base::Span ip_buffer_span{ip_buffer, sizeof(ip_buffer)};
+		ip_buffer_span.CopyFrom(ip.AsReadOnlySpan());
+		ip_buffer_span.Reverse();
+		_block_stream->Write(ip_buffer_span.Buffer(), 0, ip_buffer_span.Size());
+	}
+	{
+		if (ip.Type() != base::IPAddressType::IPV4)
 		{
-			if (ip.Type() != base::IPAddressType::IPV4)
-			{
-				throw std::invalid_argument{CODE_POS_STR + "必须是 IPV4 地址。"};
-			}
-
-			uint8_t ip_buffer[4];
-			base::Span ip_buffer_span{ip_buffer, sizeof(ip_buffer)};
-			ip_buffer_span.CopyFrom(netmask.AsReadOnlySpan());
-			ip_buffer_span.Reverse();
-			_block_stream->Write(ip_buffer_span.Buffer(), 0, ip_buffer_span.Size());
+			throw std::invalid_argument{CODE_POS_STR + "必须是 IPV4 地址。"};
 		}
+
+		uint8_t ip_buffer[4];
+		base::Span ip_buffer_span{ip_buffer, sizeof(ip_buffer)};
+		ip_buffer_span.CopyFrom(netmask.AsReadOnlySpan());
+		ip_buffer_span.Reverse();
+		_block_stream->Write(ip_buffer_span.Buffer(), 0, ip_buffer_span.Size());
+	}
+	{
+		if (ip.Type() != base::IPAddressType::IPV4)
 		{
-			if (ip.Type() != base::IPAddressType::IPV4)
-			{
-				throw std::invalid_argument{CODE_POS_STR + "必须是 IPV4 地址。"};
-			}
-
-			uint8_t ip_buffer[4];
-			base::Span ip_buffer_span{ip_buffer, sizeof(ip_buffer)};
-			ip_buffer_span.CopyFrom(gateway.AsReadOnlySpan());
-			ip_buffer_span.Reverse();
-			_block_stream->Write(ip_buffer_span.Buffer(), 0, ip_buffer_span.Size());
+			throw std::invalid_argument{CODE_POS_STR + "必须是 IPV4 地址。"};
 		}
+
+		uint8_t ip_buffer[4];
+		base::Span ip_buffer_span{ip_buffer, sizeof(ip_buffer)};
+		ip_buffer_span.CopyFrom(gateway.AsReadOnlySpan());
+		ip_buffer_span.Reverse();
+		_block_stream->Write(ip_buffer_span.Buffer(), 0, ip_buffer_span.Size());
 	}
 
 	UpdateSize();
