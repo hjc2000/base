@@ -21,10 +21,6 @@ namespace base
 			/// 以太网帧。因为怎么利用以太网发送本类对象，本类最清楚。
 			FidApdu(base::Span const &span);
 
-			/// @brief 初始化。
-			/// @note 想要构造出本类的帧，要先调用本方法，然后再设置各个属性。
-			void Initialize();
-
 			/// @brief 目的 MAC 地址。
 			/// @return
 			base::Mac DestinationMac() const

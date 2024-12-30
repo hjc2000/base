@@ -23,12 +23,6 @@ void base::profinet::DcpHelloRequestPdu::SetDataLength(uint16_t value)
 base::profinet::DcpHelloRequestPdu::DcpHelloRequestPdu(base::Span const &span)
 	: _fid_apdu(span)
 {
-	Initialize();
-}
-
-void base::profinet::DcpHelloRequestPdu::Initialize()
-{
-	_fid_apdu.Initialize();
 	_fid_apdu.SetFrameId(base::profinet::FrameIdEnum::DcpHelloRequest);
 
 	_fid_apdu.SetDestinationMac(base::Mac{
@@ -46,7 +40,9 @@ void base::profinet::DcpHelloRequestPdu::Initialize()
 	_this_span = _fid_apdu.Payload();
 	SetServiceId(base::profinet::ServiceIdEnum::Hello);
 	SetServiceType(base::profinet::ServiceTypeEnum::Request);
-	_block_stream = std::shared_ptr<base::MemoryStream>{new base::MemoryStream{Blocks()}};
+
+	base::Span block_span = _this_span.Slice(base::Range{10, _this_span.Size()});
+	_block_stream = std::shared_ptr<base::MemoryStream>{new base::MemoryStream{block_span}};
 }
 
 base::profinet::ServiceIdEnum base::profinet::DcpHelloRequestPdu::ServiceId() const
@@ -75,11 +71,6 @@ uint16_t base::profinet::DcpHelloRequestPdu::DataLength() const
 {
 	base::Span span = _this_span.Slice(base::Range{8, 10});
 	return _converter.ToUInt16(span);
-}
-
-base::Span base::profinet::DcpHelloRequestPdu::Blocks() const
-{
-	return _this_span.Slice(base::Range{10, _this_span.Size()});
 }
 
 void base::profinet::DcpHelloRequestPdu::ClearAllBlocks()

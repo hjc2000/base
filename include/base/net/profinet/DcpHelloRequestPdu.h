@@ -27,10 +27,6 @@ namespace base
 			/// @param span 以太网的发送缓冲区。
 			DcpHelloRequestPdu(base::Span const &span);
 
-			/// @brief 初始化。
-			/// @note 想要构造出本类的帧，要先调用本方法，然后再设置各个属性。
-			void Initialize();
-
 			/// @brief 源 MAC 地址。
 			/// @return
 			base::Mac SourceMac() const
@@ -54,10 +50,6 @@ namespace base
 			/// @brief Blocks 的有效数据的长度。
 			/// @return
 			uint16_t DataLength() const;
-
-			/// @brief 用来放置各种块的区域。其中有效数据的长度为：DataLength.
-			/// @return
-			base::Span Blocks() const;
 
 			/// @brief 删除 Blocks 区域的所有块。
 			void ClearAllBlocks();
