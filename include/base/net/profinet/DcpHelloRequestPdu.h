@@ -38,6 +38,8 @@ namespace base
 				return _fid_apdu.SourceMac();
 			}
 
+			/// @brief 设置源 MAC 地址。
+			/// @param value
 			void SetSourceMac(base::Mac const &value)
 			{
 				_fid_apdu.SetSourceMac(value);
