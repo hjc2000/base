@@ -1,5 +1,6 @@
 #pragma once
 #include <base/net/profinet/DcpHeader.h>
+#include <base/net/profinet/FidApdu.h>
 #include <base/net/profinet/NameOfStationBlockRes.h>
 
 namespace base

@@ -1,7 +1,7 @@
 #pragma once
 #include <base/bit/AutoBitConverter.h>
+#include <base/net/ethernet/EthernetFrame.h>
 #include <base/net/profinet/enum/FrameIdEnum.h>
-#include <base/stream/Span.h>
 
 namespace base
 {
@@ -11,19 +11,19 @@ namespace base
 		class FidApdu
 		{
 		private:
-			base::Span _span;
+			base::ethernet::EthernetFrame _ethernet_frame;
 			base::AutoBitConverter _converter{std::endian::big};
 			int _valid_frame_size = 0;
 
 		public:
 			FidApdu() = default;
-			FidApdu(base::Span const &span);
+			FidApdu(base::ethernet::EthernetFrame const &ethernet_frame);
 
-			base::Span const &Span() const;
+			base::Span Span() const;
 
-			/// @brief 装有全部有效数据的 span.
-			/// @return
-			base::Span ValidDataSpan() const;
+			/// @brief 初始化。初始化之后才能开始写本类的属性。
+			/// @note 作用是将以太网帧配置为传输 FidApdu.
+			void Initialize();
 
 			base::profinet::FrameIdEnum FrameId() const;
 			void SetFrameId(base::profinet::FrameIdEnum value);
@@ -32,9 +32,8 @@ namespace base
 			/// @return
 			base::Span Payload() const;
 
-			/// @brief 设置载荷。
-			/// @param value
-			void SetPayload(base::ReadOnlySpan const &value);
+			/// @brief 设置有效载荷的大小。
+			void SetValidPayloadSize(int32_t value);
 		};
 	} // namespace profinet
 } // namespace base
