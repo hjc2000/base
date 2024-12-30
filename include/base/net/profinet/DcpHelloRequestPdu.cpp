@@ -98,5 +98,6 @@ void base::profinet::DcpHelloRequestPdu::PutNameOfStationBlock(std::string const
 		_block_stream->Write(&padding, 0, 1);
 	}
 
+	// 头部长度 10 字节加上 Blocks 的长度。
 	_fid_apdu.SetValidPayloadSize(10 + _block_stream->Length());
 }
