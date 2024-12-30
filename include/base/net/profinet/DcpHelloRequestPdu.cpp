@@ -1,17 +1,20 @@
 #include "DcpHelloRequestPdu.h"
 
-base::profinet::DcpHelloRequestPdu::DcpHelloRequestPdu(base::profinet::FidApdu const &fid_apdu)
+void base::profinet::DcpHelloRequestPdu::SetServiceId(base::profinet::ServiceIdEnum value)
 {
-	_fid_apdu = fid_apdu;
+	base::Span span = _this_span.Slice(0, 1);
+	span[0] = static_cast<uint8_t>(value);
 }
 
-base::Span base::profinet::DcpHelloRequestPdu::Span() const
+base::profinet::DcpHelloRequestPdu::DcpHelloRequestPdu(base::Span const &span)
+	: _fid_apdu(span)
 {
-	return _fid_apdu.Payload();
-}
-
-void base::profinet::DcpHelloRequestPdu::ConfigureLowlayer()
-{
-	_fid_apdu.ConfigureLowlayer();
 	_fid_apdu.SetFrameId(base::profinet::FrameIdEnum::DcpHelloRequest);
+	_this_span = _fid_apdu.Payload();
+}
+
+base::profinet::ServiceIdEnum base::profinet::DcpHelloRequestPdu::ServiceId() const
+{
+	base::Span span = _this_span.Slice(0, 1);
+	return static_cast<base::profinet::ServiceIdEnum>(span[0]);
 }

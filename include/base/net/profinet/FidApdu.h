@@ -12,17 +12,14 @@ namespace base
 		{
 		private:
 			base::ethernet::EthernetFrame _ethernet_frame;
+			base::Span _this_span;
 			base::AutoBitConverter _converter{std::endian::big};
-			int _valid_frame_size = 0;
 
 		public:
-			FidApdu() = default;
-			FidApdu(base::ethernet::EthernetFrame const &ethernet_frame);
-
-			base::Span Span() const;
-
-			/// @brief 配置下层的以太网帧。
-			void ConfigureLowlayer();
+			/// @brief 构造函数。
+			/// @param span 以太网的发送缓冲区。将以太网缓冲区交给本类。本类会自己组装出
+			/// 以太网帧。因为怎么利用以太网发送本类对象，本类最清楚。
+			FidApdu(base::Span const &span);
 
 			base::profinet::FrameIdEnum FrameId() const;
 			void SetFrameId(base::profinet::FrameIdEnum value);

@@ -21,8 +21,6 @@ namespace base
 			base::AutoBitConverter _converter{std::endian::big};
 
 		public:
-			EthernetFrame() = default;
-
 			/// @brief 构造函数。
 			/// @param span 引用的内存。
 			EthernetFrame(base::Span const &span);
