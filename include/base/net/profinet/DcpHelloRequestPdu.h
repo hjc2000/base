@@ -1,4 +1,5 @@
 #pragma once
+#include <base/net/IPAddress.h>
 #include <base/net/profinet/enum/ServiceIdEnum.h>
 #include <base/net/profinet/enum/ServiceTypeEnum.h>
 #include <base/net/profinet/FidApdu.h>
@@ -57,6 +58,16 @@ namespace base
 			/// @brief 放置描述站点名称的块。
 			/// @param station_name
 			void PutNameOfStationBlock(std::string const &station_name);
+
+			/// @brief 放置 IP 地址信息块。
+			/// @param ip_not_set
+			/// @param ip
+			/// @param gateway
+			/// @param net_mask
+			void PutIPAddressInfomationBlock(bool ip_not_set,
+											 base::IPAddress const &ip,
+											 base::IPAddress const &gateway,
+											 base::IPAddress const &net_mask);
 
 			/// @brief 整个以太网帧缓冲区中的有效数据 span.
 			/// @return

@@ -1,4 +1,5 @@
 #include "DcpHelloRequestPdu.h"
+#include <base/string/define.h>
 
 #pragma region 私有属性设置函数
 
@@ -107,6 +108,76 @@ void base::profinet::DcpHelloRequestPdu::PutNameOfStationBlock(std::string const
 		{
 			uint8_t padding = 0;
 			_block_stream->Write(&padding, 0, 1);
+		}
+	}
+
+	// 所有块的总长度
+	{
+		SetDataLength(_block_stream->Length());
+
+		// 头部长度 10 字节加上 Blocks 的长度。
+		_fid_apdu.SetValidPayloadSize(10 + DataLength());
+	}
+}
+
+void base::profinet::DcpHelloRequestPdu::PutIPAddressInfomationBlock(bool ip_not_set,
+																	 base::IPAddress const &ip,
+																	 base::IPAddress const &gateway,
+																	 base::IPAddress const &net_mask)
+{
+	// 填充本块
+	{
+		uint8_t option = 1;
+		_block_stream->Write(&option, 0, 1);
+
+		uint8_t suboption = 2;
+		_block_stream->Write(&suboption, 0, 1);
+
+		/**
+		 * IP 地址，网关，子网掩码，共 3 个 IP 地址，有 3*4=12 字节。
+		 * 还有 2 字节的 block_info.
+		 */
+		uint16_t const dcp_block_length = 2 + 3 * 4;
+		_converter.GetBytes(dcp_block_length, *_block_stream);
+
+		uint16_t block_info = ip_not_set ? 1 : 0;
+		_converter.GetBytes(block_info, *_block_stream);
+
+		{
+			if (ip.Type() != base::IPAddressType::IPV4)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "必须是 IPV4 地址。"};
+			}
+
+			uint8_t ip_buffer[4];
+			base::Span ip_buffer_span{ip_buffer, sizeof(ip_buffer)};
+			ip_buffer_span.CopyFrom(ip.AsReadOnlySpan());
+			ip_buffer_span.Reverse();
+			_block_stream->Write(ip_buffer_span.Buffer(), 0, ip_buffer_span.Size());
+		}
+		{
+			if (ip.Type() != base::IPAddressType::IPV4)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "必须是 IPV4 地址。"};
+			}
+
+			uint8_t ip_buffer[4];
+			base::Span ip_buffer_span{ip_buffer, sizeof(ip_buffer)};
+			ip_buffer_span.CopyFrom(net_mask.AsReadOnlySpan());
+			ip_buffer_span.Reverse();
+			_block_stream->Write(ip_buffer_span.Buffer(), 0, ip_buffer_span.Size());
+		}
+		{
+			if (ip.Type() != base::IPAddressType::IPV4)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "必须是 IPV4 地址。"};
+			}
+
+			uint8_t ip_buffer[4];
+			base::Span ip_buffer_span{ip_buffer, sizeof(ip_buffer)};
+			ip_buffer_span.CopyFrom(gateway.AsReadOnlySpan());
+			ip_buffer_span.Reverse();
+			_block_stream->Write(ip_buffer_span.Buffer(), 0, ip_buffer_span.Size());
 		}
 	}
 
