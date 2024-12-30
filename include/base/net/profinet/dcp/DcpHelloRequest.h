@@ -1,7 +1,7 @@
 #pragma once
 #include <base/net/IPAddress.h>
 #include <base/net/profinet/dcp/DcpServiceIdEnum.h>
-#include <base/net/profinet/enum/ServiceTypeEnum.h>
+#include <base/net/profinet/dcp/DcpServiceTypeEnum.h>
 #include <base/net/profinet/FidApdu.h>
 #include <base/stream/MemoryStream.h>
 
@@ -20,7 +20,7 @@ namespace base
 
 #pragma region 私有属性设置函数
 			void SetServiceId(base::profinet::DcpServiceIdEnum value);
-			void SetServiceType(base::profinet::ServiceTypeEnum value);
+			void SetServiceType(base::profinet::DcpServiceTypeEnum value);
 			void SetDataLength(uint16_t value);
 #pragma endregion
 
@@ -44,7 +44,7 @@ namespace base
 			}
 
 			base::profinet::DcpServiceIdEnum ServiceId() const;
-			base::profinet::ServiceTypeEnum ServiceType() const;
+			base::profinet::DcpServiceTypeEnum ServiceType() const;
 
 			uint32_t Xid() const;
 			void SetXid(uint32_t value);

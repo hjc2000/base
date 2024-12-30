@@ -8,7 +8,7 @@ void base::profinet::DcpHelloRequest::SetServiceId(base::profinet::DcpServiceIdE
 	_this_span[0] = static_cast<uint8_t>(value);
 }
 
-void base::profinet::DcpHelloRequest::SetServiceType(base::profinet::ServiceTypeEnum value)
+void base::profinet::DcpHelloRequest::SetServiceType(base::profinet::DcpServiceTypeEnum value)
 {
 	_this_span[1] = static_cast<uint8_t>(value);
 }
@@ -40,7 +40,7 @@ base::profinet::DcpHelloRequest::DcpHelloRequest(base::Span const &span)
 
 	_this_span = _fid_apdu.Payload();
 	SetServiceId(base::profinet::DcpServiceIdEnum::Hello);
-	SetServiceType(base::profinet::ServiceTypeEnum::Request);
+	SetServiceType(base::profinet::DcpServiceTypeEnum::Request);
 
 	base::Span block_span = _this_span.Slice(base::Range{10, _this_span.Size()});
 	_block_stream = std::shared_ptr<base::MemoryStream>{new base::MemoryStream{block_span}};
@@ -51,9 +51,9 @@ base::profinet::DcpServiceIdEnum base::profinet::DcpHelloRequest::ServiceId() co
 	return static_cast<base::profinet::DcpServiceIdEnum>(_this_span[0]);
 }
 
-base::profinet::ServiceTypeEnum base::profinet::DcpHelloRequest::ServiceType() const
+base::profinet::DcpServiceTypeEnum base::profinet::DcpHelloRequest::ServiceType() const
 {
-	return static_cast<base::profinet::ServiceTypeEnum>(_this_span[1]);
+	return static_cast<base::profinet::DcpServiceTypeEnum>(_this_span[1]);
 }
 
 uint32_t base::profinet::DcpHelloRequest::Xid() const
