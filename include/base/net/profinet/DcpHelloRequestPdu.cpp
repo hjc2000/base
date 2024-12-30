@@ -24,10 +24,6 @@ base::profinet::DcpHelloRequestPdu::DcpHelloRequestPdu(base::Span const &span)
 	: _fid_apdu(span)
 {
 	_fid_apdu.SetFrameId(base::profinet::FrameIdEnum::DcpHelloRequest);
-
-	// 一开始 Blocks 为空，只有头部信息。头部长度是 10.
-	_fid_apdu.SetValidPayloadSize(10);
-
 	_this_span = _fid_apdu.Payload();
 	SetServiceId(base::profinet::ServiceIdEnum::Hello);
 	SetServiceType(base::profinet::ServiceTypeEnum::Request);
@@ -91,9 +87,9 @@ void base::profinet::DcpHelloRequestPdu::PutNameOfStationBlock(std::string const
 
 	_converter.GetBytes(station_name, *_block_stream);
 
+	// 名称如果没有 2 字节对齐，需要填充。
 	if (station_name.size() % 2 != 0)
 	{
-		// 名称如果没有 2 字节对齐，需要填充。
 		uint8_t padding = 0;
 		_block_stream->Write(&padding, 0, 1);
 	}
