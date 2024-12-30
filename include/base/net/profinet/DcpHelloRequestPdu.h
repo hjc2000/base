@@ -47,6 +47,11 @@ namespace base
 			/// @brief 放置描述站点名称的块。
 			/// @param station_name
 			void PutNameOfStationBlock(std::string const &station_name);
+
+			base::ethernet::EthernetFrame &EthernetFrame()
+			{
+				return _fid_apdu.EthernetFrame();
+			}
 		};
 	} // namespace profinet
 } // namespace base

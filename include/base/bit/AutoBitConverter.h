@@ -4,7 +4,6 @@
 #include <base/stream/Stream.h>
 #include <bit>
 #include <stdint.h>
-#include <string>
 
 namespace base
 {
@@ -213,8 +212,6 @@ namespace base
 		/// @param stream
 		/// @return
 		void GetBytes(double value, base::Stream &stream) const;
-
-		void GetBytes(std::string const &str, base::Stream &stream) const;
 #pragma endregion
 	};
 } // namespace base

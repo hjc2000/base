@@ -30,6 +30,11 @@ namespace base
 
 			/// @brief 设置有效载荷的大小。
 			void SetValidPayloadSize(int32_t value);
+
+			base::ethernet::EthernetFrame &EthernetFrame()
+			{
+				return _ethernet_frame;
+			}
 		};
 	} // namespace profinet
 } // namespace base

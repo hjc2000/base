@@ -85,7 +85,9 @@ void base::profinet::DcpHelloRequestPdu::PutNameOfStationBlock(std::string const
 	uint16_t block_info = 0;
 	_converter.GetBytes(block_info, *_block_stream);
 
-	_converter.GetBytes(station_name, *_block_stream);
+	_block_stream->Write(reinterpret_cast<uint8_t const *>(station_name.data()), 0, station_name.size());
+
+	SetDataLength(_block_stream->Length());
 
 	// 名称如果没有 2 字节对齐，需要填充。
 	if (station_name.size() % 2 != 0)
