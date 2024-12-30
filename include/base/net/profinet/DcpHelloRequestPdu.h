@@ -63,11 +63,11 @@ namespace base
 			/// @param ip_not_set
 			/// @param ip
 			/// @param gateway
-			/// @param net_mask
+			/// @param netmask
 			void PutIPAddressInfomationBlock(bool ip_not_set,
 											 base::IPAddress const &ip,
 											 base::IPAddress const &gateway,
-											 base::IPAddress const &net_mask);
+											 base::IPAddress const &netmask);
 
 			/// @brief 整个以太网帧缓冲区中的有效数据 span.
 			/// @return

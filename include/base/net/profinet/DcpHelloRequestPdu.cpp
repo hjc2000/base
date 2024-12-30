@@ -123,7 +123,7 @@ void base::profinet::DcpHelloRequestPdu::PutNameOfStationBlock(std::string const
 void base::profinet::DcpHelloRequestPdu::PutIPAddressInfomationBlock(bool ip_not_set,
 																	 base::IPAddress const &ip,
 																	 base::IPAddress const &gateway,
-																	 base::IPAddress const &net_mask)
+																	 base::IPAddress const &netmask)
 {
 	// 填充本块
 	{
@@ -163,7 +163,7 @@ void base::profinet::DcpHelloRequestPdu::PutIPAddressInfomationBlock(bool ip_not
 
 			uint8_t ip_buffer[4];
 			base::Span ip_buffer_span{ip_buffer, sizeof(ip_buffer)};
-			ip_buffer_span.CopyFrom(net_mask.AsReadOnlySpan());
+			ip_buffer_span.CopyFrom(netmask.AsReadOnlySpan());
 			ip_buffer_span.Reverse();
 			_block_stream->Write(ip_buffer_span.Buffer(), 0, ip_buffer_span.Size());
 		}
