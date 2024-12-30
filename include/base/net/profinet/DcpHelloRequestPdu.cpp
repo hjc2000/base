@@ -90,31 +90,38 @@ void base::profinet::DcpHelloRequestPdu::ClearAllBlocks()
 
 void base::profinet::DcpHelloRequestPdu::PutNameOfStationBlock(std::string const &station_name)
 {
-	uint8_t option = 2;
-	_block_stream->Write(&option, 0, 1);
-
-	uint8_t suboption = 2;
-	_block_stream->Write(&suboption, 0, 1);
-
-	// 2 字节的 block_infos 加上实际的名称长度。
-	uint16_t dcp_block_length = 2 + station_name.size();
-	_converter.GetBytes(dcp_block_length, *_block_stream);
-
-	// 保留。始终为 0.
-	uint16_t block_info = 0;
-	_converter.GetBytes(block_info, *_block_stream);
-
-	_block_stream->Write(reinterpret_cast<uint8_t const *>(station_name.data()), 0, station_name.size());
-
-	SetDataLength(_block_stream->Length());
-
-	// 名称如果没有 2 字节对齐，需要填充。
-	if (station_name.size() % 2 != 0)
+	// 填充本块
 	{
-		uint8_t padding = 0;
-		_block_stream->Write(&padding, 0, 1);
+		uint8_t option = 2;
+		_block_stream->Write(&option, 0, 1);
+
+		uint8_t suboption = 2;
+		_block_stream->Write(&suboption, 0, 1);
+
+		// 2 字节的 block_infos 加上实际的名称长度。
+		uint16_t dcp_block_length = 2 + station_name.size();
+		_converter.GetBytes(dcp_block_length, *_block_stream);
+
+		// 保留。始终为 0.
+		uint16_t block_info = 0;
+		_converter.GetBytes(block_info, *_block_stream);
+
+		// 将名称字符串写入流
+		_block_stream->Write(reinterpret_cast<uint8_t const *>(station_name.data()), 0, station_name.size());
+
+		// 名称如果没有 2 字节对齐，需要填充。
+		if (station_name.size() % 2 != 0)
+		{
+			uint8_t padding = 0;
+			_block_stream->Write(&padding, 0, 1);
+		}
 	}
 
-	// 头部长度 10 字节加上 Blocks 的长度。
-	_fid_apdu.SetValidPayloadSize(10 + _block_stream->Length());
+	// 所有块的总长度
+	{
+		SetDataLength(_block_stream->Length());
+
+		// 头部长度 10 字节加上 Blocks 的长度。
+		_fid_apdu.SetValidPayloadSize(10 + DataLength());
+	}
 }
