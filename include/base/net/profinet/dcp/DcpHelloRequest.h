@@ -22,6 +22,7 @@ namespace base
 			void SetServiceId(base::profinet::DcpServiceIdEnum value);
 			void SetServiceType(base::profinet::DcpServiceTypeEnum value);
 			void SetDataLength(uint16_t value);
+			void UpdateSize();
 #pragma endregion
 
 		public:

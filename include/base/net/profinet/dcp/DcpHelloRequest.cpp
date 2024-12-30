@@ -19,6 +19,14 @@ void base::profinet::DcpHelloRequest::SetDataLength(uint16_t value)
 	_converter.GetBytes(value, span);
 }
 
+void base::profinet::DcpHelloRequest::UpdateSize()
+{
+	SetDataLength(_block_stream->Length());
+
+	// 头部长度 10 字节加上 Blocks 的长度。
+	_fid_apdu.SetValidPayloadSize(10 + DataLength());
+}
+
 #pragma endregion
 
 base::profinet::DcpHelloRequest::DcpHelloRequest(base::Span const &span)
@@ -76,8 +84,11 @@ uint16_t base::profinet::DcpHelloRequest::DataLength() const
 
 void base::profinet::DcpHelloRequest::ClearAllBlocks()
 {
+	SetDataLength(0);
 	_block_stream->Clear();
-	_fid_apdu.SetValidPayloadSize(10 + _block_stream->Length());
+
+	// Blocks 区的有效数据长度为 0，只剩下头部的 10 字节是有效数据。
+	_fid_apdu.SetValidPayloadSize(10);
 }
 
 void base::profinet::DcpHelloRequest::PutNameOfStationBlock(std::string const &station_name)
@@ -111,13 +122,7 @@ void base::profinet::DcpHelloRequest::PutNameOfStationBlock(std::string const &s
 		}
 	}
 
-	// 所有块的总长度
-	{
-		SetDataLength(_block_stream->Length());
-
-		// 头部长度 10 字节加上 Blocks 的长度。
-		_fid_apdu.SetValidPayloadSize(10 + DataLength());
-	}
+	UpdateSize();
 }
 
 void base::profinet::DcpHelloRequest::PutIPAddressInfomationBlock(bool ip_not_set,
@@ -181,11 +186,5 @@ void base::profinet::DcpHelloRequest::PutIPAddressInfomationBlock(bool ip_not_se
 		}
 	}
 
-	// 所有块的总长度
-	{
-		SetDataLength(_block_stream->Length());
-
-		// 头部长度 10 字节加上 Blocks 的长度。
-		_fid_apdu.SetValidPayloadSize(10 + DataLength());
-	}
+	UpdateSize();
 }
