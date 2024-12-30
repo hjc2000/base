@@ -1,31 +1,17 @@
 #include "DcpHelloRequestPdu.h"
 
-base::profinet::DcpHelloRequestPdu::DcpHelloRequestPdu(base::Span const &span)
+base::profinet::DcpHelloRequestPdu::DcpHelloRequestPdu(base::profinet::FidApdu const &fid_apdu)
 {
-	_span = span;
+	_fid_apdu = fid_apdu;
 }
 
-base::Span const &base::profinet::DcpHelloRequestPdu::Span() const
+base::Span base::profinet::DcpHelloRequestPdu::Span() const
 {
-	return _span;
+	return _fid_apdu.Payload();
 }
 
-base::profinet::DcpHeader base::profinet::DcpHelloRequestPdu::Header() const
+void base::profinet::DcpHelloRequestPdu::ConfigureLowlayer()
 {
-	return base::profinet::DcpHeader{};
-}
-
-void base::profinet::DcpHelloRequestPdu::SetHeader(base::profinet::DcpHeader const &value)
-{
-	Header().Span().CopyFrom(value.Span());
-}
-
-base::profinet::NameOfStationBlockRes base::profinet::DcpHelloRequestPdu::NameOfStationBlockRes() const
-{
-	return base::profinet::NameOfStationBlockRes();
-}
-
-void base::profinet::DcpHelloRequestPdu::SetNameOfStationBlockRes(base::profinet::NameOfStationBlockRes const &value)
-{
-	NameOfStationBlockRes().Span().CopyFrom(value.Span());
+	_fid_apdu.ConfigureLowlayer();
+	_fid_apdu.SetFrameId(base::profinet::FrameIdEnum::DcpHelloRequest);
 }

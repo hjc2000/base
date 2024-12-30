@@ -12,7 +12,7 @@ base::Span base::profinet::FidApdu::Span() const
 	return _ethernet_frame.Payload();
 }
 
-void base::profinet::FidApdu::Initialize()
+void base::profinet::FidApdu::ConfigureLowlayer()
 {
 	_ethernet_frame.SetTypeOrLength(base::ethernet::LengthTypeEnum::Profinet);
 }

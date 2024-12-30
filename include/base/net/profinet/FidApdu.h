@@ -21,9 +21,8 @@ namespace base
 
 			base::Span Span() const;
 
-			/// @brief 初始化。初始化之后才能开始写本类的属性。
-			/// @note 作用是将以太网帧配置为传输 FidApdu.
-			void Initialize();
+			/// @brief 配置下层的以太网帧。
+			void ConfigureLowlayer();
 
 			base::profinet::FrameIdEnum FrameId() const;
 			void SetFrameId(base::profinet::FrameIdEnum value);
