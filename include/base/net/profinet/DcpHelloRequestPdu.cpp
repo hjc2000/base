@@ -23,7 +23,26 @@ void base::profinet::DcpHelloRequestPdu::SetDataLength(uint16_t value)
 base::profinet::DcpHelloRequestPdu::DcpHelloRequestPdu(base::Span const &span)
 	: _fid_apdu(span)
 {
+	Initialize();
+}
+
+void base::profinet::DcpHelloRequestPdu::Initialize()
+{
+	_fid_apdu.Initialize();
 	_fid_apdu.SetFrameId(base::profinet::FrameIdEnum::DcpHelloRequest);
+
+	_fid_apdu.SetDestinationMac(base::Mac{
+		std::endian::big,
+		base::Array<uint8_t, 6>{
+			0x01,
+			0x0e,
+			0xcf,
+			0x00,
+			0x00,
+			0x01,
+		},
+	});
+
 	_this_span = _fid_apdu.Payload();
 	SetServiceId(base::profinet::ServiceIdEnum::Hello);
 	SetServiceType(base::profinet::ServiceTypeEnum::Request);

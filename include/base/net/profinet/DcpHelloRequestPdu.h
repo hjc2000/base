@@ -27,6 +27,22 @@ namespace base
 			/// @param span 以太网的发送缓冲区。
 			DcpHelloRequestPdu(base::Span const &span);
 
+			/// @brief 初始化。
+			/// @note 想要构造出本类的帧，要先调用本方法，然后再设置各个属性。
+			void Initialize();
+
+			/// @brief 源 MAC 地址。
+			/// @return
+			base::Mac SourceMac() const
+			{
+				return _fid_apdu.SourceMac();
+			}
+
+			void SetSourceMac(base::Mac const &value)
+			{
+				_fid_apdu.SetSourceMac(value);
+			}
+
 			base::profinet::ServiceIdEnum ServiceId() const;
 			base::profinet::ServiceTypeEnum ServiceType() const;
 
@@ -48,9 +64,11 @@ namespace base
 			/// @param station_name
 			void PutNameOfStationBlock(std::string const &station_name);
 
-			base::ethernet::EthernetFrame &EthernetFrame()
+			/// @brief 整个以太网帧缓冲区中的有效数据 span.
+			/// @return
+			base::Span ValidDataSpan() const
 			{
-				return _fid_apdu.EthernetFrame();
+				return _fid_apdu.ValidDataSpan();
 			}
 		};
 	} // namespace profinet
