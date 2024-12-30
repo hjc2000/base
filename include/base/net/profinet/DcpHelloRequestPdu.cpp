@@ -107,7 +107,9 @@ void base::profinet::DcpHelloRequestPdu::PutNameOfStationBlock(std::string const
 		_converter.GetBytes(block_info, *_block_stream);
 
 		// 将名称字符串写入流
-		_block_stream->Write(reinterpret_cast<uint8_t const *>(station_name.data()), 0, station_name.size());
+		_block_stream->Write(reinterpret_cast<uint8_t const *>(station_name.data()),
+							 0,
+							 station_name.size());
 
 		// 名称如果没有 2 字节对齐，需要填充。
 		if (station_name.size() % 2 != 0)
