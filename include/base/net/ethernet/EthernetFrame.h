@@ -25,16 +25,6 @@ namespace base
 			/// @param span 引用的内存。
 			EthernetFrame(base::Span const &span);
 
-			/// @brief 获取构造函数中传进来的 span. 这其中可能只有头部包含有效数据，
-			/// 尾部是无效数据。因为载荷大小可能不足以装满整个空间。
-			/// @return
-			base::Span Span() const;
-
-			/// @brief 从整个 span 中切割出有效数据的 span.
-			/// @note 切割范围：[0, FrameSize].
-			/// @return
-			base::Span ValidDataSpan() const;
-
 			/// @brief 目的 MAC 地址。
 			/// @return
 			base::Mac DestinationMac() const;
@@ -89,6 +79,11 @@ namespace base
 			/// @param value 有效载荷的大小。如果小于 46，会在有效载荷后面填充值为 0 的字节，
 			/// 使载荷达到 46 字节。
 			void SetValidPayloadSize(int32_t value);
+
+			/// @brief 从整个 span 中切割出有效数据的 span.
+			/// @note 切割范围：[0, FrameSize].
+			/// @return
+			base::Span ValidDataSpan() const;
 
 			/// @brief 帧大小。有 VLAN TAG 时至少是 64 字节，无 VLAN TAG 时至少是 60 字节。
 			/// 载荷的填充字节也被计算在内。

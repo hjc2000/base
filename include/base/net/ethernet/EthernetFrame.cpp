@@ -5,16 +5,6 @@ base::ethernet::EthernetFrame::EthernetFrame(base::Span const &span)
 	_span = span;
 }
 
-base::Span base::ethernet::EthernetFrame::Span() const
-{
-	return _span;
-}
-
-base::Span base::ethernet::EthernetFrame::ValidDataSpan() const
-{
-	return _span.Slice(base::Range{0, FrameSize()});
-}
-
 base::Mac base::ethernet::EthernetFrame::DestinationMac() const
 {
 	return base::Mac{std::endian::big, _span.Slice(base::Range{0, 6})};
@@ -143,6 +133,11 @@ void base::ethernet::EthernetFrame::SetValidPayloadSize(int32_t value)
 			_valid_frame_size = 14 + value;
 		}
 	}
+}
+
+base::Span base::ethernet::EthernetFrame::ValidDataSpan() const
+{
+	return _span.Slice(base::Range{0, FrameSize()});
 }
 
 int base::ethernet::EthernetFrame::FrameSize() const
