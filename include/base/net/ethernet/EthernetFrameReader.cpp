@@ -1,21 +1,21 @@
-#include "ReadOnlyEthernetFrame.h"
+#include "EthernetFrameReader.h"
 
-base::ethernet::ReadOnlyEthernetFrame::ReadOnlyEthernetFrame(base::ReadOnlySpan const &span)
+base::ethernet::EthernetFrameReader::EthernetFrameReader(base::ReadOnlySpan const &span)
 {
 	_span = span;
 }
 
-base::Mac base::ethernet::ReadOnlyEthernetFrame::DestinationMac() const
+base::Mac base::ethernet::EthernetFrameReader::DestinationMac() const
 {
 	return base::Mac{std::endian::big, _span.Slice(base::Range{0, 6})};
 }
 
-base::Mac base::ethernet::ReadOnlyEthernetFrame::SourceMac() const
+base::Mac base::ethernet::EthernetFrameReader::SourceMac() const
 {
 	return base::Mac{std::endian::big, _span.Slice(base::Range{6, 12})};
 }
 
-base::ReadOnlySpan base::ethernet::ReadOnlyEthernetFrame::VlanTag() const
+base::ReadOnlySpan base::ethernet::EthernetFrameReader::VlanTag() const
 {
 	if (HasVlanTag())
 	{
@@ -25,28 +25,28 @@ base::ReadOnlySpan base::ethernet::ReadOnlyEthernetFrame::VlanTag() const
 	throw std::runtime_error{"本以太网帧不具备 VlanTag."};
 }
 
-bool base::ethernet::ReadOnlyEthernetFrame::HasVlanTag() const
+bool base::ethernet::EthernetFrameReader::HasVlanTag() const
 {
 	uint16_t foo = _converter.ToUInt16(_span.Slice(base::Range{12, 14}));
-	base::ethernet::LengthTypeEnum type_or_length = static_cast<base::ethernet::LengthTypeEnum>(foo);
-	return type_or_length == base::ethernet::LengthTypeEnum::VlanTag;
+	base::ethernet::LengthOrTypeEnum type_or_length = static_cast<base::ethernet::LengthOrTypeEnum>(foo);
+	return type_or_length == base::ethernet::LengthOrTypeEnum::VlanTag;
 }
 
-base::ethernet::LengthTypeEnum base::ethernet::ReadOnlyEthernetFrame::TypeOrLength() const
+base::ethernet::LengthOrTypeEnum base::ethernet::EthernetFrameReader::TypeOrLength() const
 {
 	if (HasVlanTag())
 	{
 		uint16_t type_or_length = _converter.ToUInt16(_span.Slice(base::Range{16, 18}));
-		return static_cast<base::ethernet::LengthTypeEnum>(type_or_length);
+		return static_cast<base::ethernet::LengthOrTypeEnum>(type_or_length);
 	}
 	else
 	{
 		uint16_t type_or_length = _converter.ToUInt16(_span.Slice(base::Range{12, 14}));
-		return static_cast<base::ethernet::LengthTypeEnum>(type_or_length);
+		return static_cast<base::ethernet::LengthOrTypeEnum>(type_or_length);
 	}
 }
 
-base::ReadOnlySpan base::ethernet::ReadOnlyEthernetFrame::Payload() const
+base::ReadOnlySpan base::ethernet::EthernetFrameReader::Payload() const
 {
 	if (HasVlanTag())
 	{
@@ -58,7 +58,7 @@ base::ReadOnlySpan base::ethernet::ReadOnlyEthernetFrame::Payload() const
 	}
 }
 
-base::Json base::ethernet::ReadOnlyEthernetFrame::ToJson() const
+base::Json base::ethernet::EthernetFrameReader::ToJson() const
 {
 	base::Json root{
 		{"目的 MAC 地址", DestinationMac().ToString()},

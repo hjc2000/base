@@ -9,7 +9,7 @@ namespace base
 	namespace ethernet
 	{
 		/// @brief 提供以太网中一些上层协议的类型长度字段。
-		enum class LengthTypeEnum : uint16_t
+		enum class LengthOrTypeEnum : uint16_t
 		{
 			/// @brief IP 协议的类型长度字段。
 			IP = 0x0800,
@@ -29,11 +29,11 @@ namespace base
 
 	} // namespace ethernet
 
-	std::string ToString(base::ethernet::LengthTypeEnum value);
+	std::string ToString(base::ethernet::LengthOrTypeEnum value);
 } // namespace base
 
-/// @brief 输出 base::ethernet::LengthTypeEnum.
+/// @brief 输出 base::ethernet::LengthOrTypeEnum.
 /// @param os
 /// @param length_type
 /// @return
-std::ostream &operator<<(std::ostream &os, base::ethernet::LengthTypeEnum length_type);
+std::ostream &operator<<(std::ostream &os, base::ethernet::LengthOrTypeEnum length_type);

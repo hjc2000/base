@@ -1,6 +1,6 @@
 #pragma once
 #include <base/bit/AutoBitConverter.h>
-#include <base/net/ethernet/enum/LengthTypeEnum.h>
+#include <base/net/ethernet/LengthOrTypeEnum.h>
 #include <base/net/Mac.h>
 #include <base/stream/ReadOnlySpan.h>
 #include <base/string/Json.h>
@@ -10,7 +10,7 @@ namespace base
 	namespace ethernet
 	{
 		/// @brief 只读的以太网帧。
-		class ReadOnlyEthernetFrame :
+		class EthernetFrameReader :
 			public base::IJsonSerializable
 		{
 		private:
@@ -20,7 +20,7 @@ namespace base
 		public:
 			/// @brief 引用 span 指向的内存段，在此位置解析以太网帧。
 			/// @param span
-			ReadOnlyEthernetFrame(base::ReadOnlySpan const &span);
+			EthernetFrameReader(base::ReadOnlySpan const &span);
 
 			/// @brief 目的 MAC 地址。
 			/// @return
@@ -48,7 +48,7 @@ namespace base
 			/// 	@li 0x86DD：表示IPv6数据包
 			///
 			/// @return
-			base::ethernet::LengthTypeEnum TypeOrLength() const;
+			base::ethernet::LengthOrTypeEnum TypeOrLength() const;
 
 			/// @brief 载荷数据。
 			/// @note 这里返回的 span 是构造函数中交给本对象的 span 去除以太网头部

@@ -1,42 +1,42 @@
-#include "LengthTypeEnum.h"
+#include "LengthOrTypeEnum.h"
 #include <base/string/ToHexString.h>
 
-std::string base::ToString(base::ethernet::LengthTypeEnum value)
+std::string base::ToString(base::ethernet::LengthOrTypeEnum value)
 {
 	std::string ret;
 	switch (value)
 	{
-	case base::ethernet::LengthTypeEnum::IP:
+	case base::ethernet::LengthOrTypeEnum::IP:
 		{
 			ret = "IP";
 			break;
 		}
-	case base::ethernet::LengthTypeEnum::ARP:
+	case base::ethernet::LengthOrTypeEnum::ARP:
 		{
 			ret = "ARP";
 			break;
 		}
-	case base::ethernet::LengthTypeEnum::VlanTag:
+	case base::ethernet::LengthOrTypeEnum::VlanTag:
 		{
 			ret = "VlanTag";
 			break;
 		}
-	case base::ethernet::LengthTypeEnum::Profinet:
+	case base::ethernet::LengthOrTypeEnum::Profinet:
 		{
 			ret = "Profinet";
 			break;
 		}
-	case base::ethernet::LengthTypeEnum::MRP:
+	case base::ethernet::LengthOrTypeEnum::MRP:
 		{
 			ret = "MRP";
 			break;
 		}
-	case base::ethernet::LengthTypeEnum::EtherCAT:
+	case base::ethernet::LengthOrTypeEnum::EtherCAT:
 		{
 			ret = "EtherCAT";
 			break;
 		}
-	case base::ethernet::LengthTypeEnum::LLDP:
+	case base::ethernet::LengthOrTypeEnum::LLDP:
 		{
 			ret = "LLDP";
 			break;
@@ -53,7 +53,7 @@ std::string base::ToString(base::ethernet::LengthTypeEnum value)
 	return ret;
 }
 
-std::ostream &operator<<(std::ostream &os, base::ethernet::LengthTypeEnum length_type)
+std::ostream &operator<<(std::ostream &os, base::ethernet::LengthOrTypeEnum length_type)
 {
 	os << base::ToString(length_type);
 	return os;

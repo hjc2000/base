@@ -1,6 +1,6 @@
 #pragma once
 #include <base/bit/AutoBitConverter.h>
-#include <base/net/ethernet/enum/LengthTypeEnum.h>
+#include <base/net/ethernet/LengthOrTypeEnum.h>
 #include <base/net/Mac.h>
 #include <base/stream/ReadOnlySpan.h>
 #include <cstdint>
@@ -61,8 +61,8 @@ namespace base
 			/// 	@li 0x86DD：表示IPv6数据包
 			///
 			/// @return
-			LengthTypeEnum TypeOrLength() const;
-			void SetTypeOrLength(LengthTypeEnum value);
+			LengthOrTypeEnum TypeOrLength() const;
+			void SetTypeOrLength(LengthOrTypeEnum value);
 
 			/// @brief 载荷数据。
 			/// @note 字节数的取值范围：[46, 1500].
