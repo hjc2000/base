@@ -1,7 +1,7 @@
 #pragma once
 #include <base/bit/AutoBitConverter.h>
 #include <base/net/ethernet/EthernetFrameWriter.h>
-#include <base/net/profinet/enum/FrameIdEnum.h>
+#include <base/net/profinet/fid-pdu/FrameIdEnum.h>
 
 namespace base
 {

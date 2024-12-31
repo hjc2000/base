@@ -2,7 +2,7 @@
 #include <base/net/IPAddress.h>
 #include <base/net/profinet/dcp/DcpServiceIdEnum.h>
 #include <base/net/profinet/dcp/DcpServiceTypeEnum.h>
-#include <base/net/profinet/FidApdu.h>
+#include <base/net/profinet/fid-pdu/FidApdu.h>
 #include <base/stream/MemoryStream.h>
 
 namespace base
