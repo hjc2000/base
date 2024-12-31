@@ -1,35 +1,35 @@
 #include "EthernetFrameWriter.h"
 
-base::ethernet::EthernetFrame::EthernetFrame(base::Span const &span)
+base::ethernet::EthernetFrameWriter::EthernetFrameWriter(base::Span const &span)
 {
 	_span = span;
 }
 
-base::Mac base::ethernet::EthernetFrame::DestinationMac() const
+base::Mac base::ethernet::EthernetFrameWriter::DestinationMac() const
 {
 	return base::Mac{std::endian::big, _span.Slice(base::Range{0, 6})};
 }
 
-void base::ethernet::EthernetFrame::SetDestinationMac(base::Mac const &value)
+void base::ethernet::EthernetFrameWriter::SetDestinationMac(base::Mac const &value)
 {
 	base::Span span = _span.Slice(base::Range{0, 6});
 	span.CopyFrom(value.AsReadOnlySpan());
 	span.Reverse();
 }
 
-base::Mac base::ethernet::EthernetFrame::SourceMac() const
+base::Mac base::ethernet::EthernetFrameWriter::SourceMac() const
 {
 	return base::Mac{std::endian::big, _span.Slice(base::Range{6, 12})};
 }
 
-void base::ethernet::EthernetFrame::SetSourceMac(base::Mac const &value)
+void base::ethernet::EthernetFrameWriter::SetSourceMac(base::Mac const &value)
 {
 	base::Span span = _span.Slice(base::Range{6, 12});
 	span.CopyFrom(value.AsReadOnlySpan());
 	span.Reverse();
 }
 
-base::Span base::ethernet::EthernetFrame::VlanTag() const
+base::Span base::ethernet::EthernetFrameWriter::VlanTag() const
 {
 	if (HasVlanTag())
 	{
@@ -39,20 +39,20 @@ base::Span base::ethernet::EthernetFrame::VlanTag() const
 	throw std::runtime_error{"本以太网帧不具备 VlanTag."};
 }
 
-void base::ethernet::EthernetFrame::SetVlanTag(base::Span const &value)
+void base::ethernet::EthernetFrameWriter::SetVlanTag(base::Span const &value)
 {
 	base::Span span = _span.Slice(base::Range{12, 16});
 	span.CopyFrom(value);
 }
 
-bool base::ethernet::EthernetFrame::HasVlanTag() const
+bool base::ethernet::EthernetFrameWriter::HasVlanTag() const
 {
 	uint16_t foo = _converter.ToUInt16(_span.Slice(base::Range{12, 14}));
 	base::ethernet::LengthOrTypeEnum type_or_length = static_cast<base::ethernet::LengthOrTypeEnum>(foo);
 	return type_or_length == base::ethernet::LengthOrTypeEnum::VlanTag;
 }
 
-void base::ethernet::EthernetFrame::ClearVlanTag()
+void base::ethernet::EthernetFrameWriter::ClearVlanTag()
 {
 	if (HasVlanTag())
 	{
@@ -61,7 +61,7 @@ void base::ethernet::EthernetFrame::ClearVlanTag()
 	}
 }
 
-base::ethernet::LengthOrTypeEnum base::ethernet::EthernetFrame::TypeOrLength() const
+base::ethernet::LengthOrTypeEnum base::ethernet::EthernetFrameWriter::TypeOrLength() const
 {
 	if (HasVlanTag())
 	{
@@ -75,7 +75,7 @@ base::ethernet::LengthOrTypeEnum base::ethernet::EthernetFrame::TypeOrLength() c
 	}
 }
 
-void base::ethernet::EthernetFrame::SetTypeOrLength(LengthOrTypeEnum value)
+void base::ethernet::EthernetFrameWriter::SetTypeOrLength(LengthOrTypeEnum value)
 {
 	if (HasVlanTag())
 	{
@@ -87,7 +87,7 @@ void base::ethernet::EthernetFrame::SetTypeOrLength(LengthOrTypeEnum value)
 	}
 }
 
-base::Span base::ethernet::EthernetFrame::Payload() const
+base::Span base::ethernet::EthernetFrameWriter::Payload() const
 {
 	if (HasVlanTag())
 	{
@@ -99,7 +99,7 @@ base::Span base::ethernet::EthernetFrame::Payload() const
 	}
 }
 
-void base::ethernet::EthernetFrame::SetValidPayloadSize(int32_t value)
+void base::ethernet::EthernetFrameWriter::SetValidPayloadSize(int32_t value)
 {
 	if (HasVlanTag())
 	{
@@ -135,12 +135,12 @@ void base::ethernet::EthernetFrame::SetValidPayloadSize(int32_t value)
 	}
 }
 
-base::Span base::ethernet::EthernetFrame::ValidDataSpan() const
+base::Span base::ethernet::EthernetFrameWriter::ValidDataSpan() const
 {
 	return _span.Slice(base::Range{0, FrameSize()});
 }
 
-int base::ethernet::EthernetFrame::FrameSize() const
+int base::ethernet::EthernetFrameWriter::FrameSize() const
 {
 	if (HasVlanTag())
 	{

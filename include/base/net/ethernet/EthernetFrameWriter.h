@@ -13,7 +13,7 @@ namespace base
 		/// @note 这里的属性最好是从上到下按顺序设置。特别是从 VlanTag 开始，因为 VlanTag 有没有设置
 		/// 将会影响到后续属性放置到内存中的位置。也不要在添加或删除了 VlanTag 属性后继续尝试读取 VlanTag
 		/// 后面的属性，因为偏移量变了，会读取到错误的结果。
-		class EthernetFrame
+		class EthernetFrameWriter
 		{
 		private:
 			base::Span _span;
@@ -23,7 +23,7 @@ namespace base
 		public:
 			/// @brief 构造函数。
 			/// @param span 引用的内存。
-			EthernetFrame(base::Span const &span);
+			EthernetFrameWriter(base::Span const &span);
 
 			/// @brief 目的 MAC 地址。
 			/// @return

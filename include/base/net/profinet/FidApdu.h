@@ -11,7 +11,7 @@ namespace base
 		class FidApdu
 		{
 		private:
-			base::ethernet::EthernetFrame _ethernet_frame;
+			base::ethernet::EthernetFrameWriter _ethernet_frame;
 			base::Span _this_span;
 			base::AutoBitConverter _converter{std::endian::big};
 

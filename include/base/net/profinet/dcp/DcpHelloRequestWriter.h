@@ -10,7 +10,7 @@ namespace base
 	namespace profinet
 	{
 		/// @brief DCP Hello 请求。
-		class DcpHelloRequest
+		class DcpHelloRequestWriter
 		{
 		private:
 			base::profinet::FidApdu _fid_apdu;
@@ -28,7 +28,7 @@ namespace base
 		public:
 			/// @brief 构造函数。
 			/// @param span 以太网的发送缓冲区。
-			DcpHelloRequest(base::Span const &span);
+			DcpHelloRequestWriter(base::Span const &span);
 
 			/// @brief 源 MAC 地址。
 			/// @return
