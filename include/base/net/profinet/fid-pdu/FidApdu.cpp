@@ -24,7 +24,7 @@ void base::profinet::FidApdu::SetFrameId(base::profinet::FrameIdEnum value)
 
 base::Span base::profinet::FidApdu::Payload() const
 {
-	return _this_span.Slice(base::Range(2, _this_span.Size()));
+	return _this_span.Slice(base::Range{2, _this_span.Size()});
 }
 
 void base::profinet::FidApdu::SetValidPayloadSize(int32_t value)
