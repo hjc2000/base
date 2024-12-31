@@ -1,4 +1,4 @@
-#include "EthernetFrame.h"
+#include "EthernetFrameWriter.h"
 
 base::ethernet::EthernetFrame::EthernetFrame(base::Span const &span)
 {
