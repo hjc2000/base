@@ -54,6 +54,8 @@ base::profinet::DcpHelloRequest::DcpHelloRequest(base::Span const &span)
 	_block_stream = std::shared_ptr<base::MemoryStream>{new base::MemoryStream{block_span}};
 }
 
+#pragma region DCP 头部
+
 base::profinet::DcpServiceIdEnum base::profinet::DcpHelloRequest::ServiceId() const
 {
 	return static_cast<base::profinet::DcpServiceIdEnum>(_this_span[0]);
@@ -81,6 +83,10 @@ uint16_t base::profinet::DcpHelloRequest::DataLength() const
 	base::Span span = _this_span.Slice(base::Range{8, 10});
 	return _converter.ToUInt16(span);
 }
+
+#pragma endregion
+
+#pragma region Blocks
 
 void base::profinet::DcpHelloRequest::ClearAllBlocks()
 {
@@ -182,3 +188,5 @@ void base::profinet::DcpHelloRequest::PutIPAddressInfomationBlock(bool ip_not_se
 
 	UpdateSize();
 }
+
+#pragma endregion

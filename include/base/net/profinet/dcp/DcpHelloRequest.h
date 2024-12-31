@@ -44,6 +44,7 @@ namespace base
 				_fid_apdu.SetSourceMac(value);
 			}
 
+#pragma region DCP 头部
 			base::profinet::DcpServiceIdEnum ServiceId() const;
 			base::profinet::DcpServiceTypeEnum ServiceType() const;
 
@@ -53,7 +54,9 @@ namespace base
 			/// @brief Blocks 的有效数据的长度。
 			/// @return
 			uint16_t DataLength() const;
+#pragma endregion
 
+#pragma region Blocks
 			/// @brief 删除 Blocks 区域的所有块。
 			void ClearAllBlocks();
 
@@ -70,6 +73,7 @@ namespace base
 											 base::IPAddress const &ip,
 											 base::IPAddress const &gateway,
 											 base::IPAddress const &netmask);
+#pragma endregion
 
 			/// @brief 整个以太网帧缓冲区中的有效数据 span.
 			/// @return
