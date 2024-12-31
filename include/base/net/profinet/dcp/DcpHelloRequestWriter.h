@@ -9,7 +9,7 @@ namespace base
 {
 	namespace profinet
 	{
-		/// @brief DCP Hello 请求。
+		/// @brief DCP Hello 请求作者。
 		class DcpHelloRequestWriter
 		{
 		private:
@@ -30,6 +30,8 @@ namespace base
 			/// @param span 以太网的发送缓冲区。
 			DcpHelloRequestWriter(base::Span const &span);
 
+#pragma region 转发下层数据单元的操作
+
 			/// @brief 源 MAC 地址。
 			/// @return
 			base::Mac SourceMac() const
@@ -43,6 +45,8 @@ namespace base
 			{
 				_fid_apdu.SetSourceMac(value);
 			}
+
+#pragma endregion
 
 #pragma region DCP 头部
 			base::profinet::DcpServiceIdEnum ServiceId() const;

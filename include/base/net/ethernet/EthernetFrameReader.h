@@ -9,7 +9,7 @@ namespace base
 {
 	namespace ethernet
 	{
-		/// @brief 只读的以太网帧。
+		/// @brief 以太网帧阅读器。
 		class EthernetFrameReader :
 			public base::IJsonSerializable
 		{
