@@ -27,6 +27,11 @@ void base::DisposableSemaphore::Dispose()
 
 void base::DisposableSemaphore::Release(int32_t count)
 {
+	if (count <= 0)
+	{
+		throw std::invalid_argument{CODE_POS_STR + "count 不能 <=0."};
+	}
+
 	std::lock_guard g{_lock};
 	_semaphore.release(count);
 }
@@ -34,7 +39,10 @@ void base::DisposableSemaphore::Release(int32_t count)
 void base::DisposableSemaphore::ReleaseAllAcquire()
 {
 	std::lock_guard g{_lock};
-	_semaphore.release(_acquirer_count);
+	if (_acquirer_count > 0)
+	{
+		_semaphore.release(_acquirer_count);
+	}
 }
 
 void base::DisposableSemaphore::Acquire()
