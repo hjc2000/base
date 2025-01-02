@@ -24,6 +24,9 @@ namespace base
 			Release(1);
 		}
 
+		/// @brief 释放所有等待者。
+		virtual void ReleaseAllAcquire() = 0;
+
 		/// @brief 获取信号量。无限等待，永不超时。
 		virtual void Acquire() = 0;
 
