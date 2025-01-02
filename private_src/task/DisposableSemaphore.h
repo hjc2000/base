@@ -3,6 +3,7 @@
 
 #include <atomic>
 #include <base/task/ISemaphore.h>
+#include <mutex>
 #include <semaphore>
 
 namespace base
@@ -13,6 +14,8 @@ namespace base
 	private:
 		std::counting_semaphore<INT32_MAX> _semaphore{0};
 		std::atomic_bool _disposed = false;
+		std::atomic<int64_t> _acquirer_count = 0;
+		std::mutex _lock;
 
 	public:
 		DisposableSemaphore(int32_t initial_count);
@@ -22,6 +25,9 @@ namespace base
 		/// @brief 释放信号量。
 		/// @param count 要释放的数量。
 		virtual void Release(int32_t count) override;
+
+		/// @brief 释放所有等待者。
+		virtual void ReleaseAllAcquire() override;
 
 		/// @brief 获取信号量。无限等待，永不超时。
 		virtual void Acquire() override;
