@@ -42,7 +42,7 @@ namespace base
 
 			/// @brief 头部固定为 10 字节。
 			/// @return
-			static constexpr int32_t Size()
+			static constexpr int32_t HeaderSize()
 			{
 				return 10;
 			}
