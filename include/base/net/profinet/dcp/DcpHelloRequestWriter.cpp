@@ -25,7 +25,7 @@ void base::profinet::DcpHelloRequestWriter::UpdateSize()
 	SetDataLength(_block_stream->Length());
 
 	// 头部长度 10 字节加上 Blocks 的长度。
-	_fid_apdu.SetValidPayloadSize(10 + DataLength());
+	_fid_apdu.SetValidPayloadSize(10 + _block_stream->Length());
 }
 
 #pragma endregion
