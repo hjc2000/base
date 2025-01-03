@@ -17,7 +17,8 @@ namespace base
 			base::ReadOnlySpan _name_of_station_block;
 
 		public:
-			DcpTlvReader() = default;
+			/// @brief 构造函数。
+			/// @param span 去掉 DCP 头部后，剩下的含有许多 Block 的内存段。
 			DcpTlvReader(base::ReadOnlySpan const &span);
 
 #pragma region Blocks
