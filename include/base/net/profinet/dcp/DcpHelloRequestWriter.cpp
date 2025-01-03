@@ -1,5 +1,6 @@
 #include "DcpHelloRequestWriter.h"
 #include <base/string/define.h>
+#include <DcpTlvStreamWriter.h>
 
 #pragma region 私有属性设置函数
 
@@ -107,28 +108,8 @@ void base::profinet::DcpHelloRequestWriter::ClearAllBlocks()
 
 void base::profinet::DcpHelloRequestWriter::PutNameOfStationBlock(std::string const &station_name)
 {
-	WriteBlockHeader(2,
-					 2,
-					 // 2 字节的 block_infos 加上实际的名称长度。
-					 2 + station_name.size(),
-					 // 保留。始终为 0.
-					 0);
-
-	// Block 载荷
-	{
-		// 将名称字符串写入流
-		_block_stream->Write(reinterpret_cast<uint8_t const *>(station_name.data()),
-							 0,
-							 station_name.size());
-
-		// 名称如果没有 2 字节对齐，需要填充。
-		if (station_name.size() % 2 != 0)
-		{
-			uint8_t padding = 0;
-			_block_stream->Write(&padding, 0, 1);
-		}
-	}
-
+	base::profinet::DcpTlvStreamWriter writer{*_block_stream};
+	writer.WriteNameOfStationBlock(station_name);
 	UpdateSize();
 }
 
@@ -137,101 +118,29 @@ void base::profinet::DcpHelloRequestWriter::PutIPAddressInfomationBlock(bool ip_
 																		base::IPAddress const &gateway,
 																		base::IPAddress const &netmask)
 {
-	WriteBlockHeader(1,
-					 2,
-					 /**
-					  * IP 地址，网关，子网掩码，共 3 个 IP 地址，有 3 * 4 = 12 字节。
-					  * 还有 2 字节的 block_info.
-					  */
-					 2 + 3 * 4,
-					 ip_not_set ? 1 : 0);
-
-	// Block 载荷
-	{
-		if (ip.Type() != base::IPAddressType::IPV4)
-		{
-			throw std::invalid_argument{CODE_POS_STR + "必须是 IPV4 地址。"};
-		}
-
-		uint8_t ip_buffer[4];
-		base::Span ip_buffer_span{ip_buffer, sizeof(ip_buffer)};
-		ip_buffer_span.CopyFrom(ip.AsReadOnlySpan());
-		ip_buffer_span.Reverse();
-		_block_stream->Write(ip_buffer_span.Buffer(), 0, ip_buffer_span.Size());
-	}
-	{
-		if (ip.Type() != base::IPAddressType::IPV4)
-		{
-			throw std::invalid_argument{CODE_POS_STR + "必须是 IPV4 地址。"};
-		}
-
-		uint8_t ip_buffer[4];
-		base::Span ip_buffer_span{ip_buffer, sizeof(ip_buffer)};
-		ip_buffer_span.CopyFrom(netmask.AsReadOnlySpan());
-		ip_buffer_span.Reverse();
-		_block_stream->Write(ip_buffer_span.Buffer(), 0, ip_buffer_span.Size());
-	}
-	{
-		if (ip.Type() != base::IPAddressType::IPV4)
-		{
-			throw std::invalid_argument{CODE_POS_STR + "必须是 IPV4 地址。"};
-		}
-
-		uint8_t ip_buffer[4];
-		base::Span ip_buffer_span{ip_buffer, sizeof(ip_buffer)};
-		ip_buffer_span.CopyFrom(gateway.AsReadOnlySpan());
-		ip_buffer_span.Reverse();
-		_block_stream->Write(ip_buffer_span.Buffer(), 0, ip_buffer_span.Size());
-	}
-
+	base::profinet::DcpTlvStreamWriter writer{*_block_stream};
+	writer.WriteIPAddressInfomationBlock(ip_not_set, ip, gateway, netmask);
 	UpdateSize();
 }
 
 void base::profinet::DcpHelloRequestWriter::PutIdBlock(uint16_t vendor_id, uint16_t device_id)
 {
-	WriteBlockHeader(2,
-					 3,
-					 6,
-					 0);
-
-	// Block 载荷
-	{
-		_converter.GetBytes(vendor_id, *_block_stream);
-		_converter.GetBytes(device_id, *_block_stream);
-	}
-
+	base::profinet::DcpTlvStreamWriter writer{*_block_stream};
+	writer.WriteIdBlock(vendor_id, device_id);
 	UpdateSize();
 }
 
 void base::profinet::DcpHelloRequestWriter::PutOemIdBlock(uint16_t oem_vendor_id, uint16_t oem_device_id)
 {
-	WriteBlockHeader(2,
-					 8,
-					 6,
-					 0);
-
-	// Block 载荷
-	{
-		_converter.GetBytes(oem_vendor_id, *_block_stream);
-		_converter.GetBytes(oem_device_id, *_block_stream);
-	}
-
+	base::profinet::DcpTlvStreamWriter writer{*_block_stream};
+	writer.WriteOemIdBlock(oem_vendor_id, oem_device_id);
 	UpdateSize();
 }
 
 void base::profinet::DcpHelloRequestWriter::PutDeviceInitiativeBlock(bool hello)
 {
-	WriteBlockHeader(6,
-					 1,
-					 4,
-					 0);
-
-	// Block 载荷
-	{
-		uint16_t value = hello ? 1 : 0;
-		_converter.GetBytes(value, *_block_stream);
-	}
-
+	base::profinet::DcpTlvStreamWriter writer{*_block_stream};
+	writer.WriteDeviceInitiativeBlock(hello);
 	UpdateSize();
 }
 
