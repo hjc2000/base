@@ -15,6 +15,8 @@ namespace base
 			base::ReadOnlySpan _this_span;
 
 		public:
+			/// @brief 构造函数。
+			/// @param span 整个以太网帧的内存片段。
 			DcpIdentifyRequestReader(base::ReadOnlySpan const &span);
 
 			base::profinet::DcpServiceIdEnum ServiceId() const;

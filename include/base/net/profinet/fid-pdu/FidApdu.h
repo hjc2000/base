@@ -17,8 +17,7 @@ namespace base
 
 		public:
 			/// @brief 构造函数。
-			/// @param span 以太网的发送缓冲区。将以太网缓冲区交给本类。本类会自己组装出
-			/// 以太网帧。因为怎么利用以太网发送本类对象，本类最清楚。
+			/// @param span 整个以太网帧的内存片段。
 			FidApdu(base::Span const &span);
 
 			/// @brief 目的 MAC 地址。

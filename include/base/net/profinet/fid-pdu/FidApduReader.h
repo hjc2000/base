@@ -15,6 +15,8 @@ namespace base
 			base::AutoBitConverter _converter{std::endian::big};
 
 		public:
+			/// @brief 构造函数。
+			/// @param span 整个以太网帧的内存片段。
 			FidApduReader(base::ReadOnlySpan const &span);
 
 			/// @brief 目的 MAC 地址。
