@@ -25,6 +25,15 @@ namespace base
 			void UpdateSize();
 #pragma endregion
 
+			/// @brief 将块的头部写入 _block_stream.
+			/// @note DCP 的 Block 是 TLV 格式。即：类型、长度、值。
+			///
+			/// @param option 块的选项。
+			/// @param suboption 块的子选项。
+			/// @param block_length 当前块的载荷长度（不包括块头部本身）。
+			/// @param block_info 块信息。
+			void WriteBlockHeader(uint8_t option, uint8_t suboption, uint16_t block_length, uint16_t block_info);
+
 		public:
 			/// @brief 构造函数。
 			/// @param span 以太网的发送缓冲区。
