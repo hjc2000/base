@@ -90,6 +90,10 @@ namespace base
 			void PutIdBlock(uint16_t vendor_id, uint16_t device_id);
 
 			void PutOemIdBlock(uint16_t oem_vendor_id, uint16_t oem_device_id);
+
+			/// @brief 放置 “设备主动性” 块。
+			/// @param hello 设备是否会在上电后主动发送 DCP-Hllo.
+			void PutDeviceInitiativeBlock(bool hello);
 #pragma endregion
 
 			/// @brief 整个以太网帧缓冲区中的有效数据 span.
