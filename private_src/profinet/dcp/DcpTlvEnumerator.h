@@ -37,13 +37,13 @@ namespace base
 				}
 
 				uint16_t length = _converter.ToUInt16(_remain_span.Slice(base::Range{2, 4}));
-				_current_value = _remain_span.Slice(0, 4 + length);
 				if (4 + length > _remain_span.Size())
 				{
 					// TLV 中的 L 指示的 V 的长度出错了，加上 TL 的 4 个字节，已经超出 _remain_span 的大小了。
 					return false;
 				}
 
+				_current_value = _remain_span.Slice(0, 4 + length);
 				_remain_span = _remain_span.Slice(base::Range{4 + length, _remain_span.Size()});
 				return true;
 			}
