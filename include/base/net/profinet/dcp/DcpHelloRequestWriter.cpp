@@ -30,14 +30,6 @@ void base::profinet::DcpHelloRequestWriter::UpdateSize()
 
 #pragma endregion
 
-void base::profinet::DcpHelloRequestWriter::WriteBlockHeader(uint8_t option, uint8_t suboption, uint16_t block_length, uint16_t block_info)
-{
-	_block_stream->Write(&option, 0, 1);
-	_block_stream->Write(&suboption, 0, 1);
-	_converter.GetBytes(block_length, *_block_stream);
-	_converter.GetBytes(block_info, *_block_stream);
-}
-
 base::profinet::DcpHelloRequestWriter::DcpHelloRequestWriter(base::Span const &span)
 	: _fid_apdu(span)
 {
