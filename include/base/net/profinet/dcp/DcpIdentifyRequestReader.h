@@ -7,12 +7,17 @@ namespace base
 {
 	namespace profinet
 	{
+		class DcpHeaderReader;
+		class DcpTlvReader;
+
 		/// @brief DCP Identify 请求帧阅读器。
 		class DcpIdentifyRequestReader
 		{
 		private:
 			base::profinet::FidApduReader _fid_pdu_reader;
 			base::ReadOnlySpan _this_span;
+			std::shared_ptr<base::profinet::DcpHeaderReader> _header_reader;
+			std::shared_ptr<base::profinet::DcpTlvReader> _tlv_reader;
 
 		public:
 			/// @brief 构造函数。

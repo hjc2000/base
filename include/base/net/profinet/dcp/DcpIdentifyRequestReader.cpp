@@ -7,50 +7,59 @@ base::profinet::DcpIdentifyRequestReader::DcpIdentifyRequestReader(base::ReadOnl
 	: _fid_pdu_reader(span)
 {
 	_this_span = _fid_pdu_reader.Payload();
+	if (_this_span.Size() < base::profinet::DcpHeaderReader::HeaderSize())
+	{
+		// DCP 头部要 10 字节，这里连 10 字节都没有。
+		throw std::invalid_argument{CODE_POS_STR + "传入的帧中不含有合法的 DCP 头部。"};
+	}
+
+	_header_reader = std::shared_ptr<base::profinet::DcpHeaderReader>{new base::profinet::DcpHeaderReader{_this_span}};
+
+	{
+		base::ReadOnlySpan tlv_span = _this_span.Slice(base::Range{
+			base::profinet::DcpHeaderReader::HeaderSize(),
+			_this_span.Size(),
+		});
+
+		_tlv_reader = std::shared_ptr<base::profinet::DcpTlvReader>{new base::profinet::DcpTlvReader{tlv_span}};
+	}
 }
 
 base::profinet::DcpServiceIdEnum base::profinet::DcpIdentifyRequestReader::ServiceId() const
 {
-	base::profinet::DcpHeaderReader reader{_this_span};
-	return reader.ServiceId();
+	return _header_reader->ServiceId();
 }
 
 base::profinet::DcpServiceTypeEnum base::profinet::DcpIdentifyRequestReader::ServiceType() const
 {
-	base::profinet::DcpHeaderReader reader{_this_span};
-	return reader.ServiceType();
+	return _header_reader->ServiceType();
 }
 
 uint32_t base::profinet::DcpIdentifyRequestReader::Xid() const
 {
-	base::profinet::DcpHeaderReader reader{_this_span};
-	return reader.Xid();
+	return _header_reader->Xid();
 }
 
 uint16_t base::profinet::DcpIdentifyRequestReader::ResponseDelay() const
 {
-	base::profinet::DcpHeaderReader reader{_this_span};
-	return reader.ResponseDelay();
+	return _header_reader->ResponseDelay();
 }
 
 uint16_t base::profinet::DcpIdentifyRequestReader::DataLength() const
 {
-	base::profinet::DcpHeaderReader reader{_this_span};
-	return reader.DataLength();
+	return _header_reader->DataLength();
 }
 
 #pragma region Blocks
 
 bool base::profinet::DcpIdentifyRequestReader::HasNameOfStationBlock() const
 {
-	base::profinet::DcpTlvReader reader{_this_span.Slice(base::Range{base::profinet::DcpHeaderReader::HeaderSize(), _this_span.Size()})};
-	return reader.HasNameOfStationBlock();
+	return _tlv_reader->HasNameOfStationBlock();
 }
 
 std::string base::profinet::DcpIdentifyRequestReader::NameOfStation() const
 {
-	base::profinet::DcpTlvReader reader{_this_span.Slice(base::Range{base::profinet::DcpHeaderReader::HeaderSize(), _this_span.Size()})};
-	return reader.NameOfStation();
+	return _tlv_reader->NameOfStation();
 }
 
 #pragma endregion

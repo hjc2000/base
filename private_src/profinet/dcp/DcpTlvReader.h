@@ -12,10 +12,12 @@ namespace base
 		{
 		private:
 			base::profinet::DcpTlvEnumerable _tlv_collection;
-			base::ReadOnlySpan _name_of_station_block;
 			base::AutoBitConverter _converter{std::endian::big};
 
+			base::ReadOnlySpan _name_of_station_block;
+
 		public:
+			DcpTlvReader() = default;
 			DcpTlvReader(base::ReadOnlySpan const &span);
 
 #pragma region Blocks
