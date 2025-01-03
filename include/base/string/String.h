@@ -1,6 +1,7 @@
 #pragma once
 #include <base/container/List.h>
 #include <base/container/Range.h>
+#include <base/define.h>
 #include <base/stream/ReadOnlySpan.h>
 #include <stdexcept>
 #include <stdint.h>
@@ -39,7 +40,7 @@ namespace base
 
 #pragma region IsWhiteChar
 
-		static constexpr bool IsWhiteChar(char value)
+		static_function constexpr bool IsWhiteChar(char value)
 		{
 			switch (value)
 			{

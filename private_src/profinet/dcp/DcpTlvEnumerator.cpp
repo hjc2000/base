@@ -37,7 +37,7 @@ bool base::profinet::DcpTlvEnumerator::MoveNext()
 		return false;
 	}
 
-	_current_value = _remain_span.Slice(0, block_size);
+	_current_value = _remain_span.Slice(base::Range{0, block_size});
 	_remain_span = _remain_span.Slice(base::Range{block_size, _remain_span.Size()});
 	return true;
 }

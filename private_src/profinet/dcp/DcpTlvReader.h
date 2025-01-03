@@ -11,10 +11,10 @@ namespace base
 		class DcpTlvReader
 		{
 		private:
-			base::profinet::DcpTlvEnumerable _tlv_collection;
 			base::AutoBitConverter _converter{std::endian::big};
 
-			base::ReadOnlySpan _name_of_station_block;
+			bool _has_name_of_station_block = false;
+			std::string _station_name;
 
 		public:
 			/// @brief 构造函数。

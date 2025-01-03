@@ -1,5 +1,6 @@
 #pragma once
 #include <base/bit/AutoBitConverter.h>
+#include <base/define.h>
 #include <base/net/profinet/dcp/DcpServiceIdEnum.h>
 #include <base/net/profinet/dcp/DcpServiceTypeEnum.h>
 #include <base/stream/Span.h>
@@ -42,7 +43,7 @@ namespace base
 
 			/// @brief 头部固定为 10 字节。
 			/// @return
-			static constexpr int32_t HeaderSize()
+			static_function constexpr int32_t HeaderSize()
 			{
 				return 10;
 			}
