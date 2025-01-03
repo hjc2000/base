@@ -1,4 +1,5 @@
 #pragma once
+#include <base/bit/AutoBitConverter.h>
 #include <base/string/define.h>
 #include <DcpTlvEnumerable.h>
 #include <stdexcept>
@@ -10,8 +11,9 @@ namespace base
 		class DcpTlvReader
 		{
 		private:
-			base::ReadOnlySpan _span;
 			base::profinet::DcpTlvEnumerable _tlv_collection;
+			base::ReadOnlySpan _name_of_station_block;
+			base::AutoBitConverter _converter{std::endian::big};
 
 		public:
 			DcpTlvReader(base::ReadOnlySpan const &span);
