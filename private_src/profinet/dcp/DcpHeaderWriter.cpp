@@ -44,6 +44,18 @@ void base::profinet::DcpHeaderWriter::SetXid(uint32_t value)
 	_converter.GetBytes(value, span);
 }
 
+uint16_t base::profinet::DcpHeaderWriter::ResponseDelay() const
+{
+	base::Span span = _span.Slice(base::Range{6, 8});
+	return _converter.ToUInt32(span);
+}
+
+void base::profinet::DcpHeaderWriter::SetResponseDelay(uint16_t value)
+{
+	base::Span span = _span.Slice(base::Range{6, 8});
+	_converter.GetBytes(value, span);
+}
+
 uint16_t base::profinet::DcpHeaderWriter::DataLength() const
 {
 	base::Span span = _span.Slice(base::Range{8, 10});
