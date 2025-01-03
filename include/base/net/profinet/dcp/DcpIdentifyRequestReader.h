@@ -2,6 +2,7 @@
 #include <base/net/profinet/dcp/DcpServiceIdEnum.h>
 #include <base/net/profinet/dcp/DcpServiceTypeEnum.h>
 #include <base/net/profinet/fid-pdu/FidApduReader.h>
+#include <base/string/Json.h>
 
 namespace base
 {
@@ -11,7 +12,8 @@ namespace base
 		class DcpTlvReader;
 
 		/// @brief DCP Identify 请求帧阅读器。
-		class DcpIdentifyRequestReader
+		class DcpIdentifyRequestReader :
+			public base::IJsonSerializable
 		{
 		private:
 			base::profinet::FidApduReader _fid_pdu_reader;
@@ -51,6 +53,10 @@ namespace base
 			/// @return
 			std::string NameOfStation() const;
 #pragma endregion
+
+			/// @brief 序列化为 json
+			/// @return
+			virtual base::Json ToJson() const override;
 		};
 	} // namespace profinet
 } // namespace base

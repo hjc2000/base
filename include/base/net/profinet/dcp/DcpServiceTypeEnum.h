@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <string>
 
 namespace base
 {
@@ -18,4 +19,6 @@ namespace base
 			ResponseNotSupport = 0x05,
 		};
 	} // namespace profinet
+
+	std::string ToString(base::profinet::DcpServiceTypeEnum value);
 } // namespace base

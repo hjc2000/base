@@ -25,5 +25,5 @@ int main()
 						0x0, 0x0, 0x0, 0x0, 0x0};
 
 	base::profinet::DcpIdentifyRequestReader reader{base::ReadOnlySpan{buffer, sizeof(buffer)}};
-	std::cout << reader.NameOfStation() << std::endl;
+	std::cout << reader << std::endl;
 }

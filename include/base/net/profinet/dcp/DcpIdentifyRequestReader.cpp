@@ -1,5 +1,6 @@
 #include "DcpIdentifyRequestReader.h"
 #include <base/string/define.h>
+#include <base/string/ToHexString.h>
 #include <DcpHeaderReader.h>
 #include <DcpTlvReader.h>
 
@@ -63,3 +64,23 @@ std::string base::profinet::DcpIdentifyRequestReader::NameOfStation() const
 }
 
 #pragma endregion
+
+base::Json base::profinet::DcpIdentifyRequestReader::ToJson() const
+{
+	base::Json root{
+		{"ServiceId", base::ToString(ServiceId())},
+		{"ServiceType", base::ToString(ServiceType())},
+		{"Xid", base::ToHexString(Xid())},
+		{"ResponseDelay", base::ToHexString(ResponseDelay())},
+		{"DataLength", DataLength()},
+	};
+
+	base::Json blocks;
+	if (HasNameOfStationBlock())
+	{
+		blocks["NameOfStation"] = NameOfStation();
+	}
+
+	root["Blocks"] = blocks;
+	return root;
+}

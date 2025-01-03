@@ -31,7 +31,7 @@ uint32_t base::profinet::DcpHeaderReader::Xid() const
 uint16_t base::profinet::DcpHeaderReader::ResponseDelay() const
 {
 	base::ReadOnlySpan span = _span.Slice(base::Range{6, 8});
-	return _converter.ToUInt32(span);
+	return _converter.ToUInt16(span);
 }
 
 uint16_t base::profinet::DcpHeaderReader::DataLength() const
