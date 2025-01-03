@@ -8,6 +8,7 @@ namespace base
 {
 	namespace profinet
 	{
+		/// @brief DCP 头部作者。
 		class DcpHeaderWriter
 		{
 		private:
