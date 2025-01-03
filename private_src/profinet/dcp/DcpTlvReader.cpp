@@ -1,8 +1,9 @@
 #include "DcpTlvReader.h"
 
 base::profinet::DcpTlvReader::DcpTlvReader(base::ReadOnlySpan const &span)
+	: _span(span),
+	  _tlv_collection(span)
 {
-	_span = span;
 }
 
 bool base::profinet::DcpTlvReader::HasNameOfStationBlock() const

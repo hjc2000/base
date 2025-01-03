@@ -1,6 +1,6 @@
 #pragma once
 #include <base/string/define.h>
-#include <DcpTlvEnumerator.h>
+#include <DcpTlvEnumerable.h>
 #include <stdexcept>
 
 namespace base
@@ -11,6 +11,7 @@ namespace base
 		{
 		private:
 			base::ReadOnlySpan _span;
+			base::profinet::DcpTlvEnumerable _tlv_collection;
 
 		public:
 			DcpTlvReader(base::ReadOnlySpan const &span);
