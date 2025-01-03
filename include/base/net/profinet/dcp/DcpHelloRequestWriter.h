@@ -15,7 +15,6 @@ namespace base
 		private:
 			base::profinet::FidApdu _fid_apdu;
 			base::Span _this_span;
-			base::AutoBitConverter _converter{std::endian::big};
 			std::shared_ptr<base::MemoryStream> _block_stream;
 
 			void UpdateSize();
