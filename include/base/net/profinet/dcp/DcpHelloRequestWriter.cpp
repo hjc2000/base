@@ -1,34 +1,16 @@
 #include "DcpHelloRequestWriter.h"
 #include <base/string/define.h>
+#include <DcpHeaderWriter.h>
 #include <DcpTlvStreamWriter.h>
-
-#pragma region 私有属性设置函数
-
-void base::profinet::DcpHelloRequestWriter::SetServiceId(base::profinet::DcpServiceIdEnum value)
-{
-	_this_span[0] = static_cast<uint8_t>(value);
-}
-
-void base::profinet::DcpHelloRequestWriter::SetServiceType(base::profinet::DcpServiceTypeEnum value)
-{
-	_this_span[1] = static_cast<uint8_t>(value);
-}
-
-void base::profinet::DcpHelloRequestWriter::SetDataLength(uint16_t value)
-{
-	base::Span span = _this_span.Slice(base::Range{8, 10});
-	_converter.GetBytes(value, span);
-}
 
 void base::profinet::DcpHelloRequestWriter::UpdateSize()
 {
-	SetDataLength(_block_stream->Length());
+	base::profinet::DcpHeaderWriter writer{_this_span};
+	writer.SetDataLength(_block_stream->Length());
 
 	// 头部长度 10 字节加上 Blocks 的长度。
-	_fid_apdu.SetValidPayloadSize(10 + _block_stream->Length());
+	_fid_apdu.SetValidPayloadSize(base::profinet::DcpHeaderWriter::Size() + _block_stream->Length());
 }
-
-#pragma endregion
 
 base::profinet::DcpHelloRequestWriter::DcpHelloRequestWriter(base::Span const &span)
 	: _fid_apdu(span)
@@ -48,8 +30,10 @@ base::profinet::DcpHelloRequestWriter::DcpHelloRequestWriter(base::Span const &s
 	});
 
 	_this_span = _fid_apdu.Payload();
-	SetServiceId(base::profinet::DcpServiceIdEnum::Hello);
-	SetServiceType(base::profinet::DcpServiceTypeEnum::Request);
+
+	base::profinet::DcpHeaderWriter writer{_this_span};
+	writer.SetServiceId(base::profinet::DcpServiceIdEnum::Hello);
+	writer.SetServiceType(base::profinet::DcpServiceTypeEnum::Request);
 
 	base::Span block_span = _this_span.Slice(base::Range{10, _this_span.Size()});
 	_block_stream = std::shared_ptr<base::MemoryStream>{new base::MemoryStream{block_span}};
@@ -59,30 +43,32 @@ base::profinet::DcpHelloRequestWriter::DcpHelloRequestWriter(base::Span const &s
 
 base::profinet::DcpServiceIdEnum base::profinet::DcpHelloRequestWriter::ServiceId() const
 {
-	return static_cast<base::profinet::DcpServiceIdEnum>(_this_span[0]);
+	base::profinet::DcpHeaderWriter writer{_this_span};
+	return writer.ServiceId();
 }
 
 base::profinet::DcpServiceTypeEnum base::profinet::DcpHelloRequestWriter::ServiceType() const
 {
-	return static_cast<base::profinet::DcpServiceTypeEnum>(_this_span[1]);
+	base::profinet::DcpHeaderWriter writer{_this_span};
+	return writer.ServiceType();
 }
 
 uint32_t base::profinet::DcpHelloRequestWriter::Xid() const
 {
-	base::Span span = _this_span.Slice(base::Range{2, 6});
-	return _converter.ToUInt32(span);
+	base::profinet::DcpHeaderWriter writer{_this_span};
+	return writer.Xid();
 }
 
 void base::profinet::DcpHelloRequestWriter::SetXid(uint32_t value)
 {
-	base::Span span = _this_span.Slice(base::Range{2, 6});
-	_converter.GetBytes(value, span);
+	base::profinet::DcpHeaderWriter writer{_this_span};
+	writer.SetXid(value);
 }
 
 uint16_t base::profinet::DcpHelloRequestWriter::DataLength() const
 {
-	base::Span span = _this_span.Slice(base::Range{8, 10});
-	return _converter.ToUInt16(span);
+	base::profinet::DcpHeaderWriter writer{_this_span};
+	return writer.DataLength();
 }
 
 #pragma endregion
@@ -91,7 +77,8 @@ uint16_t base::profinet::DcpHelloRequestWriter::DataLength() const
 
 void base::profinet::DcpHelloRequestWriter::ClearAllBlocks()
 {
-	SetDataLength(0);
+	base::profinet::DcpHeaderWriter writer{_this_span};
+	writer.SetDataLength(0);
 	_block_stream->Clear();
 
 	// Blocks 区的有效数据长度为 0，只剩下头部的 10 字节是有效数据。

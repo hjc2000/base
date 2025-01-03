@@ -18,12 +18,7 @@ namespace base
 			base::AutoBitConverter _converter{std::endian::big};
 			std::shared_ptr<base::MemoryStream> _block_stream;
 
-#pragma region 私有属性设置函数
-			void SetServiceId(base::profinet::DcpServiceIdEnum value);
-			void SetServiceType(base::profinet::DcpServiceTypeEnum value);
-			void SetDataLength(uint16_t value);
 			void UpdateSize();
-#pragma endregion
 
 		public:
 			/// @brief 构造函数。
