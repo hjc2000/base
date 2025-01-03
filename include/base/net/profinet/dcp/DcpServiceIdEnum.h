@@ -1,5 +1,6 @@
 #pragma once
 #include <stdint.h>
+#include <string>
 
 namespace base
 {
@@ -14,4 +15,9 @@ namespace base
 			Hello = 0x06,
 		};
 	} // namespace profinet
+
+	/// @brief 将 DcpServiceIdEnum 转为字符串。
+	/// @param value
+	/// @return
+	std::string ToString(base::profinet::DcpServiceIdEnum value);
 } // namespace base
