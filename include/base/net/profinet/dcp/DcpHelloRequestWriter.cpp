@@ -99,30 +99,36 @@ void base::profinet::DcpHelloRequestWriter::ClearAllBlocks()
 
 void base::profinet::DcpHelloRequestWriter::PutNameOfStationBlock(std::string const &station_name)
 {
-	uint8_t option = 2;
-	_block_stream->Write(&option, 0, 1);
-
-	uint8_t suboption = 2;
-	_block_stream->Write(&suboption, 0, 1);
-
-	// 2 字节的 block_infos 加上实际的名称长度。
-	uint16_t dcp_block_length = 2 + station_name.size();
-	_converter.GetBytes(dcp_block_length, *_block_stream);
-
-	// 保留。始终为 0.
-	uint16_t block_info = 0;
-	_converter.GetBytes(block_info, *_block_stream);
-
-	// 将名称字符串写入流
-	_block_stream->Write(reinterpret_cast<uint8_t const *>(station_name.data()),
-						 0,
-						 station_name.size());
-
-	// 名称如果没有 2 字节对齐，需要填充。
-	if (station_name.size() % 2 != 0)
+	// Block 头部
 	{
-		uint8_t padding = 0;
-		_block_stream->Write(&padding, 0, 1);
+		uint8_t option = 2;
+		_block_stream->Write(&option, 0, 1);
+
+		uint8_t suboption = 2;
+		_block_stream->Write(&suboption, 0, 1);
+
+		// 2 字节的 block_infos 加上实际的名称长度。
+		uint16_t dcp_block_length = 2 + station_name.size();
+		_converter.GetBytes(dcp_block_length, *_block_stream);
+
+		// 保留。始终为 0.
+		uint16_t block_info = 0;
+		_converter.GetBytes(block_info, *_block_stream);
+	}
+
+	// Block 载荷
+	{
+		// 将名称字符串写入流
+		_block_stream->Write(reinterpret_cast<uint8_t const *>(station_name.data()),
+							 0,
+							 station_name.size());
+
+		// 名称如果没有 2 字节对齐，需要填充。
+		if (station_name.size() % 2 != 0)
+		{
+			uint8_t padding = 0;
+			_block_stream->Write(&padding, 0, 1);
+		}
 	}
 
 	UpdateSize();
@@ -133,22 +139,26 @@ void base::profinet::DcpHelloRequestWriter::PutIPAddressInfomationBlock(bool ip_
 																		base::IPAddress const &gateway,
 																		base::IPAddress const &netmask)
 {
-	uint8_t option = 1;
-	_block_stream->Write(&option, 0, 1);
+	// Block 头部
+	{
+		uint8_t option = 1;
+		_block_stream->Write(&option, 0, 1);
 
-	uint8_t suboption = 2;
-	_block_stream->Write(&suboption, 0, 1);
+		uint8_t suboption = 2;
+		_block_stream->Write(&suboption, 0, 1);
 
-	/**
-	 * IP 地址，网关，子网掩码，共 3 个 IP 地址，有 3*4=12 字节。
-	 * 还有 2 字节的 block_info.
-	 */
-	uint16_t const dcp_block_length = 2 + 3 * 4;
-	_converter.GetBytes(dcp_block_length, *_block_stream);
+		/**
+		 * IP 地址，网关，子网掩码，共 3 个 IP 地址，有 3*4=12 字节。
+		 * 还有 2 字节的 block_info.
+		 */
+		uint16_t const dcp_block_length = 2 + 3 * 4;
+		_converter.GetBytes(dcp_block_length, *_block_stream);
 
-	uint16_t block_info = ip_not_set ? 1 : 0;
-	_converter.GetBytes(block_info, *_block_stream);
+		uint16_t block_info = ip_not_set ? 1 : 0;
+		_converter.GetBytes(block_info, *_block_stream);
+	}
 
+	// Block 载荷
 	{
 		if (ip.Type() != base::IPAddressType::IPV4)
 		{
@@ -184,6 +194,58 @@ void base::profinet::DcpHelloRequestWriter::PutIPAddressInfomationBlock(bool ip_
 		ip_buffer_span.CopyFrom(gateway.AsReadOnlySpan());
 		ip_buffer_span.Reverse();
 		_block_stream->Write(ip_buffer_span.Buffer(), 0, ip_buffer_span.Size());
+	}
+
+	UpdateSize();
+}
+
+void base::profinet::DcpHelloRequestWriter::PutIdBlock(uint16_t vendor_id, uint16_t device_id)
+{
+	// Block 头部
+	{
+		uint8_t const option = 2;
+		_block_stream->Write(&option, 0, 1);
+
+		uint8_t const suboption = 3;
+		_block_stream->Write(&suboption, 0, 1);
+
+		uint16_t const dcp_block_length = 6;
+		_converter.GetBytes(dcp_block_length, *_block_stream);
+
+		uint16_t const block_info = 0;
+		_converter.GetBytes(block_info, *_block_stream);
+	}
+
+	// Block 载荷
+	{
+		_converter.GetBytes(vendor_id, *_block_stream);
+		_converter.GetBytes(device_id, *_block_stream);
+	}
+
+	UpdateSize();
+}
+
+void base::profinet::DcpHelloRequestWriter::PutOemIdBlock(uint16_t oem_vendor_id, uint16_t oem_device_id)
+{
+	// Block 头部
+	{
+		uint8_t const option = 2;
+		_block_stream->Write(&option, 0, 1);
+
+		uint8_t const suboption = 8;
+		_block_stream->Write(&suboption, 0, 1);
+
+		uint16_t const dcp_block_length = 6;
+		_converter.GetBytes(dcp_block_length, *_block_stream);
+
+		uint16_t const block_info = 0;
+		_converter.GetBytes(block_info, *_block_stream);
+	}
+
+	// Block 载荷
+	{
+		_converter.GetBytes(oem_vendor_id, *_block_stream);
+		_converter.GetBytes(oem_device_id, *_block_stream);
 	}
 
 	UpdateSize();

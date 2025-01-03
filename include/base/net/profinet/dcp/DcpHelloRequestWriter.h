@@ -77,6 +77,10 @@ namespace base
 											 base::IPAddress const &ip,
 											 base::IPAddress const &gateway,
 											 base::IPAddress const &netmask);
+
+			void PutIdBlock(uint16_t vendor_id, uint16_t device_id);
+
+			void PutOemIdBlock(uint16_t oem_vendor_id, uint16_t oem_device_id);
 #pragma endregion
 
 			/// @brief 整个以太网帧缓冲区中的有效数据 span.
