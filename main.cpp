@@ -26,4 +26,10 @@ int main()
 
 	base::profinet::DcpIdentifyRequestReader reader{base::ReadOnlySpan{buffer, sizeof(buffer)}};
 	std::cout << reader << std::endl;
+
+	int8_t a = -2;
+	int8_t b = -5;
+	uint16_t mul = static_cast<uint16_t>(a) * static_cast<uint16_t>(b);
+	int32_t result = static_cast<int16_t>(mul);
+	std::cout << result << std::endl;
 }
