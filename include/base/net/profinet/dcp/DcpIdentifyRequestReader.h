@@ -18,6 +18,10 @@ namespace base
 		private:
 			base::profinet::FidApduReader _fid_pdu_reader;
 			base::ReadOnlySpan _this_span;
+
+			/// @brief 这里使用了动态内存分配，会导致速度较慢。但是 DCP 对实时性要求不高，
+			/// 而且 DCP 并不会经常进行，只在配置的时候进行一次就结束了，所以用动态内存分配
+			/// 也没什么大问题。
 			std::shared_ptr<base::profinet::DcpHeaderReader> _header_reader;
 			std::shared_ptr<base::profinet::DcpTlvReader> _tlv_reader;
 
