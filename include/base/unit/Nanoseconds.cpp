@@ -20,22 +20,22 @@ base::Nanoseconds::Nanoseconds(int64_t value)
 
 base::Nanoseconds::Nanoseconds(base::Hz const &value)
 {
-	_value = static_cast<base::Fraction>(value).Reciprocal();
+	_value = static_cast<base::Fraction>(value).Reciprocal() * 1000 * 1000 * 1000;
 }
 
 base::Nanoseconds::Nanoseconds(std::chrono::seconds const &value)
 {
-	_value = value.count();
+	_value = base::Fraction{value.count()} * 1000 * 1000 * 1000;
 }
 
 base::Nanoseconds::Nanoseconds(std::chrono::milliseconds const &value)
 {
-	_value = base::Fraction{value.count()} / 1000;
+	_value = base::Fraction{value.count()} * 1000 * 1000;
 }
 
 base::Nanoseconds::Nanoseconds(std::chrono::microseconds const &value)
 {
-	_value = base::Fraction{value.count()} / 1000 / 1000;
+	_value = base::Fraction{value.count()} * 1000;
 }
 
 base::Nanoseconds &base::Nanoseconds::operator=(Nanoseconds const &o)
