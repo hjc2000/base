@@ -3,8 +3,6 @@
 #include <numeric>
 #include <stdexcept>
 
-using namespace base;
-
 #pragma region 生命周期
 
 base::Fraction::Fraction(int64_t num)
@@ -25,7 +23,7 @@ base::Fraction::Fraction(Fraction const &o)
 	SetDen(o.Den());
 }
 
-Fraction &base::Fraction::operator=(Fraction const &o)
+base::Fraction &base::Fraction::operator=(Fraction const &o)
 {
 	SetNum(o.Num());
 	SetDen(o.Den());
@@ -59,7 +57,7 @@ void base::Fraction::SetDen(int64_t value)
 	_den = value;
 }
 
-Fraction base::Fraction::Simplify() const
+base::Fraction base::Fraction::Simplify() const
 {
 	if (_den == 0)
 	{
@@ -82,9 +80,9 @@ Fraction base::Fraction::Simplify() const
 	return ret;
 }
 
-Fraction base::Fraction::Reciprocal() const
+base::Fraction base::Fraction::Reciprocal() const
 {
-	Fraction ret{_den, _num};
+	base::Fraction ret{_den, _num};
 	return ret.Simplify();
 }
 
@@ -127,13 +125,13 @@ int64_t base::Fraction::Ceil() const
 	return ret;
 }
 
-Fraction base::Fraction::operator-() const
+base::Fraction base::Fraction::operator-() const
 {
 	Fraction ret{-_num, _den};
 	return ret.Simplify();
 }
 
-Fraction base::Fraction::operator+(Fraction const &value) const
+base::Fraction base::Fraction::operator+(Fraction const &value) const
 {
 	// 通分后的分母为本对象的分母和 value 的分母的最小公倍数
 	int64_t scaled_den = std::lcm(_den, value.Den());
@@ -150,45 +148,45 @@ Fraction base::Fraction::operator+(Fraction const &value) const
 	return ret.Simplify();
 }
 
-Fraction base::Fraction::operator-(Fraction const &value) const
+base::Fraction base::Fraction::operator-(Fraction const &value) const
 {
 	Fraction ret = *this + (-value);
 	return ret.Simplify();
 }
 
-Fraction base::Fraction::operator*(Fraction const &value) const
+base::Fraction base::Fraction::operator*(Fraction const &value) const
 {
-	Fraction ret;
+	base::Fraction ret;
 	ret.SetNum(_num * value.Num());
 	ret.SetDen(_den * value.Den());
 	return ret.Simplify();
 }
 
-Fraction base::Fraction::operator/(Fraction const &value) const
+base::Fraction base::Fraction::operator/(Fraction const &value) const
 {
 	Fraction ret{*this * value.Reciprocal()};
 	return ret.Simplify();
 }
 
-Fraction &base::Fraction::operator+=(Fraction const &value)
+base::Fraction &base::Fraction::operator+=(Fraction const &value)
 {
 	*this = *this + value;
 	return *this;
 }
 
-Fraction &base::Fraction::operator-=(Fraction const &value)
+base::Fraction &base::Fraction::operator-=(Fraction const &value)
 {
 	*this = *this - value;
 	return *this;
 }
 
-Fraction &base::Fraction::operator*=(Fraction const &value)
+base::Fraction &base::Fraction::operator*=(Fraction const &value)
 {
 	*this = *this * value;
 	return *this;
 }
 
-Fraction &base::Fraction::operator/=(Fraction const &value)
+base::Fraction &base::Fraction::operator/=(Fraction const &value)
 {
 	*this = *this / value;
 	return *this;
