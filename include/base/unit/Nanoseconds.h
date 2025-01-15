@@ -158,3 +158,9 @@ namespace base
 		}
 	};
 } // namespace base
+
+std::ostream &operator<<(std::ostream &ostream, base::Nanoseconds const &right);
+base::Nanoseconds operator+(int64_t left, base::Nanoseconds const &right);
+base::Nanoseconds operator-(int64_t left, base::Nanoseconds const &right);
+base::Nanoseconds operator*(int64_t left, base::Nanoseconds const &right);
+base::Nanoseconds operator/(int64_t left, base::Nanoseconds const &right);

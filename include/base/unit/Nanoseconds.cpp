@@ -51,3 +51,33 @@ base::Nanoseconds &base::Nanoseconds::operator=(Nanoseconds const &o)
 }
 
 #pragma endregion
+
+#pragma region 重载全局运算符
+
+std::ostream &operator<<(std::ostream &ostream, base::Nanoseconds const &right)
+{
+	ostream << static_cast<base::Fraction>(right);
+	return ostream;
+}
+
+base::Nanoseconds operator+(int64_t left, base::Nanoseconds const &right)
+{
+	return left + static_cast<base::Fraction>(right);
+}
+
+base::Nanoseconds operator-(int64_t left, base::Nanoseconds const &right)
+{
+	return left - static_cast<base::Fraction>(right);
+}
+
+base::Nanoseconds operator*(int64_t left, base::Nanoseconds const &right)
+{
+	return left * static_cast<base::Fraction>(right);
+}
+
+base::Nanoseconds operator/(int64_t left, base::Nanoseconds const &right)
+{
+	return left / static_cast<base::Fraction>(right);
+}
+
+#pragma endregion
