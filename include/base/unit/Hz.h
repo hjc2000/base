@@ -4,113 +4,169 @@
 
 namespace base
 {
-    class Seconds;
+	class Seconds;
 
-    /// @brief 频率单位：Hz.
-    class Hz :
-        public base::ICanToString
-    {
-    private:
-        base::Fraction _value{1};
+	/// @brief 频率单位：Hz.
+	class Hz :
+		public base::ICanToString
+	{
+	private:
+		base::Fraction _value{1};
 
-    public:
+	public:
 #pragma region 生命周期
-        /// @brief 0Hz
-        Hz() = default;
+		/// @brief 0Hz
+		Hz() = default;
 
-        /// @brief 拷贝构造函数。
-        /// @param o
-        Hz(Hz const &o);
+		/// @brief 拷贝构造函数。
+		/// @param o
+		Hz(Hz const &o);
 
-        /// @brief 从分数构造频率。
-        /// @param value
-        Hz(base::Fraction const &value);
+		/// @brief 从分数构造频率。
+		/// @param value
+		Hz(base::Fraction const &value);
 
-        /// @brief 构造整数频率。
-        /// @param value
-        Hz(int64_t value);
+		/// @brief 构造整数频率。
+		/// @param value
+		Hz(int64_t value);
 
-        /// @brief 从秒构造频率。Hz 是 s 的倒数。
-        /// @param value
-        Hz(base::Seconds const &value);
+		/// @brief 从秒构造频率。Hz 是 s 的倒数。
+		/// @param value
+		Hz(base::Seconds const &value);
 
-        /// @brief 赋值运算符。
-        /// @param o
-        /// @return
-        Hz &operator=(Hz const &o);
+		/// @brief 赋值运算符。
+		/// @param o
+		/// @return
+		Hz &operator=(Hz const &o);
 #pragma endregion
 
 #pragma region 强制转换
 
-        explicit operator base::Fraction() const
-        {
-            return _value;
-        }
+		explicit operator base::Fraction() const
+		{
+			return _value;
+		}
 
-        explicit operator int64_t() const
-        {
-            return static_cast<int64_t>(_value);
-        }
+		explicit operator int64_t() const
+		{
+			return static_cast<int64_t>(_value);
+		}
 
-        explicit operator double() const
-        {
-            return static_cast<double>(_value);
-        }
+		explicit operator double() const
+		{
+			return static_cast<double>(_value);
+		}
 
-        explicit operator std::string() const
-        {
-            return static_cast<std::string>(_value);
-        }
+		explicit operator std::string() const
+		{
+			return static_cast<std::string>(_value);
+		}
 
 #pragma endregion
 
-        Hz operator-() const;
-        Hz operator+(Hz const &value) const;
-        Hz operator-(Hz const &value) const;
-        Hz operator*(Hz const &value) const;
-        Hz operator/(Hz const &value) const;
+		/// @brief 向下取整
+		/// @return
+		int64_t Floor() const
+		{
+			return _value.Floor();
+		}
 
-        Hz &operator+=(Hz const &value);
-        Hz &operator-=(Hz const &value);
-        Hz &operator*=(Hz const &value);
-        Hz &operator/=(Hz const &value);
+		/// @brief 向上取整
+		/// @return
+		int64_t Ceil() const
+		{
+			return _value.Ceil();
+		}
+
+#pragma region 四则运算符
+
+		Hz operator-() const
+		{
+			return -_value;
+		}
+
+		Hz operator+(Hz const &value) const
+		{
+			return _value + static_cast<base::Fraction>(value);
+		}
+
+		Hz operator-(Hz const &value) const
+		{
+			return _value - static_cast<base::Fraction>(value);
+		}
+
+		Hz operator*(Hz const &value) const
+		{
+			return _value * static_cast<base::Fraction>(value);
+		}
+
+		Hz operator/(Hz const &value) const
+		{
+			return _value / static_cast<base::Fraction>(value);
+		}
+
+		Hz &operator+=(Hz const &value)
+		{
+			_value += static_cast<base::Fraction>(value);
+			return *this;
+		}
+
+		Hz &operator-=(Hz const &value)
+		{
+			_value -= static_cast<base::Fraction>(value);
+			return *this;
+		}
+
+		Hz &operator*=(Hz const &value)
+		{
+			_value *= static_cast<base::Fraction>(value);
+			return *this;
+		}
+
+		Hz &operator/=(Hz const &value)
+		{
+			_value /= static_cast<base::Fraction>(value);
+			return *this;
+		}
+
+#pragma endregion
 
 #pragma region 比较运算符
 
-        bool operator==(Hz const &value) const
-        {
-            return _value == value._value;
-        }
+		bool operator==(Hz const &value) const
+		{
+			return _value == value._value;
+		}
 
-        bool operator<(Hz const &value) const
-        {
-            return _value < value._value;
-        }
+		bool operator<(Hz const &value) const
+		{
+			return _value < value._value;
+		}
 
-        bool operator>(Hz const &value) const
-        {
-            return _value > value._value;
-        }
+		bool operator>(Hz const &value) const
+		{
+			return _value > value._value;
+		}
 
-        bool operator<=(Hz const &value) const
-        {
-            return _value <= value._value;
-        }
+		bool operator<=(Hz const &value) const
+		{
+			return _value <= value._value;
+		}
 
-        bool operator>=(Hz const &value) const
-        {
-            return _value >= value._value;
-        }
+		bool operator>=(Hz const &value) const
+		{
+			return _value >= value._value;
+		}
 
 #pragma endregion
 
-        /// @brief 转化为字符串
-        /// @return
-        std::string ToString() const override
-        {
-            return _value.ToString();
-        }
-    };
+		/// @brief 转化为字符串
+		/// @return
+		std::string ToString() const override
+		{
+			return _value.ToString();
+		}
+	};
 } // namespace base
 
 std::ostream &operator<<(std::ostream &ostream, base::Hz const &right);
