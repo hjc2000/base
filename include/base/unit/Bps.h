@@ -94,7 +94,10 @@ namespace base
 
 		/// @brief 转化为字符串
 		/// @return
-		std::string ToString() const override;
+		std::string ToString() const override
+		{
+			return _value.ToString();
+		}
 	};
 } // namespace base
 
