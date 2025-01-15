@@ -23,16 +23,6 @@ namespace base
 		base::Bps &operator=(Bps const &o);
 #pragma endregion
 
-		base::Fraction &Value()
-		{
-			return _value;
-		}
-
-		base::Fraction const &Value() const
-		{
-			return _value;
-		}
-
 #pragma region 强制转换运算符
 
 		explicit operator base::Fraction() const
@@ -56,6 +46,20 @@ namespace base
 		}
 
 #pragma endregion
+
+		/// @brief 向下取整
+		/// @return
+		int64_t Floor() const
+		{
+			return _value.Floor();
+		}
+
+		/// @brief 向上取整
+		/// @return
+		int64_t Ceil() const
+		{
+			return _value.Ceil();
+		}
 
 #pragma region 四则运算符
 		base::Bps operator-() const;
@@ -106,3 +110,16 @@ base::Bps operator+(int64_t left, base::Bps const &right);
 base::Bps operator-(int64_t left, base::Bps const &right);
 base::Bps operator*(int64_t left, base::Bps const &right);
 base::Bps operator/(int64_t left, base::Bps const &right);
+
+namespace std
+{
+	/// @brief 向下取整
+	/// @param value
+	/// @return
+	int64_t floor(base::Bps const &value);
+
+	/// @brief 向上取整
+	/// @param value
+	/// @return
+	int64_t ceil(base::Bps const &value);
+} // namespace std

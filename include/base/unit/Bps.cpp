@@ -211,3 +211,13 @@ base::Bps operator/(int64_t left, base::Bps const &right)
 }
 
 #pragma endregion
+
+int64_t std::floor(base::Bps const &value)
+{
+	return value.Floor();
+}
+
+int64_t std::ceil(base::Bps const &value)
+{
+	return value.Ceil();
+}

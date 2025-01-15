@@ -20,7 +20,7 @@ base::Mbps::Mbps(Mbps const &o)
 
 base::Mbps::Mbps(base::Bps const &o)
 {
-	_value = o.Value() / 1000 / 1000;
+	_value = static_cast<base::Fraction>(o) / 1000 / 1000;
 }
 
 base::Mbps &base::Mbps::operator=(Mbps const &o)
