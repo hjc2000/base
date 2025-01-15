@@ -48,6 +48,20 @@ namespace base
 
 #pragma endregion
 
+		/// @brief 向下取整
+		/// @return
+		int64_t Floor() const
+		{
+			return _value.Floor();
+		}
+
+		/// @brief 向上取整
+		/// @return
+		int64_t Ceil() const
+		{
+			return _value.Ceil();
+		}
+
 #pragma region 四则运算符
 
 		base::Mbps operator-() const
@@ -213,3 +227,16 @@ base::Mbps operator+(int64_t left, base::Mbps const &right);
 base::Mbps operator-(int64_t left, base::Mbps const &right);
 base::Mbps operator*(int64_t left, base::Mbps const &right);
 base::Mbps operator/(int64_t left, base::Mbps const &right);
+
+namespace std
+{
+	/// @brief 向下取整
+	/// @param value
+	/// @return
+	int64_t floor(base::Mbps const &value);
+
+	/// @brief 向上取整
+	/// @param value
+	/// @return
+	int64_t ceil(base::Mbps const &value);
+} // namespace std

@@ -60,3 +60,13 @@ base::Mbps operator/(int64_t left, base::Mbps const &right)
 }
 
 #pragma endregion
+
+int64_t std::floor(base::Mbps const &value)
+{
+	return value.Floor();
+}
+
+int64_t std::ceil(base::Mbps const &value)
+{
+	return value.Ceil();
+}
