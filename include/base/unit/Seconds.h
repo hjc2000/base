@@ -68,6 +68,20 @@ namespace base
 
 #pragma endregion
 
+		/// @brief 向下取整
+		/// @return
+		int64_t Floor() const
+		{
+			return _value.Floor();
+		}
+
+		/// @brief 向上取整
+		/// @return
+		int64_t Ceil() const
+		{
+			return _value.Ceil();
+		}
+
 #pragma region 四则运算符
 
 		Seconds operator-() const
