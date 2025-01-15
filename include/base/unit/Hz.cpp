@@ -60,3 +60,13 @@ base::Hz operator/(int64_t left, base::Hz const &right)
 }
 
 #pragma endregion
+
+int64_t std::floor(base::Hz const &value)
+{
+	return value.Floor();
+}
+
+int64_t std::ceil(base::Hz const &value)
+{
+	return value.Ceil();
+}

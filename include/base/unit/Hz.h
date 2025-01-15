@@ -174,3 +174,16 @@ base::Hz operator+(int64_t left, base::Hz const &right);
 base::Hz operator-(int64_t left, base::Hz const &right);
 base::Hz operator*(int64_t left, base::Hz const &right);
 base::Hz operator/(int64_t left, base::Hz const &right);
+
+namespace std
+{
+	/// @brief 向下取整
+	/// @param value
+	/// @return
+	int64_t floor(base::Hz const &value);
+
+	/// @brief 向上取整
+	/// @param value
+	/// @return
+	int64_t ceil(base::Hz const &value);
+} // namespace std
