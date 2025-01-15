@@ -69,16 +69,56 @@ namespace base
 #pragma endregion
 
 #pragma region 四则运算符
-		Nanoseconds operator-() const;
-		Nanoseconds operator+(Nanoseconds const &value) const;
-		Nanoseconds operator-(Nanoseconds const &value) const;
-		Nanoseconds operator*(Nanoseconds const &value) const;
-		Nanoseconds operator/(Nanoseconds const &value) const;
 
-		Nanoseconds &operator+=(Nanoseconds const &value);
-		Nanoseconds &operator-=(Nanoseconds const &value);
-		Nanoseconds &operator*=(Nanoseconds const &value);
-		Nanoseconds &operator/=(Nanoseconds const &value);
+		Nanoseconds operator-() const
+		{
+			return -_value;
+		}
+
+		Nanoseconds operator+(Nanoseconds const &value) const
+		{
+			return _value + static_cast<base::Fraction>(value);
+		}
+
+		Nanoseconds operator-(Nanoseconds const &value) const
+		{
+			return _value - static_cast<base::Fraction>(value);
+		}
+
+		Nanoseconds operator*(Nanoseconds const &value) const
+		{
+			return _value * static_cast<base::Fraction>(value);
+		}
+
+		Nanoseconds operator/(Nanoseconds const &value) const
+		{
+			return _value / static_cast<base::Fraction>(value);
+		}
+
+		Nanoseconds &operator+=(Nanoseconds const &value)
+		{
+			_value += static_cast<base::Fraction>(value);
+			return *this;
+		}
+
+		Nanoseconds &operator-=(Nanoseconds const &value)
+		{
+			_value -= static_cast<base::Fraction>(value);
+			return *this;
+		}
+
+		Nanoseconds &operator*=(Nanoseconds const &value)
+		{
+			_value *= static_cast<base::Fraction>(value);
+			return *this;
+		}
+
+		Nanoseconds &operator/=(Nanoseconds const &value)
+		{
+			_value /= static_cast<base::Fraction>(value);
+			return *this;
+		}
+
 #pragma endregion
 
 #pragma region 比较运算符

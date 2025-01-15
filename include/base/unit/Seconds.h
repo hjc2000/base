@@ -75,15 +75,50 @@ namespace base
 			return -_value;
 		}
 
-		Seconds operator+(Seconds const &value) const;
-		Seconds operator-(Seconds const &value) const;
-		Seconds operator*(Seconds const &value) const;
-		Seconds operator/(Seconds const &value) const;
+		Seconds operator+(Seconds const &value) const
+		{
+			return _value + static_cast<base::Fraction>(value);
+		}
 
-		Seconds &operator+=(Seconds const &value);
-		Seconds &operator-=(Seconds const &value);
-		Seconds &operator*=(Seconds const &value);
-		Seconds &operator/=(Seconds const &value);
+		Seconds operator-(Seconds const &value) const
+		{
+			return _value - static_cast<base::Fraction>(value);
+		}
+
+		Seconds operator*(Seconds const &value) const
+		{
+			return _value * static_cast<base::Fraction>(value);
+		}
+
+		Seconds operator/(Seconds const &value) const
+		{
+			return _value / static_cast<base::Fraction>(value);
+		}
+
+		Seconds &operator+=(Seconds const &value)
+		{
+			_value += static_cast<base::Fraction>(value);
+			return *this;
+		}
+
+		Seconds &operator-=(Seconds const &value)
+		{
+			_value -= static_cast<base::Fraction>(value);
+			return *this;
+		}
+
+		Seconds &operator*=(Seconds const &value)
+		{
+			_value *= static_cast<base::Fraction>(value);
+			return *this;
+		}
+
+		Seconds &operator/=(Seconds const &value)
+		{
+			_value /= static_cast<base::Fraction>(value);
+			return *this;
+		}
+
 #pragma endregion
 
 #pragma region 比较运算符

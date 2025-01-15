@@ -31,7 +31,7 @@ base::Seconds::Seconds(base::Hz const &value)
 
 base::Seconds::Seconds(std::chrono::seconds const &value)
 {
-	_value = value.count();
+	_value = base::Fraction{value.count()};
 }
 
 base::Seconds::Seconds(std::chrono::milliseconds const &value)
@@ -47,54 +47,6 @@ base::Seconds::Seconds(std::chrono::microseconds const &value)
 base::Seconds &base::Seconds::operator=(Seconds const &o)
 {
 	_value = o._value;
-	return *this;
-}
-
-#pragma endregion
-
-#pragma region 重载四则运算符
-
-base::Seconds base::Seconds::operator+(Seconds const &value) const
-{
-	return _value + static_cast<base::Fraction>(value);
-}
-
-base::Seconds base::Seconds::operator-(Seconds const &value) const
-{
-	return _value - static_cast<base::Fraction>(value);
-}
-
-base::Seconds base::Seconds::operator*(Seconds const &value) const
-{
-	return _value * static_cast<base::Fraction>(value);
-}
-
-base::Seconds base::Seconds::operator/(Seconds const &value) const
-{
-	return _value / static_cast<base::Fraction>(value);
-}
-
-base::Seconds &base::Seconds::operator+=(Seconds const &value)
-{
-	_value += static_cast<base::Fraction>(value);
-	return *this;
-}
-
-base::Seconds &base::Seconds::operator-=(Seconds const &value)
-{
-	_value -= static_cast<base::Fraction>(value);
-	return *this;
-}
-
-base::Seconds &base::Seconds::operator*=(Seconds const &value)
-{
-	_value *= static_cast<base::Fraction>(value);
-	return *this;
-}
-
-base::Seconds &base::Seconds::operator/=(Seconds const &value)
-{
-	_value /= static_cast<base::Fraction>(value);
 	return *this;
 }
 
