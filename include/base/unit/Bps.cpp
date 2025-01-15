@@ -15,7 +15,7 @@ base::Bps::Bps(base::Fraction const &o)
 
 base::Bps::Bps(Mbps const &o)
 {
-	_value = o.Value() * 1000 * 1000;
+	_value = static_cast<base::Fraction>(o) * 1000 * 1000;
 }
 
 base::Bps::Bps(Bps const &o)

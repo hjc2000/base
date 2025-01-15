@@ -24,16 +24,6 @@ namespace base
 		base::Mbps &operator=(Mbps const &o);
 #pragma endregion
 
-		base::Fraction &Value()
-		{
-			return _value;
-		}
-
-		base::Fraction const &Value() const
-		{
-			return _value;
-		}
-
 #pragma region 强制转换运算符
 
 		explicit operator base::Fraction() const
@@ -59,43 +49,162 @@ namespace base
 #pragma endregion
 
 #pragma region 四则运算符
-		base::Mbps operator-() const;
-		base::Mbps operator+(Mbps const &value) const;
-		base::Mbps operator-(Mbps const &value) const;
-		base::Mbps operator*(Mbps const &value) const;
-		base::Mbps operator/(Mbps const &value) const;
-		base::Mbps &operator+=(Mbps const &value);
-		base::Mbps &operator-=(Mbps const &value);
-		base::Mbps &operator*=(Mbps const &value);
-		base::Mbps &operator/=(Mbps const &value);
 
-		base::Mbps operator+(base::Bps const &value) const;
-		base::Mbps operator-(base::Bps const &value) const;
-		base::Mbps operator*(base::Bps const &value) const;
-		base::Mbps operator/(base::Bps const &value) const;
-		base::Mbps &operator+=(base::Bps const &value);
-		base::Mbps &operator-=(base::Bps const &value);
-		base::Mbps &operator*=(base::Bps const &value);
-		base::Mbps &operator/=(base::Bps const &value);
+		base::Mbps operator-() const
+		{
+			return -_value;
+		}
+
+		base::Mbps operator+(Mbps const &value) const
+		{
+			return _value + static_cast<base::Fraction>(value);
+		}
+
+		base::Mbps operator-(Mbps const &value) const
+		{
+			return _value - static_cast<base::Fraction>(value);
+		}
+
+		base::Mbps operator*(Mbps const &value) const
+		{
+			return _value * static_cast<base::Fraction>(value);
+		}
+
+		base::Mbps operator/(Mbps const &value) const
+		{
+			return _value / static_cast<base::Fraction>(value);
+		}
+
+		base::Mbps &operator+=(Mbps const &value)
+		{
+			_value += static_cast<base::Fraction>(value);
+			return *this;
+		}
+
+		base::Mbps &operator-=(Mbps const &value)
+		{
+			_value -= static_cast<base::Fraction>(value);
+			return *this;
+		}
+
+		base::Mbps &operator*=(Mbps const &value)
+		{
+			_value *= static_cast<base::Fraction>(value);
+			return *this;
+		}
+
+		base::Mbps &operator/=(Mbps const &value)
+		{
+			_value /= static_cast<base::Fraction>(value);
+			return *this;
+		}
+
+		base::Mbps operator+(base::Bps const &value) const
+		{
+			return *this + base::Mbps{value};
+		}
+
+		base::Mbps operator-(base::Bps const &value) const
+		{
+			return *this - base::Mbps{value};
+		}
+
+		base::Mbps operator*(base::Bps const &value) const
+		{
+			return *this * base::Mbps{value};
+		}
+
+		base::Mbps operator/(base::Bps const &value) const
+		{
+			return *this / base::Mbps{value};
+		}
+
+		base::Mbps &operator+=(base::Bps const &value)
+		{
+			*this += base::Mbps{value};
+			return *this;
+		}
+
+		base::Mbps &operator-=(base::Bps const &value)
+		{
+			*this -= base::Mbps{value};
+			return *this;
+		}
+
+		base::Mbps &operator*=(base::Bps const &value)
+		{
+			*this *= base::Mbps{value};
+			return *this;
+		}
+
+		base::Mbps &operator/=(base::Bps const &value)
+		{
+			*this /= base::Mbps{value};
+			return *this;
+		}
+
 #pragma endregion
 
 #pragma region 比较运算符
-		bool operator==(Mbps const &value) const;
-		bool operator<(Mbps const &value) const;
-		bool operator>(Mbps const &value) const;
-		bool operator<=(Mbps const &value) const;
-		bool operator>=(Mbps const &value) const;
 
-		bool operator==(base::Bps const &value) const;
-		bool operator<(base::Bps const &value) const;
-		bool operator>(base::Bps const &value) const;
-		bool operator<=(base::Bps const &value) const;
-		bool operator>=(base::Bps const &value) const;
+		bool operator==(Mbps const &value) const
+		{
+			return _value == value._value;
+		}
+
+		bool operator<(Mbps const &value) const
+		{
+			return _value < value._value;
+		}
+
+		bool operator>(Mbps const &value) const
+		{
+			return _value > value._value;
+		}
+
+		bool operator<=(Mbps const &value) const
+		{
+			return _value <= value._value;
+		}
+
+		bool operator>=(Mbps const &value) const
+		{
+			return _value >= value._value;
+		}
+
+		bool operator==(base::Bps const &value) const
+		{
+			return *this == base::Mbps{value};
+		}
+
+		bool operator<(base::Bps const &value) const
+		{
+			return *this < base::Mbps{value};
+		}
+
+		bool operator>(base::Bps const &value) const
+		{
+			return *this > base::Mbps{value};
+		}
+
+		bool operator<=(base::Bps const &value) const
+		{
+			return *this <= base::Mbps{value};
+		}
+
+		bool operator>=(base::Bps const &value) const
+		{
+			return *this >= base::Mbps{value};
+		}
+
 #pragma endregion
 
 		/// @brief 转化为字符串
 		/// @return
-		std::string ToString() const override;
+		std::string ToString() const override
+		{
+			return _value.ToString();
+		}
 	};
 } // namespace base
 
