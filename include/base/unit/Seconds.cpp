@@ -1,5 +1,6 @@
 #include "Seconds.h"
 #include <base/unit/Hz.h>
+#include <base/unit/Nanoseconds.h>
 
 #pragma region 生命周期
 
@@ -16,6 +17,11 @@ base::Seconds::Seconds(base::Fraction const &value)
 base::Seconds::Seconds(int64_t value)
 {
 	_value = value;
+}
+
+base::Seconds::Seconds(base::Nanoseconds const &value)
+{
+	_value = static_cast<base::Fraction>(value) / 1000 / 1000 / 1000;
 }
 
 base::Seconds::Seconds(base::Hz const &value)
