@@ -60,7 +60,7 @@ namespace base
 
 			/// @brief 序列化为 json
 			/// @return
-			Json ToJson() const override;
+			base::Json ToJson() const override;
 		};
 	} // namespace ethernet
 } // namespace base
