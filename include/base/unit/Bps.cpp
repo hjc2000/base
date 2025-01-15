@@ -33,16 +33,6 @@ base::Bps &base::Bps::operator=(Bps const &o)
 
 #pragma region 四则运算符
 
-base::Bps base::Bps::operator-() const
-{
-	return -_value;
-}
-
-base::Bps base::Bps::operator+(Bps const &value) const
-{
-	return _value + static_cast<base::Fraction>(value);
-}
-
 base::Bps base::Bps::operator-(Bps const &value) const
 {
 	return _value - static_cast<base::Fraction>(value);

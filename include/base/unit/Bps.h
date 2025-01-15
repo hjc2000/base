@@ -62,8 +62,17 @@ namespace base
 		}
 
 #pragma region 四则运算符
-		base::Bps operator-() const;
-		base::Bps operator+(Bps const &value) const;
+
+		base::Bps operator-() const
+		{
+			return -_value;
+		}
+
+		base::Bps operator+(Bps const &value) const
+		{
+			return _value + static_cast<base::Fraction>(value);
+		}
+
 		base::Bps operator-(Bps const &value) const;
 		base::Bps operator*(Bps const &value) const;
 		base::Bps operator/(Bps const &value) const;
