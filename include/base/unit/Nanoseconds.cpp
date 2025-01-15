@@ -81,3 +81,13 @@ base::Nanoseconds operator/(int64_t left, base::Nanoseconds const &right)
 }
 
 #pragma endregion
+
+int64_t std::floor(base::Nanoseconds const &value)
+{
+	return value.Floor();
+}
+
+int64_t std::ceil(base::Nanoseconds const &value)
+{
+	return value.Ceil();
+}

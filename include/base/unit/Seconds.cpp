@@ -81,3 +81,13 @@ base::Seconds operator/(int64_t left, base::Seconds const &right)
 }
 
 #pragma endregion
+
+int64_t std::floor(base::Seconds const &value)
+{
+	return value.Floor();
+}
+
+int64_t std::ceil(base::Seconds const &value)
+{
+	return value.Ceil();
+}

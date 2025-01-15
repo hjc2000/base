@@ -178,3 +178,16 @@ base::Nanoseconds operator+(int64_t left, base::Nanoseconds const &right);
 base::Nanoseconds operator-(int64_t left, base::Nanoseconds const &right);
 base::Nanoseconds operator*(int64_t left, base::Nanoseconds const &right);
 base::Nanoseconds operator/(int64_t left, base::Nanoseconds const &right);
+
+namespace std
+{
+	/// @brief 向下取整
+	/// @param value
+	/// @return
+	int64_t floor(base::Nanoseconds const &value);
+
+	/// @brief 向上取整
+	/// @param value
+	/// @return
+	int64_t ceil(base::Nanoseconds const &value);
+} // namespace std

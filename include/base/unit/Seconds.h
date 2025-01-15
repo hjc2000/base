@@ -178,3 +178,16 @@ base::Seconds operator+(int64_t left, base::Seconds const &right);
 base::Seconds operator-(int64_t left, base::Seconds const &right);
 base::Seconds operator*(int64_t left, base::Seconds const &right);
 base::Seconds operator/(int64_t left, base::Seconds const &right);
+
+namespace std
+{
+	/// @brief 向下取整
+	/// @param value
+	/// @return
+	int64_t floor(base::Seconds const &value);
+
+	/// @brief 向上取整
+	/// @param value
+	/// @return
+	int64_t ceil(base::Seconds const &value);
+} // namespace std
