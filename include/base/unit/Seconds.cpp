@@ -52,51 +52,7 @@ base::Seconds &base::Seconds::operator=(Seconds const &o)
 
 #pragma endregion
 
-#pragma region 重载强制转换运算符
-
-base::Seconds::operator base::Fraction() const
-{
-	return _value;
-}
-
-base::Seconds::operator std::chrono::seconds() const
-{
-	return std::chrono::seconds{static_cast<int64_t>(_value)};
-}
-
-base::Seconds::operator std::chrono::milliseconds() const
-{
-	return std::chrono::milliseconds{static_cast<int64_t>(_value * 1000)};
-}
-
-base::Seconds::operator std::chrono::microseconds() const
-{
-	return std::chrono::microseconds{static_cast<int64_t>(_value * 1000 * 1000)};
-}
-
-base::Seconds::operator int64_t() const
-{
-	return static_cast<int64_t>(_value);
-}
-
-base::Seconds::operator double() const
-{
-	return static_cast<double>(_value);
-}
-
-base::Seconds::operator std::string() const
-{
-	return static_cast<std::string>(_value);
-}
-
-#pragma endregion
-
 #pragma region 重载四则运算符
-
-base::Seconds base::Seconds::operator-() const
-{
-	return -_value;
-}
 
 base::Seconds base::Seconds::operator+(Seconds const &value) const
 {

@@ -30,17 +30,51 @@ namespace base
 #pragma endregion
 
 #pragma region 强制转换
-		explicit operator base::Fraction() const;
-		explicit operator std::chrono::seconds() const;
-		explicit operator std::chrono::milliseconds() const;
-		explicit operator std::chrono::microseconds() const;
-		explicit operator int64_t() const;
-		explicit operator double() const;
-		explicit operator std::string() const;
+
+		explicit operator base::Fraction() const
+		{
+			return _value;
+		}
+
+		explicit operator std::chrono::seconds() const
+		{
+			return std::chrono::seconds{static_cast<int64_t>(_value)};
+		}
+
+		explicit operator std::chrono::milliseconds() const
+		{
+			return std::chrono::milliseconds{static_cast<int64_t>(_value * 1000)};
+		}
+
+		explicit operator std::chrono::microseconds() const
+		{
+			return std::chrono::microseconds{static_cast<int64_t>(_value * 1000 * 1000)};
+		}
+
+		explicit operator int64_t() const
+		{
+			return static_cast<int64_t>(_value);
+		}
+
+		explicit operator double() const
+		{
+			return static_cast<double>(_value);
+		}
+
+		explicit operator std::string() const
+		{
+			return static_cast<std::string>(_value);
+		}
+
 #pragma endregion
 
 #pragma region 四则运算符
-		Seconds operator-() const;
+
+		Seconds operator-() const
+		{
+			return -_value;
+		}
+
 		Seconds operator+(Seconds const &value) const;
 		Seconds operator-(Seconds const &value) const;
 		Seconds operator*(Seconds const &value) const;
