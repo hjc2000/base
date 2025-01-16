@@ -17,13 +17,13 @@ namespace base
 	public:
 		Seconds() = default;
 		Seconds(Seconds const &o);
-		Seconds(base::Fraction const &value);
-		Seconds(int64_t value);
-		Seconds(base::Nanoseconds const &value);
-		Seconds(base::Hz const &value);
-		Seconds(std::chrono::seconds const &value);
-		Seconds(std::chrono::milliseconds const &value);
-		Seconds(std::chrono::microseconds const &value);
+		explicit Seconds(base::Fraction const &value);
+		explicit Seconds(int64_t value);
+		explicit Seconds(base::Nanoseconds const &value);
+		explicit Seconds(base::Hz const &value);
+		explicit Seconds(std::chrono::seconds const &value);
+		explicit Seconds(std::chrono::milliseconds const &value);
+		explicit Seconds(std::chrono::microseconds const &value);
 		Seconds &operator=(Seconds const &o);
 
 		virtual base::Fraction &Value() override
