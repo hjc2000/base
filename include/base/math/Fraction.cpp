@@ -224,11 +224,6 @@ base::Fraction::operator double() const
 	return ToDouble();
 }
 
-base::Fraction::operator std::string() const
-{
-	return ToString();
-}
-
 #pragma endregion
 
 #pragma region 比较运算符

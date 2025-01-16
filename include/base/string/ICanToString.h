@@ -1,9 +1,6 @@
 #pragma once
-#include <string>
-
-#if HAS_THREAD
 #include <iostream>
-#endif
+#include <string>
 
 namespace base
 {
@@ -14,12 +11,16 @@ namespace base
 		/// @brief 转化为字符串
 		/// @return
 		virtual std::string ToString() const = 0;
+
+		/// @brief 重载强制转换为字符串的运算符。
+		explicit operator std::string() const
+		{
+			return ToString();
+		}
 	};
 } // namespace base
 
-#if HAS_THREAD
 std::ostream &operator<<(std::ostream &stream, base::ICanToString const &o);
-#endif
 
 namespace std
 {

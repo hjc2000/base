@@ -61,11 +61,6 @@ namespace base
 			return static_cast<double>(_value);
 		}
 
-		explicit operator std::string() const
-		{
-			return static_cast<std::string>(_value);
-		}
-
 #pragma endregion
 
 		/// @brief 向下取整

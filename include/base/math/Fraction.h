@@ -85,7 +85,6 @@ namespace base
 
 		explicit operator int64_t() const;
 		explicit operator double() const;
-		explicit operator std::string() const;
 #pragma endregion
 
 		bool operator==(Fraction const &value) const;
