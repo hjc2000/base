@@ -60,25 +60,25 @@ namespace base
 		template <typename T>
 		TSelf operator+(T const &value) const
 		{
-			return Value() + TSelf{value}.Value();
+			return TSelf{Value() + TSelf{value}.Value()};
 		}
 
 		template <typename T>
 		TSelf operator-(T const &value) const
 		{
-			return Value() - TSelf{value}.Value();
+			return TSelf{Value() - TSelf{value}.Value()};
 		}
 
 		template <typename T>
 		TSelf operator*(T const &value) const
 		{
-			return Value() * TSelf{value}.Value();
+			return TSelf{Value() * TSelf{value}.Value()};
 		}
 
 		template <typename T>
 		TSelf operator/(T const &value) const
 		{
-			return Value() / TSelf{value}.Value();
+			return TSelf{Value() / TSelf{value}.Value()};
 		}
 
 		template <typename T>
@@ -174,7 +174,7 @@ inline std::ostream &operator<<(std::ostream &ostream, base::IUnit<T> const &rig
 template <typename T>
 inline T operator+(int64_t left, base::IUnit<T> const &right)
 {
-	return left + static_cast<base::Fraction>(right);
+	return T{left + static_cast<base::Fraction>(right)};
 }
 
 /// @brief IUnit 四则运算。
@@ -185,7 +185,7 @@ inline T operator+(int64_t left, base::IUnit<T> const &right)
 template <typename T>
 inline T operator-(int64_t left, base::IUnit<T> const &right)
 {
-	return left - static_cast<base::Fraction>(right);
+	return T{left - static_cast<base::Fraction>(right)};
 }
 
 /// @brief IUnit 四则运算。
@@ -196,7 +196,7 @@ inline T operator-(int64_t left, base::IUnit<T> const &right)
 template <typename T>
 inline T operator*(int64_t left, base::IUnit<T> const &right)
 {
-	return left * static_cast<base::Fraction>(right);
+	return T{left * static_cast<base::Fraction>(right)};
 }
 
 /// @brief IUnit 四则运算。
@@ -207,7 +207,7 @@ inline T operator*(int64_t left, base::IUnit<T> const &right)
 template <typename T>
 inline T operator/(int64_t left, base::IUnit<T> const &right)
 {
-	return left / static_cast<base::Fraction>(right);
+	return T{left / static_cast<base::Fraction>(right)};
 }
 
 namespace std
