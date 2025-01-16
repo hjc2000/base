@@ -10,7 +10,7 @@ namespace base
 		public base::ICanToString
 	{
 	private:
-#pragma region has_equal_operator
+#pragma region sfinae
 
 		template <typename TAnother, typename = void>
 		struct has_equal_operator :
@@ -19,7 +19,60 @@ namespace base
 		};
 
 		template <typename TAnother>
-		struct has_equal_operator<TAnother, std::void_t<decltype(std::declval<TSelf>() == std::declval<TAnother>())>> :
+		struct has_equal_operator<TAnother,
+								  std::void_t<decltype(std::declval<TSelf>() == std::declval<TAnother>())>> :
+			std::true_type
+		{
+		};
+
+		template <typename TAnother, typename = void>
+		struct has_less_operator :
+			std::false_type
+		{
+		};
+
+		template <typename TAnother>
+		struct has_less_operator<TAnother,
+								 std::void_t<decltype(std::declval<TSelf>() < std::declval<TAnother>())>> :
+			std::true_type
+		{
+		};
+
+		template <typename TAnother, typename = void>
+		struct has_greater_operator :
+			std::false_type
+		{
+		};
+
+		template <typename TAnother>
+		struct has_greater_operator<TAnother,
+									std::void_t<decltype(std::declval<TSelf>() > std::declval<TAnother>())>> :
+			std::true_type
+		{
+		};
+
+		template <typename TAnother, typename = void>
+		struct has_less_equal_operator :
+			std::false_type
+		{
+		};
+
+		template <typename TAnother>
+		struct has_less_equal_operator<TAnother,
+									   std::void_t<decltype(std::declval<TSelf>() <= std::declval<TAnother>())>> :
+			std::true_type
+		{
+		};
+
+		template <typename TAnother, typename = void>
+		struct has_greater_equal_operator :
+			std::false_type
+		{
+		};
+
+		template <typename TAnother>
+		struct has_greater_equal_operator<TAnother,
+										  std::void_t<decltype(std::declval<TSelf>() >= std::declval<TAnother>())>> :
 			std::true_type
 		{
 		};
@@ -139,28 +192,28 @@ namespace base
 
 		template <typename T>
 		auto operator<(T const &value) const
-			-> std::enable_if_t<!has_equal_operator<T>::value, bool>
+			-> std::enable_if_t<!has_less_operator<T>::value, bool>
 		{
 			return Value() < TSelf{value}.Value();
 		}
 
 		template <typename T>
 		auto operator>(T const &value) const
-			-> std::enable_if_t<!has_equal_operator<T>::value, bool>
+			-> std::enable_if_t<!has_greater_operator<T>::value, bool>
 		{
 			return Value() > TSelf{value}.Value();
 		}
 
 		template <typename T>
 		auto operator<=(T const &value) const
-			-> std::enable_if_t<!has_equal_operator<T>::value, bool>
+			-> std::enable_if_t<!has_less_equal_operator<T>::value, bool>
 		{
 			return Value() <= TSelf{value}.Value();
 		}
 
 		template <typename T>
 		auto operator>=(T const &value) const
-			-> std::enable_if_t<!has_equal_operator<T>::value, bool>
+			-> std::enable_if_t<!has_greater_equal_operator<T>::value, bool>
 		{
 			return Value() >= TSelf{value}.Value();
 		}
