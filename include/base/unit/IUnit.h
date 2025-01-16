@@ -1,6 +1,7 @@
 #pragma once
 #include <base/math/Fraction.h>
 #include <base/string/ICanToString.h>
+#include <ostream>
 
 namespace base
 {
@@ -157,3 +158,55 @@ namespace base
 		}
 	};
 } // namespace base
+
+template <typename T>
+inline std::ostream &operator<<(std::ostream &ostream, base::IUnit<T> const &right)
+{
+	ostream << static_cast<base::Fraction>(right);
+	return ostream;
+}
+
+template <typename T>
+inline T operator+(int64_t left, base::IUnit<T> const &right)
+{
+	return left + static_cast<base::Fraction>(right);
+}
+
+template <typename T>
+inline T operator-(int64_t left, base::IUnit<T> const &right)
+{
+	return left - static_cast<base::Fraction>(right);
+}
+
+template <typename T>
+inline T operator*(int64_t left, base::IUnit<T> const &right)
+{
+	return left * static_cast<base::Fraction>(right);
+}
+
+template <typename T>
+inline T operator/(int64_t left, base::IUnit<T> const &right)
+{
+	return left / static_cast<base::Fraction>(right);
+}
+
+namespace std
+{
+	/// @brief 向下取整
+	/// @param value
+	/// @return
+	template <typename T>
+	inline int64_t floor(base::IUnit<T> const &value)
+	{
+		return value.Floor();
+	}
+
+	/// @brief 向上取整
+	/// @param value
+	/// @return
+	template <typename T>
+	inline int64_t ceil(base::IUnit<T> const &value)
+	{
+		return value.Ceil();
+	}
+} // namespace std
