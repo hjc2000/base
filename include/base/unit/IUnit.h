@@ -90,28 +90,28 @@ namespace base
 		TSelf &operator+=(T const &value)
 		{
 			Value() += TSelf{value}.Value();
-			return *this;
+			return *reinterpret_cast<TSelf *>(this);
 		}
 
 		template <typename T>
 		TSelf &operator-=(T const &value)
 		{
 			Value() -= TSelf{value}.Value();
-			return *this;
+			return *reinterpret_cast<TSelf *>(this);
 		}
 
 		template <typename T>
 		TSelf &operator*=(T const &value)
 		{
 			Value() *= TSelf{value}.Value();
-			return *this;
+			return *reinterpret_cast<TSelf *>(this);
 		}
 
 		template <typename T>
 		TSelf &operator/=(T const &value)
 		{
 			Value() /= TSelf{value}.Value();
-			return *this;
+			return *reinterpret_cast<TSelf *>(this);
 		}
 
 #pragma endregion
@@ -159,6 +159,11 @@ namespace base
 	};
 } // namespace base
 
+/// @brief 将 IUnit 输出到输出流。
+/// @tparam T
+/// @param ostream
+/// @param right
+/// @return
 template <typename T>
 inline std::ostream &operator<<(std::ostream &ostream, base::IUnit<T> const &right)
 {
@@ -166,24 +171,44 @@ inline std::ostream &operator<<(std::ostream &ostream, base::IUnit<T> const &rig
 	return ostream;
 }
 
+/// @brief IUnit 四则运算。
+/// @tparam T
+/// @param left
+/// @param right
+/// @return
 template <typename T>
 inline T operator+(int64_t left, base::IUnit<T> const &right)
 {
 	return left + static_cast<base::Fraction>(right);
 }
 
+/// @brief IUnit 四则运算。
+/// @tparam T
+/// @param left
+/// @param right
+/// @return
 template <typename T>
 inline T operator-(int64_t left, base::IUnit<T> const &right)
 {
 	return left - static_cast<base::Fraction>(right);
 }
 
+/// @brief IUnit 四则运算。
+/// @tparam T
+/// @param left
+/// @param right
+/// @return
 template <typename T>
 inline T operator*(int64_t left, base::IUnit<T> const &right)
 {
 	return left * static_cast<base::Fraction>(right);
 }
 
+/// @brief IUnit 四则运算。
+/// @tparam T
+/// @param left
+/// @param right
+/// @return
 template <typename T>
 inline T operator/(int64_t left, base::IUnit<T> const &right)
 {

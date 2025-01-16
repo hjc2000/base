@@ -2,8 +2,6 @@
 #include <base/unit/Hz.h>
 #include <base/unit/Nanoseconds.h>
 
-#pragma region 生命周期
-
 base::Seconds::Seconds(Seconds const &o)
 {
 	*this = o;
@@ -48,46 +46,4 @@ base::Seconds &base::Seconds::operator=(Seconds const &o)
 {
 	_value = o._value;
 	return *this;
-}
-
-#pragma endregion
-
-#pragma region 重载全局运算符
-
-std::ostream &operator<<(std::ostream &ostream, base::Seconds const &right)
-{
-	ostream << static_cast<base::Fraction>(right);
-	return ostream;
-}
-
-base::Seconds operator+(int64_t left, base::Seconds const &right)
-{
-	return left + static_cast<base::Fraction>(right);
-}
-
-base::Seconds operator-(int64_t left, base::Seconds const &right)
-{
-	return left - static_cast<base::Fraction>(right);
-}
-
-base::Seconds operator*(int64_t left, base::Seconds const &right)
-{
-	return left * static_cast<base::Fraction>(right);
-}
-
-base::Seconds operator/(int64_t left, base::Seconds const &right)
-{
-	return left / static_cast<base::Fraction>(right);
-}
-
-#pragma endregion
-
-int64_t std::floor(base::Seconds const &value)
-{
-	return value.Floor();
-}
-
-int64_t std::ceil(base::Seconds const &value)
-{
-	return value.Ceil();
 }
