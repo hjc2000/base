@@ -12,12 +12,17 @@ namespace base
 	private:
 #pragma region sfinae
 
+		/// @brief 有等于运算符
+		/// @tparam TAnother
+		/// @tparam
 		template <typename TAnother, typename = void>
 		struct has_equal_operator :
 			std::false_type
 		{
 		};
 
+		/// @brief 有等于运算符
+		/// @tparam TAnother
 		template <typename TAnother>
 		struct has_equal_operator<TAnother,
 								  std::void_t<decltype(std::declval<TSelf>() == std::declval<TAnother>())>> :
@@ -25,12 +30,17 @@ namespace base
 		{
 		};
 
+		/// @brief 有小于运算符
+		/// @tparam TAnother
+		/// @tparam
 		template <typename TAnother, typename = void>
 		struct has_less_operator :
 			std::false_type
 		{
 		};
 
+		/// @brief 有小于运算符
+		/// @tparam TAnother
 		template <typename TAnother>
 		struct has_less_operator<TAnother,
 								 std::void_t<decltype(std::declval<TSelf>() < std::declval<TAnother>())>> :
@@ -38,12 +48,17 @@ namespace base
 		{
 		};
 
+		/// @brief 有大于运算符
+		/// @tparam TAnother
+		/// @tparam
 		template <typename TAnother, typename = void>
 		struct has_greater_operator :
 			std::false_type
 		{
 		};
 
+		/// @brief 有大于运算符
+		/// @tparam TAnother
 		template <typename TAnother>
 		struct has_greater_operator<TAnother,
 									std::void_t<decltype(std::declval<TSelf>() > std::declval<TAnother>())>> :
@@ -51,12 +66,17 @@ namespace base
 		{
 		};
 
+		/// @brief 有小于等于运算符
+		/// @tparam TAnother
+		/// @tparam
 		template <typename TAnother, typename = void>
 		struct has_less_equal_operator :
 			std::false_type
 		{
 		};
 
+		/// @brief 有小于等于运算符
+		/// @tparam TAnother
 		template <typename TAnother>
 		struct has_less_equal_operator<TAnother,
 									   std::void_t<decltype(std::declval<TSelf>() <= std::declval<TAnother>())>> :
@@ -64,12 +84,17 @@ namespace base
 		{
 		};
 
+		/// @brief 有大于等于运算符
+		/// @tparam TAnother
+		/// @tparam
 		template <typename TAnother, typename = void>
 		struct has_greater_equal_operator :
 			std::false_type
 		{
 		};
 
+		/// @brief 有大于等于运算符
+		/// @tparam TAnother
 		template <typename TAnother>
 		struct has_greater_equal_operator<TAnother,
 										  std::void_t<decltype(std::declval<TSelf>() >= std::declval<TAnother>())>> :
