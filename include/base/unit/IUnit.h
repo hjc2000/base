@@ -111,40 +111,6 @@ namespace base
 
 #pragma endregion
 
-#pragma region 比较运算符
-
-		template <typename T>
-		bool operator==(T const &value) const
-		{
-			return Value() == TSelf{value}.Value();
-		}
-
-		template <typename T>
-		bool operator<(T const &value) const
-		{
-			return Value() < TSelf{value}.Value();
-		}
-
-		template <typename T>
-		bool operator>(T const &value) const
-		{
-			return Value() > TSelf{value}.Value();
-		}
-
-		template <typename T>
-		bool operator<=(T const &value) const
-		{
-			return Value() <= TSelf{value}.Value();
-		}
-
-		template <typename T>
-		bool operator>=(T const &value) const
-		{
-			return Value() >= TSelf{value}.Value();
-		}
-
-#pragma endregion
-
 		/// @brief 转化为字符串
 		/// @return
 		std::string ToString() const override
@@ -153,6 +119,40 @@ namespace base
 		}
 	};
 } // namespace base
+
+#pragma region 比较运算符
+
+template <typename TLeft, typename TRight>
+bool operator==(base::IUnit<TLeft> const &left, base::IUnit<TRight> const &right)
+{
+	return static_cast<base::Fraction>(left) == static_cast<base::Fraction>(TLeft{right});
+}
+
+template <typename TLeft, typename TRight>
+bool operator<(base::IUnit<TLeft> const &left, base::IUnit<TRight> const &right)
+{
+	return static_cast<base::Fraction>(left) < static_cast<base::Fraction>(TLeft{right});
+}
+
+template <typename TLeft, typename TRight>
+bool operator>(base::IUnit<TLeft> const &left, base::IUnit<TRight> const &right)
+{
+	return static_cast<base::Fraction>(left) > static_cast<base::Fraction>(TLeft{right});
+}
+
+template <typename TLeft, typename TRight>
+bool operator<=(base::IUnit<TLeft> const &left, base::IUnit<TRight> const &right)
+{
+	return static_cast<base::Fraction>(left) <= static_cast<base::Fraction>(TLeft{right});
+}
+
+template <typename TLeft, typename TRight>
+bool operator>=(base::IUnit<TLeft> const &left, base::IUnit<TRight> const &right)
+{
+	return static_cast<base::Fraction>(left) >= static_cast<base::Fraction>(TLeft{right});
+}
+
+#pragma endregion
 
 /// @brief 将 IUnit 输出到输出流。
 /// @tparam T
