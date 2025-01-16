@@ -5,13 +5,14 @@
 namespace base
 {
 	class Seconds;
+	class MHz;
 
 	/// @brief 频率单位：Hz.
 	class Hz :
 		public base::ICanToString
 	{
 	private:
-		base::Fraction _value{1};
+		base::Fraction _value{0};
 
 	public:
 #pragma region 生命周期
@@ -25,6 +26,8 @@ namespace base
 		/// @brief 从分数构造频率。
 		/// @param value
 		Hz(base::Fraction const &value);
+
+		Hz(base::MHz const &value);
 
 		/// @brief 构造整数频率。
 		/// @param value
@@ -78,54 +81,62 @@ namespace base
 			return _value.Ceil();
 		}
 
-#pragma region 四则运算符
-
 		Hz operator-() const
 		{
 			return -_value;
 		}
 
-		Hz operator+(Hz const &value) const
+#pragma region 四则运算符
+
+		template <typename T>
+		Hz operator+(T const &value) const
 		{
-			return _value + static_cast<base::Fraction>(value);
+			return _value + base::Hz{value}._value;
 		}
 
-		Hz operator-(Hz const &value) const
+		template <typename T>
+		Hz operator-(T const &value) const
 		{
-			return _value - static_cast<base::Fraction>(value);
+			return _value - base::Hz{value}._value;
 		}
 
-		Hz operator*(Hz const &value) const
+		template <typename T>
+		Hz operator*(T const &value) const
 		{
-			return _value * static_cast<base::Fraction>(value);
+			return _value * base::Hz{value}._value;
 		}
 
-		Hz operator/(Hz const &value) const
+		template <typename T>
+		Hz operator/(T const &value) const
 		{
-			return _value / static_cast<base::Fraction>(value);
+			return _value / base::Hz{value}._value;
 		}
 
-		Hz &operator+=(Hz const &value)
+		template <typename T>
+		Hz &operator+=(T const &value)
 		{
-			_value += static_cast<base::Fraction>(value);
+			_value += base::Hz{value}._value;
 			return *this;
 		}
 
-		Hz &operator-=(Hz const &value)
+		template <typename T>
+		Hz &operator-=(T const &value)
 		{
-			_value -= static_cast<base::Fraction>(value);
+			_value -= base::Hz{value}._value;
 			return *this;
 		}
 
-		Hz &operator*=(Hz const &value)
+		template <typename T>
+		Hz &operator*=(T const &value)
 		{
-			_value *= static_cast<base::Fraction>(value);
+			_value *= base::Hz{value}._value;
 			return *this;
 		}
 
-		Hz &operator/=(Hz const &value)
+		template <typename T>
+		Hz &operator/=(T const &value)
 		{
-			_value /= static_cast<base::Fraction>(value);
+			_value /= base::Hz{value}._value;
 			return *this;
 		}
 
@@ -133,29 +144,34 @@ namespace base
 
 #pragma region 比较运算符
 
-		bool operator==(Hz const &value) const
+		template <typename T>
+		bool operator==(T const &value) const
 		{
-			return _value == value._value;
+			return _value == base::Hz{value}._value;
 		}
 
-		bool operator<(Hz const &value) const
+		template <typename T>
+		bool operator<(T const &value) const
 		{
-			return _value < value._value;
+			return _value < base::Hz{value}._value;
 		}
 
-		bool operator>(Hz const &value) const
+		template <typename T>
+		bool operator>(T const &value) const
 		{
-			return _value > value._value;
+			return _value > base::Hz{value}._value;
 		}
 
-		bool operator<=(Hz const &value) const
+		template <typename T>
+		bool operator<=(T const &value) const
 		{
-			return _value <= value._value;
+			return _value <= base::Hz{value}._value;
 		}
 
-		bool operator>=(Hz const &value) const
+		template <typename T>
+		bool operator>=(T const &value) const
 		{
-			return _value >= value._value;
+			return _value >= base::Hz{value}._value;
 		}
 
 #pragma endregion

@@ -1,4 +1,5 @@
 #include "Hz.h"
+#include <base/unit/MHz.h>
 #include <base/unit/Seconds.h>
 
 #pragma region 生命周期
@@ -11,6 +12,11 @@ base::Hz::Hz(Hz const &o)
 base::Hz::Hz(base::Fraction const &value)
 {
 	_value = value;
+}
+
+base::Hz::Hz(base::MHz const &value)
+{
+	_value = static_cast<base::Fraction>(value) * 1000 * 1000;
 }
 
 base::Hz::Hz(int64_t value)
