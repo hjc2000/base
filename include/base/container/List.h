@@ -1,7 +1,7 @@
 #pragma once
 #include <algorithm>
 #include <base/container/IList.h>
-#include <base/sfinae/equal.h>
+#include <base/sfinae/Equal.h>
 #include <stdexcept>
 #include <vector>
 
