@@ -5,6 +5,8 @@
 
 namespace base
 {
+	/// @brief 单位类的接口。
+	/// @tparam TSelf
 	template <typename TSelf>
 	class IUnit :
 		public base::ICanToString
