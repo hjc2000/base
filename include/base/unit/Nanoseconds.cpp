@@ -1,5 +1,6 @@
 #include "Nanoseconds.h"
 #include <base/unit/Hz.h>
+#include <base/unit/MHz.h>
 #include <base/unit/Seconds.h>
 
 base::Nanoseconds::Nanoseconds(Nanoseconds const &o)
@@ -23,23 +24,28 @@ base::Nanoseconds::Nanoseconds(base::Seconds const &value)
 }
 
 base::Nanoseconds::Nanoseconds(base::Hz const &value)
+	: Nanoseconds{base::Seconds{value}}
 {
-	_value = static_cast<base::Fraction>(value).Reciprocal() * 1000 * 1000 * 1000;
+}
+
+base::Nanoseconds::Nanoseconds(base::MHz const &value)
+	: Nanoseconds(base::Seconds{value})
+{
 }
 
 base::Nanoseconds::Nanoseconds(std::chrono::seconds const &value)
+	: Nanoseconds(base::Seconds{value})
 {
-	_value = base::Fraction{value.count()} * 1000 * 1000 * 1000;
 }
 
 base::Nanoseconds::Nanoseconds(std::chrono::milliseconds const &value)
+	: Nanoseconds(base::Seconds{value})
 {
-	_value = base::Fraction{value.count()} * 1000 * 1000;
 }
 
 base::Nanoseconds::Nanoseconds(std::chrono::microseconds const &value)
+	: Nanoseconds(base::Seconds{value})
 {
-	_value = base::Fraction{value.count()} * 1000;
 }
 
 base::Nanoseconds &base::Nanoseconds::operator=(Nanoseconds const &o)

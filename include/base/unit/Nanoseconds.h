@@ -5,6 +5,7 @@
 namespace base
 {
 	class Hz;
+	class MHz;
 	class Seconds;
 
 	/// @brief 纳秒
@@ -21,6 +22,7 @@ namespace base
 		explicit Nanoseconds(int64_t value);
 		explicit Nanoseconds(base::Seconds const &value);
 		explicit Nanoseconds(base::Hz const &value);
+		explicit Nanoseconds(base::MHz const &value);
 		explicit Nanoseconds(std::chrono::seconds const &value);
 		explicit Nanoseconds(std::chrono::milliseconds const &value);
 		explicit Nanoseconds(std::chrono::microseconds const &value);

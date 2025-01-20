@@ -27,6 +27,11 @@ base::Seconds::Seconds(base::Hz const &value)
 	_value = static_cast<base::Fraction>(value).Reciprocal();
 }
 
+base::Seconds::Seconds(base::MHz const &value)
+	: Seconds(base::Hz{value})
+{
+}
+
 base::Seconds::Seconds(std::chrono::seconds const &value)
 {
 	_value = base::Fraction{value.count()};
