@@ -4,6 +4,7 @@
 namespace base
 {
 	class Seconds;
+	class Nanoseconds;
 	class MHz;
 
 	/// @brief 频率单位：Hz.
@@ -34,6 +35,8 @@ namespace base
 		/// @brief 从秒构造频率。Hz 是 s 的倒数。
 		/// @param value
 		explicit Hz(base::Seconds const &value);
+
+		explicit Hz(base::Nanoseconds const &value);
 
 		/// @brief 赋值运算符。
 		/// @param o

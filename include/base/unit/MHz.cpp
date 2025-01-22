@@ -27,6 +27,11 @@ base::MHz::MHz(base::Seconds const &value)
 {
 }
 
+base::MHz::MHz(base::Nanoseconds const &value)
+	: MHz(base::Seconds{value})
+{
+}
+
 base::MHz &base::MHz::operator=(MHz const &o)
 {
 	_value = o._value;

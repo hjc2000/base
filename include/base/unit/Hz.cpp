@@ -27,6 +27,11 @@ base::Hz::Hz(base::Seconds const &value)
 	_value = static_cast<base::Fraction>(value).Reciprocal();
 }
 
+base::Hz::Hz(base::Nanoseconds const &value)
+	: Hz(base::Seconds{value})
+{
+}
+
 base::Hz &base::Hz::operator=(Hz const &o)
 {
 	_value = o._value;
