@@ -1,6 +1,7 @@
 #pragma once
 #include <algorithm>
 #include <base/container/IList.h>
+#include <base/container/IRawArray.h>
 #include <base/sfinae/Equal.h>
 #include <stdexcept>
 #include <vector>
@@ -11,7 +12,8 @@ namespace base
 	/// @tparam ItemType
 	template <typename ItemType>
 	class List final :
-		public base::IList<ItemType>
+		public base::IList<ItemType>,
+		public base::IRawArray<ItemType>
 	{
 	private:
 		std::vector<ItemType> _vector;
@@ -185,6 +187,20 @@ namespace base
 		{
 			// 直接返回，利用 vector 的拷贝构造函数。
 			return _vector;
+		}
+
+		/// @brief 获取底层的缓冲区
+		/// @return
+		virtual ItemType *Buffer() override
+		{
+			return _vector.data();
+		}
+
+		/// @brief 获取底层的缓冲区
+		/// @return
+		virtual ItemType const *Buffer() const override
+		{
+			return _vector.data();
 		}
 
 		/// @brief 转发到 std::vector 的相等判断逻辑。
