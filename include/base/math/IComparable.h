@@ -118,8 +118,19 @@ namespace base
 #pragma endregion
 
 	public:
+		/// @brief 本对象大于 another.
+		/// @param another
+		/// @return
 		virtual bool GreaterThan(TAnother const &another) = 0;
+
+		/// @brief 本对象等于 another.
+		/// @param another
+		/// @return
 		virtual bool EqualTo(TAnother const &another) = 0;
+
+		/// @brief 本对象小于 another.
+		/// @param another
+		/// @return
 		virtual bool LessThan(TAnother const &another) = 0;
 
 		/// @brief 比较。
