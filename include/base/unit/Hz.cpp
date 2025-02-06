@@ -37,3 +37,8 @@ base::Hz &base::Hz::operator=(Hz const &o)
 	_value = o._value;
 	return *this;
 }
+
+std::string base::Hz::UnitString() const
+{
+	return "Hz";
+}

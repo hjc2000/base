@@ -53,3 +53,8 @@ base::Nanoseconds &base::Nanoseconds::operator=(Nanoseconds const &o)
 	_value = o._value;
 	return *this;
 }
+
+std::string base::Nanoseconds::UnitString() const
+{
+	return "ns";
+}

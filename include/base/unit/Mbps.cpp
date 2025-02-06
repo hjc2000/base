@@ -26,3 +26,8 @@ base::Mbps &base::Mbps::operator=(Mbps const &o)
 	_value = o._value;
 	return *this;
 }
+
+std::string base::Mbps::UnitString() const
+{
+	return "Mbps";
+}

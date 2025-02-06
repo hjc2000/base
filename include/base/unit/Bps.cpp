@@ -26,3 +26,8 @@ base::Bps &base::Bps::operator=(Bps const &o)
 	_value = o._value;
 	return *this;
 }
+
+std::string base::Bps::UnitString() const
+{
+	return "bps";
+}

@@ -110,6 +110,10 @@ namespace base
 	public:
 		virtual base::Fraction &Value() = 0;
 
+		/// @brief 单位的字符串。
+		/// @return
+		virtual std::string UnitString() const = 0;
+
 		base::Fraction const &Value() const
 		{
 			return const_cast<IUnit<TSelf> *>(this)->Value();
@@ -250,9 +254,16 @@ namespace base
 
 		/// @brief 转化为字符串
 		/// @return
-		std::string ToString() const override
+		virtual std::string ToString() const override
 		{
-			return Value().ToString();
+			std::string ret = Value().ToString();
+			std::string unit_string = UnitString();
+			if (unit_string.size() > 0)
+			{
+				ret += " " + unit_string;
+			}
+
+			return ret;
 		}
 	};
 } // namespace base
@@ -265,7 +276,7 @@ namespace base
 template <typename T>
 inline std::ostream &operator<<(std::ostream &ostream, base::IUnit<T> const &right)
 {
-	ostream << static_cast<base::Fraction>(right);
+	ostream << right.ToString();
 	return ostream;
 }
 

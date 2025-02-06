@@ -10,6 +10,7 @@
 #include <base/stream/MemoryStream.h>
 #include <base/string/String.h>
 #include <base/string/ToHexString.h>
+#include <base/unit/Hz.h>
 #include <format>
 #include <iostream>
 
@@ -32,4 +33,5 @@ int main()
 	uint16_t mul = static_cast<uint16_t>(a) * static_cast<uint16_t>(b);
 	int32_t result = static_cast<int16_t>(mul);
 	std::cout << result << std::endl;
+	std::cout << base::Hz{100} << std::endl;
 }

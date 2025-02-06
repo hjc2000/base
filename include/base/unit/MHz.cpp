@@ -37,3 +37,8 @@ base::MHz &base::MHz::operator=(MHz const &o)
 	_value = o._value;
 	return *this;
 }
+
+std::string base::MHz::UnitString() const
+{
+	return "MHz";
+}

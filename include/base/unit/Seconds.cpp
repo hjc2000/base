@@ -52,3 +52,8 @@ base::Seconds &base::Seconds::operator=(Seconds const &o)
 	_value = o._value;
 	return *this;
 }
+
+std::string base::Seconds::UnitString() const
+{
+	return "s";
+}

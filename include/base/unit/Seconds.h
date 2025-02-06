@@ -33,6 +33,10 @@ namespace base
 			return _value;
 		}
 
+		/// @brief 单位的字符串。
+		/// @return
+		virtual std::string UnitString() const override;
+
 		explicit operator std::chrono::seconds() const
 		{
 			return std::chrono::seconds{static_cast<int64_t>(_value)};

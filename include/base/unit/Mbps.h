@@ -25,5 +25,9 @@ namespace base
 		{
 			return _value;
 		}
+
+		/// @brief 单位的字符串。
+		/// @return
+		virtual std::string UnitString() const override;
 	};
 } // namespace base
