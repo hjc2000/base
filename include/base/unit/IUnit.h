@@ -15,91 +15,91 @@ namespace base
 #pragma region sfinae
 
 		/// @brief 有等于运算符
-		/// @tparam TAnother
+		/// @tparam t_another
 		/// @tparam
-		template <typename TAnother, typename = void>
+		template <typename t_another, typename = void>
 		struct has_equal_operator :
 			std::false_type
 		{
 		};
 
 		/// @brief 有等于运算符
-		/// @tparam TAnother
-		template <typename TAnother>
-		struct has_equal_operator<TAnother,
-								  std::void_t<decltype(std::declval<TSelf>() == std::declval<TAnother>())>> :
+		/// @tparam t_another
+		template <typename t_another>
+		struct has_equal_operator<t_another,
+								  std::void_t<decltype(std::declval<TSelf>() == std::declval<t_another>())>> :
 			std::true_type
 		{
 		};
 
 		/// @brief 有小于运算符
-		/// @tparam TAnother
+		/// @tparam t_another
 		/// @tparam
-		template <typename TAnother, typename = void>
+		template <typename t_another, typename = void>
 		struct has_less_operator :
 			std::false_type
 		{
 		};
 
 		/// @brief 有小于运算符
-		/// @tparam TAnother
-		template <typename TAnother>
-		struct has_less_operator<TAnother,
-								 std::void_t<decltype(std::declval<TSelf>() < std::declval<TAnother>())>> :
+		/// @tparam t_another
+		template <typename t_another>
+		struct has_less_operator<t_another,
+								 std::void_t<decltype(std::declval<TSelf>() < std::declval<t_another>())>> :
 			std::true_type
 		{
 		};
 
 		/// @brief 有大于运算符
-		/// @tparam TAnother
+		/// @tparam t_another
 		/// @tparam
-		template <typename TAnother, typename = void>
+		template <typename t_another, typename = void>
 		struct has_greater_operator :
 			std::false_type
 		{
 		};
 
 		/// @brief 有大于运算符
-		/// @tparam TAnother
-		template <typename TAnother>
-		struct has_greater_operator<TAnother,
-									std::void_t<decltype(std::declval<TSelf>() > std::declval<TAnother>())>> :
+		/// @tparam t_another
+		template <typename t_another>
+		struct has_greater_operator<t_another,
+									std::void_t<decltype(std::declval<TSelf>() > std::declval<t_another>())>> :
 			std::true_type
 		{
 		};
 
 		/// @brief 有小于等于运算符
-		/// @tparam TAnother
+		/// @tparam t_another
 		/// @tparam
-		template <typename TAnother, typename = void>
+		template <typename t_another, typename = void>
 		struct has_less_equal_operator :
 			std::false_type
 		{
 		};
 
 		/// @brief 有小于等于运算符
-		/// @tparam TAnother
-		template <typename TAnother>
-		struct has_less_equal_operator<TAnother,
-									   std::void_t<decltype(std::declval<TSelf>() <= std::declval<TAnother>())>> :
+		/// @tparam t_another
+		template <typename t_another>
+		struct has_less_equal_operator<t_another,
+									   std::void_t<decltype(std::declval<TSelf>() <= std::declval<t_another>())>> :
 			std::true_type
 		{
 		};
 
 		/// @brief 有大于等于运算符
-		/// @tparam TAnother
+		/// @tparam t_another
 		/// @tparam
-		template <typename TAnother, typename = void>
+		template <typename t_another, typename = void>
 		struct has_greater_equal_operator :
 			std::false_type
 		{
 		};
 
 		/// @brief 有大于等于运算符
-		/// @tparam TAnother
-		template <typename TAnother>
-		struct has_greater_equal_operator<TAnother,
-										  std::void_t<decltype(std::declval<TSelf>() >= std::declval<TAnother>())>> :
+		/// @tparam t_another
+		template <typename t_another>
+		struct has_greater_equal_operator<t_another,
+										  std::void_t<decltype(std::declval<TSelf>() >= std::declval<t_another>())>> :
 			std::true_type
 		{
 		};
