@@ -1,4 +1,5 @@
 #pragma once
+#include <base/math/IEqualable.h>
 #include <stdexcept>
 #include <type_traits>
 
@@ -20,28 +21,11 @@ namespace base
 	/// @brief 比较接口。
 	/// @tparam TAnother
 	template <typename TAnother>
-	class IComparable
+	class IComparable :
+		public base::IEqualable<TAnother>
 	{
 	private:
 #pragma region sfinae
-
-		/// @brief 有等于运算符
-		/// @tparam t_another
-		/// @tparam
-		template <typename t_another, typename = void>
-		struct has_equal_operator :
-			std::false_type
-		{
-		};
-
-		/// @brief 有等于运算符
-		/// @tparam t_another
-		template <typename t_another>
-		struct has_equal_operator<t_another,
-								  std::void_t<decltype(std::declval<IComparable<TAnother>>() == std::declval<t_another>())>> :
-			std::true_type
-		{
-		};
 
 		/// @brief 有小于运算符
 		/// @tparam t_another
@@ -123,11 +107,6 @@ namespace base
 		/// @return
 		virtual bool GreaterThan(TAnother const &another) = 0;
 
-		/// @brief 本对象等于 another.
-		/// @param another
-		/// @return
-		virtual bool Equal(TAnother const &another) = 0;
-
 		/// @brief 本对象小于 another.
 		/// @param another
 		/// @return
@@ -157,12 +136,6 @@ namespace base
 		}
 
 #pragma region 比较运算符
-
-		auto operator==(TAnother const &value) const
-			-> std::enable_if_t<!has_equal_operator<TAnother>::value, bool>
-		{
-			return Equal(value);
-		}
 
 		auto operator<(TAnother const &value) const
 			-> std::enable_if_t<!has_less_operator<TAnother>::value, bool>
