@@ -1,4 +1,5 @@
 #pragma once
+#include <stdexcept>
 #include <type_traits>
 
 namespace base
@@ -117,40 +118,62 @@ namespace base
 #pragma endregion
 
 	public:
+		virtual bool GreaterThan(TAnother const &another) = 0;
+		virtual bool EqualTo(TAnother const &another) = 0;
+		virtual bool LessThan(TAnother const &another) = 0;
+
 		/// @brief 比较。
 		/// @param another
 		/// @return
-		virtual base::ComparisonResult Compare(TAnother const &another) = 0;
+		base::ComparisonResult Compare(TAnother const &another)
+		{
+			if (EqualTo(another))
+			{
+				return base::ComparisonResult::Equal;
+			}
+
+			if (LessThan(another))
+			{
+				return base::ComparisonResult::Less;
+			}
+
+			if (GreaterThan(another))
+			{
+				return base::ComparisonResult::Greater;
+			}
+
+			throw std::runtime_error{"错误的 Compare 实现。不可能既不等于，又不小于，又不大于。"};
+		}
 
 #pragma region 比较运算符
 
 		auto operator==(TAnother const &value) const
 			-> std::enable_if_t<!has_equal_operator<TAnother>::value, bool>
 		{
-			return Compare(value) == base::ComparisonResult::Equal;
+			return EqualTo(value);
 		}
 
 		auto operator<(TAnother const &value) const
 			-> std::enable_if_t<!has_less_operator<TAnother>::value, bool>
 		{
-			return Compare(value) == base::ComparisonResult::Less;
+			return LessThan(value);
 		}
 
 		auto operator>(TAnother const &value) const
 			-> std::enable_if_t<!has_greater_operator<TAnother>::value, bool>
 		{
-			return Compare(value) == base::ComparisonResult::Greater;
+			return GreaterThan(value);
 		}
 
 		auto operator<=(TAnother const &value) const
 			-> std::enable_if_t<!has_less_equal_operator<TAnother>::value, bool>
 		{
-			if (Compare(value) == base::ComparisonResult::Less)
+			if (LessThan(value))
 			{
 				return true;
 			}
 
-			if (Compare(value) == base::ComparisonResult::Equal)
+			if (EqualTo(value))
 			{
 				return true;
 			}
@@ -161,12 +184,12 @@ namespace base
 		auto operator>=(TAnother const &value) const
 			-> std::enable_if_t<!has_greater_equal_operator<TAnother>::value, bool>
 		{
-			if (Compare(value) == base::ComparisonResult::Greater)
+			if (GreaterThan(value))
 			{
 				return true;
 			}
 
-			if (Compare(value) == base::ComparisonResult::Equal)
+			if (EqualTo(value))
 			{
 				return true;
 			}
