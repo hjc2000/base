@@ -102,6 +102,11 @@ namespace base
 #pragma endregion
 
 	public:
+		/// @brief 本对象等于 another.
+		/// @param another
+		/// @return
+		virtual bool Equal(TAnother const &another) const = 0;
+
 		/// @brief 本对象大于 another.
 		/// @param another
 		/// @return
