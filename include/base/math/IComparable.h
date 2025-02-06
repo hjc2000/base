@@ -126,7 +126,7 @@ namespace base
 		/// @brief 本对象等于 another.
 		/// @param another
 		/// @return
-		virtual bool EqualTo(TAnother const &another) = 0;
+		virtual bool Equal(TAnother const &another) = 0;
 
 		/// @brief 本对象小于 another.
 		/// @param another
@@ -138,7 +138,7 @@ namespace base
 		/// @return
 		base::ComparisonResult Compare(TAnother const &another)
 		{
-			if (EqualTo(another))
+			if (Equal(another))
 			{
 				return base::ComparisonResult::Equal;
 			}
@@ -161,7 +161,7 @@ namespace base
 		auto operator==(TAnother const &value) const
 			-> std::enable_if_t<!has_equal_operator<TAnother>::value, bool>
 		{
-			return EqualTo(value);
+			return Equal(value);
 		}
 
 		auto operator<(TAnother const &value) const
@@ -184,7 +184,7 @@ namespace base
 				return true;
 			}
 
-			if (EqualTo(value))
+			if (Equal(value))
 			{
 				return true;
 			}
@@ -200,7 +200,7 @@ namespace base
 				return true;
 			}
 
-			if (EqualTo(value))
+			if (Equal(value))
 			{
 				return true;
 			}
