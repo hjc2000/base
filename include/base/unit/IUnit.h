@@ -1,5 +1,6 @@
 #pragma once
 #include <base/math/Fraction.h>
+#include <base/math/IComparable.h>
 #include <base/string/ICanToString.h>
 #include <ostream>
 

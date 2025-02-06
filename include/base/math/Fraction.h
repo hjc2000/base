@@ -1,4 +1,5 @@
 #pragma once
+#include <base/math/IComparable.h>
 #include <base/string/ICanToString.h>
 #include <ostream>
 #include <stdint.h>
