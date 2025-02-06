@@ -105,17 +105,17 @@ namespace base
 		/// @brief 本对象大于 another.
 		/// @param another
 		/// @return
-		virtual bool GreaterThan(TAnother const &another) = 0;
+		virtual bool GreaterThan(TAnother const &another) const = 0;
 
 		/// @brief 本对象小于 another.
 		/// @param another
 		/// @return
-		virtual bool LessThan(TAnother const &another) = 0;
+		virtual bool LessThan(TAnother const &another) const = 0;
 
 		/// @brief 比较。
 		/// @param another
 		/// @return
-		base::ComparisonResult Compare(TAnother const &another)
+		base::ComparisonResult Compare(TAnother const &another) const
 		{
 			if (Equal(another))
 			{

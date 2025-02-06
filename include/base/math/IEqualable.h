@@ -35,7 +35,7 @@ namespace base
 		/// @brief 本对象等于 another.
 		/// @param another
 		/// @return
-		virtual bool Equal(TAnother const &another) = 0;
+		virtual bool Equal(TAnother const &another) const = 0;
 
 		/// @brief 如果没有已经定义的相等运算符，就重载相等运算符。
 		/// @param value
