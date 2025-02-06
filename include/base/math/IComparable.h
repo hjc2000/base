@@ -115,7 +115,7 @@ namespace base
 		/// @brief 比较。
 		/// @param another
 		/// @return
-		base::ComparisonResult Compare(TAnother const &another)
+		virtual base::ComparisonResult Compare(TAnother const &another)
 		{
 			if (Equal(another))
 			{
