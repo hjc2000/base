@@ -280,48 +280,15 @@ inline std::ostream &operator<<(std::ostream &ostream, base::IUnit<T> const &rig
 	return ostream;
 }
 
-/// @brief IUnit 四则运算。
+/// @brief IUnit 乘法。
 /// @tparam T
 /// @param left
 /// @param right
 /// @return
 template <typename T>
-inline T operator+(int64_t left, base::IUnit<T> const &right)
-{
-	return T{left + static_cast<base::Fraction>(right)};
-}
-
-/// @brief IUnit 四则运算。
-/// @tparam T
-/// @param left
-/// @param right
-/// @return
-template <typename T>
-inline T operator-(int64_t left, base::IUnit<T> const &right)
-{
-	return T{left - static_cast<base::Fraction>(right)};
-}
-
-/// @brief IUnit 四则运算。
-/// @tparam T
-/// @param left
-/// @param right
-/// @return
-template <typename T>
-inline T operator*(int64_t left, base::IUnit<T> const &right)
+inline T operator*(base::Fraction const &left, base::IUnit<T> const &right)
 {
 	return T{left * static_cast<base::Fraction>(right)};
-}
-
-/// @brief IUnit 四则运算。
-/// @tparam T
-/// @param left
-/// @param right
-/// @return
-template <typename T>
-inline T operator/(int64_t left, base::IUnit<T> const &right)
-{
-	return T{left / static_cast<base::Fraction>(right)};
 }
 
 namespace std
