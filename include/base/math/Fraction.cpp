@@ -226,11 +226,11 @@ base::Fraction::operator double() const
 
 #pragma endregion
 
-#pragma region 比较运算符
+#pragma region IComparable
 
-bool base::Fraction::operator==(Fraction const &value) const
+bool base::Fraction::Equal(Fraction const &another) const
 {
-	if (Num() == 0 && value.Num() == 0)
+	if (Num() == 0 && another.Num() == 0)
 	{
 		/* 2 个分子都为 0 直接返回相等，这样更加安全，避免分子都为 0
 		 * 分母不相等时错误地将两个分数判断为不相等。
@@ -239,27 +239,15 @@ bool base::Fraction::operator==(Fraction const &value) const
 	}
 
 	Fraction f1 = Simplify();
-	Fraction f2 = value.Simplify();
+	Fraction f2 = another.Simplify();
 	return f1.Num() == f2.Num() && f1.Den() == f2.Den();
 }
 
-bool base::Fraction::operator<(Fraction const &value) const
+bool base::Fraction::GreaterThan(Fraction const &another) const
 {
 	// 先化简，避免分母为负数，然后使用交叉乘法比大小。
 	Fraction f1 = Simplify();
-	Fraction f2 = value.Simplify();
-	boost::multiprecision::cpp_int num1{f1.Num()};
-	boost::multiprecision::cpp_int den1{f1.Den()};
-	boost::multiprecision::cpp_int num2{f2.Num()};
-	boost::multiprecision::cpp_int den2{f2.Den()};
-	return num1 * den2 < num2 * den1;
-}
-
-bool base::Fraction::operator>(Fraction const &value) const
-{
-	// 先化简，避免分母为负数，然后使用交叉乘法比大小。
-	Fraction f1 = Simplify();
-	Fraction f2 = value.Simplify();
+	Fraction f2 = another.Simplify();
 	boost::multiprecision::cpp_int num1{f1.Num()};
 	boost::multiprecision::cpp_int den1{f1.Den()};
 	boost::multiprecision::cpp_int num2{f2.Num()};
@@ -267,24 +255,16 @@ bool base::Fraction::operator>(Fraction const &value) const
 	return num1 * den2 > num2 * den1;
 }
 
-bool base::Fraction::operator<=(Fraction const &value) const
+bool base::Fraction::LessThan(Fraction const &another) const
 {
-	if (*this == value)
-	{
-		return true;
-	}
-
-	return *this < value;
-}
-
-bool base::Fraction::operator>=(Fraction const &value) const
-{
-	if (*this == value)
-	{
-		return true;
-	}
-
-	return *this > value;
+	// 先化简，避免分母为负数，然后使用交叉乘法比大小。
+	Fraction f1 = Simplify();
+	Fraction f2 = another.Simplify();
+	boost::multiprecision::cpp_int num1{f1.Num()};
+	boost::multiprecision::cpp_int den1{f1.Den()};
+	boost::multiprecision::cpp_int num2{f2.Num()};
+	boost::multiprecision::cpp_int den2{f2.Den()};
+	return num1 * den2 < num2 * den1;
 }
 
 #pragma endregion

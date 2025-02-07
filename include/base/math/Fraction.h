@@ -9,7 +9,8 @@ namespace base
 {
 	/// @brief 分数类
 	class Fraction final :
-		public base::ICanToString
+		public base::ICanToString,
+		public base::IComparable<Fraction>
 	{
 	private:
 		int64_t _num = 0;
@@ -88,11 +89,22 @@ namespace base
 		explicit operator double() const;
 #pragma endregion
 
-		bool operator==(Fraction const &value) const;
-		bool operator<(Fraction const &value) const;
-		bool operator>(Fraction const &value) const;
-		bool operator<=(Fraction const &value) const;
-		bool operator>=(Fraction const &value) const;
+#pragma region IComparable
+		/// @brief 本对象等于 another.
+		/// @param another
+		/// @return
+		virtual bool Equal(Fraction const &another) const override;
+
+		/// @brief 本对象大于 another.
+		/// @param another
+		/// @return
+		virtual bool GreaterThan(Fraction const &another) const override;
+
+		/// @brief 本对象小于 another.
+		/// @param another
+		/// @return
+		virtual bool LessThan(Fraction const &another) const override;
+#pragma endregion
 	};
 } // namespace base
 
