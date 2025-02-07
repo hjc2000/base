@@ -23,8 +23,6 @@ else()
 	target_compile_definitions(${ProjectName} PUBLIC HAS_THREAD=0)
 endif()
 
-set(CMAKE_INSTALL_PREFIX $ENV{cpp_lib_build_scripts_path}/${platform}/.libs/${ProjectName}/)
-
 # 添加测试程序
 if(platform STREQUAL "msys")
 	add_executable(test ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
