@@ -36,11 +36,7 @@ shared_ptr<FileStream> FileStream::CreateNewAnyway(std::string url)
 
 	if (fs->_fs->fail())
 	{
-		throw std::runtime_error{
-			std::format("{} 创建 {} 失败。检查文件是不是只读的。",
-						CODE_POS_STR,
-						url),
-		};
+		throw std::runtime_error{CODE_POS_STR + std::format("创建 {} 失败。检查文件是不是只读的。", url)};
 	}
 
 	fs->_can_read = true;
@@ -49,25 +45,17 @@ shared_ptr<FileStream> FileStream::CreateNewAnyway(std::string url)
 	return fs;
 }
 
-shared_ptr<FileStream> FileStream::Open(std::string url)
+shared_ptr<FileStream> FileStream::OpenExisting(std::string url)
 {
 	if (!filesystem::exists(url))
 	{
 		// 文件不存在
-		throw std::runtime_error{
-			std::format("{} 文件 {} 不存在。",
-						CODE_POS_STR,
-						url),
-		};
+		throw std::runtime_error{CODE_POS_STR + std::format("文件 {} 不存在。", url)};
 	}
 
 	if (filesystem::is_directory(url))
 	{
-		throw std::runtime_error{
-			std::format("{} {} 不是一个文件，而是一个目录",
-						CODE_POS_STR,
-						url),
-		};
+		throw std::runtime_error{CODE_POS_STR + std::format("{} 不是一个文件，而是一个目录", url)};
 	}
 
 	shared_ptr<FileStream> fs{new FileStream{url}};
@@ -81,11 +69,7 @@ shared_ptr<FileStream> FileStream::Open(std::string url)
 
 	if (fs->_fs->fail())
 	{
-		throw std::runtime_error{
-			std::format("{} 打开 {} 失败。检查文件是不是只读的。",
-						CODE_POS_STR,
-						url),
-		};
+		throw std::runtime_error{CODE_POS_STR + std::format("打开 {} 失败。检查文件是不是只读的。", url)};
 	}
 
 	fs->_can_read = true;
@@ -99,20 +83,12 @@ shared_ptr<FileStream> FileStream::OpenReadOnly(std::string url)
 	if (!filesystem::exists(url))
 	{
 		// 文件不存在
-		throw std::runtime_error{
-			std::format("{} 文件 {} 不存在。",
-						CODE_POS_STR,
-						url),
-		};
+		throw std::runtime_error{CODE_POS_STR + std::format("文件 {} 不存在。", url)};
 	}
 
 	if (filesystem::is_directory(url))
 	{
-		throw std::runtime_error{
-			std::format("{} {} 不是一个文件，而是一个目录",
-						CODE_POS_STR,
-						url),
-		};
+		throw std::runtime_error{CODE_POS_STR + std::format("{} 不是一个文件，而是一个目录", url)};
 	}
 
 	shared_ptr<FileStream> fs{new FileStream{url}};
@@ -126,11 +102,7 @@ shared_ptr<FileStream> FileStream::OpenReadOnly(std::string url)
 
 	if (fs->_fs->fail())
 	{
-		throw std::runtime_error{
-			std::format("{} 打开 {} 失败。检查文件是不是只读的。",
-						CODE_POS_STR,
-						url),
-		};
+		throw std::runtime_error{CODE_POS_STR + std::format("打开 {} 失败。检查文件是不是只读的。", url)};
 	}
 
 	fs->_can_read = true;
