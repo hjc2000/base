@@ -37,6 +37,8 @@ namespace base
 		/// @param span
 		MemoryStream(base::Span const &span);
 
+		/// @brief 获取本流的缓冲区。
+		/// @return
 		base::Span Span() const;
 
 		/// @brief 从当前 Position 到 Length，总共有多少个可读字节。
