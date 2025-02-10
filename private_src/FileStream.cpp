@@ -20,23 +20,23 @@ bool FileStream::CanSeek() const
 	return _can_seek;
 }
 
-shared_ptr<FileStream> FileStream::CreateNewAnyway(std::string url)
+shared_ptr<FileStream> FileStream::CreateNewAnyway(std::string path)
 {
-	shared_ptr<FileStream> fs{new FileStream{url}};
+	shared_ptr<FileStream> fs{new FileStream{path}};
 
 	/* 加上 ios_base::trunc，这样打开文件流后，如果原本存在此文件，就会将其截断，
 	 * 让其初始长度变成 0，相当于一个新文件。
 	 */
 	fs->_fs = shared_ptr<std::fstream>{
 		new std::fstream{
-			url,
+			path,
 			std::ios_base::out | std::ios_base::in | std::ios_base::trunc | std::ios_base::binary,
 		},
 	};
 
 	if (fs->_fs->fail())
 	{
-		throw std::runtime_error{CODE_POS_STR + std::format("创建 {} 失败。检查文件是不是只读的。", url)};
+		throw std::runtime_error{CODE_POS_STR + std::format("创建 {} 失败。检查文件是不是只读的。", path)};
 	}
 
 	fs->_can_read = true;
@@ -45,31 +45,31 @@ shared_ptr<FileStream> FileStream::CreateNewAnyway(std::string url)
 	return fs;
 }
 
-shared_ptr<FileStream> FileStream::OpenExisting(std::string url)
+shared_ptr<FileStream> FileStream::OpenExisting(std::string path)
 {
-	if (!filesystem::exists(url))
+	if (!filesystem::exists(path))
 	{
 		// 文件不存在
-		throw std::runtime_error{CODE_POS_STR + std::format("文件 {} 不存在。", url)};
+		throw std::runtime_error{CODE_POS_STR + std::format("文件 {} 不存在。", path)};
 	}
 
-	if (filesystem::is_directory(url))
+	if (filesystem::is_directory(path))
 	{
-		throw std::runtime_error{CODE_POS_STR + std::format("{} 不是一个文件，而是一个目录", url)};
+		throw std::runtime_error{CODE_POS_STR + std::format("{} 不是一个文件，而是一个目录", path)};
 	}
 
-	shared_ptr<FileStream> fs{new FileStream{url}};
+	shared_ptr<FileStream> fs{new FileStream{path}};
 
 	fs->_fs = shared_ptr<fstream>{
 		new fstream{
-			url,
+			path,
 			ios_base::in | ios_base::out | ios_base::binary,
 		},
 	};
 
 	if (fs->_fs->fail())
 	{
-		throw std::runtime_error{CODE_POS_STR + std::format("打开 {} 失败。检查文件是不是只读的。", url)};
+		throw std::runtime_error{CODE_POS_STR + std::format("打开 {} 失败。检查文件是不是只读的。", path)};
 	}
 
 	fs->_can_read = true;
@@ -78,31 +78,31 @@ shared_ptr<FileStream> FileStream::OpenExisting(std::string url)
 	return fs;
 }
 
-shared_ptr<FileStream> FileStream::OpenReadOnly(std::string url)
+shared_ptr<FileStream> FileStream::OpenReadOnly(std::string path)
 {
-	if (!filesystem::exists(url))
+	if (!filesystem::exists(path))
 	{
 		// 文件不存在
-		throw std::runtime_error{CODE_POS_STR + std::format("文件 {} 不存在。", url)};
+		throw std::runtime_error{CODE_POS_STR + std::format("文件 {} 不存在。", path)};
 	}
 
-	if (filesystem::is_directory(url))
+	if (filesystem::is_directory(path))
 	{
-		throw std::runtime_error{CODE_POS_STR + std::format("{} 不是一个文件，而是一个目录", url)};
+		throw std::runtime_error{CODE_POS_STR + std::format("{} 不是一个文件，而是一个目录", path)};
 	}
 
-	shared_ptr<FileStream> fs{new FileStream{url}};
+	shared_ptr<FileStream> fs{new FileStream{path}};
 
 	fs->_fs = shared_ptr<fstream>{
 		new fstream{
-			url,
+			path,
 			ios_base::in | ios_base::binary,
 		},
 	};
 
 	if (fs->_fs->fail())
 	{
-		throw std::runtime_error{CODE_POS_STR + std::format("打开 {} 失败。检查文件是不是只读的。", url)};
+		throw std::runtime_error{CODE_POS_STR + std::format("打开 {} 失败。检查文件是不是只读的。", path)};
 	}
 
 	fs->_can_read = true;
@@ -135,7 +135,7 @@ void FileStream::SetLength(int64_t value)
 	SetPosition(std::min(value, current_pos));
 
 	// 重设大小
-	std::filesystem::resize_file(_url.c_str(), value);
+	std::filesystem::resize_file(_path.c_str(), value);
 	std::cout << "更改大小后文件大小=" << Length() << std::endl;
 }
 

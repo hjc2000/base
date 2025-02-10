@@ -46,19 +46,19 @@ namespace base
 		namespace filesystem
 		{
 			/// @brief 以只读方式打开文件。文件必须存在，否则会抛出异常。
-			/// @param url 文件的路径。
+			/// @param path 文件的路径。
 			/// @return 成功打开则返回 base::IFileStream 对象。失败会抛出异常，不会返回空指针。
-			std::shared_ptr<base::IFileStream> OpenReadOnly(std::string url);
+			std::shared_ptr<base::IFileStream> OpenReadOnly(std::string path);
 
 			/// @brief 用打开模式打开一个存在的文件。如果文件不存在，此函数不会创建文件。
-			/// @param url 文件路径
+			/// @param path 文件路径
 			/// @return 如果文件存在，且成功打开，则返回 base::IFileStream 对象。失败会抛出异常，不会返回空指针。
-			std::shared_ptr<base::IFileStream> OpenExisting(std::string url);
+			std::shared_ptr<base::IFileStream> OpenExisting(std::string path);
 
 			/// @brief 用创建模式打开文件流，无论如何都会创建一个新的空白文件。会覆盖旧的。
-			/// @param url 文件路径
+			/// @param path 文件路径
 			/// @return 创建文件成功则返回 base::IFileStream 对象。创建失败会抛出异常，不会返回空指针。
-			std::shared_ptr<base::IFileStream> CreateNewAnyway(std::string url);
+			std::shared_ptr<base::IFileStream> CreateNewAnyway(std::string path);
 		} // namespace filesystem
 	} // namespace di
 } // namespace base

@@ -3,19 +3,19 @@
 
 #if HAS_THREAD
 
-std::shared_ptr<base::IFileStream> base::di::filesystem::OpenReadOnly(std::string url)
+std::shared_ptr<base::IFileStream> base::di::filesystem::OpenReadOnly(std::string path)
 {
-	return base::FileStream::OpenReadOnly(url);
+	return base::FileStream::OpenReadOnly(path);
 }
 
-std::shared_ptr<base::IFileStream> base::di::filesystem::OpenExisting(std::string url)
+std::shared_ptr<base::IFileStream> base::di::filesystem::OpenExisting(std::string path)
 {
-	return base::FileStream::OpenExisting(url);
+	return base::FileStream::OpenExisting(path);
 }
 
-std::shared_ptr<base::IFileStream> base::di::filesystem::CreateNewAnyway(std::string url)
+std::shared_ptr<base::IFileStream> base::di::filesystem::CreateNewAnyway(std::string path)
 {
-	return base::FileStream::CreateNewAnyway(url);
+	return base::FileStream::CreateNewAnyway(path);
 }
 
 #endif
