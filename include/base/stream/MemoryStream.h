@@ -11,11 +11,8 @@ namespace base
 		public base::Stream
 	{
 	private:
-		std::unique_ptr<uint8_t[]> _buffer;
-
-		/// @brief 引用 _buffer 字段的内存或引用从构造函数中传进来的外部内存。
-		/// @note 让本类对象具有引用外部内存的能力，避免拷贝整个缓冲区，可以提高性能。
-		base::Span _span{};
+		class BufferContext;
+		std::shared_ptr<BufferContext> _buffer_context;
 
 		/// @brief 指向当前要读或写的位置。Read 和 Write 会操作的第一个字节就是 _position 指向的字节。
 		int32_t _position = 0;

@@ -1,5 +1,32 @@
 #include "MemoryStream.h"
 
+class base::MemoryStream::BufferContext
+{
+private:
+	std::unique_ptr<uint8_t[]> _buffer;
+
+	/// @brief 引用 _buffer 字段的内存或引用从构造函数中传进来的外部内存。
+	/// @note 让本类对象具有引用外部内存的能力，避免拷贝整个缓冲区，可以提高性能。
+	base::Span _span{};
+
+public:
+	BufferContext(int32_t max_size)
+	{
+		_buffer = std::unique_ptr<uint8_t[]>{new uint8_t[max_size]};
+		_span = base::Span{_buffer.get(), max_size};
+	}
+
+	BufferContext(base::Span const &span)
+	{
+		_span = span;
+	}
+
+	base::Span Span() const
+	{
+		return _span;
+	}
+};
+
 base::MemoryStream::MemoryStream(int32_t max_size)
 {
 	if (max_size <= 0)
@@ -7,23 +34,22 @@ base::MemoryStream::MemoryStream(int32_t max_size)
 		throw std::invalid_argument{"max_size 不能小于等于 0."};
 	}
 
-	_buffer = std::unique_ptr<uint8_t[]>{new uint8_t[max_size]};
-	_span = base::Span{_buffer.get(), max_size};
+	_buffer_context = std::shared_ptr<BufferContext>{new BufferContext{max_size}};
 }
 
 base::MemoryStream::MemoryStream(base::Span const &span)
 {
-	_span = span;
+	_buffer_context = std::shared_ptr<BufferContext>{new BufferContext{span}};
 }
 
 uint8_t *base::MemoryStream::Buffer()
 {
-	return _span.Buffer();
+	return _buffer_context->Span().Buffer();
 }
 
 int32_t base::MemoryStream::BufferSize() const
 {
-	return _span.Size();
+	return _buffer_context->Span().Size();
 }
 
 int32_t base::MemoryStream::AvaliableToRead() const
@@ -33,7 +59,7 @@ int32_t base::MemoryStream::AvaliableToRead() const
 
 int32_t base::MemoryStream::AvaliableToWrite() const
 {
-	return _span.Size() - _position;
+	return _buffer_context->Span().Size() - _position;
 }
 
 bool base::MemoryStream::CanRead()
@@ -58,7 +84,7 @@ int64_t base::MemoryStream::Length()
 
 void base::MemoryStream::SetLength(int64_t value)
 {
-	if (value > _span.Size())
+	if (value > _buffer_context->Span().Size())
 	{
 		throw std::invalid_argument{"value 不能大于缓冲区大小。"};
 	}
@@ -92,8 +118,8 @@ int32_t base::MemoryStream::Read(base::Span const &span)
 		have_read = span.Size();
 	}
 
-	std::copy(_span.Buffer() + _position,
-			  _span.Buffer() + _position + have_read,
+	std::copy(_buffer_context->Span().Buffer() + _position,
+			  _buffer_context->Span().Buffer() + _position + have_read,
 			  span.Buffer());
 
 	_position += have_read;
@@ -114,7 +140,7 @@ void base::MemoryStream::Write(base::ReadOnlySpan const &span)
 
 	std::copy(span.Buffer(),
 			  span.Buffer() + span.Size(),
-			  _span.Buffer() + _position);
+			  _buffer_context->Span().Buffer() + _position);
 
 	_position += span.Size();
 	if (_position > _length)
