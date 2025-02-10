@@ -38,12 +38,8 @@ void base::CircleBufferMemoryStream::ReadNonCircular(base::Span const &span)
 }
 
 /// @brief 以非环绕方式写入。
-/// @warning 从 _end 的位置开始往后写入 count 个字节，不会管会不会超出边界，
-///			 所以调用本方法前需要检查。
-///
-/// @param buffer
-/// @param offset
-/// @param count
+/// @warning 从 _end 处开始往后写入 span，不会管会不会超出边界，所以调用本方法前需要检查。
+/// @param span
 void base::CircleBufferMemoryStream::WriteNonCircular(base::ReadOnlySpan const &span)
 {
 	std::copy(span.Buffer(),
