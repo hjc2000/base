@@ -1,22 +1,22 @@
 #include "BlockingCircleBufferMemoryStream.h"
 #include <base/string/define.h>
 
-bool base::BlockingCircleBufferMemoryStream::CanRead()
+bool base::BlockingCircleBufferMemoryStream::CanRead() const
 {
 	return true;
 }
 
-bool base::BlockingCircleBufferMemoryStream::CanWrite()
+bool base::BlockingCircleBufferMemoryStream::CanWrite() const
 {
 	return true;
 }
 
-bool base::BlockingCircleBufferMemoryStream::CanSeek()
+bool base::BlockingCircleBufferMemoryStream::CanSeek() const
 {
 	return false;
 }
 
-int64_t base::BlockingCircleBufferMemoryStream::Length()
+int64_t base::BlockingCircleBufferMemoryStream::Length() const
 {
 	base::LockGuard{*_lock};
 	return _mstream.Length();
@@ -95,7 +95,7 @@ void base::BlockingCircleBufferMemoryStream::Close()
 	_buffer_consumed_signal->Dispose();
 }
 
-int64_t base::BlockingCircleBufferMemoryStream::Position()
+int64_t base::BlockingCircleBufferMemoryStream::Position() const
 {
 	base::LockGuard{*_lock};
 	return _mstream.Position();

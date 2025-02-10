@@ -48,17 +48,17 @@ namespace base
 		static_function std::shared_ptr<FileStream> OpenReadOnly(std::string url);
 #pragma endregion
 
-		bool CanRead() override;
-		bool CanWrite() override;
-		bool CanSeek() override;
+		bool CanRead() const override;
+		bool CanWrite() const override;
+		bool CanSeek() const override;
 
-		int64_t Length() override;
+		int64_t Length() const override;
 		void SetLength(int64_t value) override;
 
 		virtual int32_t Read(base::Span const &span) override;
 		virtual void Write(base::ReadOnlySpan const &span) override;
 
-		int64_t Position() override;
+		int64_t Position() const override;
 		void SetPosition(int64_t value) override;
 
 		void Flush() override;

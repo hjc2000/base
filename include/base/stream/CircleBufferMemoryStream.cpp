@@ -52,6 +52,7 @@ void base::CircleBufferMemoryStream::WriteNonCircular(base::ReadOnlySpan const &
 
 int32_t base::CircleBufferMemoryStream::AvailableToWrite() const
 {
+	return _buffer_size - Length();
 	if (_is_full)
 	{
 		// 如果缓冲区已满，可用空间为0
@@ -76,23 +77,23 @@ void base::CircleBufferMemoryStream::Clear()
 	_is_full = false;
 }
 
-bool base::CircleBufferMemoryStream::CanRead()
+bool base::CircleBufferMemoryStream::CanRead() const
 {
 	return true;
 }
 
-bool base::CircleBufferMemoryStream::CanWrite()
+bool base::CircleBufferMemoryStream::CanWrite() const
 {
 	return true;
 }
 
-bool base::CircleBufferMemoryStream::CanSeek()
+bool base::CircleBufferMemoryStream::CanSeek() const
 {
 	// 循环队列通常不支持随机访问
 	return false;
 }
 
-int64_t base::CircleBufferMemoryStream::Length()
+int64_t base::CircleBufferMemoryStream::Length() const
 {
 	if (_is_full)
 	{
@@ -196,7 +197,7 @@ void base::CircleBufferMemoryStream::Write(base::ReadOnlySpan const &span)
 	WriteNonCircular(span2);
 }
 
-int64_t base::CircleBufferMemoryStream::Position()
+int64_t base::CircleBufferMemoryStream::Position() const
 {
 	throw std::runtime_error{"不支持的操作"};
 }

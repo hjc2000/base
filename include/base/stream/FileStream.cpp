@@ -5,17 +5,17 @@
 using namespace std;
 using namespace base;
 
-bool FileStream::CanRead()
+bool FileStream::CanRead() const
 {
 	return _can_read;
 }
 
-bool FileStream::CanWrite()
+bool FileStream::CanWrite() const
 {
 	return _can_write;
 }
 
-bool FileStream::CanSeek()
+bool FileStream::CanSeek() const
 {
 	return _can_seek;
 }
@@ -139,7 +139,7 @@ shared_ptr<FileStream> FileStream::OpenReadOnly(std::string url)
 	return fs;
 }
 
-int64_t FileStream::Length()
+int64_t FileStream::Length() const
 {
 	// 记录当前位置
 	int64_t current_pos = _fs->tellg();
@@ -167,7 +167,7 @@ void FileStream::SetLength(int64_t value)
 	std::cout << "更改大小后文件大小=" << Length() << std::endl;
 }
 
-int64_t FileStream::Position()
+int64_t FileStream::Position() const
 {
 	return _fs->tellg();
 }

@@ -61,13 +61,13 @@ namespace base
 		void Clear();
 
 #pragma region Stream
-		bool CanRead() override;
-		bool CanWrite() override;
-		bool CanSeek() override;
+		bool CanRead() const override;
+		bool CanWrite() const override;
+		bool CanSeek() const override;
 
 		/// @brief 流中当前剩余的有效的，可读的字节数。
 		/// @return
-		int64_t Length() override;
+		int64_t Length() const override;
 
 		/// @brief 不支持的操作。调用将引发异常。
 		/// @param value
@@ -88,7 +88,7 @@ namespace base
 
 		/// @brief 调用将发生 std::runtime_error
 		/// @return
-		int64_t Position() override;
+		int64_t Position() const override;
 
 		/// @brief 调用将发生 std::runtime_error
 		/// @param value

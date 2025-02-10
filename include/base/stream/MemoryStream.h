@@ -41,14 +41,14 @@ namespace base
 		/// @return
 		base::Span Span() const;
 
-		bool CanRead() override;
-		bool CanWrite() override;
-		bool CanSeek() override;
+		bool CanRead() const override;
+		bool CanWrite() const override;
+		bool CanSeek() const override;
 
 		/// @brief 本流的长度。
 		/// @note 写入多少字节，长度就是多少。长度不是指缓冲区的大小。
 		/// @return
-		int64_t Length() override;
+		int64_t Length() const override;
 
 		/// @brief 设置本流的长度。
 		/// @note 一般是用来减小长度以丢弃末尾的数据。如果是增大长度，会导致流的末尾出现一些
@@ -71,7 +71,7 @@ namespace base
 
 		/// @brief 流的位置
 		/// @return
-		int64_t Position() override;
+		int64_t Position() const override;
 		void SetPosition(int64_t value) override;
 	};
 } // namespace base

@@ -47,22 +47,22 @@ base::Span base::MemoryStream::Span() const
 	return _buffer_context->Span();
 }
 
-bool base::MemoryStream::CanRead()
+bool base::MemoryStream::CanRead() const
 {
 	return true;
 }
 
-bool base::MemoryStream::CanWrite()
+bool base::MemoryStream::CanWrite() const
 {
 	return true;
 }
 
-bool base::MemoryStream::CanSeek()
+bool base::MemoryStream::CanSeek() const
 {
 	return true;
 }
 
-int64_t base::MemoryStream::Length()
+int64_t base::MemoryStream::Length() const
 {
 	return _length;
 }
@@ -141,7 +141,7 @@ void base::MemoryStream::Clear()
 	_length = 0;
 }
 
-int64_t base::MemoryStream::Position()
+int64_t base::MemoryStream::Position() const
 {
 	return _position;
 }

@@ -22,22 +22,22 @@ void base::JoinedStream::AppendStream(std::shared_ptr<base::Stream> stream)
 	_stream_queue.Enqueue(stream);
 }
 
-bool base::JoinedStream::CanRead()
+bool base::JoinedStream::CanRead() const
 {
 	return true;
 }
 
-bool base::JoinedStream::CanWrite()
+bool base::JoinedStream::CanWrite() const
 {
 	return false;
 }
 
-bool base::JoinedStream::CanSeek()
+bool base::JoinedStream::CanSeek() const
 {
 	return false;
 }
 
-int64_t base::JoinedStream::Length()
+int64_t base::JoinedStream::Length() const
 {
 	throw std::runtime_error{"不支持的操作"};
 }
@@ -89,7 +89,7 @@ void base::JoinedStream::Close()
 {
 }
 
-int64_t base::JoinedStream::Position()
+int64_t base::JoinedStream::Position() const
 {
 	return _position;
 }

@@ -32,10 +32,10 @@ namespace base
 		}
 
 #pragma region 通过 Stream 继承
-		virtual bool CanRead() override;
-		virtual bool CanWrite() override;
-		virtual bool CanSeek() override;
-		virtual int64_t Length() override;
+		virtual bool CanRead() const override;
+		virtual bool CanWrite() const override;
+		virtual bool CanSeek() const override;
+		virtual int64_t Length() const override;
 		virtual void SetLength(int64_t value) override;
 		virtual int32_t Read(base::Span const &span) override;
 		virtual void Write(base::ReadOnlySpan const &span) override;
@@ -46,7 +46,7 @@ namespace base
 		/// @note 结束后，会取消所有阻塞，且不会再阻塞。
 		virtual void Close() override;
 
-		virtual int64_t Position() override;
+		virtual int64_t Position() const override;
 		virtual void SetPosition(int64_t value) override;
 #pragma endregion
 	};

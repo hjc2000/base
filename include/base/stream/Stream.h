@@ -14,13 +14,13 @@ namespace base
 	public:
 		virtual ~Stream() = default;
 
-		virtual bool CanRead() = 0;
-		virtual bool CanWrite() = 0;
-		virtual bool CanSeek() = 0;
+		virtual bool CanRead() const = 0;
+		virtual bool CanWrite() const = 0;
+		virtual bool CanSeek() const = 0;
 
 		/// @brief 流的长度
 		/// @return
-		virtual int64_t Length() = 0;
+		virtual int64_t Length() const = 0;
 		virtual void SetLength(int64_t value) = 0;
 
 		/// @brief 将本流的数据读取到 span 中。
@@ -83,7 +83,7 @@ namespace base
 
 		/// @brief 流当前的位置
 		/// @return
-		virtual int64_t Position() = 0;
+		virtual int64_t Position() const = 0;
 		virtual void SetPosition(int64_t value) = 0;
 	};
 } // namespace base
