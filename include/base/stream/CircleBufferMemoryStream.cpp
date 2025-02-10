@@ -44,13 +44,13 @@ void base::CircleBufferMemoryStream::ReadNonCircular(base::Span const &span)
 /// @param buffer
 /// @param offset
 /// @param count
-void base::CircleBufferMemoryStream::WriteNonCircular(uint8_t const *buffer, int32_t offset, int32_t count)
+void base::CircleBufferMemoryStream::WriteNonCircular(base::ReadOnlySpan const &span)
 {
-	std::copy(buffer + offset,
-			  buffer + offset + count,
+	std::copy(span.Buffer(),
+			  span.Buffer() + span.Size(),
 			  _buffer.get() + _end);
 
-	AddTail(count);
+	AddTail(span.Size());
 	_is_full = _start == _end;
 }
 
@@ -58,7 +58,8 @@ int32_t base::CircleBufferMemoryStream::AvailableToWrite() const
 {
 	if (_is_full)
 	{
-		return 0; // 如果缓冲区已满，可用空间为0
+		// 如果缓冲区已满，可用空间为0
+		return 0;
 	}
 	else if (_end >= _start)
 	{
@@ -187,16 +188,17 @@ void base::CircleBufferMemoryStream::Write(base::ReadOnlySpan const &span)
 	if (span.Size() <= _buffer_size - _end)
 	{
 		// _end 到缓冲区尾部的空间刚好够写入，此时不需要环绕
-		WriteNonCircular(span.Buffer(), 0, span.Size());
+		WriteNonCircular(span);
 		return;
 	}
 
 	// 需要环绕
-	int64_t first_chunk_size = _buffer_size - _end;
-	WriteNonCircular(span.Buffer(), 0, first_chunk_size);
+	base::ReadOnlySpan span1 = span.Slice(base::Range{0, _buffer_size - _end});
+	WriteNonCircular(span1);
 
 	// 此时 _end 已经变成 0 了，继续用 WriteNonCircular 写入剩余的字节
-	WriteNonCircular(span.Buffer(), first_chunk_size, span.Size() - first_chunk_size);
+	base::ReadOnlySpan span2 = span.Slice(base::Range{span1.Size(), span.Size()});
+	WriteNonCircular(span2);
 }
 
 int64_t base::CircleBufferMemoryStream::Position()
