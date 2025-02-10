@@ -1,5 +1,4 @@
 #pragma once
-#include <base/math/IComparable.h>
 #include <base/string/ICanToString.h>
 #include <ostream>
 #include <stdint.h>
@@ -9,8 +8,7 @@ namespace base
 {
 	/// @brief 分数类
 	class Fraction final :
-		public base::ICanToString,
-		public base::IComparable<Fraction>
+		public base::ICanToString
 	{
 	private:
 		int64_t _num = 0;
@@ -89,21 +87,24 @@ namespace base
 		explicit operator double() const;
 #pragma endregion
 
-#pragma region IComparable
+#pragma region 比较
 		/// @brief 本对象等于 another.
 		/// @param another
 		/// @return
-		virtual bool Equal(Fraction const &another) const override;
+		bool operator==(Fraction const &another) const;
 
 		/// @brief 本对象大于 another.
 		/// @param another
 		/// @return
-		virtual bool GreaterThan(Fraction const &another) const override;
+		bool operator>(Fraction const &another) const;
 
 		/// @brief 本对象小于 another.
 		/// @param another
 		/// @return
-		virtual bool LessThan(Fraction const &another) const override;
+		bool operator<(Fraction const &another) const;
+
+		bool operator>=(Fraction const &another) const;
+		bool operator<=(Fraction const &another) const;
 #pragma endregion
 	};
 } // namespace base

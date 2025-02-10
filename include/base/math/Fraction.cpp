@@ -226,9 +226,9 @@ base::Fraction::operator double() const
 
 #pragma endregion
 
-#pragma region IComparable
+#pragma region 比较
 
-bool base::Fraction::Equal(Fraction const &another) const
+bool base::Fraction::operator==(Fraction const &another) const
 {
 	if (Num() == 0 && another.Num() == 0)
 	{
@@ -243,7 +243,7 @@ bool base::Fraction::Equal(Fraction const &another) const
 	return f1.Num() == f2.Num() && f1.Den() == f2.Den();
 }
 
-bool base::Fraction::GreaterThan(Fraction const &another) const
+bool base::Fraction::operator>(Fraction const &another) const
 {
 	// 先化简，避免分母为负数，然后使用交叉乘法比大小。
 	Fraction f1 = Simplify();
@@ -255,7 +255,7 @@ bool base::Fraction::GreaterThan(Fraction const &another) const
 	return num1 * den2 > num2 * den1;
 }
 
-bool base::Fraction::LessThan(Fraction const &another) const
+bool base::Fraction::operator<(Fraction const &another) const
 {
 	// 先化简，避免分母为负数，然后使用交叉乘法比大小。
 	Fraction f1 = Simplify();
@@ -265,6 +265,36 @@ bool base::Fraction::LessThan(Fraction const &another) const
 	boost::multiprecision::cpp_int num2{f2.Num()};
 	boost::multiprecision::cpp_int den2{f2.Den()};
 	return num1 * den2 < num2 * den1;
+}
+
+bool base::Fraction::operator>=(Fraction const &another) const
+{
+	if (*this == another)
+	{
+		return true;
+	}
+
+	if (*this > another)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool base::Fraction::operator<=(Fraction const &another) const
+{
+	if (*this == another)
+	{
+		return true;
+	}
+
+	if (*this < another)
+	{
+		return true;
+	}
+
+	return false;
 }
 
 #pragma endregion
