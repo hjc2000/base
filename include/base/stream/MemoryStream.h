@@ -41,14 +41,6 @@ namespace base
 		/// @return
 		base::Span Span() const;
 
-		/// @brief 从当前 Position 到 Length，总共有多少个可读字节。
-		/// @return
-		int32_t AvaliableToRead() const;
-
-		/// @brief 从当前的 Position 开始，缓冲区中剩余的可写入空间。
-		/// @return
-		int32_t AvaliableToWrite() const;
-
 		bool CanRead() override;
 		bool CanWrite() override;
 		bool CanSeek() override;

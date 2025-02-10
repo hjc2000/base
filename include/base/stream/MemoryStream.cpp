@@ -47,16 +47,6 @@ base::Span base::MemoryStream::Span() const
 	return _buffer_context->Span();
 }
 
-int32_t base::MemoryStream::AvaliableToRead() const
-{
-	return _length - _position;
-}
-
-int32_t base::MemoryStream::AvaliableToWrite() const
-{
-	return _buffer_context->Span().Size() - _position;
-}
-
 bool base::MemoryStream::CanRead()
 {
 	return true;
@@ -79,7 +69,7 @@ int64_t base::MemoryStream::Length()
 
 void base::MemoryStream::SetLength(int64_t value)
 {
-	if (value > _buffer_context->Span().Size())
+	if (value > Span().Size())
 	{
 		throw std::invalid_argument{"value 不能大于缓冲区大小。"};
 	}
@@ -98,23 +88,15 @@ int32_t base::MemoryStream::Read(base::Span const &span)
 		throw std::invalid_argument{"不能读取 0 个字节，因为流读取 0 个字节表示流结束了。"};
 	}
 
-	if (AvaliableToRead() == 0)
+	if (Position() == Length())
 	{
 		return 0;
 	}
 
-	int32_t have_read;
-	if (AvaliableToRead() <= span.Size())
-	{
-		have_read = AvaliableToRead();
-	}
-	else
-	{
-		have_read = span.Size();
-	}
+	int32_t have_read = std::min<int32_t>(Length() - Position(), span.Size());
 
-	std::copy(_buffer_context->Span().Buffer() + _position,
-			  _buffer_context->Span().Buffer() + _position + have_read,
+	std::copy(Span().Buffer() + _position,
+			  Span().Buffer() + _position + have_read,
 			  span.Buffer());
 
 	_position += have_read;
@@ -128,14 +110,14 @@ void base::MemoryStream::Write(base::ReadOnlySpan const &span)
 		throw std::invalid_argument{"buffer 不能是空指针。"};
 	}
 
-	if (span.Size() > AvaliableToWrite())
+	if (span.Size() > Span().Size() - Position())
 	{
 		throw std::overflow_error{"缓冲区剩余空间无法接受这么多数据"};
 	}
 
 	std::copy(span.Buffer(),
 			  span.Buffer() + span.Size(),
-			  _buffer_context->Span().Buffer() + _position);
+			  Span().Buffer() + _position);
 
 	_position += span.Size();
 	if (_position > _length)
@@ -166,9 +148,9 @@ int64_t base::MemoryStream::Position()
 
 void base::MemoryStream::SetPosition(int64_t value)
 {
-	if (_position > _length)
+	if (value > _length)
 	{
-		throw std::invalid_argument{"value 不能流的长度。"};
+		throw std::invalid_argument{"value 不能大于流的长度。"};
 	}
 
 	_position = value;
