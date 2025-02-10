@@ -31,70 +31,70 @@ extern "C"
 {
 #endif
 
-    typedef struct te_expr
-    {
-        int type;
+	typedef struct te_expr
+	{
+		int type;
 
-        union
-        {
-            double value;
-            double const *bound;
-            void const *function;
-        };
+		union
+		{
+			double value;
+			double const *bound;
+			void const *function;
+		};
 
-        void *parameters[1];
-    } te_expr;
+		void *parameters[1];
+	} te_expr;
 
-    enum
-    {
-        TE_VARIABLE = 0,
+	enum
+	{
+		TE_VARIABLE = 0,
 
-        TE_FUNCTION0 = 8,
-        TE_FUNCTION1,
-        TE_FUNCTION2,
-        TE_FUNCTION3,
-        TE_FUNCTION4,
-        TE_FUNCTION5,
-        TE_FUNCTION6,
-        TE_FUNCTION7,
+		TE_FUNCTION0 = 8,
+		TE_FUNCTION1,
+		TE_FUNCTION2,
+		TE_FUNCTION3,
+		TE_FUNCTION4,
+		TE_FUNCTION5,
+		TE_FUNCTION6,
+		TE_FUNCTION7,
 
-        TE_CLOSURE0 = 16,
-        TE_CLOSURE1,
-        TE_CLOSURE2,
-        TE_CLOSURE3,
-        TE_CLOSURE4,
-        TE_CLOSURE5,
-        TE_CLOSURE6,
-        TE_CLOSURE7,
+		TE_CLOSURE0 = 16,
+		TE_CLOSURE1,
+		TE_CLOSURE2,
+		TE_CLOSURE3,
+		TE_CLOSURE4,
+		TE_CLOSURE5,
+		TE_CLOSURE6,
+		TE_CLOSURE7,
 
-        TE_FLAG_PURE = 32
-    };
+		TE_FLAG_PURE = 32
+	};
 
-    typedef struct te_variable
-    {
-        char const *name;
-        void const *address;
-        int type;
-        void *context;
-    } te_variable;
+	typedef struct te_variable
+	{
+		char const *name;
+		void const *address;
+		int type;
+		void *context;
+	} te_variable;
 
-    /* Parses the input expression, evaluates it, and frees it. */
-    /* Returns NaN on error. */
-    double te_interp(char const *expression, int *error);
+	/* Parses the input expression, evaluates it, and frees it. */
+	/* Returns NaN on error. */
+	double te_interp(char const *expression, int *error);
 
-    /* Parses the input expression and binds variables. */
-    /* Returns NULL on error. */
-    te_expr *te_compile(char const *expression, te_variable const *variables, int var_count, int *error);
+	/* Parses the input expression and binds variables. */
+	/* Returns NULL on error. */
+	te_expr *te_compile(char const *expression, te_variable const *variables, int var_count, int *error);
 
-    /* Evaluates the expression. */
-    double te_eval(te_expr const *n);
+	/* Evaluates the expression. */
+	double te_eval(te_expr const *n);
 
-    /* Prints debugging information on the syntax tree. */
-    void te_print(te_expr const *n);
+	/* Prints debugging information on the syntax tree. */
+	void te_print(te_expr const *n);
 
-    /* Frees the expression. */
-    /* This is safe to call on NULL pointers. */
-    void te_free(te_expr *n);
+	/* Frees the expression. */
+	/* This is safe to call on NULL pointers. */
+	void te_free(te_expr *n);
 
 #ifdef __cplusplus
 }
