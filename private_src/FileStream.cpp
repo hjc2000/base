@@ -2,20 +2,7 @@
 
 #if HAS_THREAD
 
-bool base::FileStream::CanRead() const
-{
-	return _can_read;
-}
-
-bool base::FileStream::CanWrite() const
-{
-	return _can_write;
-}
-
-bool base::FileStream::CanSeek() const
-{
-	return _can_seek;
-}
+#pragma region 工厂函数
 
 std::shared_ptr<base::FileStream> base::FileStream::CreateNewAnyway(std::string path)
 {
@@ -106,6 +93,23 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenReadOnly(std::string pat
 	fs->_can_write = true;
 	fs->_can_seek = true;
 	return fs;
+}
+
+#pragma endregion
+
+bool base::FileStream::CanRead() const
+{
+	return _can_read;
+}
+
+bool base::FileStream::CanWrite() const
+{
+	return _can_write;
+}
+
+bool base::FileStream::CanSeek() const
+{
+	return _can_seek;
 }
 
 int64_t base::FileStream::Length() const
