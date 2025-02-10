@@ -1,6 +1,6 @@
-#if HAS_THREAD
-
 #include "FileStream.h"
+
+#if HAS_THREAD
 
 bool base::FileStream::CanRead() const
 {
