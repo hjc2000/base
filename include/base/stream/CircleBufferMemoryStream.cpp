@@ -53,21 +53,6 @@ void base::CircleBufferMemoryStream::WriteNonCircular(base::ReadOnlySpan const &
 int32_t base::CircleBufferMemoryStream::AvailableToWrite() const
 {
 	return _buffer_size - Length();
-	if (_is_full)
-	{
-		// 如果缓冲区已满，可用空间为0
-		return 0;
-	}
-	else if (_end >= _start)
-	{
-		// 如果尾指针在头指针后面，可用空间是缓冲区尾部到尾指针，加上头指针到缓冲区头部的空间
-		return _buffer_size - (_end - _start);
-	}
-	else
-	{
-		// 如果尾指针在头指针前面，可用空间是头指针到尾指针之间的空间
-		return _start - _end;
-	}
 }
 
 void base::CircleBufferMemoryStream::Clear()
