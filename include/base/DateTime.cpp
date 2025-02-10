@@ -4,7 +4,6 @@
 
 int64_t base::DateTime::GetRealTimeInMilliseconds()
 {
-
 	std::chrono::duration since_epoch = std::chrono::system_clock::now().time_since_epoch();
 	int64_t millis = std::chrono::duration_cast<std::chrono::milliseconds>(since_epoch).count();
 	return millis;
