@@ -1,14 +1,11 @@
 #include "Stream.h"
 
-using namespace base;
-
 int32_t base::Stream::ReadExactly(base::Span const &span)
 {
 	base::Span remain_span{span};
-	int64_t total_read = 0;
 	while (remain_span.Size() > 0)
 	{
-		int64_t have_read = Read(remain_span);
+		int32_t have_read = Read(remain_span);
 		if (have_read == 0)
 		{
 			// 到达流结尾了，读到多少就多少，直接返回
@@ -21,8 +18,8 @@ int32_t base::Stream::ReadExactly(base::Span const &span)
 	return span.Size() - remain_span.Size();
 }
 
-void Stream::CopyTo(std::shared_ptr<base::Stream> dst_stream,
-					std::shared_ptr<base::CancellationToken> cancellationToken)
+void base::Stream::CopyTo(std::shared_ptr<base::Stream> dst_stream,
+						  std::shared_ptr<base::CancellationToken> cancellationToken)
 {
 #if HAS_THREAD
 	uint8_t temp_buffer[1024];
