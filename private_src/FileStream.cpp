@@ -2,7 +2,6 @@
 
 #include "FileStream.h"
 
-using namespace std;
 using namespace base;
 
 bool FileStream::CanRead() const
@@ -20,14 +19,14 @@ bool FileStream::CanSeek() const
 	return _can_seek;
 }
 
-shared_ptr<FileStream> FileStream::CreateNewAnyway(std::string path)
+std::shared_ptr<FileStream> FileStream::CreateNewAnyway(std::string path)
 {
-	shared_ptr<FileStream> fs{new FileStream{path}};
+	std::shared_ptr<FileStream> fs{new FileStream{path}};
 
 	/* 加上 ios_base::trunc，这样打开文件流后，如果原本存在此文件，就会将其截断，
 	 * 让其初始长度变成 0，相当于一个新文件。
 	 */
-	fs->_fs = shared_ptr<std::fstream>{
+	fs->_fs = std::shared_ptr<std::fstream>{
 		new std::fstream{
 			path,
 			std::ios_base::out | std::ios_base::in | std::ios_base::trunc | std::ios_base::binary,
@@ -45,25 +44,25 @@ shared_ptr<FileStream> FileStream::CreateNewAnyway(std::string path)
 	return fs;
 }
 
-shared_ptr<FileStream> FileStream::OpenExisting(std::string path)
+std::shared_ptr<FileStream> FileStream::OpenExisting(std::string path)
 {
-	if (!filesystem::exists(path))
+	if (!std::filesystem::exists(path))
 	{
 		// 文件不存在
 		throw std::runtime_error{CODE_POS_STR + std::format("文件 {} 不存在。", path)};
 	}
 
-	if (filesystem::is_directory(path))
+	if (std::filesystem::is_directory(path))
 	{
 		throw std::runtime_error{CODE_POS_STR + std::format("{} 不是一个文件，而是一个目录", path)};
 	}
 
-	shared_ptr<FileStream> fs{new FileStream{path}};
+	std::shared_ptr<FileStream> fs{new FileStream{path}};
 
-	fs->_fs = shared_ptr<fstream>{
-		new fstream{
+	fs->_fs = std::shared_ptr<std::fstream>{
+		new std::fstream{
 			path,
-			ios_base::in | ios_base::out | ios_base::binary,
+			std::ios_base::in | std::ios_base::out | std::ios_base::binary,
 		},
 	};
 
@@ -78,25 +77,25 @@ shared_ptr<FileStream> FileStream::OpenExisting(std::string path)
 	return fs;
 }
 
-shared_ptr<FileStream> FileStream::OpenReadOnly(std::string path)
+std::shared_ptr<FileStream> FileStream::OpenReadOnly(std::string path)
 {
-	if (!filesystem::exists(path))
+	if (!std::filesystem::exists(path))
 	{
 		// 文件不存在
 		throw std::runtime_error{CODE_POS_STR + std::format("文件 {} 不存在。", path)};
 	}
 
-	if (filesystem::is_directory(path))
+	if (std::filesystem::is_directory(path))
 	{
 		throw std::runtime_error{CODE_POS_STR + std::format("{} 不是一个文件，而是一个目录", path)};
 	}
 
-	shared_ptr<FileStream> fs{new FileStream{path}};
+	std::shared_ptr<FileStream> fs{new FileStream{path}};
 
-	fs->_fs = shared_ptr<fstream>{
-		new fstream{
+	fs->_fs = std::shared_ptr<std::fstream>{
+		new std::fstream{
 			path,
-			ios_base::in | ios_base::binary,
+			std::ios_base::in | std::ios_base::binary,
 		},
 	};
 
