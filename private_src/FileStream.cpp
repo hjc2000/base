@@ -2,24 +2,22 @@
 
 #include "FileStream.h"
 
-using namespace base;
-
-bool FileStream::CanRead() const
+bool base::FileStream::CanRead() const
 {
 	return _can_read;
 }
 
-bool FileStream::CanWrite() const
+bool base::FileStream::CanWrite() const
 {
 	return _can_write;
 }
 
-bool FileStream::CanSeek() const
+bool base::FileStream::CanSeek() const
 {
 	return _can_seek;
 }
 
-std::shared_ptr<FileStream> FileStream::CreateNewAnyway(std::string path)
+std::shared_ptr<base::FileStream> base::FileStream::CreateNewAnyway(std::string path)
 {
 	std::shared_ptr<FileStream> fs{new FileStream{path}};
 
@@ -44,7 +42,7 @@ std::shared_ptr<FileStream> FileStream::CreateNewAnyway(std::string path)
 	return fs;
 }
 
-std::shared_ptr<FileStream> FileStream::OpenExisting(std::string path)
+std::shared_ptr<base::FileStream> base::FileStream::OpenExisting(std::string path)
 {
 	if (!std::filesystem::exists(path))
 	{
@@ -77,7 +75,7 @@ std::shared_ptr<FileStream> FileStream::OpenExisting(std::string path)
 	return fs;
 }
 
-std::shared_ptr<FileStream> FileStream::OpenReadOnly(std::string path)
+std::shared_ptr<base::FileStream> base::FileStream::OpenReadOnly(std::string path)
 {
 	if (!std::filesystem::exists(path))
 	{
@@ -110,7 +108,7 @@ std::shared_ptr<FileStream> FileStream::OpenReadOnly(std::string path)
 	return fs;
 }
 
-int64_t FileStream::Length() const
+int64_t base::FileStream::Length() const
 {
 	// 记录当前位置
 	int64_t current_pos = _fs->tellg();
@@ -127,7 +125,7 @@ int64_t FileStream::Length() const
 	return end_pos;
 }
 
-void FileStream::SetLength(int64_t value)
+void base::FileStream::SetLength(int64_t value)
 {
 	// 防止 Position 属性超出边界
 	int64_t current_pos = Position();
@@ -138,12 +136,12 @@ void FileStream::SetLength(int64_t value)
 	std::cout << "更改大小后文件大小=" << Length() << std::endl;
 }
 
-int64_t FileStream::Position() const
+int64_t base::FileStream::Position() const
 {
 	return _fs->tellg();
 }
 
-void FileStream::SetPosition(int64_t value)
+void base::FileStream::SetPosition(int64_t value)
 {
 	/* 必须先清除标志。因为如果不清除，上次读写如果触发了 eof 了，即使在这里 seek 到非尾部
 	 * 下次读写流时仍会因为 eof 已经被设置了而无法读写。
@@ -167,12 +165,12 @@ void base::FileStream::Write(base::ReadOnlySpan const &span)
 	SetPosition(_fs->tellp());
 }
 
-void FileStream::Flush()
+void base::FileStream::Flush()
 {
 	_fs->flush();
 }
 
-void FileStream::Close()
+void base::FileStream::Close()
 {
 	_fs->close();
 }
