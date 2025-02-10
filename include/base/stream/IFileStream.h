@@ -45,7 +45,7 @@ namespace base
 	{
 		namespace filesystem
 		{
-			/// @brief 以只读方式打开文件。
+			/// @brief 以只读方式打开文件。文件必须存在，否则会抛出异常。
 			/// @param url 文件的路径。
 			/// @return 成功打开则返回 base::IFileStream 对象。失败会抛出异常，不会返回空指针。
 			std::shared_ptr<base::IFileStream> OpenReadOnly(std::string url);
