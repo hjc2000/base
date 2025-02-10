@@ -28,7 +28,7 @@ void base::BlockingCircleBufferMemoryStream::SetLength(int64_t value)
 	_mstream.SetLength(value);
 }
 
-int32_t base::BlockingCircleBufferMemoryStream::Read(uint8_t *buffer, int32_t offset, int32_t count)
+int32_t base::BlockingCircleBufferMemoryStream::Read(base::Span const &span)
 {
 	while (true)
 	{
@@ -42,7 +42,7 @@ int32_t base::BlockingCircleBufferMemoryStream::Read(uint8_t *buffer, int32_t of
 			base::LockGuard{*_lock};
 			if (_mstream.Length() > 0)
 			{
-				int64_t have_read = _mstream.Read(buffer, offset, count);
+				int64_t have_read = _mstream.Read(span);
 				_buffer_consumed_signal->Release();
 				return have_read;
 			}

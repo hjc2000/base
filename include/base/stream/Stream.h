@@ -1,4 +1,6 @@
 #pragma once
+#include <base/stream/ReadOnlySpan.h>
+#include <base/stream/Span.h>
 #include <base/task/CancellationToken.h>
 #include <base/task/TaskCanceledException.h>
 #include <memory>
@@ -6,6 +8,7 @@
 
 namespace base
 {
+	/// @brief 流接口。
 	class Stream
 	{
 	public:
@@ -20,20 +23,22 @@ namespace base
 		virtual int64_t Length() = 0;
 		virtual void SetLength(int64_t value) = 0;
 
+		/// @brief 将本流的数据读取到 span 中。
+		/// @param span
+		/// @return
+		virtual int32_t Read(base::Span const &span) = 0;
+
 		/// @brief 从流中读取数据写入 buffer。
 		/// @param buffer 要将读取到的数据写入的缓冲区。
 		/// @param offset 将读取到的数据写入 dst_buf 时的起始位置。
 		/// @param count 要读取的字节数。
 		/// @return 实际读取的字节数。如果返回 0，说明此流结束。
-		virtual int32_t Read(uint8_t *buffer, int32_t offset, int32_t count) = 0;
+		int32_t Read(uint8_t *buffer, int32_t offset, int32_t count)
+		{
+			return Read(base::Span{buffer + offset, count});
+		}
 
-		/// @brief 读取数据，并且要求至少要读出 minimum_bytes 个字节。除非到达流末尾了。
-		/// 	   如果到达流末尾，此时读取到的字节数将会小于 minimum_bytes。
-		///
-		/// @param buffer
-		/// @param offset
-		/// @param minimum_bytes
-		///
+		virtual int32_t ReadExactly(base::Span const &span);
 
 		/// @brief 从流中读取精确数量的字节数写入 buffer 中。
 		/// 	   如果遇到流末尾，无法满足要求，则读取到的字节数会小于 count。
@@ -45,7 +50,10 @@ namespace base
 		/// @return 返回读取到的字节数。
 		/// @note 一般等于 count，除非到达流末尾，无法满足要求了。
 		/// 	  调用者应该检查返回值，判断是否满足要求。
-		virtual int32_t ReadExactly(uint8_t *buffer, int32_t offset, int32_t count);
+		int32_t ReadExactly(uint8_t *buffer, int32_t offset, int32_t count)
+		{
+			return ReadExactly(base::Span{buffer + offset, count});
+		}
 
 		/// @brief 将 buffer 中的数据写入流中。
 		/// @param buffer

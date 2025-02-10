@@ -32,22 +32,22 @@ namespace base
 		}
 
 #pragma region 通过 Stream 继承
-		bool CanRead() override;
-		bool CanWrite() override;
-		bool CanSeek() override;
-		int64_t Length() override;
-		void SetLength(int64_t value) override;
-		int32_t Read(uint8_t *buffer, int32_t offset, int32_t count) override;
-		void Write(uint8_t const *buffer, int32_t offset, int32_t count) override;
-		void Flush() override;
+		virtual bool CanRead() override;
+		virtual bool CanWrite() override;
+		virtual bool CanSeek() override;
+		virtual int64_t Length() override;
+		virtual void SetLength(int64_t value) override;
+		virtual int32_t Read(base::Span const &span) override;
+		virtual void Write(uint8_t const *buffer, int32_t offset, int32_t count) override;
+		virtual void Flush() override;
 
 		/// @brief 结束流。
 		/// @note 结束后，写入的数据会被丢弃。Read 方法在读取完缓冲区的数据后，将永远返回 0.
 		/// @note 结束后，会取消所有阻塞，且不会再阻塞。
-		void Close() override;
+		virtual void Close() override;
 
-		int64_t Position() override;
-		void SetPosition(int64_t value) override;
+		virtual int64_t Position() override;
+		virtual void SetPosition(int64_t value) override;
 #pragma endregion
 	};
 } // namespace base

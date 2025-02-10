@@ -79,7 +79,7 @@ namespace base
 		/// @param count
 		/// @return
 		/// @exception buffer 为空指针会抛出 std::invalid_argument 异常。
-		int32_t Read(uint8_t *buffer, int32_t offset, int32_t count) override;
+		virtual int32_t Read(base::Span const &span) override;
 
 		/// @brief
 		/// @param buffer

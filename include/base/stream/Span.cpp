@@ -8,18 +8,13 @@
 
 base::Span::Span(uint8_t *buffer, int32_t size)
 {
-	if (buffer == nullptr)
-	{
-		throw std::invalid_argument{CODE_POS_STR + "buffer 不能是空指针"};
-	}
-
-	if (size <= 0)
-	{
-		throw std::invalid_argument{CODE_POS_STR + "size 不能 <=0."};
-	}
-
 	_buffer = buffer;
 	_size = size;
+
+	if (_buffer == nullptr)
+	{
+		_size = 0;
+	}
 }
 
 base::Span::Span(Span const &o)

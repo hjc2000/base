@@ -2,27 +2,23 @@
 
 using namespace base;
 
-int32_t Stream::ReadExactly(uint8_t *buffer, int32_t offset, int32_t count)
+int32_t base::Stream::ReadExactly(base::Span const &span)
 {
+	base::Span remain_span{span};
 	int64_t total_read = 0;
-	while (true)
+	while (remain_span.Size() > 0)
 	{
-		int64_t remain_count = count - total_read;
-		if (remain_count <= 0)
-		{
-			// 读取完成，返回
-			return total_read;
-		}
-
-		int64_t have_read = Read(buffer, offset + total_read, remain_count);
+		int64_t have_read = Read(remain_span);
 		if (have_read == 0)
 		{
 			// 到达流结尾了，读到多少就多少，直接返回
-			return total_read;
+			break;
 		}
 
-		total_read += have_read;
+		remain_span = remain_span.Slice(base::Range{have_read, remain_span.Size()});
 	}
+
+	return span.Size() - remain_span.Size();
 }
 
 void Stream::CopyTo(std::shared_ptr<base::Stream> dst_stream,

@@ -70,16 +70,11 @@ void base::MemoryStream::SetLength(int64_t value)
 	}
 }
 
-int32_t base::MemoryStream::Read(uint8_t *buffer, int32_t offset, int32_t count)
+int32_t base::MemoryStream::Read(base::Span const &span)
 {
-	if (buffer == nullptr)
+	if (span.Size() == 0)
 	{
-		throw std::invalid_argument{"buffer 不能是空指针。"};
-	}
-
-	if (count == 0)
-	{
-		throw std::invalid_argument{"不能读取 0 个字节。"};
+		throw std::invalid_argument{"不能读取 0 个字节，因为流读取 0 个字节表示流结束了。"};
 	}
 
 	if (AvaliableToRead() == 0)
@@ -88,19 +83,20 @@ int32_t base::MemoryStream::Read(uint8_t *buffer, int32_t offset, int32_t count)
 	}
 
 	int32_t have_read;
-	if (AvaliableToRead() <= count)
+	if (AvaliableToRead() <= span.Size())
 	{
 		have_read = AvaliableToRead();
 	}
 	else
 	{
-		have_read = count;
+		have_read = span.Size();
 	}
 
 	std::copy(_span.Buffer() + _position,
 			  _span.Buffer() + _position + have_read,
-			  buffer + offset);
+			  span.Buffer());
 
+	_position += have_read;
 	return have_read;
 }
 

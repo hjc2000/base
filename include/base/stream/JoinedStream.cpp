@@ -52,7 +52,7 @@ void base::JoinedStream::SetLength(int64_t value)
 	throw std::runtime_error{"不支持的操作"};
 }
 
-int32_t base::JoinedStream::Read(uint8_t *buffer, int32_t offset, int32_t count)
+int32_t base::JoinedStream::Read(base::Span const &span)
 {
 	while (true)
 	{
@@ -67,7 +67,7 @@ int32_t base::JoinedStream::Read(uint8_t *buffer, int32_t offset, int32_t count)
 		}
 
 		// 执行到这里说明 _current_stream 不为空
-		int32_t have_read = _current_stream->Read(buffer, offset, count);
+		int32_t have_read = _current_stream->Read(span);
 		if (have_read == 0)
 		{
 			// 此流结束了，应该尝试获取下一个流继续读取
