@@ -33,7 +33,7 @@ namespace base
 		void AddHead(int32_t value);
 		void AddTail(int32_t value);
 
-		int32_t ReadNonCircular(uint8_t *buffer, int32_t offset, int32_t count);
+		void ReadNonCircular(base::Span const &span);
 		void WriteNonCircular(uint8_t const *buffer, int32_t offset, int32_t count);
 
 		/// @brief 本流为空。

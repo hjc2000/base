@@ -6,6 +6,11 @@ base::ReadOnlySpan::ReadOnlySpan(uint8_t const *buffer, int32_t size)
 {
 	_buffer = buffer;
 	_size = size;
+
+	if (_buffer == nullptr)
+	{
+		_size = 0;
+	}
 }
 
 base::ReadOnlySpan::ReadOnlySpan(base::Span const &o)
