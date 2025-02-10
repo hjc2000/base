@@ -2,9 +2,9 @@
 
 std::shared_ptr<base::Stream> base::JoinedStream::TryGetStream()
 {
-	if (_stream_queue.Count() == 0 && _on_current_stream_end)
+	if (_stream_queue.Count() == 0)
 	{
-		_on_current_stream_end();
+		_current_stream_end_event();
 	}
 
 	try
@@ -15,11 +15,6 @@ std::shared_ptr<base::Stream> base::JoinedStream::TryGetStream()
 	{
 		return nullptr;
 	}
-}
-
-void base::JoinedStream::SubscribeToCurrentStreamEndEvent(std::function<void()> func)
-{
-	_on_current_stream_end = func;
 }
 
 void base::JoinedStream::AppendStream(std::shared_ptr<base::Stream> stream)
