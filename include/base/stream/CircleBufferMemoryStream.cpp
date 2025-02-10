@@ -165,26 +165,26 @@ int32_t base::CircleBufferMemoryStream::Read(base::Span const &span)
 	return have_read;
 }
 
-void base::CircleBufferMemoryStream::Write(uint8_t const *buffer, int32_t offset, int32_t count)
+void base::CircleBufferMemoryStream::Write(base::ReadOnlySpan const &span)
 {
-	if (AvailableToWrite() < count)
+	if (AvailableToWrite() < span.Size())
 	{
 		throw std::overflow_error{"缓冲区剩余空间无法接受这么多数据"};
 	}
 
-	if (count <= _buffer_size - _end)
+	if (span.Size() <= _buffer_size - _end)
 	{
 		// _end 到缓冲区尾部的空间刚好够写入，此时不需要环绕
-		WriteNonCircular(buffer, offset, count);
+		WriteNonCircular(span.Buffer(), 0, span.Size());
 		return;
 	}
 
 	// 需要环绕
 	int64_t first_chunk_size = _buffer_size - _end;
-	WriteNonCircular(buffer, offset, first_chunk_size);
+	WriteNonCircular(span.Buffer(), 0, first_chunk_size);
 
 	// 此时 _end 已经变成 0 了，继续用 WriteNonCircular 写入剩余的字节
-	WriteNonCircular(buffer, offset + first_chunk_size, count - first_chunk_size);
+	WriteNonCircular(span.Buffer(), first_chunk_size, span.Size() - first_chunk_size);
 }
 
 int64_t base::CircleBufferMemoryStream::Position()

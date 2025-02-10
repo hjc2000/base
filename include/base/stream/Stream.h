@@ -55,11 +55,16 @@ namespace base
 			return ReadExactly(base::Span{buffer + offset, count});
 		}
 
+		virtual void Write(base::ReadOnlySpan const &span) = 0;
+
 		/// @brief 将 buffer 中的数据写入流中。
 		/// @param buffer
 		/// @param offset
 		/// @param count
-		virtual void Write(uint8_t const *buffer, int32_t offset, int32_t count) = 0;
+		void Write(uint8_t const *buffer, int32_t offset, int32_t count)
+		{
+			Write(base::ReadOnlySpan{buffer + offset, count});
+		}
 
 		/// @brief 将本流拷贝到 dst_stream 中。
 		/// @param dst_stream

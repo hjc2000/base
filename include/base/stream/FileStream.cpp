@@ -190,9 +190,9 @@ int32_t base::FileStream::Read(base::Span const &span)
 	return have_read;
 }
 
-void FileStream::Write(uint8_t const *buffer, int32_t offset, int32_t count)
+void base::FileStream::Write(base::ReadOnlySpan const &span)
 {
-	_fs->write((char *)(buffer + offset), count);
+	_fs->write(reinterpret_cast<char const *>(span.Buffer()), span.Size());
 	SetPosition(_fs->tellp());
 }
 

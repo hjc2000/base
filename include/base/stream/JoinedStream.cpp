@@ -80,7 +80,7 @@ int32_t base::JoinedStream::Read(base::Span const &span)
 	}
 }
 
-void base::JoinedStream::Write(uint8_t const *buffer, int32_t offset, int32_t count)
+void base::JoinedStream::Write(base::ReadOnlySpan const &span)
 {
 	throw std::runtime_error{"不支持的操作"};
 }

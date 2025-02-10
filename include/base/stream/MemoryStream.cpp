@@ -100,23 +100,23 @@ int32_t base::MemoryStream::Read(base::Span const &span)
 	return have_read;
 }
 
-void base::MemoryStream::Write(uint8_t const *buffer, int32_t offset, int32_t count)
+void base::MemoryStream::Write(base::ReadOnlySpan const &span)
 {
-	if (buffer == nullptr)
+	if (span.Buffer() == nullptr)
 	{
 		throw std::invalid_argument{"buffer 不能是空指针。"};
 	}
 
-	if (count > AvaliableToWrite())
+	if (span.Size() > AvaliableToWrite())
 	{
 		throw std::overflow_error{"缓冲区剩余空间无法接受这么多数据"};
 	}
 
-	std::copy(buffer + offset,
-			  buffer + offset + count,
+	std::copy(span.Buffer(),
+			  span.Buffer() + span.Size(),
 			  _span.Buffer() + _position);
 
-	_position += count;
+	_position += span.Size();
 	if (_position > _length)
 	{
 		// 写完后当前位置超过流的长度，则将流的长度设为当前位置，使流的长度增大。

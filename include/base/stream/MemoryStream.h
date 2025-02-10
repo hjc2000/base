@@ -73,20 +73,8 @@ namespace base
 		/// @exception value 大于 max_size 会抛出 std::invalid_argument。
 		void SetLength(int64_t value) override;
 
-		/// @brief
-		/// @param buffer
-		/// @param offset
-		/// @param count
-		/// @return
-		/// @exception buffer 为空指针会抛出 std::invalid_argument 异常。
 		virtual int32_t Read(base::Span const &span) override;
-
-		/// @brief
-		/// @param buffer
-		/// @param offset
-		/// @param count
-		/// @exception std::invalid_argument
-		void Write(uint8_t const *buffer, int32_t offset, int32_t count) override;
+		virtual void Write(base::ReadOnlySpan const &span) override;
 
 		void Flush() override;
 

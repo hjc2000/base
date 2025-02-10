@@ -56,7 +56,7 @@ namespace base
 		void SetLength(int64_t value) override;
 
 		virtual int32_t Read(base::Span const &span) override;
-		void Write(uint8_t const *buffer, int32_t offset, int32_t count) override;
+		virtual void Write(base::ReadOnlySpan const &span) override;
 
 		int64_t Position() override;
 		void SetPosition(int64_t value) override;

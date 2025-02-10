@@ -52,8 +52,9 @@ int32_t base::BlockingCircleBufferMemoryStream::Read(base::Span const &span)
 	}
 }
 
-void base::BlockingCircleBufferMemoryStream::Write(uint8_t const *buffer, int32_t offset, int32_t count)
+void base::BlockingCircleBufferMemoryStream::Write(base::ReadOnlySpan const &span)
 {
+	base::ReadOnlySpan remain_span = span;
 	while (true)
 	{
 		if (_stream_closed)
@@ -65,12 +66,11 @@ void base::BlockingCircleBufferMemoryStream::Write(uint8_t const *buffer, int32_
 			base::LockGuard{*_lock};
 			if (_mstream.AvailableToWrite() > 0)
 			{
-				int64_t should_write = std::min(_mstream.AvailableToWrite(), count);
-				_mstream.Write(buffer, offset, should_write);
-				offset += should_write;
-				count -= should_write;
+				int32_t should_write = std::min(_mstream.AvailableToWrite(), remain_span.Size());
+				_mstream.Write(remain_span);
+				remain_span = remain_span.Slice(base::Range{should_write, remain_span.Size()});
 				_buffer_avaliable_signal->Release();
-				if (count <= 0)
+				if (remain_span.Size() <= 0)
 				{
 					return;
 				}

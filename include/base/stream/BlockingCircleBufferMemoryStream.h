@@ -38,7 +38,7 @@ namespace base
 		virtual int64_t Length() override;
 		virtual void SetLength(int64_t value) override;
 		virtual int32_t Read(base::Span const &span) override;
-		virtual void Write(uint8_t const *buffer, int32_t offset, int32_t count) override;
+		virtual void Write(base::ReadOnlySpan const &span) override;
 		virtual void Flush() override;
 
 		/// @brief 结束流。
