@@ -59,7 +59,6 @@ namespace base
 			/// @param url 文件路径
 			/// @return 创建文件成功则返回 base::IFileStream 对象。创建失败会抛出异常，不会返回空指针。
 			std::shared_ptr<base::IFileStream> CreateNewAnyway(std::string url);
-			;
 		} // namespace filesystem
 	} // namespace di
 } // namespace base
