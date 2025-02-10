@@ -37,13 +37,7 @@ namespace base
 		/// @param span
 		MemoryStream(base::Span const &span);
 
-		/// @brief 获取本流的缓冲区
-		/// @return
-		uint8_t *Buffer();
-
-		/// @brief 获取内部缓冲区大小。这就是本流能够储存的最大的字节数。
-		/// @return
-		int32_t BufferSize() const;
+		base::Span Span() const;
 
 		/// @brief 从当前 Position 到 Length，总共有多少个可读字节。
 		/// @return

@@ -42,14 +42,9 @@ base::MemoryStream::MemoryStream(base::Span const &span)
 	_buffer_context = std::shared_ptr<BufferContext>{new BufferContext{span}};
 }
 
-uint8_t *base::MemoryStream::Buffer()
+base::Span base::MemoryStream::Span() const
 {
-	return _buffer_context->Span().Buffer();
-}
-
-int32_t base::MemoryStream::BufferSize() const
-{
-	return _buffer_context->Span().Size();
+	return _buffer_context->Span();
 }
 
 int32_t base::MemoryStream::AvaliableToRead() const
