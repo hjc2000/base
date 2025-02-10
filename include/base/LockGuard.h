@@ -49,4 +49,4 @@ namespace base
 			_lock.Lock();
 		}
 	};
-}
+} // namespace base
