@@ -150,32 +150,31 @@ int32_t base::CircleBufferMemoryStream::Read(base::Span const &span)
 	 * span 如果太大，本流的数据无法充满他，所以需要将 span 切片，最大只能到 Length.
 	 * 如果 span 的大小本来就小于 Length 了，则保持原大小。
 	 */
-	int32_t should_read = std::min<int32_t>(span.Size(), Length());
-	base::Span remain_span = span.Slice(base::Range{0, should_read});
+	base::Span const should_read_span = span.Slice(base::Range{0, std::min<int32_t>(span.Size(), Length())});
 	if (_end > _start)
 	{
 		// 尾指针在头指针的后面，当前缓冲区内的数据没有环绕，所以读取时也不需要环绕
-		ReadNonCircular(remain_span);
-		return remain_span.Size();
+		ReadNonCircular(should_read_span);
+		return should_read_span.Size();
 	}
 
-	/* 执行到这里说明 _end <= _head，此时缓冲区内的数据发生了环绕，所以读取时有可能要环绕。*/
-	if (remain_span.Size() <= _buffer_size - _start)
+	// 执行到这里说明 _end <= _head，此时缓冲区内的数据发生了环绕，所以读取时有可能要环绕。
+	if (should_read_span.Size() <= _buffer_size - _start)
 	{
 		// 此时从 _start 到缓冲区末尾的数据刚好够本次读取，不用环绕
-		ReadNonCircular(remain_span);
-		return remain_span.Size();
+		ReadNonCircular(should_read_span);
+		return should_read_span.Size();
 	}
 
 	// 执行到这里说明要环绕了。
 	// 先读取从 _start 开始到缓冲区末尾的数据。因为这部分可以先用非环绕的方式读出来。
-	base::Span non_circular_span = remain_span.Slice(base::Range{0, _buffer_size - _start});
-	ReadNonCircular(non_circular_span);
-	remain_span = remain_span.Slice(base::Range{non_circular_span.Size(), remain_span.Size()});
+	base::Span span1 = should_read_span.Slice(base::Range{0, _buffer_size - _start});
+	ReadNonCircular(span1);
 
 	// 此时变成非环绕模式了，因为刚才的读取让 _start 发生环绕，已经变成 0 了。
-	ReadNonCircular(remain_span);
-	return should_read;
+	base::Span span2 = should_read_span.Slice(base::Range{span1.Size(), should_read_span.Size()});
+	ReadNonCircular(span2);
+	return should_read_span.Size();
 }
 
 void base::CircleBufferMemoryStream::Write(base::ReadOnlySpan const &span)
