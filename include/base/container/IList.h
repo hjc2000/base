@@ -15,22 +15,22 @@ namespace base
 	private:
 #pragma region IListEnumerator
 
-		template <typename IListEnumeratorItemType>
+		template <typename item_type>
 		class IListEnumerator :
-			public base::IEnumerator<IListEnumeratorItemType>
+			public base::IEnumerator<item_type>
 		{
 		private:
-			IList<IListEnumeratorItemType> *_list;
+			IList<item_type> *_list;
 			int _index = 0;
 			bool _is_first_move = true;
 
 		public:
-			IListEnumerator(IList<IListEnumeratorItemType> *list)
+			IListEnumerator(IList<item_type> *list)
 			{
 				_list = list;
 			}
 
-			IListEnumeratorItemType &CurrentValue() override
+			item_type &CurrentValue() override
 			{
 				return (*_list)[_index];
 			}
