@@ -210,5 +210,10 @@ namespace base
 		{
 			return _vector == another._vector;
 		}
+
+		virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() override
+		{
+			return base::IList<ItemType>::GetEnumerator();
+		}
 	};
 } // namespace base

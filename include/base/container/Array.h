@@ -13,67 +13,10 @@ namespace base
 	/// @tparam TCount
 	template <typename ItemType, int32_t TCount>
 	class Array :
-		public base::IEnumerable<ItemType>,
 		public base::IRawArray<ItemType>
 	{
 	private:
 		std::array<ItemType, TCount> _arr{};
-
-#pragma region 迭代器
-
-		class Enumerator :
-			public base::IEnumerator<ItemType>
-		{
-		private:
-			int _index = 0;
-			bool _first_move = true;
-			std::array<ItemType, TCount> &_arr;
-
-		public:
-			Enumerator(std::array<ItemType, TCount> &arr)
-				: _arr(arr)
-			{
-				Reset();
-			}
-
-			/// @brief 获取当前值的引用
-			/// @return
-			ItemType &CurrentValue() override
-			{
-				return _arr[_index];
-			}
-
-			/// @brief 迭代器前进到下一个值
-			/// @return
-			bool MoveNext() override
-			{
-				if (_first_move)
-				{
-					_first_move = false;
-				}
-				else
-				{
-					_index++;
-				}
-
-				if (_index < 0 || _index >= TCount)
-				{
-					return false;
-				}
-
-				return true;
-			}
-
-			/// @brief 将迭代器重置到容器开始的位置。
-			/// @note 开始位置是第一个元素前。也就是说重置后，要调用一次 MoveNext 才能获取到第一个值。
-			void Reset() override
-			{
-				_first_move = true;
-				_index = 0;
-			}
-		};
-
-#pragma endregion
 
 	public:
 #pragma region 生命周期
@@ -188,15 +131,6 @@ namespace base
 		{
 			Array<ItemType, TCount> *self = const_cast<Array<ItemType, TCount> *>(this);
 			return (*self)[index];
-		}
-
-		/// @brief 获取迭代器
-		/// @return
-		std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() override
-		{
-			return std::shared_ptr<IEnumerator<ItemType>>{
-				new Enumerator{_arr},
-			};
 		}
 
 		/// @brief 数组的大小
