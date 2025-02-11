@@ -5,28 +5,13 @@
 
 namespace base
 {
-	template <typename TRet>
-	TRet Parse(std::string const &param)
+	struct ParseOptions
 	{
-		static_assert(false, "未实现的特化版本。");
-		throw std::runtime_error{"未实现的特化版本。"};
-	}
+		/// @brief 进制。
+		int32_t _base = 10;
+	};
 
-	/// @brief 特化版本：从 std::string 解析为 int
-	/// @param param
-	/// @return
-	template <>
-	int Parse<int>(std::string const &param)
-	{
-		return std::stoi(param);
-	}
-
-	/// @brief 特化版本：从 std::string 解析为 double
-	/// @param param
-	/// @return
-	template <>
-	double Parse<double>(std::string const &param)
-	{
-		return std::stod(param);
-	}
+	int32_t ParseInt32(std::string const &str, base::ParseOptions const &options = base::ParseOptions{});
+	int64_t ParseInt64(std::string const &str, base::ParseOptions const &options = base::ParseOptions{});
+	double ParseDouble(std::string const &str, base::ParseOptions const &options = base::ParseOptions{});
 } // namespace base
