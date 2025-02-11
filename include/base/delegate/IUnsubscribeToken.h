@@ -7,6 +7,7 @@ namespace base
 	class IUnsubscribeToken
 	{
 	public:
+		/// @brief 取消订阅委托。
 		virtual void Unsubscribe() = 0;
 	};
 } // namespace base
