@@ -102,7 +102,7 @@ namespace base
 				throw std::invalid_argument{"span 的元素个数和本数组不同。"};
 			}
 
-			this->AsSpan().CopyFrom(span);
+			this->AsArraySpan().CopyFrom(span);
 		}
 
 		/// @brief 将初始化列表的数据拷贝过来。

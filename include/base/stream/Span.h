@@ -73,37 +73,11 @@ namespace base
 		/// @brief 翻转本 Span 所引用的内存段。
 		void Reverse() const;
 
-#pragma region CopyFrom
-		/// @brief 将 span 所引用的内存的数据拷贝到本对象所引用的内存中。
-		/// @param start 要放在本对象所引用的内存中的起始位置。
-		/// @param span 要被拷贝的内存段。
-		void CopyFrom(int32_t start, base::Span const &span) const;
-
-		/// @brief 将 span 所引用的内存的数据拷贝到本对象所引用的内存中。
-		/// @param span 要被拷贝的内存段。
-		void CopyFrom(base::Span const &span) const;
-
-		/// @brief 将一个 ReadOnlySpan 所引用的内存的数据拷贝过来。
-		/// @param start 要放在本对象所引用的内存中的起始位置。
-		/// @param span 要被拷贝的内存段。
-		void CopyFrom(int32_t start, base::ReadOnlySpan const &span) const;
-
 		/// @brief 将一个 ReadOnlySpan 所引用的内存的数据拷贝过来。
 		/// @param span 要被拷贝的内存段。
 		void CopyFrom(base::ReadOnlySpan const &span) const;
-
-		/// @brief 将初始化列表拷贝到本对象所引用的内存中。
-		/// @param start 要拷贝到本 Span 所引用的内存的起始位置。
-		/// @param list 初始化列表。
-		void CopyFrom(int32_t start, std::initializer_list<uint8_t> const &list) const;
-
-		/// @brief 将一段内存拷贝到本对象所引用的内存中。
-		/// @param start 要放在本对象所引用的内存中的起始位置。
-		/// @param buffer 数据源缓冲区。
-		/// @param offset 在 buffer 中的偏移量。
-		/// @param count 要拷贝多少个字节。
-		void CopyFrom(int32_t start, uint8_t const *buffer, int32_t offset, int32_t count) const;
-#pragma endregion
+		void CopyFrom(base::Span const &span) const;
+		void CopyFrom(std::initializer_list<uint8_t> const &list) const;
 
 		/// @brief 获取非 const 迭代器
 		/// @return

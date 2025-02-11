@@ -146,7 +146,7 @@ base::Array<uint8_t, 3> base::Mac::Oui() const
 
 void base::Mac::SetOui(base::Array<uint8_t, 3> const &value)
 {
-	_mac_buffer.AsSpan().Slice(base::Range{3, 6}).CopyFrom(value.AsReadOnlyArraySpan());
+	_mac_buffer.AsArraySpan().Slice(base::Range{3, 6}).CopyFrom(value.AsReadOnlyArraySpan());
 }
 
 bool base::Mac::IsMulticastAddress() const

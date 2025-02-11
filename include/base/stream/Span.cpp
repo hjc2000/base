@@ -87,68 +87,37 @@ void base::Span::Reverse() const
 	std::reverse(_buffer, _buffer + _size);
 }
 
-#pragma region CopyFrom
-
-void base::Span::CopyFrom(int32_t start, base::Span const &span) const
+void base::Span::CopyFrom(base::ReadOnlySpan const &span) const
 {
-	if (start + span.Size() > _size)
+	if (span.Size() != _size)
 	{
-		throw std::out_of_range{CODE_POS_STR + "本 Span 装不下传进来的这个 Span."};
+		throw std::invalid_argument{CODE_POS_STR + "span 的大小和本对象不一致。"};
 	}
 
 	std::copy(span.Buffer(),
 			  span.Buffer() + span.Size(),
-			  _buffer + start);
+			  _buffer);
 }
 
 void base::Span::CopyFrom(base::Span const &span) const
 {
-	CopyFrom(0, span);
+	CopyFrom(base::ReadOnlySpan{span});
 }
 
-void base::Span::CopyFrom(int32_t start, base::ReadOnlySpan const &span) const
+void base::Span::CopyFrom(std::initializer_list<uint8_t> const &list) const
 {
-	CopyFrom(start, span.Buffer(), 0, span.Size());
-}
-
-void base::Span::CopyFrom(base::ReadOnlySpan const &span) const
-{
-	CopyFrom(0, span);
-}
-
-void base::Span::CopyFrom(int32_t start, std::initializer_list<uint8_t> const &list) const
-{
-	if (start + static_cast<int32_t>(list.size()) > _size)
+	if (static_cast<int32_t>(list.size()) != _size)
 	{
-		std::string message = CODE_POS_STR +
-							  std::string{"本 Span 无法在"} +
-							  " start = " +
-							  std::to_string(start) +
-							  " 时放下该初始化列表。";
-
-		throw std::out_of_range{message};
+		throw std::invalid_argument{CODE_POS_STR + "list 的大小和本对象不一致。"};
 	}
 
-	int32_t i = start;
-	for (uint8_t num : list)
+	auto it = list.begin();
+	for (int32_t i = 0; i < _size; i++)
 	{
-		_buffer[i++] = num;
+		_buffer[i] = *it;
+		it++;
 	}
 }
-
-void base::Span::CopyFrom(int32_t start, uint8_t const *buffer, int32_t offset, int32_t count) const
-{
-	if (start + count > _size)
-	{
-		throw std::out_of_range{CODE_POS_STR + "本 Span 装不下传进来的这个缓冲区。"};
-	}
-
-	std::copy(buffer + offset,
-			  buffer + offset + count,
-			  _buffer + start);
-}
-
-#pragma endregion
 
 std::shared_ptr<base::IEnumerator<uint8_t>> base::Span::GetEnumerator()
 {

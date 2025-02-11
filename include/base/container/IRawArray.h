@@ -29,7 +29,7 @@ namespace base
 			std::reverse(Buffer(), Buffer() + Count());
 		}
 
-		base::ArraySpan<ItemType> AsSpan()
+		base::ArraySpan<ItemType> AsArraySpan()
 		{
 			return base::ArraySpan<ItemType>{Buffer(), Count()};
 		}

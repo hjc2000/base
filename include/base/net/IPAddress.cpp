@@ -28,11 +28,7 @@ base::IPAddress::IPAddress(std::endian endian, base::Array<uint8_t, 4> const &ip
 {
 	_type = IPAddressType::IPV4;
 	_span = base::Span{_ip_address_buffer.Buffer(), 4};
-
-	_span.CopyFrom(0,
-				   ip_address_buffer.Buffer(),
-				   0,
-				   ip_address_buffer.Count());
+	_span.CopyFrom(ip_address_buffer.AsReadOnlyArraySpan());
 
 	// 用小端序存放 IPV4 地址
 	if (endian != std::endian::little)
@@ -45,11 +41,7 @@ base::IPAddress::IPAddress(std::endian endian, base::Array<uint8_t, 16> const &i
 {
 	_type = IPAddressType::IPV6;
 	_span = base::Span{_ip_address_buffer.Buffer(), 16};
-
-	_span.CopyFrom(0,
-				   ip_address_buffer.Buffer(),
-				   0,
-				   ip_address_buffer.Count());
+	_span.CopyFrom(ip_address_buffer.AsReadOnlyArraySpan());
 
 	// 用小端序存放 IPV6 地址
 	if (endian != std::endian::little)
@@ -64,7 +56,7 @@ base::IPAddress::IPAddress(std::endian endian, std::initializer_list<uint8_t> co
 	{
 		_type = IPAddressType::IPV4;
 		_span = base::Span{_ip_address_buffer.Buffer(), 4};
-		_span.CopyFrom(0, list);
+		_span.CopyFrom(list);
 
 		// 用小端序存放 IPV4 地址
 		if (endian != std::endian::little)
@@ -76,7 +68,7 @@ base::IPAddress::IPAddress(std::endian endian, std::initializer_list<uint8_t> co
 	{
 		_type = IPAddressType::IPV6;
 		_span = base::Span{_ip_address_buffer.Buffer(), 16};
-		_span.CopyFrom(0, list);
+		_span.CopyFrom(list);
 
 		// 用小端序存放 IPV6 地址
 		if (endian != std::endian::little)
