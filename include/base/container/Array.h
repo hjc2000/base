@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <array>
 #include <base/container/IRawArray.h>
-#include <base/container/iterator/IEnumerable.h>
 #include <stdexcept>
 #include <string>
 
