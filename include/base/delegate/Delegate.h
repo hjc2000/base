@@ -18,7 +18,7 @@ namespace base
 	private:
 		std::map<uint64_t, std::function<void(Args...)>> _functions;
 		uint64_t _next_id = 0;
-		std::shared_ptr<base::IMutex> _lock = base::di::CreateMutex();
+		mutable std::shared_ptr<base::IMutex> _lock = base::di::CreateMutex();
 
 		/// @brief 取消订阅方法
 		/// @param id
@@ -63,7 +63,7 @@ namespace base
 
 		/// @brief 调用所有订阅的函数
 		/// @param ...args
-		void Invoke(Args... args)
+		void Invoke(Args... args) const
 		{
 			base::LockGuard g{*_lock};
 			for (auto &func : _functions)
@@ -74,7 +74,7 @@ namespace base
 
 		/// @brief 伪函数
 		/// @param ...args
-		void operator()(Args... args)
+		void operator()(Args... args) const
 		{
 			Invoke(args...);
 		}
