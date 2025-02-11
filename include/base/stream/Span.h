@@ -44,12 +44,14 @@ namespace base
 		Span &operator=(Span const &o);
 #pragma endregion
 
+#pragma region operator[]
 		uint8_t &operator[](int32_t index) const;
 
 		/// @brief 获得指定范围的切片。
 		/// @param range
 		/// @return
 		base::Span operator[](base::Range const &range) const;
+#pragma endregion
 
 		/// @brief 所引用的内存。
 		/// @return
