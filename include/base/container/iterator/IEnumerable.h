@@ -15,21 +15,21 @@ namespace base
 #pragma region ConstEnumerator
 
 		/// @brief const 迭代器
-		/// @tparam ConstEnumerator_ItemType
-		template <typename ConstEnumerator_ItemType>
+		/// @tparam item_type
+		template <typename item_type>
 		class ConstEnumerator :
-			public IEnumerator<ConstEnumerator_ItemType const>
+			public IEnumerator<item_type const>
 		{
 		private:
-			std::shared_ptr<IEnumerator<ConstEnumerator_ItemType>> _enumerator;
+			std::shared_ptr<IEnumerator<item_type>> _enumerator;
 
 		public:
-			ConstEnumerator(std::shared_ptr<IEnumerator<ConstEnumerator_ItemType>> enumerator)
+			ConstEnumerator(std::shared_ptr<IEnumerator<item_type>> enumerator)
 			{
 				_enumerator = enumerator;
 			}
 
-			ConstEnumerator_ItemType const &CurrentValue() override
+			item_type const &CurrentValue() override
 			{
 				return _enumerator->CurrentValue();
 			}
