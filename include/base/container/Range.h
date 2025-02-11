@@ -17,16 +17,22 @@ namespace base
 		{
 		}
 
+		/// @brief 区间左端点。区间左边是闭的。
+		/// @return
 		int32_t Begin() const
 		{
 			return _begin;
 		}
 
+		/// @brief 区间右端点。区间右边是开的。
+		/// @return
 		int32_t End() const
 		{
 			return _end;
 		}
 
+		/// @brief End - Begin，等于这个区间的大小。
+		/// @return
 		int32_t Size() const
 		{
 			return _end - _begin;
