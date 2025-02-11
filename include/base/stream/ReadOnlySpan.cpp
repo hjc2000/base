@@ -2,6 +2,8 @@
 #include <base/string/define.h>
 #include <stdexcept>
 
+#pragma region 生命周期
+
 base::ReadOnlySpan::ReadOnlySpan(uint8_t const *buffer, int32_t size)
 {
 	_buffer = buffer;
@@ -42,6 +44,10 @@ base::ReadOnlySpan &base::ReadOnlySpan::operator=(ReadOnlySpan const &o)
 	return *this;
 }
 
+#pragma endregion
+
+#pragma region operator[]
+
 uint8_t const &base::ReadOnlySpan::operator[](int32_t index) const
 {
 	if (index < 0 || index >= _size)
@@ -57,6 +63,8 @@ base::ReadOnlySpan base::ReadOnlySpan::operator[](base::Range const &range) cons
 	return Slice(range);
 }
 
+#pragma endregion
+
 uint8_t const *base::ReadOnlySpan::Buffer() const
 {
 	return _buffer;
@@ -66,6 +74,8 @@ int32_t base::ReadOnlySpan::Size() const
 {
 	return _size;
 }
+
+#pragma region Slice
 
 base::ReadOnlySpan base::ReadOnlySpan::Slice(int32_t start, int32_t size) const
 {
@@ -81,6 +91,8 @@ base::ReadOnlySpan base::ReadOnlySpan::Slice(base::Range const &range) const
 {
 	return Slice(range.Begin(), range.Size());
 }
+
+#pragma endregion
 
 std::shared_ptr<base::IEnumerator<uint8_t const>> base::ReadOnlySpan::GetEnumerator()
 {

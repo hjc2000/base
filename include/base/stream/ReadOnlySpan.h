@@ -13,6 +13,7 @@ namespace base
 		int32_t _size = 0;
 
 	public:
+#pragma region 生命周期
 		/// @brief 无参构造函数。引用一段空内存。
 		/// @note 可以通过 Size 属性判断本对象是否引用到了有效的内存。
 		ReadOnlySpan() = default;
@@ -38,13 +39,16 @@ namespace base
 		/// @param o
 		/// @return
 		ReadOnlySpan &operator=(ReadOnlySpan const &o);
+#pragma endregion
 
+#pragma region operator[]
 		uint8_t const &operator[](int32_t index) const;
 
 		/// @brief 获得指定范围的切片。
 		/// @param range
 		/// @return
 		base::ReadOnlySpan operator[](base::Range const &range) const;
+#pragma endregion
 
 		/// @brief 所引用的内存。
 		/// @return
@@ -54,6 +58,7 @@ namespace base
 		/// @return
 		int32_t Size() const;
 
+#pragma region Slice
 		/// @brief 将本 ReadOnlySpan 切片，得到一个更小的 ReadOnlySpan.
 		/// @param start 切片起始位置。
 		/// @param size 切片大小。
@@ -64,6 +69,7 @@ namespace base
 		/// @param range
 		/// @return
 		base::ReadOnlySpan Slice(base::Range const &range) const;
+#pragma endregion
 
 		/// @brief 获取非 const 迭代器。
 		/// @return
