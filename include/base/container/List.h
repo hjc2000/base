@@ -12,8 +12,8 @@ namespace base
 	/// @tparam ItemType
 	template <typename ItemType>
 	class List final :
-		public base::IList<ItemType>,
-		public base::IRawArray<ItemType>
+		public virtual base::IList<ItemType>,
+		public virtual base::IRawArray<ItemType>
 	{
 	private:
 		std::vector<ItemType> _vector;
