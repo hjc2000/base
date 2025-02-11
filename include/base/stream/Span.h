@@ -73,11 +73,19 @@ namespace base
 		/// @brief 翻转本 Span 所引用的内存段。
 		void Reverse() const;
 
-		/// @brief 将一个 ReadOnlySpan 所引用的内存的数据拷贝过来。
-		/// @param span 要被拷贝的内存段。
+#pragma region CopyFrom
+		/// @brief 将 span 所引用的内存的数据拷贝过来。
+		/// @param span
 		void CopyFrom(base::ReadOnlySpan const &span) const;
+
+		/// @brief 将 span 所引用的内存的数据拷贝过来。
+		/// @param span
 		void CopyFrom(base::Span const &span) const;
+
+		/// @brief 将 list 的数据拷贝过来。
+		/// @param list
 		void CopyFrom(std::initializer_list<uint8_t> const &list) const;
+#pragma endregion
 
 		/// @brief 获取非 const 迭代器
 		/// @return
