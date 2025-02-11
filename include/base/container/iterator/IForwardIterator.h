@@ -9,22 +9,22 @@ namespace base
 	class IForwardIterator
 	{
 	public:
-		/// @brief 解引用
+		/// @brief 解引用。
 		/// @return
 		virtual ItemType &operator*() = 0;
 
-		/// @brief 前缀递增
+		/// @brief 前缀递增。
 		/// @return
 		virtual TypeSelf &operator++() = 0;
 
-		/// @brief 相等比较
+		/// @brief 相等运算符。
 		/// @param o
 		/// @return
 		virtual bool operator==(TypeSelf const &o) const = 0;
 
 #pragma region 扩展
 
-		/// @brief 后缀递增
+		/// @brief 后缀递增。
 		/// @param
 		/// @return
 		virtual TypeSelf &operator++(int)
@@ -32,14 +32,14 @@ namespace base
 			return operator++();
 		}
 
-		/// @brief 成员访问运算符
+		/// @brief 成员访问运算符。
 		/// @return
 		ItemType *operator->()
 		{
 			return &operator*();
 		}
 
-		/// @brief 不等运算符
+		/// @brief 不等运算符。
 		/// @param o
 		/// @return
 		bool operator!=(TypeSelf const &o) const
