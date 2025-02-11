@@ -95,6 +95,16 @@ namespace base
 			*this = o;
 		}
 
+		Array(base::ReadOnlyArraySpan<ItemType> const &span)
+		{
+			if (span.Count() != TCount)
+			{
+				throw std::invalid_argument{"span 的元素个数和本数组不同。"};
+			}
+
+			this->AsSpan().CopyFrom(span);
+		}
+
 		/// @brief 将初始化列表的数据拷贝过来。
 		/// @param list 初始化列表。
 		Array(std::initializer_list<ItemType> const &list)
@@ -121,15 +131,6 @@ namespace base
 			{
 				_arr[i++] = item;
 			}
-		}
-
-		/// @brief 将裸数组的元素拷贝过来。
-		/// @param buffer 数据源缓冲区。
-		/// @param offset 从 buffer 的 offset 处开始拷贝。
-		/// @param count 要拷贝多少个数据。
-		Array(ItemType const *buffer, int offset, int count)
-		{
-			CopyFrom(0, buffer, offset, count);
 		}
 
 		/// @brief 将 o 的数据拷贝过来。
@@ -196,46 +197,6 @@ namespace base
 			return std::shared_ptr<IEnumerator<ItemType>>{
 				new Enumerator{_arr},
 			};
-		}
-
-		/// @brief 将 buffer 的 offset 处开始的 count 个元素拷贝过来，放置到本对象内部数组的 start 处。
-		/// @param start 从本对象内部数组的此处开始放置。
-		/// @param buffer 数据源缓冲区。
-		/// @param offset 从 buffer 的 offset 处开始拷贝。
-		/// @param count 要拷贝多少个数据。
-		void CopyFrom(int start, ItemType const *buffer, int offset, int count)
-		{
-			if (start > TCount)
-			{
-				throw std::out_of_range{"start 超出缓冲区范围，CopyFrom 失败。"};
-			}
-
-			if (start + count > TCount)
-			{
-				throw std::out_of_range{"数组放不下，CopyFrom 失败。"};
-			}
-
-			std::copy(buffer + offset, buffer + offset + count, _arr.data() + start);
-		}
-
-		/// @brief 将本数组的数据拷贝到 out_buffer.
-		/// @param start 从本数组的 start 处开始拷贝数据到 out_buffer.
-		/// @param out_buffer 数据目的地缓冲区。
-		/// @param offset 拷贝到 out_buffer 的 offset 处。
-		/// @param count 拷贝多少个数据。
-		void CopyTo(int start, ItemType *out_buffer, int offset, int count) const
-		{
-			if (start > TCount)
-			{
-				throw std::out_of_range{"start 超出缓冲区范围，CopyTo 失败。"};
-			}
-
-			if (start + count > TCount)
-			{
-				throw std::out_of_range{"没有那么多数据拷贝到外部数组，CopyTo 失败。"};
-			}
-
-			std::copy(_arr.data() + start, _arr.data() + start + count, out_buffer + offset);
 		}
 
 		/// @brief 数组的大小

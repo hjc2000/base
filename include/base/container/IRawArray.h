@@ -1,5 +1,5 @@
 #pragma once
-#include <algorithm>
+#include <base/container/ArraySpan.h>
 
 namespace base
 {
@@ -12,7 +12,7 @@ namespace base
 #pragma region 接口
 		/// @brief 数组的大小
 		/// @return
-		virtual int Count() const = 0;
+		virtual int32_t Count() const = 0;
 
 		/// @brief 获取底层的缓冲区
 		/// @return
@@ -27,6 +27,16 @@ namespace base
 		void Reverse()
 		{
 			std::reverse(Buffer(), Buffer() + Count());
+		}
+
+		base::ArraySpan<ItemType> AsSpan()
+		{
+			return base::ArraySpan<ItemType>{Buffer(), Count()};
+		}
+
+		base::ReadOnlyArraySpan<ItemType> AsReadOnlyArraySpan() const
+		{
+			return base::ReadOnlyArraySpan<ItemType>{Buffer(), Count()};
 		}
 	};
 } // namespace base
