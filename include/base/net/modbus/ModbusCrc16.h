@@ -53,8 +53,7 @@ namespace base
 		}
 
 		void Add(std::vector<uint8_t> const &datas);
-
-		void Add(base::IList<uint8_t> const &datas);
+		void Add(base::IEnumerable<uint8_t> const &datas);
 
 		/// @brief 重置 CRC16 寄存器。
 		/// @warning 在开始新的一轮 CRC 校验前需要调用本方法重置 CRC16 寄存器，否则本轮添加的

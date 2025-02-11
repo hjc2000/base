@@ -27,7 +27,7 @@ void base::ModbusCrc16::Add(std::vector<uint8_t> const &datas)
 	}
 }
 
-void base::ModbusCrc16::Add(base::IList<uint8_t> const &datas)
+void base::ModbusCrc16::Add(base::IEnumerable<uint8_t> const &datas)
 {
 	for (uint8_t data : datas)
 	{
