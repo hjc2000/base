@@ -258,11 +258,5 @@ namespace base
 		{
 			return _arr.data();
 		}
-
-		/// @brief 翻转数组
-		void Reverse()
-		{
-			std::reverse(_arr.begin(), _arr.end());
-		}
 	};
 } // namespace base

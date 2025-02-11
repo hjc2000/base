@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 
 namespace base
 {
@@ -19,5 +20,11 @@ namespace base
 		/// @brief 获取底层的缓冲区
 		/// @return
 		virtual ItemType const *Buffer() const = 0;
+
+		/// @brief 翻转数组
+		void Reverse()
+		{
+			std::reverse(Buffer(), Buffer() + Count());
+		}
 	};
 } // namespace base

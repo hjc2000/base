@@ -100,11 +100,5 @@ namespace base
 		{
 			return this == &o;
 		}
-
-		/// @brief 将本列表中的元素翻转。
-		void Reverse()
-		{
-			std::reverse(this->begin(), this->end());
-		}
 	};
 } // namespace base
