@@ -213,7 +213,7 @@ namespace base
 
 		virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() override
 		{
-			return base::IList<ItemType>::GetEnumerator();
+			return base::IRawArray<ItemType>::GetEnumerator();
 		}
 	};
 } // namespace base
