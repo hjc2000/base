@@ -10,7 +10,7 @@ namespace base
 	/// @tparam ItemType
 	template <typename ItemType>
 	class IList :
-		public base::IEnumerable<ItemType>
+		virtual public base::IEnumerable<ItemType>
 	{
 	private:
 #pragma region IListEnumerator

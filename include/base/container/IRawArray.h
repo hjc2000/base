@@ -8,7 +8,7 @@ namespace base
 	/// @tparam ItemType
 	template <typename ItemType>
 	class IRawArray :
-		public base::IEnumerable<ItemType>
+		virtual public base::IEnumerable<ItemType>
 	{
 	private:
 #pragma region 迭代器
