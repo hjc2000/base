@@ -84,9 +84,9 @@ namespace base
 			_vector.push_back(item);
 		}
 
-		void Insert(int const index, ItemType const &item) override
+		void Insert(int32_t const index, ItemType const &item) override
 		{
-			if (index < 0 || index > int(_vector.size()))
+			if (index < 0 || index > static_cast<int32_t>(_vector.size()))
 			{
 				throw std::out_of_range{"索引超出范围"};
 			}
@@ -112,9 +112,9 @@ namespace base
 			return false; // 如果没有找到元素，返回 false
 		}
 
-		void RemoveAt(int const index) override
+		void RemoveAt(int32_t const index) override
 		{
-			if (index < 0 || index >= (int)_vector.size())
+			if (index < 0 || index >= static_cast<int32_t>(_vector.size()))
 			{
 				throw std::out_of_range{"索引超出范围"};
 			}
@@ -122,7 +122,7 @@ namespace base
 			_vector.erase(_vector.begin() + index);
 		}
 
-		int IndexOf(ItemType const &item) const override
+		int32_t IndexOf(ItemType const &item) const override
 		{
 			auto it = std::find_if(_vector.begin(),
 								   _vector.end(),
@@ -133,7 +133,7 @@ namespace base
 
 			if (it != _vector.end())
 			{
-				return (int)std::distance(_vector.begin(), it); // 返回元素的索引
+				return static_cast<int32_t>(std::distance(_vector.begin(), it)); // 返回元素的索引
 			}
 
 			return -1; // 如果没有找到元素，返回 -1
@@ -156,14 +156,14 @@ namespace base
 			_vector.clear();
 		}
 
-		int Count() const override
+		int32_t Count() const override
 		{
-			return (int)_vector.size();
+			return static_cast<int32_t>(_vector.size());
 		}
 
-		ItemType &operator[](int const index) override
+		ItemType &operator[](int32_t const index) override
 		{
-			if (index < 0 || index >= int(_vector.size()))
+			if (index < 0 || index >= static_cast<int32_t>(_vector.size()))
 			{
 				throw std::out_of_range{"索引超出范围"};
 			}
@@ -171,9 +171,9 @@ namespace base
 			return _vector[index];
 		}
 
-		ItemType const &operator[](int const index) const override
+		ItemType const &operator[](int32_t const index) const override
 		{
-			if (index < 0 || index >= int(_vector.size()))
+			if (index < 0 || index >= static_cast<int32_t>(_vector.size()))
 			{
 				throw std::out_of_range{"索引超出范围"};
 			}

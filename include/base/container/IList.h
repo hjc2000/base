@@ -21,7 +21,7 @@ namespace base
 		{
 		private:
 			IList<item_type> *_list;
-			int _index = 0;
+			int32_t _index = 0;
 			bool _is_first_move = true;
 
 		public:
@@ -60,15 +60,15 @@ namespace base
 
 	public:
 		virtual void Add(ItemType const &item) = 0;
-		virtual void Insert(int index, ItemType const &item) = 0;
+		virtual void Insert(int32_t index, ItemType const &item) = 0;
 		virtual bool Remove(ItemType const &item) = 0;
-		virtual void RemoveAt(int index) = 0;
-		virtual int IndexOf(ItemType const &item) const = 0;
+		virtual void RemoveAt(int32_t index) = 0;
+		virtual int32_t IndexOf(ItemType const &item) const = 0;
 		virtual bool Contains(ItemType const &item) const = 0;
 		virtual void Clear() = 0;
-		virtual int Count() const = 0;
-		virtual ItemType &operator[](int index) = 0;
-		virtual ItemType const &operator[](int index) const = 0;
+		virtual int32_t Count() const = 0;
+		virtual ItemType &operator[](int32_t index) = 0;
+		virtual ItemType const &operator[](int32_t index) const = 0;
 
 		virtual void Add(IList<ItemType> const &list)
 		{

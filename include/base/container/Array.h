@@ -11,7 +11,7 @@ namespace base
 	/// @brief 数组
 	/// @tparam ItemType
 	/// @tparam TCount
-	template <typename ItemType, int TCount>
+	template <typename ItemType, int32_t TCount>
 	class Array :
 		public base::IEnumerable<ItemType>,
 		public base::IRawArray<ItemType>
@@ -201,7 +201,7 @@ namespace base
 
 		/// @brief 数组的大小
 		/// @return
-		int Count() const override
+		int32_t Count() const override
 		{
 			return TCount;
 		}
