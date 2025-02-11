@@ -9,6 +9,7 @@ namespace base
 	class IRawArray
 	{
 	public:
+#pragma region 接口
 		/// @brief 数组的大小
 		/// @return
 		virtual int Count() const = 0;
@@ -20,6 +21,7 @@ namespace base
 		/// @brief 获取底层的缓冲区
 		/// @return
 		virtual ItemType const *Buffer() const = 0;
+#pragma endregion
 
 		/// @brief 翻转数组
 		void Reverse()
