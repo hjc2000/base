@@ -30,12 +30,12 @@ namespace base
 				_list = list;
 			}
 
-			item_type &CurrentValue() override
+			virtual item_type &CurrentValue() override
 			{
 				return (*_list)[_index];
 			}
 
-			bool MoveNext() override
+			virtual bool MoveNext() override
 			{
 				if (_is_first_move)
 				{
@@ -49,7 +49,7 @@ namespace base
 				return _index < _list->Count();
 			}
 
-			void Reset() override
+			virtual void Reset() override
 			{
 				_is_first_move = true;
 				_index = 0;
@@ -88,7 +88,7 @@ namespace base
 
 		/// @brief 获取迭代器
 		/// @return
-		std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() override
+		virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() override
 		{
 			return std::shared_ptr<IEnumerator<ItemType>>{new IListEnumerator<ItemType>{this}};
 		}
