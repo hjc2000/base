@@ -15,8 +15,6 @@ namespace base
 	class ReadOnlyArraySpan;
 #pragma endregion
 
-#pragma region ReadOnlyArraySpan 定义
-
 	/// @brief 只读的数组内存段。
 	/// @note 引用一段内存，不会持有这段内存，不管理这段内存的生命周期。
 	/// @tparam ItemType
@@ -114,10 +112,6 @@ namespace base
 			return _count;
 		}
 
-		/// @brief 将本对象的内存段的数据复制到 another 的内存段。
-		/// @param another
-		void CopyTo(base::ArraySpan<ItemType> &another) const;
-
 		base::ReadOnlyArraySpan<ItemType> Slice(base::Range const &range) const
 		{
 			if (range.End() > Count())
@@ -137,10 +131,6 @@ namespace base
 			};
 		}
 	};
-
-#pragma endregion
-
-#pragma region ArraySpan 定义
 
 	/// @brief 数组内存段。
 	/// @note 引用一段内存，不会持有这段内存，不管理这段内存的生命周期。
@@ -247,18 +237,16 @@ namespace base
 
 		/// @brief 将 another 的内存段的数据复制到本对象的内存段。
 		/// @param another
-		void CopyFrom(base::ReadOnlyArraySpan<ItemType> const &another) const;
-
-		/// @brief 将本对象的内存段的数据复制到 another 的内存段。
-		/// @param another
-		void CopyTo(base::ArraySpan<ItemType> &another) const
+		void CopyFrom(base::ReadOnlyArraySpan<ItemType> const &another) const
 		{
 			if (another.Count() != Count())
 			{
 				throw std::invalid_argument{"another 的 Count 属性必须和本对象的 Count 属性相等。"};
 			}
 
-			std::copy(Buffer(), Buffer() + Count(), another.Buffer());
+			std::copy(another.Buffer(),
+					  another.Buffer() + another.Count(),
+					  Buffer());
 		}
 
 		base::ArraySpan<ItemType> Slice(base::Range const &range) const
@@ -280,38 +268,4 @@ namespace base
 			};
 		}
 	};
-
-#pragma endregion
-
-#pragma region ReadOnlyArraySpan 函数实现
-
-	template <typename ItemType>
-	inline void ReadOnlyArraySpan<ItemType>::CopyTo(base::ArraySpan<ItemType> &another) const
-	{
-		if (another.Count() != Count())
-		{
-			throw std::invalid_argument{"another 的 Count 属性必须和本对象的 Count 属性相等。"};
-		}
-
-		std::copy(Buffer(), Buffer() + Count(), another.Buffer());
-	}
-
-#pragma endregion
-
-#pragma region ArraySpan 函数实现
-
-	template <typename ItemType>
-	inline void ArraySpan<ItemType>::CopyFrom(base::ReadOnlyArraySpan<ItemType> const &another) const
-	{
-		if (another.Count() != Count())
-		{
-			throw std::invalid_argument{"another 的 Count 属性必须和本对象的 Count 属性相等。"};
-		}
-
-		std::copy(another.Buffer(),
-				  another.Buffer() + another.Count(),
-				  Buffer());
-	}
-
-#pragma endregion
 } // namespace base
