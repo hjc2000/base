@@ -11,6 +11,9 @@ namespace base
 		int32_t _end = 0;
 
 	public:
+		/// @brief 构造函数。
+		/// @param begin 区间左端点。是闭的。
+		/// @param end 区间右端点。是开的。
 		Range(int32_t begin, int32_t end)
 			: _begin(begin),
 			  _end(end)
