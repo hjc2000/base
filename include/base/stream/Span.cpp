@@ -42,6 +42,8 @@ base::Span &base::Span::operator=(Span const &o)
 
 #pragma endregion
 
+#pragma region operator[]
+
 uint8_t &base::Span::operator[](int32_t index) const
 {
 	if (index < 0 || index >= _size)
@@ -57,6 +59,8 @@ base::Span base::Span::operator[](base::Range const &range) const
 	return Slice(range);
 }
 
+#pragma endregion
+
 uint8_t *base::Span::Buffer() const
 {
 	return _buffer;
@@ -66,6 +70,8 @@ int32_t base::Span::Size() const
 {
 	return _size;
 }
+
+#pragma region Slice
 
 base::Span base::Span::Slice(int32_t start, int32_t size) const
 {
@@ -81,6 +87,8 @@ base::Span base::Span::Slice(base::Range const &range) const
 {
 	return Slice(range.Begin(), range.Size());
 }
+
+#pragma endregion
 
 void base::Span::Reverse() const
 {

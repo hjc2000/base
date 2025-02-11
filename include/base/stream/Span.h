@@ -59,6 +59,7 @@ namespace base
 		/// @return
 		int32_t Size() const;
 
+#pragma region Slice
 		/// @brief 将本 Span 切片，得到一个更小的 Span.
 		/// @param start 切片起始位置。
 		/// @param size 切片大小。
@@ -69,6 +70,7 @@ namespace base
 		/// @param range
 		/// @return
 		base::Span Slice(base::Range const &range) const;
+#pragma endregion
 
 		/// @brief 翻转本 Span 所引用的内存段。
 		void Reverse() const;
