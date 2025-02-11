@@ -6,12 +6,19 @@
 
 namespace base
 {
+#pragma region 声明
 	template <typename ItemType>
 	class ArraySpan;
 
 	template <typename ItemType>
 	class ReadOnlyArraySpan;
+#pragma endregion
 
+#pragma region ReadOnlyArraySpan 定义
+
+	/// @brief 只读的数组内存段。
+	/// @note 引用一段内存，不会持有这段内存，不管理这段内存的生命周期。
+	/// @tparam ItemType
 	template <typename ItemType>
 	class ReadOnlyArraySpan
 	{
@@ -62,6 +69,13 @@ namespace base
 		}
 	};
 
+#pragma endregion
+
+#pragma region ArraySpan 定义
+
+	/// @brief 数组内存段。
+	/// @note 引用一段内存，不会持有这段内存，不管理这段内存的生命周期。
+	/// @tparam ItemType
 	template <typename ItemType>
 	class ArraySpan
 	{
@@ -105,7 +119,7 @@ namespace base
 
 		/// @brief 将 another 的内存段的数据复制到本对象的内存段。
 		/// @param another
-		void CopyFrom(base::ReadOnlyArraySpan<ItemType> const &another);
+		void CopyFrom(base::ReadOnlyArraySpan<ItemType> const &another) const;
 
 		/// @brief 将本对象的内存段的数据复制到 another 的内存段。
 		/// @param another
@@ -130,6 +144,10 @@ namespace base
 		}
 	};
 
+#pragma endregion
+
+#pragma region ReadOnlyArraySpan 函数实现
+
 	template <typename ItemType>
 	inline void ReadOnlyArraySpan<ItemType>::CopyTo(base::ArraySpan<ItemType> &another) const
 	{
@@ -141,8 +159,12 @@ namespace base
 		std::copy(Buffer(), Buffer() + Count(), another.Buffer());
 	}
 
+#pragma endregion
+
+#pragma region ArraySpan 函数实现
+
 	template <typename ItemType>
-	inline void ArraySpan<ItemType>::CopyFrom(base::ReadOnlyArraySpan<ItemType> const &another)
+	inline void ArraySpan<ItemType>::CopyFrom(base::ReadOnlyArraySpan<ItemType> const &another) const
 	{
 		if (another.Count() != Count())
 		{
@@ -153,4 +175,6 @@ namespace base
 				  another.Buffer() + another.Count(),
 				  Buffer());
 	}
+
+#pragma endregion
 } // namespace base
