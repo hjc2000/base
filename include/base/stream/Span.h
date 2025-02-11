@@ -1,4 +1,5 @@
 #pragma once
+#include <base/container/ArraySpan.h>
 #include <base/container/iterator/IEnumerable.h>
 #include <base/container/Range.h>
 #include <cstdint>
@@ -28,6 +29,8 @@ namespace base
 		/// @param buffer 要引用的内存。
 		/// @param size buffer 的大小。
 		Span(uint8_t *buffer, int32_t size);
+
+		Span(base::ArraySpan<uint8_t> const &span);
 
 		/// @brief 拷贝构造函数。
 		/// @note 不会拷贝对方引用的内存，而是将对方引用的内存的指针拿过来，

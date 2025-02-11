@@ -17,6 +17,17 @@ base::Span::Span(uint8_t *buffer, int32_t size)
 	}
 }
 
+base::Span::Span(base::ArraySpan<uint8_t> const &span)
+{
+	_buffer = span.Buffer();
+	_size = span.Count();
+
+	if (_buffer == nullptr)
+	{
+		_size = 0;
+	}
+}
+
 base::Span::Span(Span const &o)
 {
 	*this = o;

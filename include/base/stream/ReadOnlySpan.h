@@ -1,4 +1,5 @@
 #pragma once
+#include <base/container/ArraySpan.h>
 #include <base/stream/Span.h>
 #include <cstdint>
 
@@ -20,6 +21,8 @@ namespace base
 		/// @param buffer 要引用的内存。
 		/// @param size buffer 的大小。
 		ReadOnlySpan(uint8_t const *buffer, int32_t size);
+
+		ReadOnlySpan(base::ReadOnlyArraySpan<uint8_t> const &span);
 
 		/// @brief 通过一个可读可写的 Span 构造只读的 ReadOnlySpan.
 		/// @param o
