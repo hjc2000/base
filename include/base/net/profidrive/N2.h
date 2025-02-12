@@ -7,7 +7,7 @@ namespace base
 	class N2
 	{
 	private:
-		int32_t _value{};
+		int16_t _value{};
 
 	public:
 		N2() = default;
