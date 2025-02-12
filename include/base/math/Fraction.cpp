@@ -192,8 +192,6 @@ base::Fraction &base::Fraction::operator/=(Fraction const &value)
 	return *this;
 }
 
-#pragma region 强制转换
-
 int64_t base::Fraction::Div() const
 {
 	return _num / _den;
@@ -202,11 +200,6 @@ int64_t base::Fraction::Div() const
 int64_t base::Fraction::Mod() const
 {
 	return _num % _den;
-}
-
-double base::Fraction::ToDouble() const
-{
-	return static_cast<double>(_num) / _den;
 }
 
 std::string base::Fraction::ToString() const
@@ -219,12 +212,25 @@ base::Fraction::operator int64_t() const
 	return Div();
 }
 
-base::Fraction::operator double() const
+base::Fraction::operator int32_t() const
 {
-	return ToDouble();
+	return Div();
 }
 
-#pragma endregion
+base::Fraction::operator int16_t() const
+{
+	return Div();
+}
+
+base::Fraction::operator int8_t() const
+{
+	return Div();
+}
+
+base::Fraction::operator double() const
+{
+	return static_cast<double>(_num) / _den;
+}
 
 #pragma region 比较
 

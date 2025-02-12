@@ -68,7 +68,6 @@ namespace base
 		Fraction &operator*=(Fraction const &value);
 		Fraction &operator/=(Fraction const &value);
 
-#pragma region 强制转换
 		/// @brief 获取分子除以分母的值
 		/// @return
 		int64_t Div() const;
@@ -77,15 +76,15 @@ namespace base
 		/// @return
 		int64_t Mod() const;
 
-		double ToDouble() const;
-
 		/// @brief 将分数转化为字符串
 		/// @return
 		std::string ToString() const override;
 
 		explicit operator int64_t() const;
+		explicit operator int32_t() const;
+		explicit operator int16_t() const;
+		explicit operator int8_t() const;
 		explicit operator double() const;
-#pragma endregion
 
 #pragma region 比较
 		/// @brief 本对象等于 another.
