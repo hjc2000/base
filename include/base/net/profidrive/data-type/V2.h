@@ -15,9 +15,12 @@ namespace base
 		base::AutoBitConverter _converter{std::endian::big};
 
 	public:
-		/// @brief
+		/// @brief 从大端序的字节序列中构造。
 		/// @param span 将接收到的大端序的 16 位集缓冲区原封不动传进来。
 		V2(base::ReadOnlySpan const &span);
+
+		/// @brief 从位集中构造。
+		/// @param set
 		V2(std::bitset<16> const &set);
 
 		/// @brief 强制转换为位集。
