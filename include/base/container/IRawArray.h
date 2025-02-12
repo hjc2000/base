@@ -91,6 +91,8 @@ namespace base
 			std::reverse(Buffer(), Buffer() + Count());
 		}
 
+#pragma region CopyFrom
+
 		/// @brief 将 another 的元素拷贝到本容器。
 		/// @note 两个容器的元素个数必须相等，否则会抛出异常。
 		/// @param another
@@ -103,6 +105,21 @@ namespace base
 
 			std::copy(another.Buffer(), another.Buffer() + another.Count(), Buffer());
 		}
+
+		/// @brief 将 another 的元素拷贝到本容器。
+		/// @note 两个容器的元素个数必须相等，否则会抛出异常。
+		/// @param another
+		void CopyFrom(base::ReadOnlyArraySpan<ItemType> const &another)
+		{
+			if (Count() != another.Count())
+			{
+				throw std::invalid_argument{CODE_POS_STR + "another 的元素个数必须和本对象的元素数量一样。"};
+			}
+
+			std::copy(another.Buffer(), another.Buffer() + another.Count(), Buffer());
+		}
+
+#pragma endregion
 
 		base::ArraySpan<ItemType> AsArraySpan()
 		{
