@@ -85,6 +85,7 @@ namespace base
 #pragma endregion
 
 	public:
+#pragma region 生命周期
 		/// @brief 构造函数。构造出来的对象不会引用任何有效内存段，且大小为 0.
 		ReadOnlyArraySpan() = default;
 
@@ -101,6 +102,42 @@ namespace base
 				_count = 0;
 			}
 		}
+
+		ReadOnlyArraySpan(base::ArraySpan<ItemType> const &span)
+		{
+			_buffer = span.Buffer();
+			_count = span.Count();
+
+			if (_buffer == nullptr)
+			{
+				_count = 0;
+			}
+		}
+
+		/// @brief 拷贝构造函数。
+		/// @param span
+		ReadOnlyArraySpan(base::ReadOnlyArraySpan<ItemType> const &o)
+		{
+			*this = o;
+		}
+
+		/// @brief 赋值运算符。
+		/// @param o
+		/// @return
+		base::ReadOnlyArraySpan<ItemType> &operator=(base::ReadOnlyArraySpan<ItemType> const &o)
+		{
+			_buffer = o.Buffer();
+			_count = o.Count();
+
+			if (_buffer == nullptr)
+			{
+				_count = 0;
+			}
+
+			return *this;
+		}
+
+#pragma endregion
 
 		/// @brief 获取本对象引用的内存段。
 		/// @return
@@ -206,6 +243,7 @@ namespace base
 #pragma endregion
 
 	public:
+#pragma region 生命周期
 		/// @brief 构造函数。构造出来的对象不会引用任何有效内存段，且大小为 0.
 		ArraySpan() = default;
 
@@ -222,6 +260,31 @@ namespace base
 				_count = 0;
 			}
 		}
+
+		/// @brief 拷贝构造函数。
+		/// @param span
+		ArraySpan(base::ArraySpan<ItemType> const &o)
+		{
+			*this = o;
+		}
+
+		/// @brief 赋值运算符。
+		/// @param o
+		/// @return
+		base::ArraySpan<ItemType> &operator=(base::ArraySpan<ItemType> const &o)
+		{
+			_buffer = o.Buffer();
+			_count = o.Count();
+
+			if (_buffer == nullptr)
+			{
+				_count = 0;
+			}
+
+			return *this;
+		}
+
+#pragma endregion
 
 		/// @brief 获取本对象引用的内存段。
 		/// @return
@@ -243,6 +306,8 @@ namespace base
 			std::reverse(_buffer, _buffer + _count);
 		}
 
+#pragma region CopyFrom
+
 		/// @brief 将 another 的内存段的数据复制到本对象的内存段。
 		/// @param another
 		void CopyFrom(base::ReadOnlyArraySpan<ItemType> const &another) const
@@ -256,6 +321,15 @@ namespace base
 					  another.Buffer() + another.Count(),
 					  Buffer());
 		}
+
+		/// @brief 将 another 的内存段的数据复制到本对象的内存段。
+		/// @param another
+		void CopyFrom(base::ArraySpan<ItemType> const &another) const
+		{
+			CopyFrom(base::ReadOnlyArraySpan<ItemType>{another});
+		}
+
+#pragma endregion
 
 		base::ArraySpan<ItemType> Slice(base::Range const &range) const
 		{
