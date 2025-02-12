@@ -208,3 +208,8 @@ bool base::Span::operator==(base::ReadOnlySpan const &another) const
 {
 	return base::ReadOnlySpan{*this} == another;
 }
+
+bool base::Span::operator==(base::Span const &another) const
+{
+	return base::ReadOnlySpan{*this} == another;
+}

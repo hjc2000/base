@@ -51,11 +51,6 @@ namespace base
 		/// @param list 初始化列表。
 		Array(std::initializer_list<ItemType> const &list)
 		{
-			if (list.size() != TCount)
-			{
-				throw std::out_of_range{"本数组的大小和初始化列表不一致"};
-			}
-
 			int32_t i = 0;
 			for (auto &item : list)
 			{

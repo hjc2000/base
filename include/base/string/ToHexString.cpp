@@ -113,7 +113,7 @@ std::string base::ToHexString(void const *p, ToHexStringOption const &option)
 	return ToHexString(static_cast<uint64_t>(address), option);
 }
 
-std::string base::ToHexString(uint8_t *buffer,
+std::string base::ToHexString(uint8_t const *buffer,
 							  int32_t size,
 							  ToHexStringOption const &option)
 {
@@ -147,4 +147,14 @@ std::string base::ToHexString(uint8_t *buffer,
 
 	ret += '\n';
 	return ret;
+}
+
+std::string base::ToHexString(base::ReadOnlySpan const &span, ToHexStringOption const &option)
+{
+	return ToHexString(span.Buffer(), span.Size(), option);
+}
+
+std::string base::ToHexString(base::Span const &span, ToHexStringOption const &option)
+{
+	return ToHexString(base::ReadOnlySpan{span}, option);
 }

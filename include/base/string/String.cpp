@@ -226,6 +226,8 @@ base::String base::String::Trim() const
 
 #pragma endregion
 
+#pragma region IndexOf
+
 int32_t base::String::IndexOf(char value) const
 {
 	if (_string.size() > INT32_MAX)
@@ -248,6 +250,8 @@ int32_t base::String::IndexOf(base::String const &value) const
 {
 	return AsReadOnlySpan().IndexOf(value.AsReadOnlySpan());
 }
+
+#pragma endregion
 
 bool base::String::Contains(char value) const
 {

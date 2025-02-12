@@ -168,10 +168,11 @@ int32_t base::ReadOnlySpan::IndexOf(base::ReadOnlySpan const &match) const
 
 	if (Size() < match.Size())
 	{
+		// 本内存段的大小还没 match 的大，不可能匹配。
 		return -1;
 	}
 
-	uint8_t first_byte_of_match = match[0];
+	uint8_t const first_byte_of_match = match[0];
 	for (int32_t i = 0; i < Size(); i++)
 	{
 		if (i + match.Size() > Size())
@@ -183,7 +184,7 @@ int32_t base::ReadOnlySpan::IndexOf(base::ReadOnlySpan const &match) const
 		if (_buffer[i] == first_byte_of_match)
 		{
 			// 匹配到第 1 个字符了。
-			if (Slice(base::Range{i, _size}) == match)
+			if (Slice(i, match.Size()) == match)
 			{
 				return i;
 			}
@@ -209,4 +210,9 @@ bool base::ReadOnlySpan::operator==(base::ReadOnlySpan const &another) const
 	}
 
 	return true;
+}
+
+bool base::ReadOnlySpan::operator==(base::Span const &another) const
+{
+	return (*this) == base::ReadOnlySpan{another};
 }

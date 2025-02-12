@@ -34,4 +34,14 @@ int main()
 	int32_t result = static_cast<int16_t>(mul);
 	std::cout << result << std::endl;
 	std::cout << base::Hz{100} << std::endl;
+
+	{
+		base::Array<uint8_t, 16> arr1{1, 1, 1, 1, 1, 2, 3, 4, 5};
+		base::Array<uint8_t, 3> arr2{1, 2, 3};
+		base::Span span1{arr1.AsArraySpan()};
+		base::Span span2{arr2.AsArraySpan()};
+		std::cout << base::ToHexString(arr1.AsReadOnlyArraySpan()) << std::endl;
+		std::cout << (span1 == span2) << std::endl;
+		std::cout << (span1.IndexOf(span2)) << std::endl;
+	}
 }

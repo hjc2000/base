@@ -1,4 +1,5 @@
 #pragma once
+#include <base/stream/ReadOnlySpan.h>
 #include <stdint.h>
 #include <string>
 
@@ -74,7 +75,13 @@ namespace base
 	/// @param buffer
 	/// @param size
 	/// @return
-	std::string ToHexString(uint8_t *buffer,
+	std::string ToHexString(uint8_t const *buffer,
 							int32_t size,
+							ToHexStringOption const &option = ToHexStringOption{});
+
+	std::string ToHexString(base::ReadOnlySpan const &span,
+							ToHexStringOption const &option = ToHexStringOption{});
+
+	std::string ToHexString(base::Span const &span,
 							ToHexStringOption const &option = ToHexStringOption{});
 } // namespace base

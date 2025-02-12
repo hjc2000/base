@@ -113,5 +113,10 @@ namespace base
 		/// @param another
 		/// @return another 和本内存段大小相等，且每一个字节都相等，则返回 true，否则返回 false.
 		bool operator==(base::ReadOnlySpan const &another) const;
+
+		/// @brief another 和本内存段大小相等，且每一个字节都相等，则相等。
+		/// @param another
+		/// @return another 和本内存段大小相等，且每一个字节都相等，则返回 true，否则返回 false.
+		bool operator==(base::Span const &another) const;
 	};
 } // namespace base
