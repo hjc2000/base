@@ -17,7 +17,7 @@ namespace base
 			public base::IEnumerator<ItemType>
 		{
 		private:
-			int _index = 0;
+			int32_t _index = 0;
 			bool _first_move = true;
 			ItemType *_buffer{};
 			int32_t _count = 0;

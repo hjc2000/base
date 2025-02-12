@@ -121,11 +121,11 @@ void base::Span::CopyFrom(std::initializer_list<uint8_t> const &list) const
 		throw std::invalid_argument{CODE_POS_STR + "list 的大小和本对象不一致。"};
 	}
 
-	auto it = list.begin();
-	for (int32_t i = 0; i < _size; i++)
+	int32_t i = 0;
+	for (uint8_t const &value : list)
 	{
-		_buffer[i] = *it;
-		it++;
+		_buffer[i] = value;
+		i++;
 	}
 }
 

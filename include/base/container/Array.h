@@ -50,25 +50,13 @@ namespace base
 		/// @brief 将初始化列表的数据拷贝过来。
 		/// @param list 初始化列表。
 		Array(std::initializer_list<ItemType> const &list)
-			: Array(0, list)
 		{
-		}
-
-		/// @brief 将初始化列表的数据拷贝过来，放在指定的起始位置。
-		/// @param start 起始位置。
-		/// @param list 初始化列表。
-		Array(int start, std::initializer_list<ItemType> const &list)
-		{
-			if (start + list.size() > TCount)
+			if (list.size() != TCount)
 			{
-				throw std::out_of_range{
-					std::string{"本数组无法在 start = "} +
-						std::to_string(start) +
-						std::string{" 的情况下装下初始化列表。"},
-				};
+				throw std::out_of_range{"本数组的大小和初始化列表不一致"};
 			}
 
-			int i = start;
+			int32_t i = 0;
 			for (auto &item : list)
 			{
 				_arr[i++] = item;
@@ -113,7 +101,7 @@ namespace base
 		/// @brief 索引数组中的元素。
 		/// @param index
 		/// @return
-		ItemType &operator[](int index)
+		ItemType &operator[](int32_t index)
 		{
 			if (index < 0 || index >= TCount)
 			{
@@ -126,7 +114,7 @@ namespace base
 		/// @brief 索引数组中的元素。
 		/// @param index
 		/// @return
-		ItemType const &operator[](int index) const
+		ItemType const &operator[](int32_t index) const
 		{
 			Array<ItemType, TCount> *self = const_cast<Array<ItemType, TCount> *>(this);
 			return (*self)[index];
