@@ -103,8 +103,15 @@ namespace base
 		void FillWith(uint8_t value);
 
 		/// @brief 查找指定值所在的第一个索引。
-		/// @param value
+		/// @param match
 		/// @return 找到则返回索引，没找到则返回 -1.
-		int32_t IndexOf(uint8_t value) const;
+		int32_t IndexOf(uint8_t match) const;
+
+		int32_t IndexOf(base::ReadOnlySpan const &match) const;
+
+		/// @brief another 和本内存段大小相等，且每一个字节都相等，则相等。
+		/// @param another
+		/// @return another 和本内存段大小相等，且每一个字节都相等，则返回 true，否则返回 false.
+		bool operator==(base::ReadOnlySpan const &another) const;
 	};
 } // namespace base

@@ -165,13 +165,15 @@ namespace base
 		/// 则返回 -1.
 		int32_t IndexOf(char value) const;
 
+		int32_t IndexOf(base::String const &value) const;
+
 		/// @brief 检查字符串中是否存在至少 1 个指定的字符。
 		/// @param value 指定的字符。
 		/// @return 如果存在，则返回 true, 如果不存在则返回 false.
 		bool Contains(char value) const;
 
 		base::Span AsSpan();
-		base::ReadOnlySpan AsReadOnlySpan();
+		base::ReadOnlySpan AsReadOnlySpan() const;
 
 		/// @brief 获取指定范围内的子字符串。
 		/// @note 子字符串是从父字符串拷贝而来而不是引用父字符串的内存。

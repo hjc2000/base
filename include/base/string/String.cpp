@@ -244,6 +244,11 @@ int32_t base::String::IndexOf(char value) const
 	return -1;
 }
 
+int32_t base::String::IndexOf(base::String const &value) const
+{
+	return AsReadOnlySpan().IndexOf(value.AsReadOnlySpan());
+}
+
 bool base::String::Contains(char value) const
 {
 	return IndexOf(value) >= 0;
@@ -257,7 +262,7 @@ base::Span base::String::AsSpan()
 	};
 }
 
-base::ReadOnlySpan base::String::AsReadOnlySpan()
+base::ReadOnlySpan base::String::AsReadOnlySpan() const
 {
 	return base::ReadOnlySpan{
 		reinterpret_cast<uint8_t const *>(_string.data()),

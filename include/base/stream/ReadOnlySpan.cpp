@@ -146,15 +146,67 @@ std::shared_ptr<base::IEnumerator<uint8_t const>> base::ReadOnlySpan::GetEnumera
 	return std::shared_ptr<IEnumerator<uint8_t const>>{new Enumerator{this}};
 }
 
-int32_t base::ReadOnlySpan::IndexOf(uint8_t value) const
+int32_t base::ReadOnlySpan::IndexOf(uint8_t match) const
 {
 	for (int32_t i = 0; i < _size; i++)
 	{
-		if (_buffer[i] == value)
+		if (_buffer[i] == match)
 		{
 			return i;
 		}
 	}
 
 	return -1;
+}
+
+int32_t base::ReadOnlySpan::IndexOf(base::ReadOnlySpan const &match) const
+{
+	if (match.Size() == 0)
+	{
+		throw std::invalid_argument{CODE_POS_STR + "match 的长度不能是 0."};
+	}
+
+	if (Size() < match.Size())
+	{
+		return -1;
+	}
+
+	uint8_t first_byte_of_match = match[0];
+	for (int32_t i = 0; i < Size(); i++)
+	{
+		if (i + match.Size() > Size())
+		{
+			// 剩下的未匹配的部分已经没有 match 的长的，不可能匹配了。
+			return -1;
+		}
+
+		if (_buffer[i] == first_byte_of_match)
+		{
+			// 匹配到第 1 个字符了。
+			if (Slice(base::Range{i, _size}) == match)
+			{
+				return i;
+			}
+		}
+	}
+
+	return -1;
+}
+
+bool base::ReadOnlySpan::operator==(base::ReadOnlySpan const &another) const
+{
+	if (Size() != another.Size())
+	{
+		return false;
+	}
+
+	for (int32_t i = 0; i < Size(); i++)
+	{
+		if ((*this)[i] != another[i])
+		{
+			return false;
+		}
+	}
+
+	return true;
 }

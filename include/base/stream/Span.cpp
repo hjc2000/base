@@ -194,15 +194,17 @@ void base::Span::FillWith(uint8_t value)
 	std::fill(_buffer, _buffer + _size, value);
 }
 
-int32_t base::Span::IndexOf(uint8_t value) const
+int32_t base::Span::IndexOf(uint8_t match) const
 {
-	for (int32_t i = 0; i < _size; i++)
-	{
-		if (_buffer[i] == value)
-		{
-			return i;
-		}
-	}
+	return base::ReadOnlySpan{*this}.IndexOf(match);
+}
 
-	return -1;
+int32_t base::Span::IndexOf(base::ReadOnlySpan const &match) const
+{
+	return base::ReadOnlySpan{*this}.IndexOf(match);
+}
+
+bool base::Span::operator==(base::ReadOnlySpan const &another) const
+{
+	return base::ReadOnlySpan{*this} == another;
 }
