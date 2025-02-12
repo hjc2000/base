@@ -13,7 +13,17 @@ namespace base
 		N2() = default;
 		N2(base::Fraction const &value);
 
+		int16_t Value() const
+		{
+			return _value;
+		}
+
 		/// @brief 强制转换为分数类型。
 		explicit operator base::Fraction() const;
+
+		explicit operator int16_t() const
+		{
+			return _value;
+		}
 	};
 } // namespace base
