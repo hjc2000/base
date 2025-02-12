@@ -85,8 +85,12 @@ namespace base
 #pragma endregion
 
 	public:
+		/// @brief 构造函数。构造出来的对象不会引用任何有效内存段，且大小为 0.
 		ReadOnlyArraySpan() = default;
 
+		/// @brief 构造函数。
+		/// @param buffer 要引用的内存段指针。
+		/// @param count 要引用的内存段大小。
 		ReadOnlyArraySpan(ItemType const *buffer, int32_t count)
 		{
 			_buffer = buffer;
@@ -202,8 +206,12 @@ namespace base
 #pragma endregion
 
 	public:
+		/// @brief 构造函数。构造出来的对象不会引用任何有效内存段，且大小为 0.
 		ArraySpan() = default;
 
+		/// @brief 构造函数。
+		/// @param buffer 要引用的内存段指针。
+		/// @param count 要引用的内存段大小。
 		ArraySpan(ItemType *buffer, int32_t count)
 		{
 			_buffer = buffer;
