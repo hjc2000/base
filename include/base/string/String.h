@@ -180,6 +180,9 @@ namespace base
 		/// @param range
 		/// @return
 		base::String Slice(base::Range const &range) const;
+
+		/// @brief 翻转字符串。
+		void Reverse();
 	};
 } // namespace base
 

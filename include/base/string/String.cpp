@@ -289,6 +289,11 @@ base::String base::String::Slice(base::Range const &range) const
 	return base::String{ret};
 }
 
+void base::String::Reverse()
+{
+	std::reverse(_string.data(), _string.data() + _string.size());
+}
+
 #pragma region 重载全局运算符
 
 base::String operator+(std::string const &left, base::String const &right)
