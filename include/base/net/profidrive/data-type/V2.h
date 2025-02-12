@@ -20,8 +20,11 @@ namespace base
 		V2(base::ReadOnlySpan const &span);
 		V2(std::bitset<16> const &set);
 
+		/// @brief 强制转换为位集。
 		explicit operator std::bitset<16>() const;
 
+		/// @brief 大端序的可直接用于发送的 16 位集缓冲区。
+		/// @return
 		base::Span Span()
 		{
 			return _buffer.AsArraySpan();
