@@ -47,7 +47,7 @@ namespace base
 				uint64_t _id = 0;
 				Delegate<Args...> *_delegate;
 
-				void Unsubscribe() override
+				virtual void Unsubscribe() override
 				{
 					_delegate->Unsubscribe(_id);
 				}
