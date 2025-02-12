@@ -3,15 +3,15 @@
 
 namespace base
 {
-	/// @brief profidrive 行规特定类型: N2.
-	class N2
+	/// @brief profidrive 行规特定类型: X2.
+	class X2
 	{
 	private:
 		int16_t _value{};
 
 	public:
-		N2() = default;
-		N2(base::Fraction const &value);
+		X2() = default;
+		X2(base::Fraction const &value);
 
 		int16_t Value() const
 		{

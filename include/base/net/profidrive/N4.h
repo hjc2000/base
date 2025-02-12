@@ -3,7 +3,7 @@
 
 namespace base
 {
-	/// @brief profidrive 行规特定类型：N4.
+	/// @brief profidrive 行规特定类型: N4.
 	class N4
 	{
 	private:
@@ -21,6 +21,7 @@ namespace base
 		/// @brief 强制转换为分数类型。
 		explicit operator base::Fraction() const;
 
+		/// @brief 等同 Value 属性。
 		explicit operator int32_t() const
 		{
 			return _value;
