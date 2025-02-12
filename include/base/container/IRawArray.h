@@ -1,6 +1,7 @@
 #pragma once
 #include <base/container/ArraySpan.h>
 #include <base/container/iterator/IEnumerable.h>
+#include <base/string/define.h>
 
 namespace base
 {
@@ -88,6 +89,19 @@ namespace base
 		void Reverse()
 		{
 			std::reverse(Buffer(), Buffer() + Count());
+		}
+
+		/// @brief 将 another 的元素拷贝到本容器。
+		/// @note 两个容器的元素个数必须相等，否则会抛出异常。
+		/// @param another
+		void CopyFrom(base::IRawArray<ItemType> const &another)
+		{
+			if (Count() != another.Count())
+			{
+				throw std::invalid_argument{CODE_POS_STR + "another 的元素个数必须和本对象的元素数量一样。"};
+			}
+
+			std::copy(another.Buffer(), another.Buffer() + another.Count(), Buffer());
 		}
 
 		base::ArraySpan<ItemType> AsArraySpan()
