@@ -98,6 +98,7 @@ typedef struct state
 #define IS_CLOSURE(TYPE) (((TYPE) & TE_CLOSURE0) != 0)
 #define ARITY(TYPE) (((TYPE) & (TE_FUNCTION0 | TE_CLOSURE0)) ? ((TYPE) & 0x00000007) : 0)
 #define NEW_EXPR(type, ...) new_expr((type), (const te_expr *[]){__VA_ARGS__})
+
 #define CHECK_NULL(ptr, ...) \
 	if ((ptr) == NULL)       \
 	{                        \
@@ -126,7 +127,10 @@ static_function te_expr *new_expr(int const type, te_expr const *parameters[])
 void te_free_parameters(te_expr *n)
 {
 	if (!n)
+	{
 		return;
+	}
+
 	switch (TYPE_MASK(n->type))
 	{
 	case TE_FUNCTION7:
@@ -156,7 +160,10 @@ void te_free_parameters(te_expr *n)
 void te_free(te_expr *n)
 {
 	if (!n)
+	{
 		return;
+	}
+
 	te_free_parameters(n);
 	free(n);
 }
@@ -172,7 +179,8 @@ static_function double e(void)
 }
 
 static_function double fac(double a)
-{ /* simplest version of fac */
+{
+	/* simplest version of fac */
 	if (a < 0.0)
 		return NAN;
 	if (a > UINT_MAX)
@@ -182,9 +190,13 @@ static_function double fac(double a)
 	for (i = 1; i <= ua; i++)
 	{
 		if (i > ULONG_MAX / result)
+		{
 			return INFINITY;
+		}
+
 		result *= i;
 	}
+
 	return (double)result;
 }
 
@@ -197,7 +209,10 @@ static_function double ncr(double n, double r)
 	unsigned long int un = (unsigned int)(n), ur = (unsigned int)(r), i;
 	unsigned long int result = 1;
 	if (ur > un / 2)
+	{
 		ur = un - ur;
+	}
+
 	for (i = 1; i <= ur; i++)
 	{
 		if (result > ULONG_MAX / (un - ur + i))
@@ -205,6 +220,7 @@ static_function double ncr(double n, double r)
 		result *= un - ur + i;
 		result /= i;
 	}
+
 	return result;
 }
 
@@ -262,7 +278,10 @@ static_function te_variable const *find_builtin(char const *name, int len)
 		int const i = (imin + ((imax - imin) / 2));
 		int c = strncmp(name, functions[i].name, len);
 		if (!c)
+		{
 			c = '\0' - functions[i].name[len];
+		}
+
 		if (c == 0)
 		{
 			return functions + i;
@@ -285,7 +304,9 @@ static_function te_variable const *find_lookup(state const *s, char const *name,
 	int iters;
 	te_variable const *var;
 	if (!s->lookup)
+	{
 		return 0;
+	}
 
 	for (var = s->lookup, iters = s->lookup_len; iters; ++var, --iters)
 	{
@@ -294,6 +315,7 @@ static_function te_variable const *find_lookup(state const *s, char const *name,
 			return var;
 		}
 	}
+
 	return 0;
 }
 
@@ -370,10 +392,11 @@ void next_token(state *s)
 					switch (TYPE_MASK(var->type))
 					{
 					case TE_VARIABLE:
-						s->type = TOK_VARIABLE;
-						s->bound = var->address;
-						break;
-
+						{
+							s->type = TOK_VARIABLE;
+							s->bound = var->address;
+							break;
+						}
 					case TE_CLOSURE0:
 					case TE_CLOSURE1:
 					case TE_CLOSURE2:
@@ -381,9 +404,11 @@ void next_token(state *s)
 					case TE_CLOSURE4:
 					case TE_CLOSURE5:
 					case TE_CLOSURE6:
-					case TE_CLOSURE7:              /* Falls through. */
-						s->context = var->context; /* Falls through. */
-
+					case TE_CLOSURE7: /* Falls through. */
+						{
+							/* Falls through. */
+							s->context = var->context;
+						}
 					case TE_FUNCTION0:
 					case TE_FUNCTION1:
 					case TE_FUNCTION2:
@@ -392,9 +417,11 @@ void next_token(state *s)
 					case TE_FUNCTION5:
 					case TE_FUNCTION6:
 					case TE_FUNCTION7: /* Falls through. */
-						s->type = var->type;
-						s->function = var->address;
-						break;
+						{
+							s->type = var->type;
+							s->function = var->address;
+							break;
+						}
 					}
 				}
 			}
@@ -404,46 +431,68 @@ void next_token(state *s)
 				switch (s->next++[0])
 				{
 				case '+':
-					s->type = TOK_INFIX;
-					s->function = add;
-					break;
+					{
+						s->type = TOK_INFIX;
+						s->function = add;
+						break;
+					}
 				case '-':
-					s->type = TOK_INFIX;
-					s->function = sub;
-					break;
+					{
+						s->type = TOK_INFIX;
+						s->function = sub;
+						break;
+					}
 				case '*':
-					s->type = TOK_INFIX;
-					s->function = mul;
-					break;
+					{
+						s->type = TOK_INFIX;
+						s->function = mul;
+						break;
+					}
 				case '/':
-					s->type = TOK_INFIX;
-					s->function = divide;
-					break;
+					{
+						s->type = TOK_INFIX;
+						s->function = divide;
+						break;
+					}
 				case '^':
-					s->type = TOK_INFIX;
-					s->function = pow;
-					break;
+					{
+						s->type = TOK_INFIX;
+						s->function = pow;
+						break;
+					}
 				case '%':
-					s->type = TOK_INFIX;
-					s->function = fmod;
-					break;
+					{
+						s->type = TOK_INFIX;
+						s->function = fmod;
+						break;
+					}
 				case '(':
-					s->type = TOK_OPEN;
-					break;
+					{
+						s->type = TOK_OPEN;
+						break;
+					}
 				case ')':
-					s->type = TOK_CLOSE;
-					break;
+					{
+						s->type = TOK_CLOSE;
+						break;
+					}
 				case ',':
-					s->type = TOK_SEP;
-					break;
+					{
+						s->type = TOK_SEP;
+						break;
+					}
 				case ' ':
 				case '\t':
 				case '\n':
 				case '\r':
-					break;
+					{
+						break;
+					}
 				default:
-					s->type = TOK_ERROR;
-					break;
+					{
+						s->type = TOK_ERROR;
+						break;
+					}
 				}
 			}
 		}
