@@ -187,6 +187,9 @@ namespace base
 		/// @brief 移除指定范围内的字符。
 		/// @param range
 		void Remove(base::Range const &range);
+
+		/// @brief 移除指定索引处的字符。
+		/// @param index
 		void RemoveAt(int32_t index);
 	};
 } // namespace base
