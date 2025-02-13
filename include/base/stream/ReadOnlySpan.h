@@ -76,15 +76,27 @@ namespace base
 		std::shared_ptr<base::IEnumerator<uint8_t const>> GetEnumerator() override;
 
 #pragma region IndexOf
-		/// @brief 查找指定值所在的第一个索引。
-		/// @param match
-		/// @return 找到则返回索引，没找到则返回 -1.
+		/// @brief 从本内存段查找匹配项所在的索引。
+		/// @param match 匹配项。
+		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		int32_t IndexOf(uint8_t match) const;
 
-		/// @brief 查找指定子内存段所在的第一个索引。
-		/// @param match
-		/// @return 找到则返回索引，没找到则返回 -1.
+		/// @brief 从本内存段查找匹配项所在的索引。
+		/// @param start 查找的起始索引。从此处往后开始查找。
+		/// @param match 匹配项。
+		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
+		int32_t IndexOf(int32_t start, uint8_t match) const;
+
+		/// @brief 从本内存段查找匹配项所在的索引。
+		/// @param match 匹配项。
+		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		int32_t IndexOf(base::ReadOnlySpan const &match) const;
+
+		/// @brief 从本内存段查找匹配项所在的索引。
+		/// @param start 查找的起始索引。从此处往后开始查找。
+		/// @param match 匹配项。
+		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
+		int32_t IndexOf(int32_t start, base::ReadOnlySpan const &match) const;
 #pragma endregion
 
 #pragma region 比较

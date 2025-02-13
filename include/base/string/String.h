@@ -186,16 +186,27 @@ namespace base
 #pragma endregion
 
 #pragma region IndexOf
-		/// @brief 获取某个字符在字符串中的第一个索引。
-		/// @param match 要被查找索引的字符。
-		/// @return 如果字符串中存在该字符，则返回第 1 个索引。如果字符串中不存在该字符，
-		/// 则返回 -1.
+		/// @brief 从本字符串查找匹配项所在的索引。
+		/// @param match 匹配项。
+		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		int32_t IndexOf(char match) const;
 
-		/// @brief 查找 match 在本字符串中的索引。如果本字符串中没有 match，则返回 -1.
-		/// @param match
-		/// @return
+		/// @brief 从本字符串查找匹配项所在的索引。
+		/// @param start 查找的起始索引。从此处往后开始查找。
+		/// @param match 匹配项。
+		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
+		int32_t IndexOf(int32_t start, char match) const;
+
+		/// @brief 从本字符串查找匹配项所在的索引。
+		/// @param match 匹配项。
+		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		int32_t IndexOf(base::String const &match) const;
+
+		/// @brief 从本字符串查找匹配项所在的索引。
+		/// @param start 查找的起始索引。从此处往后开始查找。
+		/// @param match 匹配项。
+		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
+		int32_t IndexOf(int32_t start, base::String const &match) const;
 #pragma endregion
 
 #pragma region Contains

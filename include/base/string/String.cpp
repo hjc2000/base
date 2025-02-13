@@ -232,25 +232,22 @@ base::String base::String::Trim() const
 
 int32_t base::String::IndexOf(char match) const
 {
-	if (_string.size() > INT32_MAX)
-	{
-		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
-	}
+	return AsReadOnlySpan().IndexOf(match);
+}
 
-	for (int32_t i = 0; i < static_cast<int32_t>(_string.size()); i++)
-	{
-		if (_string[i] == match)
-		{
-			return i;
-		}
-	}
-
-	return -1;
+int32_t base::String::IndexOf(int32_t start, char match) const
+{
+	return AsReadOnlySpan().IndexOf(start, match);
 }
 
 int32_t base::String::IndexOf(base::String const &match) const
 {
 	return AsReadOnlySpan().IndexOf(match.AsReadOnlySpan());
+}
+
+int32_t base::String::IndexOf(int32_t start, base::String const &match) const
+{
+	return AsReadOnlySpan().IndexOf(start, match.AsReadOnlySpan());
 }
 
 #pragma endregion

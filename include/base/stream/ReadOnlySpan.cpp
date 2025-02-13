@@ -163,6 +163,17 @@ int32_t base::ReadOnlySpan::IndexOf(uint8_t match) const
 	return -1;
 }
 
+int32_t base::ReadOnlySpan::IndexOf(int32_t start, uint8_t match) const
+{
+	int32_t result = Slice(base::Range{start, _size}).IndexOf(match);
+	if (result < 0)
+	{
+		return result;
+	}
+
+	return start + result;
+}
+
 int32_t base::ReadOnlySpan::IndexOf(base::ReadOnlySpan const &match) const
 {
 	if (match.Size() == 0)
@@ -196,6 +207,17 @@ int32_t base::ReadOnlySpan::IndexOf(base::ReadOnlySpan const &match) const
 	}
 
 	return -1;
+}
+
+int32_t base::ReadOnlySpan::IndexOf(int32_t start, base::ReadOnlySpan const &match) const
+{
+	int32_t result = Slice(base::Range{start, _size}).IndexOf(match);
+	if (result < 0)
+	{
+		return result;
+	}
+
+	return start + result;
 }
 
 #pragma endregion
