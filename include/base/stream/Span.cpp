@@ -208,7 +208,7 @@ int32_t base::Span::IndexOf(base::ReadOnlySpan const &match) const
 
 #pragma endregion
 
-#pragma region Compare
+#pragma region 比较
 
 int32_t base::Span::Compare(base::ReadOnlySpan const &another) const
 {
