@@ -244,11 +244,17 @@ namespace base
 		void RemoveAt(int32_t index);
 #pragma endregion
 
+#pragma region Replace
 		/// @brief 将字符串的指定范围替换为 replacement.
 		/// @param range 要被替换的范围。
 		/// @param replacement 替换后的内容。
 		void Replace(base::Range const &range, base::String const &replacement);
+
+		/// @brief 将本字符串中所有与 match 相同的部分替换成 replacement.
+		/// @param match 要被替换的内容。
+		/// @param replacement 替换后的内容。
 		void Replace(base::String const &match, base::String const &replacement);
+#pragma endregion
 	};
 } // namespace base
 

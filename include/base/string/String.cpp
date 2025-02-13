@@ -325,6 +325,8 @@ void base::String::RemoveAt(int32_t index)
 
 #pragma endregion
 
+#pragma region Replace
+
 void base::String::Replace(base::Range const &range, base::String const &replacement)
 {
 	_string.replace(range.Begin(), range.Size(), replacement.StdString());
@@ -345,6 +347,8 @@ void base::String::Replace(base::String const &match, base::String const &replac
 		start = index + replacement.Length();
 	}
 }
+
+#pragma endregion
 
 #pragma region 重载全局运算符
 
