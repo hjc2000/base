@@ -183,6 +183,8 @@ std::shared_ptr<base::IEnumerator<uint8_t>> base::Span::GetEnumerator()
 	return std::shared_ptr<IEnumerator<uint8_t>>{new Enumerator{this}};
 }
 
+#pragma region 填充
+
 void base::Span::FillWithZero()
 {
 	// std::fill(_buffer, _buffer + _size, 0);
@@ -193,6 +195,8 @@ void base::Span::FillWith(uint8_t value)
 {
 	std::fill(_buffer, _buffer + _size, value);
 }
+
+#pragma endregion
 
 #pragma region IndexOf
 

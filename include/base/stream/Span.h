@@ -95,19 +95,26 @@ namespace base
 		/// @return
 		std::shared_ptr<base::IEnumerator<uint8_t>> GetEnumerator() override;
 
+#pragma region 填充
 		/// @brief 将本 Span 所引用的内存的每一个字节都填充为 0.
 		void FillWithZero();
 
 		/// @brief 将所有字节填充为 value.
 		/// @param value
 		void FillWith(uint8_t value);
+#pragma endregion
 
+#pragma region IndexOf
 		/// @brief 查找指定值所在的第一个索引。
 		/// @param match
 		/// @return 找到则返回索引，没找到则返回 -1.
 		int32_t IndexOf(uint8_t match) const;
 
+		/// @brief 查找指定子内存段所在的第一个索引。
+		/// @param match
+		/// @return 找到则返回索引，没找到则返回 -1.
 		int32_t IndexOf(base::ReadOnlySpan const &match) const;
+#pragma endregion
 
 #pragma region 比较
 		int32_t Compare(base::ReadOnlySpan const &another) const;
