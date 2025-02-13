@@ -183,6 +183,11 @@ namespace base
 
 		/// @brief 翻转字符串。
 		void Reverse();
+
+		/// @brief 移除指定范围内的字符。
+		/// @param range
+		void Remove(base::Range const &range);
+		void RemoveAt(int32_t index);
 	};
 } // namespace base
 

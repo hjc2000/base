@@ -294,6 +294,16 @@ void base::String::Reverse()
 	std::reverse(_string.data(), _string.data() + _string.size());
 }
 
+void base::String::Remove(base::Range const &range)
+{
+	_string.erase(range.Begin(), range.Size());
+}
+
+void base::String::RemoveAt(int32_t index)
+{
+	_string.erase(index, 1);
+}
+
 #pragma region 重载全局运算符
 
 base::String operator+(std::string const &left, base::String const &right)
