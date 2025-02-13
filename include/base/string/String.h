@@ -74,6 +74,7 @@ namespace base
 		String(char const *str);
 
 		String(base::ReadOnlySpan const &o);
+		String(base::Span const &o);
 
 		/// @brief 拷贝构造函数。
 		/// @param o
@@ -242,6 +243,12 @@ namespace base
 		/// @param index
 		void RemoveAt(int32_t index);
 #pragma endregion
+
+		/// @brief 将字符串的指定范围替换为 replacement.
+		/// @param range 要被替换的范围。
+		/// @param replacement 替换后的内容。
+		void Replace(base::Range const &range, base::String const &replacement);
+		void Replace(base::String const &match, base::String const &replacement);
 	};
 } // namespace base
 

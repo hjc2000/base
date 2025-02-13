@@ -36,8 +36,11 @@ int main()
 	std::cout << base::Hz{100} << std::endl;
 
 	{
-		base::String str1 = "imxiaoming";
+		base::String str1 = "hellohello1111hello";
 		base::String str2 = "xiaoming";
 		std::cout << str1.IndexOf(str2) << std::endl;
+
+		str1.Replace("hello", "777");
+		std::cout << str1 << std::endl;
 	}
 }
