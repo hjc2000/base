@@ -88,6 +88,7 @@ namespace base
 		std::string &StdString();
 		std::string const &StdString() const;
 
+#pragma region operator[]
 		char &operator[](int32_t index);
 		char const &operator[](int32_t index) const;
 
@@ -96,6 +97,7 @@ namespace base
 		/// @param range
 		/// @return
 		base::String operator[](base::Range const &range) const;
+#pragma endregion
 
 		base::String &operator+=(base::String const &o);
 		base::String operator+(base::String const &o) const;
@@ -159,18 +161,30 @@ namespace base
 		base::String Trim() const;
 #pragma endregion
 
+#pragma region IndexOf
 		/// @brief 获取某个字符在字符串中的第一个索引。
-		/// @param value 要被查找索引的字符。
+		/// @param match 要被查找索引的字符。
 		/// @return 如果字符串中存在该字符，则返回第 1 个索引。如果字符串中不存在该字符，
 		/// 则返回 -1.
-		int32_t IndexOf(char value) const;
+		int32_t IndexOf(char match) const;
 
-		int32_t IndexOf(base::String const &value) const;
+		/// @brief 查找 match 在本字符串中的索引。如果本字符串中没有 match，则返回 -1.
+		/// @param match
+		/// @return
+		int32_t IndexOf(base::String const &match) const;
+#pragma endregion
 
-		/// @brief 检查字符串中是否存在至少 1 个指定的字符。
-		/// @param value 指定的字符。
+#pragma region Contains
+		/// @brief 检查本字符串中是否存在至少 1 个指定的字符。
+		/// @param match 指定的字符。
 		/// @return 如果存在，则返回 true, 如果不存在则返回 false.
-		bool Contains(char value) const;
+		bool Contains(char match) const;
+
+		/// @brief 检查本字符串中是否有子字符串 match.
+		/// @param match
+		/// @return 如果有则返回 true ，没有则返回 false.
+		bool Contains(base::String const &match) const;
+#pragma endregion
 
 		base::Span AsSpan();
 		base::ReadOnlySpan AsReadOnlySpan() const;
@@ -184,6 +198,7 @@ namespace base
 		/// @brief 翻转字符串。
 		void Reverse();
 
+#pragma region 移除
 		/// @brief 移除指定范围内的字符。
 		/// @param range
 		void Remove(base::Range const &range);
@@ -191,6 +206,7 @@ namespace base
 		/// @brief 移除指定索引处的字符。
 		/// @param index
 		void RemoveAt(int32_t index);
+#pragma endregion
 	};
 } // namespace base
 

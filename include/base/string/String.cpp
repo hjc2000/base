@@ -38,6 +38,8 @@ base::String &base::String::operator=(String const &o)
 
 #pragma endregion
 
+#pragma region StdString
+
 std::string &base::String::StdString()
 {
 	return _string;
@@ -47,6 +49,10 @@ std::string const &base::String::StdString() const
 {
 	return _string;
 }
+
+#pragma endregion
+
+#pragma region operator[]
 
 char &base::String::operator[](int32_t index)
 {
@@ -65,23 +71,15 @@ char &base::String::operator[](int32_t index)
 
 char const &base::String::operator[](int32_t index) const
 {
-	if (_string.size() > INT32_MAX)
-	{
-		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
-	}
-
-	if (index > static_cast<int32_t>(_string.size()))
-	{
-		throw std::out_of_range{"索引超出范围。"};
-	}
-
-	return _string[index];
+	return const_cast<base::String &>(*this)[index];
 }
 
 base::String base::String::operator[](base::Range const &range) const
 {
 	return Slice(range);
 }
+
+#pragma endregion
 
 base::String &base::String::operator+=(base::String const &o)
 {
@@ -228,7 +226,7 @@ base::String base::String::Trim() const
 
 #pragma region IndexOf
 
-int32_t base::String::IndexOf(char value) const
+int32_t base::String::IndexOf(char match) const
 {
 	if (_string.size() > INT32_MAX)
 	{
@@ -237,7 +235,7 @@ int32_t base::String::IndexOf(char value) const
 
 	for (int32_t i = 0; i < static_cast<int32_t>(_string.size()); i++)
 	{
-		if (_string[i] == value)
+		if (_string[i] == match)
 		{
 			return i;
 		}
@@ -246,17 +244,28 @@ int32_t base::String::IndexOf(char value) const
 	return -1;
 }
 
-int32_t base::String::IndexOf(base::String const &value) const
+int32_t base::String::IndexOf(base::String const &match) const
 {
-	return AsReadOnlySpan().IndexOf(value.AsReadOnlySpan());
+	return AsReadOnlySpan().IndexOf(match.AsReadOnlySpan());
 }
 
 #pragma endregion
 
-bool base::String::Contains(char value) const
+#pragma region Contains
+
+bool base::String::Contains(char match) const
 {
-	return IndexOf(value) >= 0;
+	return IndexOf(match) >= 0;
 }
+
+bool base::String::Contains(base::String const &match) const
+{
+	return IndexOf(match) >= 0;
+}
+
+#pragma endregion
+
+#pragma region AsSpan
 
 base::Span base::String::AsSpan()
 {
@@ -273,6 +282,8 @@ base::ReadOnlySpan base::String::AsReadOnlySpan() const
 		static_cast<int32_t>(_string.size()),
 	};
 }
+
+#pragma endregion
 
 base::String base::String::Slice(base::Range const &range) const
 {
@@ -294,6 +305,8 @@ void base::String::Reverse()
 	std::reverse(_string.data(), _string.data() + _string.size());
 }
 
+#pragma region 移除
+
 void base::String::Remove(base::Range const &range)
 {
 	_string.erase(range.Begin(), range.Size());
@@ -303,6 +316,8 @@ void base::String::RemoveAt(int32_t index)
 {
 	_string.erase(index, 1);
 }
+
+#pragma endregion
 
 #pragma region 重载全局运算符
 
