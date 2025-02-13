@@ -200,6 +200,8 @@ int32_t base::ReadOnlySpan::IndexOf(base::ReadOnlySpan const &match) const
 
 #pragma endregion
 
+#pragma region 比较
+
 int32_t base::ReadOnlySpan::Compare(base::ReadOnlySpan const &another) const
 {
 	if (Size() != another.Size())
@@ -214,3 +216,5 @@ int32_t base::ReadOnlySpan::Compare(base::Span const &another) const
 {
 	return Compare(base::ReadOnlySpan{another});
 }
+
+#pragma endregion
