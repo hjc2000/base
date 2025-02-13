@@ -194,6 +194,8 @@ void base::Span::FillWith(uint8_t value)
 	std::fill(_buffer, _buffer + _size, value);
 }
 
+#pragma region IndexOf
+
 int32_t base::Span::IndexOf(uint8_t match) const
 {
 	return base::ReadOnlySpan{*this}.IndexOf(match);
@@ -204,16 +206,18 @@ int32_t base::Span::IndexOf(base::ReadOnlySpan const &match) const
 	return base::ReadOnlySpan{*this}.IndexOf(match);
 }
 
-#pragma region 比较
+#pragma endregion
 
-bool base::Span::operator==(base::ReadOnlySpan const &another) const
+#pragma region Compare
+
+int32_t base::Span::Compare(base::ReadOnlySpan const &another) const
 {
-	return base::ReadOnlySpan{*this} == another;
+	return base::ReadOnlySpan{*this}.Compare(another);
 }
 
-bool base::Span::operator==(base::Span const &another) const
+int32_t base::Span::Compare(base::Span const &another) const
 {
-	return base::ReadOnlySpan{*this} == another;
+	return base::ReadOnlySpan{*this}.Compare(another);
 }
 
 #pragma endregion

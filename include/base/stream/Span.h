@@ -110,15 +110,65 @@ namespace base
 		int32_t IndexOf(base::ReadOnlySpan const &match) const;
 
 #pragma region 比较
-		/// @brief another 和本内存段大小相等，且每一个字节都相等，则相等。
-		/// @param another
-		/// @return another 和本内存段大小相等，且每一个字节都相等，则返回 true，否则返回 false.
-		bool operator==(base::ReadOnlySpan const &another) const;
+		int32_t Compare(base::ReadOnlySpan const &another) const;
+		int32_t Compare(base::Span const &another) const;
 
 		/// @brief another 和本内存段大小相等，且每一个字节都相等，则相等。
 		/// @param another
 		/// @return another 和本内存段大小相等，且每一个字节都相等，则返回 true，否则返回 false.
-		bool operator==(base::Span const &another) const;
+		bool operator==(base::ReadOnlySpan const &another) const
+		{
+			return Compare(another) == 0;
+		}
+
+		/// @brief another 和本内存段大小相等，且每一个字节都相等，则相等。
+		/// @param another
+		/// @return another 和本内存段大小相等，且每一个字节都相等，则返回 true，否则返回 false.
+		bool operator==(base::Span const &another) const
+		{
+			return Compare(another) == 0;
+		}
+
+		bool operator<(base::ReadOnlySpan const &another) const
+		{
+			return Compare(another) < 0;
+		}
+
+		bool operator<(base::Span const &another) const
+		{
+			return Compare(another) < 0;
+		}
+
+		bool operator>(base::ReadOnlySpan const &another) const
+		{
+			return Compare(another) > 0;
+		}
+
+		bool operator>(base::Span const &another) const
+		{
+			return Compare(another) > 0;
+		}
+
+		bool operator<=(base::ReadOnlySpan const &another) const
+		{
+			return Compare(another) <= 0;
+		}
+
+		bool operator<=(base::Span const &another) const
+		{
+			return Compare(another) <= 0;
+		}
+
+		bool operator>=(base::ReadOnlySpan const &another) const
+		{
+			return Compare(another) >= 0;
+		}
+
+		bool operator>=(base::Span const &another) const
+		{
+			return Compare(another) >= 0;
+		}
+
 #pragma endregion
 	};
 } // namespace base

@@ -200,21 +200,17 @@ int32_t base::ReadOnlySpan::IndexOf(base::ReadOnlySpan const &match) const
 
 #pragma endregion
 
-#pragma region 比较
-
-bool base::ReadOnlySpan::operator==(base::ReadOnlySpan const &another) const
+int32_t base::ReadOnlySpan::Compare(base::ReadOnlySpan const &another) const
 {
 	if (Size() != another.Size())
 	{
 		return false;
 	}
 
-	return memcmp(_buffer, another.Buffer(), _size) == 0;
+	return memcmp(_buffer, another.Buffer(), _size);
 }
 
-bool base::ReadOnlySpan::operator==(base::Span const &another) const
+int32_t base::ReadOnlySpan::Compare(base::Span const &another) const
 {
-	return (*this) == base::ReadOnlySpan{another};
+	return Compare(base::ReadOnlySpan{another});
 }
-
-#pragma endregion

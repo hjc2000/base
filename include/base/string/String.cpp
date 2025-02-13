@@ -81,6 +81,8 @@ base::String base::String::operator[](base::Range const &range) const
 
 #pragma endregion
 
+#pragma region 加法运算符
+
 base::String &base::String::operator+=(base::String const &o)
 {
 	_string += o.StdString();
@@ -94,6 +96,8 @@ base::String base::String::operator+(base::String const &o) const
 	ret = _string + o.StdString();
 	return base::String{ret};
 }
+
+#pragma endregion
 
 int32_t base::String::Length() const
 {
