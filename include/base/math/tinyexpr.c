@@ -512,57 +512,65 @@ static_function te_expr *base(state *s)
 	switch (TYPE_MASK(s->type))
 	{
 	case TOK_NUMBER:
-		ret = new_expr(TE_CONSTANT, 0);
-		CHECK_NULL(ret);
+		{
+			ret = new_expr(TE_CONSTANT, 0);
+			CHECK_NULL(ret);
 
-		ret->value = s->value;
-		next_token(s);
-		break;
-
+			ret->value = s->value;
+			next_token(s);
+			break;
+		}
 	case TOK_VARIABLE:
-		ret = new_expr(TE_VARIABLE, 0);
-		CHECK_NULL(ret);
+		{
+			ret = new_expr(TE_VARIABLE, 0);
+			CHECK_NULL(ret);
 
-		ret->bound = s->bound;
-		next_token(s);
-		break;
-
+			ret->bound = s->bound;
+			next_token(s);
+			break;
+		}
 	case TE_FUNCTION0:
 	case TE_CLOSURE0:
-		ret = new_expr(s->type, 0);
-		CHECK_NULL(ret);
-
-		ret->function = s->function;
-		if (IS_CLOSURE(s->type))
-			ret->parameters[0] = s->context;
-		next_token(s);
-		if (s->type == TOK_OPEN)
 		{
-			next_token(s);
-			if (s->type != TOK_CLOSE)
+			ret = new_expr(s->type, 0);
+			CHECK_NULL(ret);
+
+			ret->function = s->function;
+			if (IS_CLOSURE(s->type))
 			{
-				s->type = TOK_ERROR;
+				ret->parameters[0] = s->context;
 			}
-			else
+
+			next_token(s);
+			if (s->type == TOK_OPEN)
 			{
 				next_token(s);
+				if (s->type != TOK_CLOSE)
+				{
+					s->type = TOK_ERROR;
+				}
+				else
+				{
+					next_token(s);
+				}
 			}
-		}
-		break;
 
+			break;
+		}
 	case TE_FUNCTION1:
 	case TE_CLOSURE1:
-		ret = new_expr(s->type, 0);
-		CHECK_NULL(ret);
+		{
+			ret = new_expr(s->type, 0);
+			CHECK_NULL(ret);
 
-		ret->function = s->function;
-		if (IS_CLOSURE(s->type))
-			ret->parameters[1] = s->context;
-		next_token(s);
-		ret->parameters[0] = power(s);
-		CHECK_NULL(ret->parameters[0], te_free(ret));
-		break;
-
+			ret->function = s->function;
+			if (IS_CLOSURE(s->type))
+				ret->parameters[1] = s->context;
+			next_token(s);
+			ret->parameters[0] = power(s);
+			CHECK_NULL(ret->parameters[0], te_free(ret));
+			break;
+		}
 	case TE_FUNCTION2:
 	case TE_FUNCTION3:
 	case TE_FUNCTION4:
@@ -575,35 +583,54 @@ static_function te_expr *base(state *s)
 	case TE_CLOSURE5:
 	case TE_CLOSURE6:
 	case TE_CLOSURE7:
-		arity = ARITY(s->type);
-
-		ret = new_expr(s->type, 0);
-		CHECK_NULL(ret);
-
-		ret->function = s->function;
-		if (IS_CLOSURE(s->type))
-			ret->parameters[arity] = s->context;
-		next_token(s);
-
-		if (s->type != TOK_OPEN)
 		{
-			s->type = TOK_ERROR;
-		}
-		else
-		{
-			int i;
-			for (i = 0; i < arity; i++)
+			arity = ARITY(s->type);
+
+			ret = new_expr(s->type, 0);
+			CHECK_NULL(ret);
+
+			ret->function = s->function;
+			if (IS_CLOSURE(s->type))
+				ret->parameters[arity] = s->context;
+			next_token(s);
+
+			if (s->type != TOK_OPEN)
 			{
-				next_token(s);
-				ret->parameters[i] = expr(s);
-				CHECK_NULL(ret->parameters[i], te_free(ret));
-
-				if (s->type != TOK_SEP)
+				s->type = TOK_ERROR;
+			}
+			else
+			{
+				int i;
+				for (i = 0; i < arity; i++)
 				{
-					break;
+					next_token(s);
+					ret->parameters[i] = expr(s);
+					CHECK_NULL(ret->parameters[i], te_free(ret));
+
+					if (s->type != TOK_SEP)
+					{
+						break;
+					}
+				}
+				if (s->type != TOK_CLOSE || i != arity - 1)
+				{
+					s->type = TOK_ERROR;
+				}
+				else
+				{
+					next_token(s);
 				}
 			}
-			if (s->type != TOK_CLOSE || i != arity - 1)
+
+			break;
+		}
+	case TOK_OPEN:
+		{
+			next_token(s);
+			ret = list(s);
+			CHECK_NULL(ret);
+
+			if (s->type != TOK_CLOSE)
 			{
 				s->type = TOK_ERROR;
 			}
@@ -611,32 +638,17 @@ static_function te_expr *base(state *s)
 			{
 				next_token(s);
 			}
+			break;
 		}
-
-		break;
-
-	case TOK_OPEN:
-		next_token(s);
-		ret = list(s);
-		CHECK_NULL(ret);
-
-		if (s->type != TOK_CLOSE)
-		{
-			s->type = TOK_ERROR;
-		}
-		else
-		{
-			next_token(s);
-		}
-		break;
-
 	default:
-		ret = new_expr(0, 0);
-		CHECK_NULL(ret);
+		{
+			ret = new_expr(0, 0);
+			CHECK_NULL(ret);
 
-		s->type = TOK_ERROR;
-		ret->value = NAN;
-		break;
+			s->type = TOK_ERROR;
+			ret->value = NAN;
+			break;
+		}
 	}
 
 	return ret;
@@ -834,15 +846,20 @@ static_function te_expr *list(state *s)
 double te_eval(te_expr const *n)
 {
 	if (!n)
+	{
 		return NAN;
+	}
 
 	switch (TYPE_MASK(n->type))
 	{
 	case TE_CONSTANT:
-		return n->value;
+		{
+			return n->value;
+		}
 	case TE_VARIABLE:
-		return *n->bound;
-
+		{
+			return *n->bound;
+		}
 	case TE_FUNCTION0:
 	case TE_FUNCTION1:
 	case TE_FUNCTION2:
@@ -851,28 +868,29 @@ double te_eval(te_expr const *n)
 	case TE_FUNCTION5:
 	case TE_FUNCTION6:
 	case TE_FUNCTION7:
-		switch (ARITY(n->type))
 		{
-		case 0:
-			return TE_FUN(void)();
-		case 1:
-			return TE_FUN(double)(M(0));
-		case 2:
-			return TE_FUN(double, double)(M(0), M(1));
-		case 3:
-			return TE_FUN(double, double, double)(M(0), M(1), M(2));
-		case 4:
-			return TE_FUN(double, double, double, double)(M(0), M(1), M(2), M(3));
-		case 5:
-			return TE_FUN(double, double, double, double, double)(M(0), M(1), M(2), M(3), M(4));
-		case 6:
-			return TE_FUN(double, double, double, double, double, double)(M(0), M(1), M(2), M(3), M(4), M(5));
-		case 7:
-			return TE_FUN(double, double, double, double, double, double, double)(M(0), M(1), M(2), M(3), M(4), M(5), M(6));
-		default:
-			return NAN;
+			switch (ARITY(n->type))
+			{
+			case 0:
+				return TE_FUN(void)();
+			case 1:
+				return TE_FUN(double)(M(0));
+			case 2:
+				return TE_FUN(double, double)(M(0), M(1));
+			case 3:
+				return TE_FUN(double, double, double)(M(0), M(1), M(2));
+			case 4:
+				return TE_FUN(double, double, double, double)(M(0), M(1), M(2), M(3));
+			case 5:
+				return TE_FUN(double, double, double, double, double)(M(0), M(1), M(2), M(3), M(4));
+			case 6:
+				return TE_FUN(double, double, double, double, double, double)(M(0), M(1), M(2), M(3), M(4), M(5));
+			case 7:
+				return TE_FUN(double, double, double, double, double, double, double)(M(0), M(1), M(2), M(3), M(4), M(5), M(6));
+			default:
+				return NAN;
+			}
 		}
-
 	case TE_CLOSURE0:
 	case TE_CLOSURE1:
 	case TE_CLOSURE2:
@@ -881,30 +899,33 @@ double te_eval(te_expr const *n)
 	case TE_CLOSURE5:
 	case TE_CLOSURE6:
 	case TE_CLOSURE7:
-		switch (ARITY(n->type))
 		{
-		case 0:
-			return TE_FUN(void *)(n->parameters[0]);
-		case 1:
-			return TE_FUN(void *, double)(n->parameters[1], M(0));
-		case 2:
-			return TE_FUN(void *, double, double)(n->parameters[2], M(0), M(1));
-		case 3:
-			return TE_FUN(void *, double, double, double)(n->parameters[3], M(0), M(1), M(2));
-		case 4:
-			return TE_FUN(void *, double, double, double, double)(n->parameters[4], M(0), M(1), M(2), M(3));
-		case 5:
-			return TE_FUN(void *, double, double, double, double, double)(n->parameters[5], M(0), M(1), M(2), M(3), M(4));
-		case 6:
-			return TE_FUN(void *, double, double, double, double, double, double)(n->parameters[6], M(0), M(1), M(2), M(3), M(4), M(5));
-		case 7:
-			return TE_FUN(void *, double, double, double, double, double, double, double)(n->parameters[7], M(0), M(1), M(2), M(3), M(4), M(5), M(6));
-		default:
+			switch (ARITY(n->type))
+			{
+			case 0:
+				return TE_FUN(void *)(n->parameters[0]);
+			case 1:
+				return TE_FUN(void *, double)(n->parameters[1], M(0));
+			case 2:
+				return TE_FUN(void *, double, double)(n->parameters[2], M(0), M(1));
+			case 3:
+				return TE_FUN(void *, double, double, double)(n->parameters[3], M(0), M(1), M(2));
+			case 4:
+				return TE_FUN(void *, double, double, double, double)(n->parameters[4], M(0), M(1), M(2), M(3));
+			case 5:
+				return TE_FUN(void *, double, double, double, double, double)(n->parameters[5], M(0), M(1), M(2), M(3), M(4));
+			case 6:
+				return TE_FUN(void *, double, double, double, double, double, double)(n->parameters[6], M(0), M(1), M(2), M(3), M(4), M(5));
+			case 7:
+				return TE_FUN(void *, double, double, double, double, double, double, double)(n->parameters[7], M(0), M(1), M(2), M(3), M(4), M(5), M(6));
+			default:
+				return NAN;
+			}
+		}
+	default:
+		{
 			return NAN;
 		}
-
-	default:
-		return NAN;
 	}
 }
 
@@ -1004,12 +1025,15 @@ static_function void pn(te_expr const *n, int depth)
 	switch (TYPE_MASK(n->type))
 	{
 	case TE_CONSTANT:
-		printf("%f\n", n->value);
-		break;
+		{
+			printf("%f\n", n->value);
+			break;
+		}
 	case TE_VARIABLE:
-		printf("bound %p\n", n->bound);
-		break;
-
+		{
+			printf("bound %p\n", n->bound);
+			break;
+		}
 	case TE_FUNCTION0:
 	case TE_FUNCTION1:
 	case TE_FUNCTION2:
@@ -1026,18 +1050,20 @@ static_function void pn(te_expr const *n, int depth)
 	case TE_CLOSURE5:
 	case TE_CLOSURE6:
 	case TE_CLOSURE7:
-		arity = ARITY(n->type);
-		printf("f%d", arity);
-		for (i = 0; i < arity; i++)
 		{
-			printf(" %p", n->parameters[i]);
+			arity = ARITY(n->type);
+			printf("f%d", arity);
+			for (i = 0; i < arity; i++)
+			{
+				printf(" %p", n->parameters[i]);
+			}
+			printf("\n");
+			for (i = 0; i < arity; i++)
+			{
+				pn(n->parameters[i], depth + 1);
+			}
+			break;
 		}
-		printf("\n");
-		for (i = 0; i < arity; i++)
-		{
-			pn(n->parameters[i], depth + 1);
-		}
-		break;
 	}
 }
 
