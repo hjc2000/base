@@ -204,6 +204,8 @@ int32_t base::Span::IndexOf(base::ReadOnlySpan const &match) const
 	return base::ReadOnlySpan{*this}.IndexOf(match);
 }
 
+#pragma region 比较
+
 bool base::Span::operator==(base::ReadOnlySpan const &another) const
 {
 	return base::ReadOnlySpan{*this} == another;
@@ -213,3 +215,5 @@ bool base::Span::operator==(base::Span const &another) const
 {
 	return base::ReadOnlySpan{*this} == another;
 }
+
+#pragma endregion

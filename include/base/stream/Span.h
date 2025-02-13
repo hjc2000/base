@@ -109,6 +109,7 @@ namespace base
 
 		int32_t IndexOf(base::ReadOnlySpan const &match) const;
 
+#pragma region 比较
 		/// @brief another 和本内存段大小相等，且每一个字节都相等，则相等。
 		/// @param another
 		/// @return another 和本内存段大小相等，且每一个字节都相等，则返回 true，否则返回 false.
@@ -118,5 +119,6 @@ namespace base
 		/// @param another
 		/// @return another 和本内存段大小相等，且每一个字节都相等，则返回 true，否则返回 false.
 		bool operator==(base::Span const &another) const;
+#pragma endregion
 	};
 } // namespace base

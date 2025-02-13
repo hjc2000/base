@@ -200,7 +200,7 @@ int32_t base::ReadOnlySpan::IndexOf(base::ReadOnlySpan const &match) const
 
 #pragma endregion
 
-#pragma region operator==
+#pragma region 比较
 
 bool base::ReadOnlySpan::operator==(base::ReadOnlySpan const &another) const
 {
