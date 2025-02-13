@@ -1,5 +1,7 @@
 #include "ReadOnlySpan.h"
+#include <algorithm>
 #include <base/string/define.h>
+#include <cstring>
 #include <stdexcept>
 
 #pragma region 生命周期
@@ -146,6 +148,8 @@ std::shared_ptr<base::IEnumerator<uint8_t const>> base::ReadOnlySpan::GetEnumera
 	return std::shared_ptr<IEnumerator<uint8_t const>>{new Enumerator{this}};
 }
 
+#pragma region IndexOf
+
 int32_t base::ReadOnlySpan::IndexOf(uint8_t match) const
 {
 	for (int32_t i = 0; i < _size; i++)
@@ -194,6 +198,10 @@ int32_t base::ReadOnlySpan::IndexOf(base::ReadOnlySpan const &match) const
 	return -1;
 }
 
+#pragma endregion
+
+#pragma region operator==
+
 bool base::ReadOnlySpan::operator==(base::ReadOnlySpan const &another) const
 {
 	if (Size() != another.Size())
@@ -201,18 +209,12 @@ bool base::ReadOnlySpan::operator==(base::ReadOnlySpan const &another) const
 		return false;
 	}
 
-	for (int32_t i = 0; i < Size(); i++)
-	{
-		if ((*this)[i] != another[i])
-		{
-			return false;
-		}
-	}
-
-	return true;
+	return memcmp(_buffer, another.Buffer(), _size) == 0;
 }
 
 bool base::ReadOnlySpan::operator==(base::Span const &another) const
 {
 	return (*this) == base::ReadOnlySpan{another};
 }
+
+#pragma endregion
