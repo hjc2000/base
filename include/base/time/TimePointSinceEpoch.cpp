@@ -48,6 +48,8 @@ base::TimePointSinceEpoch::operator timespec() const
 	return ts;
 }
 
+#pragma region 加减运算符
+
 base::TimeSpan base::TimePointSinceEpoch::operator-(base::TimePointSinceEpoch const &rhs) const
 {
 	return base::TimeSpan{_time_since_epoch - rhs._time_since_epoch};
@@ -62,3 +64,5 @@ base::TimePointSinceEpoch base::TimePointSinceEpoch::operator-(base::TimeSpan co
 {
 	return base::TimePointSinceEpoch{_time_since_epoch - static_cast<std::chrono::nanoseconds>(rhs)};
 }
+
+#pragma endregion

@@ -48,6 +48,8 @@ base::TimeSpan::operator timespec() const
 	return ts;
 }
 
+#pragma region 加减运算符
+
 base::TimeSpan base::TimeSpan::operator+(base::TimeSpan const &rhs) const
 {
 	return base::TimeSpan{_span + rhs._span};
@@ -57,3 +59,5 @@ base::TimeSpan base::TimeSpan::operator-(base::TimeSpan const &rhs) const
 {
 	return base::TimeSpan{_span - rhs._span};
 }
+
+#pragma endregion

@@ -21,6 +21,7 @@ namespace base
 		explicit operator std::chrono::seconds() const;
 		explicit operator timespec() const;
 
+#pragma region 加减运算符
 		/// @brief 两个时间段相加，变成一个新的时间段。
 		/// @param rhs
 		/// @return
@@ -30,5 +31,6 @@ namespace base
 		/// @param rhs
 		/// @return
 		base::TimeSpan operator-(base::TimeSpan const &rhs) const;
+#pragma endregion
 	};
 } // namespace base
