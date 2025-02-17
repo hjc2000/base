@@ -1,18 +1,21 @@
 cmake_minimum_required(VERSION 3.8)
 
-if("${ProjectName}" STREQUAL "")
-	get_filename_component(CURRENT_DIR_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
-	set(ProjectName "${CURRENT_DIR_NAME}")
+if(1)
+	if("${ProjectName}" STREQUAL "")
+		get_filename_component(CURRENT_DIR_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
+		set(ProjectName "${CURRENT_DIR_NAME}")
+	endif()
+
+	include($ENV{cpp_lib_build_scripts_path}/cmake-module/setup.cmake)
+
+	project(${ProjectName})
+	set(CMAKE_CXX_STANDARD 20)
+	set(CMAKE_C_STANDARD 17)
 endif()
 
-include($ENV{cpp_lib_build_scripts_path}/cmake-module/setup.cmake)
+
 include(target_import_boost)
 include(target_import_nlohmann_json)
-
-project(${ProjectName})
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_C_STANDARD 17)
-
 
 # 编译目标
 add_library(${ProjectName})
