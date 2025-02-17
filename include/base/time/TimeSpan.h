@@ -4,6 +4,8 @@
 
 namespace base
 {
+	class TimePointSinceEpoch;
+
 	class TimeSpan
 	{
 	private:
@@ -31,6 +33,18 @@ namespace base
 		/// @param rhs
 		/// @return
 		base::TimeSpan operator-(base::TimeSpan const &rhs) const;
+
+		/// @brief 时间段加上时刻没有物理意义。
+		/// @note 这里的主语是 “时间段” 。只有时刻加上时间段才有物理意义，即只能 “时刻” 作主语。
+		/// @param rhs
+		/// @return
+		base::TimeSpan operator+(base::TimePointSinceEpoch const &rhs) const = delete;
+
+		/// @brief 时间段减去时刻没有物理意义。
+		/// @note 这里的主语是 “时间段” 。只有时刻减去时间段才有物理意义，即只能 “时刻” 作主语。
+		/// @param rhs
+		/// @return
+		base::TimeSpan operator-(base::TimePointSinceEpoch const &rhs) const = delete;
 #pragma endregion
 	};
 } // namespace base

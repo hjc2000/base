@@ -27,6 +27,11 @@ namespace base
 		explicit operator timespec() const;
 
 #pragma region 加减运算符
+		/// @brief 两个时刻相加没有物理意义。
+		/// @param rhs
+		/// @return
+		base::TimeSpan operator+(base::TimePointSinceEpoch const &rhs) const = delete;
+
 		/// @brief 两个时刻相减，得到时间段。
 		/// @param rhs
 		/// @return
