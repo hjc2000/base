@@ -1,5 +1,7 @@
 #include "TimePointSinceEpoch.h"
 
+#pragma region 构造函数
+
 base::TimePointSinceEpoch::TimePointSinceEpoch()
 {
 }
@@ -28,6 +30,10 @@ base::TimePointSinceEpoch::TimePointSinceEpoch(timespec const &value)
 {
 	_time_since_epoch = std::chrono::seconds{value.tv_sec} + std::chrono::nanoseconds{value.tv_nsec};
 }
+
+#pragma endregion
+
+#pragma region 强制转换运算符
 
 base::TimePointSinceEpoch::operator std::chrono::nanoseconds() const
 {
@@ -62,6 +68,8 @@ base::TimePointSinceEpoch::operator timespec() const
 	ts.tv_nsec = static_cast<decltype(ts.tv_nsec)>(nanoseconds_part.count());
 	return ts;
 }
+
+#pragma endregion
 
 #pragma region 加减运算符
 
