@@ -19,10 +19,13 @@ namespace base
 
 		explicit TimePointSinceEpoch(std::chrono::nanoseconds const &value);
 		explicit TimePointSinceEpoch(std::chrono::microseconds const &value);
+		explicit TimePointSinceEpoch(std::chrono::milliseconds const &value);
 		explicit TimePointSinceEpoch(std::chrono::seconds const &value);
+		explicit TimePointSinceEpoch(timespec const &value);
 
 		explicit operator std::chrono::nanoseconds() const;
 		explicit operator std::chrono::microseconds() const;
+		explicit operator std::chrono::milliseconds() const;
 		explicit operator std::chrono::seconds() const;
 		explicit operator timespec() const;
 

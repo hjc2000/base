@@ -14,9 +14,19 @@ base::TimeSpan::TimeSpan(std::chrono::microseconds const &value)
 	_span = std::chrono::nanoseconds{value};
 }
 
+base::TimeSpan::TimeSpan(std::chrono::milliseconds const &value)
+{
+	_span = std::chrono::nanoseconds{value};
+}
+
 base::TimeSpan::TimeSpan(std::chrono::seconds const &value)
 {
 	_span = std::chrono::nanoseconds{value};
+}
+
+base::TimeSpan::TimeSpan(timespec const &value)
+{
+	_span = std::chrono::seconds{value.tv_sec} + std::chrono::nanoseconds{value.tv_nsec};
 }
 
 base::TimeSpan::operator std::chrono::nanoseconds() const
@@ -27,6 +37,11 @@ base::TimeSpan::operator std::chrono::nanoseconds() const
 base::TimeSpan::operator std::chrono::microseconds() const
 {
 	return std::chrono::duration_cast<std::chrono::microseconds>(_span);
+}
+
+base::TimeSpan::operator std::chrono::milliseconds() const
+{
+	return std::chrono::duration_cast<std::chrono::milliseconds>(_span);
 }
 
 base::TimeSpan::operator std::chrono::seconds() const

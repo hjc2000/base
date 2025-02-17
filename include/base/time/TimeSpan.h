@@ -16,10 +16,13 @@ namespace base
 
 		explicit TimeSpan(std::chrono::nanoseconds const &value);
 		explicit TimeSpan(std::chrono::microseconds const &value);
+		explicit TimeSpan(std::chrono::milliseconds const &value);
 		explicit TimeSpan(std::chrono::seconds const &value);
+		explicit TimeSpan(timespec const &value);
 
 		explicit operator std::chrono::nanoseconds() const;
 		explicit operator std::chrono::microseconds() const;
+		explicit operator std::chrono::milliseconds() const;
 		explicit operator std::chrono::seconds() const;
 		explicit operator timespec() const;
 

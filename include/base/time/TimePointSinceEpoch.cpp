@@ -14,9 +14,19 @@ base::TimePointSinceEpoch::TimePointSinceEpoch(std::chrono::microseconds const &
 	_time_since_epoch = std::chrono::nanoseconds{value};
 }
 
+base::TimePointSinceEpoch::TimePointSinceEpoch(std::chrono::milliseconds const &value)
+{
+	_time_since_epoch = std::chrono::nanoseconds{value};
+}
+
 base::TimePointSinceEpoch::TimePointSinceEpoch(std::chrono::seconds const &value)
 {
 	_time_since_epoch = std::chrono::nanoseconds{value};
+}
+
+base::TimePointSinceEpoch::TimePointSinceEpoch(timespec const &value)
+{
+	_time_since_epoch = std::chrono::seconds{value.tv_sec} + std::chrono::nanoseconds{value.tv_nsec};
 }
 
 base::TimePointSinceEpoch::operator std::chrono::nanoseconds() const
@@ -27,6 +37,11 @@ base::TimePointSinceEpoch::operator std::chrono::nanoseconds() const
 base::TimePointSinceEpoch::operator std::chrono::microseconds() const
 {
 	return std::chrono::duration_cast<std::chrono::microseconds>(_time_since_epoch);
+}
+
+base::TimePointSinceEpoch::operator std::chrono::milliseconds() const
+{
+	return std::chrono::duration_cast<std::chrono::milliseconds>(_time_since_epoch);
 }
 
 base::TimePointSinceEpoch::operator std::chrono::seconds() const
