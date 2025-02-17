@@ -2,9 +2,11 @@
 
 #if HAS_THREAD
 
-std::chrono::nanoseconds base::time::TimeSinceEpoch()
+base::TimePointSinceEpoch base::time::Now()
 {
-	return std::chrono::nanoseconds();
+	// epoch 时刻是指 1970 年 1 月 1 日 00:00:00 UTC。
+	std::chrono::duration since_epoch = std::chrono::system_clock::now().time_since_epoch();
+	return base::TimePointSinceEpoch{std::chrono::duration_cast<std::chrono::nanoseconds>(since_epoch)};
 }
 
 #endif
