@@ -137,15 +137,15 @@ std::string base::ToHexString(uint8_t const *buffer,
 
 	for (int i = 0; i < size; i++)
 	{
-		ret += base::ToHexString(buffer[i], option);
-		ret += ", ";
-		if ((i + 1) % 16 == 0)
+		if ((i % 16 == 0) && i > 0)
 		{
 			ret += '\n';
 		}
+
+		ret += base::ToHexString(buffer[i], option);
+		ret += ", ";
 	}
 
-	ret += '\n';
 	return ret;
 }
 
