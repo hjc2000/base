@@ -47,3 +47,13 @@ base::TimeSpan::operator timespec() const
 	ts.tv_nsec = static_cast<decltype(ts.tv_nsec)>(nanoseconds_part.count());
 	return ts;
 }
+
+base::TimeSpan base::TimeSpan::operator+(base::TimeSpan const &rhs) const
+{
+	return base::TimeSpan{_span + rhs._span};
+}
+
+base::TimeSpan base::TimeSpan::operator-(base::TimeSpan const &rhs) const
+{
+	return base::TimeSpan{_span - rhs._span};
+}

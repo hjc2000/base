@@ -47,3 +47,18 @@ base::TimePointSinceEpoch::operator timespec() const
 	ts.tv_nsec = static_cast<decltype(ts.tv_nsec)>(nanoseconds_part.count());
 	return ts;
 }
+
+base::TimeSpan base::TimePointSinceEpoch::operator-(base::TimePointSinceEpoch const &rhs) const
+{
+	return base::TimeSpan{_time_since_epoch - rhs._time_since_epoch};
+}
+
+base::TimePointSinceEpoch base::TimePointSinceEpoch::operator+(base::TimeSpan const &rhs) const
+{
+	return base::TimePointSinceEpoch{_time_since_epoch + static_cast<std::chrono::nanoseconds>(rhs)};
+}
+
+base::TimePointSinceEpoch base::TimePointSinceEpoch::operator-(base::TimeSpan const &rhs) const
+{
+	return base::TimePointSinceEpoch{_time_since_epoch - static_cast<std::chrono::nanoseconds>(rhs)};
+}

@@ -25,5 +25,20 @@ namespace base
 		explicit operator std::chrono::microseconds() const;
 		explicit operator std::chrono::seconds() const;
 		explicit operator timespec() const;
+
+		/// @brief 两个时刻相减，得到时间段。
+		/// @param rhs
+		/// @return
+		base::TimeSpan operator-(base::TimePointSinceEpoch const &rhs) const;
+
+		/// @brief 时刻加上一个时间段，得到新的时刻。
+		/// @param rhs
+		/// @return
+		base::TimePointSinceEpoch operator+(base::TimeSpan const &rhs) const;
+
+		/// @brief 时刻减去一个时间段，得到新的时刻。
+		/// @param rhs
+		/// @return
+		base::TimePointSinceEpoch operator-(base::TimeSpan const &rhs) const;
 	};
 } // namespace base
