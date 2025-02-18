@@ -143,7 +143,7 @@ std::string base::ToHexString(uint8_t const *buffer,
 		}
 
 		ret += base::ToHexString(buffer[i], option);
-		if (i < size)
+		if (i < size - 1)
 		{
 			ret += ", ";
 		}
