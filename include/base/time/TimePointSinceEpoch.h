@@ -47,7 +47,15 @@ namespace base
 		operator std::chrono::zoned_time<std::chrono::milliseconds>() const;
 		operator std::chrono::zoned_time<std::chrono::seconds>() const;
 
-		std::chrono::zoned_time<std::chrono::nanoseconds> NanosecondsZonedTime() const;
+		std::chrono::zoned_time<std::chrono::nanoseconds> ToNanosecondsZonedTime() const;
+		std::chrono::zoned_time<std::chrono::microseconds> ToMicrosecondsZonedTime() const;
+		std::chrono::zoned_time<std::chrono::milliseconds> ToMillisecondsZonedTime() const;
+		std::chrono::zoned_time<std::chrono::seconds> ToSecondsZonedTime() const;
+
+		std::string NanosecondsZonedTimeString() const;
+		std::string MicrosecondsZonedTimeString() const;
+		std::string MillisecondsZonedTimeString() const;
+		std::string SecondsZonedTimeString() const;
 #endif
 
 #pragma region 加减运算符

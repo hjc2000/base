@@ -51,8 +51,9 @@ int main()
 
 	{
 		base::TimePointSinceEpoch now{std::chrono::system_clock::now()};
-
-		// 格式化输出
-		std::cout << std::format("{:%Y-%m-%d %H:%M:%S}", now.NanosecondsZonedTime()) << std::endl;
+		std::cout << now.NanosecondsZonedTimeString() << std::endl;
+		std::cout << now.MicrosecondsZonedTimeString() << std::endl;
+		std::cout << now.MillisecondsZonedTimeString() << std::endl;
+		std::cout << now.SecondsZonedTimeString() << std::endl;
 	}
 }
