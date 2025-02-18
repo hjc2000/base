@@ -219,9 +219,21 @@ base::TimePointSinceEpoch base::TimePointSinceEpoch::operator+(base::TimeSpan co
 	return base::TimePointSinceEpoch{_time_since_epoch + static_cast<std::chrono::nanoseconds>(rhs)};
 }
 
+base::TimePointSinceEpoch &base::TimePointSinceEpoch::operator+=(base::TimeSpan const &rhs)
+{
+	_time_since_epoch += static_cast<std::chrono::nanoseconds>(rhs);
+	return *this;
+}
+
 base::TimePointSinceEpoch base::TimePointSinceEpoch::operator-(base::TimeSpan const &rhs) const
 {
 	return base::TimePointSinceEpoch{_time_since_epoch - static_cast<std::chrono::nanoseconds>(rhs)};
+}
+
+base::TimePointSinceEpoch &base::TimePointSinceEpoch::operator-=(base::TimeSpan const &rhs)
+{
+	_time_since_epoch -= static_cast<std::chrono::nanoseconds>(rhs);
+	return *this;
 }
 
 base::TimePointSinceEpoch base::TimePointSinceEpoch::operator*(int64_t value) const

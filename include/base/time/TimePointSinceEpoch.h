@@ -81,11 +81,13 @@ namespace base
 		/// @param rhs
 		/// @return
 		base::TimePointSinceEpoch operator+(base::TimeSpan const &rhs) const;
+		base::TimePointSinceEpoch &operator+=(base::TimeSpan const &rhs);
 
 		/// @brief 时刻减去一个时间段，得到新的时刻。
 		/// @param rhs
 		/// @return
 		base::TimePointSinceEpoch operator-(base::TimeSpan const &rhs) const;
+		base::TimePointSinceEpoch &operator-=(base::TimeSpan const &rhs);
 
 		base::TimePointSinceEpoch operator*(int64_t value) const;
 		base::TimePointSinceEpoch &operator*=(int64_t value);

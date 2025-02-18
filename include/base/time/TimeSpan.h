@@ -31,11 +31,13 @@ namespace base
 		/// @param rhs
 		/// @return
 		base::TimeSpan operator+(base::TimeSpan const &rhs) const;
+		base::TimeSpan &operator+=(base::TimeSpan const &rhs);
 
 		/// @brief 两个时间段相减，得到一个新的时间段。
 		/// @param rhs
 		/// @return
 		base::TimeSpan operator-(base::TimeSpan const &rhs) const;
+		base::TimeSpan &operator-=(base::TimeSpan const &rhs);
 
 		/// @brief 时间段加上时刻没有物理意义。
 		/// @note 这里的主语是 “时间段” 。只有时刻加上时间段才有物理意义，即只能 “时刻” 作主语。

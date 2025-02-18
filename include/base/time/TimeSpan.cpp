@@ -78,9 +78,21 @@ base::TimeSpan base::TimeSpan::operator+(base::TimeSpan const &rhs) const
 	return base::TimeSpan{_span + rhs._span};
 }
 
+base::TimeSpan &base::TimeSpan::operator+=(base::TimeSpan const &rhs)
+{
+	_span += rhs._span;
+	return *this;
+}
+
 base::TimeSpan base::TimeSpan::operator-(base::TimeSpan const &rhs) const
 {
 	return base::TimeSpan{_span - rhs._span};
+}
+
+base::TimeSpan &base::TimeSpan::operator-=(base::TimeSpan const &rhs)
+{
+	_span -= rhs._span;
+	return *this;
 }
 
 base::TimeSpan base::TimeSpan::operator*(int64_t value) const
