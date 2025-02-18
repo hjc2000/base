@@ -46,9 +46,9 @@ namespace base
 		operator std::chrono::zoned_time<std::chrono::microseconds>() const;
 		operator std::chrono::zoned_time<std::chrono::milliseconds>() const;
 		operator std::chrono::zoned_time<std::chrono::seconds>() const;
-#endif
 
 		std::chrono::zoned_time<std::chrono::nanoseconds> NanosecondsZonedTime() const;
+#endif
 
 #pragma region 加减运算符
 		/// @brief 两个时刻相加没有物理意义。
