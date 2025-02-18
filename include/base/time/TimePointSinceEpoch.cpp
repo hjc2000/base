@@ -31,6 +31,30 @@ base::TimePointSinceEpoch::TimePointSinceEpoch(timespec const &value)
 	_time_since_epoch = std::chrono::seconds{value.tv_sec} + std::chrono::nanoseconds{value.tv_nsec};
 }
 
+base::TimePointSinceEpoch::TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock,
+																	   std::chrono::nanoseconds> const &value)
+{
+	_time_since_epoch = value.time_since_epoch();
+}
+
+base::TimePointSinceEpoch::TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock,
+																	   std::chrono::microseconds> const &value)
+{
+	_time_since_epoch = value.time_since_epoch();
+}
+
+base::TimePointSinceEpoch::TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock,
+																	   std::chrono::milliseconds> const &value)
+{
+	_time_since_epoch = value.time_since_epoch();
+}
+
+base::TimePointSinceEpoch::TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock,
+																	   std::chrono::seconds> const &value)
+{
+	_time_since_epoch = value.time_since_epoch();
+}
+
 #pragma endregion
 
 #pragma region 强制转换运算符
@@ -69,7 +93,72 @@ base::TimePointSinceEpoch::operator timespec() const
 	return ts;
 }
 
+base::TimePointSinceEpoch::operator std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>() const
+{
+	return std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>{
+		static_cast<std::chrono::nanoseconds>(*this),
+	};
+}
+
+base::TimePointSinceEpoch::operator std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds>() const
+{
+	return std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds>{
+		static_cast<std::chrono::microseconds>(*this),
+	};
+}
+
+base::TimePointSinceEpoch::operator std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>() const
+{
+	return std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>{
+		static_cast<std::chrono::milliseconds>(*this),
+	};
+}
+
+base::TimePointSinceEpoch::operator std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>() const
+{
+	return std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>{
+		static_cast<std::chrono::seconds>(*this),
+	};
+}
+
+base::TimePointSinceEpoch::operator std::chrono::zoned_time<std::chrono::nanoseconds>() const
+{
+	return NanosecondsZonedTime();
+}
+
+base::TimePointSinceEpoch::operator std::chrono::zoned_time<std::chrono::microseconds>() const
+{
+	return std::chrono::zoned_time<std::chrono::microseconds>{
+		"UTC",
+		static_cast<std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds>>(*this),
+	};
+}
+
+base::TimePointSinceEpoch::operator std::chrono::zoned_time<std::chrono::milliseconds>() const
+{
+	return std::chrono::zoned_time<std::chrono::milliseconds>{
+		"UTC",
+		static_cast<std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>>(*this),
+	};
+}
+
+base::TimePointSinceEpoch::operator std::chrono::zoned_time<std::chrono::seconds>() const
+{
+	return std::chrono::zoned_time<std::chrono::seconds>{
+		"UTC",
+		static_cast<std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>>(*this),
+	};
+}
+
 #pragma endregion
+
+std::chrono::zoned_time<std::chrono::nanoseconds> base::TimePointSinceEpoch::NanosecondsZonedTime() const
+{
+	return std::chrono::zoned_time<std::chrono::nanoseconds>{
+		"UTC",
+		static_cast<std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>>(*this),
+	};
+}
 
 #pragma region 加减运算符
 

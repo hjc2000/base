@@ -10,6 +10,7 @@
 #include <base/stream/MemoryStream.h>
 #include <base/string/String.h>
 #include <base/string/ToHexString.h>
+#include <base/time/TimePointSinceEpoch.h>
 #include <base/unit/Hz.h>
 #include <format>
 #include <iostream>
@@ -49,13 +50,9 @@ int main()
 	}
 
 	{
-		// 获取当前 UTC 时间
-		auto utc_now = std::chrono::system_clock::now();
-
-		// 使用 zoned_time 处理时区
-		std::chrono::zoned_time zt{"UTC", utc_now};
+		base::TimePointSinceEpoch now{std::chrono::system_clock::now()};
 
 		// 格式化输出
-		std::cout << std::format("{:%Y-%m-%d %H:%M:%S}", zt) << std::endl;
+		std::cout << std::format("{:%Y-%m-%d %H:%M:%S}", now.NanosecondsZonedTime()) << std::endl;
 	}
 }

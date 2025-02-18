@@ -22,12 +22,28 @@ namespace base
 		explicit TimePointSinceEpoch(std::chrono::milliseconds const &value);
 		explicit TimePointSinceEpoch(std::chrono::seconds const &value);
 		explicit TimePointSinceEpoch(timespec const &value);
+		TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds> const &value);
+		TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds> const &value);
+		TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds> const &value);
+		TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds> const &value);
 
 		explicit operator std::chrono::nanoseconds() const;
 		explicit operator std::chrono::microseconds() const;
 		explicit operator std::chrono::milliseconds() const;
 		explicit operator std::chrono::seconds() const;
 		explicit operator timespec() const;
+
+		operator std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>() const;
+		operator std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds>() const;
+		operator std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>() const;
+		operator std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>() const;
+
+		operator std::chrono::zoned_time<std::chrono::nanoseconds>() const;
+		operator std::chrono::zoned_time<std::chrono::microseconds>() const;
+		operator std::chrono::zoned_time<std::chrono::milliseconds>() const;
+		operator std::chrono::zoned_time<std::chrono::seconds>() const;
+
+		std::chrono::zoned_time<std::chrono::nanoseconds> NanosecondsZonedTime() const;
 
 #pragma region 加减运算符
 		/// @brief 两个时刻相加没有物理意义。
