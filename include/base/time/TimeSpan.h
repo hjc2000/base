@@ -9,7 +9,7 @@ namespace base
 	class TimeSpan
 	{
 	private:
-		std::chrono::nanoseconds _span;
+		std::chrono::nanoseconds _span{};
 
 	public:
 		TimeSpan();
