@@ -89,3 +89,18 @@ base::TimePointSinceEpoch base::TimePointSinceEpoch::operator-(base::TimeSpan co
 }
 
 #pragma endregion
+
+int64_t base::TimePointSinceEpoch::Year() const
+{
+	return 0;
+}
+
+int64_t base::TimePointSinceEpoch::Microsecond() const
+{
+	return 0;
+}
+
+int64_t base::TimePointSinceEpoch::Nanosecond() const
+{
+	return 0;
+}

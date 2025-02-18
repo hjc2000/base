@@ -50,5 +50,15 @@ namespace base
 		/// @return
 		base::TimePointSinceEpoch operator-(base::TimeSpan const &rhs) const;
 #pragma endregion
+
+		int64_t Year() const;
+		int64_t Month() const;
+		int64_t Day() const;
+		int64_t Hour() const;
+		int64_t Minutes() const;
+		int64_t Second() const;
+		int64_t Millisecond() const;
+		int64_t Microsecond() const;
+		int64_t Nanosecond() const;
 	};
 } // namespace base

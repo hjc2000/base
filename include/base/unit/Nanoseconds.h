@@ -6,6 +6,7 @@ namespace base
 {
 	class Hz;
 	class MHz;
+	class Minutes;
 	class Seconds;
 
 	/// @brief 纳秒
@@ -17,16 +18,15 @@ namespace base
 
 	public:
 		Nanoseconds() = default;
-		Nanoseconds(Nanoseconds const &o);
 		explicit Nanoseconds(base::Fraction const &value);
 		explicit Nanoseconds(int64_t value);
+		explicit Nanoseconds(base::Minutes const &value);
 		explicit Nanoseconds(base::Seconds const &value);
 		explicit Nanoseconds(base::Hz const &value);
 		explicit Nanoseconds(base::MHz const &value);
 		explicit Nanoseconds(std::chrono::seconds const &value);
 		explicit Nanoseconds(std::chrono::milliseconds const &value);
 		explicit Nanoseconds(std::chrono::microseconds const &value);
-		Nanoseconds &operator=(Nanoseconds const &o);
 
 		virtual base::Fraction &Value() override
 		{
@@ -37,19 +37,10 @@ namespace base
 		/// @return
 		virtual std::string UnitString() const override;
 
-		explicit operator std::chrono::seconds() const
-		{
-			return std::chrono::seconds{static_cast<int64_t>(_value / 1000 / 1000 / 1000)};
-		}
-
-		explicit operator std::chrono::milliseconds() const
-		{
-			return std::chrono::milliseconds{static_cast<int64_t>(_value / 1000 / 1000)};
-		}
-
-		explicit operator std::chrono::microseconds() const
-		{
-			return std::chrono::microseconds{static_cast<int64_t>(_value / 1000)};
-		}
+#pragma region 强制转换运算符
+		explicit operator std::chrono::seconds() const;
+		explicit operator std::chrono::milliseconds() const;
+		explicit operator std::chrono::microseconds() const;
+#pragma endregion
 	};
 } // namespace base
