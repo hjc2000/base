@@ -88,6 +88,12 @@ base::TimeSpan base::TimeSpan::operator*(int64_t value) const
 	return base::TimeSpan{std::chrono::nanoseconds{_span.count() * value}};
 }
 
+base::TimeSpan &base::TimeSpan::operator*=(int64_t value)
+{
+	_span = std::chrono::nanoseconds{_span.count() * value};
+	return *this;
+}
+
 #pragma endregion
 
 base::TimeSpan operator*(int64_t left, base::TimeSpan const &right)

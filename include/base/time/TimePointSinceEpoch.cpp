@@ -229,6 +229,12 @@ base::TimePointSinceEpoch base::TimePointSinceEpoch::operator*(int64_t value) co
 	return base::TimePointSinceEpoch{std::chrono::nanoseconds{_time_since_epoch.count() * value}};
 }
 
+base::TimePointSinceEpoch &base::TimePointSinceEpoch::operator*=(int64_t value)
+{
+	_time_since_epoch = std::chrono::nanoseconds{_time_since_epoch.count() * value};
+	return *this;
+}
+
 #pragma endregion
 
 base::TimePointSinceEpoch operator*(int64_t left, base::TimePointSinceEpoch const &right)
