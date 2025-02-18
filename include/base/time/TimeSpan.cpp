@@ -71,7 +71,7 @@ base::TimeSpan::operator timespec() const
 
 #pragma endregion
 
-#pragma region 加减运算符
+#pragma region 四则运算符
 
 base::TimeSpan base::TimeSpan::operator+(base::TimeSpan const &rhs) const
 {

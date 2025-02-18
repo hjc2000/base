@@ -66,7 +66,7 @@ namespace base
 #endif
 #pragma endregion
 
-#pragma region 加减运算符
+#pragma region 四则运算符
 		/// @brief 两个时刻相加没有物理意义。
 		/// @param rhs
 		/// @return
