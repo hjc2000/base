@@ -10,7 +10,7 @@ namespace base
 	class TimePointSinceEpoch
 	{
 	private:
-		std::chrono::nanoseconds _time_since_epoch;
+		std::chrono::nanoseconds _time_since_epoch{};
 
 	public:
 		/// @brief 无参构造。构造出来的时间刚好就是 epoch 时刻。
