@@ -53,3 +53,5 @@ namespace base
 #pragma endregion
 	};
 } // namespace base
+
+base::TimeSpan operator*(int64_t left, base::TimeSpan const &right);

@@ -158,28 +158,28 @@ base::TimePointSinceEpoch::operator std::chrono::zoned_time<std::chrono::seconds
 
 std::chrono::zoned_time<std::chrono::nanoseconds> base::TimePointSinceEpoch::ToNanosecondsZonedTime() const
 {
-	base::TimePointSinceEpoch utc8 = *this + base::TimeSpan{std::chrono::seconds{8 * 60 * 60}};
+	base::TimePointSinceEpoch utc8 = *this + 8 * base::TimeSpan{std::chrono::seconds{60 * 60}};
 	auto time_point = static_cast<std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>>(utc8);
 	return std::chrono::zoned_time<std::chrono::nanoseconds>{"UTC", time_point};
 }
 
 std::chrono::zoned_time<std::chrono::microseconds> base::TimePointSinceEpoch::ToMicrosecondsZonedTime() const
 {
-	base::TimePointSinceEpoch utc8 = *this + base::TimeSpan{std::chrono::seconds{8 * 60 * 60}};
+	base::TimePointSinceEpoch utc8 = *this + 8 * base::TimeSpan{std::chrono::seconds{60 * 60}};
 	auto time_point = static_cast<std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds>>(utc8);
 	return std::chrono::zoned_time<std::chrono::microseconds>{"UTC", time_point};
 }
 
 std::chrono::zoned_time<std::chrono::milliseconds> base::TimePointSinceEpoch::ToMillisecondsZonedTime() const
 {
-	base::TimePointSinceEpoch utc8 = *this + base::TimeSpan{std::chrono::seconds{8 * 60 * 60}};
+	base::TimePointSinceEpoch utc8 = *this + 8 * base::TimeSpan{std::chrono::seconds{60 * 60}};
 	auto time_point = static_cast<std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>>(utc8);
 	return std::chrono::zoned_time<std::chrono::milliseconds>{"UTC", time_point};
 }
 
 std::chrono::zoned_time<std::chrono::seconds> base::TimePointSinceEpoch::ToSecondsZonedTime() const
 {
-	base::TimePointSinceEpoch utc8 = *this + base::TimeSpan{std::chrono::seconds{8 * 60 * 60}};
+	base::TimePointSinceEpoch utc8 = *this + 8 * base::TimeSpan{std::chrono::seconds{60 * 60}};
 	auto time_point = static_cast<std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>>(utc8);
 	return std::chrono::zoned_time<std::chrono::seconds>{"UTC", time_point};
 }
@@ -230,3 +230,8 @@ base::TimePointSinceEpoch base::TimePointSinceEpoch::operator*(int64_t value) co
 }
 
 #pragma endregion
+
+base::TimePointSinceEpoch operator*(int64_t left, base::TimePointSinceEpoch const &right)
+{
+	return right * left;
+}

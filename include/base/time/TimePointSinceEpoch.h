@@ -91,3 +91,5 @@ namespace base
 #pragma endregion
 	};
 } // namespace base
+
+base::TimePointSinceEpoch operator*(int64_t left, base::TimePointSinceEpoch const &right);

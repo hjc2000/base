@@ -89,3 +89,8 @@ base::TimeSpan base::TimeSpan::operator*(int64_t value) const
 }
 
 #pragma endregion
+
+base::TimeSpan operator*(int64_t left, base::TimeSpan const &right)
+{
+	return right * left;
+}
