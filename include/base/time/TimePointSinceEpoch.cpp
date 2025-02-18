@@ -95,6 +95,36 @@ int64_t base::TimePointSinceEpoch::Year() const
 	return 0;
 }
 
+int64_t base::TimePointSinceEpoch::Month() const
+{
+	return 0;
+}
+
+int64_t base::TimePointSinceEpoch::Day() const
+{
+	return 0;
+}
+
+int64_t base::TimePointSinceEpoch::Hour() const
+{
+	return 0;
+}
+
+int64_t base::TimePointSinceEpoch::Minutes() const
+{
+	return 0;
+}
+
+int64_t base::TimePointSinceEpoch::Second() const
+{
+	return 0;
+}
+
+int64_t base::TimePointSinceEpoch::Millisecond() const
+{
+	return 0;
+}
+
 int64_t base::TimePointSinceEpoch::Microsecond() const
 {
 	return 0;

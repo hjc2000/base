@@ -16,7 +16,7 @@ namespace base
 		public base::IUnit<Hours>
 	{
 	private:
-		base::Fraction _value{1};
+		base::Fraction _value{};
 
 	public:
 		Hours() = default;
@@ -38,10 +38,7 @@ namespace base
 
 		/// @brief 单位的字符串。
 		/// @return
-		virtual std::string UnitString() const override
-		{
-			return "h";
-		}
+		virtual std::string UnitString() const override;
 
 		explicit operator std::chrono::seconds() const;
 		explicit operator std::chrono::milliseconds() const;

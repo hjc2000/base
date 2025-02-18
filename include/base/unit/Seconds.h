@@ -16,7 +16,7 @@ namespace base
 		public base::IUnit<Seconds>
 	{
 	private:
-		base::Fraction _value{1};
+		base::Fraction _value{};
 
 	public:
 		Seconds() = default;

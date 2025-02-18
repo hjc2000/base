@@ -16,7 +16,7 @@ namespace base
 		public base::IUnit<Minutes>
 	{
 	private:
-		base::Fraction _value{1};
+		base::Fraction _value{};
 
 	public:
 		Minutes() = default;

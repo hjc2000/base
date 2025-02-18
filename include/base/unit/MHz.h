@@ -12,7 +12,7 @@ namespace base
 		public base::IUnit<MHz>
 	{
 	private:
-		base::Fraction _value{0};
+		base::Fraction _value{};
 
 	public:
 		/// @brief 0Hz

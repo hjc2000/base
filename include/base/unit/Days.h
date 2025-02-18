@@ -16,7 +16,7 @@ namespace base
 		public base::IUnit<Days>
 	{
 	private:
-		base::Fraction _value{1};
+		base::Fraction _value{};
 
 	public:
 		Days() = default;

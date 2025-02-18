@@ -10,7 +10,7 @@ namespace base
 		public base::IUnit<Bps>
 	{
 	private:
-		base::Fraction _value = 0;
+		base::Fraction _value{};
 
 	public:
 		Bps() = default;

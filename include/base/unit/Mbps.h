@@ -11,7 +11,7 @@ namespace base
 		public base::IUnit<Mbps>
 	{
 	private:
-		base::Fraction _value{0};
+		base::Fraction _value{};
 
 	public:
 		Mbps() = default;

@@ -16,7 +16,7 @@ namespace base
 		public base::IUnit<Nanoseconds>
 	{
 	private:
-		base::Fraction _value{1};
+		base::Fraction _value{};
 
 	public:
 		Nanoseconds() = default;

@@ -51,6 +51,11 @@ base::Hours::Hours(std::chrono::microseconds const &value)
 {
 }
 
+std::string base::Hours::UnitString() const
+{
+	return "h";
+}
+
 base::Hours::operator std::chrono::seconds() const
 {
 	return std::chrono::seconds{base::Minutes{*this}};
