@@ -12,24 +12,25 @@ namespace base
 	class Seconds;
 	class Nanoseconds;
 
-	class Hours :
-		public base::IUnit<Hours>
+	class Days :
+		public base::IUnit<Days>
 	{
 	private:
 		base::Fraction _value{1};
 
 	public:
-		Hours() = default;
-		explicit Hours(base::Fraction const &value);
-		explicit Hours(int64_t value);
-		explicit Hours(base::Minutes const &value);
-		explicit Hours(base::Seconds const &value);
-		explicit Hours(base::Nanoseconds const &value);
-		explicit Hours(base::Hz const &value);
-		explicit Hours(base::MHz const &value);
-		explicit Hours(std::chrono::seconds const &value);
-		explicit Hours(std::chrono::milliseconds const &value);
-		explicit Hours(std::chrono::microseconds const &value);
+		Days() = default;
+		explicit Days(base::Fraction const &value);
+		explicit Days(int64_t value);
+		explicit Days(base::Hours const &value);
+		explicit Days(base::Minutes const &value);
+		explicit Days(base::Seconds const &value);
+		explicit Days(base::Nanoseconds const &value);
+		explicit Days(base::Hz const &value);
+		explicit Days(base::MHz const &value);
+		explicit Days(std::chrono::seconds const &value);
+		explicit Days(std::chrono::milliseconds const &value);
+		explicit Days(std::chrono::microseconds const &value);
 
 		virtual base::Fraction &Value() override
 		{
@@ -40,7 +41,7 @@ namespace base
 		/// @return
 		virtual std::string UnitString() const override
 		{
-			return "h";
+			return "d";
 		}
 
 		explicit operator std::chrono::seconds() const;

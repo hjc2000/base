@@ -22,6 +22,7 @@ namespace base
 		Minutes() = default;
 		explicit Minutes(base::Fraction const &value);
 		explicit Minutes(int64_t value);
+		explicit Minutes(base::Hours const &value);
 		explicit Minutes(base::Seconds const &value);
 		explicit Minutes(base::Nanoseconds const &value);
 		explicit Minutes(base::Hz const &value);

@@ -13,6 +13,11 @@ base::Nanoseconds::Nanoseconds(int64_t value)
 	_value = value;
 }
 
+base::Nanoseconds::Nanoseconds(base::Hours const &value)
+	: Nanoseconds{base::Seconds{value}}
+{
+}
+
 base::Nanoseconds::Nanoseconds(base::Minutes const &value)
 	: Nanoseconds{base::Seconds{value}}
 {

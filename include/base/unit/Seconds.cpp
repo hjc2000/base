@@ -1,4 +1,5 @@
 #include "Seconds.h"
+#include <base/unit/Hours.h>
 #include <base/unit/Hz.h>
 #include <base/unit/Minutes.h>
 #include <base/unit/Nanoseconds.h>
@@ -16,6 +17,11 @@ base::Seconds::Seconds(base::Fraction const &value)
 base::Seconds::Seconds(int64_t value)
 {
 	_value = value;
+}
+
+base::Seconds::Seconds(base::Hours const &value)
+{
+	_value = static_cast<base::Fraction>(value) * 60 * 60;
 }
 
 base::Seconds::Seconds(base::Minutes const &value)
