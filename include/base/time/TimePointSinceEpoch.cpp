@@ -37,6 +37,7 @@ base::TimePointSinceEpoch::TimePointSinceEpoch(timespec const &value)
 
 #pragma endregion
 
+#pragma region HAS_THREAD 限定构造函数
 #if HAS_THREAD
 
 base::TimePointSinceEpoch::TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock,
@@ -64,8 +65,9 @@ base::TimePointSinceEpoch::TimePointSinceEpoch(std::chrono::time_point<std::chro
 }
 
 #endif
+#pragma endregion
 
-#pragma region 强制转换运算符
+#pragma region 数据转换
 
 base::TimePointSinceEpoch::operator std::chrono::nanoseconds() const
 {
@@ -103,6 +105,7 @@ base::TimePointSinceEpoch::operator timespec() const
 
 #pragma endregion
 
+#pragma region HAS_THREAD 限定数据转换
 #if HAS_THREAD
 
 base::TimePointSinceEpoch::operator std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>() const
@@ -206,6 +209,7 @@ std::string base::TimePointSinceEpoch::SecondsZonedTimeString() const
 }
 
 #endif
+#pragma endregion
 
 #pragma region 加减运算符
 

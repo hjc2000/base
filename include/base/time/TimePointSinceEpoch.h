@@ -13,6 +13,7 @@ namespace base
 		std::chrono::nanoseconds _time_since_epoch{};
 
 	public:
+#pragma region 构造函数
 		/// @brief 无参构造。构造出来的时间刚好就是 epoch 时刻。
 		/// @note epoch 时刻是指 1970 年 1 月 1 日 00:00:00 UTC。
 		TimePointSinceEpoch();
@@ -22,20 +23,26 @@ namespace base
 		explicit TimePointSinceEpoch(std::chrono::milliseconds const &value);
 		explicit TimePointSinceEpoch(std::chrono::seconds const &value);
 		explicit TimePointSinceEpoch(timespec const &value);
+#pragma endregion
 
+#pragma region HAS_THREAD 限定构造函数
 #if HAS_THREAD
 		TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds> const &value);
 		TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds> const &value);
 		TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds> const &value);
 		TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds> const &value);
 #endif
+#pragma endregion
 
+#pragma region 数据转换
 		explicit operator std::chrono::nanoseconds() const;
 		explicit operator std::chrono::microseconds() const;
 		explicit operator std::chrono::milliseconds() const;
 		explicit operator std::chrono::seconds() const;
 		explicit operator timespec() const;
+#pragma endregion
 
+#pragma region HAS_THREAD 限定数据转换
 #if HAS_THREAD
 		operator std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>() const;
 		operator std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds>() const;
@@ -57,6 +64,7 @@ namespace base
 		std::string MillisecondsZonedTimeString() const;
 		std::string SecondsZonedTimeString() const;
 #endif
+#pragma endregion
 
 #pragma region 加减运算符
 		/// @brief 两个时刻相加没有物理意义。
