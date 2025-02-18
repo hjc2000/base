@@ -22,10 +22,13 @@ namespace base
 		explicit TimePointSinceEpoch(std::chrono::milliseconds const &value);
 		explicit TimePointSinceEpoch(std::chrono::seconds const &value);
 		explicit TimePointSinceEpoch(timespec const &value);
+
+#if HAS_THREAD
 		TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds> const &value);
 		TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds> const &value);
 		TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds> const &value);
 		TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds> const &value);
+#endif
 
 		explicit operator std::chrono::nanoseconds() const;
 		explicit operator std::chrono::microseconds() const;
@@ -33,6 +36,7 @@ namespace base
 		explicit operator std::chrono::seconds() const;
 		explicit operator timespec() const;
 
+#if HAS_THREAD
 		operator std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>() const;
 		operator std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds>() const;
 		operator std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>() const;
@@ -42,6 +46,7 @@ namespace base
 		operator std::chrono::zoned_time<std::chrono::microseconds>() const;
 		operator std::chrono::zoned_time<std::chrono::milliseconds>() const;
 		operator std::chrono::zoned_time<std::chrono::seconds>() const;
+#endif
 
 		std::chrono::zoned_time<std::chrono::nanoseconds> NanosecondsZonedTime() const;
 

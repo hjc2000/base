@@ -31,6 +31,10 @@ base::TimePointSinceEpoch::TimePointSinceEpoch(timespec const &value)
 	_time_since_epoch = std::chrono::seconds{value.tv_sec} + std::chrono::nanoseconds{value.tv_nsec};
 }
 
+#pragma endregion
+
+#if HAS_THREAD
+
 base::TimePointSinceEpoch::TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock,
 																	   std::chrono::nanoseconds> const &value)
 {
@@ -55,7 +59,7 @@ base::TimePointSinceEpoch::TimePointSinceEpoch(std::chrono::time_point<std::chro
 	_time_since_epoch = value.time_since_epoch();
 }
 
-#pragma endregion
+#endif
 
 #pragma region 强制转换运算符
 
@@ -92,6 +96,10 @@ base::TimePointSinceEpoch::operator timespec() const
 	ts.tv_nsec = static_cast<decltype(ts.tv_nsec)>(nanoseconds_part.count());
 	return ts;
 }
+
+#pragma endregion
+
+#if HAS_THREAD
 
 base::TimePointSinceEpoch::operator std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>() const
 {
@@ -150,8 +158,6 @@ base::TimePointSinceEpoch::operator std::chrono::zoned_time<std::chrono::seconds
 	};
 }
 
-#pragma endregion
-
 std::chrono::zoned_time<std::chrono::nanoseconds> base::TimePointSinceEpoch::NanosecondsZonedTime() const
 {
 	return std::chrono::zoned_time<std::chrono::nanoseconds>{
@@ -159,6 +165,8 @@ std::chrono::zoned_time<std::chrono::nanoseconds> base::TimePointSinceEpoch::Nan
 		static_cast<std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>>(*this),
 	};
 }
+
+#endif
 
 #pragma region 加减运算符
 
