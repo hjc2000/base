@@ -47,4 +47,15 @@ int main()
 		str1.Replace("hello", "777");
 		std::cout << str1 << std::endl;
 	}
+
+	{
+		// 获取当前 UTC 时间
+		auto utc_now = std::chrono::system_clock::now();
+
+		// 使用 zoned_time 处理时区
+		std::chrono::zoned_time zt{"UTC", utc_now};
+
+		// 格式化输出
+		std::cout << std::format("{:%Y-%m-%d %H:%M:%S}", zt) << std::endl;
+	}
 }
