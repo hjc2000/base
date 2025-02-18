@@ -27,14 +27,29 @@ base::DateTime::DateTime(base::TimePointSinceEpoch const &time_point)
 	}
 
 	{
-		/**
-		 * remaining 现在的单位是 s. 这是自 epoch 起点以来的总秒数。
-		 * 接下来计算分钟数，需要考虑闰秒。
-		 */
+		// remaining 现在的单位是 s.
+		_seconds_part = remaining % 60;
+		remaining /= 60;
 	}
 
 	{
 		// remaining 现在的单位是 m.
+		_minutes_part = remaining % 60;
+		remaining /= 60;
+	}
+
+	{
+		// remaining 现在的单位是 h.
+		_hours_part = remaining % 24;
+		remaining /= 24;
+	}
+
+	{
+		// remaining 现在的单位是 d.
+
+		/**
+		 * 这里不能直接认为 365 天就是一年。需要逐年累加，然后判断当年是否是闰年以及是否设置了闰秒。
+		 */
 	}
 
 	while (remaining > 0)
