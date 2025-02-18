@@ -86,6 +86,8 @@ namespace base
 		/// @param rhs
 		/// @return
 		base::TimePointSinceEpoch operator-(base::TimeSpan const &rhs) const;
+
+		base::TimePointSinceEpoch operator*(int64_t value) const;
 #pragma endregion
 	};
 } // namespace base

@@ -224,4 +224,9 @@ base::TimePointSinceEpoch base::TimePointSinceEpoch::operator-(base::TimeSpan co
 	return base::TimePointSinceEpoch{_time_since_epoch - static_cast<std::chrono::nanoseconds>(rhs)};
 }
 
+base::TimePointSinceEpoch base::TimePointSinceEpoch::operator*(int64_t value) const
+{
+	return base::TimePointSinceEpoch{std::chrono::nanoseconds{_time_since_epoch.count() * value}};
+}
+
 #pragma endregion
