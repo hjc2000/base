@@ -1,4 +1,5 @@
 #include "Hours.h"
+#include <base/unit/Days.h>
 #include <base/unit/Minutes.h>
 
 base::Hours::Hours(base::Fraction const &value)
@@ -9,6 +10,11 @@ base::Hours::Hours(base::Fraction const &value)
 base::Hours::Hours(int64_t value)
 {
 	_value = value;
+}
+
+base::Hours::Hours(base::Days const &value)
+{
+	_value = static_cast<base::Fraction>(value) * 24;
 }
 
 base::Hours::Hours(base::Minutes const &value)

@@ -22,6 +22,7 @@ namespace base
 		Hours() = default;
 		explicit Hours(base::Fraction const &value);
 		explicit Hours(int64_t value);
+		explicit Hours(base::Days const &value);
 		explicit Hours(base::Minutes const &value);
 		explicit Hours(base::Seconds const &value);
 		explicit Hours(base::Nanoseconds const &value);
