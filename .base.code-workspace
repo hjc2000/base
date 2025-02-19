@@ -4,14 +4,4 @@
 			"path": "."
 		}
 	],
-	"settings": {
-		"clangd.arguments": [
-			"--compile-commands-dir=${workspaceFolder}/jc_build/",
-			"--background-index",
-			"--header-insertion=iwyu",
-			"--clang-tidy",
-			"--resource-dir=C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/14.2.0/",
-			"--query-driver=C:/msys64/ucrt64/bin/g++.exe",
-		]
-	},
 }
