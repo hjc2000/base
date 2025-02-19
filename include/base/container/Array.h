@@ -3,7 +3,6 @@
 #include <array>
 #include <base/container/IRawArray.h>
 #include <stdexcept>
-#include <string>
 
 namespace base
 {
