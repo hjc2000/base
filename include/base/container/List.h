@@ -18,24 +18,12 @@ namespace base
 	private:
 		std::vector<ItemType> _vector;
 
-	public:
-#pragma region 生命周期
-		/// @brief 构造一个空列表。
+	public: // 生命周期
+		/**
+		 * @brief 构造一个空列表。
+		 *
+		 */
 		List() = default;
-
-		/// @brief 拷贝构造函数。
-		/// @param o
-		List(List<ItemType> const &o)
-		{
-			*this = o;
-		}
-
-		/// @brief 移动构造函数。
-		/// @param o
-		List(List<ItemType> &&o)
-		{
-			*this = o;
-		}
 
 		/// @brief 从向量中构造。将向量的元素拷贝过来。
 		/// @param o
@@ -47,6 +35,27 @@ namespace base
 		List(std::initializer_list<ItemType> const &list)
 		{
 			_vector = list;
+		}
+
+	public: // 拷贝、移动
+		/**
+		 * @brief 拷贝构造函数。
+		 *
+		 * @param o
+		 */
+		List(List<ItemType> const &o)
+		{
+			*this = o;
+		}
+
+		/**
+		 * @brief 移动构造函数。
+		 *
+		 * @param o
+		 */
+		List(List<ItemType> &&o)
+		{
+			*this = o;
 		}
 
 		/// @brief 赋值运算符。
@@ -75,8 +84,7 @@ namespace base
 			return *this;
 		}
 
-#pragma endregion
-
+	public:
 		using IList<ItemType>::Add;
 
 		void Add(ItemType const &item) override

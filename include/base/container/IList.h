@@ -1,6 +1,4 @@
 #pragma once
-#include <algorithm>
-#include <array>
 #include <base/container/iterator/IEnumerable.h>
 #include <base/container/iterator/IForwardIterator.h>
 
@@ -12,11 +10,14 @@ namespace base
 	class IList :
 		public virtual base::IEnumerable<ItemType>
 	{
-	private:
-#pragma region IListEnumerator
-
+	private: // 迭代器
+		/**
+		 * @brief 用来迭代 IList 的私有迭代器。
+		 *
+		 * @tparam item_type
+		 */
 		template <typename item_type>
-		class IListEnumerator :
+		class Enumerator :
 			public base::IEnumerator<item_type>
 		{
 		private:
@@ -25,7 +26,7 @@ namespace base
 			bool _is_first_move = true;
 
 		public:
-			IListEnumerator(IList<item_type> *list)
+			Enumerator(IList<item_type> *list)
 			{
 				_list = list;
 			}
@@ -56,9 +57,7 @@ namespace base
 			}
 		};
 
-#pragma endregion
-
-	public:
+	public: // 纯虚函数
 		virtual void Add(ItemType const &item) = 0;
 		virtual void Insert(int32_t index, ItemType const &item) = 0;
 		virtual bool Remove(ItemType const &item) = 0;
@@ -70,6 +69,7 @@ namespace base
 		virtual ItemType &operator[](int32_t index) = 0;
 		virtual ItemType const &operator[](int32_t index) const = 0;
 
+	public:
 		virtual void Add(IList<ItemType> const &list)
 		{
 			for (ItemType const &item : list)
@@ -90,7 +90,7 @@ namespace base
 		/// @return
 		virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() override
 		{
-			return std::shared_ptr<IEnumerator<ItemType>>{new IListEnumerator<ItemType>{this}};
+			return std::shared_ptr<IEnumerator<ItemType>>{new Enumerator<ItemType>{this}};
 		}
 
 		/// @brief 两个 IList 对象的指针相等时才认为相等。

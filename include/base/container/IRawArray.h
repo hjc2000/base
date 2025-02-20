@@ -1,7 +1,12 @@
 #pragma once
+#include <algorithm>
 #include <base/container/ArraySpan.h>
 #include <base/container/iterator/IEnumerable.h>
+#include <base/sfinae/Compare.h>
 #include <base/string/define.h>
+#include <exception>
+#include <functional>
+#include <stdexcept>
 
 namespace base
 {
@@ -11,9 +16,11 @@ namespace base
 	class IRawArray :
 		public virtual base::IEnumerable<ItemType>
 	{
-	private:
-#pragma region 迭代器
-
+	private: // 迭代器
+		/**
+		 * @brief 迭代器
+		 *
+		 */
 		class Enumerator :
 			public base::IEnumerator<ItemType>
 		{
@@ -68,10 +75,7 @@ namespace base
 			}
 		};
 
-#pragma endregion
-
-	public:
-#pragma region 接口
+	public: // 接口
 		/// @brief 数组的大小
 		/// @return
 		virtual int32_t Count() const = 0;
@@ -83,16 +87,8 @@ namespace base
 		/// @brief 获取底层的缓冲区
 		/// @return
 		virtual ItemType const *Buffer() const = 0;
-#pragma endregion
 
-		/// @brief 翻转数组
-		void Reverse()
-		{
-			std::reverse(Buffer(), Buffer() + Count());
-		}
-
-#pragma region CopyFrom
-
+	public: // CopyFrom
 		/// @brief 将 another 的元素拷贝到本容器。
 		/// @note 两个容器的元素个数必须相等，否则会抛出异常。
 		/// @param another
@@ -119,7 +115,78 @@ namespace base
 			std::copy(another.Buffer(), another.Buffer() + another.Count(), Buffer());
 		}
 
-#pragma endregion
+	public:
+		/**
+		 * @brief 翻转数组
+		 *
+		 */
+		void Reverse()
+		{
+			std::reverse(Buffer(), Buffer() + Count());
+		}
+
+		/**
+		 * @brief 排序。
+		 *
+		 * @param ascending 是否按升序排序，即从小到大排序。传入 true 则按升序排序，传入 false 则按降序排序。
+		 *
+		 * @warning 需要 ItemType 实现了比较运算符，否则会引发异常。
+		 */
+		void Sort(bool ascending = true)
+		{
+			try
+			{
+				std::sort(Buffer(),
+						  Buffer() + Count(),
+						  [ascending](ItemType const &left, ItemType const &right) -> bool
+						  {
+							  if (ascending)
+							  {
+								  return base::LessThan(left, right);
+							  }
+							  else
+							  {
+								  return base::GreaterThan(left, right);
+							  }
+						  });
+			}
+			catch (std::exception const &e)
+			{
+				throw std::runtime_error{CODE_POS_STR + e.what()};
+			}
+		}
+
+		/**
+		 * @brief 排序。
+		 *
+		 * @param is_less_than 自定义比较器。如果 left 的字典序小于 right，则返回 true.
+		 *
+		 * @param ascending 是否按升序排序，即从小到大排序。传入 true 则按升序排序，传入 false 则按降序排序。
+		 */
+		void Sort(std::function<bool(ItemType const &left, ItemType const &right)> is_less_than,
+				  bool ascending = true)
+		{
+			try
+			{
+				std::sort(Buffer(),
+						  Buffer() + Count(),
+						  [&](ItemType const &left, ItemType const &right) -> bool
+						  {
+							  if (ascending)
+							  {
+								  return is_less_than(left, right);
+							  }
+							  else
+							  {
+								  return !is_less_than(left, right);
+							  }
+						  });
+			}
+			catch (std::exception const &e)
+			{
+				throw std::runtime_error{CODE_POS_STR + e.what()};
+			}
+		}
 
 		base::ArraySpan<ItemType> AsArraySpan()
 		{
