@@ -4,8 +4,6 @@
 #include <base/string/define.h>
 #include <stdexcept>
 
-#pragma region 生命周期
-
 base::Span::Span(uint8_t *buffer, int32_t size)
 {
 	_buffer = buffer;
@@ -40,10 +38,6 @@ base::Span &base::Span::operator=(Span const &o)
 	return *this;
 }
 
-#pragma endregion
-
-#pragma region operator[]
-
 uint8_t &base::Span::operator[](int32_t index) const
 {
 	if (index < 0 || index >= _size)
@@ -59,8 +53,6 @@ base::Span base::Span::operator[](base::Range const &range) const
 	return Slice(range);
 }
 
-#pragma endregion
-
 uint8_t *base::Span::Buffer() const
 {
 	return _buffer;
@@ -70,8 +62,6 @@ int32_t base::Span::Size() const
 {
 	return _size;
 }
-
-#pragma region Slice
 
 base::Span base::Span::Slice(int32_t start, int32_t size) const
 {
@@ -88,14 +78,10 @@ base::Span base::Span::Slice(base::Range const &range) const
 	return Slice(range.Begin(), range.Size());
 }
 
-#pragma endregion
-
 void base::Span::Reverse() const
 {
 	std::reverse(_buffer, _buffer + _size);
 }
-
-#pragma region CopyFrom
 
 void base::Span::CopyFrom(base::ReadOnlySpan const &span) const
 {
@@ -128,8 +114,6 @@ void base::Span::CopyFrom(std::initializer_list<uint8_t> const &list) const
 		i++;
 	}
 }
-
-#pragma endregion
 
 std::shared_ptr<base::IEnumerator<uint8_t>> base::Span::GetEnumerator()
 {
@@ -183,8 +167,6 @@ std::shared_ptr<base::IEnumerator<uint8_t>> base::Span::GetEnumerator()
 	return std::shared_ptr<IEnumerator<uint8_t>>{new Enumerator{this}};
 }
 
-#pragma region 填充
-
 void base::Span::FillWithZero()
 {
 	// std::fill(_buffer, _buffer + _size, 0);
@@ -195,10 +177,6 @@ void base::Span::FillWith(uint8_t value)
 {
 	std::fill(_buffer, _buffer + _size, value);
 }
-
-#pragma endregion
-
-#pragma region IndexOf
 
 int32_t base::Span::IndexOf(uint8_t match) const
 {
@@ -220,10 +198,6 @@ int32_t base::Span::IndexOf(int32_t start, base::ReadOnlySpan const &match) cons
 	return base::ReadOnlySpan{*this}.IndexOf(match);
 }
 
-#pragma endregion
-
-#pragma region 比较
-
 int32_t base::Span::Compare(base::ReadOnlySpan const &another) const
 {
 	return base::ReadOnlySpan{*this}.Compare(another);
@@ -234,4 +208,52 @@ int32_t base::Span::Compare(base::Span const &another) const
 	return base::ReadOnlySpan{*this}.Compare(another);
 }
 
-#pragma endregion
+bool base::Span::operator==(base::ReadOnlySpan const &another) const
+{
+	return Compare(another) == 0;
+}
+
+bool base::Span::operator==(base::Span const &another) const
+{
+	return Compare(another) == 0;
+}
+
+bool base::Span::operator<(base::ReadOnlySpan const &another) const
+{
+	return Compare(another) < 0;
+}
+
+bool base::Span::operator<(base::Span const &another) const
+{
+	return Compare(another) < 0;
+}
+
+bool base::Span::operator>(base::ReadOnlySpan const &another) const
+{
+	return Compare(another) > 0;
+}
+
+bool base::Span::operator>(base::Span const &another) const
+{
+	return Compare(another) > 0;
+}
+
+bool base::Span::operator<=(base::ReadOnlySpan const &another) const
+{
+	return Compare(another) <= 0;
+}
+
+bool base::Span::operator<=(base::Span const &another) const
+{
+	return Compare(another) <= 0;
+}
+
+bool base::Span::operator>=(base::ReadOnlySpan const &another) const
+{
+	return Compare(another) >= 0;
+}
+
+bool base::Span::operator>=(base::Span const &another) const
+{
+	return Compare(another) >= 0;
+}

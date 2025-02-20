@@ -20,7 +20,6 @@ namespace base
 		int32_t _size = 0;
 
 	public:
-#pragma region 生命周期
 		/// @brief 无参构造函数。引用一段空内存。
 		/// @note 可以通过 Size 属性判断本对象是否引用到了有效的内存。
 		Span() = default;
@@ -42,16 +41,13 @@ namespace base
 		/// @param o
 		/// @return
 		Span &operator=(Span const &o);
-#pragma endregion
 
-#pragma region operator[]
 		uint8_t &operator[](int32_t index) const;
 
 		/// @brief 获得指定范围的切片。
 		/// @param range
 		/// @return
 		base::Span operator[](base::Range const &range) const;
-#pragma endregion
 
 		/// @brief 所引用的内存。
 		/// @return
@@ -61,7 +57,6 @@ namespace base
 		/// @return
 		int32_t Size() const;
 
-#pragma region Slice
 		/// @brief 将本 Span 切片，得到一个更小的 Span.
 		/// @param start 切片起始位置。
 		/// @param size 切片大小。
@@ -72,12 +67,10 @@ namespace base
 		/// @param range
 		/// @return
 		base::Span Slice(base::Range const &range) const;
-#pragma endregion
 
 		/// @brief 翻转本 Span 所引用的内存段。
 		void Reverse() const;
 
-#pragma region CopyFrom
 		/// @brief 将 span 所引用的内存的数据拷贝过来。
 		/// @param span
 		void CopyFrom(base::ReadOnlySpan const &span) const;
@@ -89,22 +82,18 @@ namespace base
 		/// @brief 将 list 的数据拷贝过来。
 		/// @param list
 		void CopyFrom(std::initializer_list<uint8_t> const &list) const;
-#pragma endregion
 
 		/// @brief 获取非 const 迭代器
 		/// @return
 		std::shared_ptr<base::IEnumerator<uint8_t>> GetEnumerator() override;
 
-#pragma region 填充
 		/// @brief 将本 Span 所引用的内存的每一个字节都填充为 0.
 		void FillWithZero();
 
 		/// @brief 将所有字节填充为 value.
 		/// @param value
 		void FillWith(uint8_t value);
-#pragma endregion
 
-#pragma region IndexOf
 		/// @brief 从本内存段查找匹配项所在的索引。
 		/// @param match 匹配项。
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
@@ -126,68 +115,124 @@ namespace base
 		/// @param match 匹配项。
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		int32_t IndexOf(int32_t start, base::ReadOnlySpan const &match) const;
-#pragma endregion
 
-#pragma region 比较
+	public: // 比较
+		/**
+		 * @brief 比较两段内存。
+		 *
+		 * @note 如果两段内存大小相等，且每个字节都相等，则这两段内存相等。
+		 *
+		 * @note 逐个字节比较，直到找到一对不等的字节，这个字节的大小关系就是内存段的大小
+		 * 关系。例如本内存段第 1 个字节就和 another 的第 1 个字节不等了，并且本内存段的第
+		 * 1 个字节小于 another 的第 1 个字节，则认为本内存段小于 another.
+		 *
+		 * @param another
+		 * @return int32_t
+		 */
 		int32_t Compare(base::ReadOnlySpan const &another) const;
+
+		/**
+		 * @brief 比较两段内存。
+		 *
+		 * @note 如果两段内存大小相等，且每个字节都相等，则这两段内存相等。
+		 *
+		 * @note 逐个字节比较，直到找到一对不等的字节，这个字节的大小关系就是内存段的大小
+		 * 关系。例如本内存段第 1 个字节就和 another 的第 1 个字节不等了，并且本内存段的第
+		 * 1 个字节小于 another 的第 1 个字节，则认为本内存段小于 another.
+		 *
+		 * @param another
+		 * @return int32_t
+		 */
 		int32_t Compare(base::Span const &another) const;
 
-		/// @brief another 和本内存段大小相等，且每一个字节都相等，则相等。
-		/// @param another
-		/// @return another 和本内存段大小相等，且每一个字节都相等，则返回 true，否则返回 false.
-		bool operator==(base::ReadOnlySpan const &another) const
-		{
-			return Compare(another) == 0;
-		}
+		/**
+		 * @brief 基于 Compare 方法。
+		 *
+		 * @param another
+		 * @return true
+		 * @return false
+		 */
+		bool operator==(base::ReadOnlySpan const &another) const;
 
-		/// @brief another 和本内存段大小相等，且每一个字节都相等，则相等。
-		/// @param another
-		/// @return another 和本内存段大小相等，且每一个字节都相等，则返回 true，否则返回 false.
-		bool operator==(base::Span const &another) const
-		{
-			return Compare(another) == 0;
-		}
+		/**
+		 * @brief 基于 Compare 方法。
+		 *
+		 * @param another
+		 * @return true
+		 * @return false
+		 */
+		bool operator==(base::Span const &another) const;
 
-		bool operator<(base::ReadOnlySpan const &another) const
-		{
-			return Compare(another) < 0;
-		}
+		/**
+		 * @brief 基于 Compare 方法。
+		 *
+		 * @param another
+		 * @return true
+		 * @return false
+		 */
+		bool operator<(base::ReadOnlySpan const &another) const;
 
-		bool operator<(base::Span const &another) const
-		{
-			return Compare(another) < 0;
-		}
+		/**
+		 * @brief 基于 Compare 方法。
+		 *
+		 * @param another
+		 * @return true
+		 * @return false
+		 */
+		bool operator<(base::Span const &another) const;
 
-		bool operator>(base::ReadOnlySpan const &another) const
-		{
-			return Compare(another) > 0;
-		}
+		/**
+		 * @brief 基于 Compare 方法。
+		 *
+		 * @param another
+		 * @return true
+		 * @return false
+		 */
+		bool operator>(base::ReadOnlySpan const &another) const;
 
-		bool operator>(base::Span const &another) const
-		{
-			return Compare(another) > 0;
-		}
+		/**
+		 * @brief 基于 Compare 方法。
+		 *
+		 * @param another
+		 * @return true
+		 * @return false
+		 */
+		bool operator>(base::Span const &another) const;
 
-		bool operator<=(base::ReadOnlySpan const &another) const
-		{
-			return Compare(another) <= 0;
-		}
+		/**
+		 * @brief 基于 Compare 方法。
+		 *
+		 * @param another
+		 * @return true
+		 * @return false
+		 */
+		bool operator<=(base::ReadOnlySpan const &another) const;
 
-		bool operator<=(base::Span const &another) const
-		{
-			return Compare(another) <= 0;
-		}
+		/**
+		 * @brief 基于 Compare 方法。
+		 *
+		 * @param another
+		 * @return true
+		 * @return false
+		 */
+		bool operator<=(base::Span const &another) const;
 
-		bool operator>=(base::ReadOnlySpan const &another) const
-		{
-			return Compare(another) >= 0;
-		}
+		/**
+		 * @brief 基于 Compare 方法。
+		 *
+		 * @param another
+		 * @return true
+		 * @return false
+		 */
+		bool operator>=(base::ReadOnlySpan const &another) const;
 
-		bool operator>=(base::Span const &another) const
-		{
-			return Compare(another) >= 0;
-		}
-
-#pragma endregion
+		/**
+		 * @brief 基于 Compare 方法。
+		 *
+		 * @param another
+		 * @return true
+		 * @return false
+		 */
+		bool operator>=(base::Span const &another) const;
 	};
 } // namespace base
