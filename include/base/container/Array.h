@@ -17,7 +17,6 @@ namespace base
 		std::array<ItemType, TCount> _arr{};
 
 	public:
-#pragma region 生命周期
 		/// @brief 无参构造。
 		/// @note 构造出的数组的元素也全部使用无参构造函数初始化。
 		Array() = default;
@@ -89,8 +88,6 @@ namespace base
 
 			return *this;
 		}
-
-#pragma endregion
 
 		/// @brief 索引数组中的元素。
 		/// @param index
