@@ -136,19 +136,19 @@ namespace base
 		{
 			try
 			{
-				std::sort(Buffer(),
-						  Buffer() + Count(),
-						  [ascending](ItemType const &left, ItemType const &right) -> bool
-						  {
-							  if (ascending)
-							  {
-								  return base::LessThan(left, right);
-							  }
-							  else
-							  {
-								  return base::GreaterThan(left, right);
-							  }
-						  });
+				std::stable_sort(Buffer(),
+								 Buffer() + Count(),
+								 [ascending](ItemType const &left, ItemType const &right) -> bool
+								 {
+									 if (ascending)
+									 {
+										 return base::LessThan(left, right);
+									 }
+									 else
+									 {
+										 return base::GreaterThan(left, right);
+									 }
+								 });
 			}
 			catch (std::exception const &e)
 			{
@@ -168,19 +168,19 @@ namespace base
 		{
 			try
 			{
-				std::sort(Buffer(),
-						  Buffer() + Count(),
-						  [&](ItemType const &left, ItemType const &right) -> bool
-						  {
-							  if (ascending)
-							  {
-								  return is_less_than(left, right);
-							  }
-							  else
-							  {
-								  return !is_less_than(left, right);
-							  }
-						  });
+				std::stable_sort(Buffer(),
+								 Buffer() + Count(),
+								 [&](ItemType const &left, ItemType const &right) -> bool
+								 {
+									 if (ascending)
+									 {
+										 return is_less_than(left, right);
+									 }
+									 else
+									 {
+										 return !is_less_than(left, right);
+									 }
+								 });
 			}
 			catch (std::exception const &e)
 			{
