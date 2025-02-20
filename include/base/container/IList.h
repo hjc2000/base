@@ -1,6 +1,7 @@
 #pragma once
 #include <base/container/iterator/IEnumerable.h>
 #include <base/container/iterator/IForwardIterator.h>
+#include <functional>
 
 namespace base
 {
@@ -68,6 +69,13 @@ namespace base
 		virtual int32_t Count() const = 0;
 		virtual ItemType &operator[](int32_t index) = 0;
 		virtual ItemType const &operator[](int32_t index) const = 0;
+
+		/**
+		 * @brief 移除符合条件的数据。
+		 *
+		 * @param should_remove 用来指示特定的元素是否应该从容器中移除。
+		 */
+		virtual void RemoveIf(std::function<bool(ItemType const &item)> should_remove) = 0;
 
 	public:
 		virtual void Add(IList<ItemType> const &list)

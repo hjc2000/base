@@ -3,6 +3,7 @@
 #include <base/container/IList.h>
 #include <base/container/IRawArray.h>
 #include <base/sfinae/Equal.h>
+#include <cstdint>
 #include <stdexcept>
 #include <vector>
 
@@ -18,7 +19,7 @@ namespace base
 	private:
 		std::vector<ItemType> _vector;
 
-	public: // 生命周期
+	public: // 构造函数
 		/**
 		 * @brief 构造一个空列表。
 		 *
@@ -128,6 +129,27 @@ namespace base
 			}
 
 			_vector.erase(_vector.begin() + index);
+		}
+
+		/**
+		 * @brief 移除符合条件的数据。
+		 *
+		 * @param should_remove 用来指示特定的元素是否应该从容器中移除。
+		 */
+		virtual void RemoveIf(std::function<bool(ItemType const &item)> should_remove) override
+		{
+			/* remove_if 函数会将容器的符合移除条件的元素移动到容器末尾，最后返回一个迭代器，
+			 * 从这个迭代器指向的位置开始到容器末尾的元素，全是满足移除条件的。
+			 */
+			auto remove_begin = std::remove_if(
+				_vector.begin(),
+				_vector.end(),
+				[&](ItemType const &item)
+				{
+					return should_remove(item);
+				});
+
+			_vector.erase(remove_begin, _vector.end());
 		}
 
 		int32_t IndexOf(ItemType const &item) const override
