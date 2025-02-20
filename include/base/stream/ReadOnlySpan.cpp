@@ -123,8 +123,6 @@ std::shared_ptr<base::IEnumerator<uint8_t const>> base::ReadOnlySpan::GetEnumera
 	return std::shared_ptr<IEnumerator<uint8_t const>>{new Enumerator{this}};
 }
 
-#pragma region IndexOf
-
 int32_t base::ReadOnlySpan::IndexOf(uint8_t match) const
 {
 	for (int32_t i = 0; i < _size; i++)
