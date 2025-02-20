@@ -5,6 +5,13 @@
 
 namespace base
 {
+	/**
+	 * @brief 只读内存段。
+	 *
+	 * @note 引用一段只读的内存。
+	 *
+	 * @warning 要求本类对象的生命周期内，引用的外部内存始终存活。
+	 */
 	class ReadOnlySpan :
 		public base::IEnumerable<uint8_t const>
 	{
@@ -12,7 +19,7 @@ namespace base
 		uint8_t const *_buffer = nullptr;
 		int32_t _size = 0;
 
-	public:
+	public: // 构造函数
 		/// @brief 无参构造函数。引用一段空内存。
 		/// @note 可以通过 Size 属性判断本对象是否引用到了有效的内存。
 		ReadOnlySpan() = default;
@@ -22,23 +29,24 @@ namespace base
 		/// @param size buffer 的大小。
 		ReadOnlySpan(uint8_t const *buffer, int32_t size);
 
+		/**
+		 * @brief Construct a new Read Only Span object
+		 *
+		 * @param span
+		 */
 		ReadOnlySpan(base::ReadOnlyArraySpan<uint8_t> const &span);
 
 		/// @brief 通过一个可读可写的 Span 构造只读的 ReadOnlySpan.
 		/// @param o
 		ReadOnlySpan(base::Span const &o);
 
-		/// @brief 拷贝构造函数。
-		/// @note 不会拷贝对方引用的内存，而是将对方引用的内存的指针拿过来，
-		/// 与对方引用同一段内存。
-		/// @param o
-		ReadOnlySpan(ReadOnlySpan const &o);
-
-		/// @brief 赋值运算符。
-		/// @param o
-		/// @return
-		ReadOnlySpan &operator=(ReadOnlySpan const &o);
-
+	public:
+		/**
+		 * @brief 索引一个字节。
+		 *
+		 * @param index
+		 * @return uint8_t const&
+		 */
 		uint8_t const &operator[](int32_t index) const;
 
 		/// @brief 获得指定范围的切片。
@@ -69,6 +77,7 @@ namespace base
 		/// @return
 		std::shared_ptr<base::IEnumerator<uint8_t const>> GetEnumerator() override;
 
+	public: // IndexOf
 		/// @brief 从本内存段查找匹配项所在的索引。
 		/// @param match 匹配项。
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.

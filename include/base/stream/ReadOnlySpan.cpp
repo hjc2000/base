@@ -31,18 +31,6 @@ base::ReadOnlySpan::ReadOnlySpan(base::Span const &o)
 	_size = o.Size();
 }
 
-base::ReadOnlySpan::ReadOnlySpan(ReadOnlySpan const &o)
-{
-	*this = o;
-}
-
-base::ReadOnlySpan &base::ReadOnlySpan::operator=(ReadOnlySpan const &o)
-{
-	_buffer = o._buffer;
-	_size = o._size;
-	return *this;
-}
-
 uint8_t const &base::ReadOnlySpan::operator[](int32_t index) const
 {
 	if (index < 0 || index >= _size)
@@ -207,67 +195,74 @@ int32_t base::ReadOnlySpan::IndexOf(int32_t start, base::ReadOnlySpan const &mat
 	return start + result;
 }
 
-int32_t base::ReadOnlySpan::Compare(base::ReadOnlySpan const &another) const
+/**
+ * @brief 比较
+ *
+ */
+namespace base
 {
-	if (Size() != another.Size())
+	int32_t base::ReadOnlySpan::Compare(base::ReadOnlySpan const &another) const
 	{
-		return false;
+		if (Size() != another.Size())
+		{
+			return false;
+		}
+
+		return memcmp(_buffer, another.Buffer(), _size);
 	}
 
-	return memcmp(_buffer, another.Buffer(), _size);
-}
+	int32_t base::ReadOnlySpan::Compare(base::Span const &another) const
+	{
+		return Compare(base::ReadOnlySpan{another});
+	}
 
-int32_t base::ReadOnlySpan::Compare(base::Span const &another) const
-{
-	return Compare(base::ReadOnlySpan{another});
-}
+	bool base::ReadOnlySpan::operator==(base::ReadOnlySpan const &another) const
+	{
+		return Compare(another) == 0;
+	}
 
-bool base::ReadOnlySpan::operator==(base::ReadOnlySpan const &another) const
-{
-	return Compare(another) == 0;
-}
+	bool base::ReadOnlySpan::operator==(base::Span const &another) const
+	{
+		return Compare(another) == 0;
+	}
 
-bool base::ReadOnlySpan::operator==(base::Span const &another) const
-{
-	return Compare(another) == 0;
-}
+	bool base::ReadOnlySpan::operator<(base::ReadOnlySpan const &another) const
+	{
+		return Compare(another) < 0;
+	}
 
-bool base::ReadOnlySpan::operator<(base::ReadOnlySpan const &another) const
-{
-	return Compare(another) < 0;
-}
+	bool base::ReadOnlySpan::operator<(base::Span const &another) const
+	{
+		return Compare(another) < 0;
+	}
 
-bool base::ReadOnlySpan::operator<(base::Span const &another) const
-{
-	return Compare(another) < 0;
-}
+	bool base::ReadOnlySpan::operator>(base::ReadOnlySpan const &another) const
+	{
+		return Compare(another) > 0;
+	}
 
-bool base::ReadOnlySpan::operator>(base::ReadOnlySpan const &another) const
-{
-	return Compare(another) > 0;
-}
+	bool base::ReadOnlySpan::operator>(base::Span const &another) const
+	{
+		return Compare(another) > 0;
+	}
 
-bool base::ReadOnlySpan::operator>(base::Span const &another) const
-{
-	return Compare(another) > 0;
-}
+	bool base::ReadOnlySpan::operator<=(base::ReadOnlySpan const &another) const
+	{
+		return Compare(another) <= 0;
+	}
 
-bool base::ReadOnlySpan::operator<=(base::ReadOnlySpan const &another) const
-{
-	return Compare(another) <= 0;
-}
+	bool base::ReadOnlySpan::operator<=(base::Span const &another) const
+	{
+		return Compare(another) <= 0;
+	}
 
-bool base::ReadOnlySpan::operator<=(base::Span const &another) const
-{
-	return Compare(another) <= 0;
-}
+	bool base::ReadOnlySpan::operator>=(base::ReadOnlySpan const &another) const
+	{
+		return Compare(another) >= 0;
+	}
 
-bool base::ReadOnlySpan::operator>=(base::ReadOnlySpan const &another) const
-{
-	return Compare(another) >= 0;
-}
-
-bool base::ReadOnlySpan::operator>=(base::Span const &another) const
-{
-	return Compare(another) >= 0;
-}
+	bool base::ReadOnlySpan::operator>=(base::Span const &another) const
+	{
+		return Compare(another) >= 0;
+	}
+} // namespace base

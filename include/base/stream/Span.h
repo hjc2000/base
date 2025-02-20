@@ -8,10 +8,14 @@ namespace base
 {
 	class ReadOnlySpan;
 
-	/// @brief 引用一段连续内存，不持有这段内存。
-	/// @warning 要求本类对象的生命周期内，引用的外部内存始终存活。
-	/// @note 本类的很多方法都有 const 修饰符。这并不是说不会改变所引用的内存，而是不会改变本对象的字段，
-	/// 即不会变成引用别的内存，或者更改引用的内存段大小。
+	/**
+	 * @brief 引用一段连续内存，不持有这段内存。
+	 *
+	 * @warning 要求本类对象的生命周期内，引用的外部内存始终存活。
+	 *
+	 * @note 本类的很多方法都有 const 修饰符。这并不是说不会改变所引用的内存，
+	 * 而是不会改变本对象的字段，即不会变成引用别的内存，或者更改引用的内存段大小。
+	 */
 	class Span :
 		public base::IEnumerable<uint8_t>
 	{
@@ -19,7 +23,7 @@ namespace base
 		uint8_t *_buffer = nullptr;
 		int32_t _size = 0;
 
-	public:
+	public: // 构造函数
 		/// @brief 无参构造函数。引用一段空内存。
 		/// @note 可以通过 Size 属性判断本对象是否引用到了有效的内存。
 		Span() = default;
@@ -31,17 +35,13 @@ namespace base
 
 		Span(base::ArraySpan<uint8_t> const &span);
 
-		/// @brief 拷贝构造函数。
-		/// @note 不会拷贝对方引用的内存，而是将对方引用的内存的指针拿过来，
-		/// 与对方引用同一段内存。
-		/// @param o
-		Span(Span const &o);
-
-		/// @brief 赋值运算符
-		/// @param o
-		/// @return
-		Span &operator=(Span const &o);
-
+	public:
+		/**
+		 * @brief 索引一个字节。
+		 *
+		 * @param index
+		 * @return uint8_t&
+		 */
 		uint8_t &operator[](int32_t index) const;
 
 		/// @brief 获得指定范围的切片。
@@ -71,6 +71,7 @@ namespace base
 		/// @brief 翻转本 Span 所引用的内存段。
 		void Reverse() const;
 
+	public: // CopyFrom
 		/// @brief 将 span 所引用的内存的数据拷贝过来。
 		/// @param span
 		void CopyFrom(base::ReadOnlySpan const &span) const;
@@ -83,6 +84,7 @@ namespace base
 		/// @param list
 		void CopyFrom(std::initializer_list<uint8_t> const &list) const;
 
+	public:
 		/// @brief 获取非 const 迭代器
 		/// @return
 		std::shared_ptr<base::IEnumerator<uint8_t>> GetEnumerator() override;
@@ -94,26 +96,39 @@ namespace base
 		/// @param value
 		void FillWith(uint8_t value);
 
-		/// @brief 从本内存段查找匹配项所在的索引。
-		/// @param match 匹配项。
-		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
+	public: // IndexOf
+		/**
+		 * @brief 从本内存段查找匹配项所在的索引。
+		 *
+		 * @param match 匹配项。
+		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		 */
 		int32_t IndexOf(uint8_t match) const;
 
-		/// @brief 从本内存段查找匹配项所在的索引。
-		/// @param start 查找的起始索引。从此处往后开始查找。
-		/// @param match 匹配项。
-		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
+		/**
+		 * @brief 从本内存段查找匹配项所在的索引。
+		 *
+		 * @param start 查找的起始索引。从此处往后开始查找。
+		 * @param match 匹配项。
+		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		 */
 		int32_t IndexOf(int32_t start, uint8_t match) const;
 
-		/// @brief 从本内存段查找匹配项所在的索引。
-		/// @param match 匹配项。
-		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
+		/**
+		 * @brief 从本内存段查找匹配项所在的索引。
+		 *
+		 * @param match 匹配项。
+		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		 */
 		int32_t IndexOf(base::ReadOnlySpan const &match) const;
 
-		/// @brief 从本内存段查找匹配项所在的索引。
-		/// @param start 查找的起始索引。从此处往后开始查找。
-		/// @param match 匹配项。
-		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
+		/**
+		 * @brief 从本内存段查找匹配项所在的索引。
+		 *
+		 * @param start 查找的起始索引。从此处往后开始查找。
+		 * @param match 匹配项。
+		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		 */
 		int32_t IndexOf(int32_t start, base::ReadOnlySpan const &match) const;
 
 	public: // 比较
