@@ -40,6 +40,10 @@ namespace base
 		/// @param o
 		ReadOnlySpan(base::Span const &o);
 
+	public: // 拷贝构造
+		ReadOnlySpan(ReadOnlySpan const &o);
+		ReadOnlySpan &operator=(ReadOnlySpan const &o);
+
 	public:
 		/**
 		 * @brief 索引一个字节。

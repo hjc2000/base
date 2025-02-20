@@ -26,6 +26,29 @@ base::Span::Span(base::ArraySpan<uint8_t> const &span)
 	}
 }
 
+base::Span::Span(Span const &o)
+{
+	*this = o;
+}
+
+base::Span &base::Span::operator=(Span const &o)
+{
+	if (this == &o)
+	{
+		return *this;
+	}
+
+	_buffer = o._buffer;
+	_size = o._size;
+
+	if (_buffer == nullptr)
+	{
+		_size = 0;
+	}
+
+	return *this;
+}
+
 uint8_t &base::Span::operator[](int32_t index) const
 {
 	if (index < 0 || index >= _size)

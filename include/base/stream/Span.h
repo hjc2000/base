@@ -35,6 +35,10 @@ namespace base
 
 		Span(base::ArraySpan<uint8_t> const &span);
 
+	public: // 拷贝构造
+		Span(Span const &o);
+		Span &operator=(Span const &o);
+
 	public:
 		/**
 		 * @brief 索引一个字节。

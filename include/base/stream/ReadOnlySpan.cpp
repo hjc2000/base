@@ -31,6 +31,29 @@ base::ReadOnlySpan::ReadOnlySpan(base::Span const &o)
 	_size = o.Size();
 }
 
+base::ReadOnlySpan::ReadOnlySpan(ReadOnlySpan const &o)
+{
+	*this = o;
+}
+
+base::ReadOnlySpan &base::ReadOnlySpan::operator=(ReadOnlySpan const &o)
+{
+	if (this == &o)
+	{
+		return *this;
+	}
+
+	_buffer = o._buffer;
+	_size = o._size;
+
+	if (_buffer == nullptr)
+	{
+		_size = 0;
+	}
+
+	return *this;
+}
+
 uint8_t const &base::ReadOnlySpan::operator[](int32_t index) const
 {
 	if (index < 0 || index >= _size)
@@ -203,7 +226,13 @@ namespace base
 	{
 		if (Size() != another.Size())
 		{
-			return false;
+			throw std::invalid_argument{CODE_POS_STR + "两段大小相等的内存才可以比较。"};
+		}
+
+		if (Size() == 0)
+		{
+			// 两段内存的大小都为 0，也认为相等。
+			return 0;
 		}
 
 		return memcmp(_buffer, another.Buffer(), _size);

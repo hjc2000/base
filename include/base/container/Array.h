@@ -21,20 +21,6 @@ namespace base
 		/// @note 构造出的数组的元素也全部使用无参构造函数初始化。
 		Array() = default;
 
-		/// @brief 拷贝构造函数。
-		/// @param o
-		Array(Array<ItemType, TCount> const &o)
-		{
-			*this = o;
-		}
-
-		/// @brief 移动构造函数。
-		/// @param o
-		Array(Array<ItemType, TCount> &&o)
-		{
-			*this = o;
-		}
-
 		Array(base::ReadOnlyArraySpan<ItemType> const &span)
 		{
 			if (span.Count() != TCount)
@@ -61,6 +47,21 @@ namespace base
 		Array(std::array<ItemType, TCount> const &o)
 		{
 			_arr = o;
+		}
+
+	public: // 拷贝，移动
+		/// @brief 拷贝构造函数。
+		/// @param o
+		Array(Array<ItemType, TCount> const &o)
+		{
+			*this = o;
+		}
+
+		/// @brief 移动构造函数。
+		/// @param o
+		Array(Array<ItemType, TCount> &&o)
+		{
+			*this = o;
 		}
 
 		/// @brief 赋值运算符。
