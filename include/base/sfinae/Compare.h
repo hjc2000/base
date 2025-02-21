@@ -1,4 +1,5 @@
 #pragma once
+#include <base/sfinae/Equal.h>
 #include <base/string/define.h>
 #include <stdexcept>
 #include <type_traits>
@@ -132,5 +133,33 @@ namespace base
 		-> std::enable_if_t<!base::has_greater_than_or_equal_operator<T>::value, bool>
 	{
 		throw std::runtime_error{CODE_POS_STR + "请先实现 >= 运算符。"};
+	}
+} // namespace base
+
+namespace base
+{
+	/**
+	 * @brief 比较。
+	 *
+	 * @tparam T
+	 * @param left
+	 * @param right
+	 * @return int 如果 left 小于 right，则返回 -1，如果 left 大于 right ，则返回 1，
+	 * 其他情况视为等于，返回 0.
+	 */
+	template <typename T>
+	int Compare(T const &left, T const &right)
+	{
+		if (base::LessThan(left, right))
+		{
+			return -1;
+		}
+
+		if (base::GreaterThan(left, right))
+		{
+			return 1;
+		}
+
+		return 0;
 	}
 } // namespace base
