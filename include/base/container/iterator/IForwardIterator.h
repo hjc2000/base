@@ -22,8 +22,6 @@ namespace base
 		/// @return
 		virtual bool operator==(TypeSelf const &o) const = 0;
 
-#pragma region 扩展
-
 		/// @brief 后缀递增。
 		/// @param
 		/// @return
@@ -46,7 +44,5 @@ namespace base
 		{
 			return !(*this == o);
 		}
-
-#pragma endregion
 	};
 } // namespace base

@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <base/define.h>
 #include <base/stream/ReadOnlySpan.h>
 #include <base/stream/Stream.h>
@@ -14,7 +13,6 @@ namespace base
 		BitConverter() = delete;
 
 	public:
-#pragma region 转数字
 		/// @brief 从缓冲区中 offset 处开始，反序列化出 uint16_t
 		/// @param span
 		/// @return
@@ -114,9 +112,7 @@ namespace base
 		/// @param stream
 		/// @return
 		static_function double ToDouble(base::Stream &stream);
-#pragma endregion
 
-#pragma region 转到缓冲区
 		/// @brief 将 value 序列化到缓冲区中的 offset 处。
 		/// @param value
 		/// @param span
@@ -204,6 +200,5 @@ namespace base
 		/// @param stream
 		/// @return
 		static_function void GetBytes(double value, base::Stream &stream);
-#pragma endregion
 	};
 } // namespace base

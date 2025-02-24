@@ -12,8 +12,6 @@ namespace base
 	class IEnumerable
 	{
 	private:
-#pragma region ConstEnumerator
-
 		/// @brief const 迭代器
 		/// @tparam item_type
 		template <typename item_type>
@@ -45,8 +43,6 @@ namespace base
 			}
 		};
 
-#pragma endregion
-
 	public:
 		/// @brief 获取非 const 迭代器
 		/// @return
@@ -62,8 +58,6 @@ namespace base
 				},
 			};
 		}
-
-#pragma region C++风格的可迭代容器实现
 
 		IEnumeratorForwardIterator<ItemType> begin()
 		{
@@ -84,7 +78,5 @@ namespace base
 		{
 			return IEnumeratorForwardIterator<ItemType const>{GetEnumerator()};
 		}
-
-#pragma endregion
 	};
 } // namespace base

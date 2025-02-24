@@ -2,8 +2,6 @@
 
 namespace base
 {
-#pragma region 参数类
-
 	/// @brief 偏差乘上的系数
 	class ChXFilter_KError
 	{
@@ -43,8 +41,6 @@ namespace base
 			return _value;
 		}
 	};
-
-#pragma endregion
 
 	/// @brief 利用负反馈的积分环节形成惯性环节。采用的是先对积分环节做差分近似，
 	/// 然后用迭代形成闭环。

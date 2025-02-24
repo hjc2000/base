@@ -15,7 +15,6 @@ namespace base
 		int64_t _den = 1;
 
 	public:
-#pragma region 生命周期
 		/// @brief 默认构造，分子为 0，分母为 1.
 		Fraction() = default;
 
@@ -33,7 +32,6 @@ namespace base
 		Fraction(Fraction const &o);
 
 		Fraction &operator=(Fraction const &o);
-#pragma endregion
 
 		int64_t Num() const;
 		void SetNum(int64_t value);
@@ -86,7 +84,6 @@ namespace base
 		explicit operator int8_t() const;
 		explicit operator double() const;
 
-#pragma region 比较
 		/// @brief 本对象等于 another.
 		/// @param another
 		/// @return
@@ -104,7 +101,6 @@ namespace base
 
 		bool operator>=(Fraction const &another) const;
 		bool operator<=(Fraction const &another) const;
-#pragma endregion
 	};
 } // namespace base
 

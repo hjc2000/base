@@ -1,11 +1,8 @@
 #pragma once
 #include <stdexcept>
-#include <stdint.h>
 
 namespace base
 {
-#pragma region 参数类
-
 	/// @brief 上升阈值
 	/// @note 本次输入值比锚点增加多少就认为当前方向是上升。
 	class DirectionDetecter_RisingThreshold
@@ -78,9 +75,6 @@ namespace base
 		}
 	};
 
-#pragma endregion
-
-#pragma region 枚举
 	/// @brief 当前方向
 	enum class DirectionDetecter_Direction
 	{
@@ -100,7 +94,6 @@ namespace base
 		/// @brief 从下降方向变成了上升方向
 		FromFallingToRising,
 	};
-#pragma endregion
 
 	/// @brief 方向检测器。
 	class DirectionDetecter

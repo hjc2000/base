@@ -3,8 +3,6 @@
 #include <numeric>
 #include <stdexcept>
 
-#pragma region 生命周期
-
 base::Fraction::Fraction(int64_t num)
 {
 	SetNum(num);
@@ -29,8 +27,6 @@ base::Fraction &base::Fraction::operator=(Fraction const &o)
 	SetDen(o.Den());
 	return *this;
 }
-
-#pragma endregion
 
 int64_t base::Fraction::Num() const
 {
@@ -232,8 +228,6 @@ base::Fraction::operator double() const
 	return static_cast<double>(_num) / _den;
 }
 
-#pragma region 比较
-
 bool base::Fraction::operator==(Fraction const &another) const
 {
 	if (Num() == 0 && another.Num() == 0)
@@ -303,10 +297,6 @@ bool base::Fraction::operator<=(Fraction const &another) const
 	return false;
 }
 
-#pragma endregion
-
-#pragma region 全局重载运算符
-
 std::ostream &operator<<(std::ostream &ostream, base::Fraction const &right)
 {
 	ostream << right.ToString();
@@ -332,8 +322,6 @@ base::Fraction operator/(int64_t left, base::Fraction const &right)
 {
 	return base::Fraction{left} / right;
 }
-
-#pragma endregion
 
 int64_t std::floor(base::Fraction const &value)
 {

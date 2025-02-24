@@ -33,15 +33,14 @@ double base::ChXFilter::TimeConstant(double sample_interval)
 
 #if HAS_THREAD
 
-#include <base/math/InertialElement.h>
-#include <iostream>
+	#include <base/math/InertialElement.h>
+	#include <iostream>
 
 void base::Test_ChXFilter()
 {
 	double x = 15;
 	double sapmle_interval = 0.002;
 
-#pragma region 测试 ChXFilter
 	std::cout << "测试 ChXFilter" << std::endl;
 
 	base::ChXFilter filter{
@@ -55,9 +54,7 @@ void base::Test_ChXFilter()
 	{
 		std::cout << filter.Input(x) << std::endl;
 	}
-#pragma endregion
 
-#pragma region 测试 InertialElement
 	std::cout << "\n\n"
 			  << std::endl;
 
@@ -72,6 +69,5 @@ void base::Test_ChXFilter()
 	{
 		std::cout << inertial_filter.Input(x) << std::endl;
 	}
-#pragma endregion
 }
 #endif

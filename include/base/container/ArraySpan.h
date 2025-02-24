@@ -7,13 +7,11 @@
 
 namespace base
 {
-#pragma region 声明
 	template <typename ItemType>
 	class ArraySpan;
 
 	template <typename ItemType>
 	class ReadOnlyArraySpan;
-#pragma endregion
 
 	/// @brief 只读的数组内存段。
 	/// @note 引用一段内存，不会持有这段内存，不管理这段内存的生命周期。
@@ -25,8 +23,6 @@ namespace base
 	private:
 		ItemType const *_buffer = nullptr;
 		int32_t _count = 0;
-
-#pragma region 迭代器
 
 		class Enumerator :
 			public base::IEnumerator<ItemType const>
@@ -82,10 +78,7 @@ namespace base
 			}
 		};
 
-#pragma endregion
-
 	public:
-#pragma region 生命周期
 		/// @brief 构造函数。构造出来的对象不会引用任何有效内存段，且大小为 0.
 		ReadOnlyArraySpan() = default;
 
@@ -137,8 +130,6 @@ namespace base
 			return *this;
 		}
 
-#pragma endregion
-
 		/// @brief 获取本对象引用的内存段。
 		/// @return
 		ItemType const *Buffer() const
@@ -183,8 +174,6 @@ namespace base
 	private:
 		ItemType *_buffer = nullptr;
 		int32_t _count = 0;
-
-#pragma region 迭代器
 
 		class Enumerator :
 			public base::IEnumerator<ItemType>
@@ -240,10 +229,7 @@ namespace base
 			}
 		};
 
-#pragma endregion
-
 	public:
-#pragma region 生命周期
 		/// @brief 构造函数。构造出来的对象不会引用任何有效内存段，且大小为 0.
 		ArraySpan() = default;
 
@@ -284,8 +270,6 @@ namespace base
 			return *this;
 		}
 
-#pragma endregion
-
 		/// @brief 获取本对象引用的内存段。
 		/// @return
 		ItemType *Buffer() const
@@ -305,8 +289,6 @@ namespace base
 		{
 			std::reverse(_buffer, _buffer + _count);
 		}
-
-#pragma region CopyFrom
 
 		/// @brief 将 another 的内存段的数据复制到本对象的内存段。
 		/// @param another
@@ -328,8 +310,6 @@ namespace base
 		{
 			CopyFrom(base::ReadOnlyArraySpan<ItemType>{another});
 		}
-
-#pragma endregion
 
 		base::ArraySpan<ItemType> Slice(base::Range const &range) const
 		{
