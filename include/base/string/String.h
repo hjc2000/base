@@ -3,7 +3,6 @@
 #include <base/container/Range.h>
 #include <base/define.h>
 #include <base/stream/ReadOnlySpan.h>
-#include <stdexcept>
 #include <stdint.h>
 #include <string>
 
@@ -38,8 +37,6 @@ namespace base
 	private:
 		std::string _string;
 
-#pragma region IsWhiteChar
-
 		static_function constexpr bool IsWhiteChar(char value)
 		{
 			switch (value)
@@ -56,10 +53,7 @@ namespace base
 			return false;
 		}
 
-#pragma endregion
-
 	public:
-#pragma region 生命周期
 		/// @brief 无参构造函数。
 		String() = default;
 
@@ -84,12 +78,10 @@ namespace base
 		/// @param o
 		/// @return
 		String &operator=(String const &o);
-#pragma endregion
 
 		std::string &StdString();
 		std::string const &StdString() const;
 
-#pragma region operator[]
 		char &operator[](int32_t index);
 		char const &operator[](int32_t index) const;
 
@@ -98,12 +90,9 @@ namespace base
 		/// @param range
 		/// @return
 		base::String operator[](base::Range const &range) const;
-#pragma endregion
 
 		base::String &operator+=(base::String const &o);
 		base::String operator+(base::String const &o) const;
-
-#pragma region 比较
 
 		bool operator==(base::String const &o) const
 		{
@@ -130,13 +119,10 @@ namespace base
 			return _string <= o._string;
 		}
 
-#pragma endregion
-
 		/// @brief 字符串长度。不包括结尾的空字符。
 		/// @return
 		int32_t Length() const;
 
-#pragma region 迭代
 		using Iterator = std::string::iterator;
 
 		Iterator begin()
@@ -161,15 +147,12 @@ namespace base
 			return _string.end();
 		}
 
-#pragma endregion
-
 		/// @brief 根据分隔符，将字符串拆分成多个子字符串，放到列表中返回。
 		/// @param separator
 		/// @return
 		base::List<base::String> Split(char separator,
 									   base::StringSplitOptions const &options = StringSplitOptions{}) const;
 
-#pragma region Trim
 		/// @brief 裁剪掉字符串开头处的空白字符。
 		/// @note 关于哪些是空白字符，见 IsWhiteChar 函数。
 		/// @return
@@ -184,9 +167,7 @@ namespace base
 		/// @note 关于哪些是空白字符，见 IsWhiteChar 函数。
 		/// @return
 		base::String Trim() const;
-#pragma endregion
 
-#pragma region IndexOf
 		/// @brief 从本字符串查找匹配项所在的索引。
 		/// @param match 匹配项。
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
@@ -208,9 +189,7 @@ namespace base
 		/// @param match 匹配项。
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		int32_t IndexOf(int32_t start, base::String const &match) const;
-#pragma endregion
 
-#pragma region Contains
 		/// @brief 检查本字符串中是否存在至少 1 个指定的字符。
 		/// @param match 指定的字符。
 		/// @return 如果存在，则返回 true, 如果不存在则返回 false.
@@ -220,7 +199,6 @@ namespace base
 		/// @param match
 		/// @return 如果有则返回 true ，没有则返回 false.
 		bool Contains(base::String const &match) const;
-#pragma endregion
 
 		base::Span AsSpan();
 		base::ReadOnlySpan AsReadOnlySpan() const;
@@ -234,7 +212,6 @@ namespace base
 		/// @brief 翻转字符串。
 		void Reverse();
 
-#pragma region 移除
 		/// @brief 移除指定范围内的字符。
 		/// @param range
 		void Remove(base::Range const &range);
@@ -242,9 +219,7 @@ namespace base
 		/// @brief 移除指定索引处的字符。
 		/// @param index
 		void RemoveAt(int32_t index);
-#pragma endregion
 
-#pragma region Replace
 		/// @brief 将字符串的指定范围替换为 replacement.
 		/// @param range 要被替换的范围。
 		/// @param replacement 替换后的内容。
@@ -254,7 +229,6 @@ namespace base
 		/// @param match 要被替换的内容。
 		/// @param replacement 替换后的内容。
 		void Replace(base::String const &match, base::String const &replacement);
-#pragma endregion
 	};
 } // namespace base
 

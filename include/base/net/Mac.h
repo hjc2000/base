@@ -17,7 +17,6 @@ namespace base
 		base::Array<uint8_t, 6> _mac_buffer{};
 
 	public:
-#pragma region 生命周期
 		/// @brief 无参构造函数。构造出来的 MAC 地址是全 0.
 		Mac() = default;
 
@@ -43,7 +42,6 @@ namespace base
 		/// @param o
 		/// @return
 		Mac &operator=(Mac const &o);
-#pragma endregion
 
 		/// @brief 获取本对象内部的用来储存 MAC 地址的数组。
 		/// @return
@@ -53,7 +51,6 @@ namespace base
 		/// @return
 		base::Array<uint8_t, 6> &InternalArray();
 
-#pragma region 类型转换
 		/// @brief 显示将本对象强制转换为 base::Array<uint8_t, 6>.
 		/// 原理是将 MAC 地址拷贝到 base::Array<uint8_t, 6> 中。
 		explicit operator base::Array<uint8_t, 6>() const;
@@ -78,7 +75,6 @@ namespace base
 		/// @brief 获取引用着本对象内部缓冲区的 Span.
 		/// @return
 		base::Span AsSpan();
-#pragma endregion
 
 		/// @brief 访问 MAC 地址中指定索引的值。
 		/// @param index

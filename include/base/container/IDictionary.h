@@ -1,6 +1,5 @@
 #pragma once
 #include <base/container/iterator/IEnumerable.h>
-#include <map>
 
 namespace base
 {
@@ -35,8 +34,6 @@ namespace base
 		/// @brief 获取迭代器
 		/// @return
 		virtual std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>> GetEnumerator() = 0;
-
-#pragma region 接口扩展
 
 		/// @brief 获取元素。找不到会抛出异常。
 		/// @param key
@@ -113,7 +110,5 @@ namespace base
 				Add(pair);
 			}
 		}
-
-#pragma endregion
 	};
 } // namespace base

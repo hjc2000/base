@@ -1,8 +1,6 @@
 #include "BitConverter.h"
 #include <base/string/define.h>
 
-#pragma region 转数字类型
-
 uint16_t base::BitConverter::ToUInt16(base::ReadOnlySpan const &span)
 {
 	uint16_t ret;
@@ -210,10 +208,6 @@ double base::BitConverter::ToDouble(base::Stream &stream)
 	return ToDouble(base::Span{buffer, sizeof(buffer)});
 }
 
-#pragma endregion
-
-#pragma region 转缓冲区
-
 void base::BitConverter::GetBytes(uint16_t value, base::Span const &span)
 {
 	if (span.Size() < static_cast<int32_t>(sizeof(value)))
@@ -349,5 +343,3 @@ void base::BitConverter::GetBytes(double value, base::Stream &stream)
 	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
 	stream.Write(buffer, 0, sizeof(value));
 }
-
-#pragma endregion

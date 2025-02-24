@@ -1,5 +1,6 @@
 #pragma once
 #include <base/container/IDictionary.h>
+#include <map>
 
 namespace base
 {
@@ -12,8 +13,6 @@ namespace base
 	{
 	private:
 		std::map<KeyType, ValueType> _map{};
-
-#pragma region 迭代器类
 
 		class Enumerator :
 			public IEnumerator<std::pair<KeyType const, ValueType>>
@@ -70,10 +69,7 @@ namespace base
 			}
 		};
 
-#pragma endregion
-
 	public:
-#pragma region 生命周期
 		/// @brief 构造一个空字典。
 		Dictionary() = default;
 
@@ -128,8 +124,6 @@ namespace base
 
 			return *this;
 		}
-
-#pragma endregion
 
 		using base::IDictionary<KeyType, ValueType>::Add;
 

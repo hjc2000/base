@@ -58,8 +58,6 @@ std::string base::Nanoseconds::UnitString() const
 	return "ns";
 }
 
-#pragma region 强制转换运算符
-
 base::Nanoseconds::operator std::chrono::seconds() const
 {
 	// 纳秒转换到秒，发生了精度损失。
@@ -79,5 +77,3 @@ base::Nanoseconds::operator std::chrono::microseconds() const
 	// 纳秒转换到微秒，发生了精度损失。
 	return std::chrono::microseconds{static_cast<int64_t>(_value / 1000)};
 }
-
-#pragma endregion

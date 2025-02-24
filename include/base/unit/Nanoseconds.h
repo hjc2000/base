@@ -40,10 +40,8 @@ namespace base
 		/// @return
 		virtual std::string UnitString() const override;
 
-#pragma region 强制转换运算符
 		explicit operator std::chrono::seconds() const;
 		explicit operator std::chrono::milliseconds() const;
 		explicit operator std::chrono::microseconds() const;
-#pragma endregion
 	};
 } // namespace base

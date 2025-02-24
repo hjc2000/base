@@ -24,8 +24,6 @@ namespace base
 			/// @param span 以太网的发送缓冲区。
 			DcpHelloRequestWriter(base::Span const &span);
 
-#pragma region 转发下层数据单元的操作
-
 			/// @brief 源 MAC 地址。
 			/// @return
 			base::Mac SourceMac() const
@@ -40,9 +38,6 @@ namespace base
 				_fid_apdu.SetSourceMac(value);
 			}
 
-#pragma endregion
-
-#pragma region DCP 头部
 			base::profinet::DcpServiceIdEnum ServiceId() const;
 			base::profinet::DcpServiceTypeEnum ServiceType() const;
 
@@ -52,9 +47,7 @@ namespace base
 			/// @brief Blocks 的有效数据的长度。
 			/// @return
 			uint16_t DataLength() const;
-#pragma endregion
 
-#pragma region Blocks
 			/// @brief 删除 Blocks 区域的所有块。
 			void ClearAllBlocks();
 
@@ -79,7 +72,6 @@ namespace base
 			/// @brief 放置 “设备主动性” 块。
 			/// @param hello 设备是否会在上电后主动发送 DCP-Hllo.
 			void PutDeviceInitiativeBlock(bool hello);
-#pragma endregion
 
 			/// @brief 整个以太网帧缓冲区中的有效数据 span.
 			/// @return

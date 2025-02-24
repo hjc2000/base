@@ -3,8 +3,6 @@
 
 namespace base
 {
-#pragma region 参数类
-
 	/// @brief 惯性时间常数
 	class InertialElement_TimeConstant
 	{
@@ -40,8 +38,6 @@ namespace base
 			return _value;
 		}
 	};
-
-#pragma endregion
 
 	/// @brief 一阶惯性环节。
 	class InertialElement final

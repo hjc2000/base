@@ -12,7 +12,6 @@ namespace base
 	class Stream
 	{
 	public:
-#pragma region 接口
 		virtual bool CanRead() const = 0;
 		virtual bool CanWrite() const = 0;
 		virtual bool CanSeek() const = 0;
@@ -44,7 +43,6 @@ namespace base
 		/// @return
 		virtual int64_t Position() const = 0;
 		virtual void SetPosition(int64_t value) = 0;
-#pragma endregion
 
 		/// @brief 从流中读取数据写入 buffer。
 		/// @param buffer 要将读取到的数据写入的缓冲区。

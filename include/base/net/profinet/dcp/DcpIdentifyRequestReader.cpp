@@ -51,8 +51,6 @@ uint16_t base::profinet::DcpIdentifyRequestReader::DataLength() const
 	return _header_reader->DataLength();
 }
 
-#pragma region Blocks
-
 bool base::profinet::DcpIdentifyRequestReader::HasNameOfStationBlock() const
 {
 	return _tlv_reader->HasNameOfStationBlock();
@@ -62,8 +60,6 @@ std::string base::profinet::DcpIdentifyRequestReader::NameOfStation() const
 {
 	return _tlv_reader->NameOfStation();
 }
-
-#pragma endregion
 
 base::Json base::profinet::DcpIdentifyRequestReader::ToJson() const
 {

@@ -22,7 +22,6 @@ namespace base
 		/// @return 当远程字节序和本机字节序不同时，需要翻转，此时会返回 true.
 		bool ShouldReverse() const;
 
-#pragma region 转数字
 		/// @brief 从缓冲区中 offset 处开始，反序列化出 uint16_t
 		/// @param span
 		/// @return
@@ -122,9 +121,7 @@ namespace base
 		/// @param stream
 		/// @return
 		double ToDouble(base::Stream &stream) const;
-#pragma endregion
 
-#pragma region 转到缓冲区
 		/// @brief 将 value 序列化到缓冲区中的 offset 处。
 		/// @param value
 		/// @param span
@@ -212,6 +209,5 @@ namespace base
 		/// @param stream
 		/// @return
 		void GetBytes(double value, base::Stream &stream) const;
-#pragma endregion
 	};
 } // namespace base

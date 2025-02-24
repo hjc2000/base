@@ -1,4 +1,5 @@
 #include "DcpTlvReader.h"
+#include <stdexcept>
 
 base::profinet::DcpTlvReader::DcpTlvReader(base::ReadOnlySpan const &span)
 {

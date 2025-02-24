@@ -2,7 +2,6 @@
 #include <base/container/Queue.h>
 #include <base/delegate/Delegate.h>
 #include <base/stream/Stream.h>
-#include <functional>
 #include <memory>
 
 namespace base
@@ -36,7 +35,6 @@ namespace base
 		/// @param stream
 		void AppendStream(std::shared_ptr<base::Stream> stream);
 
-#pragma region Stream
 		bool CanRead() const override;
 		bool CanWrite() const override;
 		bool CanSeek() const override;
@@ -52,6 +50,5 @@ namespace base
 
 		int64_t Position() const override;
 		void SetPosition(int64_t value) override;
-#pragma endregion
 	};
 } // namespace base

@@ -3,8 +3,6 @@
 
 namespace base
 {
-#pragma region 选项类
-
 	/// @brief 线性插值器的起始值
 	class LinearInterpolator_StartVlaue
 	{
@@ -77,8 +75,6 @@ namespace base
 			return _value;
 		}
 	};
-
-#pragma endregion
 
 	/// @brief 线性插值器
 	class LinearInterpolator final

@@ -1,8 +1,8 @@
 #include "FileStream.h"
 
 #if HAS_THREAD
-
-#pragma region 工厂函数
+	#include <filesystem>
+	#include <iostream>
 
 std::shared_ptr<base::FileStream> base::FileStream::CreateNewAnyway(std::string path)
 {
@@ -94,8 +94,6 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenReadOnly(std::string pat
 	fs->_can_seek = true;
 	return fs;
 }
-
-#pragma endregion
 
 bool base::FileStream::CanRead() const
 {

@@ -3,8 +3,6 @@
 #include <base/string/define.h>
 #include <base/string/ToHexString.h>
 
-#pragma region 构造函数
-
 base::Mac::Mac(base::Array<uint8_t, 6> const &mac_buffer)
 {
 	_mac_buffer = mac_buffer;
@@ -41,8 +39,6 @@ base::Mac::Mac(Mac const &o)
 	_mac_buffer = o._mac_buffer;
 }
 
-#pragma endregion
-
 base::Mac &base::Mac::operator=(Mac const &o)
 {
 	_mac_buffer = o._mac_buffer;
@@ -58,8 +54,6 @@ base::Array<uint8_t, 6> &base::Mac::InternalArray()
 {
 	return _mac_buffer;
 }
-
-#pragma region 类型转换
 
 base::Mac::operator base::Array<uint8_t, 6>() const
 {
@@ -126,8 +120,6 @@ base::Span base::Mac::AsSpan()
 {
 	return base::Span{_mac_buffer.Buffer(), _mac_buffer.Count()};
 }
-
-#pragma endregion
 
 uint8_t &base::Mac::operator[](int index)
 {

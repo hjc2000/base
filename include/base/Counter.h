@@ -1,6 +1,5 @@
 #pragma once
 #include <stdexcept>
-#include <stdint.h>
 
 namespace base
 {
@@ -49,8 +48,6 @@ namespace base
 
 			_max_value = max_value;
 		}
-
-#pragma region 运算符重载
 
 		/// @brief 前缀递增
 		/// @return 返回递增后的值。
@@ -108,8 +105,6 @@ namespace base
 			_count %= _max_value + 1;
 			return _count;
 		}
-
-#pragma endregion
 
 		/// @brief 重置计数值。计数值归 0.
 		void Reset()

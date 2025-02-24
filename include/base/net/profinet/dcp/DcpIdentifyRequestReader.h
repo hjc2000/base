@@ -46,7 +46,6 @@ namespace base
 			/// @return
 			uint16_t DataLength() const;
 
-#pragma region Blocks
 			/// @brief 是否具有站点名称块。
 			/// @return 有则返回 true，没有则返回 false.
 			bool HasNameOfStationBlock() const;
@@ -56,7 +55,6 @@ namespace base
 			/// HasNameOfStationBlock 为 false 时访问本属性会抛出异常。
 			/// @return
 			std::string NameOfStation() const;
-#pragma endregion
 
 			/// @brief 序列化为 json
 			/// @return

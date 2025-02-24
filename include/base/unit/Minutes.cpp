@@ -57,8 +57,6 @@ std::string base::Minutes::UnitString() const
 	return "m";
 }
 
-#pragma region 强制转换运算符
-
 base::Minutes::operator std::chrono::seconds() const
 {
 	return std::chrono::seconds{base::Seconds{*this}};
@@ -73,5 +71,3 @@ base::Minutes::operator std::chrono::microseconds() const
 {
 	return std::chrono::seconds{base::Seconds{*this}};
 }
-
-#pragma endregion

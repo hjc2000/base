@@ -25,7 +25,6 @@ namespace base
 		IPAddressType _type = IPAddressType::IPV4;
 
 	public:
-#pragma region 生命周期
 		/// @brief 构造一个未指定的 IP 地址。此时表现为 IPV4 的 0.0.0.0.
 		IPAddress();
 
@@ -72,7 +71,6 @@ namespace base
 		/// @param o
 		/// @return
 		IPAddress &operator=(IPAddress const &o);
-#pragma endregion
 
 		uint8_t &operator[](int index);
 		uint8_t const &operator[](int index) const;

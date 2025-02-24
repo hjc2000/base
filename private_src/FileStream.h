@@ -1,12 +1,10 @@
 #pragma once
 #if HAS_THREAD
 
-#include <base/define.h>
-#include <base/stream/IFileStream.h>
-#include <base/string/define.h>
-#include <filesystem>
-#include <fstream>
-#include <iostream>
+	#include <base/define.h>
+	#include <base/stream/IFileStream.h>
+	#include <base/string/define.h>
+	#include <fstream>
 
 namespace base
 {
@@ -31,7 +29,6 @@ namespace base
 			Close();
 		}
 
-#pragma region 工厂函数
 		/// @brief 用创建模式打开文件流，无论如何都会创建一个新的空白文件。会覆盖旧的。
 		/// @param path 文件路径
 		/// @return 创建文件成功则返回 FileStream 对象。创建失败会抛出异常，不会返回空指针。
@@ -46,7 +43,6 @@ namespace base
 		/// @param path 文件的路径。
 		/// @return 成功打开则返回 FileStream 对象。失败会抛出异常，不会返回空指针。
 		static_function std::shared_ptr<FileStream> OpenReadOnly(std::string path);
-#pragma endregion
 
 		bool CanRead() const override;
 		bool CanWrite() const override;

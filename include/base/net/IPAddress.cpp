@@ -3,8 +3,6 @@
 #include <base/string/ToHexString.h>
 #include <stdexcept>
 
-#pragma region 生命周期
-
 base::IPAddress::IPAddress()
 {
 	_type = IPAddressType::IPV4;
@@ -202,8 +200,6 @@ base::IPAddress &base::IPAddress::operator=(IPAddress const &o)
 	return *this;
 }
 
-#pragma endregion
-
 uint8_t &base::IPAddress::operator[](int index)
 {
 	if (index < 0 || index >= _span.Size())
@@ -292,10 +288,8 @@ base::Array<uint8_t, 16> &base::IPAddress::InternalArray()
 	return _ip_address_buffer;
 }
 
-#pragma region 测试
-
 #if HAS_THREAD
-#include <iostream>
+	#include <iostream>
 
 void base::TestIpAddress()
 {
@@ -332,5 +326,3 @@ void base::TestIpAddress()
 	}
 }
 #endif // HAS_THREAD
-
-#pragma endregion

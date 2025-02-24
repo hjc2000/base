@@ -1,10 +1,8 @@
 #pragma once
-#include <algorithm>
 #include <base/stream/Stream.h>
 #include <cstdint>
 #include <cstring>
 #include <memory>
-#include <stdexcept>
 
 namespace base
 {
@@ -60,7 +58,6 @@ namespace base
 		/// @brief 清空流
 		void Clear();
 
-#pragma region Stream
 		bool CanRead() const override;
 		bool CanWrite() const override;
 		bool CanSeek() const override;
@@ -93,6 +90,5 @@ namespace base
 		/// @brief 调用将发生 std::runtime_error
 		/// @param value
 		void SetPosition(int64_t value) override;
-#pragma endregion
 	};
 } // namespace base

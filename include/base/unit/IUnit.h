@@ -13,8 +13,6 @@ namespace base
 		public base::ICanToString
 	{
 	private:
-#pragma region sfinae
-
 		/// @brief 有等于运算符
 		/// @tparam t_another
 		/// @tparam
@@ -105,8 +103,6 @@ namespace base
 		{
 		};
 
-#pragma endregion
-
 	public:
 		virtual base::Fraction &Value() = 0;
 
@@ -118,8 +114,6 @@ namespace base
 		{
 			return const_cast<IUnit<TSelf> *>(this)->Value();
 		}
-
-#pragma region 强制转换
 
 		explicit operator base::Fraction() const
 		{
@@ -135,8 +129,6 @@ namespace base
 		{
 			return static_cast<double>(Value());
 		}
-
-#pragma endregion
 
 		/// @brief 向下取整
 		/// @return
@@ -156,8 +148,6 @@ namespace base
 		{
 			return -Value();
 		}
-
-#pragma region 四则运算符
 
 		template <typename T>
 		TSelf operator+(T const &value) const
@@ -211,10 +201,6 @@ namespace base
 			return *reinterpret_cast<TSelf *>(this);
 		}
 
-#pragma endregion
-
-#pragma region 比较运算符
-
 		template <typename T>
 		auto operator==(T const &value) const
 			-> std::enable_if_t<!has_equal_operator<T>::value, bool>
@@ -249,8 +235,6 @@ namespace base
 		{
 			return Value() >= TSelf{value}.Value();
 		}
-
-#pragma endregion
 
 		/// @brief 转化为字符串
 		/// @return

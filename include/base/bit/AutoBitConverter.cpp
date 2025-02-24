@@ -3,8 +3,6 @@
 #include <base/bit/BitConverter.h>
 #include <base/string/define.h>
 
-using namespace base;
-
 base::AutoBitConverter::AutoBitConverter(std::endian remote_endian)
 	: _remote_endian(remote_endian)
 {
@@ -14,8 +12,6 @@ bool base::AutoBitConverter::ShouldReverse() const
 {
 	return std::endian::native != _remote_endian;
 }
-
-#pragma region 转成数字类型
 
 uint16_t base::AutoBitConverter::ToUInt16(base::ReadOnlySpan const &span) const
 {
@@ -209,10 +205,6 @@ double base::AutoBitConverter::ToDouble(base::Stream &stream) const
 	return ToDouble(base::Span{buffer, sizeof(buffer)});
 }
 
-#pragma endregion
-
-#pragma region 转到缓冲区
-
 void base::AutoBitConverter::GetBytes(uint16_t value, base::Span const &span) const
 {
 	base::BitConverter::GetBytes(value, span);
@@ -372,5 +364,3 @@ void base::AutoBitConverter::GetBytes(double value, base::Stream &stream) const
 
 	stream.Write(buffer, 0, sizeof(value));
 }
-
-#pragma endregion

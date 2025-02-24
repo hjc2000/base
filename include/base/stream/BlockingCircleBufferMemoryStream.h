@@ -31,7 +31,6 @@ namespace base
 			Close();
 		}
 
-#pragma region 通过 Stream 继承
 		virtual bool CanRead() const override;
 		virtual bool CanWrite() const override;
 		virtual bool CanSeek() const override;
@@ -48,6 +47,5 @@ namespace base
 
 		virtual int64_t Position() const override;
 		virtual void SetPosition(int64_t value) override;
-#pragma endregion
 	};
 } // namespace base

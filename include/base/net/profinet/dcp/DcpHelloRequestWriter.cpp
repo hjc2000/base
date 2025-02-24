@@ -39,8 +39,6 @@ base::profinet::DcpHelloRequestWriter::DcpHelloRequestWriter(base::Span const &s
 	_block_stream = std::shared_ptr<base::MemoryStream>{new base::MemoryStream{block_span}};
 }
 
-#pragma region DCP 头部
-
 base::profinet::DcpServiceIdEnum base::profinet::DcpHelloRequestWriter::ServiceId() const
 {
 	base::profinet::DcpHeaderWriter writer{_this_span};
@@ -70,10 +68,6 @@ uint16_t base::profinet::DcpHelloRequestWriter::DataLength() const
 	base::profinet::DcpHeaderWriter writer{_this_span};
 	return writer.DataLength();
 }
-
-#pragma endregion
-
-#pragma region Blocks
 
 void base::profinet::DcpHelloRequestWriter::ClearAllBlocks()
 {
@@ -122,5 +116,3 @@ void base::profinet::DcpHelloRequestWriter::PutDeviceInitiativeBlock(bool hello)
 	writer.WriteDeviceInitiativeBlock(hello);
 	UpdateSize();
 }
-
-#pragma endregion
