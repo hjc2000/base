@@ -23,7 +23,9 @@ namespace base
 		uint8_t *_buffer = nullptr;
 		int32_t _size = 0;
 
-	public: // 构造函数
+	public:
+		// 构造函数
+
 		/// @brief 无参构造函数。引用一段空内存。
 		/// @note 可以通过 Size 属性判断本对象是否引用到了有效的内存。
 		Span() = default;
@@ -34,10 +36,6 @@ namespace base
 		Span(uint8_t *buffer, int32_t size);
 
 		Span(base::ArraySpan<uint8_t> const &span);
-
-	public: // 拷贝构造
-		Span(Span const &o);
-		Span &operator=(Span const &o);
 
 	public:
 		/**
@@ -75,7 +73,9 @@ namespace base
 		/// @brief 翻转本 Span 所引用的内存段。
 		void Reverse() const;
 
-	public: // CopyFrom
+	public:
+		// CopyFrom
+
 		/// @brief 将 span 所引用的内存的数据拷贝过来。
 		/// @param span
 		void CopyFrom(base::ReadOnlySpan const &span) const;
@@ -100,7 +100,9 @@ namespace base
 		/// @param value
 		void FillWith(uint8_t value);
 
-	public: // IndexOf
+	public:
+		// IndexOf
+
 		/**
 		 * @brief 从本内存段查找匹配项所在的索引。
 		 *
@@ -135,7 +137,9 @@ namespace base
 		 */
 		int32_t IndexOf(int32_t start, base::ReadOnlySpan const &match) const;
 
-	public: // 比较
+	public:
+		// 比较
+
 		/**
 		 * @brief 比较两段内存。
 		 *

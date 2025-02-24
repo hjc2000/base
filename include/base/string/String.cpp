@@ -1,6 +1,22 @@
 #include "String.h"
 #include <stdexcept>
 
+bool base::String::IsWhiteChar(char value)
+{
+	switch (value)
+	{
+	case ' ':
+	case '\t':
+	case '\r':
+	case '\n':
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 base::String::String(std::string const &o)
 {
 	_string = o;
@@ -27,17 +43,6 @@ base::String::String(base::ReadOnlySpan const &o)
 base::String::String(base::Span const &o)
 	: String(base::ReadOnlySpan{o})
 {
-}
-
-base::String::String(String const &o)
-{
-	*this = o;
-}
-
-base::String &base::String::operator=(String const &o)
-{
-	_string = o._string;
-	return *this;
 }
 
 std::string &base::String::StdString()
@@ -87,6 +92,31 @@ base::String base::String::operator+(base::String const &o) const
 	ret.reserve(_string.size() + o.StdString().size());
 	ret = _string + o.StdString();
 	return base::String{ret};
+}
+
+bool base::String::operator==(base::String const &o) const
+{
+	return _string == o._string;
+}
+
+bool base::String::operator<(base::String const &o) const
+{
+	return _string < o._string;
+}
+
+bool base::String::operator>(base::String const &o) const
+{
+	return _string > o._string;
+}
+
+bool base::String::operator<=(base::String const &o) const
+{
+	return _string <= o._string;
+}
+
+bool base::String::operator>=(base::String const &o) const
+{
+	return _string <= o._string;
 }
 
 int32_t base::String::Length() const
@@ -309,6 +339,32 @@ void base::String::Replace(base::String const &match, base::String const &replac
 		Replace(base::Range{index, index + match.Length()}, replacement);
 		start = index + replacement.Length();
 	}
+}
+
+bool base::String::StartWith(char match) const
+{
+	if (Length() == 0)
+	{
+		return false;
+	}
+
+	return _string[0] == match;
+}
+
+bool base::String::StartWith(base::String const &match) const
+{
+	int32_t index = IndexOf(match);
+	return index == 0;
+}
+
+bool base::String::EndWith(char match) const
+{
+	if (Length() == 0)
+	{
+		return false;
+	}
+
+	return _string[_string.size() - 1] == match;
 }
 
 base::String operator+(std::string const &left, base::String const &right)

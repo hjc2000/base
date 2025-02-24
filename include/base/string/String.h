@@ -35,53 +35,22 @@ namespace base
 	class String
 	{
 	private:
-		std::string _string;
-
-		static_function constexpr bool IsWhiteChar(char value)
-		{
-			switch (value)
-			{
-			case ' ':
-			case '\t':
-			case '\r':
-			case '\n':
-				{
-					return true;
-				}
-			}
-
-			return false;
-		}
+		std::string _string{};
+		static_function bool IsWhiteChar(char value);
 
 	public:
-		/// @brief 无参构造函数。
 		String() = default;
-
-		/// @brief 从 std::string 构造。
-		/// @param o
 		String(std::string const &o);
-
-		/// @brief 从单个字符构造。
-		/// @param o
 		String(char o);
-
 		String(char const *str);
-
 		String(base::ReadOnlySpan const &o);
 		String(base::Span const &o);
 
-		/// @brief 拷贝构造函数。
-		/// @param o
-		String(String const &o);
-
-		/// @brief 赋值运算符。
-		/// @param o
-		/// @return
-		String &operator=(String const &o);
-
+	public:
 		std::string &StdString();
 		std::string const &StdString() const;
 
+	public:
 		char &operator[](int32_t index);
 		char const &operator[](int32_t index) const;
 
@@ -91,61 +60,21 @@ namespace base
 		/// @return
 		base::String operator[](base::Range const &range) const;
 
+	public:
 		base::String &operator+=(base::String const &o);
 		base::String operator+(base::String const &o) const;
 
-		bool operator==(base::String const &o) const
-		{
-			return _string == o._string;
-		}
+	public:
+		bool operator==(base::String const &o) const;
+		bool operator<(base::String const &o) const;
+		bool operator>(base::String const &o) const;
+		bool operator<=(base::String const &o) const;
+		bool operator>=(base::String const &o) const;
 
-		bool operator<(base::String const &o) const
-		{
-			return _string < o._string;
-		}
-
-		bool operator>(base::String const &o) const
-		{
-			return _string > o._string;
-		}
-
-		bool operator<=(base::String const &o) const
-		{
-			return _string <= o._string;
-		}
-
-		bool operator>=(base::String const &o) const
-		{
-			return _string <= o._string;
-		}
-
+	public:
 		/// @brief 字符串长度。不包括结尾的空字符。
 		/// @return
 		int32_t Length() const;
-
-		using Iterator = std::string::iterator;
-
-		Iterator begin()
-		{
-			return _string.begin();
-		}
-
-		Iterator end()
-		{
-			return _string.end();
-		}
-
-		using ConstIterator = std::string::const_iterator;
-
-		ConstIterator begin() const
-		{
-			return _string.begin();
-		}
-
-		ConstIterator end() const
-		{
-			return _string.end();
-		}
 
 		/// @brief 根据分隔符，将字符串拆分成多个子字符串，放到列表中返回。
 		/// @param separator
@@ -229,6 +158,39 @@ namespace base
 		/// @param match 要被替换的内容。
 		/// @param replacement 替换后的内容。
 		void Replace(base::String const &match, base::String const &replacement);
+
+	public:
+		bool StartWith(char match) const;
+		bool StartWith(base::String const &match) const;
+
+		bool EndWith(char match) const;
+
+	public:
+		// 迭代器
+
+		using Iterator = std::string::iterator;
+
+		Iterator begin()
+		{
+			return _string.begin();
+		}
+
+		Iterator end()
+		{
+			return _string.end();
+		}
+
+		using ConstIterator = std::string::const_iterator;
+
+		ConstIterator begin() const
+		{
+			return _string.begin();
+		}
+
+		ConstIterator end() const
+		{
+			return _string.end();
+		}
 	};
 } // namespace base
 

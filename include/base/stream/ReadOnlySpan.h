@@ -19,7 +19,9 @@ namespace base
 		uint8_t const *_buffer = nullptr;
 		int32_t _size = 0;
 
-	public: // 构造函数
+	public:
+		// 构造函数
+
 		/// @brief 无参构造函数。引用一段空内存。
 		/// @note 可以通过 Size 属性判断本对象是否引用到了有效的内存。
 		ReadOnlySpan() = default;
@@ -39,10 +41,6 @@ namespace base
 		/// @brief 通过一个可读可写的 Span 构造只读的 ReadOnlySpan.
 		/// @param o
 		ReadOnlySpan(base::Span const &o);
-
-	public: // 拷贝构造
-		ReadOnlySpan(ReadOnlySpan const &o);
-		ReadOnlySpan &operator=(ReadOnlySpan const &o);
 
 	public:
 		/**
@@ -81,11 +79,22 @@ namespace base
 		/// @return
 		std::shared_ptr<base::IEnumerator<uint8_t const>> GetEnumerator() override;
 
-	public: // IndexOf
-		/// @brief 从本内存段查找匹配项所在的索引。
-		/// @param match 匹配项。
-		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
+	public:
+		/**
+		 * @brief 在本内存段中从前往后查找最后一个匹配项所在的索引。
+		 *
+		 * @param match 匹配项。
+		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		 */
 		int32_t IndexOf(uint8_t match) const;
+
+		/**
+		 * @brief 在本内存段中从后往前查找最后一个匹配项所在的索引。
+		 *
+		 * @param match 匹配项。
+		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		 */
+		int32_t LastIndexOf(uint8_t match) const;
 
 		/// @brief 从本内存段查找匹配项所在的索引。
 		/// @param start 查找的起始索引。从此处往后开始查找。
@@ -98,13 +107,23 @@ namespace base
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		int32_t IndexOf(base::ReadOnlySpan const &match) const;
 
+		/**
+		 * @brief 从后往前查找最后一个匹配位置的索引。
+		 *
+		 * @param match
+		 * @return int32_t
+		 */
+		int32_t LastIndexOf(base::ReadOnlySpan const &match) const;
+
 		/// @brief 从本内存段查找匹配项所在的索引。
 		/// @param start 查找的起始索引。从此处往后开始查找。
 		/// @param match 匹配项。
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		int32_t IndexOf(int32_t start, base::ReadOnlySpan const &match) const;
 
-	public: // 比较
+	public:
+		// 比较
+
 		/**
 		 * @brief 比较两段内存。
 		 *

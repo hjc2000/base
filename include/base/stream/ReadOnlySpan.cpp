@@ -31,29 +31,6 @@ base::ReadOnlySpan::ReadOnlySpan(base::Span const &o)
 	_size = o.Size();
 }
 
-base::ReadOnlySpan::ReadOnlySpan(ReadOnlySpan const &o)
-{
-	*this = o;
-}
-
-base::ReadOnlySpan &base::ReadOnlySpan::operator=(ReadOnlySpan const &o)
-{
-	if (this == &o)
-	{
-		return *this;
-	}
-
-	_buffer = o._buffer;
-	_size = o._size;
-
-	if (_buffer == nullptr)
-	{
-		_size = 0;
-	}
-
-	return *this;
-}
-
 uint8_t const &base::ReadOnlySpan::operator[](int32_t index) const
 {
 	if (index < 0 || index >= _size)
@@ -159,6 +136,19 @@ int32_t base::ReadOnlySpan::IndexOf(uint8_t match) const
 	return -1;
 }
 
+int32_t base::ReadOnlySpan::LastIndexOf(uint8_t match) const
+{
+	for (int32_t i = _size - 1; i >= 0; i--)
+	{
+		if (_buffer[i] == match)
+		{
+			return i;
+		}
+	}
+
+	return -1;
+}
+
 int32_t base::ReadOnlySpan::IndexOf(int32_t start, uint8_t match) const
 {
 	int32_t result = Slice(base::Range{start, _size}).IndexOf(match);
@@ -205,6 +195,35 @@ int32_t base::ReadOnlySpan::IndexOf(base::ReadOnlySpan const &match) const
 	return -1;
 }
 
+int32_t base::ReadOnlySpan::LastIndexOf(base::ReadOnlySpan const &match) const
+{
+	if (match.Size() == 0)
+	{
+		throw std::invalid_argument{CODE_POS_STR + "match 的长度不能是 0."};
+	}
+
+	if (Size() < match.Size())
+	{
+		// 本内存段的大小还没 match 的大，不可能匹配。
+		return -1;
+	}
+
+	uint8_t const first_byte_of_match = match[0];
+	for (int32_t i = Size() - match.Size(); i >= 0; i--)
+	{
+		if (_buffer[i] == first_byte_of_match)
+		{
+			// 匹配到第 1 个字符了。
+			if (Slice(i, match.Size()) == match)
+			{
+				return i;
+			}
+		}
+	}
+
+	return -1;
+}
+
 int32_t base::ReadOnlySpan::IndexOf(int32_t start, base::ReadOnlySpan const &match) const
 {
 	int32_t result = Slice(base::Range{start, _size}).IndexOf(match);
@@ -216,80 +235,73 @@ int32_t base::ReadOnlySpan::IndexOf(int32_t start, base::ReadOnlySpan const &mat
 	return start + result;
 }
 
-/**
- * @brief 比较
- *
- */
-namespace base
+int32_t base::ReadOnlySpan::Compare(base::ReadOnlySpan const &another) const
 {
-	int32_t base::ReadOnlySpan::Compare(base::ReadOnlySpan const &another) const
+	if (Size() != another.Size())
 	{
-		if (Size() != another.Size())
-		{
-			throw std::invalid_argument{CODE_POS_STR + "两段大小相等的内存才可以比较。"};
-		}
-
-		if (Size() == 0)
-		{
-			// 两段内存的大小都为 0，也认为相等。
-			return 0;
-		}
-
-		return memcmp(_buffer, another.Buffer(), _size);
+		throw std::invalid_argument{CODE_POS_STR + "两段大小相等的内存才可以比较。"};
 	}
 
-	int32_t base::ReadOnlySpan::Compare(base::Span const &another) const
+	if (Size() == 0)
 	{
-		return Compare(base::ReadOnlySpan{another});
+		// 两段内存的大小都为 0，也认为相等。
+		return 0;
 	}
 
-	bool base::ReadOnlySpan::operator==(base::ReadOnlySpan const &another) const
-	{
-		return Compare(another) == 0;
-	}
+	return memcmp(_buffer, another.Buffer(), _size);
+}
 
-	bool base::ReadOnlySpan::operator==(base::Span const &another) const
-	{
-		return Compare(another) == 0;
-	}
+int32_t base::ReadOnlySpan::Compare(base::Span const &another) const
+{
+	return Compare(base::ReadOnlySpan{another});
+}
 
-	bool base::ReadOnlySpan::operator<(base::ReadOnlySpan const &another) const
-	{
-		return Compare(another) < 0;
-	}
+bool base::ReadOnlySpan::operator==(base::ReadOnlySpan const &another) const
+{
+	return Compare(another) == 0;
+}
 
-	bool base::ReadOnlySpan::operator<(base::Span const &another) const
-	{
-		return Compare(another) < 0;
-	}
+bool base::ReadOnlySpan::operator==(base::Span const &another) const
+{
+	return Compare(another) == 0;
+}
 
-	bool base::ReadOnlySpan::operator>(base::ReadOnlySpan const &another) const
-	{
-		return Compare(another) > 0;
-	}
+bool base::ReadOnlySpan::operator<(base::ReadOnlySpan const &another) const
+{
+	return Compare(another) < 0;
+}
 
-	bool base::ReadOnlySpan::operator>(base::Span const &another) const
-	{
-		return Compare(another) > 0;
-	}
+bool base::ReadOnlySpan::operator<(base::Span const &another) const
+{
+	return Compare(another) < 0;
+}
 
-	bool base::ReadOnlySpan::operator<=(base::ReadOnlySpan const &another) const
-	{
-		return Compare(another) <= 0;
-	}
+bool base::ReadOnlySpan::operator>(base::ReadOnlySpan const &another) const
+{
+	return Compare(another) > 0;
+}
 
-	bool base::ReadOnlySpan::operator<=(base::Span const &another) const
-	{
-		return Compare(another) <= 0;
-	}
+bool base::ReadOnlySpan::operator>(base::Span const &another) const
+{
+	return Compare(another) > 0;
+}
 
-	bool base::ReadOnlySpan::operator>=(base::ReadOnlySpan const &another) const
-	{
-		return Compare(another) >= 0;
-	}
+bool base::ReadOnlySpan::operator<=(base::ReadOnlySpan const &another) const
+{
+	return Compare(another) <= 0;
+}
 
-	bool base::ReadOnlySpan::operator>=(base::Span const &another) const
-	{
-		return Compare(another) >= 0;
-	}
-} // namespace base
+bool base::ReadOnlySpan::operator<=(base::Span const &another) const
+{
+	return Compare(another) <= 0;
+}
+
+bool base::ReadOnlySpan::operator>=(base::ReadOnlySpan const &another) const
+{
+	return Compare(another) >= 0;
+}
+
+bool base::ReadOnlySpan::operator>=(base::Span const &another) const
+{
+	return Compare(another) >= 0;
+}
