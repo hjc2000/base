@@ -29,4 +29,5 @@ namespace base
 		void Test_String_StartWith_EndWith();
 	} // namespace test
 } // namespace base
+
 #endif
