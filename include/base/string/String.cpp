@@ -395,6 +395,11 @@ bool base::String::EndWith(char match) const
 bool base::String::EndWith(base::String const &match) const
 {
 	int32_t index = LastIndexOf(match);
+	if (index < 0)
+	{
+		return false;
+	}
+
 	return index == Length() - match.Length();
 }
 

@@ -9,6 +9,7 @@
 #include <base/stream/MemoryStream.h>
 #include <base/string/String.h>
 #include <base/string/ToHexString.h>
+#include <base/test/test_string.h>
 #include <base/time/TimePointSinceEpoch.h>
 #include <base/unit/Hz.h>
 #include <iostream>
@@ -48,4 +49,5 @@ int main()
 
 	base::test::Test_String_LastIndexOf();
 	base::test::Test_String_Replace();
+	base::test::Test_String_StartWith_EndWith();
 }

@@ -1,5 +1,4 @@
 #pragma once
-#include "base/string/define.h"
 #include <base/container/List.h>
 #include <base/container/Range.h>
 #include <base/define.h>
@@ -28,7 +27,18 @@ namespace base
 		String(base::Span const &o);
 
 	public:
+		/**
+		 * @brief 获取被本类包装的 std::string 对象的引用。
+		 *
+		 * @return std::string&
+		 */
 		std::string &StdString();
+
+		/**
+		 * @brief 获取被本类包装的 std::string 对象的引用。
+		 *
+		 * @return std::string const&
+		 */
 		std::string const &StdString() const;
 
 	public:
@@ -253,37 +263,3 @@ namespace base
 
 base::String operator+(std::string const &left, base::String const &right);
 std::ostream &operator<<(std::ostream &os, base::String const &str);
-
-#if HAS_THREAD
-	#include <iostream>
-
-namespace base
-{
-	namespace test
-	{
-		/**
-		 * @brief 测试 LastIndexOf.
-		 *
-		 */
-		inline void Test_String_LastIndexOf()
-		{
-			std::cout << "测试：" + CODE_POS_STR;
-			base::String str{"666777"};
-			int32_t index = str.LastIndexOf(5, "777");
-			std::cout << index << std::endl;
-		}
-
-		/**
-		 * @brief 测试 Replace.
-		 *
-		 */
-		inline void Test_String_Replace()
-		{
-			std::cout << "测试：" + CODE_POS_STR;
-			base::String str = "hellohello1111hello";
-			str.Replace("hello", "777");
-			std::cout << str << std::endl;
-		}
-	} // namespace test
-} // namespace base
-#endif
