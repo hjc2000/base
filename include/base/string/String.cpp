@@ -266,22 +266,22 @@ int32_t base::String::IndexOf(int32_t start, base::String const &match) const
 
 int32_t base::String::LastIndexOf(uint8_t match) const
 {
-	return AsReadOnlySpan().IndexOf(match);
+	return AsReadOnlySpan().LastIndexOf(match);
 }
 
 int32_t base::String::LastIndexOf(int32_t start, uint8_t match) const
 {
-	return AsReadOnlySpan().IndexOf(start, match);
+	return AsReadOnlySpan().LastIndexOf(start, match);
 }
 
 int32_t base::String::LastIndexOf(base::String const &match) const
 {
-	return AsReadOnlySpan().IndexOf(match.AsReadOnlySpan());
+	return AsReadOnlySpan().LastIndexOf(match.AsReadOnlySpan());
 }
 
 int32_t base::String::LastIndexOf(int32_t start, base::String const &match) const
 {
-	return AsReadOnlySpan().IndexOf(start, match.AsReadOnlySpan());
+	return AsReadOnlySpan().LastIndexOf(start, match.AsReadOnlySpan());
 }
 
 bool base::String::Contains(char match) const

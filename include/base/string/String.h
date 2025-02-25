@@ -3,34 +3,12 @@
 #include <base/container/Range.h>
 #include <base/define.h>
 #include <base/stream/ReadOnlySpan.h>
+#include <base/string/StringSplitOptions.h>
 #include <stdint.h>
 #include <string>
 
 namespace base
 {
-	/// @brief String 类的 Split 方法的选项。
-	struct StringSplitOptions
-	{
-		/// @brief 切割完之后是否对每个子字符串进行 Trim. 即去除头尾的空白字符。
-		/// @note 如果 Trim 之后变成空字符串，并且 remove_empty_substring
-		/// 选项为 true，则该字符串将会被移除。
-		/// @note 默认值：false.
-		bool trim_each_substring = false;
-
-		/// @brief 如果为 true，连续在一起的分隔符不会导致切割出一个空字符串。
-		/// 例如逗号作分隔符时， "123,,456" 不会被切割成 3 个字符串，即不会被切割成
-		/// 	@li "123"
-		/// 	@li ""
-		/// 	@li "456"
-		/// 而是会被切割成
-		/// 	@li "123"
-		/// 	@li "456"
-		/// 空字符串被丢弃。
-		///
-		/// @note 默认值：true.
-		bool remove_empty_substring = true;
-	};
-
 	/// @brief 对 std::string 进行包装。
 	class String
 	{
@@ -55,13 +33,30 @@ namespace base
 	public:
 		// 索引器
 
+		/**
+		 * @brief 获取指定索引位置的字符的引用。
+		 *
+		 * @param index
+		 * @return char&
+		 */
 		char &operator[](int32_t index);
+
+		/**
+		 * @brief 获取指定索引位置的字符的引用。
+		 *
+		 * @param index
+		 * @return char const&
+		 */
 		char const &operator[](int32_t index) const;
 
-		/// @brief 获取指定范围内的子字符串。
-		/// @note 子字符串是从父字符串拷贝而来而不是引用父字符串的内存。
-		/// @param range
-		/// @return
+		/**
+		 * @brief 获取指定范围内的子字符串。
+		 *
+		 * @note 子字符串是从父字符串拷贝而来而不是引用父字符串的内存。
+		 *
+		 * @param range
+		 * @return base::String
+		 */
 		base::String operator[](base::Range const &range) const;
 
 	public:
@@ -171,14 +166,22 @@ namespace base
 		int32_t LastIndexOf(int32_t start, base::String const &match) const;
 
 	public:
-		/// @brief 检查本字符串中是否存在至少 1 个指定的字符。
-		/// @param match 指定的字符。
-		/// @return 如果存在，则返回 true, 如果不存在则返回 false.
+		/**
+		 * @brief 检查本字符串中是否存在至少 1 个匹配项。
+		 *
+		 * @param match 匹配项。
+		 * @return true 如果存在，则返回 true.
+		 * @return false 如果不存在则返回 false.
+		 */
 		bool Contains(char match) const;
 
-		/// @brief 检查本字符串中是否有子字符串 match.
-		/// @param match
-		/// @return 如果有则返回 true ，没有则返回 false.
+		/**
+		 * @brief 检查本字符串中是否存在至少 1 个匹配项。
+		 *
+		 * @param match 匹配项。
+		 * @return true 如果有则返回 true.
+		 * @return false 没有则返回 false.
+		 */
 		bool Contains(base::String const &match) const;
 
 		base::Span AsSpan();
@@ -249,3 +252,20 @@ namespace base
 
 base::String operator+(std::string const &left, base::String const &right);
 std::ostream &operator<<(std::ostream &os, base::String const &str);
+
+#if HAS_THREAD
+	#include <iostream>
+
+namespace base
+{
+	namespace test
+	{
+		inline void Test_String_LastIndexOf()
+		{
+			base::String str{"666777"};
+			int32_t index = str.LastIndexOf(5, "777");
+			std::cout << index << std::endl;
+		}
+	} // namespace test
+} // namespace base
+#endif

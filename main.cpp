@@ -1,4 +1,3 @@
-#include <array>
 #include <base/bit/BitConverter.h>
 #include <base/container/Array.h>
 #include <base/container/Dictionary.h>
@@ -12,7 +11,6 @@
 #include <base/string/ToHexString.h>
 #include <base/time/TimePointSinceEpoch.h>
 #include <base/unit/Hz.h>
-#include <format>
 #include <iostream>
 
 int main()
@@ -56,4 +54,6 @@ int main()
 		std::cout << now.MillisecondsZonedTimeString() << std::endl;
 		std::cout << now.SecondsZonedTimeString() << std::endl;
 	}
+
+	base::test::Test_String_LastIndexOf();
 }
