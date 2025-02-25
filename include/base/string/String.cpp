@@ -366,6 +366,22 @@ void base::String::Replace(base::String const &match, base::String const &replac
 	}
 }
 
+void base::String::ToLower()
+{
+	std::transform(_string.begin(),
+				   _string.end(),
+				   _string.begin(),
+				   ::tolower);
+}
+
+void base::String::ToUpper()
+{
+	std::transform(_string.begin(),
+				   _string.end(),
+				   _string.begin(),
+				   ::toupper);
+}
+
 bool base::String::StartWith(char match) const
 {
 	if (Length() == 0)

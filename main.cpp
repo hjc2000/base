@@ -1,3 +1,4 @@
+#include "include/base/test/test_parse.h"
 #include <base/bit/BitConverter.h>
 #include <base/container/Array.h>
 #include <base/container/Dictionary.h>
@@ -7,6 +8,7 @@
 #include <base/net/profinet/dcp/DcpIdentifyRequestReader.h>
 #include <base/sfinae/Equal.h>
 #include <base/stream/MemoryStream.h>
+#include <base/string/Parse.h>
 #include <base/string/String.h>
 #include <base/string/ToHexString.h>
 #include <base/test/test_string.h>
@@ -50,4 +52,7 @@ int main()
 	base::test::Test_String_LastIndexOf();
 	base::test::Test_String_Replace();
 	base::test::Test_String_StartWith_EndWith();
+	base::test::test_parse_int32();
+	base::test::test_parse_int64();
+	base::test::test_parse_double();
 }

@@ -4,6 +4,7 @@
 #include <base/define.h>
 #include <base/stream/ReadOnlySpan.h>
 #include <base/string/StringSplitOptions.h>
+#include <cctype>
 #include <stdint.h>
 #include <string>
 
@@ -224,6 +225,18 @@ namespace base
 		/// @param match 要被替换的内容。
 		/// @param replacement 替换后的内容。
 		void Replace(base::String const &match, base::String const &replacement);
+
+		/**
+		 * @brief 将字符转换为小写。
+		 *
+		 */
+		void ToLower();
+
+		/**
+		 * @brief 将字符转换为大写。
+		 *
+		 */
+		void ToUpper();
 
 	public:
 		bool StartWith(char match) const;
