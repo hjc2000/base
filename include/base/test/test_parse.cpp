@@ -20,7 +20,6 @@ void base::test::test_parse_int32()
 	std::cout << "解析 010:\t" << base::ParseInt32(str) << std::endl;
 }
 
-#endif
 void base::test::test_parse_int64()
 {
 	std::cout << "测试：" << CODE_POS_STR;
@@ -48,3 +47,5 @@ void base::test::test_parse_double()
 	str = "010";
 	std::cout << "解析 010:\t" << base::ParseDouble(str) << std::endl;
 }
+
+#endif
