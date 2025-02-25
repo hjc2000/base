@@ -1,4 +1,5 @@
 #pragma once
+#include "base/string/define.h"
 #include <base/container/List.h>
 #include <base/container/Range.h>
 #include <base/define.h>
@@ -260,11 +261,28 @@ namespace base
 {
 	namespace test
 	{
+		/**
+		 * @brief 测试 LastIndexOf.
+		 *
+		 */
 		inline void Test_String_LastIndexOf()
 		{
+			std::cout << "测试：" + CODE_POS_STR;
 			base::String str{"666777"};
 			int32_t index = str.LastIndexOf(5, "777");
 			std::cout << index << std::endl;
+		}
+
+		/**
+		 * @brief 测试 Replace.
+		 *
+		 */
+		inline void Test_String_Replace()
+		{
+			std::cout << "测试：" + CODE_POS_STR;
+			base::String str = "hellohello1111hello";
+			str.Replace("hello", "777");
+			std::cout << str << std::endl;
 		}
 	} // namespace test
 } // namespace base

@@ -39,15 +39,6 @@ int main()
 	}
 
 	{
-		base::String str1 = "hellohello1111hello";
-		base::String str2 = "xiaoming";
-		std::cout << str1.IndexOf(str2) << std::endl;
-
-		str1.Replace("hello", "777");
-		std::cout << str1 << std::endl;
-	}
-
-	{
 		base::TimePointSinceEpoch now{std::chrono::system_clock::now()};
 		std::cout << now.NanosecondsZonedTimeString() << std::endl;
 		std::cout << now.MicrosecondsZonedTimeString() << std::endl;
@@ -56,4 +47,5 @@ int main()
 	}
 
 	base::test::Test_String_LastIndexOf();
+	base::test::Test_String_Replace();
 }

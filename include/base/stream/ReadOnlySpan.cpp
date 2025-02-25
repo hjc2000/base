@@ -143,6 +143,11 @@ int32_t base::ReadOnlySpan::IndexOf(int32_t start, uint8_t match) const
 		throw std::invalid_argument{CODE_POS_STR + "start 不能小于 0."};
 	}
 
+	if (start >= Size())
+	{
+		throw std::invalid_argument{CODE_POS_STR + "start 索引超出边界，大于 Size."};
+	}
+
 	int32_t result = Slice(base::Range{start, _size}).IndexOf(match);
 	if (result < 0)
 	{
@@ -189,6 +194,16 @@ int32_t base::ReadOnlySpan::IndexOf(base::ReadOnlySpan const &match) const
 
 int32_t base::ReadOnlySpan::IndexOf(int32_t start, base::ReadOnlySpan const &match) const
 {
+	if (start < 0)
+	{
+		throw std::invalid_argument{CODE_POS_STR + "start 不能小于 0."};
+	}
+
+	if (start >= Size())
+	{
+		throw std::invalid_argument{CODE_POS_STR + "start 索引超出边界，大于 Size."};
+	}
+
 	int32_t result = Slice(base::Range{start, _size}).IndexOf(match);
 	if (result < 0)
 	{
@@ -216,6 +231,11 @@ int32_t base::ReadOnlySpan::LastIndexOf(int32_t start, uint8_t match) const
 	if (start < 0)
 	{
 		throw std::invalid_argument{CODE_POS_STR + "start 不能小于 0."};
+	}
+
+	if (start >= Size())
+	{
+		throw std::invalid_argument{CODE_POS_STR + "start 索引超出边界，大于 Size."};
 	}
 
 	int32_t result = Slice(base::Range{0, start + 1}).LastIndexOf(match);
@@ -256,6 +276,11 @@ int32_t base::ReadOnlySpan::LastIndexOf(int32_t start, base::ReadOnlySpan const 
 	if (start < 0)
 	{
 		throw std::invalid_argument{CODE_POS_STR + "start 不能小于 0."};
+	}
+
+	if (start >= Size())
+	{
+		throw std::invalid_argument{CODE_POS_STR + "start 索引超出边界，大于 Size."};
 	}
 
 	int32_t result = Slice(base::Range{0, start + 1}).LastIndexOf(match);

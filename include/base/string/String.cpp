@@ -350,6 +350,11 @@ void base::String::Replace(base::String const &match, base::String const &replac
 	int32_t start = 0;
 	while (true)
 	{
+		if (start >= Length())
+		{
+			return;
+		}
+
 		int32_t index = IndexOf(start, match);
 		if (index < 0)
 		{
