@@ -137,6 +137,40 @@ namespace base
 		 */
 		int32_t IndexOf(int32_t start, base::ReadOnlySpan const &match) const;
 
+		/**
+		 * @brief 从后往前查找最后一个匹配项所在的索引。
+		 *
+		 * @param match 匹配项。
+		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		 */
+		int32_t LastIndexOf(uint8_t match) const;
+
+		/**
+		 * @brief 从 start 索引位置开始，从后往前查找匹配项。
+		 *
+		 * @param start 要从后往前查找的起始索引位置。
+		 * @param match
+		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		 */
+		int32_t LastIndexOf(int32_t start, uint8_t match) const;
+
+		/**
+		 * @brief 从后往前查找最后一个匹配位置的索引。
+		 *
+		 * @param match 匹配项。
+		 * @return int32_t
+		 */
+		int32_t LastIndexOf(base::ReadOnlySpan const &match) const;
+
+		/**
+		 * @brief 从 start 索引位置开始，从后往前查找匹配项。
+		 *
+		 * @param start 要从后往前查找的起始索引位置。
+		 * @param match 匹配项。
+		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		 */
+		int32_t LastIndexOf(int32_t start, base::ReadOnlySpan const &match) const;
+
 	public:
 		// 比较
 

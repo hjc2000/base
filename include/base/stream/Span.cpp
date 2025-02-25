@@ -186,6 +186,26 @@ int32_t base::Span::IndexOf(int32_t start, base::ReadOnlySpan const &match) cons
 	return base::ReadOnlySpan{*this}.IndexOf(match);
 }
 
+int32_t base::Span::LastIndexOf(uint8_t match) const
+{
+	return base::ReadOnlySpan{*this}.IndexOf(match);
+}
+
+int32_t base::Span::LastIndexOf(int32_t start, uint8_t match) const
+{
+	return base::ReadOnlySpan{*this}.IndexOf(start, match);
+}
+
+int32_t base::Span::LastIndexOf(base::ReadOnlySpan const &match) const
+{
+	return base::ReadOnlySpan{*this}.IndexOf(match);
+}
+
+int32_t base::Span::LastIndexOf(int32_t start, base::ReadOnlySpan const &match) const
+{
+	return base::ReadOnlySpan{*this}.IndexOf(start, match);
+}
+
 int32_t base::Span::Compare(base::ReadOnlySpan const &another) const
 {
 	return base::ReadOnlySpan{*this}.Compare(another);

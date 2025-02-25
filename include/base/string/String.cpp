@@ -264,6 +264,26 @@ int32_t base::String::IndexOf(int32_t start, base::String const &match) const
 	return AsReadOnlySpan().IndexOf(start, match.AsReadOnlySpan());
 }
 
+int32_t base::String::LastIndexOf(uint8_t match) const
+{
+	return AsReadOnlySpan().IndexOf(match);
+}
+
+int32_t base::String::LastIndexOf(int32_t start, uint8_t match) const
+{
+	return AsReadOnlySpan().IndexOf(start, match);
+}
+
+int32_t base::String::LastIndexOf(base::String const &match) const
+{
+	return AsReadOnlySpan().IndexOf(match.AsReadOnlySpan());
+}
+
+int32_t base::String::LastIndexOf(int32_t start, base::String const &match) const
+{
+	return AsReadOnlySpan().IndexOf(start, match.AsReadOnlySpan());
+}
+
 bool base::String::Contains(char match) const
 {
 	return IndexOf(match) >= 0;
@@ -365,6 +385,12 @@ bool base::String::EndWith(char match) const
 	}
 
 	return _string[_string.size() - 1] == match;
+}
+
+bool base::String::EndWith(base::String const &match) const
+{
+	int32_t index = LastIndexOf(match);
+	return index == Length() - match.Length();
 }
 
 base::String operator+(std::string const &left, base::String const &right)

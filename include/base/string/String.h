@@ -39,6 +39,8 @@ namespace base
 		static_function bool IsWhiteChar(char value);
 
 	public:
+		// 构造函数
+
 		String() = default;
 		String(std::string const &o);
 		String(char o);
@@ -51,6 +53,8 @@ namespace base
 		std::string const &StdString() const;
 
 	public:
+		// 索引器
+
 		char &operator[](int32_t index);
 		char const &operator[](int32_t index) const;
 
@@ -72,15 +76,25 @@ namespace base
 		bool operator>=(base::String const &o) const;
 
 	public:
-		/// @brief 字符串长度。不包括结尾的空字符。
-		/// @return
+		/**
+		 * @brief 字符串长度。不包括结尾的空字符。
+		 *
+		 * @return int32_t
+		 */
 		int32_t Length() const;
 
-		/// @brief 根据分隔符，将字符串拆分成多个子字符串，放到列表中返回。
-		/// @param separator
-		/// @return
+		/**
+		 * @brief 根据分隔符，将字符串拆分成多个子字符串，放到列表中返回。
+		 *
+		 * @param separator
+		 * @param options
+		 * @return base::List<base::String>
+		 */
 		base::List<base::String> Split(char separator,
 									   base::StringSplitOptions const &options = StringSplitOptions{}) const;
+
+	public:
+		// Trim
 
 		/// @brief 裁剪掉字符串开头处的空白字符。
 		/// @note 关于哪些是空白字符，见 IsWhiteChar 函数。
@@ -96,6 +110,9 @@ namespace base
 		/// @note 关于哪些是空白字符，见 IsWhiteChar 函数。
 		/// @return
 		base::String Trim() const;
+
+	public:
+		// 查找索引位置
 
 		/// @brief 从本字符串查找匹配项所在的索引。
 		/// @param match 匹配项。
@@ -119,6 +136,41 @@ namespace base
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		int32_t IndexOf(int32_t start, base::String const &match) const;
 
+		/**
+		 * @brief 从后往前查找最后一个匹配项所在的索引。
+		 *
+		 * @param match 匹配项。
+		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		 */
+		int32_t LastIndexOf(uint8_t match) const;
+
+		/**
+		 * @brief 从 start 索引位置开始，从后往前查找匹配项。
+		 *
+		 * @param start 要从后往前查找的起始索引位置。
+		 * @param match
+		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		 */
+		int32_t LastIndexOf(int32_t start, uint8_t match) const;
+
+		/**
+		 * @brief 从后往前查找最后一个匹配位置的索引。
+		 *
+		 * @param match 匹配项。
+		 * @return int32_t
+		 */
+		int32_t LastIndexOf(base::String const &match) const;
+
+		/**
+		 * @brief 从 start 索引位置开始，从后往前查找匹配项。
+		 *
+		 * @param start 要从后往前查找的起始索引位置。
+		 * @param match 匹配项。
+		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		 */
+		int32_t LastIndexOf(int32_t start, base::String const &match) const;
+
+	public:
 		/// @brief 检查本字符串中是否存在至少 1 个指定的字符。
 		/// @param match 指定的字符。
 		/// @return 如果存在，则返回 true, 如果不存在则返回 false.
@@ -164,6 +216,7 @@ namespace base
 		bool StartWith(base::String const &match) const;
 
 		bool EndWith(char match) const;
+		bool EndWith(base::String const &match) const;
 
 	public:
 		// 迭代器

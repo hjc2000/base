@@ -136,21 +136,13 @@ int32_t base::ReadOnlySpan::IndexOf(uint8_t match) const
 	return -1;
 }
 
-int32_t base::ReadOnlySpan::LastIndexOf(uint8_t match) const
-{
-	for (int32_t i = _size - 1; i >= 0; i--)
-	{
-		if (_buffer[i] == match)
-		{
-			return i;
-		}
-	}
-
-	return -1;
-}
-
 int32_t base::ReadOnlySpan::IndexOf(int32_t start, uint8_t match) const
 {
+	if (start < 0)
+	{
+		throw std::invalid_argument{CODE_POS_STR + "start 不能小于 0."};
+	}
+
 	int32_t result = Slice(base::Range{start, _size}).IndexOf(match);
 	if (result < 0)
 	{
@@ -195,6 +187,41 @@ int32_t base::ReadOnlySpan::IndexOf(base::ReadOnlySpan const &match) const
 	return -1;
 }
 
+int32_t base::ReadOnlySpan::IndexOf(int32_t start, base::ReadOnlySpan const &match) const
+{
+	int32_t result = Slice(base::Range{start, _size}).IndexOf(match);
+	if (result < 0)
+	{
+		return result;
+	}
+
+	return start + result;
+}
+
+int32_t base::ReadOnlySpan::LastIndexOf(uint8_t match) const
+{
+	for (int32_t i = _size - 1; i >= 0; i--)
+	{
+		if (_buffer[i] == match)
+		{
+			return i;
+		}
+	}
+
+	return -1;
+}
+
+int32_t base::ReadOnlySpan::LastIndexOf(int32_t start, uint8_t match) const
+{
+	if (start < 0)
+	{
+		throw std::invalid_argument{CODE_POS_STR + "start 不能小于 0."};
+	}
+
+	int32_t result = Slice(base::Range{0, start + 1}).LastIndexOf(match);
+	return result;
+}
+
 int32_t base::ReadOnlySpan::LastIndexOf(base::ReadOnlySpan const &match) const
 {
 	if (match.Size() == 0)
@@ -224,15 +251,15 @@ int32_t base::ReadOnlySpan::LastIndexOf(base::ReadOnlySpan const &match) const
 	return -1;
 }
 
-int32_t base::ReadOnlySpan::IndexOf(int32_t start, base::ReadOnlySpan const &match) const
+int32_t base::ReadOnlySpan::LastIndexOf(int32_t start, base::ReadOnlySpan const &match) const
 {
-	int32_t result = Slice(base::Range{start, _size}).IndexOf(match);
-	if (result < 0)
+	if (start < 0)
 	{
-		return result;
+		throw std::invalid_argument{CODE_POS_STR + "start 不能小于 0."};
 	}
 
-	return start + result;
+	int32_t result = Slice(base::Range{0, start + 1}).LastIndexOf(match);
+	return result;
 }
 
 int32_t base::ReadOnlySpan::Compare(base::ReadOnlySpan const &another) const
