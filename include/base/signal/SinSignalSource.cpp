@@ -1,4 +1,5 @@
 #include "SinSignalSource.h"
+#include <base/string/define.h>
 #include <math.h>
 #include <stdexcept>
 
@@ -14,6 +15,7 @@ base::Seconds base::SinSignalSource::SampleInterval() const
 
 void base::SinSignalSource::Open(base::Seconds const &sample_interval)
 {
+	_opened = true;
 	_sample_interval = sample_interval;
 }
 
@@ -21,7 +23,7 @@ double base::SinSignalSource::Sample()
 {
 	if (!_opened)
 	{
-		throw std::runtime_error{"打开后才能采样"};
+		throw std::runtime_error{CODE_POS_STR + "打开后才能采样。"};
 	}
 
 	// y = sin(w * t)
