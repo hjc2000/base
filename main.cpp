@@ -2,6 +2,7 @@
 #include <base/container/Array.h>
 #include <base/container/Dictionary.h>
 #include <base/container/List.h>
+#include <base/math/Pow.h>
 #include <base/net/IPAddress.h>
 #include <base/net/Mac.h>
 #include <base/net/profinet/dcp/DcpIdentifyRequestReader.h>
@@ -15,6 +16,7 @@
 #include <base/test/test_zoned_time.h>
 #include <base/time/TimePointSinceEpoch.h>
 #include <base/unit/Hz.h>
+#include <cstdint>
 #include <iostream>
 
 int main()
@@ -47,5 +49,5 @@ int main()
 	// base::test::Test_String_StartWith_EndWith();
 	// base::test::test_parse_int32();
 	// base::test::test_parse_int64();
-	// base::test::test_parse_double();
+	base::test::test_parse_double();
 }

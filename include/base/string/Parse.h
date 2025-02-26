@@ -11,4 +11,5 @@ namespace base
 	int64_t ParseInt64(base::String const &str, int32_t base);
 
 	double ParseDouble(base::String const &str);
+	double ParseDouble(base::String const &str, int32_t base);
 } // namespace base
