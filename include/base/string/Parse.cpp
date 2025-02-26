@@ -15,7 +15,7 @@ int32_t base::ParseInt32(base::String const &str)
 		base = 16;
 		copy = copy[base::Range{2, str.Length()}];
 	}
-	else if (copy.StartWith('0'))
+	else if (copy.StartWith('0') && copy.Length() > 1)
 	{
 		base = 8;
 		copy = copy[base::Range{1, str.Length()}];
@@ -51,7 +51,7 @@ int64_t base::ParseInt64(base::String const &str)
 		base = 16;
 		copy = copy[base::Range{2, str.Length()}];
 	}
-	else if (copy.StartWith('0'))
+	else if (copy.StartWith('0') && copy.Length() > 1)
 	{
 		base = 8;
 		copy = copy[base::Range{1, str.Length()}];
