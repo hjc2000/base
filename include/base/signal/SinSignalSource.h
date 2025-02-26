@@ -1,5 +1,4 @@
 #pragma once
-#include "base/math/Fraction.h"
 #include <base/signal/ISignalSource.h>
 #include <base/signal/PeriodicSamplingClock.h>
 
