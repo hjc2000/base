@@ -1,58 +1,56 @@
 #include "PeriodicSamplingClock.h"
 
-using namespace base;
-
 void base::PeriodicSamplingClock::AdjustTime()
 {
-    // 将时间减去整数倍的周期
-    int64_t div = static_cast<int64_t>(_time / _period);
-    _time -= _period * div;
+	// 将时间减去整数倍的周期
+	int64_t div = static_cast<int64_t>(_current_time / _period);
+	_current_time -= _period * div;
 }
 
-base::PeriodicSamplingClock::PeriodicSamplingClock(base::Fraction period)
-    : _period(period)
+base::PeriodicSamplingClock::PeriodicSamplingClock(base::Seconds period)
+	: _period(period)
 {
 }
 
-PeriodicSamplingClock &base::PeriodicSamplingClock::operator+=(base::Fraction value)
+base::PeriodicSamplingClock &base::PeriodicSamplingClock::operator+=(base::Seconds value)
 {
-    _time += value;
-    AdjustTime();
-    return *this;
+	_current_time += value;
+	AdjustTime();
+	return *this;
 }
 
-PeriodicSamplingClock &base::PeriodicSamplingClock::operator-=(base::Fraction value)
+base::PeriodicSamplingClock &base::PeriodicSamplingClock::operator-=(base::Seconds value)
 {
-    _time -= value;
-    AdjustTime();
-    return *this;
+	_current_time -= value;
+	AdjustTime();
+	return *this;
 }
 
-PeriodicSamplingClock &base::PeriodicSamplingClock::operator*=(base::Fraction value)
+base::PeriodicSamplingClock &base::PeriodicSamplingClock::operator*=(base::Seconds value)
 {
-    _time *= value;
-    AdjustTime();
-    return *this;
+	_current_time *= value;
+	AdjustTime();
+	return *this;
 }
 
-PeriodicSamplingClock &base::PeriodicSamplingClock::operator/=(base::Fraction value)
+base::PeriodicSamplingClock &base::PeriodicSamplingClock::operator/=(base::Seconds value)
 {
-    _time /= value;
-    AdjustTime();
-    return *this;
+	_current_time /= value;
+	AdjustTime();
+	return *this;
 }
 
-base::Fraction base::PeriodicSamplingClock::Period() const
+base::Seconds base::PeriodicSamplingClock::Period() const
 {
-    return _period;
+	return _period;
 }
 
-base::Fraction base::PeriodicSamplingClock::Time() const
+base::Seconds base::PeriodicSamplingClock::CurrentTime() const
 {
-    return _time;
+	return _current_time;
 }
 
-base::PeriodicSamplingClock::operator base::Fraction() const
+base::PeriodicSamplingClock::operator base::Seconds() const
 {
-    return _time;
+	return _current_time;
 }
