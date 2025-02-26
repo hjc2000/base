@@ -15,19 +15,6 @@ base::Fraction::Fraction(int64_t num, int64_t den)
 	SetDen(den);
 }
 
-base::Fraction::Fraction(Fraction const &o)
-{
-	SetNum(o.Num());
-	SetDen(o.Den());
-}
-
-base::Fraction &base::Fraction::operator=(Fraction const &o)
-{
-	SetNum(o.Num());
-	SetDen(o.Den());
-	return *this;
-}
-
 int64_t base::Fraction::Num() const
 {
 	return _num;
@@ -121,6 +108,16 @@ int64_t base::Fraction::Ceil() const
 	return ret;
 }
 
+int64_t base::Fraction::Div() const
+{
+	return _num / _den;
+}
+
+int64_t base::Fraction::Mod() const
+{
+	return _num % _den;
+}
+
 base::Fraction base::Fraction::operator-() const
 {
 	Fraction ret{-_num, _den};
@@ -186,16 +183,6 @@ base::Fraction &base::Fraction::operator/=(Fraction const &value)
 {
 	*this = *this / value;
 	return *this;
-}
-
-int64_t base::Fraction::Div() const
-{
-	return _num / _den;
-}
-
-int64_t base::Fraction::Mod() const
-{
-	return _num % _den;
 }
 
 std::string base::Fraction::ToString() const

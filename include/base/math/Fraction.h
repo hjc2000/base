@@ -27,18 +27,14 @@ namespace base
 		/// @param den 分母
 		Fraction(int64_t num, int64_t den);
 
-		/// @brief 拷贝构造
-		/// @param o
-		Fraction(Fraction const &o);
-
-		Fraction &operator=(Fraction const &o);
-
+	public:
 		int64_t Num() const;
 		void SetNum(int64_t value);
 
 		int64_t Den() const;
 		void SetDen(int64_t value);
 
+	public:
 		/// @brief 化简分数，返回化简后的值。
 		/// @return
 		Fraction Simplify() const;
@@ -55,6 +51,17 @@ namespace base
 		/// @return
 		int64_t Ceil() const;
 
+		/// @brief 获取分子除以分母的值
+		/// @return
+		int64_t Div() const;
+
+		/// @brief 获取分子除以分母的余数
+		/// @return
+		int64_t Mod() const;
+
+	public:
+		// 四则运算
+
 		Fraction operator-() const;
 		Fraction operator+(Fraction const &value) const;
 		Fraction operator-(Fraction const &value) const;
@@ -66,13 +73,8 @@ namespace base
 		Fraction &operator*=(Fraction const &value);
 		Fraction &operator/=(Fraction const &value);
 
-		/// @brief 获取分子除以分母的值
-		/// @return
-		int64_t Div() const;
-
-		/// @brief 获取分子除以分母的余数
-		/// @return
-		int64_t Mod() const;
+	public:
+		// 转换
 
 		/// @brief 将分数转化为字符串
 		/// @return
@@ -83,6 +85,9 @@ namespace base
 		explicit operator int16_t() const;
 		explicit operator int8_t() const;
 		explicit operator double() const;
+
+	public:
+		// 比较
 
 		/// @brief 本对象等于 another.
 		/// @param another
