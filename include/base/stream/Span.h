@@ -26,15 +26,25 @@ namespace base
 	public:
 		// 构造函数
 
-		/// @brief 无参构造函数。引用一段空内存。
-		/// @note 可以通过 Size 属性判断本对象是否引用到了有效的内存。
+		/**
+		 * @brief 无参构造函数。引用一段空内存。
+		 * @note 可以通过 Size 属性判断本对象是否引用到了有效的内存。
+		 */
 		Span() = default;
 
-		/// @brief 引用 buffer 指向的内存。在本对象的生命周期内，buffer 指向的内存必须始终存活。
-		/// @param buffer 要引用的内存。
-		/// @param size buffer 的大小。
+		/**
+		 * @brief 引用 buffer 指向的内存。在本对象的生命周期内，buffer 指向的内存必须始终存活。
+		 *
+		 * @param buffer 要引用的内存。
+		 * @param size buffer 的大小。
+		 */
 		Span(uint8_t *buffer, int32_t size);
 
+		/**
+		 * @brief 从 base::ArraySpan<uint8_t> 构造，引用它所引用的内存。
+		 *
+		 * @param span
+		 */
 		Span(base::ArraySpan<uint8_t> const &span);
 
 	public:
@@ -46,58 +56,94 @@ namespace base
 		 */
 		uint8_t &operator[](int32_t index) const;
 
-		/// @brief 获得指定范围的切片。
-		/// @param range
-		/// @return
+		/**
+		 * @brief 获得指定范围的切片。
+		 *
+		 * @param range
+		 * @return base::Span
+		 */
 		base::Span operator[](base::Range const &range) const;
 
-		/// @brief 所引用的内存。
-		/// @return
+		/**
+		 * @brief 所引用的内存。
+		 *
+		 * @return uint8_t*
+		 */
 		uint8_t *Buffer() const;
 
-		/// @brief 所引用的内存大小
-		/// @return
+		/**
+		 * @brief 所引用的内存大小
+		 *
+		 * @return int32_t
+		 */
 		int32_t Size() const;
 
-		/// @brief 将本 Span 切片，得到一个更小的 Span.
-		/// @param start 切片起始位置。
-		/// @param size 切片大小。
-		/// @return
+		/**
+		 * @brief 将本 Span 切片，得到一个更小的 Span.
+		 *
+		 * @param start 切片起始位置。
+		 * @param size 切片大小。
+		 * @return base::Span
+		 */
 		base::Span Slice(int32_t start, int32_t size) const;
 
-		/// @brief 获得指定范围的切片。
-		/// @param range
-		/// @return
+		/**
+		 * @brief 获得指定范围的切片。
+		 *
+		 * @param range
+		 * @return base::Span
+		 */
 		base::Span Slice(base::Range const &range) const;
 
-		/// @brief 翻转本 Span 所引用的内存段。
+		/**
+		 * @brief 翻转本 Span 所引用的内存段。
+		 *
+		 */
 		void Reverse() const;
 
 	public:
 		// CopyFrom
 
-		/// @brief 将 span 所引用的内存的数据拷贝过来。
-		/// @param span
+		/**
+		 * @brief 将 span 所引用的内存的数据拷贝过来。
+		 *
+		 * @param span
+		 */
 		void CopyFrom(base::ReadOnlySpan const &span) const;
 
-		/// @brief 将 span 所引用的内存的数据拷贝过来。
-		/// @param span
+		/**
+		 * @brief 将 span 所引用的内存的数据拷贝过来。
+		 *
+		 * @param span
+		 */
 		void CopyFrom(base::Span const &span) const;
 
-		/// @brief 将 list 的数据拷贝过来。
-		/// @param list
+		/**
+		 * @brief 将 list 的数据拷贝过来。
+		 *
+		 * @param list
+		 */
 		void CopyFrom(std::initializer_list<uint8_t> const &list) const;
 
 	public:
-		/// @brief 获取非 const 迭代器
-		/// @return
+		/**
+		 * @brief 获取非 const 迭代器
+		 *
+		 * @return std::shared_ptr<base::IEnumerator<uint8_t>>
+		 */
 		std::shared_ptr<base::IEnumerator<uint8_t>> GetEnumerator() override;
 
-		/// @brief 将本 Span 所引用的内存的每一个字节都填充为 0.
+		/**
+		 * @brief 将本 Span 所引用的内存的每一个字节都填充为 0.
+		 *
+		 */
 		void FillWithZero();
 
-		/// @brief 将所有字节填充为 value.
-		/// @param value
+		/**
+		 * @brief 将所有字节填充为 value.
+		 *
+		 * @param value
+		 */
 		void FillWith(uint8_t value);
 
 	public:

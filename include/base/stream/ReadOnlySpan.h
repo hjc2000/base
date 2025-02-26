@@ -23,24 +23,32 @@ namespace base
 	public:
 		// 构造函数
 
-		/// @brief 无参构造函数。引用一段空内存。
-		/// @note 可以通过 Size 属性判断本对象是否引用到了有效的内存。
+		/**
+		 * @brief 无参构造函数。引用一段空内存。
+		 * @note 可以通过 Size 属性判断本对象是否引用到了有效的内存。
+		 */
 		ReadOnlySpan() = default;
 
-		/// @brief 引用 buffer 指向的内存。在本对象的生命周期内，buffer 指向的内存必须始终存活。
-		/// @param buffer 要引用的内存。
-		/// @param size buffer 的大小。
+		/**
+		 * @brief 引用 buffer 指向的内存。在本对象的生命周期内，buffer 指向的内存必须始终存活。
+		 *
+		 * @param buffer 要引用的内存。
+		 * @param size buffer 的大小。
+		 */
 		ReadOnlySpan(uint8_t const *buffer, int32_t size);
 
 		/**
-		 * @brief Construct a new Read Only Span object
+		 * @brief 从 base::ReadOnlyArraySpan<uint8_t> 构造，引用它所引用的内存段。
 		 *
 		 * @param span
 		 */
 		ReadOnlySpan(base::ReadOnlyArraySpan<uint8_t> const &span);
 
-		/// @brief 通过一个可读可写的 Span 构造只读的 ReadOnlySpan.
-		/// @param o
+		/**
+		 * @brief 通过一个可读可写的 Span 构造只读的 ReadOnlySpan.
+		 *
+		 * @param o
+		 */
 		ReadOnlySpan(base::Span const &o);
 
 	public:
@@ -52,32 +60,50 @@ namespace base
 		 */
 		uint8_t const &operator[](int32_t index) const;
 
-		/// @brief 获得指定范围的切片。
-		/// @param range
-		/// @return
+		/**
+		 * @brief 获得指定范围的切片。
+		 *
+		 * @param range
+		 * @return base::ReadOnlySpan
+		 */
 		base::ReadOnlySpan operator[](base::Range const &range) const;
 
-		/// @brief 所引用的内存。
-		/// @return
+		/**
+		 * @brief 所引用的内存。
+		 *
+		 * @return uint8_t const*
+		 */
 		uint8_t const *Buffer() const;
 
-		/// @brief 所引用的内存大小。
-		/// @return
+		/**
+		 * @brief 所引用的内存大小。
+		 *
+		 * @return int32_t
+		 */
 		int32_t Size() const;
 
-		/// @brief 将本 ReadOnlySpan 切片，得到一个更小的 ReadOnlySpan.
-		/// @param start 切片起始位置。
-		/// @param size 切片大小。
-		/// @return
+		/**
+		 * @brief 将本 ReadOnlySpan 切片，得到一个更小的 ReadOnlySpan.
+		 *
+		 * @param start 切片起始位置。
+		 * @param size 切片大小。
+		 * @return base::ReadOnlySpan
+		 */
 		base::ReadOnlySpan Slice(int32_t start, int32_t size) const;
 
-		/// @brief 获得指定范围的切片。
-		/// @param range
-		/// @return
+		/**
+		 * @brief 获得指定范围的切片。
+		 *
+		 * @param range
+		 * @return base::ReadOnlySpan
+		 */
 		base::ReadOnlySpan Slice(base::Range const &range) const;
 
-		/// @brief 获取非 const 迭代器。
-		/// @return
+		/**
+		 * @brief 获取非 const 迭代器。
+		 *
+		 * @return std::shared_ptr<base::IEnumerator<uint8_t const>>
+		 */
 		std::shared_ptr<base::IEnumerator<uint8_t const>> GetEnumerator() override;
 
 	public:
@@ -89,21 +115,30 @@ namespace base
 		 */
 		int32_t IndexOf(uint8_t match) const;
 
-		/// @brief 从本内存段查找匹配项所在的索引。
-		/// @param start 查找的起始索引。从此处往后开始查找。
-		/// @param match 匹配项。
-		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
+		/**
+		 * @brief 从本内存段查找匹配项所在的索引。
+		 *
+		 * @param start 查找的起始索引。从此处往后开始查找。
+		 * @param match 匹配项。
+		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		 */
 		int32_t IndexOf(int32_t start, uint8_t match) const;
 
-		/// @brief 从本内存段查找匹配项所在的索引。
-		/// @param match 匹配项。
-		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
+		/**
+		 * @brief 从本内存段查找匹配项所在的索引。
+		 *
+		 * @param match 匹配项。
+		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		 */
 		int32_t IndexOf(base::ReadOnlySpan const &match) const;
 
-		/// @brief 从本内存段查找匹配项所在的索引。
-		/// @param start 查找的起始索引。从此处往后开始查找。
-		/// @param match 匹配项。
-		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
+		/**
+		 * @brief 从本内存段查找匹配项所在的索引。
+		 *
+		 * @param start 查找的起始索引。从此处往后开始查找。
+		 * @param match 匹配项。
+		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		 */
 		int32_t IndexOf(int32_t start, base::ReadOnlySpan const &match) const;
 
 		/**
