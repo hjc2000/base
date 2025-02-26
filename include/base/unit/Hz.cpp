@@ -2,11 +2,6 @@
 #include <base/unit/MHz.h>
 #include <base/unit/Seconds.h>
 
-base::Hz::Hz(Hz const &o)
-{
-	*this = o;
-}
-
 base::Hz::Hz(base::Fraction const &value)
 {
 	_value = value;
@@ -30,12 +25,6 @@ base::Hz::Hz(base::Seconds const &value)
 base::Hz::Hz(base::Nanoseconds const &value)
 	: Hz(base::Seconds{value})
 {
-}
-
-base::Hz &base::Hz::operator=(Hz const &o)
-{
-	_value = o._value;
-	return *this;
 }
 
 std::string base::Hz::UnitString() const

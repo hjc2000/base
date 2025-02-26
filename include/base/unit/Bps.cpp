@@ -16,17 +16,6 @@ base::Bps::Bps(Mbps const &o)
 	_value = static_cast<base::Fraction>(o) * 1000 * 1000;
 }
 
-base::Bps::Bps(Bps const &o)
-{
-	*this = o;
-}
-
-base::Bps &base::Bps::operator=(Bps const &o)
-{
-	_value = o._value;
-	return *this;
-}
-
 std::string base::Bps::UnitString() const
 {
 	return "bps";

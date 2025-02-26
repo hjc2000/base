@@ -31,6 +31,7 @@ namespace base
 		explicit Nanoseconds(std::chrono::milliseconds const &value);
 		explicit Nanoseconds(std::chrono::microseconds const &value);
 
+	public:
 		virtual base::Fraction &Value() override
 		{
 			return _value;

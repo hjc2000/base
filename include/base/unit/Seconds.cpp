@@ -4,11 +4,6 @@
 #include <base/unit/Minutes.h>
 #include <base/unit/Nanoseconds.h>
 
-base::Seconds::Seconds(Seconds const &o)
-{
-	*this = o;
-}
-
 base::Seconds::Seconds(base::Fraction const &value)
 {
 	_value = value;
@@ -57,12 +52,6 @@ base::Seconds::Seconds(std::chrono::milliseconds const &value)
 base::Seconds::Seconds(std::chrono::microseconds const &value)
 {
 	_value = base::Fraction{value.count()} / 1000 / 1000;
-}
-
-base::Seconds &base::Seconds::operator=(Seconds const &o)
-{
-	_value = o._value;
-	return *this;
 }
 
 std::string base::Seconds::UnitString() const

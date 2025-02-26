@@ -14,12 +14,11 @@ namespace base
 
 	public:
 		Bps() = default;
-		Bps(Bps const &o);
 		explicit Bps(int64_t value);
 		explicit Bps(base::Fraction const &o);
 		explicit Bps(Mbps const &o);
-		base::Bps &operator=(Bps const &o);
 
+	public:
 		virtual base::Fraction &Value() override
 		{
 			return _value;

@@ -18,10 +18,6 @@ namespace base
 		/// @brief 0Hz
 		MHz() = default;
 
-		/// @brief 拷贝构造函数。
-		/// @param o
-		MHz(MHz const &o);
-
 		/// @brief 从分数构造频率。
 		/// @param value
 		explicit MHz(base::Fraction const &value);
@@ -38,11 +34,7 @@ namespace base
 
 		explicit MHz(base::Nanoseconds const &value);
 
-		/// @brief 赋值运算符。
-		/// @param o
-		/// @return
-		MHz &operator=(MHz const &o);
-
+	public:
 		virtual base::Fraction &Value() override
 		{
 			return _value;

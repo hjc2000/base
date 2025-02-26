@@ -31,6 +31,7 @@ namespace base
 		explicit Minutes(std::chrono::milliseconds const &value);
 		explicit Minutes(std::chrono::microseconds const &value);
 
+	public:
 		virtual base::Fraction &Value() override
 		{
 			return _value;

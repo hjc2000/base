@@ -20,7 +20,6 @@ namespace base
 
 	public:
 		Seconds() = default;
-		Seconds(Seconds const &o);
 		explicit Seconds(base::Fraction const &value);
 		explicit Seconds(int64_t value);
 		explicit Seconds(base::Hours const &value);
@@ -31,7 +30,6 @@ namespace base
 		explicit Seconds(std::chrono::seconds const &value);
 		explicit Seconds(std::chrono::milliseconds const &value);
 		explicit Seconds(std::chrono::microseconds const &value);
-		Seconds &operator=(Seconds const &o);
 
 		virtual base::Fraction &Value() override
 		{

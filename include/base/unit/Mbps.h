@@ -15,12 +15,11 @@ namespace base
 
 	public:
 		Mbps() = default;
-		Mbps(Mbps const &o);
 		explicit Mbps(int64_t value);
 		explicit Mbps(base::Fraction const &o);
 		explicit Mbps(base::Bps const &o);
-		base::Mbps &operator=(Mbps const &o);
 
+	public:
 		virtual base::Fraction &Value() override
 		{
 			return _value;
