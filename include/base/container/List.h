@@ -19,7 +19,9 @@ namespace base
 	private:
 		std::vector<ItemType> _vector;
 
-	public: // 构造函数
+	public:
+		// 构造函数
+
 		/**
 		 * @brief 构造一个空列表。
 		 *
@@ -36,53 +38,6 @@ namespace base
 		List(std::initializer_list<ItemType> const &list)
 		{
 			_vector = list;
-		}
-
-	public: // 拷贝、移动
-		/**
-		 * @brief 拷贝构造函数。
-		 *
-		 * @param o
-		 */
-		List(List<ItemType> const &o)
-		{
-			*this = o;
-		}
-
-		/**
-		 * @brief 移动构造函数。
-		 *
-		 * @param o
-		 */
-		List(List<ItemType> &&o)
-		{
-			*this = o;
-		}
-
-		/// @brief 赋值运算符。
-		/// @param o
-		/// @return
-		List<ItemType> &operator=(List<ItemType> const &o)
-		{
-			if (this != &o)
-			{
-				_vector = o._vector;
-			}
-
-			return *this;
-		}
-
-		/// @brief 移动赋值运算符。
-		/// @param o
-		/// @return
-		List<ItemType> &operator=(List<ItemType> &&o)
-		{
-			if (this != &o)
-			{
-				_vector = std::move(o._vector);
-			}
-
-			return *this;
 		}
 
 	public:

@@ -1,5 +1,4 @@
 #pragma once
-#include <atomic>
 #include <base/container/IQueue.h>
 #include <base/task/IMutex.h>
 #include <queue>
@@ -23,6 +22,7 @@ namespace base
 		/// 所以会引发线程安全问题，所以本类不支持拷贝和移动。
 		SafeQueue() = default;
 
+	public:
 		/// @brief 队列中元素的数量。
 		/// @return
 		int32_t Count() const override

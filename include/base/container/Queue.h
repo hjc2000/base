@@ -21,46 +21,7 @@ namespace base
 		/// @brief 构造一个空的队列。
 		Queue() = default;
 
-		/// @brief 拷贝构造函数。
-		/// @param o
-		Queue(Queue const &o)
-		{
-			*this = o;
-		}
-
-		/// @brief 移动构造函数。
-		/// @param o
-		Queue(Queue &&o)
-		{
-			*this = o;
-		}
-
-		/// @brief 赋值运算符。
-		/// @param o
-		/// @return
-		Queue &operator=(Queue const &o)
-		{
-			if (this != &o)
-			{
-				_queue = o._queue;
-			}
-
-			return *this;
-		}
-
-		/// @brief 移动赋值运算符。
-		/// @param o
-		/// @return
-		Queue &operator=(Queue &&o)
-		{
-			if (this != &o)
-			{
-				_queue = std::move(o._queue);
-			}
-
-			return *this;
-		}
-
+	public:
 		/// @brief 当前队列中元素的数量。
 		/// @return
 		int32_t Count() const override

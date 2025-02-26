@@ -1,4 +1,5 @@
 #pragma once
+#include <atomic>
 #include <base/container/SafeQueue.h>
 #include <base/IDisposable.h>
 #include <base/string/ICanToString.h>
