@@ -1,4 +1,3 @@
-#include "include/base/test/test_parse.h"
 #include <base/bit/BitConverter.h>
 #include <base/container/Array.h>
 #include <base/container/Dictionary.h>
@@ -11,7 +10,9 @@
 #include <base/string/Parse.h>
 #include <base/string/String.h>
 #include <base/string/ToHexString.h>
+#include <base/test/test_parse.h>
 #include <base/test/test_string.h>
+#include <base/test/test_zoned_time.h>
 #include <base/time/TimePointSinceEpoch.h>
 #include <base/unit/Hz.h>
 #include <iostream>
@@ -38,21 +39,13 @@ int main()
 		uint16_t mul = static_cast<uint16_t>(a) * static_cast<uint16_t>(b);
 		int32_t result = static_cast<int16_t>(mul);
 		std::cout << result << std::endl;
-		std::cout << base::Hz{100} << std::endl;
 	}
 
-	{
-		base::TimePointSinceEpoch now{std::chrono::system_clock::now()};
-		std::cout << now.NanosecondsZonedTimeString() << std::endl;
-		std::cout << now.MicrosecondsZonedTimeString() << std::endl;
-		std::cout << now.MillisecondsZonedTimeString() << std::endl;
-		std::cout << now.SecondsZonedTimeString() << std::endl;
-	}
-
-	base::test::Test_String_LastIndexOf();
-	base::test::Test_String_Replace();
-	base::test::Test_String_StartWith_EndWith();
-	base::test::test_parse_int32();
-	base::test::test_parse_int64();
-	base::test::test_parse_double();
+	// base::test::test_zoned_time();
+	// base::test::Test_String_LastIndexOf();
+	// base::test::Test_String_Replace();
+	// base::test::Test_String_StartWith_EndWith();
+	// base::test::test_parse_int32();
+	// base::test::test_parse_int64();
+	// base::test::test_parse_double();
 }

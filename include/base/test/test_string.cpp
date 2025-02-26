@@ -1,7 +1,6 @@
 #include "test_string.h"
 
 #if HAS_THREAD
-
 	#include <base/string/define.h>
 	#include <base/string/String.h>
 	#include <iostream>

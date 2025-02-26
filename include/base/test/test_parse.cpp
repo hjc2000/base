@@ -1,10 +1,10 @@
 #include "test_parse.h"
-#include "base/string/define.h"
-#include <base/string/Parse.h>
-#include <iostream>
-#include <string>
 
 #if HAS_THREAD
+	#include "base/string/define.h"
+	#include <base/string/Parse.h>
+	#include <iostream>
+	#include <string>
 
 void base::test::test_parse_int32()
 {
