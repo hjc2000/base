@@ -1,5 +1,10 @@
 #include "Stream.h"
 
+int32_t base::Stream::Read(uint8_t *buffer, int32_t offset, int32_t count)
+{
+	return Read(base::Span{buffer + offset, count});
+}
+
 int32_t base::Stream::ReadExactly(base::Span const &span)
 {
 	base::Span remain_span{span};
@@ -16,6 +21,16 @@ int32_t base::Stream::ReadExactly(base::Span const &span)
 	}
 
 	return span.Size() - remain_span.Size();
+}
+
+int32_t base::Stream::ReadExactly(uint8_t *buffer, int32_t offset, int32_t count)
+{
+	return ReadExactly(base::Span{buffer + offset, count});
+}
+
+void base::Stream::Write(uint8_t const *buffer, int32_t offset, int32_t count)
+{
+	Write(base::ReadOnlySpan{buffer + offset, count});
 }
 
 void base::Stream::CopyTo(std::shared_ptr<base::Stream> dst_stream,

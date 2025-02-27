@@ -31,6 +31,21 @@ namespace base
 		virtual void SetLength(int64_t value) = 0;
 
 		/**
+		 * @brief 流当前的位置。
+		 *
+		 * @return int64_t
+		 */
+		virtual int64_t Position() const = 0;
+
+		/**
+		 * @brief 设置流当前的位置。
+		 *
+		 * @param value
+		 */
+		virtual void SetPosition(int64_t value) = 0;
+
+	public:
+		/**
 		 * @brief 将本流的数据读取到 span 中。
 		 *
 		 * @param span
@@ -61,20 +76,6 @@ namespace base
 		 */
 		virtual void Close() = 0;
 
-		/**
-		 * @brief 流当前的位置。
-		 *
-		 * @return int64_t
-		 */
-		virtual int64_t Position() const = 0;
-
-		/**
-		 * @brief 设置流当前的位置。
-		 *
-		 * @param value
-		 */
-		virtual void SetPosition(int64_t value) = 0;
-
 	public:
 		/**
 		 * @brief 从流中读取数据写入 buffer。
@@ -84,10 +85,7 @@ namespace base
 		 * @param count 要读取的字节数。
 		 * @return int32_t 实际读取的字节数。如果返回 0，说明此流结束。
 		 */
-		int32_t Read(uint8_t *buffer, int32_t offset, int32_t count)
-		{
-			return Read(base::Span{buffer + offset, count});
-		}
+		int32_t Read(uint8_t *buffer, int32_t offset, int32_t count);
 
 		/**
 		 * @brief 从流中精确读取等于 span 大小的字节数写入 span 中。
@@ -111,10 +109,7 @@ namespace base
 		 * @return int32_t 读取到的字节数。
 		 * @note 一般等于 count，除非到达流末尾，无法满足要求了。调用者应该检查返回值，判断是否满足要求。
 		 */
-		int32_t ReadExactly(uint8_t *buffer, int32_t offset, int32_t count)
-		{
-			return ReadExactly(base::Span{buffer + offset, count});
-		}
+		int32_t ReadExactly(uint8_t *buffer, int32_t offset, int32_t count);
 
 		/**
 		 * @brief 将 buffer 中的数据写入流中。
@@ -123,10 +118,7 @@ namespace base
 		 * @param offset
 		 * @param count
 		 */
-		void Write(uint8_t const *buffer, int32_t offset, int32_t count)
-		{
-			Write(base::ReadOnlySpan{buffer + offset, count});
-		}
+		void Write(uint8_t const *buffer, int32_t offset, int32_t count);
 
 		/**
 		 * @brief 将本流拷贝到 dst_stream 中。
