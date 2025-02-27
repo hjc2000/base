@@ -12,8 +12,28 @@ namespace base
 	class Stream
 	{
 	public:
+		/**
+		 * @brief 本流能否读取。
+		 *
+		 * @return true 能读取。
+		 * @return false 不能读取。
+		 */
 		virtual bool CanRead() const = 0;
+
+		/**
+		 * @brief 本流能否写入。
+		 *
+		 * @return true 能写入。
+		 * @return false 不能写入。
+		 */
 		virtual bool CanWrite() const = 0;
+
+		/**
+		 * @brief 本流能否定位。
+		 *
+		 * @return true 能定位。
+		 * @return false 不能定位。
+		 */
 		virtual bool CanSeek() const = 0;
 
 		/**

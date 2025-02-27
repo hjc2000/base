@@ -12,8 +12,28 @@ namespace base
 		public base::Stream
 	{
 	public:
+		/**
+		 * @brief 本流能否读取。
+		 *
+		 * @return true 能读取。
+		 * @return false 不能读取。
+		 */
 		virtual bool CanRead() const = 0;
+
+		/**
+		 * @brief 本流能否写入。
+		 *
+		 * @return true 能写入。
+		 * @return false 不能写入。
+		 */
 		virtual bool CanWrite() const = 0;
+
+		/**
+		 * @brief 本流能否定位。
+		 *
+		 * @return true 能定位。
+		 * @return false 不能定位。
+		 */
 		virtual bool CanSeek() const = 0;
 
 		/**
@@ -30,6 +50,21 @@ namespace base
 		 */
 		virtual void SetLength(int64_t value) = 0;
 
+		/**
+		 * @brief 流当前的位置。
+		 *
+		 * @return int64_t
+		 */
+		virtual int64_t Position() const = 0;
+
+		/**
+		 * @brief 设置流当前的位置。
+		 *
+		 * @param value
+		 */
+		virtual void SetPosition(int64_t value) = 0;
+
+	public:
 		/**
 		 * @brief 将本流的数据读取到 span 中。
 		 *
@@ -60,20 +95,6 @@ namespace base
 		 * @note 关闭后对流的操作将会引发异常。
 		 */
 		virtual void Close() = 0;
-
-		/**
-		 * @brief 流当前的位置。
-		 *
-		 * @return int64_t
-		 */
-		virtual int64_t Position() const = 0;
-
-		/**
-		 * @brief 设置流当前的位置。
-		 *
-		 * @param value
-		 */
-		virtual void SetPosition(int64_t value) = 0;
 	};
 
 	namespace di

@@ -90,7 +90,7 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenReadOnly(std::string pat
 	}
 
 	fs->_can_read = true;
-	fs->_can_write = true;
+	fs->_can_write = false;
 	fs->_can_seek = true;
 	return fs;
 }
