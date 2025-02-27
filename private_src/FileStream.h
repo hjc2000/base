@@ -44,6 +44,7 @@ namespace base
 		/// @return 成功打开则返回 FileStream 对象。失败会抛出异常，不会返回空指针。
 		static_function std::shared_ptr<FileStream> OpenReadOnly(std::string path);
 
+	public:
 		bool CanRead() const override;
 		bool CanWrite() const override;
 		bool CanSeek() const override;
@@ -51,11 +52,12 @@ namespace base
 		int64_t Length() const override;
 		void SetLength(int64_t value) override;
 
-		virtual int32_t Read(base::Span const &span) override;
-		virtual void Write(base::ReadOnlySpan const &span) override;
-
 		int64_t Position() const override;
 		void SetPosition(int64_t value) override;
+
+	public:
+		virtual int32_t Read(base::Span const &span) override;
+		virtual void Write(base::ReadOnlySpan const &span) override;
 
 		void Flush() override;
 		void Close() override;
