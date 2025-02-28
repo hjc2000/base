@@ -15,10 +15,10 @@ namespace base
 		std::shared_ptr<base::IMutex> _lock = base::di::CreateIMutex();
 
 		/// @brief 流中的数据被消费了，现在处于不是满的状态
-		std::shared_ptr<base::ISemaphore> _buffer_consumed_signal = base::di::CreateSemaphore(1);
+		std::shared_ptr<base::ISemaphore> _buffer_consumed_signal = base::di::CreateISemaphore(1);
 
 		/// @brief 流中有数据可用。
-		std::shared_ptr<base::ISemaphore> _buffer_avaliable_signal = base::di::CreateSemaphore(0);
+		std::shared_ptr<base::ISemaphore> _buffer_avaliable_signal = base::di::CreateISemaphore(0);
 
 	public:
 		BlockingCircleBufferMemoryStream(int32_t max_size)

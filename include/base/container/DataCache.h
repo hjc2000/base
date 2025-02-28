@@ -21,7 +21,7 @@ namespace base
 		base::Queue<T> _queue;
 		std::atomic_bool _disposed = false;
 		std::shared_ptr<base::IMutex> _lock = base::di::CreateIMutex();
-		std::shared_ptr<base::ISemaphore> _data_avaliable_signal = base::di::CreateSemaphore(0);
+		std::shared_ptr<base::ISemaphore> _data_avaliable_signal = base::di::CreateISemaphore(0);
 
 	public:
 		/// @brief 构造函数

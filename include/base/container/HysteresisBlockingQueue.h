@@ -43,7 +43,7 @@ namespace base
 
 		/// @brief 队列中有数据，可以退队时触发此信号。
 		/// @note 初始时队列为空，无法退队，所以初始计数为 0.
-		std::shared_ptr<base::ISemaphore> _queue_avaliable_signal = base::di::CreateSemaphore(0);
+		std::shared_ptr<base::ISemaphore> _queue_avaliable_signal = base::di::CreateISemaphore(0);
 
 	public:
 		/// @brief 构造函数
@@ -59,7 +59,7 @@ namespace base
 			_threshold = _max / 2;
 
 			// 初始时队列为空，允许入队 _max 次，所以初始计数为 _max.
-			_queue_consumed_signal = base::di::CreateSemaphore(_max);
+			_queue_consumed_signal = base::di::CreateISemaphore(_max);
 		}
 
 		~HysteresisBlockingQueue()

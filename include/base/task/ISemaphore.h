@@ -69,6 +69,6 @@ namespace base
 		 * @param initial_count 信号量的初始计数。
 		 * @return std::shared_ptr<base::ISemaphore>
 		 */
-		std::shared_ptr<base::ISemaphore> CreateSemaphore(int32_t initial_count);
+		std::shared_ptr<base::ISemaphore> CreateISemaphore(int32_t initial_count);
 	} // namespace di
 } // namespace base
