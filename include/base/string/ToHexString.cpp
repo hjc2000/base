@@ -4,9 +4,12 @@
 
 namespace
 {
-	/// @brief 将数字转化为 1 位 16 进制数字符。
-	/// @param num 数字要在 1 位 16 进制数能表示的范围内，即：[0, 15].
-	/// @return 表示 1 位 16 进制数的字符。
+	/**
+	 * @brief 将数字转化为 1 位 16 进制数字符。
+	 *
+	 * @param num 数字要在 1 位 16 进制数能表示的范围内，即：[0, 15].
+	 * @return char 表示 1 位 16 进制数的字符。
+	 */
 	char NumToOneHex(uint8_t num)
 	{
 		if (num > 15)
@@ -119,10 +122,10 @@ std::string base::ToHexString(uint8_t const *buffer,
 {
 	if (size <= 0)
 	{
-		return "";
+		return std::string{};
 	}
 
-	std::string ret;
+	std::string ret{};
 
 	/**
 	 * 对于每个数字：
