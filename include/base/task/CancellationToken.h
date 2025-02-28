@@ -12,9 +12,10 @@ namespace base
 	class CancellationTokenSource;
 	class CancellationToken;
 
-	/// @brief 取消令牌
-	/// @warning 没有将宏变量 HAS_THREAD 定义为真的话，本类的所有操作都没有互斥锁保护，
-	/// 此时只有 IsCancellationRequested 方法是线程安全的，因为它只读。
+	/**
+	 * @brief 取消令牌
+	 *
+	 */
 	class CancellationToken final
 	{
 	private:
@@ -48,26 +49,7 @@ namespace base
 		bool IsCancellationRequested() const;
 
 	public:
-		/**
-		 * @brief 取消注册令牌。用于取消注册通过 CancellationToken::Register 方法注册的委托。
-		 *
-		 */
-		class UnregisterToken
-		{
-		private:
-			friend class CancellationToken;
-			uint64_t const _id{};
-			bool _used = false;
-
-		private:
-			UnregisterToken(uint64_t id)
-				: _id(id)
-			{
-			}
-
-			UnregisterToken(UnregisterToken const &o) = delete;
-			UnregisterToken &operator=(UnregisterToken const &o) = delete;
-		};
+		class UnregisterToken;
 
 		/**
 		 * @brief 注册一个委托，当令牌取消时会被调用。

@@ -3,6 +3,27 @@
 #include <base/string/define.h>
 #include <stdexcept>
 
+/**
+ * @brief 取消注册令牌。用于取消注册通过 CancellationToken::Register 方法注册的委托。
+ *
+ */
+class base::CancellationToken::UnregisterToken
+{
+private:
+	friend class CancellationToken;
+	uint64_t const _id{};
+	bool _used = false;
+
+private:
+	UnregisterToken(uint64_t id)
+		: _id(id)
+	{
+	}
+
+	UnregisterToken(UnregisterToken const &o) = delete;
+	UnregisterToken &operator=(UnregisterToken const &o) = delete;
+};
+
 std::shared_ptr<base::CancellationToken> base::CancellationToken::_none_cancellation_token{new base::CancellationToken{}};
 
 void base::CancellationToken::Cancel()
