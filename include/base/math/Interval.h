@@ -1,10 +1,11 @@
 #pragma once
-#include <algorithm>
 
 namespace base
 {
 	/**
 	 * @brief 闭区间。[Left, Right]
+	 *
+	 * @note 仅仅储存左右端点这两个数据，不会检查区间是否合法。
 	 *
 	 * @tparam T
 	 */
@@ -19,9 +20,9 @@ namespace base
 		ClosedInterval() = default;
 
 		ClosedInterval(T const &left, T const &right)
+			: _left(left),
+			  _right(right)
 		{
-			_left = left;
-			_right = std::max<T>(left, right);
 		}
 
 	public:
