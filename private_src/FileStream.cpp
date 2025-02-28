@@ -1,19 +1,10 @@
 #include "FileStream.h"
 
 #if HAS_THREAD
+
 	#include <filesystem>
 	#include <format>
 	#include <iostream>
-
-base::FileStream::FileStream(std::string path)
-{
-	_path = path;
-}
-
-base::FileStream::~FileStream()
-{
-	Close();
-}
 
 std::shared_ptr<base::FileStream> base::FileStream::CreateNewAnyway(std::string path)
 {
@@ -104,6 +95,16 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenReadOnly(std::string pat
 	fs->_can_write = false;
 	fs->_can_seek = true;
 	return fs;
+}
+
+base::FileStream::FileStream(std::string path)
+{
+	_path = path;
+}
+
+base::FileStream::~FileStream()
+{
+	Close();
 }
 
 bool base::FileStream::CanRead() const

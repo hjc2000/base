@@ -11,19 +11,7 @@ namespace base
 	class FileStream final :
 		public base::IFileStream
 	{
-	private:
-		FileStream(std::string path);
-
-	private:
-		std::string _path;
-		std::shared_ptr<std::fstream> _fs;
-		bool _can_read = false;
-		bool _can_write = false;
-		bool _can_seek = false;
-
 	public:
-		~FileStream();
-
 		/// @brief 用创建模式打开文件流，无论如何都会创建一个新的空白文件。会覆盖旧的。
 		/// @param path 文件路径
 		/// @return 创建文件成功则返回 FileStream 对象。创建失败会抛出异常，不会返回空指针。
@@ -38,6 +26,19 @@ namespace base
 		/// @param path 文件的路径。
 		/// @return 成功打开则返回 FileStream 对象。失败会抛出异常，不会返回空指针。
 		static_function std::shared_ptr<FileStream> OpenReadOnly(std::string path);
+
+	private:
+		FileStream(std::string path);
+
+	private:
+		std::string _path;
+		std::shared_ptr<std::fstream> _fs;
+		bool _can_read = false;
+		bool _can_write = false;
+		bool _can_seek = false;
+
+	public:
+		~FileStream();
 
 	public:
 		bool CanRead() const override;
