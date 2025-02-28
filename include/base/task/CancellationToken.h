@@ -11,6 +11,7 @@ namespace base
 {
 	class CancellationTokenSource;
 	class CancellationToken;
+	class IdToken;
 
 	/**
 	 * @brief 取消令牌
@@ -49,24 +50,22 @@ namespace base
 		bool IsCancellationRequested() const;
 
 	public:
-		class UnregisterToken;
-
 		/**
 		 * @brief 注册一个委托，当令牌取消时会被调用。
 		 *
 		 * @note 可以多次调用注册多个委托。
 		 *
 		 * @param func
-		 * @return std::shared_ptr<base::CancellationToken::UnregisterToken> 取消注册令牌，可以用来取消注册通过
+		 * @return std::shared_ptr<base::IdToken> 取消注册令牌，可以用来取消注册通过
 		 * 本方法注册的委托。
 		 */
-		std::shared_ptr<base::CancellationToken::UnregisterToken> Register(std::function<void(void)> const &func);
+		std::shared_ptr<base::IdToken> Register(std::function<void(void)> const &func);
 
 		/**
 		 * @brief 注销通过 Register 方法注册的委托。
 		 *
 		 * @param token 委托的 id
 		 */
-		void Unregister(std::shared_ptr<base::CancellationToken::UnregisterToken> const &token);
+		void Unregister(std::shared_ptr<base::IdToken> const &token);
 	};
 } // namespace base

@@ -1,28 +1,8 @@
 #include "CancellationToken.h"
 #include "base/LockGuard.h"
 #include <base/string/define.h>
+#include <IdToken.h>
 #include <stdexcept>
-
-/**
- * @brief 取消注册令牌。用于取消注册通过 CancellationToken::Register 方法注册的委托。
- *
- */
-class base::CancellationToken::UnregisterToken
-{
-private:
-	friend class CancellationToken;
-	uint64_t const _id{};
-	bool _used = false;
-
-private:
-	UnregisterToken(uint64_t id)
-		: _id(id)
-	{
-	}
-
-	UnregisterToken(UnregisterToken const &o) = delete;
-	UnregisterToken &operator=(UnregisterToken const &o) = delete;
-};
 
 std::shared_ptr<base::CancellationToken> base::CancellationToken::_none_cancellation_token{new base::CancellationToken{}};
 
@@ -66,7 +46,7 @@ bool base::CancellationToken::IsCancellationRequested() const
 	return _is_cancellation_request;
 }
 
-std::shared_ptr<base::CancellationToken::UnregisterToken> base::CancellationToken::Register(std::function<void(void)> const &func)
+std::shared_ptr<base::IdToken> base::CancellationToken::Register(std::function<void(void)> const &func)
 {
 	if (this == None().get())
 	{
@@ -76,10 +56,10 @@ std::shared_ptr<base::CancellationToken::UnregisterToken> base::CancellationToke
 	base::LockGuard l{*_lock};
 	uint64_t current_id = _id++;
 	_delegates[current_id] = func;
-	return std::shared_ptr<base::CancellationToken::UnregisterToken>{new base::CancellationToken::UnregisterToken{current_id}};
+	return std::shared_ptr<base::IdToken>{new base::IdToken{current_id}};
 }
 
-void base::CancellationToken::Unregister(std::shared_ptr<base::CancellationToken::UnregisterToken> const &token)
+void base::CancellationToken::Unregister(std::shared_ptr<base::IdToken> const &token)
 {
 	if (this == None().get())
 	{
@@ -92,11 +72,11 @@ void base::CancellationToken::Unregister(std::shared_ptr<base::CancellationToken
 	}
 
 	base::LockGuard l{*_lock};
-	if (token->_used)
+	if (token->Used())
 	{
 		return;
 	}
 
-	_delegates.erase(token->_id);
-	token->_used = true;
+	_delegates.erase(token->ID());
+	token->SetAsUsed();
 }
