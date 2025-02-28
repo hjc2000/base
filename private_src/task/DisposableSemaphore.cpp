@@ -1,7 +1,7 @@
 #include "DisposableSemaphore.h"
-#include <base/string/define.h>
 
 #if HAS_THREAD
+	#include <base/string/define.h>
 
 base::DisposableSemaphore::DisposableSemaphore(int32_t initial_count)
 	: _semaphore(initial_count)
