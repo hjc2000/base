@@ -1,12 +1,9 @@
 #include "CancellationToken.h"
 #include "base/LockGuard.h"
 
-using namespace std;
-using namespace base;
+std::shared_ptr<base::CancellationToken> base::CancellationToken::_none_cancellation_token{new base::CancellationToken{}};
 
-std::shared_ptr<base::CancellationToken> CancellationToken::_none_cancellation_token{new base::CancellationToken{}};
-
-void CancellationToken::Cancel()
+void base::CancellationToken::Cancel()
 {
 	/* 只有取消过一次，即调用本函数一次后，_is_cancellation_request
 	 * 才会为 true。
@@ -36,17 +33,17 @@ void CancellationToken::Cancel()
 	}
 }
 
-std::shared_ptr<CancellationToken> base::CancellationToken::None()
+std::shared_ptr<base::CancellationToken> base::CancellationToken::None()
 {
 	return _none_cancellation_token;
 }
 
-bool CancellationToken::IsCancellationRequested() const
+bool base::CancellationToken::IsCancellationRequested() const
 {
 	return _is_cancellation_request;
 }
 
-uint64_t CancellationToken::Register(std::function<void(void)> func)
+uint64_t base::CancellationToken::Register(std::function<void(void)> func)
 {
 	if (this == None().get())
 	{
@@ -59,7 +56,7 @@ uint64_t CancellationToken::Register(std::function<void(void)> func)
 	return current_id;
 }
 
-void CancellationToken::Unregister(uint64_t id)
+void base::CancellationToken::Unregister(uint64_t id)
 {
 	if (this == None().get())
 	{
