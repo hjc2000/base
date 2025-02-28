@@ -43,7 +43,7 @@ bool base::CancellationToken::IsCancellationRequested() const
 	return _is_cancellation_request;
 }
 
-uint64_t base::CancellationToken::Register(std::function<void(void)> func)
+base::CancellationToken::UnregisterToken base::CancellationToken::Register(std::function<void(void)> const &func)
 {
 	if (this == None().get())
 	{
@@ -53,10 +53,10 @@ uint64_t base::CancellationToken::Register(std::function<void(void)> func)
 	base::LockGuard l{*_lock};
 	uint64_t current_id = _id++;
 	_delegates[current_id] = func;
-	return current_id;
+	return UnregisterToken{current_id};
 }
 
-void base::CancellationToken::Unregister(uint64_t id)
+void base::CancellationToken::Unregister(base::CancellationToken::UnregisterToken const &token)
 {
 	if (this == None().get())
 	{
@@ -64,5 +64,5 @@ void base::CancellationToken::Unregister(uint64_t id)
 	}
 
 	base::LockGuard l{*_lock};
-	_delegates.erase(id);
+	_delegates.erase(token._id);
 }

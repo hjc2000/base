@@ -10,6 +10,7 @@
 namespace base
 {
 	class CancellationTokenSource;
+	class CancellationToken;
 
 	/// @brief 取消令牌
 	/// @warning 没有将宏变量 HAS_THREAD 定义为真的话，本类的所有操作都没有互斥锁保护，
@@ -48,6 +49,23 @@ namespace base
 
 	public:
 		/**
+		 * @brief 取消注册令牌。用于取消注册通过 CancellationToken::Register 方法注册的委托。
+		 *
+		 */
+		class UnregisterToken
+		{
+		private:
+			friend class CancellationToken;
+			uint64_t const _id{};
+
+		private:
+			UnregisterToken(uint64_t id)
+				: _id(id)
+			{
+			}
+		};
+
+		/**
 		 * @brief 注册一个委托，当令牌取消时会被调用。
 		 *
 		 * @note 可以多次调用注册多个委托。
@@ -55,13 +73,13 @@ namespace base
 		 * @param func
 		 * @return uint64_t 返回一个 id，用来标识此次注册的委托。取消时可以用此 id 取消。
 		 */
-		uint64_t Register(std::function<void(void)> func);
+		UnregisterToken Register(std::function<void(void)> const &func);
 
 		/**
 		 * @brief 注销通过 Register 方法注册的委托。
 		 *
-		 * @param id 委托的 id
+		 * @param token 委托的 id
 		 */
-		void Unregister(uint64_t id);
+		void Unregister(UnregisterToken const &token);
 	};
 } // namespace base
