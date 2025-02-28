@@ -1,7 +1,6 @@
 #include "CancellationToken.h"
 #include "base/LockGuard.h"
 #include <base/string/define.h>
-#include <IdToken.h>
 #include <stdexcept>
 
 std::shared_ptr<base::CancellationToken> base::CancellationToken::_none_cancellation_token{new base::CancellationToken{}};
@@ -46,7 +45,7 @@ bool base::CancellationToken::IsCancellationRequested() const
 	return _is_cancellation_request;
 }
 
-std::shared_ptr<base::IdToken> base::CancellationToken::Register(std::function<void(void)> const &func)
+std::shared_ptr<base::CancellationToken::IIdToken> base::CancellationToken::Register(std::function<void(void)> const &func)
 {
 	if (this == None().get())
 	{
@@ -56,10 +55,10 @@ std::shared_ptr<base::IdToken> base::CancellationToken::Register(std::function<v
 	base::LockGuard l{*_lock};
 	uint64_t current_id = _id++;
 	_delegates[current_id] = func;
-	return std::shared_ptr<base::IdToken>{new base::IdToken{current_id}};
+	return std::shared_ptr<IdToken>{new IdToken{current_id}};
 }
 
-void base::CancellationToken::Unregister(std::shared_ptr<base::IdToken> const &token)
+void base::CancellationToken::Unregister(std::shared_ptr<base::CancellationToken::IIdToken> const &token)
 {
 	if (this == None().get())
 	{
@@ -72,11 +71,5 @@ void base::CancellationToken::Unregister(std::shared_ptr<base::IdToken> const &t
 	}
 
 	base::LockGuard l{*_lock};
-	if (token->Used())
-	{
-		return;
-	}
-
 	_delegates.erase(token->ID());
-	token->SetAsUsed();
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include <base/delegate/IEvent.h>
 #include <base/task/IMutex.h>
+#include <cstdint>
 #include <map>
 #include <stdint.h>
 
@@ -13,20 +14,60 @@ namespace base
 	/// @tparam ...Args
 	template <typename... Args>
 	class Delegate final :
-		public base ::IEvent<Args...>
+		public base::IEvent<Args...>
 	{
 	private:
 		std::map<uint64_t, std::function<void(Args...)>> _functions;
 		uint64_t _next_id = 0;
 		mutable std::shared_ptr<base::IMutex> _lock = base::di::CreateMutex();
 
-		/// @brief 取消订阅方法
-		/// @param id
-		/// @return
-		void Unsubscribe(uint64_t id)
+	private:
+		class IdToken :
+			public base::IEvent<Args...>::IIdToken
+		{
+		private:
+			uint64_t const _id{};
+
+		public:
+			IdToken(uint64_t id)
+				: _id(id)
+			{
+			}
+
+			IdToken(IdToken const &o) = delete;
+			IdToken &operator=(IdToken const &o) = delete;
+
+		public:
+			virtual uint64_t ID() const override
+			{
+				return _id;
+			}
+		};
+
+	public:
+		/**
+		 * @brief 订阅事件。
+		 *
+		 * @param func
+		 * @return std::shared_ptr<base::IIdToken> 用来取消订阅的 token.
+		 */
+		virtual std::shared_ptr<typename base::IEvent<Args...>::IIdToken> Subscribe(std::function<void(Args...)> const &func) override
 		{
 			base::LockGuard g{*_lock};
-			auto it = _functions.find(id);
+			uint64_t id = _next_id++;
+			_functions[id] = func;
+			return std::shared_ptr<IdToken>{new IdToken{id}};
+		}
+
+		/**
+		 * @brief 取消订阅事件。
+		 *
+		 * @param token 传入由 Subscribe 方法返回的 token.
+		 */
+		virtual void Unsubscribe(std::shared_ptr<typename base::IEvent<Args...>::IIdToken> const &token) override
+		{
+			base::LockGuard g{*_lock};
+			auto it = _functions.find(token->ID());
 			if (it != _functions.end())
 			{
 				_functions.erase(it);
@@ -34,33 +75,6 @@ namespace base
 		}
 
 	public:
-		/// @brief 订阅
-		/// @param func 要订阅的回调
-		/// @return 返回用来取消订阅的令牌。
-		/// @warning 禁止在 Delegate 对象析构后使用取消令牌。
-		std::shared_ptr<base::IUnsubscribeToken> Subscribe(std::function<void(Args...)> func) override
-		{
-			class UnsubscribeToken final :
-				public base::IUnsubscribeToken
-			{
-			public:
-				uint64_t _id = 0;
-				Delegate<Args...> *_delegate;
-
-				virtual void Unsubscribe() override
-				{
-					_delegate->Unsubscribe(_id);
-				}
-			};
-
-			base::LockGuard g{*_lock};
-			std::shared_ptr<UnsubscribeToken> token{new UnsubscribeToken{}};
-			token->_id = _next_id++;
-			token->_delegate = this;
-			_functions[token->_id] = func;
-			return token;
-		}
-
 		/// @brief 调用所有订阅的函数
 		/// @param ...args
 		void Invoke(Args... args) const

@@ -50,22 +50,51 @@ namespace base
 		bool IsCancellationRequested() const;
 
 	public:
+		class IIdToken
+		{
+		public:
+			virtual uint64_t ID() const = 0;
+		};
+
+	private:
+		class IdToken :
+			public IIdToken
+		{
+		private:
+			uint64_t const _id{};
+
+		public:
+			IdToken(uint64_t id)
+				: _id(id)
+			{
+			}
+
+			IdToken(IdToken const &o) = delete;
+			IdToken &operator=(IdToken const &o) = delete;
+
+		public:
+			virtual uint64_t ID() const override
+			{
+				return _id;
+			}
+		};
+
+	public:
 		/**
 		 * @brief 注册一个委托，当令牌取消时会被调用。
 		 *
 		 * @note 可以多次调用注册多个委托。
 		 *
 		 * @param func
-		 * @return std::shared_ptr<base::IdToken> 取消注册令牌，可以用来取消注册通过
-		 * 本方法注册的委托。
+		 * @return std::shared_ptr<base::IdToken> 用来取消注册委托的 token.
 		 */
-		std::shared_ptr<base::IdToken> Register(std::function<void(void)> const &func);
+		std::shared_ptr<base::CancellationToken::IIdToken> Register(std::function<void(void)> const &func);
 
 		/**
 		 * @brief 注销通过 Register 方法注册的委托。
 		 *
-		 * @param token 委托的 id
+		 * @param token 传入由 Register 方法返回的 token.
 		 */
-		void Unregister(std::shared_ptr<base::IdToken> const &token);
+		void Unregister(std::shared_ptr<base::CancellationToken::IIdToken> const &token);
 	};
 } // namespace base
