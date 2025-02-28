@@ -16,7 +16,9 @@ namespace base
 	private:
 		std::chrono::nanoseconds _time_since_epoch{};
 
-	public: // 构造函数
+	public:
+		// 构造函数
+
 		/**
 		 * @brief 参构造。构造出来的时间刚好就是 epoch 时刻。
 		 *
