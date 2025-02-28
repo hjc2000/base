@@ -1,6 +1,9 @@
 #pragma once
+#include "base/stream/ReadOnlySpan.h"
 #include <base/stream/Stream.h>
+#include <cstdint>
 #include <memory>
+#include <string>
 
 namespace base
 {
@@ -95,11 +98,24 @@ namespace base
 		 * @note 关闭后对流的操作将会引发异常。
 		 */
 		virtual void Close() = 0;
+
+	public:
+		/**
+		 * @brief 向流中写入字符串。
+		 *
+		 * @param str
+		 */
+		void Write(std::string const &str);
+		void Write(char c);
+
+		void WriteLine(std::string const &str);
+		void WriteLine(char c);
+		void WriteLine();
 	};
 
 	namespace di
 	{
-		namespace filesystem
+		namespace file
 		{
 			/**
 			 * @brief 以只读方式打开文件。文件必须存在，否则会抛出异常。
@@ -130,6 +146,6 @@ namespace base
 			 * 创建失败会抛出异常，不会返回空指针。
 			 */
 			std::shared_ptr<base::IFileStream> CreateNewAnyway(std::string const &path);
-		} // namespace filesystem
+		} // namespace file
 	} // namespace di
 } // namespace base
