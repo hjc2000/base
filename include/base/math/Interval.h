@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 
 namespace base
 {
@@ -17,12 +18,25 @@ namespace base
 		T _right{};
 
 	public:
+		/**
+		 * @brief 构造函数
+		 *
+		 * @note 构造出来的区间左右端点是 T 类型的默认值。
+		 */
 		ClosedInterval() = default;
 
+		/**
+		 * @brief 构造函数。
+		 *
+		 * @note 如果区间右端点小于区间左端点，则会将 left 作为区间右端点。
+		 *
+		 * @param left 区间左端点。
+		 * @param right 区间右端点。
+		 */
 		ClosedInterval(T const &left, T const &right)
-			: _left(left),
-			  _right(right)
 		{
+			_left = left;
+			_right = std::max<T>(left, right);
 		}
 
 	public:
