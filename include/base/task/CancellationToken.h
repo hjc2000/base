@@ -57,12 +57,16 @@ namespace base
 		private:
 			friend class CancellationToken;
 			uint64_t const _id{};
+			bool _used = false;
 
 		private:
 			UnregisterToken(uint64_t id)
 				: _id(id)
 			{
 			}
+
+			UnregisterToken(UnregisterToken const &o) = delete;
+			UnregisterToken &operator=(UnregisterToken const &o) = delete;
 		};
 
 		/**
@@ -71,15 +75,16 @@ namespace base
 		 * @note 可以多次调用注册多个委托。
 		 *
 		 * @param func
-		 * @return uint64_t 返回一个 id，用来标识此次注册的委托。取消时可以用此 id 取消。
+		 * @return std::shared_ptr<base::CancellationToken::UnregisterToken> 取消注册令牌，可以用来取消注册通过
+		 * 本方法注册的委托。
 		 */
-		UnregisterToken Register(std::function<void(void)> const &func);
+		std::shared_ptr<base::CancellationToken::UnregisterToken> Register(std::function<void(void)> const &func);
 
 		/**
 		 * @brief 注销通过 Register 方法注册的委托。
 		 *
 		 * @param token 委托的 id
 		 */
-		void Unregister(UnregisterToken const &token);
+		void Unregister(std::shared_ptr<base::CancellationToken::UnregisterToken> const &token);
 	};
 } // namespace base

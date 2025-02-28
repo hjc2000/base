@@ -1,5 +1,7 @@
 #include "CancellationToken.h"
 #include "base/LockGuard.h"
+#include <base/string/define.h>
+#include <stdexcept>
 
 std::shared_ptr<base::CancellationToken> base::CancellationToken::_none_cancellation_token{new base::CancellationToken{}};
 
@@ -43,7 +45,7 @@ bool base::CancellationToken::IsCancellationRequested() const
 	return _is_cancellation_request;
 }
 
-base::CancellationToken::UnregisterToken base::CancellationToken::Register(std::function<void(void)> const &func)
+std::shared_ptr<base::CancellationToken::UnregisterToken> base::CancellationToken::Register(std::function<void(void)> const &func)
 {
 	if (this == None().get())
 	{
@@ -53,16 +55,27 @@ base::CancellationToken::UnregisterToken base::CancellationToken::Register(std::
 	base::LockGuard l{*_lock};
 	uint64_t current_id = _id++;
 	_delegates[current_id] = func;
-	return UnregisterToken{current_id};
+	return std::shared_ptr<base::CancellationToken::UnregisterToken>{new base::CancellationToken::UnregisterToken{current_id}};
 }
 
-void base::CancellationToken::Unregister(base::CancellationToken::UnregisterToken const &token)
+void base::CancellationToken::Unregister(std::shared_ptr<base::CancellationToken::UnregisterToken> const &token)
 {
 	if (this == None().get())
 	{
 		return;
 	}
 
+	if (token == nullptr)
+	{
+		throw std::invalid_argument{CODE_POS_STR + "禁止传入空指针。"};
+	}
+
 	base::LockGuard l{*_lock};
-	_delegates.erase(token._id);
+	if (token->_used)
+	{
+		return;
+	}
+
+	_delegates.erase(token->_id);
+	token->_used = true;
 }
