@@ -14,7 +14,7 @@ namespace base
 	{
 	private:
 		std::queue<T> _queue;
-		mutable std::shared_ptr<base::IMutex> _lock = base::di::CreateMutex();
+		mutable std::shared_ptr<base::IMutex> _lock = base::di::CreateIMutex();
 
 	public:
 		/// @brief 构造一个空的队列。

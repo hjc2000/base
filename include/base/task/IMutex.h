@@ -26,6 +26,6 @@ namespace base
 		 *
 		 * @return std::shared_ptr<base::IMutex>
 		 */
-		std::shared_ptr<base::IMutex> CreateMutex();
+		std::shared_ptr<base::IMutex> CreateIMutex();
 	} // namespace di
 } // namespace base

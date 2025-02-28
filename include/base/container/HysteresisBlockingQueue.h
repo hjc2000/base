@@ -35,7 +35,7 @@ namespace base
 
 		base::SafeQueue<T> _queue;
 
-		std::shared_ptr<base::IMutex> _lock = base::di::CreateMutex();
+		std::shared_ptr<base::IMutex> _lock = base::di::CreateIMutex();
 
 		/// @brief 队列被消费了，需要入队了，就触发此信号。
 		/// @note 因为依赖 _max ，所以在构造函数中初始化。

@@ -11,7 +11,7 @@ namespace base
 	class TaskCompletionSignal final
 	{
 	private:
-		std::shared_ptr<base::IMutex> _lock = base::di::CreateMutex();
+		std::shared_ptr<base::IMutex> _lock = base::di::CreateIMutex();
 		std::shared_ptr<base::ISemaphore> _task_completion_signal = nullptr;
 		std::atomic_bool _disposed = false;
 

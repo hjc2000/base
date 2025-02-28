@@ -20,7 +20,7 @@ namespace base
 		int32_t _max_count;
 		base::Queue<T> _queue;
 		std::atomic_bool _disposed = false;
-		std::shared_ptr<base::IMutex> _lock = base::di::CreateMutex();
+		std::shared_ptr<base::IMutex> _lock = base::di::CreateIMutex();
 		std::shared_ptr<base::ISemaphore> _data_avaliable_signal = base::di::CreateSemaphore(0);
 
 	public:
