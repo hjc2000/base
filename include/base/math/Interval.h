@@ -1,5 +1,8 @@
 #pragma once
 
+#include "base/string/define.h"
+#include <stdexcept>
+
 namespace base
 {
 	/**
@@ -21,6 +24,10 @@ namespace base
 			: _left(left),
 			  _right(right)
 		{
+			if (_right < _left)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "区间右端点不能小于区间左端点。"};
+			}
 		}
 
 	public:
