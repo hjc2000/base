@@ -1,14 +1,12 @@
 #pragma once
 #include <atomic>
 #include <base/define.h>
-#include <chrono>
 #include <functional>
 #include <map>
 #include <memory>
-#include <stdexcept>
 
 #if HAS_THREAD
-#include <mutex>
+	#include <mutex>
 #endif
 
 namespace base

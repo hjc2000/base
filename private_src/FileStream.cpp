@@ -2,7 +2,18 @@
 
 #if HAS_THREAD
 	#include <filesystem>
+	#include <format>
 	#include <iostream>
+
+base::FileStream::FileStream(std::string path)
+{
+	_path = path;
+}
+
+base::FileStream::~FileStream()
+{
+	Close();
+}
 
 std::shared_ptr<base::FileStream> base::FileStream::CreateNewAnyway(std::string path)
 {

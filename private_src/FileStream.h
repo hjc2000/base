@@ -12,11 +12,9 @@ namespace base
 		public base::IFileStream
 	{
 	private:
-		FileStream(std::string path)
-		{
-			_path = path;
-		}
+		FileStream(std::string path);
 
+	private:
 		std::string _path;
 		std::shared_ptr<std::fstream> _fs;
 		bool _can_read = false;
@@ -24,10 +22,7 @@ namespace base
 		bool _can_seek = false;
 
 	public:
-		~FileStream()
-		{
-			Close();
-		}
+		~FileStream();
 
 		/// @brief 用创建模式打开文件流，无论如何都会创建一个新的空白文件。会覆盖旧的。
 		/// @param path 文件路径
