@@ -1,7 +1,5 @@
 #pragma once
-
-#include "base/string/define.h"
-#include <stdexcept>
+#include <algorithm>
 
 namespace base
 {
@@ -21,13 +19,9 @@ namespace base
 		ClosedInterval() = default;
 
 		ClosedInterval(T const &left, T const &right)
-			: _left(left),
-			  _right(right)
 		{
-			if (_right < _left)
-			{
-				throw std::invalid_argument{CODE_POS_STR + "区间右端点不能小于区间左端点。"};
-			}
+			_left = left;
+			_right = std::max<T>(left, right);
 		}
 
 	public:
