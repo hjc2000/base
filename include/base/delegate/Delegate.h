@@ -18,9 +18,9 @@ namespace base
 		public base::IEvent<Args...>
 	{
 	private:
+		mutable std::shared_ptr<base::IMutex> _lock = base::di::CreateMutex();
 		std::map<uint64_t, std::function<void(Args...)>> _functions;
 		uint64_t _next_id = 0;
-		mutable std::shared_ptr<base::IMutex> _lock = base::di::CreateMutex();
 
 	private:
 		class IdToken :
