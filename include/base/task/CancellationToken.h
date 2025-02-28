@@ -1,13 +1,10 @@
 #pragma once
 #include <atomic>
 #include <base/define.h>
+#include <base/task/IMutex.h>
 #include <functional>
 #include <map>
 #include <memory>
-
-#if HAS_THREAD
-	#include <mutex>
-#endif
 
 namespace base
 {
@@ -21,12 +18,9 @@ namespace base
 	private:
 		CancellationToken() = default;
 
+	private:
 		friend class CancellationTokenSource;
-
-#if HAS_THREAD
-		std::mutex _lock;
-#endif
-
+		std::shared_ptr<base::IMutex> _lock = base::di::CreateMutex();
 		std::atomic_bool _is_cancellation_request = false;
 		std::map<uint64_t, std::function<void(void)>> _delegates;
 

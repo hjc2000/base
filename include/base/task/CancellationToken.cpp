@@ -1,4 +1,5 @@
 #include "CancellationToken.h"
+#include "base/LockGuard.h"
 
 using namespace std;
 using namespace base;
@@ -18,15 +19,13 @@ void CancellationToken::Cancel()
 		return;
 	}
 
-#if HAS_THREAD
-	std::lock_guard l(_lock);
+	base::LockGuard l{*_lock};
 
 	if (_is_cancellation_request)
 	{
 		// 竞争锁后再次确认
 		return;
 	}
-#endif
 
 	_is_cancellation_request = true;
 
@@ -54,10 +53,7 @@ uint64_t CancellationToken::Register(std::function<void(void)> func)
 		throw std::runtime_error{"不要对 None 调用 Register 方法"};
 	}
 
-#if HAS_THREAD
-	std::lock_guard l(_lock);
-#endif
-
+	base::LockGuard l{*_lock};
 	uint64_t current_id = _id++;
 	_delegates[current_id] = func;
 	return current_id;
@@ -70,9 +66,6 @@ void CancellationToken::Unregister(uint64_t id)
 		return;
 	}
 
-#if HAS_THREAD
-	std::lock_guard l(_lock);
-#endif
-
+	base::LockGuard l{*_lock};
 	_delegates.erase(id);
 }
