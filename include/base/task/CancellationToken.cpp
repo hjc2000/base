@@ -45,7 +45,7 @@ bool base::CancellationToken::IsCancellationRequested() const
 	return _is_cancellation_request;
 }
 
-std::shared_ptr<base::CancellationToken::IIdToken> base::CancellationToken::Register(std::function<void(void)> const &func)
+std::shared_ptr<base::IIdToken> base::CancellationToken::Register(std::function<void(void)> const &func)
 {
 	if (this == None().get())
 	{
@@ -55,10 +55,10 @@ std::shared_ptr<base::CancellationToken::IIdToken> base::CancellationToken::Regi
 	base::LockGuard l{*_lock};
 	uint64_t current_id = _id++;
 	_delegates[current_id] = func;
-	return std::shared_ptr<IdToken>{new IdToken{current_id}};
+	return std::shared_ptr<IdToken>{new IdToken{this, current_id}};
 }
 
-void base::CancellationToken::Unregister(std::shared_ptr<base::CancellationToken::IIdToken> const &token)
+void base::CancellationToken::Unregister(std::shared_ptr<base::IIdToken> const &token)
 {
 	if (this == None().get())
 	{
@@ -68,6 +68,11 @@ void base::CancellationToken::Unregister(std::shared_ptr<base::CancellationToken
 	if (token == nullptr)
 	{
 		throw std::invalid_argument{CODE_POS_STR + "禁止传入空指针。"};
+	}
+
+	if (token->Provider() != this)
+	{
+		throw std::invalid_argument{CODE_POS_STR + "传入了错误的 IIdToken，它不是本对象发放的。"};
 	}
 
 	base::LockGuard l{*_lock};

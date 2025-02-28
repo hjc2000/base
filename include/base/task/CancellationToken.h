@@ -1,6 +1,7 @@
 #pragma once
 #include <atomic>
 #include <base/define.h>
+#include <base/IIdToken.h>
 #include <base/task/IMutex.h>
 #include <cstdint>
 #include <functional>
@@ -11,7 +12,6 @@ namespace base
 {
 	class CancellationTokenSource;
 	class CancellationToken;
-	class IdToken;
 
 	/**
 	 * @brief 取消令牌
@@ -49,30 +49,27 @@ namespace base
 		 */
 		bool IsCancellationRequested() const;
 
-	public:
-		class IIdToken
-		{
-		public:
-			virtual uint64_t ID() const = 0;
-		};
-
 	private:
 		class IdToken :
-			public IIdToken
+			public base::IIdToken
 		{
 		private:
-			uint64_t const _id{};
+			void *_id_provider = nullptr;
+			uint64_t _id = 0;
 
 		public:
-			IdToken(uint64_t id)
-				: _id(id)
+			IdToken(void *id_provider, uint64_t id)
+				: _id_provider(id_provider),
+				  _id(id)
 			{
 			}
 
-			IdToken(IdToken const &o) = delete;
-			IdToken &operator=(IdToken const &o) = delete;
-
 		public:
+			virtual void *Provider() const override
+			{
+				return _id_provider;
+			}
+
 			virtual uint64_t ID() const override
 			{
 				return _id;
@@ -88,13 +85,13 @@ namespace base
 		 * @param func
 		 * @return std::shared_ptr<base::IdToken> 用来取消注册委托的 token.
 		 */
-		std::shared_ptr<base::CancellationToken::IIdToken> Register(std::function<void(void)> const &func);
+		std::shared_ptr<base::IIdToken> Register(std::function<void(void)> const &func);
 
 		/**
 		 * @brief 注销通过 Register 方法注册的委托。
 		 *
 		 * @param token 传入由 Register 方法返回的 token.
 		 */
-		void Unregister(std::shared_ptr<base::CancellationToken::IIdToken> const &token);
+		void Unregister(std::shared_ptr<base::IIdToken> const &token);
 	};
 } // namespace base

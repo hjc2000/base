@@ -1,4 +1,5 @@
 #pragma once
+#include "base/string/define.h"
 #include <base/delegate/IEvent.h>
 #include <base/task/IMutex.h>
 #include <cstdint>
@@ -23,21 +24,25 @@ namespace base
 
 	private:
 		class IdToken :
-			public base::IEvent<Args...>::IIdToken
+			public base::IIdToken
 		{
 		private:
-			uint64_t const _id{};
+			void *_id_provider = nullptr;
+			uint64_t _id = 0;
 
 		public:
-			IdToken(uint64_t id)
-				: _id(id)
+			IdToken(void *id_provider, uint64_t id)
+				: _id_provider(id_provider),
+				  _id(id)
 			{
 			}
 
-			IdToken(IdToken const &o) = delete;
-			IdToken &operator=(IdToken const &o) = delete;
-
 		public:
+			virtual void *Provider() const override
+			{
+				return _id_provider;
+			}
+
 			virtual uint64_t ID() const override
 			{
 				return _id;
@@ -51,12 +56,12 @@ namespace base
 		 * @param func
 		 * @return std::shared_ptr<base::IIdToken> 用来取消订阅的 token.
 		 */
-		virtual std::shared_ptr<typename base::IEvent<Args...>::IIdToken> Subscribe(std::function<void(Args...)> const &func) override
+		virtual std::shared_ptr<base::IIdToken> Subscribe(std::function<void(Args...)> const &func) override
 		{
 			base::LockGuard g{*_lock};
 			uint64_t id = _next_id++;
 			_functions[id] = func;
-			return std::shared_ptr<IdToken>{new IdToken{id}};
+			return std::shared_ptr<IdToken>{new IdToken{this, id}};
 		}
 
 		/**
@@ -64,8 +69,18 @@ namespace base
 		 *
 		 * @param token 传入由 Subscribe 方法返回的 token.
 		 */
-		virtual void Unsubscribe(std::shared_ptr<typename base::IEvent<Args...>::IIdToken> const &token) override
+		virtual void Unsubscribe(std::shared_ptr<typename base::IIdToken> const &token) override
 		{
+			if (token == nullptr)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "禁止传入空指针。"};
+			}
+
+			if (token->Provider() != this)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "传入了错误的 IIdToken，它不是本对象发放的。"};
+			}
+
 			base::LockGuard g{*_lock};
 			auto it = _functions.find(token->ID());
 			if (it != _functions.end())
