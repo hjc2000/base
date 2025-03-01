@@ -85,3 +85,24 @@ void base::StreamWriter::WriteLine()
 {
 	Write('\n');
 }
+
+void base::StreamWriter::Write(base::ICanToString const &o)
+{
+	Write(o.ToString());
+}
+
+void base::StreamWriter::WriteLine(base::ICanToString const &o)
+{
+	WriteLine(o.ToString());
+}
+
+void base::StreamWriter::Write(base::ReadOnlySpan const &span)
+{
+	_stream->Write(span);
+}
+
+void base::StreamWriter::WriteLine(base::ReadOnlySpan const &span)
+{
+	_stream->Write(span);
+	WriteLine();
+}
