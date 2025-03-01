@@ -1,3 +1,4 @@
+#include "include/base/stream/StreamWriter.h"
 #include <base/bit/BitConverter.h>
 #include <base/container/Array.h>
 #include <base/container/Dictionary.h>
@@ -10,6 +11,7 @@
 #include <base/sfinae/Equal.h>
 #include <base/stream/IFileStream.h>
 #include <base/stream/MemoryStream.h>
+#include <base/stream/StreamWriter.h>
 #include <base/string/Parse.h>
 #include <base/string/String.h>
 #include <base/string/ToHexString.h>
@@ -55,8 +57,9 @@ int main()
 	// base::test::test_parse_double();
 
 	{
-		auto fs = base::di::file::CreateNewAnyway("math.txt");
-		auto random_generator = base::di::CreateRandomGenerator();
+		std::shared_ptr<base::IFileStream> fs = base::di::file::CreateNewAnyway("math.txt");
+		base::StreamWriter writer{fs};
+		std::shared_ptr<base::IRandomGenerator> random_generator = base::di::CreateRandomGenerator();
 		int count = 0;
 		while (count <= 100)
 		{
@@ -99,8 +102,8 @@ int main()
 
 			equ += std::to_string(sum);
 			std::cout << equ << std::endl;
-			fs->WriteLine(equ);
-			fs->WriteLine();
+			writer.WriteLine(equ);
+			writer.WriteLine();
 			count++;
 		}
 	}

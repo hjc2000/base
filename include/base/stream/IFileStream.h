@@ -98,19 +98,6 @@ namespace base
 		 * @note 关闭后对流的操作将会引发异常。
 		 */
 		virtual void Close() = 0;
-
-	public:
-		/**
-		 * @brief 向流中写入字符串。
-		 *
-		 * @param str
-		 */
-		void Write(std::string const &str);
-		void Write(char c);
-
-		void WriteLine(std::string const &str);
-		void WriteLine(char c);
-		void WriteLine();
 	};
 
 	namespace di
