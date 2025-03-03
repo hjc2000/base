@@ -1,5 +1,10 @@
 #include "C4.h"
 
+int32_t base::C4::Factor() const
+{
+	return 10000;
+}
+
 base::C4::C4(base::ReadOnlySpan const &value)
 {
 	Span().CopyFrom(value);
@@ -14,11 +19,6 @@ base::C4::C4(base::Fraction const &value)
 
 	// 得到整型后要转换为大端序。
 	_converter.GetBytes(result, Span());
-}
-
-int32_t base::C4::Factor() const
-{
-	return 10000;
 }
 
 base::Span base::C4::Span()

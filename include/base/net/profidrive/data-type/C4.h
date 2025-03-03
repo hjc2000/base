@@ -25,6 +25,8 @@ namespace base
 		 */
 		base::AutoBitConverter _converter{std::endian::big};
 
+		int32_t Factor() const;
+
 	public:
 		/**
 		 * @brief 无参构造函数。
@@ -47,8 +49,6 @@ namespace base
 		C4(base::Fraction const &value);
 
 	public:
-		int32_t Factor() const;
-
 		/**
 		 * @brief 获取可以直接被用来发送的字节序列。已经是大端序了。
 		 *
