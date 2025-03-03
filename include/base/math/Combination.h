@@ -20,6 +20,12 @@ namespace base
 		std::vector<int> _current_combination;
 
 	public:
+		/**
+		 * @brief 组合。从 n 个里面选出任意 m 个进行组合。
+		 *
+		 * @param n
+		 * @param m
+		 */
 		Combination(int n, int m);
 
 	public:
