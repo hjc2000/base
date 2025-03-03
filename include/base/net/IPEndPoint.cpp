@@ -6,18 +6,6 @@ base::IPEndPoint::IPEndPoint(base::IPAddress const &ip, uint16_t port)
 	_port = port;
 }
 
-base::IPEndPoint::IPEndPoint(IPEndPoint const &o)
-{
-	*this = o;
-}
-
-base::IPEndPoint &base::IPEndPoint::operator=(IPEndPoint const &o)
-{
-	_ip_address = o._ip_address;
-	_port = o._port;
-	return *this;
-}
-
 base::EndPointFamily base::IPEndPoint::Family() const
 {
 	if (_ip_address.Type() == base::IPAddressType::IPV4)
