@@ -22,8 +22,19 @@ namespace base
 		Combination(int n, int m);
 
 	public:
+		/**
+		 * @brief 当前组合。
+		 *
+		 * @return std::vector<int> const&
+		 */
 		std::vector<int> const &Current() const;
 
+		/**
+		 * @brief 移动到下一个组合。
+		 *
+		 * @return true
+		 * @return false
+		 */
 		bool MoveToNext();
 
 		/**
