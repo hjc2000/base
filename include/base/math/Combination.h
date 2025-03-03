@@ -38,6 +38,11 @@ namespace base
 		 */
 		bool MoveToNext();
 
+		/**
+		 * @brief 一共有多少种组合。
+		 *
+		 * @return int64_t
+		 */
 		int64_t Count() const;
 
 		/**
