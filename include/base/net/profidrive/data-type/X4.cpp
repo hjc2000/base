@@ -1,21 +1,43 @@
 #include "X4.h"
 
-base::X4::X4(base::ReadOnlySpan const &value)
-{
-	From(value);
-}
-
-base::X4::X4(base::Fraction const &value)
-{
-	From(value);
-}
-
 int32_t base::X4::Factor() const
 {
 	return static_cast<int64_t>(1 << 28);
 }
 
+base::X4::X4(base::ReadOnlySpan const &value)
+{
+	Span().CopyFrom(value);
+}
+
+base::X4::X4(base::Fraction const &value)
+{
+	/* 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
+	 * 放大后截断为整型。
+	 */
+	int32_t result = static_cast<int32_t>(value * Factor());
+
+	// 得到整型后要转换为大端序。
+	_converter.GetBytes(result, Span());
+}
+
 base::Span base::X4::Span()
 {
 	return _buffer.AsArraySpan();
+}
+
+base::ReadOnlySpan base::X4::Span() const
+{
+	return const_cast<X4 *>(this)->Span();
+}
+
+base::X4::operator base::Fraction() const
+{
+	/* 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
+	 * 放大后截断为整型。
+	 *
+	 * 想要获得分数的实际值，就将这个整型除以 Factor.
+	 */
+	int32_t value = _converter.ToInt32(Span());
+	return value * base::Fraction{value, Factor()};
 }

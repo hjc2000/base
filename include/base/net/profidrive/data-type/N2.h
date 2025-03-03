@@ -1,6 +1,8 @@
 #pragma once
+#include "base/bit/AutoBitConverter.h"
+#include "base/math/Fraction.h"
+#include "base/stream/ReadOnlySpan.h"
 #include <base/container/Array.h>
-#include <base/net/profidrive/data-type/IProfidriveNumber.h>
 
 namespace base
 {
@@ -8,8 +10,7 @@ namespace base
 	 * @brief profidrive 行规特定类型: N2.
 	 *
 	 */
-	class N2 final :
-		public base::IProfidriveNumber
+	class N2 final
 	{
 	private:
 		/**
@@ -18,7 +19,24 @@ namespace base
 		 */
 		base::Array<uint8_t, 2> _buffer{};
 
+		/**
+		 * @brief 自适应转换器。
+		 * @note 将远程字节序设置为大端序后，在转换时能够根据本机字节序决定是否翻转。
+		 */
+		base::AutoBitConverter _converter{std::endian::big};
+
+		/**
+		 * @brief 系数。
+		 *
+		 * @return int32_t
+		 */
+		int32_t Factor() const;
+
 	public:
+		/**
+		 * @brief 无参构造函数。
+		 *
+		 */
 		N2() = default;
 
 		/**
@@ -36,13 +54,25 @@ namespace base
 		N2(base::Fraction const &value);
 
 	public:
-		virtual int32_t Factor() const override;
-
 		/**
 		 * @brief 获取可以直接被用来发送的字节序列。已经是大端序了。
 		 *
 		 * @return base::Span
 		 */
-		virtual base::Span Span() override;
+		base::Span Span();
+
+		/**
+		 * @brief 获取可以直接被用来发送的字节序列。已经是大端序了。
+		 *
+		 * @return base::ReadOnlySpan
+		 */
+		base::ReadOnlySpan Span() const;
+
+		/**
+		 * @brief 强制转换为分数类型。
+		 *
+		 * @return base::Fraction
+		 */
+		explicit operator base::Fraction() const;
 	};
 } // namespace base

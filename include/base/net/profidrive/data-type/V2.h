@@ -21,6 +21,8 @@ namespace base
 		base::AutoBitConverter _converter{std::endian::big};
 
 	public:
+		V2() = default;
+
 		/**
 		 * @brief 从大端序的字节序列中构造。
 		 *

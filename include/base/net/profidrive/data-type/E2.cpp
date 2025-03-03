@@ -1,23 +1,37 @@
-#include "IProfidriveNumber.h"
-#include <cstdint>
+#include "E2.h"
 
-void base::IProfidriveNumber::From(base::ReadOnlySpan const &span)
+int32_t base::E2::Factor() const
 {
-	Span().CopyFrom(span);
+	return static_cast<int64_t>(1 << 7);
 }
 
-void base::IProfidriveNumber::From(base::Fraction const &value)
+base::E2::E2(base::ReadOnlySpan const &value)
+{
+	Span().CopyFrom(value);
+}
+
+base::E2::E2(base::Fraction const &value)
 {
 	/* 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
 	 * 放大后截断为整型。
 	 */
-	int32_t result = static_cast<int32_t>(value * Factor());
+	int16_t result = static_cast<int16_t>(value * Factor());
 
 	// 得到整型后要转换为大端序。
 	_converter.GetBytes(result, Span());
 }
 
-base::IProfidriveNumber::operator base::Fraction() const
+base::Span base::E2::Span()
+{
+	return _buffer.AsArraySpan();
+}
+
+base::ReadOnlySpan base::E2::Span() const
+{
+	return const_cast<E2 *>(this)->Span();
+}
+
+base::E2::operator base::Fraction() const
 {
 	/* 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
 	 * 放大后截断为整型。
@@ -25,6 +39,6 @@ base::IProfidriveNumber::operator base::Fraction() const
 	 * 想要获得分数的实际值，就将这个整型除以 Factor.
 	 */
 
-	int32_t value = _converter.ToInt32(Span());
+	int16_t value = _converter.ToInt16(Span());
 	return value * base::Fraction{value, Factor()};
 }

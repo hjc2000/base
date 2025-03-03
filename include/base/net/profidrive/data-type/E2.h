@@ -1,23 +1,22 @@
 #pragma once
 #include "base/bit/AutoBitConverter.h"
 #include "base/math/Fraction.h"
-#include "base/stream/ReadOnlySpan.h"
 #include <base/container/Array.h>
 
 namespace base
 {
 	/**
-	 * @brief profidrive 行规特定类型: N4.
+	 * @brief profidrive 行规特定类型: E2.
 	 *
 	 */
-	class N4 final
+	class E2
 	{
 	private:
 		/**
-		 * @brief N4 字节序列。
+		 * @brief E2 字节序列。
 		 * @note 储存到这里的必须是是大端序，可以直接发送。
 		 */
-		base::Array<uint8_t, 4> _buffer{};
+		base::Array<uint8_t, 2> _buffer{};
 
 		/**
 		 * @brief 自适应转换器。
@@ -37,21 +36,21 @@ namespace base
 		 * @brief 无参构造函数。
 		 *
 		 */
-		N4() = default;
+		E2() = default;
 
 		/**
 		 * @brief 从 profinet 收到大端序的数据后原封不动地将字节序列传进来。
 		 *
 		 * @param value
 		 */
-		N4(base::ReadOnlySpan const &value);
+		E2(base::ReadOnlySpan const &value);
 
 		/**
 		 * @brief 通过实际的分数值构造行规特定数据类型。
 		 *
 		 * @param value
 		 */
-		N4(base::Fraction const &value);
+		E2(base::Fraction const &value);
 
 	public:
 		/**
