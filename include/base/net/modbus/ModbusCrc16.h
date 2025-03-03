@@ -6,7 +6,10 @@
 
 namespace base
 {
-	/// @brief modbus CRC16 校验器。
+	/**
+	 * @brief modbus CRC16 校验器。
+	 *
+	 */
 	class ModbusCrc16 final
 	{
 	private:
@@ -32,15 +35,25 @@ namespace base
 		uint16_t _polynomial = 0xA001;
 
 	public:
-		/// @brief 生成多项式使用 0xA001。
+		/**
+		 * @brief 生成多项式使用 0xA001。
+		 *
+		 */
 		ModbusCrc16() = default;
 
-		/// @brief 自定义生成多项式。
-		/// @param polynomial
+		/**
+		 * @brief 自定义生成多项式。
+		 *
+		 * @param polynomial
+		 */
 		ModbusCrc16(uint16_t polynomial);
 
-		/// @brief 添加一个数进行计算。
-		/// @param data
+	public:
+		/**
+		 * @brief 添加一个数进行计算。
+		 *
+		 * @param data
+		 */
 		void Add(uint8_t data);
 
 		template <size_t length>
@@ -55,17 +68,36 @@ namespace base
 		void Add(std::vector<uint8_t> const &datas);
 		void Add(base::IEnumerable<uint8_t> const &datas);
 
-		/// @brief 重置 CRC16 寄存器。
-		/// @warning 在开始新的一轮 CRC 校验前需要调用本方法重置 CRC16 寄存器，否则本轮添加的
-		/// 数据会和上一轮的混在一起，继续往 CRC16 寄存器中叠加。
-		/// @note 如果每轮校验都重新构造一个新的本类对象，则无需调用本方法。
+	public:
+		/**
+		 * @brief 重置 CRC16 寄存器。
+		 *
+		 * @warning 在开始新的一轮 CRC 校验前需要调用本方法重置 CRC16 寄存器，否则本轮添加的
+		 * 数据会和上一轮的混在一起，继续往 CRC16 寄存器中叠加。
+		 *
+		 * @note 如果每轮校验都重新构造一个新的本类对象，则无需调用本方法。
+		 */
 		void ResetRegister();
 
-		/// @brief CRC16 寄存器的值。
-		/// @return
+		/**
+		 * @brief CRC16 寄存器的值。
+		 *
+		 * @return uint16_t
+		 */
 		uint16_t RegisterValue();
 
+		/**
+		 * @brief CRC16 寄存器高字节。
+		 *
+		 * @return uint8_t
+		 */
 		uint8_t RegisterValueHighByte();
+
+		/**
+		 * @brief CRC16 寄存器低字节。
+		 *
+		 * @return uint8_t
+		 */
 		uint8_t RegisterValueLowByte();
 	};
 } // namespace base
