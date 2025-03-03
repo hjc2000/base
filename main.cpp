@@ -1,8 +1,10 @@
+#include "include/base/math/Combination.h"
 #include "include/base/stream/StreamWriter.h"
 #include <base/bit/BitConverter.h>
 #include <base/container/Array.h>
 #include <base/container/Dictionary.h>
 #include <base/container/List.h>
+#include <base/math/Combination.h>
 #include <base/math/IRandomGenerator.h>
 #include <base/math/Pow.h>
 #include <base/net/IPAddress.h>
@@ -57,54 +59,75 @@ int main()
 	// base::test::test_parse_double();
 
 	{
-		std::shared_ptr<base::IFileStream> fs = base::di::file::CreateNewAnyway("math.txt");
-		base::StreamWriter writer{fs};
-		std::shared_ptr<base::IRandomGenerator> random_generator = base::di::CreateRandomGenerator();
-		int count = 0;
-		while (count <= 100)
+		// std::shared_ptr<base::IFileStream> fs = base::di::file::CreateNewAnyway("math.txt");
+		// base::StreamWriter writer{fs};
+		// std::shared_ptr<base::IRandomGenerator> random_generator = base::di::CreateRandomGenerator();
+		// int count = 0;
+		// while (count <= 100)
+		// {
+		// 	int left = random_generator->GenerateUInt8Random(2, 20);
+		// 	int right = random_generator->GenerateUInt8Random(2, 20);
+		// 	int op = random_generator->GenerateUInt8Random(0, 1);
+		// 	char op_char = '+';
+		// 	if (op)
+		// 	{
+		// 		op_char = '-';
+		// 	}
+
+		// 	int sum = 0;
+		// 	if (op == 0)
+		// 	{
+		// 		sum = left + right;
+		// 	}
+		// 	else
+		// 	{
+		// 		sum = left - right;
+		// 	}
+
+		// 	if (left == right && op == 1)
+		// 	{
+		// 		continue;
+		// 	}
+
+		// 	if (sum < 0 || sum > 99)
+		// 	{
+		// 		continue;
+		// 	}
+
+		// 	std::string equ = std::format("{} {} {} =",
+		// 								  left, op_char, right);
+
+		// 	while (equ.size() < 35)
+		// 	{
+		// 		equ += ' ';
+		// 	}
+
+		// 	equ += std::to_string(sum);
+		// 	std::cout << equ << std::endl;
+		// 	writer.WriteLine(equ);
+		// 	writer.WriteLine();
+		// 	count++;
+		// }
+	}
+
+	{
+		int i = 0;
+
+		/* C(10,3)
+		 * = 10! / ((10-3)! * 3!)
+		 * = 10! / (7! * 3!)
+		 * = (10 * 9 * 8) / 3!
+		 * = 10 * 9 * 8 / 6
+		 * = 10 * 3 * 8 / 2
+		 * = 10 * 3 * 4
+		 */
+		base::Combination c{10, 3};
+		while (c.MoveToNext())
 		{
-			int left = random_generator->GenerateUInt8Random(2, 20);
-			int right = random_generator->GenerateUInt8Random(2, 20);
-			int op = random_generator->GenerateUInt8Random(0, 1);
-			char op_char = '+';
-			if (op)
-			{
-				op_char = '-';
-			}
-
-			int sum = 0;
-			if (op == 0)
-			{
-				sum = left + right;
-			}
-			else
-			{
-				sum = left - right;
-			}
-
-			if (left == right && op == 1)
-			{
-				continue;
-			}
-
-			if (sum < 0 || sum > 99)
-			{
-				continue;
-			}
-
-			std::string equ = std::format("{} {} {} =",
-										  left, op_char, right);
-
-			while (equ.size() < 35)
-			{
-				equ += ' ';
-			}
-
-			equ += std::to_string(sum);
-			std::cout << equ << std::endl;
-			writer.WriteLine(equ);
-			writer.WriteLine();
-			count++;
+			i++;
+			std::cout << c << std::endl;
 		}
+
+		std::cout << "一共有 " << i << " 种情况。" << std::endl;
 	}
 }

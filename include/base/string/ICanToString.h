@@ -18,6 +18,7 @@ namespace base
 		 */
 		virtual std::string ToString() const = 0;
 
+	public:
 		/**
 		 * @brief 重载强制转换为字符串的运算符。
 		 *
