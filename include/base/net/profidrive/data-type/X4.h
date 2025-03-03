@@ -18,26 +18,20 @@ namespace base
 
 		/// @brief 从 profinet 收到大端序的数据后原封不动地将字节序列传进来。
 		/// @param value
-		X4(base::ReadOnlySpan const &value)
-		{
-			From(value);
-		}
+		X4(base::ReadOnlySpan const &value);
 
-		X4(base::Fraction const &value)
-		{
-			From(value);
-		}
+		/**
+		 * @brief 通过实际的分数值构造行规特定数据类型。
+		 *
+		 * @param value
+		 */
+		X4(base::Fraction const &value);
 
-		virtual int32_t Factor() const override
-		{
-			return static_cast<int64_t>(1 << 28);
-		}
+	public:
+		virtual int32_t Factor() const override;
 
 		/// @brief 获取可以直接被用来发送的字节序列。已经是大端序了。
 		/// @return
-		virtual base::Span Span() override
-		{
-			return _buffer.AsArraySpan();
-		}
+		virtual base::Span Span() override;
 	};
 } // namespace base

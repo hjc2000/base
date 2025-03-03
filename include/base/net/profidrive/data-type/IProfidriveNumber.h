@@ -15,20 +15,36 @@ namespace base
 	public:
 		virtual int32_t Factor() const = 0;
 
-		/// @brief 获取可以直接被用来发送的字节序列。已经是大端序了。
-		/// @return
+		/**
+		 * @brief 获取可以直接被用来发送的字节序列。已经是大端序了。
+		 *
+		 * @return base::Span
+		 */
 		virtual base::Span Span() = 0;
 
-		/// @brief 获取可以直接被用来发送的字节序列。已经是大端序了。
-		/// @return
+	public:
+		/**
+		 * @brief 获取可以直接被用来发送的字节序列。已经是大端序了。
+		 *
+		 * @return base::ReadOnlySpan
+		 */
 		base::ReadOnlySpan Span() const
 		{
 			return const_cast<IProfidriveNumber *>(this)->Span();
 		}
 
-		/// @brief
-		/// @param span 从 profinet 收到大端序的数据后原封不动地将字节序列传进来。
+		/**
+		 * @brief 从 profinet 收到大端序的数据后原封不动地将字节序列传进来。
+		 *
+		 * @param span
+		 */
 		void From(base::ReadOnlySpan const &span);
+
+		/**
+		 * @brief 通过实际的分数值构造行规特定数据类型。
+		 *
+		 * @param value
+		 */
 		void From(base::Fraction const &value);
 
 		/// @brief 强制转换为分数类型。
