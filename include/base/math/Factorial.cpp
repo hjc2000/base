@@ -1,7 +1,7 @@
 #include "Factorial.h"
 #include <stdexcept>
 
-int64_t base::Factorial(int64_t num)
+base::BigInteger base::Factorial(base::BigInteger num)
 {
 	if (num < 0)
 	{

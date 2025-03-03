@@ -1,8 +1,14 @@
 #pragma once
+#include <base/math/BigInteger.h>
 #include <base/string/define.h>
-#include <cstdint>
 
 namespace base
 {
-	int64_t Factorial(int64_t num);
+	/**
+	 * @brief 阶乘。
+	 *
+	 * @param num
+	 * @return base::BigInteger
+	 */
+	base::BigInteger Factorial(base::BigInteger num);
 } // namespace base

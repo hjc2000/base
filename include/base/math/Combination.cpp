@@ -70,9 +70,11 @@ bool base::Combination::MoveToNext()
 
 int64_t base::Combination::Count() const
 {
-	return base::Factorial(_n) /
-		   base::Factorial(_n - _m) /
-		   base::Factorial(_m);
+	base::BigInteger result = base::Factorial(_n) /
+							  base::Factorial(_n - _m) /
+							  base::Factorial(_m);
+
+	return static_cast<int64_t>(result);
 }
 
 std::string base::Combination::ToString() const
