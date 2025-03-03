@@ -1,3 +1,4 @@
+#include "base/string/define.h"
 #include "include/base/math/Combination.h"
 #include "include/base/stream/StreamWriter.h"
 #include <base/bit/BitConverter.h>
@@ -24,6 +25,7 @@
 #include <base/unit/Hz.h>
 #include <format>
 #include <iostream>
+#include <stdexcept>
 #include <string>
 
 int main()
@@ -128,6 +130,10 @@ int main()
 			std::cout << c << std::endl;
 		}
 
-		std::cout << "一共有 " << i << " 种情况。" << std::endl;
+		std::cout << "一共有 " << c.Count() << " 种情况。" << std::endl;
+		if (i != c.Count())
+		{
+			throw std::runtime_error{CODE_POS_STR + "列出的组合是错的。"};
+		}
 	}
 }

@@ -1,5 +1,7 @@
 #include "Combination.h"
 #include "base/string/define.h"
+#include <base/math/Factorial.h>
+#include <cstdint>
 #include <stdexcept>
 
 base::Combination::Combination(int n, int m)
@@ -64,6 +66,13 @@ bool base::Combination::MoveToNext()
 	}
 
 	return true;
+}
+
+int64_t base::Combination::Count() const
+{
+	return base::Factorial(_n) /
+		   base::Factorial(_n - _m) /
+		   base::Factorial(_m);
 }
 
 std::string base::Combination::ToString() const

@@ -1,5 +1,6 @@
 #pragma once
 #include <base/string/ICanToString.h>
+#include <cstdint>
 #include <string>
 #include <vector>
 
@@ -36,6 +37,8 @@ namespace base
 		 * @return false
 		 */
 		bool MoveToNext();
+
+		int64_t Count() const;
 
 		/**
 		 * @brief 转化为字符串
