@@ -18,5 +18,11 @@ base::BigInteger base::Factorial(base::BigInteger num)
 		return 1;
 	}
 
-	return num * Factorial(num - 1);
+	base::BigInteger result = 1;
+	for (base::BigInteger i = 1; i <= num; i++)
+	{
+		result *= i;
+	}
+
+	return result;
 }
