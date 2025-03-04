@@ -1,4 +1,5 @@
 #pragma once
+#include "base/container/iterator/IEnumerable.h"
 #include <algorithm>
 #include <base/container/IList.h>
 #include <base/container/IRawArray.h>
@@ -249,6 +250,8 @@ namespace base
 		{
 			return _vector == another._vector;
 		}
+
+		using IEnumerable<ItemType>::GetEnumerator;
 
 		virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() override
 		{

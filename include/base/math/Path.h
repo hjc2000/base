@@ -1,8 +1,10 @@
 #pragma once
+#include "base/container/iterator/IEnumerable.h"
 #include <base/container/List.h>
 #include <base/string/ICanToString.h>
 #include <cstdint>
 #include <initializer_list>
+#include <memory>
 #include <string>
 
 namespace base
@@ -14,7 +16,8 @@ namespace base
 		 *
 		 */
 		class Path :
-			public base::ICanToString
+			public base::ICanToString,
+			public base::IEnumerable<std::string const>
 		{
 		private:
 			base::List<std::string> _points;
@@ -105,6 +108,16 @@ namespace base
 			 * @return std::string
 			 */
 			virtual std::string ToString() const override;
+
+			/**
+			 * @brief 获取非 const 迭代器
+			 *
+			 * @return std::shared_ptr<base::IEnumerator<ItemType>>
+			 */
+			virtual std::shared_ptr<base::IEnumerator<std::string const>> GetEnumerator() override
+			{
+				return const_cast<base::math::Path const &>(*this)._points.GetEnumerator();
+			}
 		};
 
 #if HAS_THREAD
