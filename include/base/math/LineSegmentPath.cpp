@@ -43,3 +43,13 @@ bool base::LineSegmentPath::AddPoint(std::string const &point)
 	_points.Add(point);
 	return true;
 }
+
+bool base::LineSegmentPath::RemovePoint(std::string const &point)
+{
+	return _points.Remove(point);
+}
+
+bool base::LineSegmentPath::ContainsPoint(std::string const &point) const
+{
+	return _points.Contains(point);
+}

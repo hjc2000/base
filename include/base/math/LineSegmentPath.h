@@ -47,5 +47,23 @@ namespace base
 		 * @return false 路径中已经有该点了，添加失败。
 		 */
 		bool AddPoint(std::string const &point);
+
+		/**
+		 * @brief 移除点。
+		 *
+		 * @param point
+		 * @return true 路径中有该点，移除成功。
+		 * @return false 路径中没有该点，移除失败。
+		 */
+		bool RemovePoint(std::string const &point);
+
+		/**
+		 * @brief 路径中是否含有该点。
+		 *
+		 * @param point
+		 * @return true 含有该点。
+		 * @return false 不含该点。
+		 */
+		bool ContainsPoint(std::string const &point) const;
 	};
 } // namespace base
