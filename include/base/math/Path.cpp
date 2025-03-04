@@ -1,24 +1,23 @@
 #include "Path.h"
 #include <cstdint>
-#include <string>
 
-base::math::Path::Path(base::List<std::string> const &points)
+base::math::Path::Path(base::List<Point> const &points)
 {
-	for (std::string const &point : points)
+	for (Point const &point : points)
 	{
 		AddPoint(point);
 	}
 }
 
-base::math::Path::Path(std::initializer_list<std::string> const &points)
+base::math::Path::Path(std::initializer_list<Point> const &points)
 {
-	for (std::string const &point : points)
+	for (Point const &point : points)
 	{
 		AddPoint(point);
 	}
 }
 
-base::List<std::string> const &base::math::Path::Points() const
+base::List<base::math::Point> const &base::math::Path::Points() const
 {
 	return _points;
 }
@@ -28,7 +27,7 @@ int32_t base::math::Path::PointsCount() const
 	return _points.Count();
 }
 
-bool base::math::Path::AddPoint(std::string const &point)
+bool base::math::Path::AddPoint(Point const &point)
 {
 	if (_points.Contains(point))
 	{
@@ -39,12 +38,12 @@ bool base::math::Path::AddPoint(std::string const &point)
 	return true;
 }
 
-bool base::math::Path::RemovePoint(std::string const &point)
+bool base::math::Path::RemovePoint(Point const &point)
 {
 	return _points.Remove(point);
 }
 
-bool base::math::Path::ContainsPoint(std::string const &point) const
+bool base::math::Path::ContainsPoint(Point const &point) const
 {
 	return _points.Contains(point);
 }
@@ -52,7 +51,7 @@ bool base::math::Path::ContainsPoint(std::string const &point) const
 base::math::Path base::math::Path::IntersectionPoints(base::math::Path const &another_path) const
 {
 	base::math::Path ret;
-	for (std::string const &point : _points)
+	for (Point const &point : _points)
 	{
 		if (another_path.Points().Contains(point))
 		{
@@ -70,7 +69,7 @@ base::math::Path base::math::Path::operator&(base::math::Path const &another_pat
 
 std::string base::math::Path::ToString() const
 {
-	std::string ret;
+	Point ret;
 	for (int32_t i = 0; i < _points.Count(); i++)
 	{
 		ret += _points[i];
@@ -83,7 +82,7 @@ std::string base::math::Path::ToString() const
 	return ret;
 }
 
-std::shared_ptr<base::IEnumerator<std::string const>> base::math::Path::GetEnumerator()
+std::shared_ptr<base::IEnumerator<base::math::Point const>> base::math::Path::GetEnumerator()
 {
 	return const_cast<base::math::Path const &>(*this)._points.GetEnumerator();
 }

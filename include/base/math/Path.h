@@ -11,16 +11,18 @@ namespace base
 {
 	namespace math
 	{
+		using Point = std::string;
+
 		/**
 		 * @brief 路径。
 		 *
 		 */
 		class Path :
 			public base::ICanToString,
-			public base::IEnumerable<std::string const>
+			public base::IEnumerable<Point const>
 		{
 		private:
-			base::List<std::string> _points;
+			base::List<Point> _points;
 
 		public:
 			/**
@@ -34,22 +36,22 @@ namespace base
 			 *
 			 * @param points 这条路径上有哪些点。
 			 */
-			Path(base::List<std::string> const &points);
+			Path(base::List<Point> const &points);
 
 			/**
 			 * @brief 构造一条路径。
 			 *
 			 * @param points 这条路径上有哪些点。
 			 */
-			Path(std::initializer_list<std::string> const &points);
+			Path(std::initializer_list<Point> const &points);
 
 		public:
 			/**
 			 * @brief 获取本路径中的点。
 			 *
-			 * @return base::List<std::string> const&
+			 * @return base::List<Point> const&
 			 */
-			base::List<std::string> const &Points() const;
+			base::List<Point> const &Points() const;
 
 			/**
 			 * @brief 本路径中点的数量。
@@ -65,7 +67,7 @@ namespace base
 			 * @return true 路径中没有该点，添加成功
 			 * @return false 路径中已经有该点了，添加失败。
 			 */
-			bool AddPoint(std::string const &point);
+			bool AddPoint(Point const &point);
 
 			/**
 			 * @brief 移除点。
@@ -74,7 +76,7 @@ namespace base
 			 * @return true 路径中有该点，移除成功。
 			 * @return false 路径中没有该点，移除失败。
 			 */
-			bool RemovePoint(std::string const &point);
+			bool RemovePoint(Point const &point);
 
 			/**
 			 * @brief 路径中是否含有该点。
@@ -83,14 +85,14 @@ namespace base
 			 * @return true 含有该点。
 			 * @return false 不含该点。
 			 */
-			bool ContainsPoint(std::string const &point) const;
+			bool ContainsPoint(Point const &point) const;
 
 		public:
 			/**
 			 * @brief 获取本路径与另一个路径的交集点。
 			 *
 			 * @param another_path
-			 * @return base::List<std::string>
+			 * @return base::List<Point>
 			 */
 			base::math::Path IntersectionPoints(base::math::Path const &another_path) const;
 
@@ -105,7 +107,7 @@ namespace base
 			/**
 			 * @brief 转化为字符串
 			 *
-			 * @return std::string
+			 * @return Point
 			 */
 			virtual std::string ToString() const override;
 
@@ -114,7 +116,7 @@ namespace base
 			 *
 			 * @return std::shared_ptr<base::IEnumerator<ItemType>>
 			 */
-			virtual std::shared_ptr<base::IEnumerator<std::string const>> GetEnumerator() override;
+			virtual std::shared_ptr<base::IEnumerator<base::math::Point const>> GetEnumerator() override;
 		};
 
 #if HAS_THREAD
