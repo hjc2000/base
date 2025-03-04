@@ -154,24 +154,26 @@ namespace base
 			return static_cast<int32_t>(_vector.size());
 		}
 
+		/**
+		 * @brief 索引列表中的元素。
+		 *
+		 * @param index
+		 * @return ItemType&
+		 */
 		ItemType &operator[](int32_t const index) override
 		{
-			if (index < 0 || index >= static_cast<int32_t>(_vector.size()))
-			{
-				throw std::out_of_range{"索引超出范围"};
-			}
-
-			return _vector[index];
+			return static_cast<IRawArray<ItemType> &>(*this)[index];
 		}
 
+		/**
+		 * @brief 索引列表中的元素。
+		 *
+		 * @param index
+		 * @return ItemType const&
+		 */
 		ItemType const &operator[](int32_t const index) const override
 		{
-			if (index < 0 || index >= static_cast<int32_t>(_vector.size()))
-			{
-				throw std::out_of_range{"索引超出范围"};
-			}
-
-			return _vector[index];
+			return static_cast<IRawArray<ItemType> const &>(*this)[index];
 		}
 
 		/**

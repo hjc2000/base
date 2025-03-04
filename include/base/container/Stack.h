@@ -92,3 +92,13 @@ namespace base
 		}
 	};
 } // namespace base
+
+namespace base
+{
+	namespace test
+	{
+#if HAS_THREAD
+		void test_stack();
+#endif
+	} // namespace test
+} // namespace base

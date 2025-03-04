@@ -102,6 +102,27 @@ namespace base
 		virtual ItemType const *Buffer() const = 0;
 
 	public:
+		ItemType &operator[](int32_t const index)
+		{
+			if (index < 0 || index >= Count())
+			{
+				throw std::out_of_range{"索引超出范围"};
+			}
+
+			return Buffer()[index];
+		}
+
+		ItemType const &operator[](int32_t const index) const
+		{
+			if (index < 0 || index >= static_cast<int32_t>(Count()))
+			{
+				throw std::out_of_range{"索引超出范围"};
+			}
+
+			return Buffer()[index];
+		}
+
+	public:
 		// CopyFrom
 
 		/// @brief 将 another 的元素拷贝到本容器。

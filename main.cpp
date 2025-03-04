@@ -1,10 +1,12 @@
 #include "base/string/define.h"
+#include "include/base/container/Stack.h"
 #include "include/base/math/Combination.h"
 #include "include/base/stream/StreamWriter.h"
 #include <base/bit/BitConverter.h>
 #include <base/container/Array.h>
 #include <base/container/Dictionary.h>
 #include <base/container/List.h>
+#include <base/container/Stack.h>
 #include <base/math/Combination.h>
 #include <base/math/IRandomGenerator.h>
 #include <base/math/Pow.h>
@@ -127,4 +129,6 @@ int main()
 			throw std::runtime_error{CODE_POS_STR + "列出的组合是错的。"};
 		}
 	}
+
+	base::test::test_stack();
 }
