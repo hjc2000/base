@@ -1,4 +1,6 @@
 #include "Path.h"
+#include <cstdint>
+#include <string>
 
 base::math::Path::Path(base::List<std::string> const &points)
 {
@@ -60,3 +62,30 @@ base::math::Path base::math::Path::operator&(base::math::Path const &another_pat
 {
 	return IntersectionPoints(another_path);
 }
+
+std::string base::math::Path::ToString() const
+{
+	std::string ret;
+	for (int32_t i = 0; i < _points.Count(); i++)
+	{
+		ret += _points[i];
+		if (i < _points.Count() - 1)
+		{
+			ret += "->";
+		}
+	}
+
+	return ret;
+}
+
+#if HAS_THREAD
+
+void base::math::test::test_path()
+{
+	base::math::Path path1{"A", "B", "C"};
+	base::math::Path path2{"A", "B", "D"};
+	base::math::Path path3{"A", "E", "F"};
+	std::cout << (path1 & path2 & path3) << std::endl;
+}
+
+#endif

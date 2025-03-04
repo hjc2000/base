@@ -1,5 +1,6 @@
 #pragma once
 #include <base/container/List.h>
+#include <base/string/ICanToString.h>
 #include <initializer_list>
 #include <string>
 
@@ -11,7 +12,8 @@ namespace base
 		 * @brief 路径。
 		 *
 		 */
-		class Path
+		class Path :
+			public base::ICanToString
 		{
 		private:
 			base::List<std::string> _points;
@@ -88,6 +90,20 @@ namespace base
 			 * @return base::math::Path
 			 */
 			base::math::Path operator&(base::math::Path const &another_path) const;
+
+			/**
+			 * @brief 转化为字符串
+			 *
+			 * @return std::string
+			 */
+			virtual std::string ToString() const override;
 		};
+
+#if HAS_THREAD
+		namespace test
+		{
+			void test_path();
+		} // namespace test
+#endif
 	} // namespace math
 } // namespace base
