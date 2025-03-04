@@ -6,8 +6,11 @@
 
 namespace base
 {
-	/// @brief C# 风格的可迭代容器接口。
-	/// @tparam ItemType
+	/**
+	 * @brief C# 风格的可迭代容器接口。
+	 *
+	 * @tparam ItemType
+	 */
 	template <typename ItemType>
 	class IEnumerable
 	{
@@ -44,12 +47,19 @@ namespace base
 		};
 
 	public:
-		/// @brief 获取非 const 迭代器
-		/// @return
+		/**
+		 * @brief 获取非 const 迭代器
+		 *
+		 * @return std::shared_ptr<base::IEnumerator<ItemType>>
+		 */
 		virtual std::shared_ptr<base::IEnumerator<ItemType>> GetEnumerator() = 0;
 
-		/// @brief 获取 const 迭代器
-		/// @return
+	public:
+		/**
+		 * @brief 获取 const 迭代器
+		 *
+		 * @return std::shared_ptr<base::IEnumerator<ItemType const>>
+		 */
 		std::shared_ptr<base::IEnumerator<ItemType const>> GetEnumerator() const
 		{
 			return std::shared_ptr<IEnumerator<ItemType const>>{

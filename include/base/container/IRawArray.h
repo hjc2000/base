@@ -16,7 +16,9 @@ namespace base
 	class IRawArray :
 		public virtual base::IEnumerable<ItemType>
 	{
-	private: // 迭代器
+	private:
+		// 迭代器
+
 		/**
 		 * @brief 迭代器
 		 *
@@ -75,20 +77,33 @@ namespace base
 			}
 		};
 
-	public: // 接口
-		/// @brief 数组的大小
-		/// @return
+	public:
+		// 接口
+
+		/**
+		 * @brief 数组的大小
+		 *
+		 * @return int32_t
+		 */
 		virtual int32_t Count() const = 0;
 
-		/// @brief 获取底层的缓冲区
-		/// @return
+		/**
+		 * @brief 获取底层的缓冲区
+		 *
+		 * @return ItemType*
+		 */
 		virtual ItemType *Buffer() = 0;
 
-		/// @brief 获取底层的缓冲区
-		/// @return
+		/**
+		 * @brief 获取底层的缓冲区
+		 *
+		 * @return ItemType const*
+		 */
 		virtual ItemType const *Buffer() const = 0;
 
-	public: // CopyFrom
+	public:
+		// CopyFrom
+
 		/// @brief 将 another 的元素拷贝到本容器。
 		/// @note 两个容器的元素个数必须相等，否则会抛出异常。
 		/// @param another
