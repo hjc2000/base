@@ -48,7 +48,7 @@ bool base::math::Path::ContainsPoint(Point const &point) const
 	return _points.Contains(point);
 }
 
-base::math::Path base::math::Path::IntersectionPoints(base::math::Path const &another_path) const
+base::math::Path base::math::Path::operator&(base::math::Path const &another_path) const
 {
 	base::math::Path ret;
 	for (Point const &point : _points)
@@ -60,11 +60,6 @@ base::math::Path base::math::Path::IntersectionPoints(base::math::Path const &an
 	}
 
 	return ret;
-}
-
-base::math::Path base::math::Path::operator&(base::math::Path const &another_path) const
-{
-	return IntersectionPoints(another_path);
 }
 
 std::string base::math::Path::ToString() const

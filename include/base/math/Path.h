@@ -92,14 +92,6 @@ namespace base
 			 * @brief 获取本路径与另一个路径的交集点。
 			 *
 			 * @param another_path
-			 * @return base::List<Point>
-			 */
-			base::math::Path IntersectionPoints(base::math::Path const &another_path) const;
-
-			/**
-			 * @brief 获取本路径与另一个路径的交集点。
-			 *
-			 * @param another_path
 			 * @return base::math::Path
 			 */
 			base::math::Path operator&(base::math::Path const &another_path) const;
