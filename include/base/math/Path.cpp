@@ -1,4 +1,6 @@
 #include "Path.h"
+#include "base/container/List.h"
+#include "base/container/Set.h"
 #include <cstdint>
 
 base::math::Path::Path(base::List<base::math::Point> const &points)
@@ -59,6 +61,19 @@ bool base::math::Path::ContainsPoint(base::math::Point const &point) const
 	return _points.Contains(point);
 }
 
+bool base::math::Path::ContainsAllPoints(base::List<base::math::Point> const &points) const
+{
+	for (auto &point : points)
+	{
+		if (!ContainsPoint(point))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 base::math::Path base::math::Path::operator&(base::math::Path const &another_path) const
 {
 	base::math::Path ret;
@@ -94,14 +109,23 @@ std::shared_ptr<base::IEnumerator<base::math::Point const>> base::math::Path::Ge
 }
 
 #if HAS_THREAD
+	#include <base/math/PathCollection.h>
+
 void base::math::test::test_path()
 {
-	base::math::Path path1{"A", "B", "C"};
-	base::math::Path path2{"A", "B", "D"};
-	base::math::Path path3{"A", "E", "F"};
-	std::cout << path1 << std::endl;
-	std::cout << path2 << std::endl;
-	std::cout << path3 << std::endl;
-	std::cout << (path1 & path2 & path3) << std::endl;
+	base::math::PathCollection paths{
+		base::math::Path{"A", "B", "D", "G"},
+		base::math::Path{"C", "D", "H"},
+		base::math::Path{"F", "G", "H"},
+		base::math::Path{"A", "C", "F"},
+		base::math::Path{"E", "C", "B"},
+		base::math::Path{"E", "F", "D"},
+	};
+
+	base::List<base::math::Point> points{"A", "B"};
+	for (base::math::Path const &path : paths.FindPaths(points))
+	{
+		std::cout << path << std::endl;
+	}
 }
 #endif

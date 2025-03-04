@@ -46,6 +46,12 @@ namespace base
 			 */
 			Path(std::initializer_list<base::math::Point> const &points);
 
+			/**
+			 * @brief 析构函数。
+			 *
+			 */
+			virtual ~Path() = default;
+
 		public:
 			/**
 			 * @brief 获取本路径中的点。
@@ -94,6 +100,15 @@ namespace base
 			 * @return false 不含该点。
 			 */
 			bool ContainsPoint(base::math::Point const &point) const;
+
+			/**
+			 * @brief 检查本路径是否包含 points 中所有的点。
+			 *
+			 * @param points
+			 * @return true
+			 * @return false
+			 */
+			bool ContainsAllPoints(base::List<base::math::Point> const &points) const;
 
 		public:
 			/**
