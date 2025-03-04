@@ -11,7 +11,7 @@ namespace base
 		public base::IRawArray<ItemType>
 	{
 	private:
-		std::vector<ItemType> _vector;
+		std::vector<ItemType> _vector{};
 
 	public:
 		/**
@@ -31,14 +31,14 @@ namespace base
 		 */
 		ItemType Pop()
 		{
-			if (_vector.size() == 0)
+			ItemType ret{};
+			bool pop_result = TryPop(ret);
+			if (pop_result)
 			{
-				throw std::out_of_range{CODE_POS_STR + "栈为空，无法出栈。"};
+				return ret;
 			}
 
-			ItemType result = _vector[_vector.size() - 1];
-			_vector.pop_back();
-			return result;
+			throw std::out_of_range{CODE_POS_STR + "栈为空，无法出栈。"};
 		}
 
 		/**
