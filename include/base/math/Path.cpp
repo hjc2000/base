@@ -93,6 +93,9 @@ void base::math::test::test_path()
 	base::math::Path path1{"A", "B", "C"};
 	base::math::Path path2{"A", "B", "D"};
 	base::math::Path path3{"A", "E", "F"};
+	std::cout << path1 << std::endl;
+	std::cout << path2 << std::endl;
+	std::cout << path3 << std::endl;
 	std::cout << (path1 & path2 & path3) << std::endl;
 }
 #endif
