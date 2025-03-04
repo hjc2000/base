@@ -114,10 +114,7 @@ namespace base
 			 *
 			 * @return std::shared_ptr<base::IEnumerator<ItemType>>
 			 */
-			virtual std::shared_ptr<base::IEnumerator<std::string const>> GetEnumerator() override
-			{
-				return const_cast<base::math::Path const &>(*this)._points.GetEnumerator();
-			}
+			virtual std::shared_ptr<base::IEnumerator<std::string const>> GetEnumerator() override;
 		};
 
 #if HAS_THREAD

@@ -83,8 +83,12 @@ std::string base::math::Path::ToString() const
 	return ret;
 }
 
-#if HAS_THREAD
+std::shared_ptr<base::IEnumerator<std::string const>> base::math::Path::GetEnumerator()
+{
+	return const_cast<base::math::Path const &>(*this)._points.GetEnumerator();
+}
 
+#if HAS_THREAD
 void base::math::test::test_path()
 {
 	base::math::Path path1{"A", "B", "C"};
@@ -92,5 +96,4 @@ void base::math::test::test_path()
 	base::math::Path path3{"A", "E", "F"};
 	std::cout << (path1 & path2 & path3) << std::endl;
 }
-
 #endif
