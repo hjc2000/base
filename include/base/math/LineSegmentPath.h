@@ -1,5 +1,5 @@
 #pragma once
-#include <base/container/List.h>
+#include <base/container/Set.h>
 #include <string>
 
 namespace base
@@ -11,7 +11,7 @@ namespace base
 	class LineSegmentPath
 	{
 	private:
-		base::List<std::string> _points;
+		base::Set<std::string> _points;
 
 	public:
 		/**
@@ -20,14 +20,21 @@ namespace base
 		 * @param points 这条线段上有哪些点。
 		 * @note 必须至少有 2 个点。
 		 */
-		LineSegmentPath(base::List<std::string> const &points);
+		LineSegmentPath(base::Set<std::string> const &points);
 
 	public:
 		/**
 		 * @brief 获取本路径中的点。
 		 *
+		 * @return base::Set<std::string>&
+		 */
+		base::Set<std::string> &Points();
+
+		/**
+		 * @brief 获取本路径中的点。
+		 *
 		 * @return base::List<std::string> const&
 		 */
-		base::List<std::string> const &Points() const;
+		base::Set<std::string> const &Points() const;
 	};
 } // namespace base

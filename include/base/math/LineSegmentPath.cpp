@@ -2,7 +2,7 @@
 #include "base/string/define.h"
 #include <stdexcept>
 
-base::LineSegmentPath::LineSegmentPath(base::List<std::string> const &points)
+base::LineSegmentPath::LineSegmentPath(base::Set<std::string> const &points)
 	: _points(points)
 {
 	if (_points.Count() < 2)
@@ -11,7 +11,12 @@ base::LineSegmentPath::LineSegmentPath(base::List<std::string> const &points)
 	}
 }
 
-base::List<std::string> const &base::LineSegmentPath::Points() const
+base::Set<std::string> &base::LineSegmentPath::Points()
+{
+	return _points;
+}
+
+base::Set<std::string> const &base::LineSegmentPath::Points() const
 {
 	return _points;
 }
