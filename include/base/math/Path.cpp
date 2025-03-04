@@ -23,6 +23,11 @@ base::List<std::string> const &base::math::Path::Points() const
 	return _points;
 }
 
+int32_t base::math::Path::PointsCount() const
+{
+	return _points.Count();
+}
+
 bool base::math::Path::AddPoint(std::string const &point)
 {
 	if (_points.Contains(point))

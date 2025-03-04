@@ -1,6 +1,7 @@
 #pragma once
 #include <base/container/List.h>
 #include <base/string/ICanToString.h>
+#include <cstdint>
 #include <initializer_list>
 #include <string>
 
@@ -46,6 +47,13 @@ namespace base
 			 * @return base::List<std::string> const&
 			 */
 			base::List<std::string> const &Points() const;
+
+			/**
+			 * @brief 本路径中点的数量。
+			 *
+			 * @return int32_t
+			 */
+			int32_t PointsCount() const;
 
 			/**
 			 * @brief 添加一个点到路径末尾。
