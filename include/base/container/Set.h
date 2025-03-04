@@ -100,6 +100,8 @@ namespace base
 		Set() = default;
 
 	public:
+		using base::ISet<ItemType>::Add;
+
 		/**
 		 * @brief 向集合中添加一个元素。
 		 *
@@ -112,6 +114,8 @@ namespace base
 			auto pair = _set.insert(item);
 			return pair.second;
 		}
+
+		using base::ISet<ItemType>::Remove;
 
 		/**
 		 * @brief 移除指定的元素。
@@ -155,6 +159,57 @@ namespace base
 		virtual std::shared_ptr<base::IEnumerator<ItemType const>> GetEnumerator() override
 		{
 			return std::shared_ptr<base::IEnumerator<ItemType const>>{new Enumerator{_set}};
+		}
+
+	public:
+		/**
+		 * @brief 两个集合拼接，组成并集。
+		 *
+		 * @param another
+		 * @return base::Set<ItemType>
+		 */
+		base::Set<ItemType> operator+(base::ISet<ItemType> const &another) const
+		{
+			base::Set<ItemType> ret{*this};
+			ret.Add(another);
+			return ret;
+		}
+
+		/**
+		 * @brief 将本集合和 another 拼接，形成并集。或者说将 another 的元素全部添加到本集合中。
+		 *
+		 * @param another
+		 * @return base::Set<ItemType>&
+		 */
+		base::Set<ItemType> &operator+=(base::ISet<ItemType> const &another)
+		{
+			Add(another);
+			return *this;
+		}
+
+		/**
+		 * @brief 创建一个新集合，拷贝本集合，然后从新集合中移除 another 中含有的元素。
+		 *
+		 * @param another
+		 * @return base::Set<ItemType> 新集合。
+		 */
+		base::Set<ItemType> operator-(base::ISet<ItemType> const &another) const
+		{
+			base::Set<ItemType> ret{*this};
+			ret.Remove(another);
+			return ret;
+		}
+
+		/**
+		 * @brief 从本集合中移除 another 中含有的元素。
+		 *
+		 * @param another
+		 * @return base::Set<ItemType>&
+		 */
+		base::Set<ItemType> &operator-=(base::ISet<ItemType> const &another)
+		{
+			Remove(another);
+			return *this;
 		}
 	};
 } // namespace base

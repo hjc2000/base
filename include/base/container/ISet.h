@@ -67,5 +67,18 @@ namespace base
 				Add(item);
 			}
 		}
+
+		/**
+		 * @brief 从本集合中移除另一个集合 set 中含有的元素。
+		 *
+		 * @param set
+		 */
+		void Remove(ISet<ItemType> const &set)
+		{
+			for (ItemType const &item : set)
+			{
+				Remove(item);
+			}
+		}
 	};
 } // namespace base
