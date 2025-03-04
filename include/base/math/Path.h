@@ -1,5 +1,6 @@
 #pragma once
 #include "base/container/iterator/IEnumerable.h"
+#include "base/container/Set.h"
 #include <base/container/List.h>
 #include <base/string/ICanToString.h>
 #include <cstdint>
@@ -19,10 +20,10 @@ namespace base
 		 */
 		class Path :
 			public base::ICanToString,
-			public base::IEnumerable<Point const>
+			public base::IEnumerable<base::math::Point const>
 		{
 		private:
-			base::List<Point> _points;
+			base::List<base::math::Point> _points;
 
 		public:
 			/**
@@ -36,22 +37,29 @@ namespace base
 			 *
 			 * @param points 这条路径上有哪些点。
 			 */
-			Path(base::List<Point> const &points);
+			Path(base::List<base::math::Point> const &points);
 
 			/**
 			 * @brief 构造一条路径。
 			 *
 			 * @param points 这条路径上有哪些点。
 			 */
-			Path(std::initializer_list<Point> const &points);
+			Path(std::initializer_list<base::math::Point> const &points);
 
 		public:
 			/**
 			 * @brief 获取本路径中的点。
 			 *
-			 * @return base::List<Point> const&
+			 * @return base::List<base::math::Point> const&
 			 */
-			base::List<Point> const &Points() const;
+			base::List<base::math::Point> const &Points() const;
+
+			/**
+			 * @brief 获取本路径的点集。
+			 *
+			 * @return base::Set<base::math::Point>
+			 */
+			base::Set<base::math::Point> PointSet() const;
 
 			/**
 			 * @brief 本路径中点的数量。
@@ -67,7 +75,7 @@ namespace base
 			 * @return true 路径中没有该点，添加成功
 			 * @return false 路径中已经有该点了，添加失败。
 			 */
-			bool AddPoint(Point const &point);
+			bool AddPoint(base::math::Point const &point);
 
 			/**
 			 * @brief 移除点。
@@ -76,7 +84,7 @@ namespace base
 			 * @return true 路径中有该点，移除成功。
 			 * @return false 路径中没有该点，移除失败。
 			 */
-			bool RemovePoint(Point const &point);
+			bool RemovePoint(base::math::Point const &point);
 
 			/**
 			 * @brief 路径中是否含有该点。
@@ -85,7 +93,7 @@ namespace base
 			 * @return true 含有该点。
 			 * @return false 不含该点。
 			 */
-			bool ContainsPoint(Point const &point) const;
+			bool ContainsPoint(base::math::Point const &point) const;
 
 		public:
 			/**
@@ -99,7 +107,7 @@ namespace base
 			/**
 			 * @brief 转化为字符串
 			 *
-			 * @return Point
+			 * @return base::math::Point
 			 */
 			virtual std::string ToString() const override;
 

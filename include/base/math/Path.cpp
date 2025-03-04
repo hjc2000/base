@@ -1,17 +1,17 @@
 #include "Path.h"
 #include <cstdint>
 
-base::math::Path::Path(base::List<Point> const &points)
+base::math::Path::Path(base::List<base::math::Point> const &points)
 {
-	for (Point const &point : points)
+	for (base::math::Point const &point : points)
 	{
 		AddPoint(point);
 	}
 }
 
-base::math::Path::Path(std::initializer_list<Point> const &points)
+base::math::Path::Path(std::initializer_list<base::math::Point> const &points)
 {
-	for (Point const &point : points)
+	for (base::math::Point const &point : points)
 	{
 		AddPoint(point);
 	}
@@ -22,12 +22,23 @@ base::List<base::math::Point> const &base::math::Path::Points() const
 	return _points;
 }
 
+base::Set<base::math::Point> base::math::Path::PointSet() const
+{
+	base::Set<base::math::Point> ret;
+	for (base::math::Point const &point : _points)
+	{
+		ret.Add(point);
+	}
+
+	return ret;
+}
+
 int32_t base::math::Path::PointsCount() const
 {
 	return _points.Count();
 }
 
-bool base::math::Path::AddPoint(Point const &point)
+bool base::math::Path::AddPoint(base::math::Point const &point)
 {
 	if (_points.Contains(point))
 	{
@@ -38,12 +49,12 @@ bool base::math::Path::AddPoint(Point const &point)
 	return true;
 }
 
-bool base::math::Path::RemovePoint(Point const &point)
+bool base::math::Path::RemovePoint(base::math::Point const &point)
 {
 	return _points.Remove(point);
 }
 
-bool base::math::Path::ContainsPoint(Point const &point) const
+bool base::math::Path::ContainsPoint(base::math::Point const &point) const
 {
 	return _points.Contains(point);
 }
@@ -51,7 +62,7 @@ bool base::math::Path::ContainsPoint(Point const &point) const
 base::math::Path base::math::Path::operator&(base::math::Path const &another_path) const
 {
 	base::math::Path ret;
-	for (Point const &point : _points)
+	for (base::math::Point const &point : _points)
 	{
 		if (another_path.Points().Contains(point))
 		{
@@ -64,7 +75,7 @@ base::math::Path base::math::Path::operator&(base::math::Path const &another_pat
 
 std::string base::math::Path::ToString() const
 {
-	Point ret;
+	base::math::Point ret;
 	for (int32_t i = 0; i < _points.Count(); i++)
 	{
 		ret += _points[i];
