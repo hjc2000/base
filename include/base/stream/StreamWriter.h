@@ -108,3 +108,13 @@ namespace base
 		void WriteLine();
 	};
 } // namespace base
+
+#if HAS_THREAD
+namespace base
+{
+	namespace test
+	{
+		void test_stream_writer();
+	} // namespace test
+} // namespace base
+#endif

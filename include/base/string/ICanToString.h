@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 #include <string>
 
 namespace base
@@ -31,15 +30,6 @@ namespace base
 	};
 } // namespace base
 
-/**
- * @brief 将 base::ICanToString 对象转为字符串后输出到输出流。
- *
- * @param stream
- * @param o
- * @return std::ostream&
- */
-std::ostream &operator<<(std::ostream &stream, base::ICanToString const &o);
-
 namespace std
 {
 	/**
@@ -50,3 +40,16 @@ namespace std
 	 */
 	std::string to_string(base::ICanToString const &o);
 } // namespace std
+
+#if HAS_THREAD
+	#include <iostream>
+
+/**
+ * @brief 将 base::ICanToString 对象转为字符串后输出到输出流。
+ *
+ * @param stream
+ * @param o
+ * @return std::ostream&
+ */
+std::ostream &operator<<(std::ostream &stream, base::ICanToString const &o);
+#endif

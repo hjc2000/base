@@ -59,3 +59,13 @@ namespace base
 		virtual std::string ToString() const override;
 	};
 } // namespace base
+
+#if HAS_THREAD
+namespace base
+{
+	namespace test
+	{
+		void test_combination();
+	} // namespace test
+} // namespace base
+#endif

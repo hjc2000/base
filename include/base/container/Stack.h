@@ -93,12 +93,12 @@ namespace base
 	};
 } // namespace base
 
+#if HAS_THREAD
 namespace base
 {
 	namespace test
 	{
-#if HAS_THREAD
 		void test_stack();
-#endif
 	} // namespace test
 } // namespace base
+#endif
