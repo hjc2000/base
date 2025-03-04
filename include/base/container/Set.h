@@ -36,9 +36,9 @@ namespace base
 
 		public:
 			Enumerator(std::set<ItemType> &set)
-				: _set(set),
-				  _current(set.begin())
+				: _set(set)
 			{
+				Reset();
 			}
 
 		public:
@@ -210,6 +210,38 @@ namespace base
 		{
 			Remove(another);
 			return *this;
+		}
+
+		/**
+		 * @brief 求两个集合的交集。
+		 *
+		 * @param another
+		 * @return base::Set<ItemType>
+		 */
+		base::Set<ItemType> operator*(base::ISet<ItemType> const &another)
+		{
+			base::Set<ItemType> ret{*this};
+			for (ItemType const &item : _set)
+			{
+				if (another.Contains(item))
+				{
+					ret.Add(item);
+				}
+			}
+
+			return ret;
+		}
+
+		/**
+		 * @brief 求本集合与 another 的交集，然后将本集合设置为交集。
+		 *
+		 * @param another
+		 * @return base::Set<ItemType>
+		 */
+		base::Set<ItemType> operator*=(base::ISet<ItemType> const &another)
+		{
+			base::Set<ItemType> temp = *this * another;
+			*this = temp;
 		}
 	};
 } // namespace base

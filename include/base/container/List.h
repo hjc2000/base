@@ -60,36 +60,24 @@ namespace base
 		}
 
 	public:
-		/**
-		 * @brief 索引列表中的元素。
-		 *
-		 * @param index
-		 * @return ItemType&
-		 */
-		ItemType &operator[](int32_t const index) override
-		{
-			return IRawArray<ItemType>::operator[](index);
-		}
-
-		/**
-		 * @brief 索引列表中的元素。
-		 *
-		 * @param index
-		 * @return ItemType const&
-		 */
-		ItemType const &operator[](int32_t const index) const override
-		{
-			return IRawArray<ItemType>::operator[](index);
-		}
-
-	public:
 		using IList<ItemType>::Add;
 
+		/**
+		 * @brief 向列表末尾添加一个元素。
+		 *
+		 * @param item
+		 */
 		void Add(ItemType const &item) override
 		{
 			_vector.push_back(item);
 		}
 
+		/**
+		 * @brief 将元素插入列表指定位置。
+		 *
+		 * @param index
+		 * @param item
+		 */
 		void Insert(int32_t const index, ItemType const &item) override
 		{
 			if (index < 0 || index > static_cast<int32_t>(_vector.size()))
@@ -100,6 +88,15 @@ namespace base
 			_vector.insert(_vector.begin() + index, item);
 		}
 
+		/**
+		 * @brief 从列表移除指定元素。
+		 *
+		 * @note 如果列表中有重复元素，调用一次本方法只会移除一个。
+		 *
+		 * @param item
+		 * @return true
+		 * @return false
+		 */
 		bool Remove(ItemType const &item) override
 		{
 			auto it = std::find_if(_vector.begin(),
@@ -120,7 +117,7 @@ namespace base
 		}
 
 		/**
-		 * @brief 移除指定索引处的元素。
+		 * @brief 移除指定索引位置的元素。
 		 *
 		 * @param index
 		 */
@@ -180,7 +177,7 @@ namespace base
 		}
 
 		/**
-		 * @brief 检查是否存在指定的元素。
+		 * @brief 检查列表中是否含有该元素。
 		 *
 		 * @param item
 		 * @return true
@@ -199,7 +196,7 @@ namespace base
 		}
 
 		/**
-		 * @brief 清空容器。
+		 * @brief 清空列表。
 		 *
 		 */
 		void Clear() override
@@ -208,7 +205,7 @@ namespace base
 		}
 
 		/**
-		 * @brief 元素个数。
+		 * @brief 列表中元素的数量。
 		 *
 		 * @return int32_t
 		 */
@@ -217,6 +214,29 @@ namespace base
 			return static_cast<int32_t>(_vector.size());
 		}
 
+		/**
+		 * @brief 获取指定索引位置的元素。
+		 *
+		 * @param index
+		 * @return ItemType&
+		 */
+		ItemType &operator[](int32_t const index) override
+		{
+			return IRawArray<ItemType>::operator[](index);
+		}
+
+		/**
+		 * @brief 获取指定索引位置的元素。
+		 *
+		 * @param index
+		 * @return ItemType const&
+		 */
+		ItemType const &operator[](int32_t const index) const override
+		{
+			return IRawArray<ItemType>::operator[](index);
+		}
+
+	public:
 		/**
 		 * @brief 获取底层的缓冲区
 		 *
