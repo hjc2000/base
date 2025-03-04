@@ -2,6 +2,7 @@
 #include "base/container/List.h"
 #include "base/container/Set.h"
 #include <cstdint>
+#include <iostream>
 
 base::math::Path::Path(base::List<base::math::Point> const &points)
 {
@@ -109,6 +110,7 @@ std::shared_ptr<base::IEnumerator<base::math::Point const>> base::math::Path::Ge
 }
 
 #if HAS_THREAD
+	#include <base/math/Combination.h>
 	#include <base/math/PathCollection.h>
 
 void base::math::test::test_path()
@@ -122,10 +124,44 @@ void base::math::test::test_path()
 		base::math::Path{"E", "F", "D"},
 	};
 
-	base::List<base::math::Point> points{"A", "B"};
-	for (base::math::Path const &path : paths.FindPaths(points))
+	base::List<base::math::Point> all_points = paths.AllPoints();
+	base::Combination combination{all_points.Count(), 3};
+
+	int count = 0;
+	while (combination.MoveToNext())
 	{
-		std::cout << path << std::endl;
+		base::math::Point point1 = all_points[combination[0]];
+		base::math::Point point2 = all_points[combination[1]];
+		base::math::Point point3 = all_points[combination[2]];
+
+		if (paths.FindPaths(base::List<base::math::Point>{point1, point2}).Count() == 0)
+		{
+			continue;
+		}
+
+		if (paths.FindPaths(base::List<base::math::Point>{point1, point3}).Count() == 0)
+		{
+			continue;
+		}
+
+		if (paths.FindPaths(base::List<base::math::Point>{point2, point3}).Count() == 0)
+		{
+			continue;
+		}
+
+		if (paths.FindPaths(base::List<base::math::Point>{point1, point2, point3}).Count() > 0)
+		{
+			continue;
+		}
+
+		std::cout << point1 << ", "
+				  << point2 << ", "
+				  << point3
+				  << std::endl;
+
+		count++;
 	}
+
+	std::cout << "一共有 " << count << " 种情况。" << std::endl;
 }
 #endif

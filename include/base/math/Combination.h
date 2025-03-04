@@ -37,6 +37,14 @@ namespace base
 		std::vector<int> const &Current() const;
 
 		/**
+		 * @brief 直接访问 Current() 属性返回的向量的指定索引位置的值。
+		 *
+		 * @param index
+		 * @return int
+		 */
+		int operator[](int index) const;
+
+		/**
 		 * @brief 移动到下一个组合。
 		 *
 		 * @return true

@@ -67,7 +67,6 @@ base::List<base::math::Point> base::math::PathCollection::AllPoints() const
 	for (base::math::Path const &path : _paths)
 	{
 		all_points_set.Add(path.PointSet());
-		std::cout << path << std::endl;
 	}
 
 	base::List<base::math::Point> ret;

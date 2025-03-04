@@ -24,6 +24,16 @@ std::vector<int> const &base::Combination::Current() const
 	return _current_combination;
 }
 
+int base::Combination::operator[](int index) const
+{
+	if (index < 0 || index >= _m)
+	{
+		throw std::out_of_range{CODE_POS_STR + "索引溢出。"};
+	}
+
+	return _current_combination[index];
+}
+
 bool base::Combination::MoveToNext()
 {
 	if (_m == 0)
