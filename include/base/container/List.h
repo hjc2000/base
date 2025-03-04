@@ -47,6 +47,41 @@ namespace base
 		}
 
 	public:
+		/**
+		 * @brief 将本列表内的元素拷贝到向量中。
+		 *
+		 * @return std::vector<ItemType>
+		 */
+		operator std::vector<ItemType>() const
+		{
+			// 直接返回，利用 vector 的拷贝构造函数。
+			return _vector;
+		}
+
+	public:
+		/**
+		 * @brief 索引列表中的元素。
+		 *
+		 * @param index
+		 * @return ItemType&
+		 */
+		ItemType &operator[](int32_t const index) override
+		{
+			return IRawArray<ItemType>::operator[](index);
+		}
+
+		/**
+		 * @brief 索引列表中的元素。
+		 *
+		 * @param index
+		 * @return ItemType const&
+		 */
+		ItemType const &operator[](int32_t const index) const override
+		{
+			return IRawArray<ItemType>::operator[](index);
+		}
+
+	public:
 		using IList<ItemType>::Add;
 
 		void Add(ItemType const &item) override
@@ -83,6 +118,11 @@ namespace base
 			return false;
 		}
 
+		/**
+		 * @brief 移除指定索引处的元素。
+		 *
+		 * @param index
+		 */
 		void RemoveAt(int32_t const index) override
 		{
 			if (index < 0 || index >= static_cast<int32_t>(_vector.size()))
@@ -114,6 +154,12 @@ namespace base
 			_vector.erase(remove_begin, _vector.end());
 		}
 
+		/**
+		 * @brief 查找指定元素的索引。
+		 *
+		 * @param item
+		 * @return int32_t
+		 */
 		int32_t IndexOf(ItemType const &item) const override
 		{
 			auto it = std::find_if(_vector.begin(),
@@ -132,6 +178,13 @@ namespace base
 			return -1;
 		}
 
+		/**
+		 * @brief 检查是否存在指定的元素。
+		 *
+		 * @param item
+		 * @return true
+		 * @return false
+		 */
 		bool Contains(ItemType const &item) const override
 		{
 			auto it = std::find_if(_vector.begin(),
@@ -144,47 +197,23 @@ namespace base
 			return it != _vector.end();
 		}
 
+		/**
+		 * @brief 清空容器。
+		 *
+		 */
 		void Clear() override
 		{
 			_vector.clear();
 		}
 
+		/**
+		 * @brief 元素个数。
+		 *
+		 * @return int32_t
+		 */
 		int32_t Count() const override
 		{
 			return static_cast<int32_t>(_vector.size());
-		}
-
-		/**
-		 * @brief 索引列表中的元素。
-		 *
-		 * @param index
-		 * @return ItemType&
-		 */
-		ItemType &operator[](int32_t const index) override
-		{
-			return static_cast<IRawArray<ItemType> &>(*this)[index];
-		}
-
-		/**
-		 * @brief 索引列表中的元素。
-		 *
-		 * @param index
-		 * @return ItemType const&
-		 */
-		ItemType const &operator[](int32_t const index) const override
-		{
-			return static_cast<IRawArray<ItemType> const &>(*this)[index];
-		}
-
-		/**
-		 * @brief 将本列表内的元素拷贝到向量中。
-		 *
-		 * @return std::vector<ItemType>
-		 */
-		std::vector<ItemType> ToVector()
-		{
-			// 直接返回，利用 vector 的拷贝构造函数。
-			return _vector;
 		}
 
 		/**
@@ -206,6 +235,8 @@ namespace base
 		{
 			return _vector.data();
 		}
+
+		using IList<ItemType>::operator==;
 
 		/**
 		 * @brief 转发到 std::vector 的相等判断逻辑。

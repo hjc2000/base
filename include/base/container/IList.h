@@ -11,7 +11,9 @@ namespace base
 	class IList :
 		public virtual base::IEnumerable<ItemType>
 	{
-	private: // 迭代器
+	private:
+		// 迭代器
+
 		/**
 		 * @brief 用来迭代 IList 的私有迭代器。
 		 *
@@ -58,7 +60,8 @@ namespace base
 			}
 		};
 
-	public: // 纯虚函数
+	public:
+		// 接口
 		virtual void Add(ItemType const &item) = 0;
 		virtual void Insert(int32_t index, ItemType const &item) = 0;
 		virtual bool Remove(ItemType const &item) = 0;
