@@ -1,6 +1,5 @@
 #pragma once
 #include <base/container/iterator/IEnumerable.h>
-#include <base/container/iterator/IForwardIterator.h>
 #include <functional>
 
 namespace base

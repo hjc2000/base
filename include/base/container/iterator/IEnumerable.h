@@ -1,6 +1,5 @@
 #pragma once
 #include <base/container/iterator/IEnumerator.h>
-#include <base/container/iterator/IForwardIterator.h>
 #include <memory>
 
 namespace base
@@ -14,8 +13,11 @@ namespace base
 	class IEnumerable
 	{
 	private:
-		/// @brief const 迭代器
-		/// @tparam item_type
+		/**
+		 * @brief const 迭代器
+		 *
+		 * @tparam item_type
+		 */
 		template <typename item_type>
 		class ConstEnumerator :
 			public IEnumerator<item_type const>
@@ -46,42 +48,52 @@ namespace base
 		};
 
 	public:
-		/// @brief 将 IEnumerator 包装为 C++ 迭代器
-		/// @tparam item_type
 		template <typename item_type>
-		class ForwardIterator :
-			public base::IForwardIterator<ForwardIterator<item_type>, item_type>
+		class ForwardIterator
 		{
 		private:
 			std::shared_ptr<IEnumerator<item_type>> _enumertor;
 
 		public:
-			/// @brief 将 IEnumerator 包装为 C++ 迭代器
-			/// @param enumertor
 			ForwardIterator(std::shared_ptr<IEnumerator<item_type>> enumertor)
 			{
 				_enumertor = enumertor;
 			}
 
-			/// @brief 解引用
-			/// @return
-			item_type &operator*() override
+		public:
+			item_type &operator*()
 			{
 				return _enumertor->CurrentValue();
 			}
 
-			/// @brief 前缀递增
-			/// @return
-			ForwardIterator<item_type> &operator++() override
+			ItemType *operator->()
+			{
+				return &operator*();
+			}
+
+			/**
+			 * @brief 前缀递增
+			 *
+			 * @return ForwardIterator<item_type>&
+			 */
+			ForwardIterator<item_type> &operator++()
 			{
 				// 不做任何操作，因为 == 运算符里面已经 MoveNext 了。
 				return *this;
 			}
 
-			/// @brief 相等运算符
-			/// @param o
-			/// @return
-			bool operator==(ForwardIterator<item_type> const &o) const override
+			/**
+			 * @brief 后缀递增。
+			 *
+			 * @return ForwardIterator<item_type>&
+			 */
+			ForwardIterator<item_type> &operator++(int)
+			{
+				return operator++();
+			}
+
+		public:
+			bool operator==(ForwardIterator<item_type> const &o) const
 			{
 				/* C++ 范围 for 的机制是先判断不等于 end() 然后解引用。然后递增，进入下一循环。
 				 * IEnumerator 的操作顺序是先 MoveNext 然后判断是否成功，成功再利用 CurrentValue
@@ -92,6 +104,11 @@ namespace base
 				 * 当前等于 end() ，于是结束迭代。
 				 */
 				return !_enumertor->MoveNext();
+			}
+
+			bool operator!=(ForwardIterator<item_type> const &o) const
+			{
+				return !(*this == o);
 			}
 		};
 
