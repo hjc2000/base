@@ -52,18 +52,21 @@ namespace base
 		class ForwardIterator
 		{
 		private:
-			std::shared_ptr<IEnumerator<item_type>> _enumertor;
+			std::shared_ptr<IEnumerator<item_type>> _enumerator;
+			bool _end = false;
 
 		public:
 			ForwardIterator(std::shared_ptr<IEnumerator<item_type>> enumertor)
 			{
-				_enumertor = enumertor;
+				_enumerator = enumertor;
+				_enumerator->Reset();
+				_end = !_enumerator->MoveNext();
 			}
 
 		public:
 			item_type &operator*()
 			{
-				return _enumertor->CurrentValue();
+				return _enumerator->CurrentValue();
 			}
 
 			ItemType *operator->()
@@ -80,6 +83,7 @@ namespace base
 			ForwardIterator<item_type> &operator++()
 			{
 				// 不做任何操作，因为 == 运算符里面已经 MoveNext 了。
+				_end = !_enumerator->MoveNext();
 				return *this;
 			}
 
@@ -96,15 +100,7 @@ namespace base
 		public:
 			bool operator==(ForwardIterator<item_type> const &o) const
 			{
-				/* C++ 范围 for 的机制是先判断不等于 end() 然后解引用。然后递增，进入下一循环。
-				 * IEnumerator 的操作顺序是先 MoveNext 然后判断是否成功，成功再利用 CurrentValue
-				 * 获取引用。
-				 *
-				 * 让 == 运算符返回 !_enumertor->MoveNext()，这样，范围 for 的判断不等于 end() 的
-				 * 步骤就会触发移动，并得到是否移动成功的结果，移动失败，就返回 true ，让范围 for 认为
-				 * 当前等于 end() ，于是结束迭代。
-				 */
-				return !_enumertor->MoveNext();
+				return _end;
 			}
 
 			bool operator!=(ForwardIterator<item_type> const &o) const
