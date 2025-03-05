@@ -5,24 +5,24 @@
 	#include <base/stream/StreamWriter.h>
 	#include <format>
 
-void base::usage::GenerateCalculationQuestions()
+void base::usage::GenerateCalculationQuestions(int32_t min, int32_t max)
 {
 	std::shared_ptr<base::IFileStream> fs = base::di::file::CreateNewAnyway("math.txt");
 	base::StreamWriter writer{fs};
 	std::shared_ptr<base::IRandomGenerator> random_generator = base::di::CreateRandomGenerator();
-	int count = 0;
+	int32_t count = 0;
 	while (count <= 100)
 	{
-		int left = random_generator->GenerateUInt8Random(2, 20);
-		int right = random_generator->GenerateUInt8Random(2, 20);
-		int op = random_generator->GenerateUInt8Random(0, 1);
+		int32_t left = random_generator->GenerateUInt32Random(min, max);
+		int32_t right = random_generator->GenerateUInt32Random(min, max);
+		int32_t op = random_generator->GenerateUInt32Random(0, 1);
 		char op_char = '+';
 		if (op)
 		{
 			op_char = '-';
 		}
 
-		int sum = 0;
+		int32_t sum = 0;
 		if (op == 0)
 		{
 			sum = left + right;
@@ -56,5 +56,10 @@ void base::usage::GenerateCalculationQuestions()
 		writer.WriteLine();
 		count++;
 	}
+}
+
+void base::usage::GenerateCalculationQuestions()
+{
+	GenerateCalculationQuestions(2, 20);
 }
 #endif
