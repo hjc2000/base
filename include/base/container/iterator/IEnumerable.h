@@ -48,6 +48,12 @@ namespace base
 		};
 
 	public:
+		/**
+		 * @brief 包装 IEnumerator 对象，并提供 C++ 迭代器的方法。这样就能在 begin, end
+		 * 方法中返回本类对象，让 IEnumerable 支持 for-in 循环。
+		 *
+		 * @tparam item_type
+		 */
 		template <typename item_type>
 		class ForwardIterator
 		{
