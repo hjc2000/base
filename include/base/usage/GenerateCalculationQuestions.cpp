@@ -10,6 +10,7 @@ void base::usage::GenerateCalculationQuestions(int32_t min, int32_t max)
 	std::shared_ptr<base::IFileStream> fs = base::di::file::CreateNewAnyway("math.txt");
 	base::StreamWriter writer{fs};
 	std::shared_ptr<base::IRandomGenerator> random_generator = base::di::CreateRandomGenerator();
+
 	int32_t count = 0;
 	while (count <= 100)
 	{
