@@ -1,7 +1,7 @@
 #pragma once
-#include <base/math/PathCollection.h>
-
 #if HAS_THREAD
+	#include <base/math/PathCollection.h>
+
 namespace base
 {
 	namespace math
