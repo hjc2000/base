@@ -44,14 +44,6 @@ For log = natural log uncomment the next line. */
 #include <stdlib.h>
 #include <string.h>
 
-#ifndef NAN
-	#define NAN (0.0 / 0.0)
-#endif
-
-#ifndef INFINITY
-	#define INFINITY (1.0 / 0.0)
-#endif
-
 typedef double (*te_fun2)(double, double);
 
 enum
@@ -119,6 +111,7 @@ static_function te_expr *new_expr(int const type, te_expr const *parameters[])
 	{
 		memcpy(ret->parameters, parameters, psize);
 	}
+
 	ret->type = type;
 	ret->bound = 0;
 	return ret;
