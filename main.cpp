@@ -1,5 +1,5 @@
-#include <base/math/usage/CountTriangle.h>
 #include <base/net/profinet/dcp/DcpIdentifyRequestReader.h>
+#include <base/usage/CountTriangle.h>
 
 int main()
 {
@@ -25,5 +25,5 @@ int main()
 	// 	std::cout << result << std::endl;
 	// }
 
-	base::math::CountTriangle();
+	base::usage::CountTriangle();
 }

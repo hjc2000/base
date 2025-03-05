@@ -3,7 +3,7 @@
 	#include <base/math/Combination.h>
 	#include <iostream>
 
-void base::math::CountTriangle(base::math::PathCollection const &paths)
+void base::usage::CountTriangle(base::math::PathCollection const &paths)
 {
 	base::List<base::math::Point> all_points = paths.AllPoints();
 	base::Combination combination{all_points.Count(), 3};
@@ -44,6 +44,20 @@ void base::math::CountTriangle(base::math::PathCollection const &paths)
 	}
 
 	std::cout << "一共有 " << count << " 种情况。" << std::endl;
+}
+
+void base::usage::CountTriangle()
+{
+	base::math::PathCollection paths{
+		base::math::Path{"A", "B", "D", "G"},
+		base::math::Path{"C", "D", "H"},
+		base::math::Path{"F", "G", "H"},
+		base::math::Path{"A", "C", "F"},
+		base::math::Path{"E", "C", "B"},
+		base::math::Path{"E", "F", "D"},
+	};
+
+	CountTriangle(paths);
 }
 
 #endif

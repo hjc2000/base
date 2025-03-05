@@ -4,7 +4,7 @@
 
 namespace base
 {
-	namespace math
+	namespace usage
 	{
 		/**
 		 * @brief 数出路径集 paths 中的路径围成的三角形个数。
@@ -17,19 +17,7 @@ namespace base
 		 * @brief 测试 CountTriangle.
 		 *
 		 */
-		inline void CountTriangle()
-		{
-			base::math::PathCollection paths{
-				base::math::Path{"A", "B", "D", "G"},
-				base::math::Path{"C", "D", "H"},
-				base::math::Path{"F", "G", "H"},
-				base::math::Path{"A", "C", "F"},
-				base::math::Path{"E", "C", "B"},
-				base::math::Path{"E", "F", "D"},
-			};
-
-			CountTriangle(paths);
-		}
-	} // namespace math
+		void CountTriangle();
+	} // namespace usage
 } // namespace base
 #endif
