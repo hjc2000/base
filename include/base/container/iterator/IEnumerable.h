@@ -71,6 +71,7 @@ namespace base
 				return &operator*();
 			}
 
+		public:
 			/**
 			 * @brief 前缀递增
 			 *
