@@ -1,4 +1,4 @@
-#include <base/math/Path.h>
+#include <base/math/usage/CountTriangle.h>
 #include <base/net/profinet/dcp/DcpIdentifyRequestReader.h>
 
 int main()
@@ -25,5 +25,5 @@ int main()
 	// 	std::cout << result << std::endl;
 	// }
 
-	base::math::test::test_path();
+	base::math::CountTriangle();
 }

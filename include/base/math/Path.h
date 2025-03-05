@@ -133,12 +133,5 @@ namespace base
 			 */
 			virtual std::shared_ptr<base::IEnumerator<base::math::Point const>> GetEnumerator() override;
 		};
-
-#if HAS_THREAD
-		namespace test
-		{
-			void test_path();
-		} // namespace test
-#endif
 	} // namespace math
 } // namespace base
