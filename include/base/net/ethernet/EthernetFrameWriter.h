@@ -134,13 +134,6 @@ namespace base
 			 */
 			base::Span Payload() const;
 
-			/**
-			 * @brief 将 span 的数据复制到载荷区中。
-			 *
-			 * @param span
-			 */
-			void WritePayload(base::ReadOnlySpan const &span);
-
 		public:
 			/**
 			 * @brief 设置有效载荷的大小。

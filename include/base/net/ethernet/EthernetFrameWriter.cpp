@@ -99,11 +99,6 @@ base::Span base::ethernet::EthernetFrameWriter::Payload() const
 	}
 }
 
-void base::ethernet::EthernetFrameWriter::WritePayload(base::ReadOnlySpan const &span)
-{
-	Payload().CopyFrom(span);
-}
-
 void base::ethernet::EthernetFrameWriter::SetValidPayloadSize(int32_t value)
 {
 	if (HasVlanTag())
