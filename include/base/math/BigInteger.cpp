@@ -32,7 +32,7 @@ std::string base::BigInteger::ToString() const
 void base::test::TestBigInteger()
 {
 	std::cout << CODE_POS_STR;
-	base::BigInteger num{"-6666"};
+	base::BigInteger num{"-0x6666"};
 	std::cout << num << std::endl;
 }
 #endif

@@ -9,24 +9,59 @@
 #include <cmath>
 #include <cstdint>
 #include <stdexcept>
+#include <string>
+
+namespace
+{
+	class BaseAndNumberStr
+	{
+	private:
+		int32_t _base = 10;
+		base::String _number_str = "0";
+
+	public:
+		BaseAndNumberStr(int32_t base, base::String const &number_str)
+			: _base(base),
+			  _number_str(number_str)
+		{
+		}
+
+	public:
+		int32_t Base() const
+		{
+			return _base;
+		}
+
+		base::String NumberString() const
+		{
+			return _number_str;
+		}
+	};
+
+	BaseAndNumberStr Parse(base::String const &str)
+	{
+		int32_t base = 10;
+		base::String copy = str;
+		copy.ToLower();
+		if (copy.StartWith("0x"))
+		{
+			base = 16;
+			copy = copy[base::Range{2, str.Length()}];
+		}
+		else if (copy.StartWith('0') && copy.Length() > 1)
+		{
+			base = 8;
+			copy = copy[base::Range{1, str.Length()}];
+		}
+
+		return BaseAndNumberStr{base, copy};
+	}
+} // namespace
 
 int32_t base::ParseInt32(base::String const &str)
 {
-	int32_t base = 10;
-	base::String copy = str;
-	copy.ToLower();
-	if (copy.StartWith("0x"))
-	{
-		base = 16;
-		copy = copy[base::Range{2, str.Length()}];
-	}
-	else if (copy.StartWith('0') && copy.Length() > 1)
-	{
-		base = 8;
-		copy = copy[base::Range{1, str.Length()}];
-	}
-
-	return ParseInt32(copy.StdString(), base);
+	auto info = Parse(str);
+	return ParseInt32(info.NumberString(), info.Base());
 }
 
 int32_t base::ParseInt32(base::String const &str, int32_t base)
@@ -48,21 +83,8 @@ int32_t base::ParseInt32(base::String const &str, int32_t base)
 
 int64_t base::ParseInt64(base::String const &str)
 {
-	int32_t base = 10;
-	base::String copy = str;
-	copy.ToLower();
-	if (copy.StartWith("0x"))
-	{
-		base = 16;
-		copy = copy[base::Range{2, str.Length()}];
-	}
-	else if (copy.StartWith('0') && copy.Length() > 1)
-	{
-		base = 8;
-		copy = copy[base::Range{1, str.Length()}];
-	}
-
-	return ParseInt64(copy.StdString(), base);
+	auto info = Parse(str);
+	return ParseInt64(info.NumberString(), info.Base());
 }
 
 int64_t base::ParseInt64(base::String const &str, int32_t base)
@@ -84,21 +106,8 @@ int64_t base::ParseInt64(base::String const &str, int32_t base)
 
 double base::ParseDouble(base::String const &str)
 {
-	int32_t base = 10;
-	base::String copy = str;
-	copy.ToLower();
-	if (copy.StartWith("0x"))
-	{
-		base = 16;
-		copy = copy[base::Range{2, str.Length()}];
-	}
-	else if (copy.StartWith('0') && copy.Length() > 1)
-	{
-		base = 8;
-		copy = copy[base::Range{1, str.Length()}];
-	}
-
-	return ParseDouble(copy.StdString(), base);
+	auto info = Parse(str);
+	return ParseDouble(info.NumberString(), info.Base());
 }
 
 double base::ParseDouble(base::String const &str, int32_t base)
