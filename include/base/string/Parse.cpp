@@ -69,7 +69,7 @@ namespace
 
 		if (is_negative)
 		{
-			copy = '-' + copy.StdString();
+			copy = '-' + copy;
 		}
 
 		return BaseAndNumberStr{base, copy};
