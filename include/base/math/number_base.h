@@ -23,7 +23,7 @@ namespace base
 		 * @param base
 		 * @return uint64_t
 		 */
-		uint64_t ToNumber(std::vector<uint8_t> const &num, uint8_t base);
+		uint64_t ToUInt64(std::vector<uint8_t> const &num, uint8_t base);
 
 		/**
 		 * @brief 将整型转为 8421 BCD 码。每个码都独立放到一个字节中。虽然说每个码只需要 4 位，

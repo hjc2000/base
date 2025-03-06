@@ -18,7 +18,7 @@ std::vector<uint8_t> base::number_base::ConvertBase(uint64_t num, uint8_t base)
 	return result;
 }
 
-uint64_t base::number_base::ToNumber(std::vector<uint8_t> const &num, uint8_t base)
+uint64_t base::number_base::ToUInt64(std::vector<uint8_t> const &num, uint8_t base)
 {
 	uint64_t result = 0;
 	for (uint64_t i = 0; i < num.size(); i++)
