@@ -57,7 +57,7 @@ uint32_t base::profinet::DcpHelloRequestWriter::Xid() const
 	return writer.Xid();
 }
 
-void base::profinet::DcpHelloRequestWriter::SetXid(uint32_t value)
+void base::profinet::DcpHelloRequestWriter::WriteXid(uint32_t value)
 {
 	base::profinet::DcpHeaderWriter writer{_this_span};
 	writer.SetXid(value);
@@ -79,38 +79,38 @@ void base::profinet::DcpHelloRequestWriter::ClearAllBlocks()
 	_fid_apdu_writer.SetValidPayloadSize(base::profinet::DcpHeaderWriter::HeaderSize());
 }
 
-void base::profinet::DcpHelloRequestWriter::PutNameOfStationBlock(std::string const &station_name)
+void base::profinet::DcpHelloRequestWriter::WriteNameOfStationBlock(std::string const &station_name)
 {
 	base::profinet::DcpTlvStreamWriter writer{*_block_stream};
 	writer.WriteNameOfStationBlock(station_name);
 	UpdateSize();
 }
 
-void base::profinet::DcpHelloRequestWriter::PutIPAddressInfomationBlock(bool ip_not_set,
-																		base::IPAddress const &ip,
-																		base::IPAddress const &gateway,
-																		base::IPAddress const &netmask)
+void base::profinet::DcpHelloRequestWriter::WriteIPAddressInfomationBlock(bool ip_not_set,
+																		  base::IPAddress const &ip,
+																		  base::IPAddress const &gateway,
+																		  base::IPAddress const &netmask)
 {
 	base::profinet::DcpTlvStreamWriter writer{*_block_stream};
 	writer.WriteIPAddressInfomationBlock(ip_not_set, ip, gateway, netmask);
 	UpdateSize();
 }
 
-void base::profinet::DcpHelloRequestWriter::PutIdBlock(uint16_t vendor_id, uint16_t device_id)
+void base::profinet::DcpHelloRequestWriter::WriteIdBlock(uint16_t vendor_id, uint16_t device_id)
 {
 	base::profinet::DcpTlvStreamWriter writer{*_block_stream};
 	writer.WriteIdBlock(vendor_id, device_id);
 	UpdateSize();
 }
 
-void base::profinet::DcpHelloRequestWriter::PutOemIdBlock(uint16_t oem_vendor_id, uint16_t oem_device_id)
+void base::profinet::DcpHelloRequestWriter::WriteOemIdBlock(uint16_t oem_vendor_id, uint16_t oem_device_id)
 {
 	base::profinet::DcpTlvStreamWriter writer{*_block_stream};
 	writer.WriteOemIdBlock(oem_vendor_id, oem_device_id);
 	UpdateSize();
 }
 
-void base::profinet::DcpHelloRequestWriter::PutDeviceInitiativeBlock(bool hello)
+void base::profinet::DcpHelloRequestWriter::WriteDeviceInitiativeBlock(bool hello)
 {
 	base::profinet::DcpTlvStreamWriter writer{*_block_stream};
 	writer.WriteDeviceInitiativeBlock(hello);
