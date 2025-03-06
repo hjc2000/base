@@ -38,6 +38,12 @@ namespace base
 			 * @return base::Mac
 			 */
 			base::Mac DestinationMac() const;
+
+			/**
+			 * @brief 写入目的 MAC 地址。
+			 *
+			 * @param value
+			 */
 			void WriteDestinationMac(base::Mac const &value);
 
 			/**
@@ -46,6 +52,12 @@ namespace base
 			 * @return base::Mac
 			 */
 			base::Mac SourceMac() const;
+
+			/**
+			 * @brief 写入源 MAC 地址。
+			 *
+			 * @param value
+			 */
 			void WriteSourceMac(base::Mac const &value);
 
 			/**
@@ -55,7 +67,7 @@ namespace base
 			 * 内存的空的 Span.
 			 */
 			base::Span VlanTag() const;
-			void SetVlanTag(base::Span const &value);
+			void WriteVlanTag(base::ReadOnlySpan const &value);
 
 			/**
 			 * @brief 是否具有 VLAN TAG.

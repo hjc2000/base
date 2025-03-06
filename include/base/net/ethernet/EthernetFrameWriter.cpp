@@ -39,7 +39,7 @@ base::Span base::ethernet::EthernetFrameWriter::VlanTag() const
 	throw std::runtime_error{"本以太网帧不具备 VlanTag."};
 }
 
-void base::ethernet::EthernetFrameWriter::SetVlanTag(base::Span const &value)
+void base::ethernet::EthernetFrameWriter::WriteVlanTag(base::ReadOnlySpan const &value)
 {
 	base::Span span = _span.Slice(base::Range{12, 16});
 	span.CopyFrom(value);
