@@ -1,4 +1,5 @@
 #pragma once
+#include <base/net/profidrive/data-type/DataTypeEnum.h>
 #include <cstdint>
 #include <vector>
 
@@ -22,6 +23,16 @@ namespace base
 			std::vector<uint8_t> &ParameterValuesBuffer()
 			{
 				return _parameter_values_buffer;
+			}
+
+			/**
+			 * @brief 指示参数值的类型。
+			 *
+			 * @return base::profidrive::DataTypeEnum
+			 */
+			base::profidrive::DataTypeEnum ValueType() const
+			{
+				return base::profidrive::DataTypeEnum::Bool;
 			}
 		};
 	} // namespace profidrive
