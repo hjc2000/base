@@ -104,7 +104,7 @@ namespace base
 			 *		@li 0x0806：表示ARP请求
 			 *		@li 0x86DD：表示IPv6数据包
 			 *
-			 * @return LengthOrTypeEnum
+			 * @return base::ethernet::LengthOrTypeEnum
 			 */
 			base::ethernet::LengthOrTypeEnum TypeOrLength() const;
 
