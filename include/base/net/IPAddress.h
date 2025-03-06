@@ -113,6 +113,8 @@ namespace base
 		 */
 		IPAddress(base::String const &ip_str);
 
+		virtual ~IPAddress() = default;
+
 	public:
 		uint8_t &operator[](int index);
 		uint8_t const &operator[](int index) const;

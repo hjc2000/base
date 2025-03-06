@@ -60,6 +60,8 @@ namespace base
 		{
 		}
 
+		virtual ~Span() = default;
+
 	public:
 		/**
 		 * @brief 索引一个字节。

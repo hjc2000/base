@@ -8,9 +8,15 @@
 
 namespace base
 {
-	/// @brief 流接口。
+	/**
+	 * @brief 流接口。
+	 *
+	 */
 	class Stream
 	{
+	public:
+		virtual ~Stream() = default;
+
 	public:
 		/**
 		 * @brief 本流能否读取。

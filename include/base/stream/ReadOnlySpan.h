@@ -64,6 +64,8 @@ namespace base
 		{
 		}
 
+		virtual ~ReadOnlySpan() = default;
+
 	public:
 		/**
 		 * @brief 索引一个字节。
