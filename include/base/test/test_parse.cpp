@@ -24,8 +24,8 @@ void base::test::test_parse_int64()
 {
 	std::cout << "测试：" << CODE_POS_STR;
 
-	std::string str{"10"};
-	std::cout << "解析 10:\t" << base::ParseInt64(str) << std::endl;
+	std::string str{"-10"};
+	std::cout << "解析 -10:\t" << base::ParseInt64(str) << std::endl;
 
 	str = "0x10";
 	std::cout << "解析 0x10:\t" << base::ParseInt64(str) << std::endl;

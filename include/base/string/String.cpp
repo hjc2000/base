@@ -421,7 +421,7 @@ bool base::String::EndWith(base::String const &match) const
 
 base::String operator+(std::string const &left, base::String const &right)
 {
-	return base::String{right + left};
+	return base::String{left + right.StdString()};
 }
 
 std::ostream &operator<<(std::ostream &os, base::String const &str)

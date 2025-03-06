@@ -43,6 +43,14 @@ namespace
 		int32_t base = 10;
 		base::String copy = str;
 		copy.ToLower();
+
+		bool is_negative = false;
+		if (copy.StartWith('-'))
+		{
+			is_negative = true;
+			copy = copy[base::Range{1, str.Length()}];
+		}
+
 		if (copy.StartWith("0x"))
 		{
 			base = 16;
@@ -52,6 +60,16 @@ namespace
 		{
 			base = 8;
 			copy = copy[base::Range{1, str.Length()}];
+		}
+
+		if (copy.StartWith('-'))
+		{
+			throw std::invalid_argument{CODE_POS_STR + "负号应该放到前缀前面。"};
+		}
+
+		if (is_negative)
+		{
+			copy = "-" + copy;
 		}
 
 		return BaseAndNumberStr{base, copy};
@@ -75,7 +93,7 @@ int32_t base::ParseInt32(base::String const &str, int32_t base)
 	if (static_cast<int32_t>(parse_end_index) != str.Length())
 	{
 		// 没有将整个字符串都用来解析。
-		throw std::invalid_argument("非法字符串。");
+		throw std::invalid_argument{CODE_POS_STR + "非法字符串：" + str.StdString()};
 	}
 
 	return result;
@@ -98,7 +116,7 @@ int64_t base::ParseInt64(base::String const &str, int32_t base)
 	if (static_cast<int32_t>(parse_end_index) != str.Length())
 	{
 		// 没有将整个字符串都用来解析。
-		throw std::invalid_argument("非法字符串。");
+		throw std::invalid_argument{CODE_POS_STR + "非法字符串：" + str.StdString()};
 	}
 
 	return result;
