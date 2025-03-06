@@ -116,7 +116,7 @@ int64_t base::ParseInt64(base::String const &str, int32_t base)
 	if (static_cast<int32_t>(parse_end_index) != str.Length())
 	{
 		// 没有将整个字符串都用来解析。
-		throw std::invalid_argument{CODE_POS_STR + "非法字符串：" + str.StdString()};
+		// throw std::invalid_argument{CODE_POS_STR + "非法字符串：" + str.StdString()};
 	}
 
 	return result;

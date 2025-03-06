@@ -30,8 +30,8 @@ void base::test::test_parse_int64()
 	str = "-0x10";
 	std::cout << "解析 -0x10:\t" << base::ParseInt64(str) << std::endl;
 
-	str = "010";
-	std::cout << "解析 010:\t" << base::ParseInt64(str) << std::endl;
+	str = "-010";
+	std::cout << "解析 -010:\t" << base::ParseInt64(str) << std::endl;
 }
 
 void base::test::test_parse_double()
