@@ -68,7 +68,18 @@ namespace base
 				_ethernet_frame.WriteSourceMac(value);
 			}
 
+			/**
+			 * @brief PROFINET 帧 ID.
+			 *
+			 * @return base::profinet::FrameIdEnum
+			 */
 			base::profinet::FrameIdEnum FrameId() const;
+
+			/**
+			 * @brief 写入 PROFINET 帧 ID.
+			 *
+			 * @param value
+			 */
 			void WriteFrameId(base::profinet::FrameIdEnum value);
 
 			/**
