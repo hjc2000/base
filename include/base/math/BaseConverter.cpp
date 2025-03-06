@@ -1,8 +1,6 @@
 #include "BaseConverter.h"
 #include <math.h>
 
-using namespace std;
-
 std::vector<uint8_t> base::BaseConverter::ConvertBase(uint64_t num, uint8_t base)
 {
 	std::vector<uint8_t> result;
