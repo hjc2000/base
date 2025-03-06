@@ -38,7 +38,7 @@ namespace
 		}
 	};
 
-	BaseAndNumberStr Parse(base::String const &str)
+	BaseAndNumberStr ParseBase(base::String const &str)
 	{
 		int32_t base = 10;
 		base::String copy = str;
@@ -60,7 +60,7 @@ namespace
 
 int32_t base::ParseInt32(base::String const &str)
 {
-	auto info = Parse(str);
+	auto info = ParseBase(str);
 	return ParseInt32(info.NumberString(), info.Base());
 }
 
@@ -83,7 +83,7 @@ int32_t base::ParseInt32(base::String const &str, int32_t base)
 
 int64_t base::ParseInt64(base::String const &str)
 {
-	auto info = Parse(str);
+	auto info = ParseBase(str);
 	return ParseInt64(info.NumberString(), info.Base());
 }
 
@@ -106,7 +106,7 @@ int64_t base::ParseInt64(base::String const &str, int32_t base)
 
 double base::ParseDouble(base::String const &str)
 {
-	auto info = Parse(str);
+	auto info = ParseBase(str);
 	return ParseDouble(info.NumberString(), info.Base());
 }
 
