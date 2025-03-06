@@ -1,5 +1,5 @@
 #include "FidApdu.h"
-#include <base/stream/ReadOnlySpan.h>
+#include "base/stream/Span.h"
 #include <base/string/define.h>
 
 base::profinet::FidApdu::FidApdu(base::Span const &span)
@@ -12,13 +12,15 @@ base::profinet::FidApdu::FidApdu(base::Span const &span)
 
 base::profinet::FrameIdEnum base::profinet::FidApdu::FrameId() const
 {
-	uint16_t value = _converter.ToUInt16(_this_span.Slice(base::Range{0, 2}));
+	base::Span span = _this_span.Slice(base::Range{0, 2});
+	uint16_t value = _converter.ToUInt16(span);
 	return static_cast<base::profinet::FrameIdEnum>(value);
 }
 
 void base::profinet::FidApdu::WriteFrameId(base::profinet::FrameIdEnum value)
 {
-	_converter.GetBytes(static_cast<uint16_t>(value), _this_span.Slice(base::Range{0, 2}));
+	base::Span span = _this_span.Slice(base::Range{0, 2});
+	_converter.GetBytes(static_cast<uint16_t>(value), span);
 }
 
 base::Span base::profinet::FidApdu::Payload() const
