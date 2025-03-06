@@ -9,15 +9,15 @@ void base::profinet::DcpHelloRequestWriter::UpdateSize()
 	writer.SetDataLength(_block_stream->Length());
 
 	// 头部长度加上 Blocks 的长度。
-	_fid_apdu.SetValidPayloadSize(base::profinet::DcpHeaderWriter::HeaderSize() + _block_stream->Length());
+	_fid_apdu_writer.SetValidPayloadSize(base::profinet::DcpHeaderWriter::HeaderSize() + _block_stream->Length());
 }
 
 base::profinet::DcpHelloRequestWriter::DcpHelloRequestWriter(base::Span const &span)
-	: _fid_apdu(span)
+	: _fid_apdu_writer(span)
 {
-	_fid_apdu.WriteFrameId(base::profinet::FrameIdEnum::DcpHelloRequest);
+	_fid_apdu_writer.WriteFrameId(base::profinet::FrameIdEnum::DcpHelloRequest);
 
-	_fid_apdu.WriteDestinationMac(base::Mac{
+	_fid_apdu_writer.WriteDestinationMac(base::Mac{
 		std::endian::big,
 		base::Array<uint8_t, 6>{
 			0x01,
@@ -29,7 +29,7 @@ base::profinet::DcpHelloRequestWriter::DcpHelloRequestWriter(base::Span const &s
 		},
 	});
 
-	_this_span = _fid_apdu.Payload();
+	_this_span = _fid_apdu_writer.Payload();
 
 	base::profinet::DcpHeaderWriter writer{_this_span};
 	writer.SetServiceId(base::profinet::DcpServiceIdEnum::Hello);
@@ -76,7 +76,7 @@ void base::profinet::DcpHelloRequestWriter::ClearAllBlocks()
 	_block_stream->Clear();
 
 	// Blocks 区的有效数据长度为 0，只剩下头部是有效数据。
-	_fid_apdu.SetValidPayloadSize(base::profinet::DcpHeaderWriter::HeaderSize());
+	_fid_apdu_writer.SetValidPayloadSize(base::profinet::DcpHeaderWriter::HeaderSize());
 }
 
 void base::profinet::DcpHelloRequestWriter::PutNameOfStationBlock(std::string const &station_name)

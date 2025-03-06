@@ -3,7 +3,7 @@
 #include <base/net/IPAddress.h>
 #include <base/net/profinet/dcp/DcpServiceIdEnum.h>
 #include <base/net/profinet/dcp/DcpServiceTypeEnum.h>
-#include <base/net/profinet/fid-pdu/FidApdu.h>
+#include <base/net/profinet/fid-pdu/FidApduWriter.h>
 #include <base/stream/MemoryStream.h>
 
 namespace base
@@ -14,7 +14,7 @@ namespace base
 		class DcpHelloRequestWriter
 		{
 		private:
-			base::profinet::FidApdu _fid_apdu;
+			base::profinet::FidApduWriter _fid_apdu_writer;
 			base::Span _this_span;
 			std::shared_ptr<base::MemoryStream> _block_stream;
 
@@ -29,14 +29,14 @@ namespace base
 			/// @return
 			base::Mac SourceMac() const
 			{
-				return _fid_apdu.SourceMac();
+				return _fid_apdu_writer.SourceMac();
 			}
 
 			/// @brief 设置源 MAC 地址。
 			/// @param value
 			void WriteSourceMac(base::Mac const &value)
 			{
-				_fid_apdu.WriteSourceMac(value);
+				_fid_apdu_writer.WriteSourceMac(value);
 			}
 
 			base::profinet::DcpServiceIdEnum ServiceId() const;
@@ -78,7 +78,7 @@ namespace base
 			/// @return
 			base::ReadOnlySpan SpanForSending() const
 			{
-				return _fid_apdu.SpanForSending();
+				return _fid_apdu_writer.SpanForSending();
 			}
 		};
 	} // namespace profinet

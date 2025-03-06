@@ -9,10 +9,10 @@ namespace base
 	namespace profinet
 	{
 		/**
-		 * @brief 带有帧 ID 的应用层协议数据单元。
+		 * @brief 带有帧 ID 的应用层协议数据单元写入器。
 		 *
 		 */
-		class FidApdu
+		class FidApduWriter
 		{
 		private:
 			base::ethernet::EthernetFrameWriter _ethernet_frame;
@@ -25,7 +25,7 @@ namespace base
 			 *
 			 * @param span 整个以太网帧的内存片段。
 			 */
-			FidApdu(base::Span const &span);
+			FidApduWriter(base::Span const &span);
 
 		public:
 			/**
