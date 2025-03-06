@@ -41,7 +41,7 @@ base::IPAddress::IPAddress(IPAddressType type)
 base::IPAddress::IPAddress(std::endian endian, base::Array<uint8_t, 4> const &ip_address_buffer)
 {
 	_context = Context{IPAddressType::IPV4};
-	_context.Span().CopyFrom(ip_address_buffer.AsReadOnlyArraySpan());
+	_context.Span().CopyFrom(ip_address_buffer.Span());
 
 	// 用小端序存放 IPV4 地址
 	if (endian != std::endian::little)
@@ -53,7 +53,7 @@ base::IPAddress::IPAddress(std::endian endian, base::Array<uint8_t, 4> const &ip
 base::IPAddress::IPAddress(std::endian endian, base::Array<uint8_t, 16> const &ip_address_buffer)
 {
 	_context = Context{IPAddressType::IPV6};
-	_context.Span().CopyFrom(ip_address_buffer.AsReadOnlyArraySpan());
+	_context.Span().CopyFrom(ip_address_buffer.Span());
 
 	// 用小端序存放 IPV6 地址
 	if (endian != std::endian::little)

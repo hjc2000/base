@@ -23,7 +23,7 @@ int32_t base::profidrive::X2::Factor() const
 
 base::Span base::profidrive::X2::Span()
 {
-	return _buffer.AsArraySpan();
+	return _buffer.Span();
 }
 
 base::ReadOnlySpan base::profidrive::X2::Span() const

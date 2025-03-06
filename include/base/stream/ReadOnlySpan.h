@@ -1,6 +1,7 @@
 #pragma once
-#include "base/container/Range.h"
+#include <base/container/Array.h>
 #include <base/container/ArraySpan.h>
+#include <base/container/Range.h>
 #include <base/stream/Span.h>
 #include <cstdint>
 
@@ -50,6 +51,18 @@ namespace base
 		 * @param o
 		 */
 		ReadOnlySpan(base::Span const &o);
+
+		/**
+		 * @brief 从 base::Array<uint8_t, TCount> 构造，引用它所引用的内存。
+		 *
+		 * @tparam TCount
+		 * @param array
+		 */
+		template <int32_t TCount>
+		ReadOnlySpan(base::Array<uint8_t, TCount> const &array)
+			: base::ReadOnlySpan(array.Span())
+		{
+		}
 
 	public:
 		/**

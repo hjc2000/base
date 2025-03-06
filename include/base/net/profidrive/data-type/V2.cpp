@@ -8,7 +8,7 @@ base::profidrive::V2::V2(base::ReadOnlySpan const &span)
 base::profidrive::V2::V2(std::bitset<16> const &set)
 {
 	uint16_t data = set.to_ulong();
-	_converter.GetBytes(data, _buffer.AsArraySpan());
+	_converter.GetBytes(data, _buffer.Span());
 }
 
 base::profidrive::V2::operator std::bitset<16>() const
@@ -21,7 +21,7 @@ std::bitset<16> base::profidrive::V2::ToBitSet() const
 	std::bitset<16> set{};
 
 	// 经过转换后，变成小端序了，第 1 个字节是 bit0 到 bit7，第 2 个字节是 bit8 到 bit15.
-	uint16_t data = _converter.ToUInt16(_buffer.AsReadOnlyArraySpan());
+	uint16_t data = _converter.ToUInt16(_buffer.Span());
 	for (int i = 0; i < 16; i++)
 	{
 		set[i] = data & (1 << i);
@@ -32,5 +32,5 @@ std::bitset<16> base::profidrive::V2::ToBitSet() const
 
 base::Span base::profidrive::V2::Span()
 {
-	return _buffer.AsArraySpan();
+	return _buffer.Span();
 }

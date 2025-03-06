@@ -33,7 +33,7 @@ namespace base
 				throw std::invalid_argument{"span 的元素个数和本数组不同。"};
 			}
 
-			this->AsArraySpan().CopyFrom(span);
+			this->Span().CopyFrom(span);
 		}
 
 		/**

@@ -133,12 +133,12 @@ uint8_t const &base::Mac::operator[](int index) const
 
 base::Array<uint8_t, 3> base::Mac::Oui() const
 {
-	return base::Array<uint8_t, 3>{_mac_buffer.AsReadOnlyArraySpan().Slice(base::Range{3, 6})};
+	return base::Array<uint8_t, 3>{_mac_buffer.Span().Slice(base::Range{3, 6})};
 }
 
 void base::Mac::SetOui(base::Array<uint8_t, 3> const &value)
 {
-	_mac_buffer.AsArraySpan().Slice(base::Range{3, 6}).CopyFrom(value.AsReadOnlyArraySpan());
+	_mac_buffer.Span().Slice(base::Range{3, 6}).CopyFrom(value.Span());
 }
 
 bool base::Mac::IsMulticastAddress() const

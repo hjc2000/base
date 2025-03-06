@@ -23,7 +23,7 @@ base::profidrive::E2::E2(base::Fraction const &value)
 
 base::Span base::profidrive::E2::Span()
 {
-	return _buffer.AsArraySpan();
+	return _buffer.Span();
 }
 
 base::ReadOnlySpan base::profidrive::E2::Span() const

@@ -1,4 +1,5 @@
 #pragma once
+#include <base/container/Array.h>
 #include <base/container/ArraySpan.h>
 #include <base/container/iterator/IEnumerable.h>
 #include <base/container/Range.h>
@@ -46,6 +47,18 @@ namespace base
 		 * @param span
 		 */
 		Span(base::ArraySpan<uint8_t> const &span);
+
+		/**
+		 * @brief 从 base::Array<uint8_t, TCount> 构造，引用它所引用的内存。
+		 *
+		 * @tparam TCount
+		 * @param array
+		 */
+		template <int32_t TCount>
+		Span(base::Array<uint8_t, TCount> &array)
+			: base::Span(array.Span())
+		{
+		}
 
 	public:
 		/**

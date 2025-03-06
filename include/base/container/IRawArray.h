@@ -247,12 +247,12 @@ namespace base
 			}
 		}
 
-		base::ArraySpan<ItemType> AsArraySpan()
+		base::ArraySpan<ItemType> Span()
 		{
 			return base::ArraySpan<ItemType>{Buffer(), Count()};
 		}
 
-		base::ReadOnlyArraySpan<ItemType> AsReadOnlyArraySpan() const
+		base::ReadOnlyArraySpan<ItemType> Span() const
 		{
 			return base::ReadOnlyArraySpan<ItemType>{Buffer(), Count()};
 		}
