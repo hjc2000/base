@@ -1,7 +1,6 @@
 #include "FidApdu.h"
 #include <base/stream/ReadOnlySpan.h>
 #include <base/string/define.h>
-#include <stdexcept>
 
 base::profinet::FidApdu::FidApdu(base::Span const &span)
 	: _ethernet_frame(span)
