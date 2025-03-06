@@ -135,7 +135,7 @@ void base::ethernet::EthernetFrameWriter::SetValidPayloadSize(int32_t value)
 	}
 }
 
-base::Span base::ethernet::EthernetFrameWriter::ValidDataSpan() const
+base::ReadOnlySpan base::ethernet::EthernetFrameWriter::SpanForSending() const
 {
 	return _span.Slice(base::Range{0, FrameSize()});
 }

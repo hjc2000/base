@@ -1,4 +1,5 @@
 #pragma once
+#include "base/stream/ReadOnlySpan.h"
 #include <base/bit/AutoBitConverter.h>
 #include <base/net/ethernet/EthernetFrameWriter.h>
 #include <base/net/profinet/fid-pdu/FrameIdEnum.h>
@@ -54,11 +55,9 @@ namespace base
 			/// @brief 设置有效载荷的大小。
 			void SetValidPayloadSize(int32_t value);
 
-			/// @brief 整个以太网帧缓冲区中的有效数据 span.
-			/// @return
-			base::Span ValidDataSpan() const
+			base::ReadOnlySpan SpanForSending() const
 			{
-				return _ethernet_frame.ValidDataSpan();
+				return _ethernet_frame.SpanForSending();
 			}
 		};
 	} // namespace profinet

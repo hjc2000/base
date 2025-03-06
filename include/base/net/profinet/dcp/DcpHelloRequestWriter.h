@@ -1,4 +1,5 @@
 #pragma once
+#include "base/stream/ReadOnlySpan.h"
 #include <base/net/IPAddress.h>
 #include <base/net/profinet/dcp/DcpServiceIdEnum.h>
 #include <base/net/profinet/dcp/DcpServiceTypeEnum.h>
@@ -75,9 +76,9 @@ namespace base
 
 			/// @brief 整个以太网帧缓冲区中的有效数据 span.
 			/// @return
-			base::Span ValidDataSpan() const
+			base::ReadOnlySpan SpanForSending() const
 			{
-				return _fid_apdu.ValidDataSpan();
+				return _fid_apdu.SpanForSending();
 			}
 		};
 	} // namespace profinet

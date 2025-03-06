@@ -110,6 +110,7 @@ namespace base
 			 */
 			base::Span Payload() const;
 
+		public:
 			/**
 			 * @brief 设置有效载荷的大小。
 			 *
@@ -118,13 +119,13 @@ namespace base
 			void SetValidPayloadSize(int32_t value);
 
 			/**
-			 * @brief 从整个 span 中切割出有效数据的 span.
+			 * @brief 从整个 span 中切割出有效的可以发送到以太网中的 span.
 			 *
 			 * @note 切割范围：[0, FrameSize].
 			 *
-			 * @return base::Span
+			 * @return base::ReadOnlySpan
 			 */
-			base::Span ValidDataSpan() const;
+			base::ReadOnlySpan SpanForSending() const;
 
 			/**
 			 * @brief 帧大小。有 VLAN TAG 时至少是 64 字节，无 VLAN TAG 时至少是 60 字节。
