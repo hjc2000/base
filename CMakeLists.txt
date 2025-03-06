@@ -32,7 +32,7 @@ endif()
 
 # 添加测试程序
 if(platform STREQUAL "msys")
-	add_executable(test ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
+	add_executable(test ${CMAKE_CURRENT_SOURCE_DIR}/exe/main.cpp)
 
 	target_link_libraries(${ProjectName} PUBLIC -Wl,--start-group)
 	target_link_libraries(test ${ProjectName})

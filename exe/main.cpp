@@ -1,3 +1,4 @@
+#include "base/math/BigInteger.h"
 #include "base/net/IPAddress.h"
 #include <base/net/profinet/dcp/DcpIdentifyRequestReader.h>
 #include <base/usage/CountTriangle.h>
@@ -28,4 +29,5 @@ int main()
 
 	base::usage::CountTriangle();
 	base::TestIpAddress();
+	base::test::TestBigInteger();
 }
