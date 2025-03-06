@@ -106,14 +106,14 @@ namespace base
 			 *
 			 * @return LengthOrTypeEnum
 			 */
-			LengthOrTypeEnum TypeOrLength() const;
+			base::ethernet::LengthOrTypeEnum TypeOrLength() const;
 
 			/**
 			 * @brief 写入类型或长度。
 			 *
 			 * @param value
 			 */
-			void WriteTypeOrLength(LengthOrTypeEnum value);
+			void WriteTypeOrLength(base::ethernet::LengthOrTypeEnum value);
 
 			/**
 			 * @brief 载荷数据。
