@@ -48,18 +48,18 @@ namespace
 		if (copy.StartWith('-'))
 		{
 			is_negative = true;
-			copy = copy[base::Range{1, str.Length()}];
+			copy = copy[base::Range{1, copy.Length()}];
 		}
 
 		if (copy.StartWith("0x"))
 		{
 			base = 16;
-			copy = copy[base::Range{2, str.Length()}];
+			copy = copy[base::Range{2, copy.Length()}];
 		}
 		else if (copy.StartWith('0') && copy.Length() > 1)
 		{
 			base = 8;
-			copy = copy[base::Range{1, str.Length()}];
+			copy = copy[base::Range{1, copy.Length()}];
 		}
 
 		if (copy.StartWith('-'))
@@ -69,7 +69,6 @@ namespace
 
 		if (is_negative)
 		{
-			std::cout << copy.StdString() << "-6666666-" << copy.StdString().size() << std::endl;
 			copy = '-' + copy.StdString();
 		}
 
@@ -117,12 +116,8 @@ int64_t base::ParseInt64(base::String const &str, int32_t base)
 	if (static_cast<int32_t>(parse_end_index) != str.Length())
 	{
 		// 没有将整个字符串都用来解析。
-		// throw std::invalid_argument{CODE_POS_STR + "非法字符串：" + str.StdString()};
+		throw std::invalid_argument{CODE_POS_STR + "非法字符串：" + str.StdString()};
 	}
-
-	std::cout << std::endl
-			  << "********" << str.StdString() << "********"
-			  << "********" << str.Length() << "********" << std::endl;
 
 	return result;
 }

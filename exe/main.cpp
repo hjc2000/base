@@ -36,7 +36,9 @@ int main()
 	base::test::test_parse_int64();
 	base::test::test_parse_double();
 
-	base::String str{"10"};
+	base::String str{"1000"};
 	str = "-" + str;
+	str = str[base::Range{2, str.Length()}];
+	std::cout << str << std::endl;
 	std::cout << str.Length() << std::endl;
 }
