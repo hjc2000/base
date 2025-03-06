@@ -1,7 +1,7 @@
-#include "BaseConverter.h"
+#include "number_base.h"
 #include <math.h>
 
-std::vector<uint8_t> base::BaseConverter::ConvertBase(uint64_t num, uint8_t base)
+std::vector<uint8_t> base::number_base::ConvertBase(uint64_t num, uint8_t base)
 {
 	std::vector<uint8_t> result;
 	while (true)
@@ -18,7 +18,7 @@ std::vector<uint8_t> base::BaseConverter::ConvertBase(uint64_t num, uint8_t base
 	return result;
 }
 
-uint64_t base::BaseConverter::ToNumber(std::vector<uint8_t> const &num, uint8_t base)
+uint64_t base::number_base::ToNumber(std::vector<uint8_t> const &num, uint8_t base)
 {
 	uint64_t result = 0;
 	for (uint64_t i = 0; i < num.size(); i++)
@@ -29,7 +29,7 @@ uint64_t base::BaseConverter::ToNumber(std::vector<uint8_t> const &num, uint8_t 
 	return result;
 }
 
-std::vector<uint8_t> base::BaseConverter::To8421BCD(uint64_t num)
+std::vector<uint8_t> base::number_base::To8421BCD(uint64_t num)
 {
 	return ConvertBase(num, 10);
 }
