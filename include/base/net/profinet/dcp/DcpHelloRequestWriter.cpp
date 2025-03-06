@@ -17,7 +17,7 @@ base::profinet::DcpHelloRequestWriter::DcpHelloRequestWriter(base::Span const &s
 {
 	_fid_apdu.SetFrameId(base::profinet::FrameIdEnum::DcpHelloRequest);
 
-	_fid_apdu.SetDestinationMac(base::Mac{
+	_fid_apdu.WriteDestinationMac(base::Mac{
 		std::endian::big,
 		base::Array<uint8_t, 6>{
 			0x01,

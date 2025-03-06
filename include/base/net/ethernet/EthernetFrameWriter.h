@@ -38,7 +38,7 @@ namespace base
 			 * @return base::Mac
 			 */
 			base::Mac DestinationMac() const;
-			void SetDestinationMac(base::Mac const &value);
+			void WriteDestinationMac(base::Mac const &value);
 
 			/**
 			 * @brief 源 MAC 地址。
@@ -109,6 +109,13 @@ namespace base
 			 * @return base::Span
 			 */
 			base::Span Payload() const;
+
+			/**
+			 * @brief 将 span 的数据复制到载荷区中。
+			 *
+			 * @param span
+			 */
+			void SetPayload(base::ReadOnlySpan const &span);
 
 		public:
 			/**

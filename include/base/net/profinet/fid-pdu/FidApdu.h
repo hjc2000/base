@@ -28,9 +28,9 @@ namespace base
 				return _ethernet_frame.DestinationMac();
 			}
 
-			void SetDestinationMac(base::Mac const &value)
+			void WriteDestinationMac(base::Mac const &value)
 			{
-				_ethernet_frame.SetDestinationMac(value);
+				_ethernet_frame.WriteDestinationMac(value);
 			}
 
 			/// @brief 源 MAC 地址。
@@ -52,6 +52,7 @@ namespace base
 			/// @return
 			base::Span Payload() const;
 
+		public:
 			/// @brief 设置有效载荷的大小。
 			void SetValidPayloadSize(int32_t value);
 

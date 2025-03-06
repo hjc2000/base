@@ -10,7 +10,7 @@ base::Mac base::ethernet::EthernetFrameWriter::DestinationMac() const
 	return base::Mac{std::endian::big, _span.Slice(base::Range{0, 6})};
 }
 
-void base::ethernet::EthernetFrameWriter::SetDestinationMac(base::Mac const &value)
+void base::ethernet::EthernetFrameWriter::WriteDestinationMac(base::Mac const &value)
 {
 	base::Span span = _span.Slice(base::Range{0, 6});
 	span.CopyFrom(value.AsReadOnlySpan());
@@ -97,6 +97,11 @@ base::Span base::ethernet::EthernetFrameWriter::Payload() const
 	{
 		return _span.Slice(base::Range{14, _span.Size()});
 	}
+}
+
+void base::ethernet::EthernetFrameWriter::SetPayload(base::ReadOnlySpan const &span)
+{
+	Payload().CopyFrom(span);
 }
 
 void base::ethernet::EthernetFrameWriter::SetValidPayloadSize(int32_t value)
