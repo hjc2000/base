@@ -5,39 +5,35 @@ int32_t base::profidrive::X4::Factor() const
 	return static_cast<int64_t>(1 << 28);
 }
 
-base::profidrive::X4::X4(base::ReadOnlySpan const &value)
-{
-	Span().CopyFrom(value);
-}
-
-base::profidrive::X4::X4(base::Fraction const &value)
-{
-	/* 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
-	 * 放大后截断为整型。
-	 */
-	int32_t result = static_cast<int32_t>(value * Factor());
-
-	// 得到整型后要转换为大端序。
-	_converter.GetBytes(result, Span());
-}
-
-base::Span base::profidrive::X4::Span()
-{
-	return _buffer.Span();
-}
-
-base::ReadOnlySpan base::profidrive::X4::Span() const
-{
-	return const_cast<X4 *>(this)->Span();
-}
-
-base::profidrive::X4::operator base::Fraction() const
+base::profidrive::X4::X4(base::ReadOnlySpan const &span)
 {
 	/* 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
 	 * 放大后截断为整型。
 	 *
 	 * 想要获得分数的实际值，就将这个整型除以 Factor.
 	 */
-	int32_t value = _converter.ToInt32(Span());
-	return value * base::Fraction{value, Factor()};
+	int32_t x4 = _converter.ToInt32(span);
+	_value = base::Fraction{x4, Factor()};
+}
+
+base::profidrive::X4::X4(base::Fraction const &value)
+{
+	_value = value;
+}
+
+base::profidrive::X4::operator base::Fraction() const
+{
+	return _value;
+}
+
+base::Array<uint8_t, 4> base::profidrive::X4::BufferForSending() const
+{
+	/* 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
+	 * 放大后截断为整型。
+	 */
+	int32_t x4 = static_cast<int32_t>(_value * Factor());
+
+	base::Array<uint8_t, 4> buffer;
+	_converter.GetBytes(x4, buffer.Span());
+	return buffer;
 }
