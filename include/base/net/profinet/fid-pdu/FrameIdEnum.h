@@ -5,6 +5,10 @@ namespace base
 {
 	namespace profinet
 	{
+		/**
+		 * @brief PROFINET 帧 ID 枚举。
+		 *
+		 */
 		enum class FrameIdEnum : uint16_t
 		{
 			DcpHelloRequest = 0xfefc,

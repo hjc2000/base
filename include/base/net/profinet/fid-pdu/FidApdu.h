@@ -97,6 +97,11 @@ namespace base
 			 */
 			void SetValidPayloadSize(int32_t value);
 
+			/**
+			 * @brief 可用来被发送到以太网的内存段。
+			 *
+			 * @return base::ReadOnlySpan
+			 */
 			base::ReadOnlySpan SpanForSending() const
 			{
 				return _ethernet_frame.SpanForSending();
