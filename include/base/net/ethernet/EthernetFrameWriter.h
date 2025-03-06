@@ -67,6 +67,12 @@ namespace base
 			 * 内存的空的 Span.
 			 */
 			base::Span VlanTag() const;
+
+			/**
+			 * @brief 写入 802.1Q标签。
+			 *
+			 * @param value
+			 */
 			void WriteVlanTag(base::ReadOnlySpan const &value);
 
 			/**
@@ -101,7 +107,13 @@ namespace base
 			 * @return LengthOrTypeEnum
 			 */
 			LengthOrTypeEnum TypeOrLength() const;
-			void SetTypeOrLength(LengthOrTypeEnum value);
+
+			/**
+			 * @brief 写入类型或长度。
+			 *
+			 * @param value
+			 */
+			void WriteTypeOrLength(LengthOrTypeEnum value);
 
 			/**
 			 * @brief 载荷数据。

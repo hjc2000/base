@@ -75,7 +75,7 @@ base::ethernet::LengthOrTypeEnum base::ethernet::EthernetFrameWriter::TypeOrLeng
 	}
 }
 
-void base::ethernet::EthernetFrameWriter::SetTypeOrLength(LengthOrTypeEnum value)
+void base::ethernet::EthernetFrameWriter::WriteTypeOrLength(LengthOrTypeEnum value)
 {
 	if (HasVlanTag())
 	{

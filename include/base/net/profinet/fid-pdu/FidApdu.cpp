@@ -6,7 +6,7 @@ base::profinet::FidApdu::FidApdu(base::Span const &span)
 	: _ethernet_frame(span)
 {
 	_ethernet_frame.ClearVlanTag();
-	_ethernet_frame.SetTypeOrLength(base::ethernet::LengthOrTypeEnum::Profinet);
+	_ethernet_frame.WriteTypeOrLength(base::ethernet::LengthOrTypeEnum::Profinet);
 	_this_span = _ethernet_frame.Payload();
 }
 
