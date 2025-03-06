@@ -10,7 +10,7 @@ base::IPAddress::Context::Context(base::IPAddressType type)
 
 base::Span base::IPAddress::Context::Span()
 {
-	if (_type == IPAddressType::IPV4)
+	if (_type == base::IPAddressType::IPV4)
 	{
 		return base::Span{_ip_address_buffer.Buffer(), 4};
 	}
@@ -20,7 +20,7 @@ base::Span base::IPAddress::Context::Span()
 
 base::ReadOnlySpan base::IPAddress::Context::Span() const
 {
-	if (_type == IPAddressType::IPV4)
+	if (_type == base::IPAddressType::IPV4)
 	{
 		return base::ReadOnlySpan{_ip_address_buffer.Buffer(), 4};
 	}
@@ -33,14 +33,14 @@ base::IPAddressType base::IPAddress::Context::IPAddressType() const
 	return _type;
 }
 
-base::IPAddress::IPAddress(IPAddressType type)
+base::IPAddress::IPAddress(base::IPAddressType type)
 {
 	_context = Context{type};
 }
 
 base::IPAddress::IPAddress(std::endian endian, base::Array<uint8_t, 4> const &ip_address_buffer)
 {
-	_context = Context{IPAddressType::IPV4};
+	_context = Context{base::IPAddressType::IPV4};
 	_context.Span().CopyFrom(ip_address_buffer.Span());
 
 	// 用小端序存放 IPV4 地址
@@ -52,7 +52,7 @@ base::IPAddress::IPAddress(std::endian endian, base::Array<uint8_t, 4> const &ip
 
 base::IPAddress::IPAddress(std::endian endian, base::Array<uint8_t, 16> const &ip_address_buffer)
 {
-	_context = Context{IPAddressType::IPV6};
+	_context = Context{base::IPAddressType::IPV6};
 	_context.Span().CopyFrom(ip_address_buffer.Span());
 
 	// 用小端序存放 IPV6 地址
@@ -66,7 +66,7 @@ base::IPAddress::IPAddress(std::endian endian, std::initializer_list<uint8_t> co
 {
 	if (list.size() == 4)
 	{
-		_context = Context{IPAddressType::IPV4};
+		_context = Context{base::IPAddressType::IPV4};
 		_context.Span().CopyFrom(list);
 
 		// 用小端序存放 IPV4 地址
@@ -77,7 +77,7 @@ base::IPAddress::IPAddress(std::endian endian, std::initializer_list<uint8_t> co
 	}
 	else if (list.size() == 16)
 	{
-		_context = Context{IPAddressType::IPV6};
+		_context = Context{base::IPAddressType::IPV6};
 		_context.Span().CopyFrom(list);
 
 		// 用小端序存放 IPV6 地址
@@ -96,7 +96,7 @@ base::IPAddress::IPAddress(std::endian endian, base::ReadOnlySpan const &span)
 {
 	if (span.Size() == 4)
 	{
-		_context = Context{IPAddressType::IPV4};
+		_context = Context{base::IPAddressType::IPV4};
 		_context.Span().CopyFrom(span);
 
 		// 用小端序存放 IPV4 地址
@@ -107,7 +107,7 @@ base::IPAddress::IPAddress(std::endian endian, base::ReadOnlySpan const &span)
 	}
 	else if (span.Size() == 16)
 	{
-		_context = Context{IPAddressType::IPV6};
+		_context = Context{base::IPAddressType::IPV6};
 		_context.Span().CopyFrom(span);
 
 		// 用小端序存放 IPV6 地址
@@ -137,7 +137,7 @@ base::IPAddress::IPAddress(base::String const &ip_str)
 			throw std::invalid_argument{"非法的 IPV4 地址字符串。"};
 		}
 
-		_context = Context{IPAddressType::IPV4};
+		_context = Context{base::IPAddressType::IPV4};
 		for (int32_t i = 0; i < 4; i++)
 		{
 			std::string str_to_be_converted = sub_string_list[i].StdString();
@@ -156,7 +156,7 @@ base::IPAddress::IPAddress(base::String const &ip_str)
 			throw std::invalid_argument{"非法的 IPV6 地址字符串。"};
 		}
 
-		_context = Context{IPAddressType::IPV6};
+		_context = Context{base::IPAddressType::IPV6};
 
 		/**
 		 * IPV6 地址类似：2001:0db8:85a3:0000:0000:8a2e:0370:7334
@@ -221,7 +221,7 @@ std::string base::IPAddress::ToString() const
 	option.width = 2;
 	option.with_0x_prefix = false;
 
-	if (_context.IPAddressType() == IPAddressType::IPV4)
+	if (_context.IPAddressType() == base::IPAddressType::IPV4)
 	{
 		bool first_loop = true;
 		for (uint8_t num : _context.Span())

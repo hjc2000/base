@@ -30,19 +30,19 @@ namespace base
 		{
 		private:
 			base::Array<uint8_t, 16> _ip_address_buffer;
-			IPAddressType _type = IPAddressType::IPV4;
+			base::IPAddressType _type = base::IPAddressType::IPV4;
 
 		public:
 			Context() = default;
 
-			Context(IPAddressType type);
+			Context(base::IPAddressType type);
 
 		public:
 			base::Span Span();
 
 			base::ReadOnlySpan Span() const;
 
-			IPAddressType IPAddressType() const;
+			base::IPAddressType IPAddressType() const;
 		};
 
 		/**
