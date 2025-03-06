@@ -1,16 +1,16 @@
 #include "N2.h"
 
-int32_t base::N2::Factor() const
+int32_t base::profidrive::N2::Factor() const
 {
 	return static_cast<int64_t>(1 << 14);
 }
 
-base::N2::N2(base::ReadOnlySpan const &value)
+base::profidrive::N2::N2(base::ReadOnlySpan const &value)
 {
 	Span().CopyFrom(value);
 }
 
-base::N2::N2(base::Fraction const &value)
+base::profidrive::N2::N2(base::Fraction const &value)
 {
 	/* 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
 	 * 放大后截断为整型。
@@ -21,17 +21,17 @@ base::N2::N2(base::Fraction const &value)
 	_converter.GetBytes(result, Span());
 }
 
-base::Span base::N2::Span()
+base::Span base::profidrive::N2::Span()
 {
 	return _buffer.AsArraySpan();
 }
 
-base::ReadOnlySpan base::N2::Span() const
+base::ReadOnlySpan base::profidrive::N2::Span() const
 {
 	return const_cast<N2 *>(this)->Span();
 }
 
-base::N2::operator base::Fraction() const
+base::profidrive::N2::operator base::Fraction() const
 {
 	/* 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
 	 * 放大后截断为整型。

@@ -1,17 +1,17 @@
 #include "N4.h"
 
-int32_t base::N4::Factor() const
+int32_t base::profidrive::N4::Factor() const
 {
 	// 2 的 30 次方
 	return static_cast<int64_t>(1 << 30);
 }
 
-base::N4::N4(base::ReadOnlySpan const &value)
+base::profidrive::N4::N4(base::ReadOnlySpan const &value)
 {
 	Span().CopyFrom(value);
 }
 
-base::N4::N4(base::Fraction const &value)
+base::profidrive::N4::N4(base::Fraction const &value)
 {
 	/* 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
 	 * 放大后截断为整型。
@@ -22,17 +22,17 @@ base::N4::N4(base::Fraction const &value)
 	_converter.GetBytes(result, Span());
 }
 
-base::Span base::N4::Span()
+base::Span base::profidrive::N4::Span()
 {
 	return _buffer.AsArraySpan();
 }
 
-base::ReadOnlySpan base::N4::Span() const
+base::ReadOnlySpan base::profidrive::N4::Span() const
 {
 	return const_cast<N4 *>(this)->Span();
 }
 
-base::N4::operator base::Fraction() const
+base::profidrive::N4::operator base::Fraction() const
 {
 	/* 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
 	 * 放大后截断为整型。

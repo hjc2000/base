@@ -1,11 +1,11 @@
 #include "X2.h"
 
-base::X2::X2(base::ReadOnlySpan const &value)
+base::profidrive::X2::X2(base::ReadOnlySpan const &value)
 {
 	Span().CopyFrom(value);
 }
 
-base::X2::X2(base::Fraction const &value)
+base::profidrive::X2::X2(base::Fraction const &value)
 {
 	/* 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
 	 * 放大后截断为整型。
@@ -16,22 +16,22 @@ base::X2::X2(base::Fraction const &value)
 	_converter.GetBytes(result, Span());
 }
 
-int32_t base::X2::Factor() const
+int32_t base::profidrive::X2::Factor() const
 {
 	return static_cast<int64_t>(1 << 12);
 }
 
-base::Span base::X2::Span()
+base::Span base::profidrive::X2::Span()
 {
 	return _buffer.AsArraySpan();
 }
 
-base::ReadOnlySpan base::X2::Span() const
+base::ReadOnlySpan base::profidrive::X2::Span() const
 {
 	return const_cast<X2 *>(this)->Span();
 }
 
-base::X2::operator base::Fraction() const
+base::profidrive::X2::operator base::Fraction() const
 {
 	/* 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
 	 * 放大后截断为整型。

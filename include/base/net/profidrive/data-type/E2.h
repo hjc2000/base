@@ -5,73 +5,76 @@
 
 namespace base
 {
-	/**
-	 * @brief profidrive 行规特定类型: E2.
-	 *
-	 */
-	class E2
+	namespace profidrive
 	{
-	private:
 		/**
-		 * @brief E2 字节序列。
-		 * @note 储存到这里的必须是是大端序，可以直接发送。
-		 */
-		base::Array<uint8_t, 2> _buffer{};
-
-		/**
-		 * @brief 自适应转换器。
-		 * @note 将远程字节序设置为大端序后，在转换时能够根据本机字节序决定是否翻转。
-		 */
-		base::AutoBitConverter _converter{std::endian::big};
-
-		/**
-		 * @brief 系数。
-		 *
-		 * @return int32_t
-		 */
-		int32_t Factor() const;
-
-	public:
-		/**
-		 * @brief 无参构造函数。
+		 * @brief profidrive 行规特定类型: E2.
 		 *
 		 */
-		E2() = default;
+		class E2
+		{
+		private:
+			/**
+			 * @brief E2 字节序列。
+			 * @note 储存到这里的必须是是大端序，可以直接发送。
+			 */
+			base::Array<uint8_t, 2> _buffer{};
 
-		/**
-		 * @brief 从 profinet 收到大端序的数据后原封不动地将字节序列传进来。
-		 *
-		 * @param value
-		 */
-		E2(base::ReadOnlySpan const &value);
+			/**
+			 * @brief 自适应转换器。
+			 * @note 将远程字节序设置为大端序后，在转换时能够根据本机字节序决定是否翻转。
+			 */
+			base::AutoBitConverter _converter{std::endian::big};
 
-		/**
-		 * @brief 通过实际的分数值构造行规特定数据类型。
-		 *
-		 * @param value
-		 */
-		E2(base::Fraction const &value);
+			/**
+			 * @brief 系数。
+			 *
+			 * @return int32_t
+			 */
+			int32_t Factor() const;
 
-	public:
-		/**
-		 * @brief 获取可以直接被用来发送的字节序列。已经是大端序了。
-		 *
-		 * @return base::Span
-		 */
-		base::Span Span();
+		public:
+			/**
+			 * @brief 无参构造函数。
+			 *
+			 */
+			E2() = default;
 
-		/**
-		 * @brief 获取可以直接被用来发送的字节序列。已经是大端序了。
-		 *
-		 * @return base::ReadOnlySpan
-		 */
-		base::ReadOnlySpan Span() const;
+			/**
+			 * @brief 从 profinet 收到大端序的数据后原封不动地将字节序列传进来。
+			 *
+			 * @param value
+			 */
+			E2(base::ReadOnlySpan const &value);
 
-		/**
-		 * @brief 强制转换为分数类型。
-		 *
-		 * @return base::Fraction
-		 */
-		explicit operator base::Fraction() const;
-	};
+			/**
+			 * @brief 通过实际的分数值构造行规特定数据类型。
+			 *
+			 * @param value
+			 */
+			E2(base::Fraction const &value);
+
+		public:
+			/**
+			 * @brief 获取可以直接被用来发送的字节序列。已经是大端序了。
+			 *
+			 * @return base::Span
+			 */
+			base::Span Span();
+
+			/**
+			 * @brief 获取可以直接被用来发送的字节序列。已经是大端序了。
+			 *
+			 * @return base::ReadOnlySpan
+			 */
+			base::ReadOnlySpan Span() const;
+
+			/**
+			 * @brief 强制转换为分数类型。
+			 *
+			 * @return base::Fraction
+			 */
+			explicit operator base::Fraction() const;
+		};
+	} // namespace profidrive
 } // namespace base
