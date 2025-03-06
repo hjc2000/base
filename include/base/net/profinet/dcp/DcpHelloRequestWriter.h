@@ -34,9 +34,9 @@ namespace base
 
 			/// @brief 设置源 MAC 地址。
 			/// @param value
-			void SetSourceMac(base::Mac const &value)
+			void WriteSourceMac(base::Mac const &value)
 			{
-				_fid_apdu.SetSourceMac(value);
+				_fid_apdu.WriteSourceMac(value);
 			}
 
 			base::profinet::DcpServiceIdEnum ServiceId() const;

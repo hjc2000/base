@@ -46,7 +46,7 @@ namespace base
 			 * @return base::Mac
 			 */
 			base::Mac SourceMac() const;
-			void SetSourceMac(base::Mac const &value);
+			void WriteSourceMac(base::Mac const &value);
 
 			/**
 			 * @brief 802.1Q标签。大小：4 字节。
@@ -115,7 +115,7 @@ namespace base
 			 *
 			 * @param span
 			 */
-			void SetPayload(base::ReadOnlySpan const &span);
+			void WritePayload(base::ReadOnlySpan const &span);
 
 		public:
 			/**

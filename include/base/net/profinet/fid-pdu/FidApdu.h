@@ -40,9 +40,9 @@ namespace base
 				return _ethernet_frame.SourceMac();
 			}
 
-			void SetSourceMac(base::Mac const &value)
+			void WriteSourceMac(base::Mac const &value)
 			{
-				_ethernet_frame.SetSourceMac(value);
+				_ethernet_frame.WriteSourceMac(value);
 			}
 
 			base::profinet::FrameIdEnum FrameId() const;
