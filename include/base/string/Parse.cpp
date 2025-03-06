@@ -119,6 +119,10 @@ int64_t base::ParseInt64(base::String const &str, int32_t base)
 		// throw std::invalid_argument{CODE_POS_STR + "非法字符串：" + str.StdString()};
 	}
 
+	std::cout << std::endl
+			  << "********" << str.StdString() << "********"
+			  << "********" << str.Length() << "********" << std::endl;
+
 	return result;
 }
 
