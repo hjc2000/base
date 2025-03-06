@@ -1,17 +1,22 @@
 #include "V2.h"
 
-base::V2::V2(base::ReadOnlySpan const &span)
+base::profidrive::V2::V2(base::ReadOnlySpan const &span)
 {
 	Span().CopyFrom(span);
 }
 
-base::V2::V2(std::bitset<16> const &set)
+base::profidrive::V2::V2(std::bitset<16> const &set)
 {
 	uint16_t data = set.to_ulong();
 	_converter.GetBytes(data, _buffer.AsArraySpan());
 }
 
-std::bitset<16> base::V2::ToBitSet() const
+base::profidrive::V2::operator std::bitset<16>() const
+{
+	return ToBitSet();
+}
+
+std::bitset<16> base::profidrive::V2::ToBitSet() const
 {
 	std::bitset<16> set{};
 
@@ -25,12 +30,7 @@ std::bitset<16> base::V2::ToBitSet() const
 	return set;
 }
 
-base::V2::operator std::bitset<16>() const
-{
-	return ToBitSet();
-}
-
-base::Span base::V2::Span()
+base::Span base::profidrive::V2::Span()
 {
 	return _buffer.AsArraySpan();
 }
