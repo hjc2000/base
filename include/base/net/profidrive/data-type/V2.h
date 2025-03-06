@@ -3,6 +3,7 @@
 #include <base/container/Array.h>
 #include <base/stream/ReadOnlySpan.h>
 #include <bitset>
+#include <cstdint>
 
 namespace base
 {
@@ -15,11 +16,7 @@ namespace base
 		class V2
 		{
 		private:
-			/**
-			 * @brief 大端序的可直接用于发送的 16 位集缓冲区。
-			 *
-			 */
-			base::Array<uint8_t, 2> _buffer;
+			std::bitset<16> _bitset;
 			base::AutoBitConverter _converter{std::endian::big};
 
 		public:
@@ -47,19 +44,24 @@ namespace base
 			 */
 			explicit operator std::bitset<16>() const;
 
+			base::Array<uint8_t, 2> BufferForSending() const;
+
+		public:
 			/**
-			 * @brief 转换为 std::bitset<16>.
+			 * @brief 索引指定位。
 			 *
-			 * @return std::bitset<16>
+			 * @param index
+			 * @return decltype(_bitset[index])
 			 */
-			std::bitset<16> ToBitSet() const;
+			auto operator[](int32_t index) -> decltype(_bitset[index]);
 
 			/**
-			 * @brief 大端序的可直接用于发送的 16 位集缓冲区。
+			 * @brief 索引指定位。
 			 *
-			 * @return base::Span
+			 * @param index
+			 * @return decltype(_bitset[index])
 			 */
-			base::Span Span();
+			auto operator[](int32_t index) const -> decltype(_bitset[index]);
 		};
 	} // namespace profidrive
 } // namespace base
