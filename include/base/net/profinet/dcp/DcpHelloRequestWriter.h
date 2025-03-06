@@ -91,8 +91,20 @@ namespace base
 											   base::IPAddress const &gateway,
 											   base::IPAddress const &netmask);
 
+			/**
+			 * @brief 写入 ID 块。
+			 *
+			 * @param vendor_id
+			 * @param device_id
+			 */
 			void WriteIdBlock(uint16_t vendor_id, uint16_t device_id);
 
+			/**
+			 * @brief 写入 OEM ID 块。
+			 *
+			 * @param oem_vendor_id
+			 * @param oem_device_id
+			 */
 			void WriteOemIdBlock(uint16_t oem_vendor_id, uint16_t oem_device_id);
 
 			/**
