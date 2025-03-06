@@ -20,13 +20,30 @@ namespace base
 		public base::ICanToString
 	{
 	private:
-		base::Array<uint8_t, 16> _ip_address_buffer;
-		base::Span _span;
-		IPAddressType _type = IPAddressType::IPV4;
+		class Context
+		{
+		private:
+			base::Array<uint8_t, 16> _ip_address_buffer;
+			IPAddressType _type = IPAddressType::IPV4;
+
+		public:
+			Context() = default;
+
+			Context(IPAddressType type);
+
+		public:
+			base::Span Span();
+
+			base::ReadOnlySpan Span() const;
+
+			IPAddressType IPAddressType() const;
+		};
+
+		Context _context;
 
 	public:
 		/// @brief 构造一个未指定的 IP 地址。此时表现为 IPV4 的 0.0.0.0.
-		IPAddress();
+		IPAddress() = default;
 
 		/// @brief 构造一个未指定的 IP 地址。此时可以指定期望的 IP 地址版本。
 		/// 无论是对 IPV4 还是 IPV6，构造出来的地址的所有字节都是 0.
@@ -63,15 +80,7 @@ namespace base
 		/// @param ip_str
 		IPAddress(base::String const &ip_str);
 
-		/// @brief 拷贝构造函数。
-		/// @param o
-		IPAddress(IPAddress const &o);
-
-		/// @brief 赋值运算符。
-		/// @param o
-		/// @return
-		IPAddress &operator=(IPAddress const &o);
-
+	public:
 		uint8_t &operator[](int index);
 		uint8_t const &operator[](int index) const;
 
@@ -85,19 +94,11 @@ namespace base
 
 		/// @brief 获取引用着本对象缓冲区的 Span.
 		/// @return
-		base::Span AsSpan();
+		base::Span Span();
 
 		/// @brief 获取引用着本对象缓冲区的 ReadOnlySpan.
 		/// @return
-		base::ReadOnlySpan AsReadOnlySpan() const;
-
-		/// @brief 获取本对象内部用来储存 IP 地址的数组。
-		/// @return
-		base::Array<uint8_t, 16> const &InternalArray() const;
-
-		/// @brief 获取本对象内部用来储存 IP 地址的数组。
-		/// @return
-		base::Array<uint8_t, 16> &InternalArray();
+		base::ReadOnlySpan Span() const;
 	};
 
 #if HAS_THREAD

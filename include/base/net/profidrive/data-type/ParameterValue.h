@@ -1,11 +1,10 @@
 #pragma once
-#include <base/net/profidrive/data-type/ParameterValue.h>
 
 namespace base
 {
 	namespace profidrive
 	{
-		class Parameter
+		class ParameterValue
 		{
 		public:
 		};

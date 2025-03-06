@@ -65,7 +65,7 @@ void base::profinet::DcpTlvStreamWriter::WriteIPAddressInfomationBlock(bool ip_n
 
 		uint8_t ip_buffer[4];
 		base::Span ip_buffer_span{ip_buffer, sizeof(ip_buffer)};
-		ip_buffer_span.CopyFrom(ip.AsReadOnlySpan());
+		ip_buffer_span.CopyFrom(ip.Span());
 		ip_buffer_span.Reverse();
 		_stream.Write(ip_buffer_span.Buffer(), 0, ip_buffer_span.Size());
 	}
@@ -77,7 +77,7 @@ void base::profinet::DcpTlvStreamWriter::WriteIPAddressInfomationBlock(bool ip_n
 
 		uint8_t ip_buffer[4];
 		base::Span ip_buffer_span{ip_buffer, sizeof(ip_buffer)};
-		ip_buffer_span.CopyFrom(netmask.AsReadOnlySpan());
+		ip_buffer_span.CopyFrom(netmask.Span());
 		ip_buffer_span.Reverse();
 		_stream.Write(ip_buffer_span.Buffer(), 0, ip_buffer_span.Size());
 	}
@@ -89,7 +89,7 @@ void base::profinet::DcpTlvStreamWriter::WriteIPAddressInfomationBlock(bool ip_n
 
 		uint8_t ip_buffer[4];
 		base::Span ip_buffer_span{ip_buffer, sizeof(ip_buffer)};
-		ip_buffer_span.CopyFrom(gateway.AsReadOnlySpan());
+		ip_buffer_span.CopyFrom(gateway.Span());
 		ip_buffer_span.Reverse();
 		_stream.Write(ip_buffer_span.Buffer(), 0, ip_buffer_span.Size());
 	}

@@ -3,48 +3,62 @@
 #include <base/string/ToHexString.h>
 #include <stdexcept>
 
-base::IPAddress::IPAddress()
+base::IPAddress::Context::Context(base::IPAddressType type)
 {
-	_type = IPAddressType::IPV4;
-	_span = base::Span{_ip_address_buffer.Buffer(), 4};
+	_type = type;
+}
+
+base::Span base::IPAddress::Context::Span()
+{
+	if (_type == IPAddressType::IPV4)
+	{
+		return base::Span{_ip_address_buffer.Buffer(), 4};
+	}
+
+	return base::Span{_ip_address_buffer.Buffer(), 16};
+}
+
+base::ReadOnlySpan base::IPAddress::Context::Span() const
+{
+	if (_type == IPAddressType::IPV4)
+	{
+		return base::ReadOnlySpan{_ip_address_buffer.Buffer(), 4};
+	}
+
+	return base::ReadOnlySpan{_ip_address_buffer.Buffer(), 16};
+}
+
+base::IPAddressType base::IPAddress::Context::IPAddressType() const
+{
+	return _type;
 }
 
 base::IPAddress::IPAddress(IPAddressType type)
 {
-	_type = type;
-	if (_type == IPAddressType::IPV4)
-	{
-		_span = base::Span{_ip_address_buffer.Buffer(), 4};
-	}
-	else
-	{
-		_span = base::Span{_ip_address_buffer.Buffer(), 16};
-	}
+	_context = Context{type};
 }
 
 base::IPAddress::IPAddress(std::endian endian, base::Array<uint8_t, 4> const &ip_address_buffer)
 {
-	_type = IPAddressType::IPV4;
-	_span = base::Span{_ip_address_buffer.Buffer(), 4};
-	_span.CopyFrom(ip_address_buffer.AsReadOnlyArraySpan());
+	_context = Context{IPAddressType::IPV4};
+	_context.Span().CopyFrom(ip_address_buffer.AsReadOnlyArraySpan());
 
 	// 用小端序存放 IPV4 地址
 	if (endian != std::endian::little)
 	{
-		_span.Reverse();
+		_context.Span().Reverse();
 	}
 }
 
 base::IPAddress::IPAddress(std::endian endian, base::Array<uint8_t, 16> const &ip_address_buffer)
 {
-	_type = IPAddressType::IPV6;
-	_span = base::Span{_ip_address_buffer.Buffer(), 16};
-	_span.CopyFrom(ip_address_buffer.AsReadOnlyArraySpan());
+	_context = Context{IPAddressType::IPV6};
+	_context.Span().CopyFrom(ip_address_buffer.AsReadOnlyArraySpan());
 
 	// 用小端序存放 IPV6 地址
 	if (endian != std::endian::little)
 	{
-		_span.Reverse();
+		_context.Span().Reverse();
 	}
 }
 
@@ -52,26 +66,24 @@ base::IPAddress::IPAddress(std::endian endian, std::initializer_list<uint8_t> co
 {
 	if (list.size() == 4)
 	{
-		_type = IPAddressType::IPV4;
-		_span = base::Span{_ip_address_buffer.Buffer(), 4};
-		_span.CopyFrom(list);
+		_context = Context{IPAddressType::IPV4};
+		_context.Span().CopyFrom(list);
 
 		// 用小端序存放 IPV4 地址
 		if (endian != std::endian::little)
 		{
-			_span.Reverse();
+			_context.Span().Reverse();
 		}
 	}
 	else if (list.size() == 16)
 	{
-		_type = IPAddressType::IPV6;
-		_span = base::Span{_ip_address_buffer.Buffer(), 16};
-		_span.CopyFrom(list);
+		_context = Context{IPAddressType::IPV6};
+		_context.Span().CopyFrom(list);
 
 		// 用小端序存放 IPV6 地址
 		if (endian != std::endian::little)
 		{
-			_span.Reverse();
+			_context.Span().Reverse();
 		}
 	}
 	else
@@ -84,26 +96,24 @@ base::IPAddress::IPAddress(std::endian endian, base::ReadOnlySpan const &span)
 {
 	if (span.Size() == 4)
 	{
-		_type = IPAddressType::IPV4;
-		_span = base::Span{_ip_address_buffer.Buffer(), 4};
-		_span.CopyFrom(span);
+		_context = Context{IPAddressType::IPV4};
+		_context.Span().CopyFrom(span);
 
 		// 用小端序存放 IPV4 地址
 		if (endian != std::endian::little)
 		{
-			_span.Reverse();
+			_context.Span().Reverse();
 		}
 	}
 	else if (span.Size() == 16)
 	{
-		_type = IPAddressType::IPV6;
-		_span = base::Span{_ip_address_buffer.Buffer(), 16};
-		_span.CopyFrom(span);
+		_context = Context{IPAddressType::IPV6};
+		_context.Span().CopyFrom(span);
 
 		// 用小端序存放 IPV6 地址
 		if (endian != std::endian::little)
 		{
-			_span.Reverse();
+			_context.Span().Reverse();
 		}
 	}
 	else
@@ -127,16 +137,15 @@ base::IPAddress::IPAddress(base::String const &ip_str)
 			throw std::invalid_argument{"非法的 IPV4 地址字符串。"};
 		}
 
-		_type = IPAddressType::IPV4;
-		_span = base::Span{_ip_address_buffer.Buffer(), 4};
+		_context = Context{IPAddressType::IPV4};
 		for (int32_t i = 0; i < 4; i++)
 		{
 			std::string str_to_be_converted = sub_string_list[i].StdString();
-			_span[i] = std::stoi(str_to_be_converted);
+			_context.Span()[i] = std::stoi(str_to_be_converted);
 		}
 
 		// 字符串是大端序表示的，所以要翻转。
-		_span.Reverse();
+		_context.Span().Reverse();
 	}
 	else if (ip_str.Contains(':'))
 	{
@@ -147,14 +156,13 @@ base::IPAddress::IPAddress(base::String const &ip_str)
 			throw std::invalid_argument{"非法的 IPV6 地址字符串。"};
 		}
 
-		_type = IPAddressType::IPV6;
-		_span = base::Span{_ip_address_buffer.Buffer(), 16};
+		_context = Context{IPAddressType::IPV6};
 
 		/**
 		 * IPV6 地址类似：2001:0db8:85a3:0000:0000:8a2e:0370:7334
 		 * 是是用冒号分隔的 8 个 16 进制数。每个 16 进制数都是 uint16_t 可以装下的。
 		 */
-		uint16_t *ipv6_element_buffer = reinterpret_cast<uint16_t *>(_span.Buffer());
+		uint16_t *ipv6_element_buffer = reinterpret_cast<uint16_t *>(_context.Span().Buffer());
 
 		for (int32_t i = 0; i < 8; i++)
 		{
@@ -167,12 +175,12 @@ base::IPAddress::IPAddress(base::String const &ip_str)
 				 * 局部翻转成大端序，这样最后整个 _span 内的每个字节都是大端序。然后一起翻转一次，整个
 				 * _span 就是小端序的了。
 				 */
-				std::reverse(&_span[i * 2], &_span[i * 2] + sizeof(uint16_t));
+				std::reverse(&_context.Span()[i * 2], &_context.Span()[i * 2] + sizeof(uint16_t));
 			}
 		}
 
 		// 字符串是大端序表示的，所以要翻转。
-		_span.Reverse();
+		_context.Span().Reverse();
 	}
 	else
 	{
@@ -180,49 +188,29 @@ base::IPAddress::IPAddress(base::String const &ip_str)
 	}
 }
 
-base::IPAddress::IPAddress(IPAddress const &o)
-{
-	*this = o;
-}
-
-base::IPAddress &base::IPAddress::operator=(IPAddress const &o)
-{
-	_ip_address_buffer = o._ip_address_buffer;
-	_type = o._type;
-
-	int size = 4;
-	if (_type == base::IPAddressType::IPV6)
-	{
-		size = 16;
-	}
-
-	_span = base::Span{_ip_address_buffer.Buffer(), size};
-	return *this;
-}
-
 uint8_t &base::IPAddress::operator[](int index)
 {
-	if (index < 0 || index >= _span.Size())
+	if (index < 0 || index >= _context.Span().Size())
 	{
 		throw std::out_of_range{CODE_POS_STR + "索引超出范围"};
 	}
 
-	return _span[index];
+	return _context.Span()[index];
 }
 
 uint8_t const &base::IPAddress::operator[](int index) const
 {
-	if (index < 0 || index >= _span.Size())
+	if (index < 0 || index >= _context.Span().Size())
 	{
 		throw std::out_of_range{CODE_POS_STR + "索引超出范围"};
 	}
 
-	return _span[index];
+	return _context.Span()[index];
 }
 
 base::IPAddressType base::IPAddress::Type() const
 {
-	return _type;
+	return _context.IPAddressType();
 }
 
 std::string base::IPAddress::ToString() const
@@ -233,10 +221,10 @@ std::string base::IPAddress::ToString() const
 	option.width = 2;
 	option.with_0x_prefix = false;
 
-	if (_type == IPAddressType::IPV4)
+	if (_context.IPAddressType() == IPAddressType::IPV4)
 	{
 		bool first_loop = true;
-		for (uint8_t num : _span)
+		for (uint8_t num : _context.Span())
 		{
 			if (first_loop)
 			{
@@ -253,7 +241,7 @@ std::string base::IPAddress::ToString() const
 	else
 	{
 		int loop_times = 0;
-		for (uint8_t num : _span)
+		for (uint8_t num : _context.Span())
 		{
 			if (loop_times > 0 && loop_times % 2 == 0)
 			{
@@ -268,24 +256,14 @@ std::string base::IPAddress::ToString() const
 	return ret;
 }
 
-base::Span base::IPAddress::AsSpan()
+base::Span base::IPAddress::Span()
 {
-	return _span;
+	return _context.Span();
 }
 
-base::ReadOnlySpan base::IPAddress::AsReadOnlySpan() const
+base::ReadOnlySpan base::IPAddress::Span() const
 {
-	return _span;
-}
-
-base::Array<uint8_t, 16> const &base::IPAddress::InternalArray() const
-{
-	return _ip_address_buffer;
-}
-
-base::Array<uint8_t, 16> &base::IPAddress::InternalArray()
-{
-	return _ip_address_buffer;
+	return _context.Span();
 }
 
 #if HAS_THREAD
