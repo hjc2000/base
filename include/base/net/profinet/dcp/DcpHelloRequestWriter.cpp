@@ -15,7 +15,7 @@ void base::profinet::DcpHelloRequestWriter::UpdateSize()
 base::profinet::DcpHelloRequestWriter::DcpHelloRequestWriter(base::Span const &span)
 	: _fid_apdu(span)
 {
-	_fid_apdu.SetFrameId(base::profinet::FrameIdEnum::DcpHelloRequest);
+	_fid_apdu.WriteFrameId(base::profinet::FrameIdEnum::DcpHelloRequest);
 
 	_fid_apdu.WriteDestinationMac(base::Mac{
 		std::endian::big,

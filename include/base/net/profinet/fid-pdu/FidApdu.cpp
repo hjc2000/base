@@ -16,7 +16,7 @@ base::profinet::FrameIdEnum base::profinet::FidApdu::FrameId() const
 	return static_cast<base::profinet::FrameIdEnum>(value);
 }
 
-void base::profinet::FidApdu::SetFrameId(base::profinet::FrameIdEnum value)
+void base::profinet::FidApdu::WriteFrameId(base::profinet::FrameIdEnum value)
 {
 	_converter.GetBytes(static_cast<uint16_t>(value), _this_span.Slice(base::Range{0, 2}));
 }
