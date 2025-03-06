@@ -69,7 +69,8 @@ namespace
 
 		if (is_negative)
 		{
-			copy = "-" + copy;
+			std::cout << copy.StdString() << "-6666666-" << copy.StdString().size() << std::endl;
+			copy = '-' + copy.StdString();
 		}
 
 		return BaseAndNumberStr{base, copy};
