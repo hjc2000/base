@@ -106,44 +106,62 @@ namespace base
 	public:
 		// Trim
 
-		/// @brief 裁剪掉字符串开头处的空白字符。
-		/// @note 关于哪些是空白字符，见 IsWhiteChar 函数。
-		/// @return
+		/**
+		 * @brief 裁剪掉字符串开头处的空白字符。
+		 *
+		 * @note 关于哪些是空白字符，见 IsWhiteChar 函数。
+		 */
 		void TrimStart();
 
-		/// @brief 裁剪掉字符串末尾处的空白字符。
-		/// @note 关于哪些是空白字符，见 IsWhiteChar 函数。
-		/// @return
+		/**
+		 * @brief 裁剪掉字符串末尾处的空白字符。
+		 *
+		 * @note 关于哪些是空白字符，见 IsWhiteChar 函数。
+		 */
 		void TrimEnd();
 
-		/// @brief 裁剪掉字符串开头和结尾的空白字符。
-		/// @note 关于哪些是空白字符，见 IsWhiteChar 函数。
-		/// @return
+		/**
+		 * @brief 裁剪掉字符串开头和结尾的空白字符。
+		 *
+		 * @note 关于哪些是空白字符，见 IsWhiteChar 函数。
+		 */
 		void Trim();
 
 	public:
 		// 查找索引位置
 
-		/// @brief 从本字符串查找匹配项所在的索引。
-		/// @param match 匹配项。
-		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
+		/**
+		 * @brief 从本字符串查找匹配项所在的索引。
+		 *
+		 * @param match 匹配项。
+		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		 */
 		int32_t IndexOf(char match) const;
 
-		/// @brief 从本字符串查找匹配项所在的索引。
-		/// @param start 查找的起始索引。从此处往后开始查找。
-		/// @param match 匹配项。
-		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
+		/**
+		 * @brief 从本字符串查找匹配项所在的索引。
+		 *
+		 * @param start 查找的起始索引。从此处往后开始查找。
+		 * @param match 匹配项。
+		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		 */
 		int32_t IndexOf(int32_t start, char match) const;
 
-		/// @brief 从本字符串查找匹配项所在的索引。
-		/// @param match 匹配项。
-		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
+		/**
+		 * @brief 从本字符串查找匹配项所在的索引。
+		 *
+		 * @param match 匹配项。
+		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		 */
 		int32_t IndexOf(base::String const &match) const;
 
-		/// @brief 从本字符串查找匹配项所在的索引。
-		/// @param start 查找的起始索引。从此处往后开始查找。
-		/// @param match 匹配项。
-		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
+		/**
+		 * @brief 从本字符串查找匹配项所在的索引。
+		 *
+		 * @param start 查找的起始索引。从此处往后开始查找。
+		 * @param match 匹配项。
+		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		 */
 		int32_t IndexOf(int32_t start, base::String const &match) const;
 
 		/**
@@ -199,34 +217,64 @@ namespace base
 		 */
 		bool Contains(base::String const &match) const;
 
-		base::Span AsSpan();
-		base::ReadOnlySpan AsReadOnlySpan() const;
+		/**
+		 * @brief 获取本字符串的内存段。内存段中不包括结尾的空字符。
+		 *
+		 * @return base::Span
+		 */
+		base::Span Span();
 
-		/// @brief 获取指定范围内的子字符串。
-		/// @note 子字符串是从父字符串拷贝而来而不是引用父字符串的内存。
-		/// @param range
-		/// @return
+		/**
+		 * @brief 获取本字符串的内存段。内存段中不包括结尾的空字符。
+		 *
+		 * @return base::ReadOnlySpan
+		 */
+		base::ReadOnlySpan Span() const;
+
+		/**
+		 * @brief 获取指定范围内的子字符串。
+		 *
+		 * @note 子字符串是从父字符串拷贝而来而不是引用父字符串的内存。
+		 *
+		 * @param range
+		 * @return base::String
+		 */
 		base::String Slice(base::Range const &range) const;
 
-		/// @brief 翻转字符串。
+		/**
+		 * @brief 翻转字符串。
+		 *
+		 */
 		void Reverse();
 
-		/// @brief 移除指定范围内的字符。
-		/// @param range
+		/**
+		 * @brief 移除指定范围内的字符。
+		 *
+		 * @param range
+		 */
 		void Remove(base::Range const &range);
 
-		/// @brief 移除指定索引处的字符。
-		/// @param index
+		/**
+		 * @brief 移除指定索引处的字符。
+		 *
+		 * @param index
+		 */
 		void RemoveAt(int32_t index);
 
-		/// @brief 将字符串的指定范围替换为 replacement.
-		/// @param range 要被替换的范围。
-		/// @param replacement 替换后的内容。
+		/**
+		 * @brief 将字符串的指定范围替换为 replacement.
+		 *
+		 * @param range 要被替换的范围。
+		 * @param replacement 替换后的内容。
+		 */
 		void Replace(base::Range const &range, base::String const &replacement);
 
-		/// @brief 将本字符串中所有与 match 相同的部分替换成 replacement.
-		/// @param match 要被替换的内容。
-		/// @param replacement 替换后的内容。
+		/**
+		 * @brief 将本字符串中所有与 match 相同的部分替换成 replacement.
+		 *
+		 * @param match 要被替换的内容。
+		 * @param replacement 替换后的内容。
+		 */
 		void Replace(base::String const &match, base::String const &replacement);
 
 		/**

@@ -246,42 +246,42 @@ void base::String::Trim()
 
 int32_t base::String::IndexOf(char match) const
 {
-	return AsReadOnlySpan().IndexOf(match);
+	return Span().IndexOf(match);
 }
 
 int32_t base::String::IndexOf(int32_t start, char match) const
 {
-	return AsReadOnlySpan().IndexOf(start, match);
+	return Span().IndexOf(start, match);
 }
 
 int32_t base::String::IndexOf(base::String const &match) const
 {
-	return AsReadOnlySpan().IndexOf(match.AsReadOnlySpan());
+	return Span().IndexOf(match.Span());
 }
 
 int32_t base::String::IndexOf(int32_t start, base::String const &match) const
 {
-	return AsReadOnlySpan().IndexOf(start, match.AsReadOnlySpan());
+	return Span().IndexOf(start, match.Span());
 }
 
 int32_t base::String::LastIndexOf(uint8_t match) const
 {
-	return AsReadOnlySpan().LastIndexOf(match);
+	return Span().LastIndexOf(match);
 }
 
 int32_t base::String::LastIndexOf(int32_t start, uint8_t match) const
 {
-	return AsReadOnlySpan().LastIndexOf(start, match);
+	return Span().LastIndexOf(start, match);
 }
 
 int32_t base::String::LastIndexOf(base::String const &match) const
 {
-	return AsReadOnlySpan().LastIndexOf(match.AsReadOnlySpan());
+	return Span().LastIndexOf(match.Span());
 }
 
 int32_t base::String::LastIndexOf(int32_t start, base::String const &match) const
 {
-	return AsReadOnlySpan().LastIndexOf(start, match.AsReadOnlySpan());
+	return Span().LastIndexOf(start, match.Span());
 }
 
 bool base::String::Contains(char match) const
@@ -294,7 +294,7 @@ bool base::String::Contains(base::String const &match) const
 	return IndexOf(match) >= 0;
 }
 
-base::Span base::String::AsSpan()
+base::Span base::String::Span()
 {
 	return base::Span{
 		reinterpret_cast<uint8_t *>(_string.data()),
@@ -302,7 +302,7 @@ base::Span base::String::AsSpan()
 	};
 }
 
-base::ReadOnlySpan base::String::AsReadOnlySpan() const
+base::ReadOnlySpan base::String::Span() const
 {
 	return base::ReadOnlySpan{
 		reinterpret_cast<uint8_t const *>(_string.data()),
