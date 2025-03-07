@@ -34,6 +34,19 @@ namespace base
 			{
 				return base::profidrive::DataTypeEnum::Bool;
 			}
+
+			/**
+			 * @brief 标准化系数和变量属性不相关。
+			 *
+			 * @note 如果根据参数无法计算出物理值，则本属性为 true，例如参数是一个字符串时。
+			 *
+			 * @return true
+			 * @return false
+			 */
+			bool StandardizationCoefficientAndVariablePropertiesAreNotCorrelated()
+			{
+				return false;
+			}
 		};
 	} // namespace profidrive
 } // namespace base

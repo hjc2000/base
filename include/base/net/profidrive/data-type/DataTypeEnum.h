@@ -52,6 +52,19 @@ namespace base
 			 *
 			 */
 			TimeDifference_WithoutDateIndication = 54,
+
+			N2 = 113,
+			N4 = 114,
+			V2 = 115,
+			L2 = 116,
+			R2 = 117,
+			T2 = 118,
+			T4 = 119,
+			D2 = 120,
+			E2 = 121,
+			C4 = 122,
+			X2 = 123,
+			X4 = 124,
 		};
 	} // namespace profidrive
 } // namespace base
