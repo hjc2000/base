@@ -5,7 +5,10 @@ namespace base
 {
 	class Mbps;
 
-	/// @brief 比特率。每秒的比特数。这里是 bit / s.
+	/**
+	 * @brief 比特率。每秒的比特数。这里是 bit / s.
+	 *
+	 */
 	class Bps :
 		public base::IUnit<Bps>
 	{
@@ -24,8 +27,11 @@ namespace base
 			return _value;
 		}
 
-		/// @brief 单位的字符串。
-		/// @return
+		/**
+		 * @brief 单位的字符串。
+		 *
+		 * @return std::string
+		 */
 		virtual std::string UnitString() const override;
 	};
 } // namespace base

@@ -21,7 +21,7 @@ namespace base
 		static_function bool IsWhiteChar(char value);
 
 	public:
-		// 构造函数
+		/* #region 构造函数 */
 
 		String() = default;
 		String(std::string const &o);
@@ -29,6 +29,8 @@ namespace base
 		String(char const *str);
 		String(base::ReadOnlySpan const &o);
 		String(base::Span const &o);
+
+		/* #endregion */
 
 	public:
 		/**
@@ -45,8 +47,14 @@ namespace base
 		 */
 		std::string const &StdString() const;
 
-	public:
-		// 索引器
+		/**
+		 * @brief 字符串长度。不包括结尾的空字符。
+		 *
+		 * @return int32_t
+		 */
+		int32_t Length() const;
+
+		/* #region 索引器 */
 
 		/**
 		 * @brief 获取指定索引位置的字符的引用。
@@ -74,37 +82,22 @@ namespace base
 		 */
 		base::String operator[](base::Range const &range) const;
 
-	public:
+		/* #endregion */
+
 		base::String &operator+=(base::String const &o);
 		base::String operator+(base::String const &o) const;
 
-	public:
+		/* #region 比较 */
+
 		bool operator==(base::String const &o) const;
 		bool operator<(base::String const &o) const;
 		bool operator>(base::String const &o) const;
 		bool operator<=(base::String const &o) const;
 		bool operator>=(base::String const &o) const;
 
-	public:
-		/**
-		 * @brief 字符串长度。不包括结尾的空字符。
-		 *
-		 * @return int32_t
-		 */
-		int32_t Length() const;
+		/* #endregion */
 
-		/**
-		 * @brief 根据分隔符，将字符串拆分成多个子字符串，放到列表中返回。
-		 *
-		 * @param separator
-		 * @param options
-		 * @return base::List<base::String>
-		 */
-		base::List<base::String> Split(char separator,
-									   base::StringSplitOptions const &options = StringSplitOptions{}) const;
-
-	public:
-		// Trim
+		/* #region Trim */
 
 		/**
 		 * @brief 裁剪掉字符串开头处的空白字符。
@@ -127,8 +120,9 @@ namespace base
 		 */
 		void Trim();
 
-	public:
-		// 查找索引位置
+		/* #endregion */
+
+		/* #region IndexOf */
 
 		/**
 		 * @brief 从本字符串查找匹配项所在的索引。
@@ -164,6 +158,10 @@ namespace base
 		 */
 		int32_t IndexOf(int32_t start, base::String const &match) const;
 
+		/* #endregion */
+
+		/* #region LastIndexOf */
+
 		/**
 		 * @brief 从后往前查找最后一个匹配项所在的索引。
 		 *
@@ -198,7 +196,8 @@ namespace base
 		 */
 		int32_t LastIndexOf(int32_t start, base::String const &match) const;
 
-	public:
+		/* #endregion */
+
 		/**
 		 * @brief 检查本字符串中是否存在至少 1 个匹配项。
 		 *
@@ -230,6 +229,16 @@ namespace base
 		 * @return base::ReadOnlySpan
 		 */
 		base::ReadOnlySpan Span() const;
+
+		/**
+		 * @brief 根据分隔符，将字符串拆分成多个子字符串，放到列表中返回。
+		 *
+		 * @param separator
+		 * @param options
+		 * @return base::List<base::String>
+		 */
+		base::List<base::String> Split(char separator,
+									   base::StringSplitOptions const &options = StringSplitOptions{}) const;
 
 		/**
 		 * @brief 获取指定范围内的子字符串。
@@ -289,6 +298,8 @@ namespace base
 		 */
 		void ToUpper();
 
+		/* #region 开始结尾 */
+
 		/**
 		 * @brief 检查字符串是否以 match 开头。
 		 *
@@ -325,8 +336,9 @@ namespace base
 		 */
 		bool EndWith(base::String const &match) const;
 
-	public:
-		// 迭代器
+		/* #endregion */
+
+		/* #region 迭代器 */
 
 		using Iterator = std::string::iterator;
 
@@ -351,6 +363,8 @@ namespace base
 		{
 			return _string.end();
 		}
+
+		/* #endregion */
 	};
 } // namespace base
 

@@ -18,6 +18,8 @@ bool base::String::IsWhiteChar(char value)
 	return false;
 }
 
+/* #region 构造函数 */
+
 base::String::String(std::string const &o)
 {
 	_string = o;
@@ -46,6 +48,8 @@ base::String::String(base::Span const &o)
 {
 }
 
+/* #endregion */
+
 std::string &base::String::StdString()
 {
 	return _string;
@@ -55,6 +59,13 @@ std::string const &base::String::StdString() const
 {
 	return _string;
 }
+
+int32_t base::String::Length() const
+{
+	return _string.size();
+}
+
+/* #region 索引器 */
 
 char &base::String::operator[](int32_t index)
 {
@@ -81,6 +92,10 @@ base::String base::String::operator[](base::Range const &range) const
 	return Slice(range);
 }
 
+/* #endregion */
+
+/* #region 字符串拼接 */
+
 base::String &base::String::operator+=(base::String const &o)
 {
 	_string += o.StdString();
@@ -94,6 +109,10 @@ base::String base::String::operator+(base::String const &o) const
 	ret = _string + o.StdString();
 	return base::String{ret};
 }
+
+/* #endregion */
+
+/* #region 比较运算符 */
 
 bool base::String::operator==(base::String const &o) const
 {
@@ -120,9 +139,140 @@ bool base::String::operator>=(base::String const &o) const
 	return _string <= o._string;
 }
 
-int32_t base::String::Length() const
+/* #endregion */
+
+/* #region Trim */
+
+void base::String::TrimStart()
 {
-	return _string.size();
+	if (_string.size() > INT32_MAX)
+	{
+		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
+	}
+
+	if (_string.size() == 0)
+	{
+		return;
+	}
+
+	for (int32_t i = 0; i < static_cast<int32_t>(_string.size()); i++)
+	{
+		if (!IsWhiteChar(_string[i]))
+		{
+			Remove(base::Range{0, i});
+			return;
+		}
+	}
+}
+
+void base::String::TrimEnd()
+{
+	if (_string.size() > INT32_MAX)
+	{
+		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
+	}
+
+	if (_string.size() == 0)
+	{
+		return;
+	}
+
+	for (int32_t i = Length() - 1; i >= 0; i--)
+	{
+		if (!IsWhiteChar(_string[i]))
+		{
+			if (i == Length() - 1)
+			{
+				// 最后一个字符就是非空白字符
+				return;
+			}
+
+			Remove(base::Range{i + 1, Length()});
+			return;
+		}
+	}
+}
+
+void base::String::Trim()
+{
+	TrimStart();
+	TrimEnd();
+}
+
+/* #endregion */
+
+/* #region IndexOf */
+
+int32_t base::String::IndexOf(char match) const
+{
+	return Span().IndexOf(match);
+}
+
+int32_t base::String::IndexOf(int32_t start, char match) const
+{
+	return Span().IndexOf(start, match);
+}
+
+int32_t base::String::IndexOf(base::String const &match) const
+{
+	return Span().IndexOf(match.Span());
+}
+
+int32_t base::String::IndexOf(int32_t start, base::String const &match) const
+{
+	return Span().IndexOf(start, match.Span());
+}
+
+/* #endregion */
+
+/* #region LastIndexOf */
+
+int32_t base::String::LastIndexOf(uint8_t match) const
+{
+	return Span().LastIndexOf(match);
+}
+
+int32_t base::String::LastIndexOf(int32_t start, uint8_t match) const
+{
+	return Span().LastIndexOf(start, match);
+}
+
+int32_t base::String::LastIndexOf(base::String const &match) const
+{
+	return Span().LastIndexOf(match.Span());
+}
+
+int32_t base::String::LastIndexOf(int32_t start, base::String const &match) const
+{
+	return Span().LastIndexOf(start, match.Span());
+}
+
+/* #endregion */
+
+bool base::String::Contains(char match) const
+{
+	return IndexOf(match) >= 0;
+}
+
+bool base::String::Contains(base::String const &match) const
+{
+	return IndexOf(match) >= 0;
+}
+
+base::Span base::String::Span()
+{
+	return base::Span{
+		reinterpret_cast<uint8_t *>(_string.data()),
+		static_cast<int32_t>(_string.size()),
+	};
+}
+
+base::ReadOnlySpan base::String::Span() const
+{
+	return base::ReadOnlySpan{
+		reinterpret_cast<uint8_t const *>(_string.data()),
+		static_cast<int32_t>(_string.size()),
+	};
 }
 
 base::List<base::String> base::String::Split(char separator, base::StringSplitOptions const &options) const
@@ -188,128 +338,6 @@ base::List<base::String> base::String::Split(char separator, base::StringSplitOp
 	}
 }
 
-void base::String::TrimStart()
-{
-	if (_string.size() > INT32_MAX)
-	{
-		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
-	}
-
-	if (_string.size() == 0)
-	{
-		return;
-	}
-
-	for (int32_t i = 0; i < static_cast<int32_t>(_string.size()); i++)
-	{
-		if (!IsWhiteChar(_string[i]))
-		{
-			Remove(base::Range{0, i});
-			return;
-		}
-	}
-}
-
-void base::String::TrimEnd()
-{
-	if (_string.size() > INT32_MAX)
-	{
-		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
-	}
-
-	if (_string.size() == 0)
-	{
-		return;
-	}
-
-	for (int32_t i = Length() - 1; i >= 0; i--)
-	{
-		if (!IsWhiteChar(_string[i]))
-		{
-			if (i == Length() - 1)
-			{
-				// 最后一个字符就是非空白字符
-				return;
-			}
-
-			Remove(base::Range{i + 1, Length()});
-			return;
-		}
-	}
-}
-
-void base::String::Trim()
-{
-	TrimStart();
-	TrimEnd();
-}
-
-int32_t base::String::IndexOf(char match) const
-{
-	return Span().IndexOf(match);
-}
-
-int32_t base::String::IndexOf(int32_t start, char match) const
-{
-	return Span().IndexOf(start, match);
-}
-
-int32_t base::String::IndexOf(base::String const &match) const
-{
-	return Span().IndexOf(match.Span());
-}
-
-int32_t base::String::IndexOf(int32_t start, base::String const &match) const
-{
-	return Span().IndexOf(start, match.Span());
-}
-
-int32_t base::String::LastIndexOf(uint8_t match) const
-{
-	return Span().LastIndexOf(match);
-}
-
-int32_t base::String::LastIndexOf(int32_t start, uint8_t match) const
-{
-	return Span().LastIndexOf(start, match);
-}
-
-int32_t base::String::LastIndexOf(base::String const &match) const
-{
-	return Span().LastIndexOf(match.Span());
-}
-
-int32_t base::String::LastIndexOf(int32_t start, base::String const &match) const
-{
-	return Span().LastIndexOf(start, match.Span());
-}
-
-bool base::String::Contains(char match) const
-{
-	return IndexOf(match) >= 0;
-}
-
-bool base::String::Contains(base::String const &match) const
-{
-	return IndexOf(match) >= 0;
-}
-
-base::Span base::String::Span()
-{
-	return base::Span{
-		reinterpret_cast<uint8_t *>(_string.data()),
-		static_cast<int32_t>(_string.size()),
-	};
-}
-
-base::ReadOnlySpan base::String::Span() const
-{
-	return base::ReadOnlySpan{
-		reinterpret_cast<uint8_t const *>(_string.data()),
-		static_cast<int32_t>(_string.size()),
-	};
-}
-
 base::String base::String::Slice(base::Range const &range) const
 {
 	if (_string.size() > INT32_MAX)
@@ -330,6 +358,8 @@ void base::String::Reverse()
 	std::reverse(_string.data(), _string.data() + _string.size());
 }
 
+/* #region Remove */
+
 void base::String::Remove(base::Range const &range)
 {
 	_string.erase(range.Begin(), range.Size());
@@ -339,6 +369,10 @@ void base::String::RemoveAt(int32_t index)
 {
 	_string.erase(index, 1);
 }
+
+/* #endregion */
+
+/* #region Replace */
 
 void base::String::Replace(base::Range const &range, base::String const &replacement)
 {
@@ -366,6 +400,8 @@ void base::String::Replace(base::String const &match, base::String const &replac
 	}
 }
 
+/* #endregion */
+
 void base::String::ToLower()
 {
 	std::transform(_string.begin(),
@@ -381,6 +417,8 @@ void base::String::ToUpper()
 				   _string.begin(),
 				   ::toupper);
 }
+
+/* #region 开始结尾 */
 
 bool base::String::StartWith(char match) const
 {
@@ -419,6 +457,10 @@ bool base::String::EndWith(base::String const &match) const
 	return index == Length() - match.Length();
 }
 
+/* #endregion */
+
+/* #region 全局字符串拼接运算符 */
+
 base::String operator+(char left, base::String const &right)
 {
 	return base::String{left + right.StdString()};
@@ -433,6 +475,8 @@ base::String operator+(std::string const &left, base::String const &right)
 {
 	return base::String{left + right.StdString()};
 }
+
+/* #endregion */
 
 std::ostream &operator<<(std::ostream &os, base::String const &str)
 {

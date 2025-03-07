@@ -2,6 +2,8 @@
 #include <base/unit/MHz.h>
 #include <base/unit/Seconds.h>
 
+/* #region 构造函数 */
+
 base::Hz::Hz(base::Fraction const &value)
 {
 	_value = value;
@@ -26,6 +28,8 @@ base::Hz::Hz(base::Nanoseconds const &value)
 	: Hz(base::Seconds{value})
 {
 }
+
+/* #endregion */
 
 std::string base::Hz::UnitString() const
 {
