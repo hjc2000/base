@@ -32,7 +32,8 @@ namespace base
 
 		/* #endregion */
 
-	public:
+		/* #region 获取底层数据 */
+
 		/**
 		 * @brief 获取被本类包装的 std::string 对象的引用。
 		 *
@@ -46,6 +47,22 @@ namespace base
 		 * @return std::string const&
 		 */
 		std::string const &StdString() const;
+
+		/**
+		 * @brief 获取本字符串的内存段。内存段中不包括结尾的空字符。
+		 *
+		 * @return base::Span
+		 */
+		base::Span Span();
+
+		/**
+		 * @brief 获取本字符串的内存段。内存段中不包括结尾的空字符。
+		 *
+		 * @return base::ReadOnlySpan
+		 */
+		base::ReadOnlySpan Span() const;
+
+		/* #endregion */
 
 		/**
 		 * @brief 字符串长度。不包括结尾的空字符。
@@ -221,20 +238,6 @@ namespace base
 		int32_t LastIndexOf(int32_t start, base::String const &match) const;
 
 		/* #endregion */
-
-		/**
-		 * @brief 获取本字符串的内存段。内存段中不包括结尾的空字符。
-		 *
-		 * @return base::Span
-		 */
-		base::Span Span();
-
-		/**
-		 * @brief 获取本字符串的内存段。内存段中不包括结尾的空字符。
-		 *
-		 * @return base::ReadOnlySpan
-		 */
-		base::ReadOnlySpan Span() const;
 
 		/**
 		 * @brief 翻转字符串。

@@ -50,6 +50,8 @@ base::String::String(base::Span const &o)
 
 /* #endregion */
 
+/* #region 获取底层数据 */
+
 std::string &base::String::StdString()
 {
 	return _string;
@@ -59,6 +61,24 @@ std::string const &base::String::StdString() const
 {
 	return _string;
 }
+
+base::Span base::String::Span()
+{
+	return base::Span{
+		reinterpret_cast<uint8_t *>(_string.data()),
+		static_cast<int32_t>(_string.size()),
+	};
+}
+
+base::ReadOnlySpan base::String::Span() const
+{
+	return base::ReadOnlySpan{
+		reinterpret_cast<uint8_t const *>(_string.data()),
+		static_cast<int32_t>(_string.size()),
+	};
+}
+
+/* #endregion */
 
 int32_t base::String::Length() const
 {
@@ -326,22 +346,6 @@ int32_t base::String::LastIndexOf(int32_t start, base::String const &match) cons
 }
 
 /* #endregion */
-
-base::Span base::String::Span()
-{
-	return base::Span{
-		reinterpret_cast<uint8_t *>(_string.data()),
-		static_cast<int32_t>(_string.size()),
-	};
-}
-
-base::ReadOnlySpan base::String::Span() const
-{
-	return base::ReadOnlySpan{
-		reinterpret_cast<uint8_t const *>(_string.data()),
-		static_cast<int32_t>(_string.size()),
-	};
-}
 
 void base::String::Reverse()
 {
