@@ -56,6 +56,30 @@ namespace base
 			_value = value;
 		}
 
+		/**
+		 * @brief 使用模板和 std::enable_if 来添加 int 类型的构造函数。
+		 *
+		 * @tparam T
+		 * @param value
+		 */
+		template <typename T>
+		BigInteger(T value, typename std::enable_if<std::is_same<T, int>::value, int>::type = 0)
+		{
+			_value = value;
+		}
+
+		/**
+		 * @brief 使用模板和 std::enable_if 来添加 unsigned int 类型的构造函数
+		 *
+		 * @tparam T
+		 * @param value
+		 */
+		template <typename T>
+		BigInteger(T value, typename std::enable_if<std::is_same<T, unsigned int>::value, int>::type = 0)
+		{
+			_value = value;
+		}
+
 		BigInteger(boost::multiprecision::cpp_int const &value)
 		{
 			_value = value;
