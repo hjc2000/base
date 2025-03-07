@@ -289,11 +289,40 @@ namespace base
 		 */
 		void ToUpper();
 
-	public:
+		/**
+		 * @brief 检查字符串是否以 match 开头。
+		 *
+		 * @param match
+		 * @return true
+		 * @return false
+		 */
 		bool StartWith(char match) const;
+
+		/**
+		 * @brief 检查字符串是否以 match 开头。
+		 *
+		 * @param match
+		 * @return true
+		 * @return false
+		 */
 		bool StartWith(base::String const &match) const;
 
+		/**
+		 * @brief 检查字符串是否以 match 开头。
+		 *
+		 * @param match
+		 * @return true
+		 * @return false
+		 */
 		bool EndWith(char match) const;
+
+		/**
+		 * @brief 检查字符串是否以 match 开头。
+		 *
+		 * @param match
+		 * @return true
+		 * @return false
+		 */
 		bool EndWith(base::String const &match) const;
 
 	public:
