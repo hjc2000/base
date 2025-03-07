@@ -14,6 +14,8 @@ namespace base
 		boost::multiprecision::cpp_int _value;
 
 	public:
+		/* #region 生命周期 */
+
 		BigInteger() = default;
 
 		BigInteger(int64_t value)
@@ -92,7 +94,10 @@ namespace base
 
 		virtual ~BigInteger() = default;
 
-	public:
+		/* #endregion */
+
+		/* #region 强制转换运算符 */
+
 		explicit operator int64_t() const
 		{
 			return static_cast<int64_t>(_value);
@@ -143,7 +148,66 @@ namespace base
 			return _value;
 		}
 
-	public:
+		/* #endregion */
+
+		/* #region 算术运算 */
+
+		/**
+		 * @brief 求负运算符。
+		 *
+		 * @return BigInteger
+		 */
+		BigInteger operator-() const
+		{
+			return BigInteger{-_value};
+		}
+
+		/**
+		 * @brief 前缀递增。
+		 *
+		 * @return BigInteger&
+		 */
+		BigInteger &operator++()
+		{
+			++_value;
+			return *this;
+		}
+
+		/**
+		 * @brief 后缀递增。
+		 *
+		 * @return BigInteger
+		 */
+		BigInteger operator++(int)
+		{
+			BigInteger ret{*this};
+			_value++;
+			return ret;
+		}
+
+		/**
+		 * @brief 前缀递减。
+		 *
+		 * @return BigInteger&
+		 */
+		BigInteger &operator--()
+		{
+			--_value;
+			return *this;
+		}
+
+		/**
+		 * @brief 后缀递减。
+		 *
+		 * @return BigInteger
+		 */
+		BigInteger operator--(int)
+		{
+			BigInteger ret{*this};
+			_value--;
+			return ret;
+		}
+
 		BigInteger operator+(BigInteger const &right_value) const
 		{
 			return BigInteger{_value + right_value._value};
@@ -188,25 +252,9 @@ namespace base
 			return *this;
 		}
 
-		BigInteger operator-() const
-		{
-			return BigInteger{-_value};
-		}
+		/* #endregion */
 
-		BigInteger &operator++()
-		{
-			++_value;
-			return *this;
-		}
-
-		BigInteger operator++(int)
-		{
-			BigInteger ret{*this};
-			_value++;
-			return ret;
-		}
-
-	public:
+		/* #region 比较 */
 		bool operator==(BigInteger const &another)
 		{
 			return _value == another._value;
@@ -232,7 +280,8 @@ namespace base
 			return _value >= another._value;
 		}
 
-	public:
+		/* #endregion */
+
 		/**
 		 * @brief 转化为字符串
 		 *
