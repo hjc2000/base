@@ -1,6 +1,6 @@
 #include "AutoBitConverter.h"
 #include <algorithm>
-#include <base/bit/BitConverter.h>
+#include <base/bit/bit_converte.h>
 #include <base/string/define.h>
 
 base::AutoBitConverter::AutoBitConverter(std::endian remote_endian)
@@ -15,7 +15,7 @@ bool base::AutoBitConverter::ShouldReverse() const
 
 uint16_t base::AutoBitConverter::ToUInt16(base::ReadOnlySpan const &span) const
 {
-	uint16_t ret = BitConverter::ToUInt16(span);
+	uint16_t ret = bit_converte::ToUInt16(span);
 	if (ShouldReverse())
 	{
 		uint8_t *p = reinterpret_cast<uint8_t *>(&ret);
@@ -39,7 +39,7 @@ uint16_t base::AutoBitConverter::ToUInt16(base::Stream &stream) const
 
 int16_t base::AutoBitConverter::ToInt16(base::ReadOnlySpan const &span) const
 {
-	int16_t ret = BitConverter::ToInt16(span);
+	int16_t ret = bit_converte::ToInt16(span);
 	if (ShouldReverse())
 	{
 		uint8_t *p = reinterpret_cast<uint8_t *>(&ret);
@@ -63,7 +63,7 @@ int16_t base::AutoBitConverter::ToInt16(base::Stream &stream) const
 
 uint32_t base::AutoBitConverter::ToUInt32(base::ReadOnlySpan const &span) const
 {
-	uint32_t ret = BitConverter::ToUInt32(span);
+	uint32_t ret = bit_converte::ToUInt32(span);
 	if (ShouldReverse())
 	{
 		uint8_t *p = reinterpret_cast<uint8_t *>(&ret);
@@ -87,7 +87,7 @@ uint32_t base::AutoBitConverter::ToUInt32(base::Stream &stream) const
 
 int32_t base::AutoBitConverter::ToInt32(base::ReadOnlySpan const &span) const
 {
-	int32_t ret = BitConverter::ToInt32(span);
+	int32_t ret = bit_converte::ToInt32(span);
 	if (ShouldReverse())
 	{
 		uint8_t *p = reinterpret_cast<uint8_t *>(&ret);
@@ -111,7 +111,7 @@ int32_t base::AutoBitConverter::ToInt32(base::Stream &stream) const
 
 uint64_t base::AutoBitConverter::ToUInt64(base::ReadOnlySpan const &span) const
 {
-	uint64_t ret = BitConverter::ToUInt64(span);
+	uint64_t ret = bit_converte::ToUInt64(span);
 	if (ShouldReverse())
 	{
 		uint8_t *p = reinterpret_cast<uint8_t *>(&ret);
@@ -135,7 +135,7 @@ uint64_t base::AutoBitConverter::ToUInt64(base::Stream &stream) const
 
 int64_t base::AutoBitConverter::ToInt64(base::ReadOnlySpan const &span) const
 {
-	int64_t ret = BitConverter::ToInt64(span);
+	int64_t ret = bit_converte::ToInt64(span);
 	if (ShouldReverse())
 	{
 		uint8_t *p = reinterpret_cast<uint8_t *>(&ret);
@@ -159,7 +159,7 @@ int64_t base::AutoBitConverter::ToInt64(base::Stream &stream) const
 
 float base::AutoBitConverter::ToFloat(base::ReadOnlySpan const &span) const
 {
-	float ret = BitConverter::ToFloat(span);
+	float ret = bit_converte::ToFloat(span);
 	if (ShouldReverse())
 	{
 		uint8_t *p = reinterpret_cast<uint8_t *>(&ret);
@@ -183,7 +183,7 @@ float base::AutoBitConverter::ToFloat(base::Stream &stream) const
 
 double base::AutoBitConverter::ToDouble(base::ReadOnlySpan const &span) const
 {
-	double ret = BitConverter::ToDouble(span);
+	double ret = bit_converte::ToDouble(span);
 	if (ShouldReverse())
 	{
 		uint8_t *p = reinterpret_cast<uint8_t *>(&ret);
@@ -207,7 +207,7 @@ double base::AutoBitConverter::ToDouble(base::Stream &stream) const
 
 void base::AutoBitConverter::GetBytes(uint16_t value, base::Span const &span) const
 {
-	base::BitConverter::GetBytes(value, span);
+	base::bit_converte::GetBytes(value, span);
 	if (ShouldReverse())
 	{
 		std::reverse(span.Buffer(), span.Buffer() + sizeof(value));
@@ -227,7 +227,7 @@ void base::AutoBitConverter::GetBytes(uint16_t value, base::Stream &stream) cons
 
 void base::AutoBitConverter::GetBytes(int16_t value, base::Span const &span) const
 {
-	base::BitConverter::GetBytes(value, span);
+	base::bit_converte::GetBytes(value, span);
 	if (ShouldReverse())
 	{
 		std::reverse(span.Buffer(), span.Buffer() + sizeof(value));
@@ -247,7 +247,7 @@ void base::AutoBitConverter::GetBytes(int16_t value, base::Stream &stream) const
 
 void base::AutoBitConverter::GetBytes(uint32_t value, base::Span const &span) const
 {
-	base::BitConverter::GetBytes(value, span);
+	base::bit_converte::GetBytes(value, span);
 	if (ShouldReverse())
 	{
 		std::reverse(span.Buffer(), span.Buffer() + sizeof(value));
@@ -267,7 +267,7 @@ void base::AutoBitConverter::GetBytes(uint32_t value, base::Stream &stream) cons
 
 void base::AutoBitConverter::GetBytes(int32_t value, base::Span const &span) const
 {
-	base::BitConverter::GetBytes(value, span);
+	base::bit_converte::GetBytes(value, span);
 	if (ShouldReverse())
 	{
 		std::reverse(span.Buffer(), span.Buffer() + sizeof(value));
@@ -287,7 +287,7 @@ void base::AutoBitConverter::GetBytes(int32_t value, base::Stream &stream) const
 
 void base::AutoBitConverter::GetBytes(uint64_t value, base::Span const &span) const
 {
-	base::BitConverter::GetBytes(value, span);
+	base::bit_converte::GetBytes(value, span);
 	if (ShouldReverse())
 	{
 		std::reverse(span.Buffer(), span.Buffer() + sizeof(value));
@@ -307,7 +307,7 @@ void base::AutoBitConverter::GetBytes(uint64_t value, base::Stream &stream) cons
 
 void base::AutoBitConverter::GetBytes(int64_t value, base::Span const &span) const
 {
-	base::BitConverter::GetBytes(value, span);
+	base::bit_converte::GetBytes(value, span);
 	if (ShouldReverse())
 	{
 		std::reverse(span.Buffer(), span.Buffer() + sizeof(value));
@@ -327,7 +327,7 @@ void base::AutoBitConverter::GetBytes(int64_t value, base::Stream &stream) const
 
 void base::AutoBitConverter::GetBytes(float value, base::Span const &span) const
 {
-	base::BitConverter::GetBytes(value, span);
+	base::bit_converte::GetBytes(value, span);
 	if (ShouldReverse())
 	{
 		std::reverse(span.Buffer(), span.Buffer() + sizeof(value));
@@ -347,7 +347,7 @@ void base::AutoBitConverter::GetBytes(float value, base::Stream &stream) const
 
 void base::AutoBitConverter::GetBytes(double value, base::Span const &span) const
 {
-	base::BitConverter::GetBytes(value, span);
+	base::bit_converte::GetBytes(value, span);
 	if (ShouldReverse())
 	{
 		std::reverse(span.Buffer(), span.Buffer() + sizeof(value));

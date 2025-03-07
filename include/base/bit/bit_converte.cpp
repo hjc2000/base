@@ -1,7 +1,7 @@
-#include "BitConverter.h"
+#include "bit_converte.h"
 #include <base/string/define.h>
 
-uint16_t base::BitConverter::ToUInt16(base::ReadOnlySpan const &span)
+uint16_t base::bit_converte::ToUInt16(base::ReadOnlySpan const &span)
 {
 	uint16_t ret;
 	if (span.Size() < static_cast<int32_t>(sizeof(ret)))
@@ -16,7 +16,7 @@ uint16_t base::BitConverter::ToUInt16(base::ReadOnlySpan const &span)
 	return ret;
 }
 
-uint16_t base::BitConverter::ToUInt16(base::Stream &stream)
+uint16_t base::bit_converte::ToUInt16(base::Stream &stream)
 {
 	uint8_t buffer[sizeof(uint16_t)];
 	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
@@ -28,12 +28,12 @@ uint16_t base::BitConverter::ToUInt16(base::Stream &stream)
 	return ToUInt16(base::Span{buffer, sizeof(buffer)});
 }
 
-int16_t base::BitConverter::ToInt16(base::ReadOnlySpan const &span)
+int16_t base::bit_converte::ToInt16(base::ReadOnlySpan const &span)
 {
 	return static_cast<int16_t>(ToUInt16(span));
 }
 
-int16_t base::BitConverter::ToInt16(base::Stream &stream)
+int16_t base::bit_converte::ToInt16(base::Stream &stream)
 {
 	uint8_t buffer[sizeof(int16_t)];
 	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
@@ -45,12 +45,12 @@ int16_t base::BitConverter::ToInt16(base::Stream &stream)
 	return ToInt16(base::Span{buffer, sizeof(buffer)});
 }
 
-uint16_t base::BitConverter::ToUInt16(uint8_t high, uint8_t low)
+uint16_t base::bit_converte::ToUInt16(uint8_t high, uint8_t low)
 {
 	return (static_cast<uint16_t>(high) << 8) | low;
 }
 
-uint32_t base::BitConverter::ToUInt32(base::ReadOnlySpan const &span)
+uint32_t base::bit_converte::ToUInt32(base::ReadOnlySpan const &span)
 {
 	uint32_t ret;
 
@@ -66,7 +66,7 @@ uint32_t base::BitConverter::ToUInt32(base::ReadOnlySpan const &span)
 	return ret;
 }
 
-uint32_t base::BitConverter::ToUInt32(base::Stream &stream)
+uint32_t base::bit_converte::ToUInt32(base::Stream &stream)
 {
 	uint8_t buffer[sizeof(uint32_t)];
 	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
@@ -78,12 +78,12 @@ uint32_t base::BitConverter::ToUInt32(base::Stream &stream)
 	return ToUInt32(base::Span{buffer, sizeof(buffer)});
 }
 
-int32_t base::BitConverter::ToInt32(base::ReadOnlySpan const &span)
+int32_t base::bit_converte::ToInt32(base::ReadOnlySpan const &span)
 {
 	return static_cast<int32_t>(ToUInt32(span));
 }
 
-int32_t base::BitConverter::ToInt32(base::Stream &stream)
+int32_t base::bit_converte::ToInt32(base::Stream &stream)
 {
 	uint8_t buffer[sizeof(int32_t)];
 	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
@@ -95,19 +95,19 @@ int32_t base::BitConverter::ToInt32(base::Stream &stream)
 	return ToInt32(base::Span{buffer, sizeof(buffer)});
 }
 
-uint32_t base::BitConverter::ToUInt32(uint8_t b3, uint8_t b2, uint8_t b1, uint8_t b0)
+uint32_t base::bit_converte::ToUInt32(uint8_t b3, uint8_t b2, uint8_t b1, uint8_t b0)
 {
 	uint16_t high = ToUInt16(b3, b2);
 	uint16_t low = ToUInt16(b1, b0);
 	return ToUInt32(high, low);
 }
 
-uint32_t base::BitConverter::ToUInt32(uint16_t high, uint16_t low)
+uint32_t base::bit_converte::ToUInt32(uint16_t high, uint16_t low)
 {
 	return (static_cast<uint32_t>(high) << 16) | low;
 }
 
-uint64_t base::BitConverter::ToUInt64(base::ReadOnlySpan const &span)
+uint64_t base::bit_converte::ToUInt64(base::ReadOnlySpan const &span)
 {
 	uint64_t ret;
 
@@ -123,7 +123,7 @@ uint64_t base::BitConverter::ToUInt64(base::ReadOnlySpan const &span)
 	return ret;
 }
 
-uint64_t base::BitConverter::ToUInt64(base::Stream &stream)
+uint64_t base::bit_converte::ToUInt64(base::Stream &stream)
 {
 	uint8_t buffer[sizeof(uint64_t)];
 	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
@@ -135,12 +135,12 @@ uint64_t base::BitConverter::ToUInt64(base::Stream &stream)
 	return ToUInt64(base::Span{buffer, sizeof(buffer)});
 }
 
-int64_t base::BitConverter::ToInt64(base::ReadOnlySpan const &span)
+int64_t base::bit_converte::ToInt64(base::ReadOnlySpan const &span)
 {
 	return static_cast<int64_t>(ToUInt64(span));
 }
 
-int64_t base::BitConverter::ToInt64(base::Stream &stream)
+int64_t base::bit_converte::ToInt64(base::Stream &stream)
 {
 	uint8_t buffer[sizeof(int64_t)];
 	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
@@ -152,7 +152,7 @@ int64_t base::BitConverter::ToInt64(base::Stream &stream)
 	return ToInt64(base::Span{buffer, sizeof(buffer)});
 }
 
-float base::BitConverter::ToFloat(base::ReadOnlySpan const &span)
+float base::bit_converte::ToFloat(base::ReadOnlySpan const &span)
 {
 	float ret;
 
@@ -168,7 +168,7 @@ float base::BitConverter::ToFloat(base::ReadOnlySpan const &span)
 	return ret;
 }
 
-float base::BitConverter::ToFloat(base::Stream &stream)
+float base::bit_converte::ToFloat(base::Stream &stream)
 {
 	uint8_t buffer[sizeof(float)];
 	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
@@ -180,7 +180,7 @@ float base::BitConverter::ToFloat(base::Stream &stream)
 	return ToFloat(base::Span{buffer, sizeof(buffer)});
 }
 
-double base::BitConverter::ToDouble(base::ReadOnlySpan const &span)
+double base::bit_converte::ToDouble(base::ReadOnlySpan const &span)
 {
 	double ret;
 
@@ -196,7 +196,7 @@ double base::BitConverter::ToDouble(base::ReadOnlySpan const &span)
 	return ret;
 }
 
-double base::BitConverter::ToDouble(base::Stream &stream)
+double base::bit_converte::ToDouble(base::Stream &stream)
 {
 	uint8_t buffer[sizeof(double)];
 	int32_t have_read = stream.ReadExactly(buffer, 0, sizeof(buffer));
@@ -208,7 +208,7 @@ double base::BitConverter::ToDouble(base::Stream &stream)
 	return ToDouble(base::Span{buffer, sizeof(buffer)});
 }
 
-void base::BitConverter::GetBytes(uint16_t value, base::Span const &span)
+void base::bit_converte::GetBytes(uint16_t value, base::Span const &span)
 {
 	if (span.Size() < static_cast<int32_t>(sizeof(value)))
 	{
@@ -219,13 +219,13 @@ void base::BitConverter::GetBytes(uint16_t value, base::Span const &span)
 	std::copy(buffer, buffer + static_cast<int32_t>(sizeof(value)), span.Buffer());
 }
 
-void base::BitConverter::GetBytes(uint16_t value, base::Stream &stream)
+void base::bit_converte::GetBytes(uint16_t value, base::Stream &stream)
 {
 	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
 	stream.Write(buffer, 0, sizeof(value));
 }
 
-void base::BitConverter::GetBytes(int16_t value, base::Span const &span)
+void base::bit_converte::GetBytes(int16_t value, base::Span const &span)
 {
 	if (span.Size() < static_cast<int32_t>(sizeof(value)))
 	{
@@ -236,13 +236,13 @@ void base::BitConverter::GetBytes(int16_t value, base::Span const &span)
 	std::copy(buffer, buffer + static_cast<int32_t>(sizeof(value)), span.Buffer());
 }
 
-void base::BitConverter::GetBytes(int16_t value, base::Stream &stream)
+void base::bit_converte::GetBytes(int16_t value, base::Stream &stream)
 {
 	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
 	stream.Write(buffer, 0, sizeof(value));
 }
 
-void base::BitConverter::GetBytes(uint32_t value, base::Span const &span)
+void base::bit_converte::GetBytes(uint32_t value, base::Span const &span)
 {
 	if (span.Size() < static_cast<int32_t>(sizeof(value)))
 	{
@@ -253,13 +253,13 @@ void base::BitConverter::GetBytes(uint32_t value, base::Span const &span)
 	std::copy(buffer, buffer + static_cast<int32_t>(sizeof(value)), span.Buffer());
 }
 
-void base::BitConverter::GetBytes(uint32_t value, base::Stream &stream)
+void base::bit_converte::GetBytes(uint32_t value, base::Stream &stream)
 {
 	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
 	stream.Write(buffer, 0, sizeof(value));
 }
 
-void base::BitConverter::GetBytes(int32_t value, base::Span const &span)
+void base::bit_converte::GetBytes(int32_t value, base::Span const &span)
 {
 	if (span.Size() < static_cast<int32_t>(sizeof(value)))
 	{
@@ -270,13 +270,13 @@ void base::BitConverter::GetBytes(int32_t value, base::Span const &span)
 	std::copy(buffer, buffer + static_cast<int32_t>(sizeof(value)), span.Buffer());
 }
 
-void base::BitConverter::GetBytes(int32_t value, base::Stream &stream)
+void base::bit_converte::GetBytes(int32_t value, base::Stream &stream)
 {
 	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
 	stream.Write(buffer, 0, sizeof(value));
 }
 
-void base::BitConverter::GetBytes(uint64_t value, base::Span const &span)
+void base::bit_converte::GetBytes(uint64_t value, base::Span const &span)
 {
 	if (span.Size() < static_cast<int32_t>(sizeof(value)))
 	{
@@ -287,13 +287,13 @@ void base::BitConverter::GetBytes(uint64_t value, base::Span const &span)
 	std::copy(buffer, buffer + static_cast<int32_t>(sizeof(value)), span.Buffer());
 }
 
-void base::BitConverter::GetBytes(uint64_t value, base::Stream &stream)
+void base::bit_converte::GetBytes(uint64_t value, base::Stream &stream)
 {
 	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
 	stream.Write(buffer, 0, sizeof(value));
 }
 
-void base::BitConverter::GetBytes(int64_t value, base::Span const &span)
+void base::bit_converte::GetBytes(int64_t value, base::Span const &span)
 {
 	if (span.Size() < static_cast<int32_t>(sizeof(value)))
 	{
@@ -304,13 +304,13 @@ void base::BitConverter::GetBytes(int64_t value, base::Span const &span)
 	std::copy(buffer, buffer + static_cast<int32_t>(sizeof(value)), span.Buffer());
 }
 
-void base::BitConverter::GetBytes(int64_t value, base::Stream &stream)
+void base::bit_converte::GetBytes(int64_t value, base::Stream &stream)
 {
 	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
 	stream.Write(buffer, 0, sizeof(value));
 }
 
-void base::BitConverter::GetBytes(float value, base::Span const &span)
+void base::bit_converte::GetBytes(float value, base::Span const &span)
 {
 	if (span.Size() < static_cast<int32_t>(sizeof(value)))
 	{
@@ -321,13 +321,13 @@ void base::BitConverter::GetBytes(float value, base::Span const &span)
 	std::copy(buffer, buffer + static_cast<int32_t>(sizeof(value)), span.Buffer());
 }
 
-void base::BitConverter::GetBytes(float value, base::Stream &stream)
+void base::bit_converte::GetBytes(float value, base::Stream &stream)
 {
 	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
 	stream.Write(buffer, 0, sizeof(value));
 }
 
-void base::BitConverter::GetBytes(double value, base::Span const &span)
+void base::bit_converte::GetBytes(double value, base::Span const &span)
 {
 	if (span.Size() < static_cast<int32_t>(sizeof(value)))
 	{
@@ -338,7 +338,7 @@ void base::BitConverter::GetBytes(double value, base::Span const &span)
 	std::copy(buffer, buffer + static_cast<int32_t>(sizeof(value)), span.Buffer());
 }
 
-void base::BitConverter::GetBytes(double value, base::Stream &stream)
+void base::bit_converte::GetBytes(double value, base::Stream &stream)
 {
 	uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
 	stream.Write(buffer, 0, sizeof(value));
