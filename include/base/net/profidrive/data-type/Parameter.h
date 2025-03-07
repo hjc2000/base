@@ -26,7 +26,7 @@ namespace base
 			}
 
 		public:
-			// 参数描述
+			/* #region 参数描述 */
 
 			/**
 			 * @brief 指示参数值的类型。
@@ -165,6 +165,8 @@ namespace base
 			{
 				return 0;
 			}
+
+			/* #endregion */
 		};
 	} // namespace profidrive
 } // namespace base
