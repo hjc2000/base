@@ -10,7 +10,10 @@
 
 namespace base
 {
-	/// @brief 对 std::string 进行包装。
+	/**
+	 * @brief 对 std::string 进行包装。
+	 *
+	 */
 	class String
 	{
 	private:
@@ -106,17 +109,17 @@ namespace base
 		/// @brief 裁剪掉字符串开头处的空白字符。
 		/// @note 关于哪些是空白字符，见 IsWhiteChar 函数。
 		/// @return
-		base::String TrimStart() const;
+		void TrimStart();
 
 		/// @brief 裁剪掉字符串末尾处的空白字符。
 		/// @note 关于哪些是空白字符，见 IsWhiteChar 函数。
 		/// @return
-		base::String TrimEnd() const;
+		void TrimEnd();
 
 		/// @brief 裁剪掉字符串开头和结尾的空白字符。
 		/// @note 关于哪些是空白字符，见 IsWhiteChar 函数。
 		/// @return
-		base::String Trim() const;
+		void Trim();
 
 	public:
 		// 查找索引位置

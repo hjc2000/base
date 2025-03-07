@@ -1,4 +1,5 @@
 #include "String.h"
+#include "base/container/Range.h"
 #include <stdexcept>
 
 bool base::String::IsWhiteChar(char value)
@@ -145,7 +146,7 @@ base::List<base::String> base::String::Split(char separator, base::StringSplitOp
 	{
 		if (options.trim_each_substring)
 		{
-			o = o.Trim();
+			o.Trim();
 		}
 
 		if (options.remove_empty_substring && o == "")
@@ -187,7 +188,7 @@ base::List<base::String> base::String::Split(char separator, base::StringSplitOp
 	}
 }
 
-base::String base::String::TrimStart() const
+void base::String::TrimStart()
 {
 	if (_string.size() > INT32_MAX)
 	{
@@ -196,23 +197,20 @@ base::String base::String::TrimStart() const
 
 	if (_string.size() == 0)
 	{
-		return base::String{};
+		return;
 	}
 
 	for (int32_t i = 0; i < static_cast<int32_t>(_string.size()); i++)
 	{
 		if (!IsWhiteChar(_string[i]))
 		{
-			std::string ret{_string.data() + i, _string.size() - i};
-			return base::String{ret};
+			Remove(base::Range{0, i});
+			return;
 		}
 	}
-
-	// 遍历完所有字符后都没有找到一个非空白字符，返回空字符串。
-	return base::String{};
 }
 
-base::String base::String::TrimEnd() const
+void base::String::TrimEnd()
 {
 	if (_string.size() > INT32_MAX)
 	{
@@ -221,27 +219,29 @@ base::String base::String::TrimEnd() const
 
 	if (_string.size() == 0)
 	{
-		return base::String{};
+		return;
 	}
 
-	for (int32_t i = _string.size() - 1; i >= 0; i--)
+	for (int32_t i = Length() - 1; i >= 0; i--)
 	{
 		if (!IsWhiteChar(_string[i]))
 		{
-			std::string ret{_string.data(), static_cast<size_t>(i + 1)};
-			return ret;
+			if (i == Length() - 1)
+			{
+				// 最后一个字符就是非空白字符
+				return;
+			}
+
+			Remove(base::Range{i + 1, Length()});
+			return;
 		}
 	}
-
-	// 到索引 0 处仍然是空白字符，说明整个字符串都是空白字符。直接返回空字符串。
-	return base::String{};
 }
 
-base::String base::String::Trim() const
+void base::String::Trim()
 {
-	base::String ret = TrimStart();
-	ret = ret.TrimEnd();
-	return ret;
+	TrimStart();
+	TrimEnd();
 }
 
 int32_t base::String::IndexOf(char match) const
