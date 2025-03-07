@@ -25,8 +25,13 @@ namespace base
 				return _parameter_values_buffer;
 			}
 
+		public:
+			// 参数描述
+
 			/**
 			 * @brief 指示参数值的类型。
+			 *
+			 * @note 标识符 bit0 到 bit7.
 			 *
 			 * @return base::profidrive::DataTypeEnum
 			 */
@@ -38,14 +43,97 @@ namespace base
 			/**
 			 * @brief 标准化系数和变量属性不相关。
 			 *
+			 * @note 标识符 bit8.
 			 * @note 如果根据参数无法计算出物理值，则本属性为 true，例如参数是一个字符串时。
 			 *
 			 * @return true
 			 * @return false
 			 */
-			bool StandardizationCoefficientAndVariablePropertiesAreNotCorrelated()
+			bool StandardizationCoefficientAndVariablePropertiesAreNotCorrelated() const
 			{
 				return false;
+			}
+
+			/**
+			 * @brief 参数不可写。
+			 *
+			 * @note 标识符 bit9.
+			 *
+			 * @return true
+			 * @return false
+			 */
+			bool ParametersCannotBeWritten() const
+			{
+				return false;
+			}
+
+			/**
+			 * @brief 有附加文本数组。
+			 *
+			 * @note 标识符 bit10.
+			 *
+			 * @return true
+			 * @return false
+			 */
+			bool HasAdditionalTextArray() const
+			{
+				return false;
+			}
+
+			/**
+			 * @brief 本参数值与出厂设置不同。
+			 *
+			 * @note 标识符 bit12.
+			 * @note 本参数被修改成与出厂设置不同时本属性为 true.
+			 *
+			 * @return true
+			 * @return false
+			 */
+			bool DifferentFromTheFactorySetting() const
+			{
+				return false;
+			}
+
+			/**
+			 * @brief 本参数可被重置。
+			 *
+			 * @note 标识符 bit13.
+			 *
+			 * @return true
+			 * @return false
+			 */
+			bool CanBeReset() const
+			{
+				return true;
+			}
+
+			/**
+			 * @brief 本参数的参数值是一个数组。
+			 *
+			 * @note 标识符 bit14.
+			 *
+			 * @return true
+			 * @return false
+			 */
+			bool IsAnArray() const
+			{
+				return false;
+			}
+
+			/**
+			 * @brief 参数值数组的元素个数或字符串长度。
+			 *
+			 * @note 当参数值是一个数组时，本属性指示元素个数。
+			 * @note 当参数值是一个字符串或普通的字节串时，本属性指示字符串长度。
+			 *
+			 * @note 参数值不能是字符串或字节串的数组。因为字符串和字节串的长度是可变的，
+			 * 而参数描述没有办法描述这种数组内每一个字符串或字节串的长度。
+			 *
+			 * @return int32_t
+			 */
+			int32_t Length() const
+			{
+				return 0;
 			}
 		};
 	} // namespace profidrive
