@@ -355,5 +355,7 @@ namespace base
 } // namespace base
 
 base::String operator+(char left, base::String const &right);
+base::String operator+(char const *left, base::String const &right);
 base::String operator+(std::string const &left, base::String const &right);
+
 std::ostream &operator<<(std::ostream &os, base::String const &str);

@@ -424,6 +424,11 @@ base::String operator+(char left, base::String const &right)
 	return base::String{left + right.StdString()};
 }
 
+base::String operator+(char const *left, base::String const &right)
+{
+	return base::String{left + right.StdString()};
+}
+
 base::String operator+(std::string const &left, base::String const &right)
 {
 	return base::String{left + right.StdString()};
