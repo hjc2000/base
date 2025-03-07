@@ -84,8 +84,32 @@ namespace base
 
 		/* #endregion */
 
+		/* #region 拼接，切片 */
+
 		base::String &operator+=(base::String const &o);
 		base::String operator+(base::String const &o) const;
+
+		/**
+		 * @brief 根据分隔符，将字符串拆分成多个子字符串，放到列表中返回。
+		 *
+		 * @param separator
+		 * @param options
+		 * @return base::List<base::String>
+		 */
+		base::List<base::String> Split(char separator,
+									   base::StringSplitOptions const &options = StringSplitOptions{}) const;
+
+		/**
+		 * @brief 获取指定范围内的子字符串。
+		 *
+		 * @note 子字符串是从父字符串拷贝而来而不是引用父字符串的内存。
+		 *
+		 * @param range
+		 * @return base::String
+		 */
+		base::String Slice(base::Range const &range) const;
+
+		/* #endregion */
 
 		/* #region 比较 */
 
@@ -211,26 +235,6 @@ namespace base
 		 * @return base::ReadOnlySpan
 		 */
 		base::ReadOnlySpan Span() const;
-
-		/**
-		 * @brief 根据分隔符，将字符串拆分成多个子字符串，放到列表中返回。
-		 *
-		 * @param separator
-		 * @param options
-		 * @return base::List<base::String>
-		 */
-		base::List<base::String> Split(char separator,
-									   base::StringSplitOptions const &options = StringSplitOptions{}) const;
-
-		/**
-		 * @brief 获取指定范围内的子字符串。
-		 *
-		 * @note 子字符串是从父字符串拷贝而来而不是引用父字符串的内存。
-		 *
-		 * @param range
-		 * @return base::String
-		 */
-		base::String Slice(base::Range const &range) const;
 
 		/**
 		 * @brief 翻转字符串。

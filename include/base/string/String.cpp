@@ -94,7 +94,7 @@ base::String base::String::operator[](base::Range const &range) const
 
 /* #endregion */
 
-/* #region 字符串拼接 */
+/* #region 拼接，切片 */
 
 base::String &base::String::operator+=(base::String const &o)
 {
@@ -107,6 +107,84 @@ base::String base::String::operator+(base::String const &o) const
 	std::string ret;
 	ret.reserve(_string.size() + o.StdString().size());
 	ret = _string + o.StdString();
+	return base::String{ret};
+}
+
+base::List<base::String> base::String::Split(char separator, base::StringSplitOptions const &options) const
+{
+	if (_string.size() > INT32_MAX)
+	{
+		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
+	}
+
+	base::List<base::String> ret;
+
+	base::ReadOnlySpan span{
+		reinterpret_cast<uint8_t const *>(_string.data()),
+		static_cast<int32_t>(_string.size()),
+	};
+
+	/// @brief 在设定的选项下将字符串添加到列表中
+	/// @param o 要被添加的字符串的引用。将会根据 options 对其进行修改后添加到 ret
+	/// 列表中。
+	auto AddToListUnderOptions = [&](base::String &o)
+	{
+		if (options.trim_each_substring)
+		{
+			o.Trim();
+		}
+
+		if (options.remove_empty_substring && o == "")
+		{
+			return;
+		}
+
+		ret.Add(o);
+	};
+
+	while (true)
+	{
+		int32_t index = span.IndexOf(separator);
+		if (index < 0)
+		{
+			// 找不到分隔符，将剩余的整个 span 作为一个字符串。
+			base::String temp_str{span};
+			AddToListUnderOptions(temp_str);
+			return ret;
+		}
+
+		// 找到分隔符
+		base::String temp_str{span[base::Range{0, index}]};
+		AddToListUnderOptions(temp_str);
+		if (index + 1 >= span.Size())
+		{
+			// 已经到达末尾了，没有剩余字符了
+			if (_string[_string.size() - 1] == separator)
+			{
+				// 如果以分隔符结尾，还需要末尾再添加一个空字符串。
+				base::String temp_str{""};
+				AddToListUnderOptions(temp_str);
+			}
+
+			return ret;
+		}
+
+		span = span[base::Range{index + 1, span.Size()}];
+	}
+}
+
+base::String base::String::Slice(base::Range const &range) const
+{
+	if (_string.size() > INT32_MAX)
+	{
+		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
+	}
+
+	std::string ret{
+		_string.data() + range.Begin(),
+		static_cast<size_t>(range.Size()),
+	};
+
 	return base::String{ret};
 }
 
@@ -263,84 +341,6 @@ base::ReadOnlySpan base::String::Span() const
 		reinterpret_cast<uint8_t const *>(_string.data()),
 		static_cast<int32_t>(_string.size()),
 	};
-}
-
-base::List<base::String> base::String::Split(char separator, base::StringSplitOptions const &options) const
-{
-	if (_string.size() > INT32_MAX)
-	{
-		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
-	}
-
-	base::List<base::String> ret;
-
-	base::ReadOnlySpan span{
-		reinterpret_cast<uint8_t const *>(_string.data()),
-		static_cast<int32_t>(_string.size()),
-	};
-
-	/// @brief 在设定的选项下将字符串添加到列表中
-	/// @param o 要被添加的字符串的引用。将会根据 options 对其进行修改后添加到 ret
-	/// 列表中。
-	auto AddToListUnderOptions = [&](base::String &o)
-	{
-		if (options.trim_each_substring)
-		{
-			o.Trim();
-		}
-
-		if (options.remove_empty_substring && o == "")
-		{
-			return;
-		}
-
-		ret.Add(o);
-	};
-
-	while (true)
-	{
-		int32_t index = span.IndexOf(separator);
-		if (index < 0)
-		{
-			// 找不到分隔符，将剩余的整个 span 作为一个字符串。
-			base::String temp_str{span};
-			AddToListUnderOptions(temp_str);
-			return ret;
-		}
-
-		// 找到分隔符
-		base::String temp_str{span[base::Range{0, index}]};
-		AddToListUnderOptions(temp_str);
-		if (index + 1 >= span.Size())
-		{
-			// 已经到达末尾了，没有剩余字符了
-			if (_string[_string.size() - 1] == separator)
-			{
-				// 如果以分隔符结尾，还需要末尾再添加一个空字符串。
-				base::String temp_str{""};
-				AddToListUnderOptions(temp_str);
-			}
-
-			return ret;
-		}
-
-		span = span[base::Range{index + 1, span.Size()}];
-	}
-}
-
-base::String base::String::Slice(base::Range const &range) const
-{
-	if (_string.size() > INT32_MAX)
-	{
-		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
-	}
-
-	std::string ret{
-		_string.data() + range.Begin(),
-		static_cast<size_t>(range.Size()),
-	};
-
-	return base::String{ret};
 }
 
 void base::String::Reverse()
