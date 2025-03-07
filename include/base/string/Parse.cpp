@@ -135,14 +135,22 @@ double base::ParseDouble(base::String const &str, int32_t base)
 		throw std::invalid_argument{CODE_POS_STR + "不允许传入空字符串。"};
 	}
 
+	base::String copy = str;
+	bool is_negative = false;
+	if (copy.StartWith('-'))
+	{
+		is_negative = true;
+		copy = copy[base::Range{1, copy.Length()}];
+	}
+
 	base::StringSplitOptions split_options{};
 	split_options.remove_empty_substring = true;
 	split_options.trim_each_substring = true;
 
-	base::List<base::String> sub_strs = str.Split('.', split_options);
+	base::List<base::String> sub_strs = copy.Split('.', split_options);
 	if (sub_strs.Count() == 0 || sub_strs.Count() > 2)
 	{
-		throw std::invalid_argument{CODE_POS_STR + "非法字符串：" + str.StdString()};
+		throw std::invalid_argument{CODE_POS_STR + "非法字符串：" + copy.StdString()};
 	}
 
 	base::String integer_part_str = sub_strs[0];
@@ -160,5 +168,10 @@ double base::ParseDouble(base::String const &str, int32_t base)
 	};
 
 	base::Fraction sum = integer_part + fractional_part;
+	if (is_negative)
+	{
+		sum = -sum;
+	}
+
 	return static_cast<double>(sum);
 }

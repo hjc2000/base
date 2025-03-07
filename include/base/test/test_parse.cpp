@@ -47,6 +47,9 @@ void base::test::test_parse_double()
 	str = "010";
 	std::cout << "解析 010:\t" << base::ParseDouble(str) << std::endl;
 
+	str = "-0x10.5";
+	std::cout << "解析 -0x10.5:\t" << base::ParseDouble(str) << std::endl;
+
 	str = "10.5";
 	std::cout << "解析 16 进制 10.5:\t" << base::ParseDouble(str, 16) << std::endl;
 	std::cout << "解析 8 进制 10.5:\t" << base::ParseDouble(str, 8) << std::endl;
