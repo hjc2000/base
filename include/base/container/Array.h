@@ -19,6 +19,8 @@ namespace base
 		std::array<ItemType, TCount> _arr{};
 
 	public:
+		/* #region 构造函数 */
+
 		/**
 		 * @brief 无参构造。
 		 *
@@ -60,7 +62,8 @@ namespace base
 			_arr = o;
 		}
 
-	public:
+		/* #endregion */
+
 		/**
 		 * @brief 数组的大小
 		 *

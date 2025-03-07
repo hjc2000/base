@@ -20,7 +20,7 @@ namespace base
 		public virtual base::IEnumerable<ItemType>
 	{
 	private:
-		// 迭代器
+		/* #region 迭代器 */
 
 		/**
 		 * @brief 迭代器
@@ -91,8 +91,10 @@ namespace base
 			}
 		};
 
+		/* #endregion */
+
 	public:
-		// 接口
+		/* #region 接口 */
 
 		/**
 		 * @brief 数组的大小
@@ -115,7 +117,10 @@ namespace base
 		 */
 		virtual ItemType const *Buffer() const = 0;
 
-	public:
+		/* #endregion */
+
+		/* #region 索引器 */
+
 		ItemType &operator[](int32_t const index)
 		{
 			if (index < 0 || index >= Count())
@@ -136,8 +141,9 @@ namespace base
 			return Buffer()[index];
 		}
 
-	public:
-		// CopyFrom
+		/* #endregion */
+
+		/* #region CopyFrom */
 
 		/**
 		 * @brief 将 another 的元素拷贝到本容器。
@@ -173,7 +179,8 @@ namespace base
 			std::copy(another.Buffer(), another.Buffer() + another.Count(), Buffer());
 		}
 
-	public:
+		/* #endregion */
+
 		/**
 		 * @brief 翻转数组
 		 *
@@ -182,6 +189,8 @@ namespace base
 		{
 			std::reverse(Buffer(), Buffer() + Count());
 		}
+
+		/* #region Sort */
 
 		/**
 		 * @brief 排序。
@@ -246,6 +255,8 @@ namespace base
 				throw std::runtime_error{CODE_POS_STR + e.what()};
 			}
 		}
+
+		/* #endregion */
 
 		base::ArraySpan<ItemType> Span()
 		{
