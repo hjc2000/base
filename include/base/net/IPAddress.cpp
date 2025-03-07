@@ -3,6 +3,8 @@
 #include <base/string/ToHexString.h>
 #include <stdexcept>
 
+/* #region Context */
+
 base::IPAddress::Context::Context(base::IPAddressType type)
 {
 	_type = type;
@@ -32,6 +34,10 @@ base::IPAddressType base::IPAddress::Context::IPAddressType() const
 {
 	return _type;
 }
+
+/* #endregion */
+
+/* #region 生命周期 */
 
 base::IPAddress::IPAddress(base::IPAddressType type)
 {
@@ -187,6 +193,8 @@ base::IPAddress::IPAddress(base::String const &ip_str)
 		throw std::invalid_argument{"必须是点分 10 进制的 IPV4 地址或冒号分 16 进制的 IPV6 地址"};
 	}
 }
+
+/* #endregion */
 
 uint8_t &base::IPAddress::operator[](int index)
 {

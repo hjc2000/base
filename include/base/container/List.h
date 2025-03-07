@@ -24,7 +24,7 @@ namespace base
 		std::vector<ItemType> _vector;
 
 	public:
-		// 构造函数
+		/* #region 构造函数 */
 
 		/**
 		 * @brief 构造一个空列表。
@@ -47,7 +47,8 @@ namespace base
 			_vector = list;
 		}
 
-	public:
+		/* #endregion */
+
 		/**
 		 * @brief 将本列表内的元素拷贝到向量中。
 		 *
@@ -59,7 +60,8 @@ namespace base
 			return _vector;
 		}
 
-	public:
+		/* #region 添加元素 */
+
 		using IList<ItemType>::Add;
 
 		/**
@@ -87,6 +89,10 @@ namespace base
 
 			_vector.insert(_vector.begin() + index, item);
 		}
+
+		/* #endregion */
+
+		/* #region 移除元素 */
 
 		/**
 		 * @brief 从列表移除指定元素。
@@ -153,6 +159,19 @@ namespace base
 		}
 
 		/**
+		 * @brief 清空列表。
+		 *
+		 */
+		void Clear() override
+		{
+			_vector.clear();
+		}
+
+		/* #endregion */
+
+		/* #region 查找元素 */
+
+		/**
 		 * @brief 查找指定元素的索引。
 		 *
 		 * @param item
@@ -195,14 +214,7 @@ namespace base
 			return it != _vector.end();
 		}
 
-		/**
-		 * @brief 清空列表。
-		 *
-		 */
-		void Clear() override
-		{
-			_vector.clear();
-		}
+		/* #endregion */
 
 		/**
 		 * @brief 列表中元素的数量。
@@ -213,6 +225,8 @@ namespace base
 		{
 			return static_cast<int32_t>(_vector.size());
 		}
+
+		/* #region 索引器 */
 
 		/**
 		 * @brief 获取指定索引位置的元素。
@@ -236,7 +250,8 @@ namespace base
 			return IRawArray<ItemType>::operator[](index);
 		}
 
-	public:
+		/* #endregion */
+
 		/**
 		 * @brief 获取底层的缓冲区
 		 *

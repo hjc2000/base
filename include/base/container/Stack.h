@@ -60,7 +60,6 @@ namespace base
 			return true;
 		}
 
-	public:
 		/**
 		 * @brief 数组的大小
 		 *

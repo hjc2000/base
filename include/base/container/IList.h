@@ -14,7 +14,7 @@ namespace base
 		public virtual base::IEnumerable<ItemType>
 	{
 	private:
-		// 迭代器
+		/* #region 迭代器 */
 
 		/**
 		 * @brief 用来迭代 IList 的私有迭代器。
@@ -63,8 +63,10 @@ namespace base
 			}
 		};
 
+		/* #endregion */
+
 	public:
-		// 接口
+		/* #region 接口 */
 
 		/**
 		 * @brief 向列表末尾添加一个元素。
@@ -152,7 +154,10 @@ namespace base
 		 */
 		virtual ItemType const &operator[](int32_t index) const = 0;
 
-	public:
+		/* #endregion */
+
+		/* #region 接口扩展 */
+
 		/**
 		 * @brief 将另一个列表的元素添加到本列表中。
 		 *
@@ -179,6 +184,8 @@ namespace base
 			}
 		}
 
+		using base::IEnumerable<ItemType>::GetEnumerator;
+
 		/**
 		 * @brief 获取迭代器
 		 *
@@ -200,5 +207,7 @@ namespace base
 		{
 			return this == &o;
 		}
+
+		/* #endregion */
 	};
 } // namespace base

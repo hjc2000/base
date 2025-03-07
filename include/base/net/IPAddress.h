@@ -26,6 +26,8 @@ namespace base
 		public base::ICanToString
 	{
 	private:
+		/* #region Context */
+
 		class Context
 		{
 		private:
@@ -51,7 +53,11 @@ namespace base
 		 */
 		Context _context;
 
+		/* #endregion */
+
 	public:
+		/* #region 生命周期 */
+
 		/**
 		 * @brief 构造一个未指定的 IP 地址。此时表现为 IPV4 的 0.0.0.0.
 		 *
@@ -114,8 +120,8 @@ namespace base
 		IPAddress(base::String const &ip_str);
 
 		virtual ~IPAddress() = default;
+		/* #endregion */
 
-	public:
 		uint8_t &operator[](int index);
 		uint8_t const &operator[](int index) const;
 

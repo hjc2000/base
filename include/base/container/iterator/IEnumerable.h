@@ -13,6 +13,8 @@ namespace base
 	class IEnumerable
 	{
 	private:
+		/* #region const 迭代器 */
+
 		/**
 		 * @brief const 迭代器
 		 *
@@ -47,7 +49,11 @@ namespace base
 			}
 		};
 
+		/* #endregion */
+
 	public:
+		/* #region ForwardIterator */
+
 		/**
 		 * @brief 包装 IEnumerator 对象，并提供 C++ 迭代器的方法。这样就能在 begin, end
 		 * 方法中返回本类对象，让 IEnumerable 支持 for-in 循环。
@@ -117,7 +123,10 @@ namespace base
 			}
 		};
 
-	public:
+		/* #endregion */
+
+		/* #region 接口 */
+
 		/**
 		 * @brief 获取非 const 迭代器
 		 *
@@ -125,7 +134,10 @@ namespace base
 		 */
 		virtual std::shared_ptr<base::IEnumerator<ItemType>> GetEnumerator() = 0;
 
-	public:
+		/* #endregion */
+
+		/* #region 接口扩展 */
+
 		/**
 		 * @brief 获取 const 迭代器
 		 *
@@ -157,5 +169,7 @@ namespace base
 		{
 			return ForwardIterator<ItemType const>{GetEnumerator()};
 		}
+
+		/* #endregion */
 	};
 } // namespace base

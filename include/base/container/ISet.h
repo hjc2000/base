@@ -8,6 +8,8 @@ namespace base
 		public base::IEnumerable<ItemType const>
 	{
 	public:
+		/* #region 接口 */
+
 		/**
 		 * @brief 向集合中添加一个元素。
 		 *
@@ -49,7 +51,10 @@ namespace base
 		 */
 		virtual std::shared_ptr<base::IEnumerator<ItemType const>> GetEnumerator() = 0;
 
-	public:
+		/* #endregion */
+
+		/* #region 接口扩展 */
+
 		/**
 		 * @brief 将另一个集合的元素添加进来。
 		 *
@@ -80,5 +85,7 @@ namespace base
 				Remove(item);
 			}
 		}
+
+		/* #endregion */
 	};
 } // namespace base
