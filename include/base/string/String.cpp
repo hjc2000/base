@@ -249,16 +249,6 @@ int32_t base::String::LastIndexOf(int32_t start, base::String const &match) cons
 
 /* #endregion */
 
-bool base::String::Contains(char match) const
-{
-	return IndexOf(match) >= 0;
-}
-
-bool base::String::Contains(base::String const &match) const
-{
-	return IndexOf(match) >= 0;
-}
-
 base::Span base::String::Span()
 {
 	return base::Span{
@@ -416,6 +406,16 @@ void base::String::ToUpper()
 				   _string.end(),
 				   _string.begin(),
 				   ::toupper);
+}
+
+bool base::String::Contains(char match) const
+{
+	return IndexOf(match) >= 0;
+}
+
+bool base::String::Contains(base::String const &match) const
+{
+	return IndexOf(match) >= 0;
 }
 
 /* #region 开始结尾 */

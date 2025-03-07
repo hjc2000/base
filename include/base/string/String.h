@@ -199,24 +199,6 @@ namespace base
 		/* #endregion */
 
 		/**
-		 * @brief 检查本字符串中是否存在至少 1 个匹配项。
-		 *
-		 * @param match 匹配项。
-		 * @return true 如果存在，则返回 true.
-		 * @return false 如果不存在则返回 false.
-		 */
-		bool Contains(char match) const;
-
-		/**
-		 * @brief 检查本字符串中是否存在至少 1 个匹配项。
-		 *
-		 * @param match 匹配项。
-		 * @return true 如果有则返回 true.
-		 * @return false 没有则返回 false.
-		 */
-		bool Contains(base::String const &match) const;
-
-		/**
 		 * @brief 获取本字符串的内存段。内存段中不包括结尾的空字符。
 		 *
 		 * @return base::Span
@@ -297,6 +279,24 @@ namespace base
 		 *
 		 */
 		void ToUpper();
+
+		/**
+		 * @brief 检查本字符串中是否存在至少 1 个匹配项。
+		 *
+		 * @param match 匹配项。
+		 * @return true 如果存在，则返回 true.
+		 * @return false 如果不存在则返回 false.
+		 */
+		bool Contains(char match) const;
+
+		/**
+		 * @brief 检查本字符串中是否存在至少 1 个匹配项。
+		 *
+		 * @param match 匹配项。
+		 * @return true 如果有则返回 true.
+		 * @return false 没有则返回 false.
+		 */
+		bool Contains(base::String const &match) const;
 
 		/* #region 开始结尾 */
 
