@@ -1,6 +1,5 @@
 #include "base/math/BigInteger.h"
 #include "base/net/IPAddress.h"
-#include "base/string/String.h"
 #include "base/test/test_parse.h"
 #include <base/net/profinet/dcp/DcpIdentifyRequestReader.h>
 #include <base/usage/CountTriangle.h>
@@ -35,10 +34,4 @@ int main()
 	base::test::test_parse_int32();
 	base::test::test_parse_int64();
 	base::test::test_parse_double();
-
-	base::String str{"1000"};
-	str = "-" + str;
-	str = str[base::Range{2, str.Length()}];
-	std::cout << str << std::endl;
-	std::cout << str.Length() << std::endl;
 }
