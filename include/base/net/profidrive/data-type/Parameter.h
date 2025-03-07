@@ -20,12 +20,8 @@ namespace base
 			 *
 			 * @return std::vector<uint8_t>&
 			 */
-			std::vector<uint8_t> &ParameterValuesBuffer()
-			{
-				return _parameter_values_buffer;
-			}
+			std::vector<uint8_t> &ParameterValuesBuffer();
 
-		public:
 			/* #region 参数描述 */
 
 			/**
