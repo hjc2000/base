@@ -135,6 +135,36 @@ namespace base
 			{
 				return 0;
 			}
+
+			/**
+			 * @brief 标准化系数。
+			 *
+			 * @return double
+			 */
+			double StandardizedCoefficient() const
+			{
+				return 0.0;
+			}
+
+			/**
+			 * @brief 变量索引。
+			 *
+			 * @return uint8_t
+			 */
+			uint8_t VariableIndex() const
+			{
+				return 0;
+			}
+
+			/**
+			 * @brief 转换索引。
+			 *
+			 * @return int8_t
+			 */
+			int8_t ConvertionIndex() const
+			{
+				return 0;
+			}
 		};
 	} // namespace profidrive
 } // namespace base
