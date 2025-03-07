@@ -18,6 +18,8 @@ namespace base
 		virtual ~Stream() = default;
 
 	public:
+		/* #region 流属性 */
+
 		/**
 		 * @brief 本流能否读取。
 		 *
@@ -69,8 +71,10 @@ namespace base
 		 * @param value
 		 */
 		virtual void SetPosition(int64_t value) = 0;
+		/* #endregion */
 
-	public:
+		/* #region 读写冲关 */
+
 		/**
 		 * @brief 将本流的数据读取到 span 中。
 		 *
@@ -101,8 +105,10 @@ namespace base
 		 * @note 关闭后对流的操作将会引发异常。
 		 */
 		virtual void Close() = 0;
+		/* #endregion */
 
-	public:
+		/* #region 接口扩展 */
+
 		/**
 		 * @brief 从流中读取数据写入 buffer。
 		 *
@@ -154,5 +160,6 @@ namespace base
 		 */
 		void CopyTo(std::shared_ptr<base::Stream> dst_stream,
 					std::shared_ptr<base::CancellationToken> cancellationToken);
+		/* #endregion */
 	};
 } // namespace base
