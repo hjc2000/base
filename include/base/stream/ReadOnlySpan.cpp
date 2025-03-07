@@ -3,6 +3,8 @@
 #include <cstring>
 #include <stdexcept>
 
+/* #region 生命周期 */
+
 base::ReadOnlySpan::ReadOnlySpan(uint8_t const *buffer, int32_t size)
 {
 	_buffer = buffer;
@@ -31,6 +33,10 @@ base::ReadOnlySpan::ReadOnlySpan(base::Span const &o)
 	_size = o.Size();
 }
 
+/* #endregion */
+
+/* #region 索引器 */
+
 uint8_t const &base::ReadOnlySpan::operator[](int32_t index) const
 {
 	if (index < 0 || index >= _size)
@@ -46,6 +52,8 @@ base::ReadOnlySpan base::ReadOnlySpan::operator[](base::Range const &range) cons
 	return Slice(range);
 }
 
+/* #endregion */
+
 uint8_t const *base::ReadOnlySpan::Buffer() const
 {
 	return _buffer;
@@ -55,6 +63,8 @@ int32_t base::ReadOnlySpan::Size() const
 {
 	return _size;
 }
+
+/* #region Slice */
 
 base::ReadOnlySpan base::ReadOnlySpan::Slice(int32_t start, int32_t size) const
 {
@@ -70,6 +80,8 @@ base::ReadOnlySpan base::ReadOnlySpan::Slice(base::Range const &range) const
 {
 	return Slice(range.Begin(), range.Size());
 }
+
+/* #endregion */
 
 std::shared_ptr<base::IEnumerator<uint8_t const>> base::ReadOnlySpan::GetEnumerator()
 {
@@ -122,6 +134,8 @@ std::shared_ptr<base::IEnumerator<uint8_t const>> base::ReadOnlySpan::GetEnumera
 
 	return std::shared_ptr<IEnumerator<uint8_t const>>{new Enumerator{this}};
 }
+
+/* #region IndexOf */
 
 int32_t base::ReadOnlySpan::IndexOf(uint8_t match) const
 {
@@ -213,6 +227,10 @@ int32_t base::ReadOnlySpan::IndexOf(int32_t start, base::ReadOnlySpan const &mat
 	return start + result;
 }
 
+/* #endregion */
+
+/* #region LastIndexOf */
+
 int32_t base::ReadOnlySpan::LastIndexOf(uint8_t match) const
 {
 	for (int32_t i = _size - 1; i >= 0; i--)
@@ -287,6 +305,10 @@ int32_t base::ReadOnlySpan::LastIndexOf(int32_t start, base::ReadOnlySpan const 
 	return result;
 }
 
+/* #endregion */
+
+/* #region 比较 */
+
 int32_t base::ReadOnlySpan::Compare(base::ReadOnlySpan const &another) const
 {
 	if (Size() != another.Size())
@@ -357,3 +379,5 @@ bool base::ReadOnlySpan::operator>=(base::Span const &another) const
 {
 	return Compare(another) >= 0;
 }
+
+/* #endregion */

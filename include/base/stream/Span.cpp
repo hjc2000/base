@@ -4,6 +4,8 @@
 #include <base/string/define.h>
 #include <stdexcept>
 
+/* #region 生命周期 */
+
 base::Span::Span(uint8_t *buffer, int32_t size)
 {
 	_buffer = buffer;
@@ -26,6 +28,10 @@ base::Span::Span(base::ArraySpan<uint8_t> const &span)
 	}
 }
 
+/* #endregion */
+
+/* #region 索引器 */
+
 uint8_t &base::Span::operator[](int32_t index) const
 {
 	if (index < 0 || index >= _size)
@@ -41,6 +47,8 @@ base::Span base::Span::operator[](base::Range const &range) const
 	return Slice(range);
 }
 
+/* #endregion */
+
 uint8_t *base::Span::Buffer() const
 {
 	return _buffer;
@@ -50,6 +58,8 @@ int32_t base::Span::Size() const
 {
 	return _size;
 }
+
+/* #region Slice */
 
 base::Span base::Span::Slice(int32_t start, int32_t size) const
 {
@@ -66,10 +76,14 @@ base::Span base::Span::Slice(base::Range const &range) const
 	return Slice(range.Begin(), range.Size());
 }
 
+/* #endregion */
+
 void base::Span::Reverse() const
 {
 	std::reverse(_buffer, _buffer + _size);
 }
+
+/* #region CopyFrom */
 
 void base::Span::CopyFrom(base::ReadOnlySpan const &span) const
 {
@@ -102,6 +116,8 @@ void base::Span::CopyFrom(std::initializer_list<uint8_t> const &list) const
 		i++;
 	}
 }
+
+/* #endregion */
 
 std::shared_ptr<base::IEnumerator<uint8_t>> base::Span::GetEnumerator()
 {
@@ -166,6 +182,8 @@ void base::Span::FillWith(uint8_t value)
 	std::fill(_buffer, _buffer + _size, value);
 }
 
+/* #region IndexOf */
+
 int32_t base::Span::IndexOf(uint8_t match) const
 {
 	return base::ReadOnlySpan{*this}.IndexOf(match);
@@ -186,6 +204,10 @@ int32_t base::Span::IndexOf(int32_t start, base::ReadOnlySpan const &match) cons
 	return base::ReadOnlySpan{*this}.IndexOf(match);
 }
 
+/* #endregion */
+
+/* #region LastIndexOf */
+
 int32_t base::Span::LastIndexOf(uint8_t match) const
 {
 	return base::ReadOnlySpan{*this}.LastIndexOf(match);
@@ -205,6 +227,10 @@ int32_t base::Span::LastIndexOf(int32_t start, base::ReadOnlySpan const &match) 
 {
 	return base::ReadOnlySpan{*this}.LastIndexOf(start, match);
 }
+
+/* #endregion */
+
+/* #region 比较 */
 
 int32_t base::Span::Compare(base::ReadOnlySpan const &another) const
 {
@@ -265,3 +291,5 @@ bool base::Span::operator>=(base::Span const &another) const
 {
 	return Compare(another) >= 0;
 }
+
+/* #endregion */

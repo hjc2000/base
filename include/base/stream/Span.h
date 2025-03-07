@@ -25,7 +25,7 @@ namespace base
 		int32_t _size = 0;
 
 	public:
-		// 构造函数
+		/* #region 生命周期 */
 
 		/**
 		 * @brief 无参构造函数。引用一段空内存。
@@ -61,8 +61,10 @@ namespace base
 		}
 
 		virtual ~Span() = default;
+		/* #endregion */
 
-	public:
+		/* #region 索引器 */
+
 		/**
 		 * @brief 索引一个字节。
 		 *
@@ -78,6 +80,7 @@ namespace base
 		 * @return base::Span
 		 */
 		base::Span operator[](base::Range const &range) const;
+		/* #endregion */
 
 		/**
 		 * @brief 所引用的内存。
@@ -92,6 +95,8 @@ namespace base
 		 * @return int32_t
 		 */
 		int32_t Size() const;
+
+		/* #region Slice */
 
 		/**
 		 * @brief 将本 Span 切片，得到一个更小的 Span.
@@ -109,6 +114,7 @@ namespace base
 		 * @return base::Span
 		 */
 		base::Span Slice(base::Range const &range) const;
+		/* #endregion */
 
 		/**
 		 * @brief 翻转本 Span 所引用的内存段。
@@ -117,7 +123,7 @@ namespace base
 		void Reverse() const;
 
 	public:
-		// CopyFrom
+		/* #region CopyFrom */
 
 		/**
 		 * @brief 将 span 所引用的内存的数据拷贝过来。
@@ -139,8 +145,10 @@ namespace base
 		 * @param list
 		 */
 		void CopyFrom(std::initializer_list<uint8_t> const &list) const;
+		/* #endregion */
 
-	public:
+		using base::IEnumerable<uint8_t>::GetEnumerator;
+
 		/**
 		 * @brief 获取非 const 迭代器
 		 *
@@ -161,8 +169,7 @@ namespace base
 		 */
 		void FillWith(uint8_t value);
 
-	public:
-		// IndexOf
+		/* #region IndexOf */
 
 		/**
 		 * @brief 从本内存段查找匹配项所在的索引。
@@ -197,6 +204,9 @@ namespace base
 		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
 		 */
 		int32_t IndexOf(int32_t start, base::ReadOnlySpan const &match) const;
+		/* #endregion */
+
+		/* #region LastIndexOf */
 
 		/**
 		 * @brief 从后往前查找最后一个匹配项所在的索引。
@@ -231,9 +241,9 @@ namespace base
 		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
 		 */
 		int32_t LastIndexOf(int32_t start, base::ReadOnlySpan const &match) const;
+		/* #endregion */
 
-	public:
-		// 比较
+		/* #region 比较 */
 
 		/**
 		 * @brief 比较两段内存。
@@ -352,5 +362,6 @@ namespace base
 		 * @return false
 		 */
 		bool operator>=(base::Span const &another) const;
+		/* #endregion */
 	};
 } // namespace base

@@ -22,7 +22,7 @@ namespace base
 		int32_t _size = 0;
 
 	public:
-		// 构造函数
+		/* #region 生命周期 */
 
 		/**
 		 * @brief 无参构造函数。引用一段空内存。
@@ -65,8 +65,10 @@ namespace base
 		}
 
 		virtual ~ReadOnlySpan() = default;
+		/* #endregion */
 
-	public:
+		/* #region 索引器 */
+
 		/**
 		 * @brief 索引一个字节。
 		 *
@@ -82,6 +84,7 @@ namespace base
 		 * @return base::ReadOnlySpan
 		 */
 		base::ReadOnlySpan operator[](base::Range const &range) const;
+		/* #endregion */
 
 		/**
 		 * @brief 所引用的内存。
@@ -96,6 +99,8 @@ namespace base
 		 * @return int32_t
 		 */
 		int32_t Size() const;
+
+		/* #region Slice */
 
 		/**
 		 * @brief 将本 ReadOnlySpan 切片，得到一个更小的 ReadOnlySpan.
@@ -113,6 +118,7 @@ namespace base
 		 * @return base::ReadOnlySpan
 		 */
 		base::ReadOnlySpan Slice(base::Range const &range) const;
+		/* #endregion */
 
 		/**
 		 * @brief 获取非 const 迭代器。
@@ -121,7 +127,8 @@ namespace base
 		 */
 		std::shared_ptr<base::IEnumerator<uint8_t const>> GetEnumerator() override;
 
-	public:
+		/* #region IndexOf */
+
 		/**
 		 * @brief 在本内存段中从前往后查找最后一个匹配项所在的索引。
 		 *
@@ -155,6 +162,9 @@ namespace base
 		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
 		 */
 		int32_t IndexOf(int32_t start, base::ReadOnlySpan const &match) const;
+		/* #endregion */
+
+		/* #region LastIndexOf */
 
 		/**
 		 * @brief 从后往前查找最后一个匹配项所在的索引。
@@ -189,9 +199,9 @@ namespace base
 		 * @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
 		 */
 		int32_t LastIndexOf(int32_t start, base::ReadOnlySpan const &match) const;
+		/* #endregion */
 
-	public:
-		// 比较
+		/* #region 比较 */
 
 		/**
 		 * @brief 比较两段内存。
@@ -310,5 +320,6 @@ namespace base
 		 * @return false
 		 */
 		bool operator>=(base::Span const &another) const;
+		/* #endregion */
 	};
 } // namespace base
