@@ -309,6 +309,8 @@ int32_t base::ReadOnlySpan::LastIndexOf(int32_t start, base::ReadOnlySpan const 
 
 /* #endregion */
 
+/* #region 开始，结束 */
+
 bool base::ReadOnlySpan::StartWith(uint8_t match)
 {
 	if (Size() == 0)
@@ -358,6 +360,8 @@ bool base::ReadOnlySpan::EndWith(base::String const &match)
 {
 	return StartWith(match.Span());
 }
+
+/* #endregion */
 
 /* #region 比较 */
 
