@@ -249,6 +249,8 @@ namespace base
 
 		/* #endregion */
 
+		/* #region 开始，结束 */
+
 		///
 		/// @brief 检查本内存段是否以 match 开头。
 		///
@@ -302,6 +304,8 @@ namespace base
 		/// @return false
 		///
 		bool EndWith(base::String const &match);
+
+		/* #endregion */
 
 		/* #region 比较 */
 
