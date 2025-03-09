@@ -240,12 +240,22 @@ bool base::Span::StartWith(base::ReadOnlySpan const &match)
 	return base::ReadOnlySpan{*this}.StartWith(match);
 }
 
+bool base::Span::StartWith(base::String const &match)
+{
+	return base::ReadOnlySpan{*this}.StartWith(match);
+}
+
 bool base::Span::EndWith(uint8_t match)
 {
 	return base::ReadOnlySpan{*this}.EndWith(match);
 }
 
 bool base::Span::EndWith(base::ReadOnlySpan const &match)
+{
+	return base::ReadOnlySpan{*this}.EndWith(match);
+}
+
+bool base::Span::EndWith(base::String const &match)
 {
 	return base::ReadOnlySpan{*this}.EndWith(match);
 }

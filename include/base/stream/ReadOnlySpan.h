@@ -7,6 +7,8 @@
 
 namespace base
 {
+	class String;
+
 	///
 	/// @brief 只读内存段。
 	///
@@ -229,6 +231,15 @@ namespace base
 		bool StartWith(base::ReadOnlySpan const &match);
 
 		///
+		/// @brief 检查本内存段是否以 match 开头。
+		///
+		/// @param match
+		/// @return true
+		/// @return false
+		///
+		bool StartWith(base::String const &match);
+
+		///
 		/// @brief 检查本内存段是否以 match 结尾。
 		///
 		/// @param match
@@ -245,6 +256,15 @@ namespace base
 		/// @return false
 		///
 		bool EndWith(base::ReadOnlySpan const &match);
+
+		///
+		/// @brief 检查本内存段是否以 match 结尾。
+		///
+		/// @param match
+		/// @return true
+		/// @return false
+		///
+		bool EndWith(base::String const &match);
 
 		/* #region 比较 */
 

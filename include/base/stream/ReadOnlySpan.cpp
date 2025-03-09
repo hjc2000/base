@@ -1,6 +1,7 @@
 #include "ReadOnlySpan.h"
 #include "base/container/Range.h"
 #include <base/string/define.h>
+#include <base/string/String.h>
 #include <cstring>
 #include <stdexcept>
 
@@ -328,6 +329,11 @@ bool base::ReadOnlySpan::StartWith(base::ReadOnlySpan const &match)
 	return Slice(base::Range{0, match.Size()}) == match;
 }
 
+bool base::ReadOnlySpan::StartWith(base::String const &match)
+{
+	return StartWith(match.Span());
+}
+
 bool base::ReadOnlySpan::EndWith(uint8_t match)
 {
 	if (Size() == 0)
@@ -346,6 +352,11 @@ bool base::ReadOnlySpan::EndWith(base::ReadOnlySpan const &match)
 	}
 
 	return Slice(base::Range{_size - match.Size(), _size}) == match;
+}
+
+bool base::ReadOnlySpan::EndWith(base::String const &match)
+{
+	return StartWith(match.Span());
 }
 
 /* #region 比较 */

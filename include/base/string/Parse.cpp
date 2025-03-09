@@ -1,5 +1,6 @@
 #include "Parse.h"
 #include "base/container/Range.h"
+#include "base/stream/Span.h"
 #include "base/string/define.h"
 #include "base/string/String.h"
 #include "base/string/StringSplitOptions.h"
@@ -41,38 +42,44 @@ namespace
 	BaseAndNumberStr ParseBase(base::String const &str)
 	{
 		int32_t base = 10;
-		base::String copy = str;
-		copy.ToLower();
-
+		base::String number_str = str;
+		number_str.ToLower();
 		bool is_negative = false;
-		if (copy.StartWith('-'))
-		{
-			is_negative = true;
-			copy = copy[base::Range{1, copy.Length()}];
-		}
 
-		if (copy.StartWith("0x"))
 		{
-			base = 16;
-			copy = copy[base::Range{2, copy.Length()}];
-		}
-		else if (copy.StartWith('0') && copy.Length() > 1)
-		{
-			base = 8;
-			copy = copy[base::Range{1, copy.Length()}];
-		}
+			base::Span span = number_str.Span();
+			if (span.StartWith('-'))
+			{
+				is_negative = true;
+				span = span[base::Range{1, span.Size()}];
+			}
 
-		if (copy.StartWith('-'))
-		{
-			throw std::invalid_argument{CODE_POS_STR + "负号应该放到前缀前面。"};
+			if (span.StartWith("0x"))
+			{
+				base = 16;
+				span = span[base::Range{2, span.Size()}];
+			}
+			else if (span.StartWith('0') && span.Size() > 1)
+			{
+				base = 8;
+				span = span[base::Range{1, span.Size()}];
+			}
+
+			if (span.StartWith('-'))
+			{
+				// 已经剥离了头部的 0x, 0 前缀了，此时如果出现负号，就是非法字符串。
+				throw std::invalid_argument{CODE_POS_STR + "负号应该放到前缀前面。"};
+			}
+
+			number_str = base::String{span};
 		}
 
 		if (is_negative)
 		{
-			copy = '-' + copy;
+			number_str = '-' + number_str;
 		}
 
-		return BaseAndNumberStr{base, copy};
+		return BaseAndNumberStr{base, number_str};
 	}
 } // namespace
 
