@@ -230,6 +230,26 @@ int32_t base::Span::LastIndexOf(int32_t start, base::ReadOnlySpan const &match) 
 
 /* #endregion */
 
+bool base::Span::StartWith(uint8_t match)
+{
+	return base::ReadOnlySpan{*this}.StartWith(match);
+}
+
+bool base::Span::StartWith(base::ReadOnlySpan const &match)
+{
+	return base::ReadOnlySpan{*this}.StartWith(match);
+}
+
+bool base::Span::EndWith(uint8_t match)
+{
+	return base::ReadOnlySpan{*this}.EndWith(match);
+}
+
+bool base::Span::EndWith(base::ReadOnlySpan const &match)
+{
+	return base::ReadOnlySpan{*this}.EndWith(match);
+}
+
 /* #region 比较 */
 
 int32_t base::Span::Compare(base::ReadOnlySpan const &another) const

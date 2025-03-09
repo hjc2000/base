@@ -1,4 +1,5 @@
 #include "ReadOnlySpan.h"
+#include "base/container/Range.h"
 #include <base/string/define.h>
 #include <cstring>
 #include <stdexcept>
@@ -306,6 +307,46 @@ int32_t base::ReadOnlySpan::LastIndexOf(int32_t start, base::ReadOnlySpan const 
 }
 
 /* #endregion */
+
+bool base::ReadOnlySpan::StartWith(uint8_t match)
+{
+	if (Size() == 0)
+	{
+		return false;
+	}
+
+	return _buffer[0] == match;
+}
+
+bool base::ReadOnlySpan::StartWith(base::ReadOnlySpan const &match)
+{
+	if (Size() < match.Size())
+	{
+		return false;
+	}
+
+	return Slice(base::Range{0, match.Size()}) == match;
+}
+
+bool base::ReadOnlySpan::EndWith(uint8_t match)
+{
+	if (Size() == 0)
+	{
+		return false;
+	}
+
+	return _buffer[_size - 1] == match;
+}
+
+bool base::ReadOnlySpan::EndWith(base::ReadOnlySpan const &match)
+{
+	if (Size() < match.Size())
+	{
+		return false;
+	}
+
+	return Slice(base::Range{_size - match.Size(), _size}) == match;
+}
 
 /* #region 比较 */
 

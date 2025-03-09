@@ -426,39 +426,22 @@ bool base::String::Contains(base::String const &match) const
 
 bool base::String::StartWith(char match) const
 {
-	if (Length() == 0)
-	{
-		return false;
-	}
-
-	return _string[0] == match;
+	return Span().StartWith(match);
 }
 
 bool base::String::StartWith(base::String const &match) const
 {
-	int32_t index = IndexOf(match);
-	return index == 0;
+	return Span().StartWith(match.Span());
 }
 
 bool base::String::EndWith(char match) const
 {
-	if (Length() == 0)
-	{
-		return false;
-	}
-
-	return _string[_string.size() - 1] == match;
+	return Span().EndWith(match);
 }
 
 bool base::String::EndWith(base::String const &match) const
 {
-	int32_t index = LastIndexOf(match);
-	if (index < 0)
-	{
-		return false;
-	}
-
-	return index == Length() - match.Length();
+	return Span().EndWith(match.Span());
 }
 
 /* #endregion */

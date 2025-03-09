@@ -124,7 +124,6 @@ namespace base
 		///
 		void Reverse() const;
 
-	public:
 		/* #region CopyFrom */
 
 		///
@@ -246,7 +245,16 @@ namespace base
 		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
 		int32_t LastIndexOf(int32_t start, base::ReadOnlySpan const &match) const;
+
 		/* #endregion */
+
+		bool StartWith(uint8_t match);
+
+		bool StartWith(base::ReadOnlySpan const &match);
+
+		bool EndWith(uint8_t match);
+
+		bool EndWith(base::ReadOnlySpan const &match);
 
 		/* #region 比较 */
 
