@@ -20,14 +20,14 @@ bool base::String::IsWhiteChar(char value)
 
 /* #region 构造函数 */
 
-base::String::String(std::string const &o)
+base::String::String(std::string const &str)
 {
-	_string = o;
+	_string = str;
 }
 
-base::String::String(char o)
+base::String::String(char c)
 {
-	_string = o;
+	_string = c;
 }
 
 base::String::String(char const *str)
@@ -35,16 +35,16 @@ base::String::String(char const *str)
 	_string = std::string{str};
 }
 
-base::String::String(base::ReadOnlySpan const &o)
+base::String::String(base::ReadOnlySpan const &span)
 {
 	_string = std::string{
-		reinterpret_cast<char const *>(o.Buffer()),
-		static_cast<size_t>(o.Size()),
+		reinterpret_cast<char const *>(span.Buffer()),
+		static_cast<size_t>(span.Size()),
 	};
 }
 
-base::String::String(base::Span const &o)
-	: String(base::ReadOnlySpan{o})
+base::String::String(base::Span const &span)
+	: String(base::ReadOnlySpan{span})
 {
 }
 

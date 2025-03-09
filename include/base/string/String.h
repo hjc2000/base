@@ -23,12 +23,46 @@ namespace base
 	public:
 		/* #region 构造函数 */
 
+		///
+		/// @brief 无参构造函数，构造一个空字符串。
+		///
+		///
 		String() = default;
-		String(std::string const &o);
-		String(char o);
+
+		///
+		/// @brief 从 std::string 中构造，将其内容拷贝过来。
+		///
+		/// @param str
+		///
+		String(std::string const &str);
+
+		///
+		/// @brief 从一个字符构造。
+		///
+		/// @param c
+		///
+		String(char c);
+
+		///
+		/// @brief 从 C 风格的字符串中构造。
+		///
+		/// @param str
+		///
 		String(char const *str);
-		String(base::ReadOnlySpan const &o);
-		String(base::Span const &o);
+
+		///
+		/// @brief 从只读内存段中构造，将其内容拷贝过来作为字符串。
+		///
+		/// @param span
+		///
+		String(base::ReadOnlySpan const &span);
+
+		///
+		/// @brief 从内存段中构造，将其内容拷贝过来作为字符串。
+		///
+		/// @param span
+		///
+		String(base::Span const &span);
 
 		/* #endregion */
 
