@@ -14,7 +14,9 @@ base::profinet::DcpIdentifyRequestReader::DcpIdentifyRequestReader(base::ReadOnl
 		throw std::invalid_argument{CODE_POS_STR + "传入的帧中不含有合法的 DCP 头部。"};
 	}
 
-	_header_reader = std::shared_ptr<base::profinet::DcpHeaderReader>{new base::profinet::DcpHeaderReader{_this_span}};
+	_header_reader = std::shared_ptr<base::profinet::DcpHeaderReader>{new base::profinet::DcpHeaderReader{
+		_this_span,
+	}};
 
 	{
 		base::ReadOnlySpan tlv_span = _this_span.Slice(base::Range{
@@ -22,7 +24,9 @@ base::profinet::DcpIdentifyRequestReader::DcpIdentifyRequestReader(base::ReadOnl
 			_this_span.Size(),
 		});
 
-		_tlv_reader = std::shared_ptr<base::profinet::DcpTlvReader>{new base::profinet::DcpTlvReader{tlv_span}};
+		_tlv_reader = std::shared_ptr<base::profinet::DcpTlvReader>{new base::profinet::DcpTlvReader{
+			tlv_span,
+		}};
 	}
 }
 
