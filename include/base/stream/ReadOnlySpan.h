@@ -42,6 +42,20 @@ namespace base
 		ReadOnlySpan(uint8_t const *buffer, int32_t size);
 
 		///
+		/// @brief 引用字符串的内存段。不包括结尾的空字符。
+		///
+		/// @param str
+		///
+		ReadOnlySpan(char const *str);
+
+		///
+		/// @brief 引用字符串的内存段。不包括结尾的空字符。
+		///
+		/// @param str
+		///
+		ReadOnlySpan(base::String const &str);
+
+		///
 		/// @brief 从 base::ReadOnlyArraySpan<uint8_t> 构造，引用它所引用的内存段。
 		///
 		/// @param span
@@ -233,15 +247,6 @@ namespace base
 		bool StartWith(base::ReadOnlySpan const &match);
 
 		///
-		/// @brief 检查本内存段是否以 match 开头。
-		///
-		/// @param match
-		/// @return true
-		/// @return false
-		///
-		bool StartWith(base::String const &match);
-
-		///
 		/// @brief 检查本内存段是否以 match 结尾。
 		///
 		/// @param match
@@ -258,15 +263,6 @@ namespace base
 		/// @return false
 		///
 		bool EndWith(base::ReadOnlySpan const &match);
-
-		///
-		/// @brief 检查本内存段是否以 match 结尾。
-		///
-		/// @param match
-		/// @return true
-		/// @return false
-		///
-		bool EndWith(base::String const &match);
 
 		/* #endregion */
 

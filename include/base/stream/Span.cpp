@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <base/stream/ReadOnlySpan.h>
 #include <base/string/define.h>
+#include <base/string/String.h>
 #include <stdexcept>
 
 /* #region 生命周期 */
@@ -15,6 +16,29 @@ base::Span::Span(uint8_t *buffer, int32_t size)
 	{
 		_size = 0;
 	}
+}
+
+base::Span::Span(char *str)
+{
+	int32_t white_char_index = 0;
+	while (true)
+	{
+		if (str[white_char_index] == '\0')
+		{
+			break;
+		}
+
+		white_char_index++;
+	}
+
+	_buffer = reinterpret_cast<uint8_t *>(str);
+	_size = white_char_index;
+}
+
+base::Span::Span(base::String &str)
+{
+	base::Span span = str.Span();
+	*this = span;
 }
 
 base::Span::Span(base::ArraySpan<uint8_t> const &span)
@@ -242,22 +266,12 @@ bool base::Span::StartWith(base::ReadOnlySpan const &match)
 	return base::ReadOnlySpan{*this}.StartWith(match);
 }
 
-bool base::Span::StartWith(base::String const &match)
-{
-	return base::ReadOnlySpan{*this}.StartWith(match);
-}
-
 bool base::Span::EndWith(uint8_t match)
 {
 	return base::ReadOnlySpan{*this}.EndWith(match);
 }
 
 bool base::Span::EndWith(base::ReadOnlySpan const &match)
-{
-	return base::ReadOnlySpan{*this}.EndWith(match);
-}
-
-bool base::Span::EndWith(base::String const &match)
 {
 	return base::ReadOnlySpan{*this}.EndWith(match);
 }

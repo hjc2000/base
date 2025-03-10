@@ -2,6 +2,7 @@
 #include "base/container/Range.h"
 #include <base/string/define.h>
 #include <base/string/String.h>
+#include <cstdint>
 #include <cstring>
 #include <stdexcept>
 
@@ -16,6 +17,29 @@ base::ReadOnlySpan::ReadOnlySpan(uint8_t const *buffer, int32_t size)
 	{
 		_size = 0;
 	}
+}
+
+base::ReadOnlySpan::ReadOnlySpan(char const *str)
+{
+	int32_t white_char_index = 0;
+	while (true)
+	{
+		if (str[white_char_index] == '\0')
+		{
+			break;
+		}
+
+		white_char_index++;
+	}
+
+	_buffer = reinterpret_cast<uint8_t const *>(str);
+	_size = white_char_index;
+}
+
+base::ReadOnlySpan::ReadOnlySpan(base::String const &str)
+{
+	base::ReadOnlySpan span = str.Span();
+	*this = span;
 }
 
 base::ReadOnlySpan::ReadOnlySpan(base::ReadOnlyArraySpan<uint8_t> const &span)
@@ -331,11 +355,6 @@ bool base::ReadOnlySpan::StartWith(base::ReadOnlySpan const &match)
 	return Slice(base::Range{0, match.Size()}) == match;
 }
 
-bool base::ReadOnlySpan::StartWith(base::String const &match)
-{
-	return StartWith(match.Span());
-}
-
 bool base::ReadOnlySpan::EndWith(uint8_t match)
 {
 	if (Size() == 0)
@@ -354,11 +373,6 @@ bool base::ReadOnlySpan::EndWith(base::ReadOnlySpan const &match)
 	}
 
 	return Slice(base::Range{_size - match.Size(), _size}) == match;
-}
-
-bool base::ReadOnlySpan::EndWith(base::String const &match)
-{
-	return StartWith(match.Span());
 }
 
 /* #endregion */
