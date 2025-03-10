@@ -163,6 +163,8 @@ namespace base
 		void CopyFrom(std::initializer_list<uint8_t> const &list) const;
 		/* #endregion */
 
+		/* #region GetEnumerator */
+
 		using base::IEnumerable<uint8_t>::GetEnumerator;
 
 		///
@@ -171,6 +173,8 @@ namespace base
 		/// @return std::shared_ptr<base::IEnumerator<uint8_t>>
 		///
 		std::shared_ptr<base::IEnumerator<uint8_t>> GetEnumerator() override;
+
+		/* #endregion */
 
 		/* #region 填充 */
 
