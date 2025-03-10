@@ -112,6 +112,25 @@ namespace base
 		///
 		int32_t Size() const;
 
+		///
+		/// @brief 翻转本 Span 所引用的内存段。
+		///
+		///
+		void Reverse() const;
+
+		/* #region GetEnumerator */
+
+		using base::IEnumerable<uint8_t>::GetEnumerator;
+
+		///
+		/// @brief 获取非 const 迭代器。
+		///
+		/// @return std::shared_ptr<base::IEnumerator<uint8_t>>
+		///
+		std::shared_ptr<base::IEnumerator<uint8_t>> GetEnumerator() override;
+
+		/* #endregion */
+
 		/* #region Slice */
 
 		///
@@ -132,12 +151,6 @@ namespace base
 		///
 		base::Span Slice(base::Range const &range) const;
 		/* #endregion */
-
-		///
-		/// @brief 翻转本 Span 所引用的内存段。
-		///
-		///
-		void Reverse() const;
 
 		/* #region CopyFrom */
 
@@ -161,19 +174,6 @@ namespace base
 		/// @param list
 		///
 		void CopyFrom(std::initializer_list<uint8_t> const &list) const;
-		/* #endregion */
-
-		/* #region GetEnumerator */
-
-		using base::IEnumerable<uint8_t>::GetEnumerator;
-
-		///
-		/// @brief 获取非 const 迭代器。
-		///
-		/// @return std::shared_ptr<base::IEnumerator<uint8_t>>
-		///
-		std::shared_ptr<base::IEnumerator<uint8_t>> GetEnumerator() override;
-
 		/* #endregion */
 
 		/* #region 填充 */

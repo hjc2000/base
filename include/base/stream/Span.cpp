@@ -83,65 +83,10 @@ int32_t base::Span::Size() const
 	return _size;
 }
 
-/* #region Slice */
-
-base::Span base::Span::Slice(int32_t start, int32_t size) const
-{
-	if (start + size > _size)
-	{
-		throw std::out_of_range{CODE_POS_STR + "切片超出范围"};
-	}
-
-	return base::Span{_buffer + start, size};
-}
-
-base::Span base::Span::Slice(base::Range const &range) const
-{
-	return Slice(range.Begin(), range.Size());
-}
-
-/* #endregion */
-
 void base::Span::Reverse() const
 {
 	std::reverse(_buffer, _buffer + _size);
 }
-
-/* #region CopyFrom */
-
-void base::Span::CopyFrom(base::ReadOnlySpan const &span) const
-{
-	if (span.Size() != _size)
-	{
-		throw std::invalid_argument{CODE_POS_STR + "span 的大小和本对象不一致。"};
-	}
-
-	std::copy(span.Buffer(),
-			  span.Buffer() + span.Size(),
-			  _buffer);
-}
-
-void base::Span::CopyFrom(base::Span const &span) const
-{
-	CopyFrom(base::ReadOnlySpan{span});
-}
-
-void base::Span::CopyFrom(std::initializer_list<uint8_t> const &list) const
-{
-	if (static_cast<int32_t>(list.size()) != _size)
-	{
-		throw std::invalid_argument{CODE_POS_STR + "list 的大小和本对象不一致。"};
-	}
-
-	int32_t i = 0;
-	for (uint8_t const &value : list)
-	{
-		_buffer[i] = value;
-		i++;
-	}
-}
-
-/* #endregion */
 
 std::shared_ptr<base::IEnumerator<uint8_t>> base::Span::GetEnumerator()
 {
@@ -194,6 +139,61 @@ std::shared_ptr<base::IEnumerator<uint8_t>> base::Span::GetEnumerator()
 
 	return std::shared_ptr<IEnumerator<uint8_t>>{new Enumerator{this}};
 }
+
+/* #region Slice */
+
+base::Span base::Span::Slice(int32_t start, int32_t size) const
+{
+	if (start + size > _size)
+	{
+		throw std::out_of_range{CODE_POS_STR + "切片超出范围"};
+	}
+
+	return base::Span{_buffer + start, size};
+}
+
+base::Span base::Span::Slice(base::Range const &range) const
+{
+	return Slice(range.Begin(), range.Size());
+}
+
+/* #endregion */
+
+/* #region CopyFrom */
+
+void base::Span::CopyFrom(base::ReadOnlySpan const &span) const
+{
+	if (span.Size() != _size)
+	{
+		throw std::invalid_argument{CODE_POS_STR + "span 的大小和本对象不一致。"};
+	}
+
+	std::copy(span.Buffer(),
+			  span.Buffer() + span.Size(),
+			  _buffer);
+}
+
+void base::Span::CopyFrom(base::Span const &span) const
+{
+	CopyFrom(base::ReadOnlySpan{span});
+}
+
+void base::Span::CopyFrom(std::initializer_list<uint8_t> const &list) const
+{
+	if (static_cast<int32_t>(list.size()) != _size)
+	{
+		throw std::invalid_argument{CODE_POS_STR + "list 的大小和本对象不一致。"};
+	}
+
+	int32_t i = 0;
+	for (uint8_t const &value : list)
+	{
+		_buffer[i] = value;
+		i++;
+	}
+}
+
+/* #endregion */
 
 void base::Span::FillWithZero()
 {

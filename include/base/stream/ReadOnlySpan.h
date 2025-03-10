@@ -117,6 +117,13 @@ namespace base
 		///
 		int32_t Size() const;
 
+		///
+		/// @brief 获取非 const 迭代器。
+		///
+		/// @return std::shared_ptr<base::IEnumerator<uint8_t const>>
+		///
+		std::shared_ptr<base::IEnumerator<uint8_t const>> GetEnumerator() override;
+
 		/* #region Slice */
 
 		///
@@ -136,13 +143,6 @@ namespace base
 		///
 		base::ReadOnlySpan Slice(base::Range const &range) const;
 		/* #endregion */
-
-		///
-		/// @brief 获取非 const 迭代器。
-		///
-		/// @return std::shared_ptr<base::IEnumerator<uint8_t const>>
-		///
-		std::shared_ptr<base::IEnumerator<uint8_t const>> GetEnumerator() override;
 
 		/* #region IndexOf */
 
