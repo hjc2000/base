@@ -195,6 +195,8 @@ void base::Span::CopyFrom(std::initializer_list<uint8_t> const &list) const
 
 /* #endregion */
 
+/* #region 填充 */
+
 void base::Span::FillWithZero()
 {
 	// std::fill(_buffer, _buffer + _size, 0);
@@ -205,6 +207,8 @@ void base::Span::FillWith(uint8_t value)
 {
 	std::fill(_buffer, _buffer + _size, value);
 }
+
+/* #endregion */
 
 /* #region IndexOf */
 
