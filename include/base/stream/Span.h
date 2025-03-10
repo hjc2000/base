@@ -172,6 +172,8 @@ namespace base
 		///
 		std::shared_ptr<base::IEnumerator<uint8_t>> GetEnumerator() override;
 
+		/* #region 填充 */
+
 		///
 		/// @brief 将本 Span 所引用的内存的每一个字节都填充为 0.
 		///
@@ -184,6 +186,8 @@ namespace base
 		/// @param value
 		///
 		void FillWith(uint8_t value);
+
+		/* #endregion */
 
 		/* #region IndexOf */
 
