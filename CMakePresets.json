@@ -8,9 +8,6 @@
 			"binaryDir": "${sourceDir}/jc_build",
 			"cacheVariables": {
 				"platform": "msys",
-				"BUILD_SHARED_LIBS": true,
-				"CMAKE_C_COMPILER": "C:/msys64/ucrt64/bin/gcc.exe",
-				"CMAKE_CXX_COMPILER": "C:/msys64/ucrt64/bin/g++.exe",
 				"CMAKE_C_FLAGS": "-Wall -Wextra -Wno-unused-parameter",
 				"CMAKE_CXX_FLAGS": "-Wall -Wextra -Wno-unused-parameter",
 				"CMAKE_POSITION_INDEPENDENT_CODE": true,
