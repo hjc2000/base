@@ -7,11 +7,7 @@
 			"generator": "Ninja",
 			"binaryDir": "${sourceDir}/jc_build",
 			"cacheVariables": {
-				"platform": "msys",
-				"CMAKE_C_FLAGS": "-Wall -Wextra -Wno-unused-parameter",
-				"CMAKE_CXX_FLAGS": "-Wall -Wextra -Wno-unused-parameter",
-				"CMAKE_POSITION_INDEPENDENT_CODE": true,
-				"CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS": true
+				"platform": "msys"
 			}
 		},
 		{
