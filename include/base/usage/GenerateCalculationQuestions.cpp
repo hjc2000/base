@@ -11,7 +11,8 @@ void base::usage::GenerateCalculationQuestions(int32_t min, int32_t max)
 	base::StreamWriter writer{fs};
 	std::shared_ptr<base::IRandomGenerator> random_generator = base::di::CreateRandomGenerator();
 
-	for (int i = 0; i < 24; i++)
+	int count = 0;
+	while (count < 24)
 	{
 		int32_t left = random_generator->GenerateUInt32Random(min, max);
 		int32_t right = random_generator->GenerateUInt32Random(min, max);
@@ -45,7 +46,7 @@ void base::usage::GenerateCalculationQuestions(int32_t min, int32_t max)
 		std::string equ = std::format("{} {} {} =",
 									  left, op_char, right);
 
-		while (equ.size() < 35)
+		while (equ.size() < 40)
 		{
 			equ += ' ';
 		}
@@ -54,6 +55,7 @@ void base::usage::GenerateCalculationQuestions(int32_t min, int32_t max)
 		std::cout << equ << std::endl;
 		writer.WriteLine(equ);
 		writer.WriteLine();
+		count++;
 	}
 }
 
