@@ -12,7 +12,7 @@ void base::usage::GenerateCalculationQuestions(int32_t min, int32_t max)
 	std::shared_ptr<base::IRandomGenerator> random_generator = base::di::CreateRandomGenerator();
 
 	int32_t count = 0;
-	while (count <= 100)
+	while (count <= 24)
 	{
 		int32_t left = random_generator->GenerateUInt32Random(min, max);
 		int32_t right = random_generator->GenerateUInt32Random(min, max);

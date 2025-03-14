@@ -1,6 +1,7 @@
 #include "base/math/BigInteger.h"
 #include "base/net/IPAddress.h"
 #include "base/string/Parse.h"
+#include "base/usage/GenerateCalculationQuestions.h"
 #include <base/net/profinet/dcp/DcpIdentifyRequestReader.h>
 #include <base/usage/CountTriangle.h>
 #include <cstdint>
@@ -27,4 +28,5 @@ int main()
 	base::test::test_parse_int32();
 	base::test::test_parse_int64();
 	base::test::test_parse_double();
+	base::usage::GenerateCalculationQuestions();
 }
