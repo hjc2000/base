@@ -32,14 +32,12 @@ endif()
 
 # 添加测试程序
 if(platform STREQUAL "msys")
-	add_executable(test ${CMAKE_CURRENT_SOURCE_DIR}/exe/main.cpp)
+	set(exe_name "test")
+	add_executable(${exe_name} ${CMAKE_CURRENT_SOURCE_DIR}/exe/main.cpp)
 
 	target_link_libraries(${ProjectName} PUBLIC -Wl,--start-group)
-	target_link_libraries(test ${ProjectName})
+	target_link_libraries(${exe_name} ${ProjectName})
 	target_link_libraries(${ProjectName} PUBLIC -Wl,--end-group)
 
-	install(TARGETS test
-			RUNTIME DESTINATION bin
-			LIBRARY DESTINATION lib
-			ARCHIVE DESTINATION lib)
+	target_install(${exe_name})
 endif()
