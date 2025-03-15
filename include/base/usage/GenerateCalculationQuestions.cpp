@@ -1,66 +1,189 @@
+#include "GenerateCalculationQuestions.h"
+#include <iostream>
+
 #if HAS_THREAD
-	#include "GenerateCalculationQuestions.h"
+	#include "base/container/Set.h"
+	#include "base/string/define.h"
 	#include <base/math/IRandomGenerator.h>
 	#include <base/stream/IFileStream.h>
 	#include <base/stream/StreamWriter.h>
 	#include <format>
+	#include <functional>
+	#include <stdexcept>
+	#include <string>
 
-void base::usage::GenerateCalculationQuestions(int32_t min, int32_t max)
+base::usage::CalculationQuestion::CalculationQuestion(int32_t left, int32_t right, base::usage::Operator op)
 {
-	std::shared_ptr<base::IFileStream> fs = base::di::file::CreateNewAnyway("math.txt");
-	base::StreamWriter writer{fs};
-	std::shared_ptr<base::IRandomGenerator> random_generator = base::di::CreateRandomGenerator();
+	_left = left;
+	_right = right;
+	_operator = op;
+}
 
-	int count = 0;
-	while (count < 24)
+int32_t base::usage::CalculationQuestion::Left() const
+{
+	return _left;
+}
+
+int32_t base::usage::CalculationQuestion::Right() const
+{
+	return _right;
+}
+
+base::usage::Operator base::usage::CalculationQuestion::Operator() const
+{
+	return _operator;
+}
+
+int32_t base::usage::CalculationQuestion::Result() const
+{
+	switch (_operator)
 	{
-		int32_t left = random_generator->GenerateUInt32Random(min, max);
-		int32_t right = random_generator->GenerateUInt32Random(min, max);
-		int32_t op = random_generator->GenerateUInt32Random(0, 1);
-		char op_char = '+';
-		if (op)
+	case base::usage::Operator::Add:
+		{
+			return _left + _right;
+		}
+	case base::usage::Operator::Sub:
+		{
+			return _left - _right;
+		}
+	case base::usage::Operator::Mul:
+		{
+			return _left * _right;
+		}
+	case base::usage::Operator::Div:
+		{
+			return _left / _right;
+		}
+	}
+
+	throw std::runtime_error{CODE_POS_STR + "非法运算符。"};
+}
+
+std::string base::usage::CalculationQuestion::ToString() const
+{
+	char op_char = '+';
+	switch (_operator)
+	{
+	case base::usage::Operator::Add:
+		{
+			op_char = '+';
+			break;
+		}
+	case base::usage::Operator::Sub:
 		{
 			op_char = '-';
+			break;
 		}
-
-		int32_t sum = 0;
-		if (op == 0)
+	case base::usage::Operator::Mul:
 		{
-			sum = left + right;
+			op_char = '*';
+			break;
 		}
-		else
+	case base::usage::Operator::Div:
 		{
-			sum = left - right;
+			op_char = '/';
+			break;
 		}
+	}
 
-		if (left == right && op == 1)
+	std::string equ = std::format("{} {} {} =",
+								  _left, op_char, _right);
+
+	return equ;
+}
+
+base::usage::CalculationQuestionGenerator::CalculationQuestionGenerator(int32_t min,
+																		int32_t max,
+																		base::usage::Operator op,
+																		std::function<bool(base::usage::CalculationQuestion const &)> filter)
+	: _min(min),
+	  _max(max),
+	  _operator(op),
+	  _filter(filter)
+{
+	_random_generator = base::di::CreateRandomGenerator();
+}
+
+base::usage::CalculationQuestion base::usage::CalculationQuestionGenerator::Generate() const
+{
+	while (true)
+	{
+		int32_t left = _random_generator->GenerateUInt32Random(_min, _max);
+		int32_t right = _random_generator->GenerateUInt32Random(_min, _max);
+		base::usage::CalculationQuestion ret{left, right, _operator};
+		if (_filter != nullptr && _filter(ret))
 		{
 			continue;
 		}
 
-		if (sum < 0 || sum > 99)
-		{
-			continue;
-		}
-
-		std::string equ = std::format("{} {} {} =",
-									  left, op_char, right);
-
-		while (equ.size() < 40)
-		{
-			equ += ' ';
-		}
-
-		equ += std::to_string(sum);
-		std::cout << equ << std::endl;
-		writer.WriteLine(equ);
-		writer.WriteLine();
-		count++;
+		return ret;
 	}
 }
 
 void base::usage::GenerateCalculationQuestions()
 {
-	GenerateCalculationQuestions(2, 20);
+	std::shared_ptr<base::IFileStream> fs = base::di::file::CreateNewAnyway("math.txt");
+	base::StreamWriter writer{fs};
+
+	std::function<bool(base::usage::CalculationQuestion const &)> filter{
+		[](base::usage::CalculationQuestion const &question) -> bool
+		{
+			if (question.Left() % 10 == 0)
+			{
+				return true;
+			}
+
+			if (question.Right() % 10 == 0)
+			{
+				return true;
+			}
+
+			if (question.Result() % 10 == 0)
+			{
+				return true;
+			}
+
+			if (question.Result() < 0 || question.Result() > 99)
+			{
+				return true;
+			}
+
+			if (question.Operator() == base::usage::Operator::Sub)
+			{
+				// 减法
+				if (question.Left() == question.Right())
+				{
+					return true;
+				}
+
+				if (question.Left() % 10 > question.Right() % 10)
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}};
+
+	base::usage::CalculationQuestionGenerator generator{
+		5,
+		31,
+		base::usage::Operator::Sub,
+		filter,
+	};
+
+	base::Set<std::string> questions;
+	while (questions.Count() < 24)
+	{
+		base::usage::CalculationQuestion question = generator.Generate();
+		questions.Add(question.ToString());
+	}
+
+	for (std::string const &question : questions)
+	{
+		std::cout << question << std::endl;
+		writer.WriteLine(question);
+		writer.WriteLine();
+	}
 }
 #endif

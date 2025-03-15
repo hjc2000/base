@@ -268,16 +268,20 @@ namespace base
 			return base::ReadOnlyArraySpan<ItemType>{Buffer(), Count()};
 		}
 
+		/* #region GetEnumerator */
+
 		using IEnumerable<ItemType>::GetEnumerator;
 
-		/**
-		 * @brief 获取迭代器
-		 *
-		 * @return std::shared_ptr<IEnumerator<ItemType>>
-		 */
+		///
+		/// @brief 获取迭代器
+		///
+		/// @return std::shared_ptr<IEnumerator<ItemType>>
+		///
 		std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() override
 		{
 			return std::shared_ptr<IEnumerator<ItemType>>{new Enumerator{Buffer(), Count()}};
 		}
+
+		/* #endregion */
 	};
 } // namespace base

@@ -28,6 +28,8 @@ namespace base
 		ItemType const *_buffer = nullptr;
 		int32_t _count = 0;
 
+		/* #region 迭代器 */
+
 		class Enumerator :
 			public base::IEnumerator<ItemType const>
 		{
@@ -91,6 +93,8 @@ namespace base
 				_index = 0;
 			}
 		};
+
+		/* #endregion */
 
 	public:
 		/**
@@ -184,6 +188,8 @@ namespace base
 		ItemType *_buffer = nullptr;
 		int32_t _count = 0;
 
+		/* #region 迭代器 */
+
 		class Enumerator :
 			public base::IEnumerator<ItemType>
 		{
@@ -247,6 +253,8 @@ namespace base
 				_index = 0;
 			}
 		};
+
+		/* #endregion */
 
 	public:
 		/**
@@ -339,16 +347,20 @@ namespace base
 			return base::ArraySpan<ItemType>{Buffer() + range.Begin(), range.Size()};
 		}
 
+		/* #region GetEnumerator */
+
 		using IEnumerable<ItemType>::GetEnumerator;
 
-		/**
-		 * @brief 获取迭代器。
-		 *
-		 * @return std::shared_ptr<IEnumerator<ItemType>>
-		 */
+		///
+		/// @brief 获取迭代器。
+		///
+		/// @return std::shared_ptr<IEnumerator<ItemType>>
+		///
 		std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() override
 		{
 			return std::shared_ptr<IEnumerator<ItemType>>{new Enumerator{Buffer(), Count()}};
 		}
+
+		/* #endregion */
 	};
 } // namespace base
