@@ -1,10 +1,8 @@
 #pragma once
-#include <algorithm>
 #include <base/container/ArraySpan.h>
 #include <base/container/iterator/IEnumerable.h>
 #include <base/sfinae/Compare.h>
 #include <base/string/define.h>
-#include <exception>
 #include <functional>
 #include <stdexcept>
 
@@ -19,80 +17,6 @@ namespace base
 	class IRawArray :
 		public virtual base::IEnumerable<ItemType>
 	{
-	private:
-		/* #region 迭代器 */
-
-		/**
-		 * @brief 迭代器
-		 *
-		 */
-		class Enumerator :
-			public base::IEnumerator<ItemType>
-		{
-		private:
-			int32_t _index = 0;
-			bool _first_move = true;
-			ItemType *_buffer{};
-			int32_t _count = 0;
-
-		public:
-			Enumerator(ItemType *buffer, int32_t count)
-			{
-				_buffer = buffer;
-				_count = count;
-				Reset();
-			}
-
-		public:
-			/**
-			 * @brief 获取当前值的引用
-			 *
-			 * @return ItemType&
-			 */
-			ItemType &CurrentValue() override
-			{
-				return _buffer[_index];
-			}
-
-			/**
-			 * @brief 迭代器前进到下一个值
-			 *
-			 * @return true
-			 * @return false
-			 */
-			bool MoveNext() override
-			{
-				if (_first_move)
-				{
-					_first_move = false;
-				}
-				else
-				{
-					_index++;
-				}
-
-				if (_index < 0 || _index >= _count)
-				{
-					return false;
-				}
-
-				return true;
-			}
-
-			/**
-			 * @brief 将迭代器重置到容器开始的位置。
-			 *
-			 * @note 开始位置是第一个元素前。也就是说重置后，要调用一次 MoveNext 才能获取到第一个值。
-			 */
-			void Reset() override
-			{
-				_first_move = true;
-				_index = 0;
-			}
-		};
-
-		/* #endregion */
-
 	public:
 		/* #region 接口 */
 
@@ -154,12 +78,7 @@ namespace base
 		 */
 		void CopyFrom(base::IRawArray<ItemType> const &another)
 		{
-			if (Count() != another.Count())
-			{
-				throw std::invalid_argument{CODE_POS_STR + "another 的元素个数必须和本对象的元素数量一样。"};
-			}
-
-			std::copy(another.Buffer(), another.Buffer() + another.Count(), Buffer());
+			Span().CopyFrom(another.Span());
 		}
 
 		/**
@@ -171,23 +90,18 @@ namespace base
 		 */
 		void CopyFrom(base::ReadOnlyArraySpan<ItemType> const &another)
 		{
-			if (Count() != another.Count())
-			{
-				throw std::invalid_argument{CODE_POS_STR + "another 的元素个数必须和本对象的元素数量一样。"};
-			}
-
-			std::copy(another.Buffer(), another.Buffer() + another.Count(), Buffer());
+			Span().CopyFrom(another.Span());
 		}
 
 		/* #endregion */
 
-		/**
-		 * @brief 翻转数组
-		 *
-		 */
+		///
+		/// @brief 翻转
+		///
+		///
 		void Reverse()
 		{
-			std::reverse(Buffer(), Buffer() + Count());
+			Span().Reverse();
 		}
 
 		/* #region Sort */
@@ -201,26 +115,7 @@ namespace base
 		///
 		void Sort(bool ascending = true)
 		{
-			try
-			{
-				std::stable_sort(Buffer(),
-								 Buffer() + Count(),
-								 [ascending](ItemType const &left, ItemType const &right) -> bool
-								 {
-									 if (ascending)
-									 {
-										 return base::LessThan(left, right);
-									 }
-									 else
-									 {
-										 return base::GreaterThan(left, right);
-									 }
-								 });
-			}
-			catch (std::exception const &e)
-			{
-				throw std::runtime_error{CODE_POS_STR + e.what()};
-			}
+			Span().Sort(ascending);
 		}
 
 		///
@@ -234,26 +129,7 @@ namespace base
 		void Sort(std::function<int(ItemType const &left, ItemType const &right)> compare,
 				  bool ascending = true)
 		{
-			try
-			{
-				std::stable_sort(Buffer(),
-								 Buffer() + Count(),
-								 [&](ItemType const &left, ItemType const &right) -> bool
-								 {
-									 if (ascending)
-									 {
-										 return compare(left, right) < 0;
-									 }
-									 else
-									 {
-										 return compare(left, right) > 0;
-									 }
-								 });
-			}
-			catch (std::exception const &e)
-			{
-				throw std::runtime_error{CODE_POS_STR + e.what()};
-			}
+			Span().Sort(compare, ascending);
 		}
 
 		/* #endregion */

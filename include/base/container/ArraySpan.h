@@ -1,7 +1,10 @@
 #pragma once
+#include "base/sfinae/Compare.h"
+#include "base/string/define.h"
 #include <algorithm>
 #include <base/container/iterator/IEnumerable.h>
 #include <base/container/Range.h>
+#include <functional>
 #include <stdexcept>
 #include <stdint.h>
 
@@ -131,7 +134,6 @@ namespace base
 			}
 		}
 
-	public:
 		/**
 		 * @brief 获取本对象引用的内存段。
 		 *
@@ -257,18 +259,18 @@ namespace base
 		/* #endregion */
 
 	public:
-		/**
-		 * @brief 构造函数。构造出来的对象不会引用任何有效内存段，且大小为 0.
-		 *
-		 */
+		///
+		/// @brief 构造函数。构造出来的对象不会引用任何有效内存段，且大小为 0.
+		///
+		///
 		ArraySpan() = default;
 
-		/**
-		 * @brief 构造函数。
-		 *
-		 * @param buffer 要引用的内存段指针。
-		 * @param count 要引用的内存段大小。
-		 */
+		///
+		/// @brief 构造函数。
+		///
+		/// @param buffer 要引用的内存段指针。
+		/// @param count 要引用的内存段大小。
+		///
 		ArraySpan(ItemType *buffer, int32_t count)
 		{
 			_buffer = buffer;
@@ -280,12 +282,11 @@ namespace base
 			}
 		}
 
-	public:
-		/**
-		 * @brief 获取本对象引用的内存段。
-		 *
-		 * @return ItemType*
-		 */
+		///
+		/// @brief 获取本对象引用的内存段。
+		///
+		/// @return ItemType*
+		///
 		ItemType *Buffer() const
 		{
 			return _buffer;
@@ -310,11 +311,13 @@ namespace base
 			std::reverse(_buffer, _buffer + _count);
 		}
 
-		/**
-		 * @brief 将 another 的内存段的数据复制到本对象的内存段。
-		 *
-		 * @param another
-		 */
+		/* #region CopyFrom */
+
+		///
+		/// @brief 将 another 的内存段的数据复制到本对象的内存段。
+		///
+		/// @param another
+		///
 		void CopyFrom(base::ReadOnlyArraySpan<ItemType> const &another) const
 		{
 			if (another.Count() != Count())
@@ -327,15 +330,17 @@ namespace base
 					  Buffer());
 		}
 
-		/**
-		 * @brief 将 another 的内存段的数据复制到本对象的内存段。
-		 *
-		 * @param another
-		 */
+		///
+		/// @brief 将 another 的内存段的数据复制到本对象的内存段。
+		///
+		/// @param another
+		///
 		void CopyFrom(base::ArraySpan<ItemType> const &another) const
 		{
 			CopyFrom(base::ReadOnlyArraySpan<ItemType>{another});
 		}
+
+		/* #endregion */
 
 		base::ArraySpan<ItemType> Slice(base::Range const &range) const
 		{
@@ -346,6 +351,74 @@ namespace base
 
 			return base::ArraySpan<ItemType>{Buffer() + range.Begin(), range.Size()};
 		}
+
+		/* #region Sort */
+
+		///
+		/// @brief 排序。
+		///
+		/// @param ascending 是否按升序排序，即从小到大排序。传入 true 则按升序排序，传入 false 则按降序排序。
+		///
+		/// @warning 需要 ItemType 实现了比较运算符，否则会引发异常。
+		///
+		void Sort(bool ascending = true)
+		{
+			try
+			{
+				std::stable_sort(Buffer(),
+								 Buffer() + Count(),
+								 [ascending](ItemType const &left, ItemType const &right) -> bool
+								 {
+									 if (ascending)
+									 {
+										 return base::LessThan(left, right);
+									 }
+									 else
+									 {
+										 return base::GreaterThan(left, right);
+									 }
+								 });
+			}
+			catch (std::exception const &e)
+			{
+				throw std::runtime_error{CODE_POS_STR + e.what()};
+			}
+		}
+
+		///
+		/// @brief 排序。
+		///
+		/// @param compare 自定义比较器。如果 left 小于 right，则返回小于 0 的值，如果相等，则返回 0，
+		/// 如果 left 大于 right 则返回大于 0 的值。
+		///
+		/// @param ascending 是否按升序排序，即从小到大排序。传入 true 则按升序排序，传入 false 则按降序排序。
+		///
+		void Sort(std::function<int(ItemType const &left, ItemType const &right)> compare,
+				  bool ascending = true)
+		{
+			try
+			{
+				std::stable_sort(Buffer(),
+								 Buffer() + Count(),
+								 [&](ItemType const &left, ItemType const &right) -> bool
+								 {
+									 if (ascending)
+									 {
+										 return compare(left, right) < 0;
+									 }
+									 else
+									 {
+										 return compare(left, right) > 0;
+									 }
+								 });
+			}
+			catch (std::exception const &e)
+			{
+				throw std::runtime_error{CODE_POS_STR + e.what()};
+			}
+		}
+
+		/* #endregion */
 
 		/* #region GetEnumerator */
 
