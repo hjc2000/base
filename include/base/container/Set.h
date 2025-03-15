@@ -7,11 +7,11 @@
 
 namespace base
 {
-	/**
-	 * @brief 元素不重复的集合。
-	 *
-	 * @tparam ItemType
-	 */
+	///
+	/// @brief 元素不重复的集合。
+	///
+	/// @tparam ItemType
+	///
 	template <typename ItemType>
 	class Set :
 		public base::ISet<ItemType>
@@ -101,13 +101,13 @@ namespace base
 
 		using base::ISet<ItemType>::Add;
 
-		/**
-		 * @brief 向集合中添加一个元素。
-		 *
-		 * @param item
-		 * @return true 集合中原本没有该元素，添加成功。
-		 * @return false 集合中原本已经有该元素了，添加失败。
-		 */
+		///
+		/// @brief 向集合中添加一个元素。
+		///
+		/// @param item
+		/// @return true 集合中原本没有该元素，添加成功。
+		/// @return false 集合中原本已经有该元素了，添加失败。
+		///
 		virtual bool Add(ItemType const &item) override
 		{
 			auto pair = _set.insert(item);
@@ -116,57 +116,57 @@ namespace base
 
 		using base::ISet<ItemType>::Remove;
 
-		/**
-		 * @brief 移除指定的元素。
-		 *
-		 * @param item
-		 * @return true 集合中有该元素，移除成功。
-		 * @return false 集合中没有该元素，移除失败。
-		 */
+		///
+		/// @brief 移除指定的元素。
+		///
+		/// @param item
+		/// @return true 集合中有该元素，移除成功。
+		/// @return false 集合中没有该元素，移除失败。
+		///
 		virtual bool Remove(ItemType const &item) override
 		{
 			return _set.erase(item);
 		}
 
-		/**
-		 * @brief 检查是否存在指定元素。
-		 *
-		 * @param item
-		 * @return true
-		 * @return false
-		 */
+		///
+		/// @brief 检查是否存在指定元素。
+		///
+		/// @param item
+		/// @return true
+		/// @return false
+		///
 		virtual bool Contains(ItemType const &item) const override
 		{
 			return _set.contains(item);
 		}
 
-		/**
-		 * @brief 元素个数。
-		 *
-		 * @return int32_t
-		 */
+		///
+		/// @brief 元素个数。
+		///
+		/// @return int32_t
+		///
 		virtual int32_t Count() const override
 		{
 			return _set.size();
 		}
 
-		/**
-		 * @brief 获取非 const 迭代器
-		 *
-		 * @return std::shared_ptr<base::IEnumerator<ItemType>>
-		 */
+		///
+		/// @brief 获取非 const 迭代器
+		///
+		/// @return std::shared_ptr<base::IEnumerator<ItemType const>>
+		///
 		virtual std::shared_ptr<base::IEnumerator<ItemType const>> GetEnumerator() override
 		{
 			return std::shared_ptr<base::IEnumerator<ItemType const>>{new Enumerator{_set}};
 		}
 
 	public:
-		/**
-		 * @brief 两个集合拼接，组成并集。
-		 *
-		 * @param another
-		 * @return base::Set<ItemType>
-		 */
+		///
+		/// @brief 两个集合拼接，组成并集。
+		///
+		/// @param another
+		/// @return base::Set<ItemType>
+		///
 		base::Set<ItemType> operator+(base::ISet<ItemType> const &another) const
 		{
 			base::Set<ItemType> ret{*this};
@@ -174,24 +174,24 @@ namespace base
 			return ret;
 		}
 
-		/**
-		 * @brief 将本集合和 another 拼接，形成并集。或者说将 another 的元素全部添加到本集合中。
-		 *
-		 * @param another
-		 * @return base::Set<ItemType>&
-		 */
+		///
+		/// @brief 将本集合和 another 拼接，形成并集。或者说将 another 的元素全部添加到本集合中。
+		///
+		/// @param another
+		/// @return base::Set<ItemType>&
+		///
 		base::Set<ItemType> &operator+=(base::ISet<ItemType> const &another)
 		{
 			Add(another);
 			return *this;
 		}
 
-		/**
-		 * @brief 创建一个新集合，拷贝本集合，然后从新集合中移除 another 中含有的元素。
-		 *
-		 * @param another
-		 * @return base::Set<ItemType> 新集合。
-		 */
+		///
+		/// @brief 创建一个新集合，拷贝本集合，然后从新集合中移除 another 中含有的元素。
+		///
+		/// @param another
+		/// @return base::Set<ItemType>
+		///
 		base::Set<ItemType> operator-(base::ISet<ItemType> const &another) const
 		{
 			base::Set<ItemType> ret{*this};
@@ -199,24 +199,24 @@ namespace base
 			return ret;
 		}
 
-		/**
-		 * @brief 从本集合中移除 another 中含有的元素。
-		 *
-		 * @param another
-		 * @return base::Set<ItemType>&
-		 */
+		///
+		/// @brief 从本集合中移除 another 中含有的元素。
+		///
+		/// @param another
+		/// @return base::Set<ItemType>&
+		///
 		base::Set<ItemType> &operator-=(base::ISet<ItemType> const &another)
 		{
 			Remove(another);
 			return *this;
 		}
 
-		/**
-		 * @brief 求两个集合的交集。
-		 *
-		 * @param another
-		 * @return base::Set<ItemType>
-		 */
+		///
+		/// @brief 求两个集合的交集。
+		///
+		/// @param another
+		/// @return base::Set<ItemType>
+		///
 		base::Set<ItemType> operator*(base::ISet<ItemType> const &another)
 		{
 			base::Set<ItemType> ret{*this};
@@ -231,12 +231,12 @@ namespace base
 			return ret;
 		}
 
-		/**
-		 * @brief 求本集合与 another 的交集，然后将本集合设置为交集。
-		 *
-		 * @param another
-		 * @return base::Set<ItemType>
-		 */
+		///
+		/// @brief 求本集合与 another 的交集，然后将本集合设置为该交集。
+		///
+		/// @param another
+		/// @return base::Set<ItemType>
+		///
 		base::Set<ItemType> operator*=(base::ISet<ItemType> const &another)
 		{
 			base::Set<ItemType> temp = *this * another;
