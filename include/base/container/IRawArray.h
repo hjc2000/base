@@ -258,6 +258,8 @@ namespace base
 
 		/* #endregion */
 
+		/* #region Span */
+
 		base::ArraySpan<ItemType> Span()
 		{
 			return base::ArraySpan<ItemType>{Buffer(), Count()};
@@ -267,6 +269,8 @@ namespace base
 		{
 			return base::ReadOnlyArraySpan<ItemType>{Buffer(), Count()};
 		}
+
+		/* #endregion */
 
 		/* #region GetEnumerator */
 
@@ -279,7 +283,7 @@ namespace base
 		///
 		std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() override
 		{
-			return std::shared_ptr<IEnumerator<ItemType>>{new Enumerator{Buffer(), Count()}};
+			return Span().GetEnumerator();
 		}
 
 		/* #endregion */
