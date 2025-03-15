@@ -1,4 +1,5 @@
 #include "GenerateCalculationQuestions.h"
+#include "base/container/List.h"
 #include <iostream>
 
 #if HAS_THREAD
@@ -179,7 +180,10 @@ void base::usage::GenerateCalculationQuestions()
 		questions.Add(question.ToString());
 	}
 
-	for (std::string const &question : questions)
+	base::List<std::string> question_list;
+	question_list.Add(questions);
+	question_list.Shuffle();
+	for (std::string const &question : question_list)
 	{
 		std::cout << question << std::endl;
 		writer.WriteLine(question);

@@ -20,10 +20,8 @@ namespace base
 		std::set<ItemType> _set;
 
 	private:
-		/**
-		 * @brief 迭代器。
-		 *
-		 */
+		/* #region 迭代器。 */
+
 		class Enumerator :
 			public base::IEnumerator<ItemType const>
 		{
@@ -42,22 +40,22 @@ namespace base
 			}
 
 		public:
-			/**
-			 * @brief 获取当前值的引用
-			 *
-			 * @return ItemType&
-			 */
+			///
+			/// @brief 获取当前值的引用
+			///
+			/// @return ItemType const&
+			///
 			virtual ItemType const &CurrentValue() override
 			{
 				return *_current;
 			}
 
-			/**
-			 * @brief 迭代器前进到下一个值
-			 *
-			 * @return true
-			 * @return false
-			 */
+			///
+			/// @brief 迭代器前进到下一个值
+			///
+			/// @return true
+			/// @return false
+			///
 			virtual bool MoveNext() override
 			{
 				if (_set.size() == 0)
@@ -80,11 +78,11 @@ namespace base
 				return true;
 			}
 
-			/**
-			 * @brief 将迭代器重置到容器开始的位置。
-			 *
-			 * @note 开始位置是第一个元素前。也就是说重置后，要调用一次 MoveNext 才能获取到第一个值。
-			 */
+			///
+			/// @brief 将迭代器重置到容器开始的位置。
+			///
+			/// @note 开始位置是第一个元素前。也就是说重置后，要调用一次 MoveNext 才能获取到第一个值。
+			///
 			virtual void Reset() override
 			{
 				_move_to_next_for_the_first_time = true;
@@ -92,14 +90,15 @@ namespace base
 			}
 		};
 
-	public:
-		/**
-		 * @brief 构造一个空集合。
-		 *
-		 */
-		Set() = default;
+		/* #endregion */
 
 	public:
+		///
+		/// @brief 构造一个空集合。
+		///
+		///
+		Set() = default;
+
 		using base::ISet<ItemType>::Add;
 
 		/**

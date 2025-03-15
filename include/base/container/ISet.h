@@ -55,11 +55,11 @@ namespace base
 
 		/* #region 接口扩展 */
 
-		/**
-		 * @brief 将另一个集合的元素添加进来。
-		 *
-		 * @param set
-		 */
+		///
+		/// @brief 将另一个集合的元素添加进来。
+		///
+		/// @param set
+		///
 		void Add(ISet<ItemType> const &set)
 		{
 			if (this == &set)
@@ -68,6 +68,42 @@ namespace base
 			}
 
 			for (ItemType const &item : set)
+			{
+				Add(item);
+			}
+		}
+
+		///
+		/// @brief 将另一个可迭代容器的元素添加到本容器。
+		///
+		/// @param items
+		///
+		void Add(base::IEnumerable<ItemType> const &items)
+		{
+			if (this == &items)
+			{
+				return;
+			}
+
+			for (ItemType const &item : items)
+			{
+				Add(item);
+			}
+		}
+
+		///
+		/// @brief 将另一个可迭代容器的元素添加到本容器。
+		///
+		/// @param items
+		///
+		void Add(base::IEnumerable<ItemType const> const &items)
+		{
+			if (this == &items)
+			{
+				return;
+			}
+
+			for (ItemType const &item : items)
 			{
 				Add(item);
 			}

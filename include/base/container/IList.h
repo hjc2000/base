@@ -171,6 +171,32 @@ namespace base
 			}
 		}
 
+		///
+		/// @brief 将另一个可迭代容器的元素添加到本容器。
+		///
+		/// @param items
+		///
+		virtual void Add(base::IEnumerable<ItemType> const &items)
+		{
+			for (ItemType const &item : items)
+			{
+				Add(item);
+			}
+		}
+
+		///
+		/// @brief 将另一个可迭代容器的元素添加到本容器。
+		///
+		/// @param items
+		///
+		virtual void Add(base::IEnumerable<ItemType const> const &items)
+		{
+			for (ItemType const &item : items)
+			{
+				Add(item);
+			}
+		}
+
 		/**
 		 * @brief 将初始化列表的元素添加到本列表中。
 		 *
