@@ -134,6 +134,15 @@ namespace base
 
 		/* #endregion */
 
+		///
+		/// @brief 洗牌。
+		///
+		///
+		void Shuffle()
+		{
+			Span().Shuffle();
+		}
+
 		/* #region Span */
 
 		base::ArraySpan<ItemType> Span()
