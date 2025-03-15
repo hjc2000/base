@@ -192,13 +192,13 @@ namespace base
 
 		/* #region Sort */
 
-		/**
-		 * @brief 排序。
-		 *
-		 * @param ascending 是否按升序排序，即从小到大排序。传入 true 则按升序排序，传入 false 则按降序排序。
-		 *
-		 * @warning 需要 ItemType 实现了比较运算符，否则会引发异常。
-		 */
+		///
+		/// @brief 排序。
+		///
+		/// @param ascending 是否按升序排序，即从小到大排序。传入 true 则按升序排序，传入 false 则按降序排序。
+		///
+		/// @warning 需要 ItemType 实现了比较运算符，否则会引发异常。
+		///
 		void Sort(bool ascending = true)
 		{
 			try
@@ -223,14 +223,14 @@ namespace base
 			}
 		}
 
-		/**
-		 * @brief 排序。
-		 *
-		 * @param compare 自定义比较器。如果 left 小于 right，则返回小于 0 的值，如果相等，则返回 0，
-		 * 如果 left 大于 right 则返回大于 0 的值。
-		 *
-		 * @param ascending 是否按升序排序，即从小到大排序。传入 true 则按升序排序，传入 false 则按降序排序。
-		 */
+		///
+		/// @brief 排序。
+		///
+		/// @param compare 自定义比较器。如果 left 小于 right，则返回小于 0 的值，如果相等，则返回 0，
+		/// 如果 left 大于 right 则返回大于 0 的值。
+		///
+		/// @param ascending 是否按升序排序，即从小到大排序。传入 true 则按升序排序，传入 false 则按降序排序。
+		///
 		void Sort(std::function<int(ItemType const &left, ItemType const &right)> compare,
 				  bool ascending = true)
 		{
