@@ -4,9 +4,11 @@
 #include <algorithm>
 #include <base/container/iterator/IEnumerable.h>
 #include <base/container/Range.h>
+#include <base/math/random.h>
 #include <functional>
 #include <stdexcept>
 #include <stdint.h>
+#include <vector>
 
 namespace base
 {
@@ -427,6 +429,22 @@ namespace base
 		}
 
 		/* #endregion */
+
+		///
+		/// @brief 洗牌。
+		///
+		///
+		void Shuffle()
+		{
+			std::vector<ItemType> temp_vec{};
+			std::vector<int32_t> index_vec = base::di::ShuffleIndex(Count());
+			for (int32_t index : index_vec)
+			{
+				temp_vec.push_back(Buffer()[index]);
+			}
+
+			CopyFrom(base::ReadOnlyArraySpan<ItemType>{temp_vec.data(), static_cast<int32_t>(temp_vec.size())});
+		}
 
 		/* #region GetEnumerator */
 

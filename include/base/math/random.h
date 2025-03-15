@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <limits>
 #include <memory>
+#include <vector>
 
 namespace base
 {
@@ -119,11 +120,19 @@ namespace base
 
 	namespace di
 	{
-		/**
-		 * @brief 构造一个随机数生成器。
-		 *
-		 * @return std::shared_ptr<base::IRandomGenerator>
-		 */
+		///
+		/// @brief 构造一个随机数生成器。
+		///
+		/// @return std::shared_ptr<base::IRandomGenerator>
+		///
 		std::shared_ptr<base::IRandomGenerator> CreateRandomGenerator();
+
+		///
+		/// @brief 获取一个装着打乱的索引的 std::vector<int32_t>.
+		///
+		/// @param count 索引的数量。
+		/// @return std::vector<int32_t>
+		///
+		std::vector<int32_t> ShuffleIndex(int32_t count);
 	} // namespace di
 } // namespace base

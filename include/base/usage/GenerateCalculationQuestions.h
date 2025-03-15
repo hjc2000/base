@@ -1,6 +1,6 @@
 #pragma once
 #if HAS_THREAD
-	#include "base/math/IRandomGenerator.h"
+	#include <base/math/random.h>
 	#include <base/string/ICanToString.h>
 	#include <cstdint>
 	#include <functional>

@@ -4,7 +4,7 @@
 #if HAS_THREAD
 	#include "base/container/Set.h"
 	#include "base/string/define.h"
-	#include <base/math/IRandomGenerator.h>
+	#include <base/math/random.h>
 	#include <base/stream/IFileStream.h>
 	#include <base/stream/StreamWriter.h>
 	#include <format>

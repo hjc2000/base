@@ -1,5 +1,7 @@
-#include "IRandomGenerator.h"
+#include "random.h"
+#include <algorithm>
 #include <base/define.h>
+#include <cstdint>
 #include <memory>
 #include <random>
 #include <stdexcept>
@@ -52,6 +54,23 @@ namespace
 std::shared_ptr<base::IRandomGenerator> base::di::CreateRandomGenerator()
 {
 	return std::shared_ptr<base::IRandomGenerator>{new RandomGenerator{}};
+}
+
+std::vector<int32_t> base::di::ShuffleIndex(int32_t count)
+{
+	std::vector<int32_t> ret;
+	for (int32_t i = 0; i < count; i++)
+	{
+		ret.push_back(i);
+	}
+
+	// 生成随机数引擎
+	std::random_device rd;
+	std::mt19937 g(rd());
+
+	// 打乱顺序
+	std::shuffle(ret.begin(), ret.end(), g);
+	return ret;
 }
 
 #endif
