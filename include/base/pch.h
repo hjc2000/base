@@ -11,6 +11,7 @@
 	#include <cstddef>
 	#include <cstdint>
 	#include <functional>
+	#include <initializer_list>
 	#include <memory>
 	#include <string>
 	#include <vector>
