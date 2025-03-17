@@ -52,9 +52,11 @@
 	#include <vector>
 
 	#if HAS_THREAD
+		#include <format>
 		#include <iostream>
 		#include <mutex>
 		#include <semaphore>
+
 	#endif
 #endif
 
