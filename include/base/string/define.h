@@ -25,7 +25,8 @@
 #define DEFINE_VALUE_TO_STR(x) DEFINE_TO_STR(x)
 
 #ifdef __cplusplus
-	#include <string>
+	#include <string> // IWYU pragma: keep
+
 	#define CODE_POS_STR std::string{"文件：" __FILE__ ", 行号：" DEFINE_VALUE_TO_STR(__LINE__)} + \
 							 std::string{", 函数："} + std::string{__func__} +                     \
 							 " >>\n"

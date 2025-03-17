@@ -2,13 +2,13 @@
 // IWYU pragma: begin_keep
 // IWYU pragma: begin_exports
 
-#ifdef __cplusplus
+#include <base/define.h>
+#include <base/string/define.h>
 
+#ifdef __cplusplus
 	#include <algorithm>
 	#include <array>
 	#include <atomic>
-	#include <base/define.h>
-	#include <base/string/define.h>
 	#include <base/string/ICanToString.h>
 	#include <base/string/Json.h>
 	#include <bit>
@@ -31,9 +31,7 @@
 		#include <iostream>
 		#include <mutex>
 		#include <semaphore>
-
 	#endif
-
 #endif
 
 // IWYU pragma: end_exports
