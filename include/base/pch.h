@@ -56,6 +56,7 @@
 		#include <iostream>
 		#include <mutex>
 		#include <semaphore>
+		#include <thread>
 
 	#endif
 #endif
