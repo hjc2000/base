@@ -1,6 +1,7 @@
 #pragma once
+#include <array>
 #include <base/container/IRawArray.h>
-#include <base/pch.h>
+#include <initializer_list>
 
 namespace base
 {

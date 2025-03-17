@@ -136,9 +136,7 @@ namespace base
 		/// @return
 		std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>> GetEnumerator() override
 		{
-			return std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>>{
-				new Enumerator{&_map},
-			};
+			return std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>>{new Enumerator{&_map}};
 		}
 	};
 } // namespace base

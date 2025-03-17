@@ -9,7 +9,10 @@
 	#include <algorithm>
 	#include <array>
 	#include <atomic>
+	#include <base/container/Array.h>
 	#include <base/container/ArraySpan.h>
+	#include <base/container/Dictionary.h>
+	#include <base/container/IDictionary.h>
 	#include <base/container/IList.h>
 	#include <base/container/IRawArray.h>
 	#include <base/container/iterator/IEnumerable.h>
@@ -22,6 +25,8 @@
 	#include <base/sfinae/Equal.h>
 	#include <base/sfinae/IsConst.h>
 	#include <base/sfinae/TypeSelector.h>
+	#include <base/stream/ReadOnlySpan.h>
+	#include <base/stream/Span.h>
 	#include <base/string/ICanToString.h>
 	#include <base/string/Json.h>
 	#include <bit>
