@@ -8,6 +8,7 @@
 	#include <array>
 	#include <base/define.h>
 	#include <base/string/define.h>
+	#include <bit>
 	#include <boost/multiprecision/cpp_int.hpp>
 	#include <chrono>
 	#include <cmath>
@@ -18,6 +19,7 @@
 	#include <map>
 	#include <memory>
 	#include <set>
+	#include <stdexcept>
 	#include <string>
 	#include <vector>
 

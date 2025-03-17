@@ -1,10 +1,9 @@
 #pragma once
+#include <base/pch.h>
 #include <base/stream/ReadOnlySpan.h>
 #include <base/stream/Span.h>
 #include <base/task/CancellationToken.h>
 #include <base/task/TaskCanceledException.h>
-#include <memory>
-#include <stdint.h>
 
 namespace base
 {

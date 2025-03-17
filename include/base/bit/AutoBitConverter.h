@@ -1,8 +1,7 @@
 #pragma once
+#include <base/pch.h>
 #include <base/stream/ReadOnlySpan.h>
 #include <base/stream/Stream.h>
-#include <bit>
-#include <stdint.h>
 
 namespace base
 {

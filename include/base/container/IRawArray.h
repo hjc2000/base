@@ -1,10 +1,9 @@
 #pragma once
 #include <base/container/ArraySpan.h>
 #include <base/container/iterator/IEnumerable.h>
+#include <base/pch.h>
 #include <base/sfinae/Compare.h>
 #include <base/string/define.h>
-#include <functional>
-#include <stdexcept>
 
 namespace base
 {
