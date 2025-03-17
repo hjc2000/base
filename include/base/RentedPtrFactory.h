@@ -1,5 +1,6 @@
 #pragma once
-#include <base/pch.h>
+#include <base/define.h>
+#include <memory>
 
 namespace base
 {

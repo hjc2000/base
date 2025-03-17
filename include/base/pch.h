@@ -27,6 +27,7 @@
 	#include <base/sfinae/TypeSelector.h>
 	#include <base/stream/ReadOnlySpan.h>
 	#include <base/stream/Span.h>
+	#include <base/stream/Stream.h>
 	#include <base/string/ICanToString.h>
 	#include <base/string/Json.h>
 	#include <bit>

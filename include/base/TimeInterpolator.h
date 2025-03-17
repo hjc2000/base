@@ -1,5 +1,5 @@
 #pragma once
-#include <base/pch.h>
+#include <cstdint>
 
 #if HAS_THREAD
 
