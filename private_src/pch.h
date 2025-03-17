@@ -1,4 +1,10 @@
 #pragma once
+///
+/// * 本文件本身并不是预编译标头，但是可以被预编译标头包含。
+///
+/// * 这里的头文件都是较稳定的
+///
+
 // IWYU pragma: begin_keep
 // IWYU pragma: begin_exports
 
