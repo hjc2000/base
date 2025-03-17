@@ -1,6 +1,4 @@
 #include "Guard.h"
-#include <base/string/define.h>
-#include <stdexcept>
 
 base::Guard::Guard(std::function<void()> func)
 {

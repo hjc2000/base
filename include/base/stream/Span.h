@@ -3,7 +3,7 @@
 #include <base/container/ArraySpan.h>
 #include <base/container/iterator/IEnumerable.h>
 #include <base/container/Range.h>
-#include <base/pch.h>
+#include <cstdint>
 
 namespace base
 {

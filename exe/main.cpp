@@ -3,7 +3,6 @@
 #include "base/string/Parse.h"
 #include "base/usage/GenerateCalculationQuestions.h"
 #include <base/net/profinet/dcp/DcpIdentifyRequestReader.h>
-#include <base/pch.h>
 #include <base/usage/CountTriangle.h>
 
 int main()

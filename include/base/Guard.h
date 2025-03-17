@@ -1,5 +1,5 @@
 #pragma once
-#include <base/pch.h>
+#include <functional>
 
 namespace base
 {
@@ -11,6 +11,7 @@ namespace base
 
 	public:
 		Guard(std::function<void()> func);
+
 		~Guard();
 	};
 } // namespace base

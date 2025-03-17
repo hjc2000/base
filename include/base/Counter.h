@@ -1,5 +1,5 @@
 #pragma once
-#include <base/pch.h>
+#include <stdexcept>
 
 namespace base
 {

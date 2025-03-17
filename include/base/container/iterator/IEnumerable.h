@@ -1,6 +1,6 @@
 #pragma once
 #include <base/container/iterator/IEnumerator.h>
-#include <base/pch.h>
+#include <memory>
 
 namespace base
 {
