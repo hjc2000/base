@@ -4,14 +4,16 @@
 
 #ifdef __cplusplus
 
+	#include <array>
+	#include <base/define.h>
+	#include <base/string/define.h>
+	#include <boost/multiprecision/cpp_int.hpp>
+	#include <cstddef>
 	#include <cstdint>
 	#include <functional>
 	#include <memory>
 	#include <string>
-
-	#include <base/define.h>
-	#include <base/string/define.h>
-	#include <boost/multiprecision/cpp_int.hpp>
+	#include <vector>
 
 #endif
 
