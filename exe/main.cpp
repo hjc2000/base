@@ -6,8 +6,6 @@
 #include "base/usage/GenerateCalculationQuestions.h"
 #include <base/net/profinet/dcp/DcpIdentifyRequestReader.h>
 #include <base/usage/CountTriangle.h>
-#include <cstdint>
-#include <iostream>
 
 int main()
 {
