@@ -1,8 +1,7 @@
 #pragma once
+#include <base/pch.h>
 
 #if HAS_THREAD
-
-#include <stdint.h>
 
 namespace base
 {

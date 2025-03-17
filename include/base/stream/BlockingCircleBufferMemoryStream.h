@@ -1,4 +1,5 @@
 #pragma once
+#include <base/pch.h>
 #include <base/stream/CircleBufferMemoryStream.h>
 #include <base/task/IMutex.h>
 #include <base/task/ISemaphore.h>

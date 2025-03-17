@@ -1,10 +1,8 @@
 #pragma once
 #if HAS_THREAD
 
-	#include <atomic>
+	#include <base/pch.h>
 	#include <base/task/ISemaphore.h>
-	#include <mutex>
-	#include <semaphore>
 
 namespace base
 {

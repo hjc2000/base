@@ -1,5 +1,6 @@
 #pragma once
 #include <base/container/iterator/IEnumerable.h>
+#include <base/pch.h>
 #include <DcpTlvEnumerator.h>
 
 namespace base

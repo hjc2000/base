@@ -1,9 +1,9 @@
 #pragma once
 #include "base/stream/ReadOnlySpan.h"
+#include <base/pch.h>
 #include <base/stream/Stream.h>
 #include <base/string/ICanToString.h>
 #include <base/string/String.h>
-#include <memory>
 
 namespace base
 {

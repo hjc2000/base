@@ -1,6 +1,5 @@
 #pragma once
-#include <cstddef>
-#include <cstdlib>
+#include <base/pch.h>
 
 /**
  * @brief 分配特定类型的大小的内存。

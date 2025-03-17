@@ -1,9 +1,8 @@
 #pragma once
 #if HAS_THREAD
 
-	#include <base/define.h>
+	#include <base/pch.h>
 	#include <base/stream/IFileStream.h>
-	#include <base/string/define.h>
 	#include <fstream>
 
 namespace base
