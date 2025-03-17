@@ -1,7 +1,6 @@
 #pragma once
 #if HAS_THREAD
 
-	#include <base/pch.h>
 	#include <base/stream/IFileStream.h>
 	#include <fstream>
 

@@ -1,5 +1,4 @@
 #pragma once
-#include <base/pch.h>
 #include <base/stream/Span.h>
 #include <base/stream/Stream.h>
 

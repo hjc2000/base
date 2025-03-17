@@ -1,7 +1,6 @@
 #pragma once
 #if HAS_THREAD
 
-	#include <base/pch.h>
 	#include <base/task/IMutex.h>
 
 namespace base

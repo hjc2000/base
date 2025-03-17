@@ -1,5 +1,4 @@
 #include "BlockingCircleBufferMemoryStream.h"
-#include <base/string/define.h>
 
 bool base::BlockingCircleBufferMemoryStream::CanRead() const
 {

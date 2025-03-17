@@ -1,7 +1,5 @@
 #include "AutoBitConverter.h"
-#include <algorithm>
 #include <base/bit/bit_converte.h>
-#include <base/string/define.h>
 
 base::AutoBitConverter::AutoBitConverter(std::endian remote_endian)
 	: _remote_endian(remote_endian)

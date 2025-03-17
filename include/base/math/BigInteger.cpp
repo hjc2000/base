@@ -1,5 +1,4 @@
 #include "BigInteger.h"
-#include <base/string/define.h>
 
 std::string base::BigInteger::ToString() const
 {

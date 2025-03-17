@@ -1,6 +1,5 @@
 #pragma once
 #include <base/bit/AutoBitConverter.h>
-#include <base/pch.h>
 #include <DcpTlvEnumerable.h>
 
 namespace base

@@ -1,7 +1,6 @@
 #pragma once
 #include <base/container/Queue.h>
 #include <base/delegate/Delegate.h>
-#include <base/pch.h>
 #include <base/stream/Stream.h>
 
 namespace base

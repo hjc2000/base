@@ -2,7 +2,6 @@
 #include <base/bit/AutoBitConverter.h>
 #include <base/net/profinet/dcp/DcpServiceIdEnum.h>
 #include <base/net/profinet/dcp/DcpServiceTypeEnum.h>
-#include <base/pch.h>
 #include <base/stream/Span.h>
 
 namespace base
