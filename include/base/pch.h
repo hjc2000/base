@@ -4,15 +4,20 @@
 
 #ifdef __cplusplus
 
+	#include <algorithm>
 	#include <array>
 	#include <base/define.h>
 	#include <base/string/define.h>
 	#include <boost/multiprecision/cpp_int.hpp>
+	#include <chrono>
+	#include <cmath>
 	#include <cstddef>
 	#include <cstdint>
 	#include <functional>
 	#include <initializer_list>
+	#include <map>
 	#include <memory>
+	#include <set>
 	#include <string>
 	#include <vector>
 
