@@ -46,6 +46,8 @@ namespace base
 
 		/* #endregion */
 
+		/* #region 强制转换 */
+
 		explicit operator std::chrono::nanoseconds() const;
 		explicit operator std::chrono::microseconds() const;
 		explicit operator std::chrono::milliseconds() const;
@@ -65,17 +67,7 @@ namespace base
 		operator std::chrono::zoned_time<std::chrono::seconds>() const;
 #endif
 
-#if HAS_THREAD
-		std::chrono::zoned_time<std::chrono::nanoseconds> ToNanosecondsZonedTime() const;
-		std::chrono::zoned_time<std::chrono::microseconds> ToMicrosecondsZonedTime() const;
-		std::chrono::zoned_time<std::chrono::milliseconds> ToMillisecondsZonedTime() const;
-		std::chrono::zoned_time<std::chrono::seconds> ToSecondsZonedTime() const;
-
-		std::string NanosecondsZonedTimeString() const;
-		std::string MicrosecondsZonedTimeString() const;
-		std::string MillisecondsZonedTimeString() const;
-		std::string SecondsZonedTimeString() const;
-#endif
+		/* #endregion */
 
 		/* #region 四则运算 */
 
@@ -144,11 +136,21 @@ namespace base
 		base::TimePointSinceEpoch &operator*=(int64_t value);
 		/* #endregion */
 
+		/* #region 比较 */
 		bool operator==(base::TimePointSinceEpoch const &another) const;
 		bool operator<(base::TimePointSinceEpoch const &another) const;
 		bool operator>(base::TimePointSinceEpoch const &another) const;
 		bool operator<=(base::TimePointSinceEpoch const &another) const;
 		bool operator>=(base::TimePointSinceEpoch const &another) const;
+		/* #endregion */
+
+		/* #region 转化为字符串 */
+#if HAS_THREAD
+		std::string NanosecondsZonedTimeString() const;
+		std::string MicrosecondsZonedTimeString() const;
+		std::string MillisecondsZonedTimeString() const;
+		std::string SecondsZonedTimeString() const;
+#endif
 
 		///
 		/// @brief 转化为字符串。
@@ -156,6 +158,8 @@ namespace base
 		/// @return std::string
 		///
 		virtual std::string ToString() const override;
+
+		/* #endregion */
 	};
 } // namespace base
 
