@@ -62,4 +62,16 @@ void base::filesystem::create_directory(std::string const &path)
 	std::filesystem::create_directory(path);
 }
 
+void base::filesystem::remove(std::string const &path)
+{
+	if (!exists(path))
+	{
+		// 路径不存在，直接返回。
+		return;
+	}
+
+	// 返回值是 uintmax_t ，含义是递归删除的项目总数。
+	std::filesystem::remove_all(path);
+}
+
 #endif

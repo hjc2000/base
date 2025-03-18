@@ -96,5 +96,14 @@ namespace base
 		///
 		void create_directory(std::string const &path);
 
+		///
+		/// @brief 删除目录或文件或符号链接。
+		///
+		/// @note 删除符号链接是是删除符号链接本身，不会跟踪到符号链接指向的位置去删除。
+		///
+		/// @param path
+		///
+		void remove(std::string const &path);
+
 	} // namespace filesystem
 } // namespace base
