@@ -24,6 +24,7 @@
 	#include <base/container/iterator/IEnumerable.h>
 	#include <base/container/iterator/IEnumerator.h>
 	#include <base/container/List.h>
+	#include <base/di/SingletonGetter.h>
 	#include <base/Guard.h>
 	#include <base/IDisposable.h>
 	#include <base/LockGuard.h>

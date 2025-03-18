@@ -1,1 +1,0 @@
-#include "SingletonGetter.h"
