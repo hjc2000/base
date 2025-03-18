@@ -1,5 +1,6 @@
 #pragma once
-#include "TimeSpan.h"
+#include <base/string/ICanToString.h>
+#include <base/time/TimeSpan.h>
 #include <filesystem>
 
 namespace base
