@@ -68,8 +68,8 @@ std::string base::profinet::DcpIdentifyRequestReader::NameOfStation() const
 base::Json base::profinet::DcpIdentifyRequestReader::ToJson() const
 {
 	base::Json root{
-		{"ServiceId", base::ToString(ServiceId())},
-		{"ServiceType", base::ToString(ServiceType())},
+		{"ServiceId", std::to_string(ServiceId())},
+		{"ServiceType", std::to_string(ServiceType())},
 		{"Xid", base::ToHexString(Xid())},
 		{"ResponseDelay", base::ToHexString(ResponseDelay())},
 		{"DataLength", DataLength()},

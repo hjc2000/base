@@ -19,6 +19,9 @@ namespace base
 			ResponseNotSupport = 0x05,
 		};
 	} // namespace profinet
-
-	std::string ToString(base::profinet::DcpServiceTypeEnum value);
 } // namespace base
+
+namespace std
+{
+	std::string to_string(base::profinet::DcpServiceTypeEnum value);
+}

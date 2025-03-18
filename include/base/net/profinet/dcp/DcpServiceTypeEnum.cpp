@@ -3,7 +3,7 @@
 #include <base/string/ToHexString.h>
 #include <stdexcept>
 
-std::string base::ToString(base::profinet::DcpServiceTypeEnum value)
+std::string std::to_string(base::profinet::DcpServiceTypeEnum value)
 {
 	std::string ret;
 	switch (value)
