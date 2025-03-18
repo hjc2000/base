@@ -1,6 +1,7 @@
 #include "FileStream.h" // IWYU pragma: keep
 
 #if HAS_THREAD
+	#include <base/file/filesystem.h>
 
 /* #region 构造，析构 */
 
@@ -20,6 +21,21 @@ base::FileStream::~FileStream()
 
 std::shared_ptr<base::FileStream> base::FileStream::CreateNewAnyway(std::string path)
 {
+	if (base::filesystem::exists(path) && !base::filesystem::is_directory(path))
+	{
+		// 如果路径已经存在，并且不是目录，此时可能是一个常规文件，也可能是符号链接。反正只要不是目录，
+		// 接下来如果要创建同名的常规文件势必会覆盖。
+		if (!base::filesystem::is_readable(path))
+		{
+			throw std::runtime_error{CODE_POS_STR + "文件已经存在且不可读。"};
+		}
+
+		if (!base::filesystem::is_writeable(path))
+		{
+			throw std::runtime_error{CODE_POS_STR + "文件已经存在且不可写。"};
+		}
+	}
+
 	std::shared_ptr<FileStream> fs{new FileStream{path}};
 
 	// 加上 ios_base::trunc，这样打开文件流后，如果原本存在此文件，就会将其截断，
@@ -36,7 +52,7 @@ std::shared_ptr<base::FileStream> base::FileStream::CreateNewAnyway(std::string 
 
 	if (fs->_fs->fail())
 	{
-		std::string message = CODE_POS_STR + std::format("创建 {} 失败。检查文件是不是只读的。", path);
+		std::string message = CODE_POS_STR + std::format("创建 {} 失败。", path);
 		throw std::runtime_error{message};
 	}
 
@@ -48,15 +64,24 @@ std::shared_ptr<base::FileStream> base::FileStream::CreateNewAnyway(std::string 
 
 std::shared_ptr<base::FileStream> base::FileStream::OpenExisting(std::string path)
 {
-	if (!std::filesystem::exists(path))
+	if (!base::filesystem::exists(path))
 	{
-		// 文件不存在
 		throw std::runtime_error{CODE_POS_STR + std::format("文件 {} 不存在。", path)};
 	}
 
-	if (std::filesystem::is_directory(path))
+	if (base::filesystem::is_directory(path))
 	{
 		throw std::runtime_error{CODE_POS_STR + std::format("{} 不是一个文件，而是一个目录", path)};
+	}
+
+	if (!base::filesystem::is_readable(path))
+	{
+		throw std::runtime_error{CODE_POS_STR + "文件不可读。"};
+	}
+
+	if (!base::filesystem::is_writeable(path))
+	{
+		throw std::runtime_error{CODE_POS_STR + "文件不可写。"};
 	}
 
 	std::shared_ptr<FileStream> fs{new FileStream{path}};
@@ -72,7 +97,7 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenExisting(std::string pat
 
 	if (fs->_fs->fail())
 	{
-		std::string message = CODE_POS_STR + std::format("打开 {} 失败。检查文件是不是只读的。", path);
+		std::string message = CODE_POS_STR + std::format("打开 {} 失败。", path);
 		throw std::runtime_error{message};
 	}
 
@@ -84,31 +109,36 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenExisting(std::string pat
 
 std::shared_ptr<base::FileStream> base::FileStream::OpenReadOnly(std::string path)
 {
-	if (!std::filesystem::exists(path))
+	if (!base::filesystem::exists(path))
 	{
 		// 文件不存在
 		std::string message = CODE_POS_STR + std::format("文件 {} 不存在。", path);
 		throw std::runtime_error{message};
 	}
 
-	if (std::filesystem::is_directory(path))
+	if (base::filesystem::is_directory(path))
 	{
 		std::string message = CODE_POS_STR + std::format("{} 不是一个文件，而是一个目录", path);
 		throw std::runtime_error{message};
 	}
 
+	if (!base::filesystem::is_readable(path))
+	{
+		throw std::runtime_error{CODE_POS_STR + "文件不可读。"};
+	}
+
 	std::shared_ptr<FileStream> fs{new FileStream{path}};
 
-	fs->_fs = std::shared_ptr<std::fstream>{
-		new std::fstream{
-			path,
-			std::ios_base::in | std::ios_base::binary,
-		},
-	};
+	auto flags = std::ios_base::in | std::ios_base::binary;
+
+	fs->_fs = std::shared_ptr<std::fstream>{new std::fstream{
+		path,
+		flags,
+	}};
 
 	if (fs->_fs->fail())
 	{
-		std::string message = CODE_POS_STR + std::format("打开 {} 失败。检查文件是不是只读的。", path);
+		std::string message = CODE_POS_STR + std::format("以只读方式打开 {} 失败。", path);
 		throw std::runtime_error{message};
 	}
 

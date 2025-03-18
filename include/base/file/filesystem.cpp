@@ -7,17 +7,17 @@
 
 bool base::filesystem::is_readable(std::string const &path)
 {
-	return access(path.c_str(), R_OK);
+	return access(path.c_str(), R_OK) == 0;
 }
 
 bool base::filesystem::is_writeable(std::string const &path)
 {
-	return access(path.c_str(), W_OK);
+	return access(path.c_str(), W_OK) == 0;
 }
 
 bool base::filesystem::is_excuteable(std::string const &path)
 {
-	return access(path.c_str(), X_OK);
+	return access(path.c_str(), X_OK) == 0;
 }
 
 /* #endregion */
