@@ -17,7 +17,6 @@ namespace base
 		///
 		virtual std::string ToString() const = 0;
 
-	public:
 		///
 		/// @brief 重载强制转换为字符串的运算符。
 		///
@@ -39,6 +38,7 @@ namespace std
 	/// @return std::string
 	///
 	std::string to_string(base::ICanToString const &o);
+
 } // namespace std
 
 #if HAS_THREAD

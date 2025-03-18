@@ -1,7 +1,7 @@
 #include "LengthOrTypeEnum.h"
 #include <base/string/ToHexString.h>
 
-std::string base::ToString(base::ethernet::LengthOrTypeEnum value)
+std::string std::to_string(base::ethernet::LengthOrTypeEnum value)
 {
 	std::string ret;
 	switch (value)
@@ -55,6 +55,6 @@ std::string base::ToString(base::ethernet::LengthOrTypeEnum value)
 
 std::ostream &operator<<(std::ostream &os, base::ethernet::LengthOrTypeEnum length_type)
 {
-	os << base::ToString(length_type);
+	os << std::to_string(length_type);
 	return os;
 }
