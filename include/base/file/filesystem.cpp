@@ -26,24 +26,76 @@ bool base::filesystem::is_excuteable(std::string const &path)
 
 bool base::filesystem::is_directory(std::string const &path)
 {
-	return std::filesystem::is_directory(path);
+	std::error_code error_code{};
+	bool ret = std::filesystem::is_directory(path, error_code);
+	if (error_code.value() != 0)
+	{
+		std::string message = CODE_POS_STR;
+
+		message += std::format("错误代码：{}，错误消息：{}",
+							   error_code.value(),
+							   error_code.message());
+
+		throw std::runtime_error{message};
+	}
+
+	return ret;
 }
 
 bool base::filesystem::is_regular_file(std::string const &path)
 {
-	return std::filesystem::is_regular_file(path);
+	std::error_code error_code{};
+	bool ret = std::filesystem::is_regular_file(path, error_code);
+	if (error_code.value() != 0)
+	{
+		std::string message = CODE_POS_STR;
+
+		message += std::format("错误代码：{}，错误消息：{}",
+							   error_code.value(),
+							   error_code.message());
+
+		throw std::runtime_error{message};
+	}
+
+	return ret;
 }
 
 bool base::filesystem::is_symbolic_link(std::string const &path)
 {
-	return std::filesystem::is_symlink(path);
+	std::error_code error_code{};
+	bool ret = std::filesystem::is_symlink(path, error_code);
+	if (error_code.value() != 0)
+	{
+		std::string message = CODE_POS_STR;
+
+		message += std::format("错误代码：{}，错误消息：{}",
+							   error_code.value(),
+							   error_code.message());
+
+		throw std::runtime_error{message};
+	}
+
+	return ret;
 }
 
 /* #endregion */
 
 bool base::filesystem::exists(std::string const &path)
 {
-	return std::filesystem::exists(path);
+	std::error_code error_code{};
+	bool ret = std::filesystem::exists(path, error_code);
+	if (error_code.value() != 0)
+	{
+		std::string message = CODE_POS_STR;
+
+		message += std::format("检查文件是否存在失败。错误代码：{}，错误消息：{}",
+							   error_code.value(),
+							   error_code.message());
+
+		throw std::runtime_error{message};
+	}
+
+	return ret;
 }
 
 std::string base::filesystem::read_symlink(std::string const &path)
@@ -53,13 +105,42 @@ std::string base::filesystem::read_symlink(std::string const &path)
 		throw std::runtime_error{CODE_POS_STR + "传进来的路径必须是一个符号链接的路径。"};
 	}
 
-	std::filesystem::path target_path = std::filesystem::read_symlink(path);
+	std::error_code error_code{};
+	std::filesystem::path target_path = std::filesystem::read_symlink(path, error_code);
+	if (error_code.value() != 0)
+	{
+		std::string message = CODE_POS_STR;
+
+		message += std::format("读取符号链接失败。错误代码：{}，错误消息：{}",
+							   error_code.value(),
+							   error_code.message());
+
+		throw std::runtime_error{message};
+	}
+
 	return target_path.string();
 }
 
 void base::filesystem::create_directory(std::string const &path)
 {
-	std::filesystem::create_directory(path);
+	std::error_code error_code{};
+	bool ret = std::filesystem::create_directory(path, error_code);
+	if (error_code.value() != 0)
+	{
+		std::string message = CODE_POS_STR;
+
+		message += std::format("创建目录失败。错误代码：{}，错误消息：{}",
+							   error_code.value(),
+							   error_code.message());
+
+		throw std::runtime_error{message};
+	}
+
+	if (!ret)
+	{
+		std::string message = CODE_POS_STR + "创建目录失败，但是没有错误代码。";
+		throw std::runtime_error{message};
+	}
 }
 
 void base::filesystem::remove(std::string const &path)
@@ -70,11 +151,50 @@ void base::filesystem::remove(std::string const &path)
 		return;
 	}
 
+	std::error_code error_code{};
+
 	// 返回值是 uintmax_t ，含义是递归删除的项目总数。
-	auto removed_count = std::filesystem::remove_all(path);
+	auto removed_count = std::filesystem::remove_all(path, error_code);
+	if (error_code.value() != 0)
+	{
+		std::string message = CODE_POS_STR +
+							  std::format("删除失败。错误代码：{}，错误消息：{}",
+										  error_code.value(),
+										  error_code.message());
+
+		throw std::runtime_error{message};
+	}
+
 	if (removed_count == 0)
 	{
-		throw std::runtime_error{CODE_POS_STR + "删除失败。"};
+		std::string message = CODE_POS_STR + "删除失败，但是没有错误代码。";
+		throw std::runtime_error{message};
+	}
+}
+
+void base::filesystem::copy(std::string const &source_path,
+							std::string const &destination_path)
+{
+	std::error_code error_code{};
+
+	std::filesystem::copy_options options = std::filesystem::copy_options::recursive |
+											std::filesystem::copy_options::overwrite_existing |
+											std::filesystem::copy_options::copy_symlinks;
+
+	std::filesystem::copy(source_path,
+						  destination_path,
+						  options,
+						  error_code);
+
+	if (error_code.value() != 0)
+	{
+		std::string message = CODE_POS_STR;
+
+		message += std::format("拷贝失败。错误代码：{}，错误消息：{}",
+							   error_code.value(),
+							   error_code.message());
+
+		throw std::runtime_error{message};
 	}
 }
 

@@ -105,5 +105,16 @@ namespace base
 		///
 		void remove(std::string const &path);
 
+		///
+		/// @brief 将文件或目录从 source_path 复制到 destination_path.
+		///
+		/// @note 其中的符号链接本身会被赋值，不会进入到符号链接指向的实际位置去复制文件。
+		///
+		/// @param source_path
+		/// @param destination_path
+		///
+		void copy(std::string const &source_path,
+				  std::string const &destination_path);
+
 	} // namespace filesystem
 } // namespace base
