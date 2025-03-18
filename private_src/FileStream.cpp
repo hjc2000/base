@@ -1,6 +1,8 @@
-#include "FileStream.h"
+#include "FileStream.h" // IWYU pragma: keep
 
 #if HAS_THREAD
+
+/* #region 构造，析构 */
 
 base::FileStream::FileStream(std::string path)
 {
@@ -12,6 +14,8 @@ base::FileStream::~FileStream()
 	Close();
 }
 
+/* #endregion */
+
 /* #region 工厂函数 */
 
 std::shared_ptr<base::FileStream> base::FileStream::CreateNewAnyway(std::string path)
@@ -20,16 +24,20 @@ std::shared_ptr<base::FileStream> base::FileStream::CreateNewAnyway(std::string 
 
 	// 加上 ios_base::trunc，这样打开文件流后，如果原本存在此文件，就会将其截断，
 	// 让其初始长度变成 0，相当于一个新文件。
-	fs->_fs = std::shared_ptr<std::fstream>{
-		new std::fstream{
-			path,
-			std::ios_base::out | std::ios_base::in | std::ios_base::trunc | std::ios_base::binary,
-		},
-	};
+	auto flags = std::ios_base::out |
+				 std::ios_base::in |
+				 std::ios_base::trunc |
+				 std::ios_base::binary;
+
+	fs->_fs = std::shared_ptr<std::fstream>{new std::fstream{
+		path,
+		flags,
+	}};
 
 	if (fs->_fs->fail())
 	{
-		throw std::runtime_error{CODE_POS_STR + std::format("创建 {} 失败。检查文件是不是只读的。", path)};
+		std::string message = CODE_POS_STR + std::format("创建 {} 失败。检查文件是不是只读的。", path);
+		throw std::runtime_error{message};
 	}
 
 	fs->_can_read = true;
@@ -53,16 +61,19 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenExisting(std::string pat
 
 	std::shared_ptr<FileStream> fs{new FileStream{path}};
 
-	fs->_fs = std::shared_ptr<std::fstream>{
-		new std::fstream{
-			path,
-			std::ios_base::in | std::ios_base::out | std::ios_base::binary,
-		},
-	};
+	auto flags = std::ios_base::in |
+				 std::ios_base::out |
+				 std::ios_base::binary;
+
+	fs->_fs = std::shared_ptr<std::fstream>{new std::fstream{
+		path,
+		flags,
+	}};
 
 	if (fs->_fs->fail())
 	{
-		throw std::runtime_error{CODE_POS_STR + std::format("打开 {} 失败。检查文件是不是只读的。", path)};
+		std::string message = CODE_POS_STR + std::format("打开 {} 失败。检查文件是不是只读的。", path);
+		throw std::runtime_error{message};
 	}
 
 	fs->_can_read = true;
@@ -76,12 +87,14 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenReadOnly(std::string pat
 	if (!std::filesystem::exists(path))
 	{
 		// 文件不存在
-		throw std::runtime_error{CODE_POS_STR + std::format("文件 {} 不存在。", path)};
+		std::string message = CODE_POS_STR + std::format("文件 {} 不存在。", path);
+		throw std::runtime_error{message};
 	}
 
 	if (std::filesystem::is_directory(path))
 	{
-		throw std::runtime_error{CODE_POS_STR + std::format("{} 不是一个文件，而是一个目录", path)};
+		std::string message = CODE_POS_STR + std::format("{} 不是一个文件，而是一个目录", path);
+		throw std::runtime_error{message};
 	}
 
 	std::shared_ptr<FileStream> fs{new FileStream{path}};
@@ -95,7 +108,8 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenReadOnly(std::string pat
 
 	if (fs->_fs->fail())
 	{
-		throw std::runtime_error{CODE_POS_STR + std::format("打开 {} 失败。检查文件是不是只读的。", path)};
+		std::string message = CODE_POS_STR + std::format("打开 {} 失败。检查文件是不是只读的。", path);
+		throw std::runtime_error{message};
 	}
 
 	fs->_can_read = true;

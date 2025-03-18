@@ -35,7 +35,7 @@ namespace base
 
 		base::SafeQueue<T> _queue;
 
-		std::shared_ptr<base::IMutex> _lock = base::di::CreateIMutex();
+		std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
 
 		/// @brief 队列被消费了，需要入队了，就触发此信号。
 		/// @note 因为依赖 _max ，所以在构造函数中初始化。
@@ -43,7 +43,7 @@ namespace base
 
 		/// @brief 队列中有数据，可以退队时触发此信号。
 		/// @note 初始时队列为空，无法退队，所以初始计数为 0.
-		std::shared_ptr<base::ISemaphore> _queue_avaliable_signal = base::di::CreateISemaphore(0);
+		std::shared_ptr<base::ISemaphore> _queue_avaliable_signal = base::CreateISemaphore(0);
 
 	public:
 		/// @brief 构造函数
@@ -59,7 +59,7 @@ namespace base
 			_threshold = _max / 2;
 
 			// 初始时队列为空，允许入队 _max 次，所以初始计数为 _max.
-			_queue_consumed_signal = base::di::CreateISemaphore(_max);
+			_queue_consumed_signal = base::CreateISemaphore(_max);
 		}
 
 		~HysteresisBlockingQueue()

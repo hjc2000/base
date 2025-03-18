@@ -24,7 +24,7 @@ namespace base
 
 	private:
 		friend class CancellationTokenSource;
-		std::shared_ptr<base::IMutex> _lock = base::di::CreateIMutex();
+		std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
 		std::atomic_bool _is_cancellation_request = false;
 		std::map<uint64_t, std::function<void(void)>> _delegates;
 

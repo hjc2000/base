@@ -4,7 +4,7 @@
 
 	#include <StdMutex.h>
 
-std::shared_ptr<base::IMutex> base::di::CreateIMutex()
+std::shared_ptr<base::IMutex> base::CreateIMutex()
 {
 	return std::shared_ptr<base::IMutex>{new base::StdMutex{}};
 }

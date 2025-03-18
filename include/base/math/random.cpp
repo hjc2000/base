@@ -51,12 +51,12 @@ namespace
 	};
 } // namespace
 
-std::shared_ptr<base::IRandomGenerator> base::di::CreateRandomGenerator()
+std::shared_ptr<base::IRandomGenerator> base::CreateRandomGenerator()
 {
 	return std::shared_ptr<base::IRandomGenerator>{new RandomGenerator{}};
 }
 
-std::vector<int32_t> base::di::ShuffleIndex(int32_t count)
+std::vector<int32_t> base::ShuffleIndex(int32_t count)
 {
 	std::vector<int32_t> ret;
 	for (int32_t i = 0; i < count; i++)

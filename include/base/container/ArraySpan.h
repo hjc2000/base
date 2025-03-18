@@ -437,7 +437,7 @@ namespace base
 		void Shuffle()
 		{
 			std::vector<ItemType> temp_vec{};
-			std::vector<int32_t> index_vec = base::di::ShuffleIndex(Count());
+			std::vector<int32_t> index_vec = base::ShuffleIndex(Count());
 			for (int32_t index : index_vec)
 			{
 				temp_vec.push_back(Buffer()[index]);

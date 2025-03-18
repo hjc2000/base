@@ -95,7 +95,7 @@ base::usage::CalculationQuestionGenerator::CalculationQuestionGenerator(int32_t 
 	  _operator(op),
 	  _filter(filter)
 {
-	_random_generator = base::di::CreateRandomGenerator();
+	_random_generator = base::CreateRandomGenerator();
 }
 
 base::usage::CalculationQuestion base::usage::CalculationQuestionGenerator::Generate() const
@@ -116,7 +116,7 @@ base::usage::CalculationQuestion base::usage::CalculationQuestionGenerator::Gene
 
 void base::usage::GenerateCalculationQuestions()
 {
-	std::shared_ptr<base::IFileStream> fs = base::di::file::CreateNewAnyway("math.txt");
+	std::shared_ptr<base::IFileStream> fs = base::file::CreateNewAnyway("math.txt");
 	base::StreamWriter writer{fs};
 
 	std::function<bool(base::usage::CalculationQuestion const &)> filter{

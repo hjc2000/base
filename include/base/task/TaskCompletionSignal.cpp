@@ -112,5 +112,5 @@ void base::TaskCompletionSignal::Reset()
 		_task_completion_signal = nullptr;
 	}
 
-	_task_completion_signal = base::di::CreateISemaphore(0);
+	_task_completion_signal = base::CreateISemaphore(0);
 }

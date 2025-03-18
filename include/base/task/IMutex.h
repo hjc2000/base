@@ -19,13 +19,11 @@ namespace base
  */
 namespace base
 {
-	namespace di
-	{
-		/**
-		 * @brief 创建一个互斥量。
-		 *
-		 * @return std::shared_ptr<base::IMutex>
-		 */
-		std::shared_ptr<base::IMutex> CreateIMutex();
-	} // namespace di
+	/**
+	 * @brief 创建一个互斥量。
+	 *
+	 * @return std::shared_ptr<base::IMutex>
+	 */
+	std::shared_ptr<base::IMutex> CreateIMutex();
+
 } // namespace base
