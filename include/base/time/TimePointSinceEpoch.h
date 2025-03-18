@@ -1,30 +1,33 @@
 #pragma once
-#include <base/time/TimeSpan.h>
+#include "TimeSpan.h"
+#include <filesystem>
 
 namespace base
 {
-	/**
-	 * @brief 以 epoch 时刻作为零点的时刻。
-	 *
-	 * @note epoch 时刻是指 1970 年 1 月 1 日 00:00:00 UTC。
-	 *
-	 * @note 时刻就像电势那样没有绝对零点，只能选定一个参考的零点。电路中通常选择电源负极作为电势零点，
-	 * 本类选择 epoch 时刻作为时刻的零点。
-	 */
-	class TimePointSinceEpoch
+	///
+	/// @brief 以 epoch 时刻作为零点的时刻。
+	///
+	/// @note epoch 时刻是指 1970 年 1 月 1 日 00:00:00 UTC。
+	///
+	/// @note 时刻就像电势那样没有绝对零点，只能选定一个参考的零点。电路中通常选择电源负极作为电势零点，
+	/// 本类选择 epoch 时刻作为时刻的零点。
+	///
+	class TimePointSinceEpoch :
+		public base::ICanToString
 	{
 	private:
 		std::chrono::nanoseconds _time_since_epoch{};
 
 	public:
-		// 构造函数
+		/* #region 构造函数 */
 
-		/**
-		 * @brief 参构造。构造出来的时间刚好就是 epoch 时刻。
-		 *
-		 * @note epoch 时刻是指 1970 年 1 月 1 日 00:00:00 UTC。
-		 */
+		///
+		/// @brief 参构造。构造出来的时间刚好就是 epoch 时刻。
+		///
+		/// @note epoch 时刻是指 1970 年 1 月 1 日 00:00:00 UTC。
+		///
 		TimePointSinceEpoch();
+
 		explicit TimePointSinceEpoch(std::chrono::nanoseconds const &value);
 		explicit TimePointSinceEpoch(std::chrono::microseconds const &value);
 		explicit TimePointSinceEpoch(std::chrono::milliseconds const &value);
@@ -32,14 +35,16 @@ namespace base
 		explicit TimePointSinceEpoch(timespec const &value);
 
 #if HAS_THREAD
-		TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds> const &value);
-		TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds> const &value);
-		TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds> const &value);
-		TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds> const &value);
+		explicit TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds> const &value);
+		explicit TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds> const &value);
+		explicit TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds> const &value);
+		explicit TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds> const &value);
+
+		using FileClock = decltype(std::filesystem::directory_entry{}.last_write_time());
+		explicit TimePointSinceEpoch(FileClock const &value);
 #endif
 
-	public:
-		// 数据转换
+		/* #endregion */
 
 		explicit operator std::chrono::nanoseconds() const;
 		explicit operator std::chrono::microseconds() const;
@@ -52,12 +57,15 @@ namespace base
 		operator std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds>() const;
 		operator std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>() const;
 		operator std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>() const;
+		operator FileClock() const;
 
 		operator std::chrono::zoned_time<std::chrono::nanoseconds>() const;
 		operator std::chrono::zoned_time<std::chrono::microseconds>() const;
 		operator std::chrono::zoned_time<std::chrono::milliseconds>() const;
 		operator std::chrono::zoned_time<std::chrono::seconds>() const;
+#endif
 
+#if HAS_THREAD
 		std::chrono::zoned_time<std::chrono::nanoseconds> ToNanosecondsZonedTime() const;
 		std::chrono::zoned_time<std::chrono::microseconds> ToMicrosecondsZonedTime() const;
 		std::chrono::zoned_time<std::chrono::milliseconds> ToMillisecondsZonedTime() const;
@@ -69,8 +77,7 @@ namespace base
 		std::string SecondsZonedTimeString() const;
 #endif
 
-	public:
-		// 四则运算
+		/* #region 四则运算 */
 
 		/**
 		 * @brief 两个时刻相加没有物理意义。
@@ -135,15 +142,20 @@ namespace base
 		 * @return base::TimePointSinceEpoch&
 		 */
 		base::TimePointSinceEpoch &operator*=(int64_t value);
-
-	public:
-		// 比较
+		/* #endregion */
 
 		bool operator==(base::TimePointSinceEpoch const &another) const;
 		bool operator<(base::TimePointSinceEpoch const &another) const;
 		bool operator>(base::TimePointSinceEpoch const &another) const;
 		bool operator<=(base::TimePointSinceEpoch const &another) const;
 		bool operator>=(base::TimePointSinceEpoch const &another) const;
+
+		///
+		/// @brief 转化为字符串。
+		///
+		/// @return std::string
+		///
+		virtual std::string ToString() const override;
 	};
 } // namespace base
 

@@ -1,9 +1,12 @@
 #include "base/math/BigInteger.h"
 #include "base/net/IPAddress.h"
+#include "base/net/profinet/dcp/DcpIdentifyRequestReader.h"
 #include "base/string/Parse.h"
+#include "base/time/TimePointSinceEpoch.h"
+#include "base/usage/CountTriangle.h"
 #include "base/usage/GenerateCalculationQuestions.h"
-#include <base/net/profinet/dcp/DcpIdentifyRequestReader.h>
-#include <base/usage/CountTriangle.h>
+#include <filesystem>
+#include <iostream>
 
 int main()
 {
@@ -28,4 +31,12 @@ int main()
 	base::test::test_parse_int64();
 	base::test::test_parse_double();
 	base::usage::GenerateCalculationQuestions();
+
+	{
+		for (std::filesystem::directory_entry entry : std::filesystem::directory_iterator{"./"})
+		{
+			std::cout << entry.path().string() << std::endl;
+			std::cout << base::TimePointSinceEpoch{entry.last_write_time()} << std::endl;
+		}
+	}
 }
