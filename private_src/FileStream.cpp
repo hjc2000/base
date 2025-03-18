@@ -2,17 +2,24 @@
 
 #if HAS_THREAD
 
-	#include <filesystem>
-	#include <format>
-	#include <iostream>
+base::FileStream::FileStream(std::string path)
+{
+	_path = path;
+}
+
+base::FileStream::~FileStream()
+{
+	Close();
+}
+
+/* #region 工厂函数 */
 
 std::shared_ptr<base::FileStream> base::FileStream::CreateNewAnyway(std::string path)
 {
 	std::shared_ptr<FileStream> fs{new FileStream{path}};
 
-	/* 加上 ios_base::trunc，这样打开文件流后，如果原本存在此文件，就会将其截断，
-	 * 让其初始长度变成 0，相当于一个新文件。
-	 */
+	// 加上 ios_base::trunc，这样打开文件流后，如果原本存在此文件，就会将其截断，
+	// 让其初始长度变成 0，相当于一个新文件。
 	fs->_fs = std::shared_ptr<std::fstream>{
 		new std::fstream{
 			path,
@@ -97,15 +104,9 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenReadOnly(std::string pat
 	return fs;
 }
 
-base::FileStream::FileStream(std::string path)
-{
-	_path = path;
-}
+/* #endregion */
 
-base::FileStream::~FileStream()
-{
-	Close();
-}
+/* #region 流属性 */
 
 bool base::FileStream::CanRead() const
 {
@@ -165,6 +166,10 @@ void base::FileStream::SetPosition(int64_t value)
 	_fs->seekp(value);
 }
 
+/* #endregion */
+
+/* #region 读写冲关 */
+
 int32_t base::FileStream::Read(base::Span const &span)
 {
 	_fs->read(reinterpret_cast<char *>(span.Buffer()), span.Size());
@@ -188,5 +193,7 @@ void base::FileStream::Close()
 {
 	_fs->close();
 }
+
+/* #endregion */
 
 #endif // HAS_THREAD

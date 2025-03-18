@@ -53,10 +53,13 @@
 	#include <vector>
 
 	#if HAS_THREAD
+		#include <filesystem>
 		#include <format>
+		#include <fstream>
 		#include <iostream>
 		#include <mutex>
 		#include <semaphore>
+		#include <sstream>
 		#include <thread>
 
 	#endif

@@ -1,17 +1,10 @@
 #include "GenerateCalculationQuestions.h"
-#include "base/container/List.h"
-#include <iostream>
 
 #if HAS_THREAD
-	#include "base/container/Set.h"
-	#include "base/string/define.h"
+	#include <base/container/Set.h>
+	#include <base/file/IFileStream.h>
 	#include <base/math/random.h>
-	#include <base/stream/IFileStream.h>
 	#include <base/stream/StreamWriter.h>
-	#include <format>
-	#include <functional>
-	#include <stdexcept>
-	#include <string>
 
 base::usage::CalculationQuestion::CalculationQuestion(int32_t left, int32_t right, base::usage::Operator op)
 {
