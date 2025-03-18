@@ -248,6 +248,8 @@ base::TimePointSinceEpoch &base::TimePointSinceEpoch::operator*=(int64_t value)
 
 /* #endregion */
 
+/* #region 比较 */
+
 bool base::TimePointSinceEpoch::operator==(base::TimePointSinceEpoch const &another) const
 {
 	return _time_since_epoch == another._time_since_epoch;
@@ -272,6 +274,8 @@ bool base::TimePointSinceEpoch::operator>=(base::TimePointSinceEpoch const &anot
 {
 	return _time_since_epoch >= another._time_since_epoch;
 }
+
+/* #endregion */
 
 std::string base::TimePointSinceEpoch::ToString() const
 {
