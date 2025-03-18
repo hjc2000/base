@@ -23,25 +23,33 @@ namespace base
 		/* #region 工厂函数 */
 
 		///
+		/// @brief 先尝试打开文件。如果不存在会创建。
+		///
+		/// @param path
+		/// @return static_function
+		///
+		static_function std::shared_ptr<base::FileStream> OpenOrCreate(std::string path);
+
+		///
 		/// @brief 用创建模式打开文件流，无论如何都会创建一个新的空白文件。会覆盖旧的。
 		/// @param path 文件路径
 		/// @return 创建文件成功则返回 FileStream 对象。创建失败会抛出异常，不会返回空指针。
 		///
-		static_function std::shared_ptr<FileStream> CreateNewAnyway(std::string path);
+		static_function std::shared_ptr<base::FileStream> CreateNewAnyway(std::string path);
 
 		///
 		/// @brief 用打开模式打开一个存在的文件。如果文件不存在，此函数不会创建文件。
 		/// @param path 文件路径
 		/// @return 如果文件存在，且成功打开，则返回 FileStream 对象。失败会抛出异常，不会返回空指针。
 		///
-		static_function std::shared_ptr<FileStream> OpenExisting(std::string path);
+		static_function std::shared_ptr<base::FileStream> OpenExisting(std::string path);
 
 		///
 		/// @brief 以只读方式打开文件。
 		/// @param path 文件的路径。
 		/// @return 成功打开则返回 FileStream 对象。失败会抛出异常，不会返回空指针。
 		///
-		static_function std::shared_ptr<FileStream> OpenReadOnly(std::string path);
+		static_function std::shared_ptr<base::FileStream> OpenReadOnly(std::string path);
 		/* #endregion */
 
 		/* #region 流属性 */

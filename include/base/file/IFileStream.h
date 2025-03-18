@@ -105,6 +105,14 @@ namespace base
 	namespace file
 	{
 		///
+		/// @brief 先尝试打开文件。如果不存在会创建。
+		///
+		/// @param path
+		/// @return std::shared_ptr<base::IFileStream>
+		///
+		std::shared_ptr<base::IFileStream> OpenOrCreate(std::string const &path);
+
+		///
 		/// @brief 以只读方式打开文件。文件必须存在，否则会抛出异常。
 		///
 		/// @param path 文件的路径。

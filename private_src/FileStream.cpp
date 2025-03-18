@@ -19,27 +19,42 @@ base::FileStream::~FileStream()
 
 /* #region 工厂函数 */
 
-std::shared_ptr<base::FileStream> base::FileStream::CreateNewAnyway(std::string path)
+std::shared_ptr<base::FileStream> base::FileStream::OpenOrCreate(std::string path)
 {
-	if (base::filesystem::exists(path) && !base::filesystem::is_directory(path))
+	try
 	{
-		// 如果路径已经存在，并且不是目录，此时可能是一个常规文件，也可能是符号链接。反正只要不是目录，
-		// 接下来如果要创建同名的常规文件势必会覆盖。
-		if (!base::filesystem::is_readable(path))
+		if (!base::filesystem::exists(path))
 		{
-			throw std::runtime_error{CODE_POS_STR + "文件已经存在且不可读。"};
+			return CreateNewAnyway(path);
 		}
 
-		if (!base::filesystem::is_writeable(path))
+		// 执行到这里说明 path 存在。
+		if (base::filesystem::is_directory(path))
 		{
-			throw std::runtime_error{CODE_POS_STR + "文件已经存在且不可写。"};
+			// 是一个目录，直接创建新文件。
+			return CreateNewAnyway(path);
 		}
+
+		// 存在，且不是目录，直接打开。
+		return OpenExisting(path);
+	}
+	catch (std::exception const &e)
+	{
+		std::string message = CODE_POS_STR + e.what();
+		throw std::runtime_error{message};
+	}
+}
+
+std::shared_ptr<base::FileStream> base::FileStream::CreateNewAnyway(std::string path)
+{
+	if (base::filesystem::exists(path))
+	{
+		// 如果存在，不管是文件还是目录，统统删除。
+		base::filesystem::remove(path);
 	}
 
 	std::shared_ptr<FileStream> fs{new FileStream{path}};
 
-	// 加上 ios_base::trunc，这样打开文件流后，如果原本存在此文件，就会将其截断，
-	// 让其初始长度变成 0，相当于一个新文件。
 	auto flags = std::ios_base::out |
 				 std::ios_base::in |
 				 std::ios_base::trunc |
@@ -111,7 +126,6 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenReadOnly(std::string pat
 {
 	if (!base::filesystem::exists(path))
 	{
-		// 文件不存在
 		std::string message = CODE_POS_STR + std::format("文件 {} 不存在。", path);
 		throw std::runtime_error{message};
 	}

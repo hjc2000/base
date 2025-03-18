@@ -71,7 +71,11 @@ void base::filesystem::remove(std::string const &path)
 	}
 
 	// 返回值是 uintmax_t ，含义是递归删除的项目总数。
-	std::filesystem::remove_all(path);
+	auto removed_count = std::filesystem::remove_all(path);
+	if (removed_count == 0)
+	{
+		throw std::runtime_error{CODE_POS_STR + "删除失败。"};
+	}
 }
 
 #endif
