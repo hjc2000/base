@@ -1,5 +1,4 @@
 #pragma once
-#include <base/stream/ReadOnlySpan.h>
 #include <base/stream/Stream.h>
 #include <memory>
 #include <string>
