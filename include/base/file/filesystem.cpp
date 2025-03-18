@@ -175,6 +175,13 @@ void base::filesystem::remove(std::string const &path)
 void base::filesystem::copy(std::string const &source_path,
 							std::string const &destination_path)
 {
+	if (!base::filesystem::exists(source_path))
+	{
+		std::string message = CODE_POS_STR;
+		message += std::format("源路径 {} 不存在。", source_path);
+		throw std::runtime_error{message};
+	}
+
 	std::error_code error_code{};
 
 	std::filesystem::copy_options options = std::filesystem::copy_options::recursive |
@@ -191,6 +198,34 @@ void base::filesystem::copy(std::string const &source_path,
 		std::string message = CODE_POS_STR;
 
 		message += std::format("拷贝失败。错误代码：{}，错误消息：{}",
+							   error_code.value(),
+							   error_code.message());
+
+		throw std::runtime_error{message};
+	}
+}
+
+void base::filesystem::move(std::string const &source_path,
+							std::string const &destination_path)
+{
+	if (!base::filesystem::exists(source_path))
+	{
+		std::string message = CODE_POS_STR;
+		message += std::format("源路径 {} 不存在。", source_path);
+		throw std::runtime_error{message};
+	}
+
+	std::error_code error_code{};
+
+	std::filesystem::rename(source_path,
+							destination_path,
+							error_code);
+
+	if (error_code.value() != 0)
+	{
+		std::string message = CODE_POS_STR;
+
+		message += std::format("移动失败。错误代码：{}，错误消息：{}",
 							   error_code.value(),
 							   error_code.message());
 

@@ -116,5 +116,14 @@ namespace base
 		void copy(std::string const &source_path,
 				  std::string const &destination_path);
 
+		///
+		/// @brief 将文件或目录从 source_path 移动到 destination_path.
+		///
+		/// @param source_path
+		/// @param destination_path
+		///
+		void move(std::string const &source_path,
+				  std::string const &destination_path);
+
 	} // namespace filesystem
 } // namespace base
