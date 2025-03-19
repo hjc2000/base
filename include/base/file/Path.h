@@ -78,8 +78,9 @@ namespace base
 		/// 的相对路径。
 		///
 		/// @param base_path
+		/// @return base::Path
 		///
-		void RemoveBasePath(base::Path const &base_path);
+		base::Path RemoveBasePath(base::Path const &base_path) const;
 	};
 
 	namespace test

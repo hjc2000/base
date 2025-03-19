@@ -1,13 +1,10 @@
 #include "base/file/filesystem.h"
-#include "base/file/Path.h"
 #include "base/math/BigInteger.h"
 #include "base/net/IPAddress.h"
 #include "base/net/profinet/dcp/DcpIdentifyRequestReader.h"
 #include "base/string/Parse.h"
-#include "base/time/TimePointSinceEpoch.h"
 #include "base/usage/CountTriangle.h"
 #include "base/usage/GenerateCalculationQuestions.h"
-#include <filesystem>
 #include <iostream>
 
 int main()
@@ -38,10 +35,8 @@ int main()
 		// base::filesystem::create_directory("./test_dir");
 		// base::filesystem::copy("./test_dir", "./test_dir1");
 
-		for (std::filesystem::directory_entry entry : std::filesystem::directory_iterator{"C:/Users/huang/dev/cpp-lib-build-scripts/msys/.libs/base/bin"})
-		{
-			std::cout << base::Path{entry.path().string()} << std::endl;
-			std::cout << base::TimePointSinceEpoch{entry.last_write_time()} << std::endl;
-		}
+		base::filesystem::copy_append_directory("C:/Users/huang/dev/cpp-lib-build-scripts/msys/.libs/base/bin",
+												"C:/Users/huang/dev/.temp",
+												true);
 	}
 }

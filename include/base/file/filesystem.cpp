@@ -1,5 +1,6 @@
 #include "filesystem.h"
 #include "base/string/define.h"
+#include "Path.h"
 #include <filesystem>
 
 #if HAS_THREAD
@@ -282,7 +283,13 @@ void base::filesystem::copy_append_directory(std::string const &source_path,
 		throw std::runtime_error{message};
 	}
 
-	throw std::runtime_error{CODE_POS_STR + "还未完成"};
+	base::Path dst_base_path{destination_path};
+	base::Path src_base_path{source_path};
+	for (auto entry : std::filesystem::recursive_directory_iterator(source_path))
+	{
+		base::Path relative_path = base::Path{entry.path().string()}.RemoveBasePath(src_base_path);
+		std::cout << relative_path << std::endl;
+	}
 }
 
 #endif
