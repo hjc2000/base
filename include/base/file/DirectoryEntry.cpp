@@ -8,5 +8,5 @@ bool base::DirectoryEntry::IsReadable() const
 
 bool base::DirectoryEntry::IsDirectory() const
 {
-	return base::filesystem::is_directory(_path);
+	return base::filesystem::IsDirectory(_path);
 }

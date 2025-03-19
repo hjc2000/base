@@ -29,7 +29,7 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenOrCreate(std::string pat
 		}
 
 		// 执行到这里说明 path 存在。
-		if (base::filesystem::is_directory(path))
+		if (base::filesystem::IsDirectory(path))
 		{
 			// 是一个目录，直接创建新文件。
 			return CreateNewAnyway(path);
@@ -84,7 +84,7 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenExisting(std::string pat
 		throw std::runtime_error{CODE_POS_STR + std::format("文件 {} 不存在。", path)};
 	}
 
-	if (base::filesystem::is_directory(path))
+	if (base::filesystem::IsDirectory(path))
 	{
 		throw std::runtime_error{CODE_POS_STR + std::format("{} 不是一个文件，而是一个目录", path)};
 	}
@@ -130,7 +130,7 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenReadOnly(std::string pat
 		throw std::runtime_error{message};
 	}
 
-	if (base::filesystem::is_directory(path))
+	if (base::filesystem::IsDirectory(path))
 	{
 		std::string message = CODE_POS_STR + std::format("{} 不是一个文件，而是一个目录", path);
 		throw std::runtime_error{message};

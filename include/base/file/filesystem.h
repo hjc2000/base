@@ -57,7 +57,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool is_directory(base::Path const &path);
+		bool IsDirectory(base::Path const &path);
 
 		///
 		/// @brief 检查指定路径是否是一个常规的文件。
@@ -81,9 +81,9 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		inline bool is_file(base::Path const &path)
+		inline bool IsFile(base::Path const &path)
 		{
-			return !is_directory(path);
+			return !IsDirectory(path);
 		}
 
 		///

@@ -39,7 +39,7 @@ namespace
 			return;
 		}
 
-		if (base::filesystem::is_directory(destination_path))
+		if (base::filesystem::IsDirectory(destination_path))
 		{
 			std::string message = CODE_POS_STR;
 			message += std::format("目标路径 {} 存在且是一个目录，并且覆写选项不是指定 Skip。", source_path.ToString());
@@ -93,7 +93,7 @@ bool base::filesystem::IsExcuteable(base::Path const &path)
 
 /* #region 目标类型检查 */
 
-bool base::filesystem::is_directory(base::Path const &path)
+bool base::filesystem::IsDirectory(base::Path const &path)
 {
 	std::error_code error_code{};
 	bool ret = std::filesystem::is_directory(path.ToString(), error_code);
@@ -229,7 +229,7 @@ void base::filesystem::ensure_directory(base::Path const &path)
 	}
 
 	// 目标路径存在
-	if (!base::filesystem::is_directory(path))
+	if (!base::filesystem::IsDirectory(path))
 	{
 		std::string message = CODE_POS_STR;
 
@@ -281,7 +281,7 @@ void base::filesystem::copy(base::Path const &source_path,
 	}
 
 	// 执行到这里说明源路径存在
-	if (is_file(source_path))
+	if (IsFile(source_path))
 	{
 		copy_file(source_path, destination_path, overwrite_method);
 		return;
@@ -297,7 +297,7 @@ void base::filesystem::copy(base::Path const &source_path,
 		base::Path src_path = source_path + relative_path;
 		base::Path dst_path = destination_path + relative_path;
 
-		if (is_file(src_path))
+		if (IsFile(src_path))
 		{
 			// 源路径是一个文件
 			copy_file(src_path, dst_path, overwrite_method);
