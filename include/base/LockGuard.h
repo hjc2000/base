@@ -2,7 +2,9 @@
 
 namespace base
 {
+	///
 	/// @brief 锁接口
+	///
 	class ILock
 	{
 	public:
@@ -10,8 +12,10 @@ namespace base
 		virtual void Unlock() = 0;
 	};
 
+	///
 	/// @brief 锁守卫。
 	/// @note 构造时加锁，析构时解锁。
+	///
 	class LockGuard final
 	{
 	private:
@@ -30,8 +34,10 @@ namespace base
 		}
 	};
 
+	///
 	/// @brief 解锁守卫。
 	/// @note 构造时解锁，析构时加锁。与 LockGuard 相反。
+	///
 	class UnlockGuard final
 	{
 	private:
