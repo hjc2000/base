@@ -92,7 +92,9 @@ namespace base
 		///
 		/// @brief 创建一个目录。
 		///
-		/// @param path
+		/// @param path 要创建的目录的路径。
+		///
+		/// @exception std::runtime_error 目标路径已存在会抛出异常。
 		///
 		void create_directory(std::string const &path);
 
@@ -113,6 +115,8 @@ namespace base
 		/// @param source_path
 		/// @param destination_path
 		///
+		/// @exception std::runtime_error 目标路径已存在会抛出异常。
+		///
 		void copy(std::string const &source_path,
 				  std::string const &destination_path);
 
@@ -121,6 +125,8 @@ namespace base
 		///
 		/// @param source_path
 		/// @param destination_path
+		///
+		/// @exception std::runtime_error 目标路径已存在会抛出异常。
 		///
 		void move(std::string const &source_path,
 				  std::string const &destination_path);

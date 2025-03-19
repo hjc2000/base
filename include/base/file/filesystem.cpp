@@ -123,10 +123,11 @@ std::string base::filesystem::read_symlink(std::string const &path)
 
 void base::filesystem::create_directory(std::string const &path)
 {
-	if (base::filesystem::exists(path) && base::filesystem::is_directory(path))
+	if (base::filesystem::exists(path))
 	{
-		// 已经存在该目录了，直接返回。
-		return;
+		std::string message = CODE_POS_STR;
+		message += std::format("目标路径 {} 已存在。", path);
+		throw std::runtime_error{message};
 	}
 
 	std::error_code error_code{};
@@ -188,6 +189,13 @@ void base::filesystem::copy(std::string const &source_path,
 		throw std::runtime_error{message};
 	}
 
+	if (base::filesystem::exists(destination_path))
+	{
+		std::string message = CODE_POS_STR;
+		message += std::format("目标路径 {} 已存在。", destination_path);
+		throw std::runtime_error{message};
+	}
+
 	std::error_code error_code{};
 
 	std::filesystem::copy_options options = std::filesystem::copy_options::recursive |
@@ -218,6 +226,13 @@ void base::filesystem::move(std::string const &source_path,
 	{
 		std::string message = CODE_POS_STR;
 		message += std::format("源路径 {} 不存在。", source_path);
+		throw std::runtime_error{message};
+	}
+
+	if (base::filesystem::exists(destination_path))
+	{
+		std::string message = CODE_POS_STR;
+		message += std::format("目标路径 {} 已存在。", destination_path);
 		throw std::runtime_error{message};
 	}
 

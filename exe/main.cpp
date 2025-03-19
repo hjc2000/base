@@ -34,12 +34,13 @@ int main()
 	base::usage::GenerateCalculationQuestions();
 
 	{
+		base::filesystem::create_directory("./test_dir");
+		base::filesystem::copy("./test_dir", "./test_dir1");
+
 		for (std::filesystem::directory_entry entry : std::filesystem::directory_iterator{"C:/Users/huang/dev/cpp-lib-build-scripts/msys/.libs/base/bin"})
 		{
 			std::cout << entry.path().string() << std::endl;
 			std::cout << base::TimePointSinceEpoch{entry.last_write_time()} << std::endl;
 		}
-
-		base::filesystem::create_directory("./test_dir");
 	}
 }
