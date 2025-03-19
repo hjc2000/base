@@ -93,7 +93,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool is_symbolic_link(base::Path const &path);
+		bool IsSymbolicLink(base::Path const &path);
 		/* #endregion */
 
 		///
@@ -105,7 +105,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool exists(base::Path const &path);
+		bool Exists(base::Path const &path);
 
 		///
 		/// @brief 读取符号链接指向的路径。
@@ -113,7 +113,7 @@ namespace base
 		/// @param path
 		/// @return base::Path
 		///
-		base::Path read_symlink(base::Path const &path);
+		base::Path ReadSymlink(base::Path const &path);
 
 		///
 		/// @brief 创建一个目录。
@@ -122,7 +122,7 @@ namespace base
 		///
 		/// @exception std::runtime_error 目标路径已存在会抛出异常。
 		///
-		void create_directory(base::Path const &path);
+		void CreateDirectory(base::Path const &path);
 
 		///
 		/// @brief 确保目标路径是一个存在的目录。
@@ -131,7 +131,7 @@ namespace base
 		///
 		/// @exception runtime_error 如果目标路径已存在，但不是目录，会抛出异常。
 		///
-		void ensure_directory(base::Path const &path);
+		void EnsureDirectory(base::Path const &path);
 
 		///
 		/// @brief 删除目录或文件或符号链接。
@@ -140,7 +140,7 @@ namespace base
 		///
 		/// @param path
 		///
-		void remove(base::Path const &path);
+		void Remove(base::Path const &path);
 
 		///
 		/// @brief 将文件或目录从 source_path 复制到 destination_path.
@@ -153,7 +153,7 @@ namespace base
 		///
 		/// @exception std::runtime_error 目标路径已存在会抛出异常。
 		///
-		void copy(base::Path const &source_path,
+		void Copy(base::Path const &source_path,
 				  base::Path const &destination_path,
 				  base::filesystem::OverwriteOption overwrite_method);
 
@@ -165,7 +165,7 @@ namespace base
 		///
 		/// @exception std::runtime_error 目标路径已存在会抛出异常。
 		///
-		void move(base::Path const &source_path,
+		void Move(base::Path const &source_path,
 				  base::Path const &destination_path);
 
 	} // namespace filesystem

@@ -23,7 +23,7 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenOrCreate(std::string pat
 {
 	try
 	{
-		if (!base::filesystem::exists(path))
+		if (!base::filesystem::Exists(path))
 		{
 			return CreateNewAnyway(path);
 		}
@@ -47,10 +47,10 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenOrCreate(std::string pat
 
 std::shared_ptr<base::FileStream> base::FileStream::CreateNewAnyway(std::string path)
 {
-	if (base::filesystem::exists(path))
+	if (base::filesystem::Exists(path))
 	{
 		// 如果存在，不管是文件还是目录，统统删除。
-		base::filesystem::remove(path);
+		base::filesystem::Remove(path);
 	}
 
 	std::shared_ptr<FileStream> fs{new FileStream{path}};
@@ -79,7 +79,7 @@ std::shared_ptr<base::FileStream> base::FileStream::CreateNewAnyway(std::string 
 
 std::shared_ptr<base::FileStream> base::FileStream::OpenExisting(std::string path)
 {
-	if (!base::filesystem::exists(path))
+	if (!base::filesystem::Exists(path))
 	{
 		throw std::runtime_error{CODE_POS_STR + std::format("文件 {} 不存在。", path)};
 	}
@@ -124,7 +124,7 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenExisting(std::string pat
 
 std::shared_ptr<base::FileStream> base::FileStream::OpenReadOnly(std::string path)
 {
-	if (!base::filesystem::exists(path))
+	if (!base::filesystem::Exists(path))
 	{
 		std::string message = CODE_POS_STR + std::format("文件 {} 不存在。", path);
 		throw std::runtime_error{message};

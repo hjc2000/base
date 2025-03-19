@@ -39,7 +39,7 @@ int main()
 		base::Path src_path{"C:/Users/huang/dev/.temp/src"};
 		base::Path dst_path{"C:/Users/huang/dev/.temp/dst"};
 
-		base::filesystem::copy(src_path,
+		base::filesystem::Copy(src_path,
 							   dst_path,
 							   base::filesystem::OverwriteOption::Overwrite);
 	}
