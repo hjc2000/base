@@ -1,10 +1,17 @@
 #pragma once
-#include <string>
+#include "Path.h"
 
 namespace base
 {
 	namespace filesystem
 	{
+		enum class OverwriteMethod
+		{
+			Skip,
+			Update,
+			Overwrite,
+		};
+
 		/* #region 访问权限检查 */
 
 		///
@@ -14,7 +21,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool is_readable(std::string const &path);
+		bool is_readable(base::Path const &path);
 
 		///
 		/// @brief 检查文件或目录是否可写。
@@ -23,7 +30,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool is_writeable(std::string const &path);
+		bool is_writeable(base::Path const &path);
 
 		///
 		/// @brief 检查文件或目录是否可执行。
@@ -34,7 +41,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool is_excuteable(std::string const &path);
+		bool is_excuteable(base::Path const &path);
 		/* #endregion */
 
 		/* #region 目标类型检查 */
@@ -46,7 +53,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool is_directory(std::string const &path);
+		bool is_directory(base::Path const &path);
 
 		///
 		/// @brief 检查指定路径是否是一个常规的文件。
@@ -58,7 +65,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool is_regular_file(std::string const &path);
+		bool is_regular_file(base::Path const &path);
 
 		///
 		/// @brief 检查指定路径是否是一个符号链接。
@@ -67,7 +74,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool is_symbolic_link(std::string const &path);
+		bool is_symbolic_link(base::Path const &path);
 		/* #endregion */
 
 		///
@@ -79,15 +86,15 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool exists(std::string const &path);
+		bool exists(base::Path const &path);
 
 		///
 		/// @brief 读取符号链接指向的路径。
 		///
 		/// @param path
-		/// @return std::string
+		/// @return base::Path
 		///
-		std::string read_symlink(std::string const &path);
+		base::Path read_symlink(base::Path const &path);
 
 		///
 		/// @brief 创建一个目录。
@@ -96,7 +103,7 @@ namespace base
 		///
 		/// @exception std::runtime_error 目标路径已存在会抛出异常。
 		///
-		void create_directory(std::string const &path);
+		void create_directory(base::Path const &path);
 
 		///
 		/// @brief 删除目录或文件或符号链接。
@@ -105,7 +112,7 @@ namespace base
 		///
 		/// @param path
 		///
-		void remove(std::string const &path);
+		void remove(base::Path const &path);
 
 		///
 		/// @brief 将文件或目录从 source_path 复制到 destination_path.
@@ -114,11 +121,13 @@ namespace base
 		///
 		/// @param source_path
 		/// @param destination_path
+		/// @param overwrite_method
 		///
 		/// @exception std::runtime_error 目标路径已存在会抛出异常。
 		///
-		void copy(std::string const &source_path,
-				  std::string const &destination_path);
+		void copy(base::Path const &source_path,
+				  base::Path const &destination_path,
+				  base::filesystem::OverwriteMethod overwrite_method);
 
 		///
 		/// @brief 将文件或目录从 source_path 移动到 destination_path.
@@ -128,19 +137,8 @@ namespace base
 		///
 		/// @exception std::runtime_error 目标路径已存在会抛出异常。
 		///
-		void move(std::string const &source_path,
-				  std::string const &destination_path);
-
-		///
-		/// @brief 将源路径的目录拷贝到目标路径的目录进行合并。
-		///
-		/// @param source_path 源路径，必须是一个目录。
-		/// @param destination_path 目标路径。必须是不存在的路径或者已存在的目录。
-		/// @param overwrite_existing_file 拷贝到目标路径时是否覆盖已存在的文件。
-		///
-		void copy_append_directory(std::string const &source_path,
-								   std::string const &destination_path,
-								   bool overwrite_existing_file);
+		void move(base::Path const &source_path,
+				  base::Path const &destination_path);
 
 	} // namespace filesystem
 } // namespace base

@@ -2,35 +2,113 @@
 #include "base/string/define.h"
 #include "Path.h"
 #include <filesystem>
+#include <string>
 
 #if HAS_THREAD
 	#include <unistd.h>
 
+namespace
+{
+	void copy_file(base::Path const &source_path,
+				   base::Path const &destination_path,
+				   base::filesystem::OverwriteMethod overwrite_method)
+	{
+		if (base::filesystem::exists(destination_path))
+		{
+			// 目标路径存在
+			if (overwrite_method == base::filesystem::OverwriteMethod::Skip)
+			{
+				std::cout << "跳过：" << source_path << " --> " << destination_path << std::endl;
+				return;
+			}
+
+			if (base::filesystem::is_directory(destination_path))
+			{
+				std::string message = CODE_POS_STR;
+				message += std::format("目标路径 {} 存在且是一个目录，并且覆写选项不是指定 Skip。", source_path.ToString());
+				throw std::runtime_error{message};
+			}
+
+			if (overwrite_method == base::filesystem::OverwriteMethod::Overwrite)
+			{
+				base::filesystem::remove(destination_path);
+				std::cout << "覆盖：" << source_path << " --> " << destination_path << std::endl;
+			}
+			else if (overwrite_method == base::filesystem::OverwriteMethod::Update)
+			{
+				std::filesystem::directory_entry src_entry{source_path.ToString()};
+				std::filesystem::directory_entry dst_entry{destination_path.ToString()};
+				if (src_entry.last_write_time() <= dst_entry.last_write_time())
+				{
+					std::cout << "不更新：" << source_path << " --> " << destination_path << std::endl;
+					return;
+				}
+
+				base::filesystem::remove(destination_path);
+				std::cout << "更新：" << source_path << " --> " << destination_path << std::endl;
+			}
+		}
+		else
+		{
+			std::cout << "复制：" << source_path << " --> " << destination_path << std::endl;
+		}
+
+		std::filesystem::copy_options options = std::filesystem::copy_options::copy_symlinks;
+		std::filesystem::copy(source_path.ToString(), destination_path.ToString(), options);
+	}
+
+	///
+	/// @brief 确保目标路径是一个存在的目录。
+	///
+	/// @param path
+	///
+	void ensure_directory(base::Path const &path)
+	{
+		if (!base::filesystem::exists(path))
+		{
+			// 目标路径不存在，则创建空目录
+			base::filesystem::create_directory(path);
+			return;
+		}
+
+		// 目标路径存在
+		if (!base::filesystem::is_directory(path))
+		{
+			std::string message = CODE_POS_STR;
+
+			message += std::format("目标路径 {} 已存在但不是目录。",
+								   path.ToString());
+
+			throw std::runtime_error{message};
+		}
+	}
+} // namespace
+
 /* #region 访问权限检查 */
 
-bool base::filesystem::is_readable(std::string const &path)
+bool base::filesystem::is_readable(base::Path const &path)
 {
-	return access(path.c_str(), R_OK) == 0;
+	return access(path.ToString().c_str(), R_OK) == 0;
 }
 
-bool base::filesystem::is_writeable(std::string const &path)
+bool base::filesystem::is_writeable(base::Path const &path)
 {
-	return access(path.c_str(), W_OK) == 0;
+	return access(path.ToString().c_str(), W_OK) == 0;
 }
 
-bool base::filesystem::is_excuteable(std::string const &path)
+bool base::filesystem::is_excuteable(base::Path const &path)
 {
-	return access(path.c_str(), X_OK) == 0;
+	return access(path.ToString().c_str(), X_OK) == 0;
 }
 
 /* #endregion */
 
 /* #region 目标类型检查 */
 
-bool base::filesystem::is_directory(std::string const &path)
+bool base::filesystem::is_directory(base::Path const &path)
 {
 	std::error_code error_code{};
-	bool ret = std::filesystem::is_directory(path, error_code);
+	bool ret = std::filesystem::is_directory(path.ToString(), error_code);
 	if (error_code.value() != 0)
 	{
 		std::string message = CODE_POS_STR;
@@ -45,10 +123,10 @@ bool base::filesystem::is_directory(std::string const &path)
 	return ret;
 }
 
-bool base::filesystem::is_regular_file(std::string const &path)
+bool base::filesystem::is_regular_file(base::Path const &path)
 {
 	std::error_code error_code{};
-	bool ret = std::filesystem::is_regular_file(path, error_code);
+	bool ret = std::filesystem::is_regular_file(path.ToString(), error_code);
 	if (error_code.value() != 0)
 	{
 		std::string message = CODE_POS_STR;
@@ -63,10 +141,10 @@ bool base::filesystem::is_regular_file(std::string const &path)
 	return ret;
 }
 
-bool base::filesystem::is_symbolic_link(std::string const &path)
+bool base::filesystem::is_symbolic_link(base::Path const &path)
 {
 	std::error_code error_code{};
-	bool ret = std::filesystem::is_symlink(path, error_code);
+	bool ret = std::filesystem::is_symlink(path.ToString(), error_code);
 	if (error_code.value() != 0)
 	{
 		std::string message = CODE_POS_STR;
@@ -83,10 +161,10 @@ bool base::filesystem::is_symbolic_link(std::string const &path)
 
 /* #endregion */
 
-bool base::filesystem::exists(std::string const &path)
+bool base::filesystem::exists(base::Path const &path)
 {
 	std::error_code error_code{};
-	bool ret = std::filesystem::exists(path, error_code);
+	bool ret = std::filesystem::exists(path.ToString(), error_code);
 	if (error_code.value() != 0)
 	{
 		std::string message = CODE_POS_STR;
@@ -101,7 +179,7 @@ bool base::filesystem::exists(std::string const &path)
 	return ret;
 }
 
-std::string base::filesystem::read_symlink(std::string const &path)
+base::Path base::filesystem::read_symlink(base::Path const &path)
 {
 	if (!is_symbolic_link(path))
 	{
@@ -109,7 +187,7 @@ std::string base::filesystem::read_symlink(std::string const &path)
 	}
 
 	std::error_code error_code{};
-	std::filesystem::path target_path = std::filesystem::read_symlink(path, error_code);
+	std::filesystem::path target_path = std::filesystem::read_symlink(path.ToString(), error_code);
 	if (error_code.value() != 0)
 	{
 		std::string message = CODE_POS_STR;
@@ -124,17 +202,17 @@ std::string base::filesystem::read_symlink(std::string const &path)
 	return target_path.string();
 }
 
-void base::filesystem::create_directory(std::string const &path)
+void base::filesystem::create_directory(base::Path const &path)
 {
 	if (base::filesystem::exists(path))
 	{
 		std::string message = CODE_POS_STR;
-		message += std::format("目标路径 {} 已存在。", path);
+		message += std::format("目标路径 {} 已存在。", path.ToString());
 		throw std::runtime_error{message};
 	}
 
 	std::error_code error_code{};
-	bool ret = std::filesystem::create_directory(path, error_code);
+	bool ret = std::filesystem::create_directory(path.ToString(), error_code);
 	if (error_code.value() != 0)
 	{
 		std::string message = CODE_POS_STR;
@@ -153,7 +231,7 @@ void base::filesystem::create_directory(std::string const &path)
 	}
 }
 
-void base::filesystem::remove(std::string const &path)
+void base::filesystem::remove(base::Path const &path)
 {
 	if (!exists(path))
 	{
@@ -164,7 +242,7 @@ void base::filesystem::remove(std::string const &path)
 	std::error_code error_code{};
 
 	// 返回值是 uintmax_t ，含义是递归删除的项目总数。
-	auto removed_count = std::filesystem::remove_all(path, error_code);
+	auto removed_count = std::filesystem::remove_all(path.ToString(), error_code);
 	if (error_code.value() != 0)
 	{
 		std::string message = CODE_POS_STR +
@@ -182,67 +260,69 @@ void base::filesystem::remove(std::string const &path)
 	}
 }
 
-void base::filesystem::copy(std::string const &source_path,
-							std::string const &destination_path)
+void base::filesystem::copy(base::Path const &source_path,
+							base::Path const &destination_path,
+							base::filesystem::OverwriteMethod overwrite_method)
 {
 	if (!base::filesystem::exists(source_path))
 	{
 		std::string message = CODE_POS_STR;
-		message += std::format("源路径 {} 不存在。", source_path);
+		message += std::format("源路径 {} 不存在。", source_path.ToString());
 		throw std::runtime_error{message};
 	}
 
-	if (base::filesystem::exists(destination_path))
+	// 执行到这里说明源路径存在
+	if (!base::filesystem::is_directory(source_path))
 	{
-		std::string message = CODE_POS_STR;
-		message += std::format("目标路径 {} 已存在。", destination_path);
-		throw std::runtime_error{message};
+		// 源路径不是目录
+		copy_file(source_path, destination_path, overwrite_method);
+		return;
 	}
 
-	std::error_code error_code{};
+	// 执行到这里说明源路径是目录
+	ensure_directory(destination_path);
 
-	std::filesystem::copy_options options = std::filesystem::copy_options::recursive |
-											std::filesystem::copy_options::overwrite_existing |
-											std::filesystem::copy_options::copy_symlinks;
-
-	std::filesystem::copy(source_path,
-						  destination_path,
-						  options,
-						  error_code);
-
-	if (error_code.value() != 0)
+	// 开始递归复制
+	for (auto entry : std::filesystem::recursive_directory_iterator(source_path.ToString()))
 	{
-		std::string message = CODE_POS_STR;
+		base::Path relative_path = base::Path{entry.path().string()}.RemoveBasePath(source_path);
+		base::Path src_path = source_path + relative_path;
+		base::Path dst_path = destination_path + relative_path;
 
-		message += std::format("拷贝失败。错误代码：{}，错误消息：{}",
-							   error_code.value(),
-							   error_code.message());
-
-		throw std::runtime_error{message};
+		if (!is_directory(src_path))
+		{
+			// 源路径是一个文件
+			copy_file(src_path, dst_path, overwrite_method);
+		}
+		else
+		{
+			// 源路径是一个目录
+			ensure_directory(dst_path);
+		}
 	}
 }
 
-void base::filesystem::move(std::string const &source_path,
-							std::string const &destination_path)
+void base::filesystem::move(base::Path const &source_path,
+							base::Path const &destination_path)
 {
 	if (!base::filesystem::exists(source_path))
 	{
 		std::string message = CODE_POS_STR;
-		message += std::format("源路径 {} 不存在。", source_path);
+		message += std::format("源路径 {} 不存在。", source_path.ToString());
 		throw std::runtime_error{message};
 	}
 
 	if (base::filesystem::exists(destination_path))
 	{
 		std::string message = CODE_POS_STR;
-		message += std::format("目标路径 {} 已存在。", destination_path);
+		message += std::format("目标路径 {} 已存在。", destination_path.ToString());
 		throw std::runtime_error{message};
 	}
 
 	std::error_code error_code{};
 
-	std::filesystem::rename(source_path,
-							destination_path,
+	std::filesystem::rename(source_path.ToString(),
+							destination_path.ToString(),
 							error_code);
 
 	if (error_code.value() != 0)
@@ -254,41 +334,6 @@ void base::filesystem::move(std::string const &source_path,
 							   error_code.message());
 
 		throw std::runtime_error{message};
-	}
-}
-
-void base::filesystem::copy_append_directory(std::string const &source_path,
-											 std::string const &destination_path,
-											 bool overwrite_existing_file)
-{
-	if (!base::filesystem::exists(source_path))
-	{
-		std::string message = CODE_POS_STR;
-		message += std::format("源路径 {} 不存在。", source_path);
-		throw std::runtime_error{message};
-	}
-
-	if (!base::filesystem::is_directory(source_path))
-	{
-		std::string message = CODE_POS_STR;
-		message += std::format("源路径 {} 存在但不是一个目录，无法将源目录追加到目标目录。", source_path);
-		throw std::runtime_error{message};
-	}
-
-	if (base::filesystem::exists(destination_path) &&
-		!base::filesystem::is_directory(destination_path))
-	{
-		std::string message = CODE_POS_STR;
-		message += std::format("目标路径 {} 存在且不是一个目录，无法将内容追加到目标路径。", source_path);
-		throw std::runtime_error{message};
-	}
-
-	base::Path dst_base_path{destination_path};
-	base::Path src_base_path{source_path};
-	for (auto entry : std::filesystem::recursive_directory_iterator(source_path))
-	{
-		base::Path relative_path = base::Path{entry.path().string()}.RemoveBasePath(src_base_path);
-		std::cout << relative_path << std::endl;
 	}
 }
 

@@ -22,6 +22,11 @@ base::Path::Path(base::String const &path)
 		_path = _path[base::Range{2, _path.Length()}];
 	}
 
+	while (_path.Contains("/./"))
+	{
+		_path.Replace("/./", "/");
+	}
+
 	// 去除路径结尾的斜杠
 	if (_path.Length() > 1 && _path.EndWith('/'))
 	{
@@ -104,11 +109,6 @@ bool base::Path::IsWindowsDiskPath() const
 
 base::Path base::Path::operator+(base::Path const &another) const
 {
-	if (!IsAbsolutePath())
-	{
-		throw std::invalid_argument{CODE_POS_STR + "本路径必须是绝对路径才能拼接一个相对路径到本路径。"};
-	}
-
 	if (another.IsAbsolutePath())
 	{
 		throw std::invalid_argument{CODE_POS_STR + "要被拼接到本路径的路径必须是相对路径。"};

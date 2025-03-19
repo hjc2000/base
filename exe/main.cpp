@@ -1,4 +1,5 @@
 #include "base/file/filesystem.h"
+#include "base/file/Path.h"
 #include "base/math/BigInteger.h"
 #include "base/net/IPAddress.h"
 #include "base/net/profinet/dcp/DcpIdentifyRequestReader.h"
@@ -35,8 +36,11 @@ int main()
 		// base::filesystem::create_directory("./test_dir");
 		// base::filesystem::copy("./test_dir", "./test_dir1");
 
-		base::filesystem::copy_append_directory("C:/Users/huang/dev/cpp-lib-build-scripts/msys/.libs/base/bin",
-												"C:/Users/huang/dev/.temp",
-												true);
+		base::Path src_path{"C:/Users/huang/dev/.temp/src"};
+		base::Path dst_path{"C:/Users/huang/dev/.temp/dst"};
+
+		base::filesystem::copy(src_path,
+							   dst_path,
+							   base::filesystem::OverwriteMethod::Update);
 	}
 }
