@@ -1,7 +1,7 @@
 #include "FileStream.h" // IWYU pragma: keep
+#include "base/file/filesystem.h"
 
 #if HAS_THREAD
-	#include <base/file/filesystem.h>
 
 /* #region 构造，析构 */
 
