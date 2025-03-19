@@ -24,7 +24,6 @@
 	#include <base/container/IRawArray.h>
 	#include <base/container/iterator/IEnumerator.h>
 	#include <base/container/List.h>
-	#include <base/di/SingletonGetter.h>
 	#include <base/Guard.h>
 	#include <base/IDisposable.h>
 	#include <base/LockGuard.h>
@@ -52,7 +51,6 @@
 	#include <stdexcept>
 	#include <string>
 	#include <vector>
-
 
 	#if HAS_THREAD
 		#include <filesystem>
