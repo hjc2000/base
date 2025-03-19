@@ -83,8 +83,10 @@ namespace base
 		base::Path RemoveBasePath(base::Path const &base_path) const;
 	};
 
+#if HAS_THREAD
 	namespace test
 	{
 		void test_path();
 	} // namespace test
+#endif // HAS_THREAD
 } // namespace base

@@ -146,6 +146,8 @@ base::Path base::Path::RemoveBasePath(base::Path const &base_path) const
 	return base::Path{str};
 }
 
+#if HAS_THREAD
+
 void base::test::test_path()
 {
 	base::Path path{"C:/Users/huang/dev/cpp-lib-build-scripts/msys/.libs/base/bin/"};
@@ -163,3 +165,5 @@ void base::test::test_path()
 
 	std::cout << "拼接结果：" << (path + path1) << std::endl;
 }
+
+#endif // HAS_THREAD
