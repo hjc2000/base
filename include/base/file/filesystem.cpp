@@ -3,9 +3,9 @@
 #include "Path.h"
 #include <filesystem>
 #include <string>
+#include <unistd.h>
 
 #if HAS_THREAD
-	#include <unistd.h>
 
 namespace
 {
