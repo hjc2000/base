@@ -81,4 +81,9 @@ namespace base
 		///
 		void RemoveBasePath(base::Path const &base_path);
 	};
+
+	namespace test
+	{
+		void test_path();
+	} // namespace test
 } // namespace base

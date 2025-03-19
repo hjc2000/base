@@ -144,3 +144,21 @@ void base::Path::RemoveBasePath(base::Path const &base_path)
 
 	_path = _path[base::Range{base_path_str.Length(), _path.Length()}];
 }
+
+void base::test::test_path()
+{
+	base::Path path{"C:/Users/huang/dev/cpp-lib-build-scripts/msys/.libs/base/bin/"};
+	std::cout << path << std::endl;
+	std::cout << "IsRootPath: " << path.IsRootPath() << std::endl;
+	std::cout << "IsAbsolutePath: " << path.IsAbsolutePath() << std::endl;
+	std::cout << "IsWindowsDiskPath: " << path.IsWindowsDiskPath() << std::endl;
+
+	base::Path path1 = path;
+	path1.RemoveBasePath("C:/Users/huang/dev/cpp-lib-build-scripts/");
+	std::cout << path1 << std::endl;
+	std::cout << "IsRootPath: " << path1.IsRootPath() << std::endl;
+	std::cout << "IsAbsolutePath: " << path1.IsAbsolutePath() << std::endl;
+	std::cout << "IsWindowsDiskPath: " << path1.IsWindowsDiskPath() << std::endl;
+
+	std::cout << "拼接结果：" << (path + path1) << std::endl;
+}
