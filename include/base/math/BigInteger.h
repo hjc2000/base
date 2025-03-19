@@ -1,7 +1,7 @@
 #pragma once
-#include <base/string/ICanToString.h>
-#include <base/string/String.h>
-#include <boost/multiprecision/cpp_int.hpp>
+#include "base/string/ICanToString.h"
+#include "base/string/String.h"
+#include "boost/multiprecision/cpp_int.hpp" // IWYU pragma: keep
 #include <type_traits>
 
 namespace base

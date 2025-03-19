@@ -1,4 +1,5 @@
 #include "BigInteger.h"
+#include <iostream>
 
 std::string base::BigInteger::ToString() const
 {
@@ -26,7 +27,6 @@ std::string base::BigInteger::ToString() const
 }
 
 #if HAS_THREAD
-	#include <iostream>
 
 void base::test::TestBigInteger()
 {
