@@ -1,6 +1,9 @@
 #include "Path.h"
 #include "base/container/Range.h"
 #include "base/string/character.h"
+#include "base/string/define.h"
+#include "base/string/String.h"
+#include <stdexcept>
 
 base::Path::Path(base::String const &path)
 {
@@ -69,7 +72,7 @@ bool base::Path::IsRootPath() const
 	return false;
 }
 
-bool base::Path::AbsolutePath() const
+bool base::Path::IsAbsolutePath() const
 {
 	if (_path.StartWith('/'))
 	{
@@ -97,4 +100,48 @@ bool base::Path::IsWindowsDiskPath() const
 	}
 
 	return false;
+}
+
+base::Path base::Path::operator+(base::Path const &another)
+{
+	base::Path ret{*this};
+	ret += another;
+	return ret;
+}
+
+base::Path &base::Path::operator+=(base::Path const &another)
+{
+	if (!IsAbsolutePath())
+	{
+		throw std::invalid_argument{CODE_POS_STR + "本路径必须是绝对路径才能拼接一个相对路径到本路径。"};
+	}
+
+	if (another.IsAbsolutePath())
+	{
+		throw std::invalid_argument{CODE_POS_STR + "要被拼接到本路径的路径必须是相对路径。"};
+	}
+
+	_path += another._path;
+	return *this;
+}
+
+void base::Path::RemoveBasePath(base::Path const &base_path)
+{
+	base::String base_path_str = base_path.ToString();
+	if (!base_path_str.EndWith('/'))
+	{
+		base_path_str += '/';
+	}
+
+	if (!_path.StartWith(base_path_str))
+	{
+		throw std::invalid_argument{
+			CODE_POS_STR +
+			base_path.ToString() +
+			" 不是本路径 " +
+			ToString() +
+			" 的相对路径。"};
+	}
+
+	_path = _path[base::Range{base_path_str.Length(), _path.Length()}];
 }

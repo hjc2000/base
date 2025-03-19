@@ -46,28 +46,16 @@ int main()
 	}
 
 	{
-		base::Path path{".///d/df\\\\\\a/f/af/////\\\\\\"};
+		base::Path path{"C:/Users/huang/dev/cpp-lib-build-scripts/msys/.libs/base/bin/"};
 		std::cout << path << std::endl;
 		std::cout << "IsRootPath: " << path.IsRootPath() << std::endl;
+		std::cout << "IsAbsolutePath: " << path.IsAbsolutePath() << std::endl;
+		std::cout << "IsWindowsDiskPath: " << path.IsWindowsDiskPath() << std::endl;
 
-		path = base::Path{"..///d/df\\\\\\a/f/af/////\\\\\\"};
+		path.RemoveBasePath("C:/Users/huang/dev/cpp-lib-build-scripts/");
 		std::cout << path << std::endl;
 		std::cout << "IsRootPath: " << path.IsRootPath() << std::endl;
-
-		path = base::Path{"c:"};
-		std::cout << path << std::endl;
-		std::cout << "IsRootPath: " << path.IsRootPath() << std::endl;
-
-		path = base::Path{"c:/"};
-		std::cout << path << std::endl;
-		std::cout << "IsRootPath: " << path.IsRootPath() << std::endl;
-
-		path = base::Path{"/"};
-		std::cout << path << std::endl;
-		std::cout << "IsRootPath: " << path.IsRootPath() << std::endl;
-
-		path = base::Path{"//"};
-		std::cout << path << std::endl;
-		std::cout << "IsRootPath: " << path.IsRootPath() << std::endl;
+		std::cout << "IsAbsolutePath: " << path.IsAbsolutePath() << std::endl;
+		std::cout << "IsWindowsDiskPath: " << path.IsWindowsDiskPath() << std::endl;
 	}
 }

@@ -136,7 +136,9 @@ base::TimePointSinceEpoch::operator s_time_point() const
 
 base::TimePointSinceEpoch::operator file_clock_time_point() const
 {
-	auto delta = std::chrono::system_clock::now().time_since_epoch() - std::filesystem::file_time_type::clock::now().time_since_epoch();
+	auto delta = std::chrono::system_clock::now().time_since_epoch() -
+				 std::filesystem::file_time_type::clock::now().time_since_epoch();
+
 	return file_clock_time_point{_time_since_epoch - delta};
 }
 
