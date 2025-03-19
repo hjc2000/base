@@ -281,11 +281,11 @@ namespace base
 
 		/* #endregion */
 
-		/**
-		 * @brief 转化为字符串
-		 *
-		 * @return std::string
-		 */
+		///
+		/// @brief 转化为字符串
+		///
+		/// @return std::string
+		///
 		virtual std::string ToString() const override;
 	};
 

@@ -1,15 +1,15 @@
 #pragma once
-#include <base/string/ICanToString.h>
+#include "base/string/ICanToString.h"
 #include <cstdint>
 #include <string>
 #include <vector>
 
 namespace base
 {
-	/**
-	 * @brief 组合。
-	 *
-	 */
+	///
+	/// @brief 组合。
+	///
+	///
 	class Combination :
 		public base::ICanToString
 	{
@@ -20,50 +20,49 @@ namespace base
 		std::vector<int> _current_combination;
 
 	public:
-		/**
-		 * @brief 组合。从 n 个里面选出任意 m 个进行组合。
-		 *
-		 * @param n
-		 * @param m
-		 */
+		///
+		/// @brief 组合。从 n 个里面选出任意 m 个进行组合。
+		///
+		/// @param n
+		/// @param m
+		///
 		Combination(int n, int m);
 
-	public:
-		/**
-		 * @brief 当前组合。
-		 *
-		 * @return std::vector<int> const&
-		 */
+		///
+		/// @brief 当前组合。
+		///
+		/// @return std::vector<int> const&
+		///
 		std::vector<int> const &Current() const;
 
-		/**
-		 * @brief 直接访问 Current() 属性返回的向量的指定索引位置的值。
-		 *
-		 * @param index
-		 * @return int
-		 */
+		///
+		/// @brief 直接访问 Current() 属性返回的向量的指定索引位置的值。
+		///
+		/// @param index
+		/// @return int
+		///
 		int operator[](int index) const;
 
-		/**
-		 * @brief 移动到下一个组合。
-		 *
-		 * @return true
-		 * @return false
-		 */
+		///
+		/// @brief 移动到下一个组合。
+		///
+		/// @return true
+		/// @return false
+		///
 		bool MoveToNext();
 
-		/**
-		 * @brief 一共有多少种组合。
-		 *
-		 * @return int64_t
-		 */
+		///
+		/// @brief 一共有多少种组合。
+		///
+		/// @return int64_t
+		///
 		int64_t Count() const;
 
-		/**
-		 * @brief 转化为字符串
-		 *
-		 * @return std::string
-		 */
+		///
+		/// @brief 转化为字符串
+		///
+		/// @return std::string
+		///
 		virtual std::string ToString() const override;
 	};
 } // namespace base

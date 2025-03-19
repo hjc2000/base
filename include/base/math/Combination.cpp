@@ -1,6 +1,6 @@
 #include "Combination.h"
+#include "base/math/Factorial.h"
 #include "base/string/define.h"
-#include <base/math/Factorial.h>
 #include <cstdint>
 #include <stdexcept>
 

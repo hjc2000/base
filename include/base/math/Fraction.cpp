@@ -1,5 +1,4 @@
 #include "Fraction.h"
-#include <boost/multiprecision/cpp_int.hpp>
 #include <numeric>
 #include <stdexcept>
 

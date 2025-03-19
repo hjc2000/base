@@ -1,7 +1,5 @@
 #include "DirectionDetecter.h"
 
-using namespace base;
-
 void base::DirectionDetecter::UpdateDirectionChangeField()
 {
 	if (_last_direction == DirectionDetecter_Direction::Falling &&
@@ -83,7 +81,7 @@ void base::DirectionDetecter::Input(double value)
 
 #if HAS_THREAD
 
-#include <iostream>
+	#include <iostream>
 
 void base::Test_DirectionDetecter()
 {
