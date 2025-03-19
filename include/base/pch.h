@@ -12,6 +12,7 @@
 #include <base/string/define.h>
 
 #ifdef __cplusplus
+	#include "base/container/iterator/IEnumerable.h"
 	#include <algorithm>
 	#include <array>
 	#include <atomic>
@@ -21,7 +22,6 @@
 	#include <base/container/IDictionary.h>
 	#include <base/container/IList.h>
 	#include <base/container/IRawArray.h>
-	#include <base/container/iterator/IEnumerable.h>
 	#include <base/container/iterator/IEnumerator.h>
 	#include <base/container/List.h>
 	#include <base/di/SingletonGetter.h>
@@ -52,6 +52,7 @@
 	#include <stdexcept>
 	#include <string>
 	#include <vector>
+
 
 	#if HAS_THREAD
 		#include <filesystem>

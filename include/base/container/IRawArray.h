@@ -1,8 +1,6 @@
 #pragma once
-#include <base/container/ArraySpan.h>
-#include <base/container/iterator/IEnumerable.h>
-#include <base/sfinae/Compare.h>
-#include <base/string/define.h>
+#include "base/container/ArraySpan.h"
+#include "base/container/iterator/IEnumerable.h"
 
 namespace base
 {

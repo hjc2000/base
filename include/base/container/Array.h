@@ -1,6 +1,6 @@
 #pragma once
+#include "base/container/IRawArray.h"
 #include <array>
-#include <base/container/IRawArray.h>
 #include <initializer_list>
 
 namespace base
