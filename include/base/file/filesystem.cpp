@@ -9,6 +9,15 @@
 
 namespace
 {
+	///
+	/// @brief 拷贝单个文件。
+	///
+	/// @warning 这里没有进行检查。必须确保源路径是一个文件。
+	///
+	/// @param source_path
+	/// @param destination_path
+	/// @param overwrite_method
+	///
 	void copy_file(base::Path const &source_path,
 				   base::Path const &destination_path,
 				   base::filesystem::OverwriteMethod overwrite_method)
