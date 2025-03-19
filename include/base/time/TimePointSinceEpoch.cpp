@@ -34,6 +34,8 @@ base::TimePointSinceEpoch::TimePointSinceEpoch(timespec const &value)
 }
 
 #if HAS_THREAD
+/* #region 从时间点构造 */
+
 base::TimePointSinceEpoch::TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock,
 																	   std::chrono::nanoseconds> const &value)
 {
@@ -58,11 +60,17 @@ base::TimePointSinceEpoch::TimePointSinceEpoch(std::chrono::time_point<std::chro
 	_time_since_epoch = value.time_since_epoch();
 }
 
-base::TimePointSinceEpoch::TimePointSinceEpoch(FileClock const &value)
+base::TimePointSinceEpoch::TimePointSinceEpoch(file_clock_time_point const &value)
 {
 	_time_since_epoch = value.time_since_epoch();
-	_time_since_epoch += std::chrono::seconds{static_cast<int64_t>(2025 - 1821) * 365 * 24 * 60 * 60};
+
+	auto delta = std::chrono::system_clock::now().time_since_epoch() -
+				 std::filesystem::file_time_type::clock::now().time_since_epoch();
+
+	_time_since_epoch += delta;
 }
+
+/* #endregion */
 #endif
 
 /* #endregion */
@@ -104,66 +112,67 @@ base::TimePointSinceEpoch::operator timespec() const
 }
 
 #if HAS_THREAD
-base::TimePointSinceEpoch::operator std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>() const
+/* #region 转换为时间点 */
+
+base::TimePointSinceEpoch::operator ns_time_point() const
 {
-	return std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>{
-		static_cast<std::chrono::nanoseconds>(*this),
-	};
+	return ns_time_point{static_cast<std::chrono::nanoseconds>(*this)};
 }
 
-base::TimePointSinceEpoch::operator std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds>() const
+base::TimePointSinceEpoch::operator us_time_point() const
 {
-	return std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds>{
-		static_cast<std::chrono::microseconds>(*this),
-	};
+	return us_time_point{static_cast<std::chrono::microseconds>(*this)};
 }
 
-base::TimePointSinceEpoch::operator std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>() const
+base::TimePointSinceEpoch::operator ms_time_point() const
 {
-	return std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>{
-		static_cast<std::chrono::milliseconds>(*this),
-	};
+	return ms_time_point{static_cast<std::chrono::milliseconds>(*this)};
 }
 
-base::TimePointSinceEpoch::operator std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>() const
+base::TimePointSinceEpoch::operator s_time_point() const
 {
-	return std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>{
-		static_cast<std::chrono::seconds>(*this),
-	};
+	return s_time_point{static_cast<std::chrono::seconds>(*this)};
 }
 
-base::TimePointSinceEpoch::operator FileClock() const
+base::TimePointSinceEpoch::operator file_clock_time_point() const
 {
-	return FileClock{_time_since_epoch - std::chrono::seconds{static_cast<int64_t>(2025 - 1821) * 365 * 24 * 60 * 60}};
+	auto delta = std::chrono::system_clock::now().time_since_epoch() - std::filesystem::file_time_type::clock::now().time_since_epoch();
+	return file_clock_time_point{_time_since_epoch - delta};
 }
+
+/* #endregion */
+
+/* #region 转换为 zoned_time */
 
 base::TimePointSinceEpoch::operator std::chrono::zoned_time<std::chrono::nanoseconds>() const
 {
 	base::TimePointSinceEpoch utc8 = *this + 8 * base::TimeSpan{std::chrono::seconds{60 * 60}};
-	auto time_point = static_cast<std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>>(utc8);
+	auto time_point = static_cast<ns_time_point>(utc8);
 	return std::chrono::zoned_time<std::chrono::nanoseconds>{"UTC", time_point};
 }
 
 base::TimePointSinceEpoch::operator std::chrono::zoned_time<std::chrono::microseconds>() const
 {
 	base::TimePointSinceEpoch utc8 = *this + 8 * base::TimeSpan{std::chrono::seconds{60 * 60}};
-	auto time_point = static_cast<std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds>>(utc8);
+	auto time_point = static_cast<us_time_point>(utc8);
 	return std::chrono::zoned_time<std::chrono::microseconds>{"UTC", time_point};
 }
 
 base::TimePointSinceEpoch::operator std::chrono::zoned_time<std::chrono::milliseconds>() const
 {
 	base::TimePointSinceEpoch utc8 = *this + 8 * base::TimeSpan{std::chrono::seconds{60 * 60}};
-	auto time_point = static_cast<std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>>(utc8);
+	auto time_point = static_cast<ms_time_point>(utc8);
 	return std::chrono::zoned_time<std::chrono::milliseconds>{"UTC", time_point};
 }
 
 base::TimePointSinceEpoch::operator std::chrono::zoned_time<std::chrono::seconds>() const
 {
 	base::TimePointSinceEpoch utc8 = *this + 8 * base::TimeSpan{std::chrono::seconds{60 * 60}};
-	auto time_point = static_cast<std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>>(utc8);
+	auto time_point = static_cast<s_time_point>(utc8);
 	return std::chrono::zoned_time<std::chrono::seconds>{"UTC", time_point};
 }
+
+/* #endregion */
 #endif
 
 /* #endregion */
@@ -242,6 +251,8 @@ bool base::TimePointSinceEpoch::operator>=(base::TimePointSinceEpoch const &anot
 /* #region 转换为字符串 */
 
 #if HAS_THREAD
+/* #region 转换为区域时间字符串 */
+
 std::string base::TimePointSinceEpoch::NanosecondsZonedTimeString() const
 {
 	return std::format("{:%Y-%m-%d %H:%M:%S}", static_cast<std::chrono::zoned_time<std::chrono::nanoseconds>>(*this));
@@ -261,6 +272,8 @@ std::string base::TimePointSinceEpoch::SecondsZonedTimeString() const
 {
 	return std::format("{:%Y-%m-%d %H:%M:%S}", static_cast<std::chrono::zoned_time<std::chrono::seconds>>(*this));
 }
+
+/* #endregion */
 #endif
 
 std::string base::TimePointSinceEpoch::ToString() const
