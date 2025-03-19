@@ -22,8 +22,16 @@ namespace base
 		///
 		virtual std::string ToString() const override;
 
-		bool IsRootPath() const
-		{
-		}
+		///
+		/// @brief 检查本路径是否是根路径。
+		///
+		/// @return true
+		/// @return false
+		///
+		bool IsRootPath() const;
+
+		bool AbsolutePath() const;
+
+		bool IsWindowsDiskPath() const;
 	};
 } // namespace base

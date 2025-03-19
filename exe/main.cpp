@@ -43,8 +43,31 @@ int main()
 			std::cout << base::Path{entry.path().string()} << std::endl;
 			std::cout << base::TimePointSinceEpoch{entry.last_write_time()} << std::endl;
 		}
+	}
 
-		std::cout << base::Path{".///d/df\\\\\\a/f/af/////\\\\\\"} << std::endl;
-		std::cout << base::Path{"..///d/df\\\\\\a/f/af/////\\\\\\"} << std::endl;
+	{
+		base::Path path{".///d/df\\\\\\a/f/af/////\\\\\\"};
+		std::cout << path << std::endl;
+		std::cout << "IsRootPath: " << path.IsRootPath() << std::endl;
+
+		path = base::Path{"..///d/df\\\\\\a/f/af/////\\\\\\"};
+		std::cout << path << std::endl;
+		std::cout << "IsRootPath: " << path.IsRootPath() << std::endl;
+
+		path = base::Path{"c:"};
+		std::cout << path << std::endl;
+		std::cout << "IsRootPath: " << path.IsRootPath() << std::endl;
+
+		path = base::Path{"c:/"};
+		std::cout << path << std::endl;
+		std::cout << "IsRootPath: " << path.IsRootPath() << std::endl;
+
+		path = base::Path{"/"};
+		std::cout << path << std::endl;
+		std::cout << "IsRootPath: " << path.IsRootPath() << std::endl;
+
+		path = base::Path{"//"};
+		std::cout << path << std::endl;
+		std::cout << "IsRootPath: " << path.IsRootPath() << std::endl;
 	}
 }
