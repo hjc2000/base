@@ -13,48 +13,53 @@ namespace
 				   base::Path const &destination_path,
 				   base::filesystem::OverwriteMethod overwrite_method)
 	{
-		if (base::filesystem::exists(destination_path))
-		{
-			// 目标路径存在
-			if (overwrite_method == base::filesystem::OverwriteMethod::Skip)
-			{
-				std::cout << "跳过：" << source_path << " --> " << destination_path << std::endl;
-				return;
-			}
-
-			if (base::filesystem::is_directory(destination_path))
-			{
-				std::string message = CODE_POS_STR;
-				message += std::format("目标路径 {} 存在且是一个目录，并且覆写选项不是指定 Skip。", source_path.ToString());
-				throw std::runtime_error{message};
-			}
-
-			if (overwrite_method == base::filesystem::OverwriteMethod::Overwrite)
-			{
-				base::filesystem::remove(destination_path);
-				std::cout << "覆盖：" << source_path << " --> " << destination_path << std::endl;
-			}
-			else if (overwrite_method == base::filesystem::OverwriteMethod::Update)
-			{
-				std::filesystem::directory_entry src_entry{source_path.ToString()};
-				std::filesystem::directory_entry dst_entry{destination_path.ToString()};
-				if (src_entry.last_write_time() <= dst_entry.last_write_time())
-				{
-					std::cout << "不更新：" << source_path << " --> " << destination_path << std::endl;
-					return;
-				}
-
-				base::filesystem::remove(destination_path);
-				std::cout << "更新：" << source_path << " --> " << destination_path << std::endl;
-			}
-		}
-		else
-		{
-			std::cout << "复制：" << source_path << " --> " << destination_path << std::endl;
-		}
-
 		std::filesystem::copy_options options = std::filesystem::copy_options::copy_symlinks;
+
+		if (!base::filesystem::exists(destination_path))
+		{
+			// 目标路径不存在，直接复制。
+			std::cout << "复制：" << source_path << " --> " << destination_path << std::endl;
+			std::filesystem::copy(source_path.ToString(), destination_path.ToString(), options);
+			return;
+		}
+
+		// 目标路径存在
+		if (overwrite_method == base::filesystem::OverwriteMethod::Skip)
+		{
+			std::cout << "跳过：" << source_path << " --> " << destination_path << std::endl;
+			return;
+		}
+
+		if (base::filesystem::is_directory(destination_path))
+		{
+			std::string message = CODE_POS_STR;
+			message += std::format("目标路径 {} 存在且是一个目录，并且覆写选项不是指定 Skip。", source_path.ToString());
+			throw std::runtime_error{message};
+		}
+
+		if (overwrite_method == base::filesystem::OverwriteMethod::Overwrite)
+		{
+			// 无条件覆盖。
+			base::filesystem::remove(destination_path);
+			std::filesystem::copy(source_path.ToString(), destination_path.ToString(), options);
+			std::cout << "覆盖：" << source_path << " --> " << destination_path << std::endl;
+			return;
+		}
+
+		// 如果更新则覆盖
+		std::filesystem::directory_entry src_entry{source_path.ToString()};
+		std::filesystem::directory_entry dst_entry{destination_path.ToString()};
+		if (src_entry.last_write_time() <= dst_entry.last_write_time())
+		{
+			std::cout << "不更新：" << source_path << " --> " << destination_path << std::endl;
+			return;
+		}
+
+		// 需要更新
+		base::filesystem::remove(destination_path);
 		std::filesystem::copy(source_path.ToString(), destination_path.ToString(), options);
+		std::cout << "更新：" << source_path << " --> " << destination_path << std::endl;
+		return;
 	}
 
 	///
