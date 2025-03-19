@@ -84,7 +84,7 @@ bool base::filesystem::IsWriteable(base::Path const &path)
 	return access(path.ToString().c_str(), W_OK) == 0;
 }
 
-bool base::filesystem::is_excuteable(base::Path const &path)
+bool base::filesystem::IsExcuteable(base::Path const &path)
 {
 	return access(path.ToString().c_str(), X_OK) == 0;
 }

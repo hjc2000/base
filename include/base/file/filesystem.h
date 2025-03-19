@@ -45,7 +45,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool is_excuteable(base::Path const &path);
+		bool IsExcuteable(base::Path const &path);
 		/* #endregion */
 
 		/* #region 目标类型检查 */
