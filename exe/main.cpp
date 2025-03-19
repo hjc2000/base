@@ -41,6 +41,6 @@ int main()
 
 		base::filesystem::copy(src_path,
 							   dst_path,
-							   base::filesystem::OverwriteMethod::Update);
+							   base::filesystem::OverwriteMethod::Overwrite);
 	}
 }
