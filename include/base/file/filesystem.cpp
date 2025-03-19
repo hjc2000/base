@@ -1,4 +1,6 @@
 #include "filesystem.h"
+#include "base/string/define.h"
+#include <filesystem>
 
 #if HAS_THREAD
 	#include <unistd.h>
@@ -252,6 +254,35 @@ void base::filesystem::move(std::string const &source_path,
 
 		throw std::runtime_error{message};
 	}
+}
+
+void base::filesystem::copy_append_directory(std::string const &source_path,
+											 std::string const &destination_path,
+											 bool overwrite_existing_file)
+{
+	if (!base::filesystem::exists(source_path))
+	{
+		std::string message = CODE_POS_STR;
+		message += std::format("源路径 {} 不存在。", source_path);
+		throw std::runtime_error{message};
+	}
+
+	if (!base::filesystem::is_directory(source_path))
+	{
+		std::string message = CODE_POS_STR;
+		message += std::format("源路径 {} 存在但不是一个目录，无法将源目录追加到目标目录。", source_path);
+		throw std::runtime_error{message};
+	}
+
+	if (base::filesystem::exists(destination_path) &&
+		!base::filesystem::is_directory(destination_path))
+	{
+		std::string message = CODE_POS_STR;
+		message += std::format("目标路径 {} 存在且不是一个目录，无法将内容追加到目标路径。", source_path);
+		throw std::runtime_error{message};
+	}
+
+	throw std::runtime_error{CODE_POS_STR + "还未完成"};
 }
 
 #endif

@@ -131,5 +131,9 @@ namespace base
 		void move(std::string const &source_path,
 				  std::string const &destination_path);
 
+		void copy_append_directory(std::string const &source_path,
+								   std::string const &destination_path,
+								   bool overwrite_existing_file);
+
 	} // namespace filesystem
 } // namespace base
