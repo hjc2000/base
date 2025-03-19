@@ -1,7 +1,5 @@
 #include "HysteresisElement.h"
 
-using namespace base;
-
 base::HysteresisElement::HysteresisElement(HysteresisElement_RisingThreshold const &rising_threshold,
 										   HysteresisElement_FallenThreshold const &fallen_threshold)
 {
@@ -33,7 +31,7 @@ bool base::HysteresisElement::Input(double x)
 	return _current_output;
 }
 
-HysteresisElement_OutputChange base::HysteresisElement::OutputChange() const
+base::HysteresisElement_OutputChange base::HysteresisElement::OutputChange() const
 {
 	if (!_last_output && _current_output)
 	{

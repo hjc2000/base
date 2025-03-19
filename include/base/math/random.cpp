@@ -1,6 +1,6 @@
 #include "random.h"
+#include "base/define.h"
 #include <algorithm>
-#include <base/define.h>
 #include <cstdint>
 #include <memory>
 #include <random>
