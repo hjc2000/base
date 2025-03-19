@@ -69,7 +69,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool is_regular_file(base::Path const &path);
+		bool IsRegularFile(base::Path const &path);
 
 		///
 		/// @brief 是否是广义的文件。
