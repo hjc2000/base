@@ -3,10 +3,10 @@
 
 namespace base
 {
-	/**
-	 * @brief 终结点家族枚举
-	 *
-	 */
+	///
+	/// @brief 终结点家族枚举
+	///
+	///
 	enum class EndPointFamily
 	{
 		UNIX = 1,
@@ -44,10 +44,10 @@ namespace base
 		BTH = 32,
 	};
 
-	/**
-	 * @brief 终结点
-	 *
-	 */
+	///
+	/// @brief 终结点
+	///
+	///
 	class IEndPoint :
 		public base::IJsonSerializable
 	{
