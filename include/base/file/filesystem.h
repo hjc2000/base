@@ -106,6 +106,15 @@ namespace base
 		void create_directory(base::Path const &path);
 
 		///
+		/// @brief 确保目标路径是一个存在的目录。
+		///
+		/// @param path
+		///
+		/// @exception runtime_error 如果目标路径已存在，但不是目录，会抛出异常。
+		///
+		void ensure_directory(base::Path const &path);
+
+		///
 		/// @brief 删除目录或文件或符号链接。
 		///
 		/// @note 删除符号链接是是删除符号链接本身，不会跟踪到符号链接指向的位置去删除。

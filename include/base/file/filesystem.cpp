@@ -70,32 +70,6 @@ namespace
 		std::cout << "更新：" << source_path << " --> " << destination_path << std::endl;
 		return;
 	}
-
-	///
-	/// @brief 确保目标路径是一个存在的目录。
-	///
-	/// @param path
-	///
-	void ensure_directory(base::Path const &path)
-	{
-		if (!base::filesystem::exists(path))
-		{
-			// 目标路径不存在，则创建空目录
-			base::filesystem::create_directory(path);
-			return;
-		}
-
-		// 目标路径存在
-		if (!base::filesystem::is_directory(path))
-		{
-			std::string message = CODE_POS_STR;
-
-			message += std::format("目标路径 {} 已存在但不是目录。",
-								   path.ToString());
-
-			throw std::runtime_error{message};
-		}
-	}
 } // namespace
 
 /* #region 访问权限检查 */
@@ -245,6 +219,27 @@ void base::filesystem::create_directory(base::Path const &path)
 	}
 }
 
+void base::filesystem::ensure_directory(base::Path const &path)
+{
+	if (!base::filesystem::exists(path))
+	{
+		// 目标路径不存在，则创建空目录
+		base::filesystem::create_directory(path);
+		return;
+	}
+
+	// 目标路径存在
+	if (!base::filesystem::is_directory(path))
+	{
+		std::string message = CODE_POS_STR;
+
+		message += std::format("目标路径 {} 已存在但不是目录。",
+							   path.ToString());
+
+		throw std::runtime_error{message};
+	}
+}
+
 void base::filesystem::remove(base::Path const &path)
 {
 	if (!exists(path))
@@ -351,4 +346,4 @@ void base::filesystem::move(base::Path const &source_path,
 	}
 }
 
-#endif
+#endif // HAS_THREAD
