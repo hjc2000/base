@@ -21,5 +21,9 @@ namespace base
 		/// @return std::string
 		///
 		virtual std::string ToString() const override;
+
+		bool IsRootPath() const
+		{
+		}
 	};
 } // namespace base

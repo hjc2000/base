@@ -1,22 +1,7 @@
 #include "String.h"
 #include "base/container/Range.h"
+#include <base/string/character.h>
 #include <stdexcept>
-
-bool base::String::IsWhiteChar(char value)
-{
-	switch (value)
-	{
-	case ' ':
-	case '\t':
-	case '\r':
-	case '\n':
-		{
-			return true;
-		}
-	}
-
-	return false;
-}
 
 /* #region 构造函数 */
 
@@ -255,7 +240,7 @@ void base::String::TrimStart()
 
 	for (int32_t i = 0; i < static_cast<int32_t>(_string.size()); i++)
 	{
-		if (!IsWhiteChar(_string[i]))
+		if (!base::character::IsWhiteChar(_string[i]))
 		{
 			Remove(base::Range{0, i});
 			return;
@@ -277,7 +262,7 @@ void base::String::TrimEnd()
 
 	for (int32_t i = Length() - 1; i >= 0; i--)
 	{
-		if (!IsWhiteChar(_string[i]))
+		if (!base::character::IsWhiteChar(_string[i]))
 		{
 			if (i == Length() - 1)
 			{

@@ -18,7 +18,6 @@ namespace base
 	{
 	private:
 		std::string _string{};
-		static_function bool IsWhiteChar(char value);
 
 	public:
 		/* #region 构造函数 */

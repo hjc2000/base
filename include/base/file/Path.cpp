@@ -23,6 +23,10 @@ base::Path::Path(base::String const &path)
 	{
 		_path = _path[base::Range{0, _path.Length() - 1}];
 	}
+
+	if (_path.Length() >= 2 && _path[1] == ':')
+	{
+	}
 }
 
 std::string base::Path::ToString() const
