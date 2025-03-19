@@ -1,6 +1,6 @@
 #pragma once
-#include <base/string/ICanToString.h>
-#include <base/time/TimeSpan.h>
+#include "base/string/ICanToString.h"
+#include "base/time/TimeSpan.h"
 #include <chrono>
 #include <filesystem>
 
@@ -21,7 +21,7 @@ namespace base
 		std::chrono::nanoseconds _time_since_epoch{};
 
 	public:
-		/* #region 为 time_point 取别名 */
+		/* #region time_point 别名 */
 		using ns_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>;
 		using us_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds>;
 		using ms_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
@@ -29,10 +29,12 @@ namespace base
 		using file_clock_time_point = decltype(std::filesystem::directory_entry{}.last_write_time());
 		/* #endregion */
 
+		/* #region zoned_time 别名 */
 		using ns_zoned_time = std::chrono::zoned_time<std::chrono::nanoseconds>;
 		using us_zoned_time = std::chrono::zoned_time<std::chrono::microseconds>;
 		using ms_zoned_time = std::chrono::zoned_time<std::chrono::milliseconds>;
 		using s_zoned_time = std::chrono::zoned_time<std::chrono::seconds>;
+		/* #endregion */
 
 		/* #region 构造函数 */
 
@@ -88,68 +90,68 @@ namespace base
 
 		/* #region 四则运算 */
 
-		/**
-		 * @brief 两个时刻相加没有物理意义。
-		 *
-		 * @param rhs
-		 * @return base::TimeSpan
-		 */
+		///
+		/// @brief 两个时刻相加没有物理意义。
+		///
+		/// @param rhs
+		/// @return base::TimeSpan
+		///
 		base::TimeSpan operator+(base::TimePointSinceEpoch const &rhs) const = delete;
 
-		/**
-		 * @brief 两个时刻相减，得到时间段。
-		 *
-		 * @param rhs
-		 * @return base::TimeSpan
-		 */
+		///
+		/// @brief 两个时刻相减，得到时间段。
+		///
+		/// @param rhs
+		/// @return base::TimeSpan
+		///
 		base::TimeSpan operator-(base::TimePointSinceEpoch const &rhs) const;
 
-		/**
-		 * @brief 时刻加上一个时间段，得到新的时刻。
-		 *
-		 * @param rhs
-		 * @return base::TimePointSinceEpoch
-		 */
+		///
+		/// @brief 时刻加上一个时间段，得到新的时刻。
+		///
+		/// @param rhs
+		/// @return base::TimePointSinceEpoch
+		///
 		base::TimePointSinceEpoch operator+(base::TimeSpan const &rhs) const;
 
-		/**
-		 * @brief 将本时刻加上一个时间段。
-		 *
-		 * @param rhs
-		 * @return base::TimePointSinceEpoch&
-		 */
+		///
+		/// @brief 将本时刻加上一个时间段。
+		///
+		/// @param rhs
+		/// @return base::TimePointSinceEpoch&
+		///
 		base::TimePointSinceEpoch &operator+=(base::TimeSpan const &rhs);
 
-		/**
-		 * @brief 时刻减去一个时间段，得到新的时刻。
-		 *
-		 * @param rhs
-		 * @return base::TimePointSinceEpoch
-		 */
+		///
+		/// @brief 时刻减去一个时间段，得到新的时刻。
+		///
+		/// @param rhs
+		/// @return base::TimePointSinceEpoch
+		///
 		base::TimePointSinceEpoch operator-(base::TimeSpan const &rhs) const;
 
-		/**
-		 * @brief 将本时刻减去一个时间段。
-		 *
-		 * @param rhs
-		 * @return base::TimePointSinceEpoch&
-		 */
+		///
+		/// @brief 将本时刻减去一个时间段。
+		///
+		/// @param rhs
+		/// @return base::TimePointSinceEpoch&
+		///
 		base::TimePointSinceEpoch &operator-=(base::TimeSpan const &rhs);
 
-		/**
-		 * @brief 将本时刻乘上一个系数进行缩放，得到新的时刻。
-		 *
-		 * @param value
-		 * @return base::TimePointSinceEpoch
-		 */
+		///
+		/// @brief 将本时刻乘上一个系数进行缩放，得到新的时刻。
+		///
+		/// @param value
+		/// @return base::TimePointSinceEpoch
+		///
 		base::TimePointSinceEpoch operator*(int64_t value) const;
 
-		/**
-		 * @brief 将本时刻乘上一个系数进行缩放。
-		 *
-		 * @param value
-		 * @return base::TimePointSinceEpoch&
-		 */
+		///
+		/// @brief 将本时刻乘上一个系数进行缩放。
+		///
+		/// @param value
+		/// @return base::TimePointSinceEpoch&
+		///
 		base::TimePointSinceEpoch &operator*=(int64_t value);
 		/* #endregion */
 
