@@ -123,6 +123,12 @@ std::string base::filesystem::read_symlink(std::string const &path)
 
 void base::filesystem::create_directory(std::string const &path)
 {
+	if (base::filesystem::exists(path) && base::filesystem::is_directory(path))
+	{
+		// 已经存在该目录了，直接返回。
+		return;
+	}
+
 	std::error_code error_code{};
 	bool ret = std::filesystem::create_directory(path, error_code);
 	if (error_code.value() != 0)
