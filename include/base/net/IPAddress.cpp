@@ -1,6 +1,7 @@
 #include "IPAddress.h"
-#include <base/string/define.h>
-#include <base/string/ToHexString.h>
+#include "base/string/define.h"
+#include "base/string/ToHexString.h"
+#include <iostream>
 #include <stdexcept>
 
 /* #region Context */
@@ -275,7 +276,6 @@ base::ReadOnlySpan base::IPAddress::Span() const
 }
 
 #if HAS_THREAD
-	#include <iostream>
 
 void base::TestIpAddress()
 {

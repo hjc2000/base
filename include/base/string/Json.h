@@ -29,6 +29,16 @@ namespace base
 		/// @return std::string
 		///
 		std::string ToString() const override;
+
+		///
+		/// @brief 强制转换为 Json 对象。
+		///
+		/// @return base::Json
+		///
+		operator base::Json() const
+		{
+			return ToJson();
+		}
 	};
 
 	///
@@ -45,7 +55,6 @@ namespace base
 		///
 		virtual void FromJson(Json const &json) = 0;
 
-	public:
 		///
 		/// @brief 从 json 字符串中反序列化。
 		///
