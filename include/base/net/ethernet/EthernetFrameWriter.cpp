@@ -13,7 +13,7 @@ base::Mac base::ethernet::EthernetFrameWriter::DestinationMac() const
 void base::ethernet::EthernetFrameWriter::WriteDestinationMac(base::Mac const &value)
 {
 	base::Span span = _span.Slice(base::Range{0, 6});
-	span.CopyFrom(value.AsReadOnlySpan());
+	span.CopyFrom(value.Span());
 	span.Reverse();
 }
 
@@ -25,7 +25,7 @@ base::Mac base::ethernet::EthernetFrameWriter::SourceMac() const
 void base::ethernet::EthernetFrameWriter::WriteSourceMac(base::Mac const &value)
 {
 	base::Span span = _span.Slice(base::Range{6, 12});
-	span.CopyFrom(value.AsReadOnlySpan());
+	span.CopyFrom(value.Span());
 	span.Reverse();
 }
 

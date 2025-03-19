@@ -19,6 +19,8 @@ namespace base
 		base::Array<uint8_t, 6> _mac_buffer{};
 
 	public:
+		/* #region 构造函数 */
+
 		///
 		/// @brief 无参构造函数。构造出来的 MAC 地址是全 0.
 		///
@@ -44,18 +46,7 @@ namespace base
 		///
 		Mac(std::endian endian, base::ReadOnlySpan const &span);
 
-		///
-		/// @brief 拷贝构造函数。
-		/// @param o
-		///
-		Mac(Mac const &o);
-
-		///
-		/// @brief 赋值运算符。
-		/// @param o
-		/// @return
-		///
-		Mac &operator=(Mac const &o);
+		/* #endregion */
 
 		///
 		/// @brief 获取本对象内部的用来储存 MAC 地址的数组。
@@ -81,16 +72,6 @@ namespace base
 		explicit operator uint64_t() const;
 
 		///
-		/// @brief 获取引用着本对象内部缓冲区的 ReadOnlySpan.
-		///
-		explicit operator base::ReadOnlySpan() const;
-
-		///
-		/// @brief 获取引用着本对象内部缓冲区的 Span.
-		///
-		explicit operator base::Span();
-
-		///
 		/// @brief 转化为字符串
 		/// @return
 		///
@@ -100,13 +81,13 @@ namespace base
 		/// @brief 获取引用着本对象内部缓冲区的 ReadOnlySpan.
 		/// @return
 		///
-		base::ReadOnlySpan AsReadOnlySpan() const;
+		base::ReadOnlySpan Span() const;
 
 		///
 		/// @brief 获取引用着本对象内部缓冲区的 Span.
 		/// @return
 		///
-		base::Span AsSpan();
+		base::Span Span();
 
 		///
 		/// @brief 访问 MAC 地址中指定索引的值。

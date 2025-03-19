@@ -3,6 +3,8 @@
 #include <base/string/define.h>
 #include <base/string/ToHexString.h>
 
+/* #region 构造函数 */
+
 base::Mac::Mac(base::Array<uint8_t, 6> const &mac_buffer)
 {
 	_mac_buffer = mac_buffer;
@@ -34,16 +36,7 @@ base::Mac::Mac(std::endian endian, base::ReadOnlySpan const &span)
 	}
 }
 
-base::Mac::Mac(Mac const &o)
-{
-	_mac_buffer = o._mac_buffer;
-}
-
-base::Mac &base::Mac::operator=(Mac const &o)
-{
-	_mac_buffer = o._mac_buffer;
-	return *this;
-}
+/* #endregion */
 
 base::Array<uint8_t, 6> const &base::Mac::InternalArray() const
 {
@@ -76,16 +69,6 @@ base::Mac::operator uint64_t() const
 	return value;
 }
 
-base::Mac::operator base::ReadOnlySpan() const
-{
-	return AsReadOnlySpan();
-}
-
-base::Mac::operator base::Span()
-{
-	return AsSpan();
-}
-
 std::string base::Mac::ToString() const
 {
 	std::string ret{};
@@ -111,12 +94,12 @@ std::string base::Mac::ToString() const
 	return ret;
 }
 
-base::ReadOnlySpan base::Mac::AsReadOnlySpan() const
+base::ReadOnlySpan base::Mac::Span() const
 {
 	return base::ReadOnlySpan{_mac_buffer.Buffer(), _mac_buffer.Count()};
 }
 
-base::Span base::Mac::AsSpan()
+base::Span base::Mac::Span()
 {
 	return base::Span{_mac_buffer.Buffer(), _mac_buffer.Count()};
 }
