@@ -131,6 +131,13 @@ namespace base
 		void move(std::string const &source_path,
 				  std::string const &destination_path);
 
+		///
+		/// @brief 将源路径的目录拷贝到目标路径的目录进行合并。
+		///
+		/// @param source_path 源路径，必须是一个目录。
+		/// @param destination_path 目标路径。必须是不存在的路径或者已存在的目录。
+		/// @param overwrite_existing_file 拷贝到目标路径时是否覆盖已存在的文件。
+		///
 		void copy_append_directory(std::string const &source_path,
 								   std::string const &destination_path,
 								   bool overwrite_existing_file);
