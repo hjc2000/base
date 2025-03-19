@@ -1,7 +1,7 @@
 #include "Stack.h"
+#include <iostream>
 
 #if HAS_THREAD
-	#include <iostream>
 
 void base::test::test_stack()
 {
