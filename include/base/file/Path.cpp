@@ -102,14 +102,7 @@ bool base::Path::IsWindowsDiskPath() const
 	return false;
 }
 
-base::Path base::Path::operator+(base::Path const &another)
-{
-	base::Path ret{*this};
-	ret += another;
-	return ret;
-}
-
-base::Path &base::Path::operator+=(base::Path const &another)
+base::Path base::Path::operator+(base::Path const &another) const
 {
 	if (!IsAbsolutePath())
 	{
@@ -121,7 +114,13 @@ base::Path &base::Path::operator+=(base::Path const &another)
 		throw std::invalid_argument{CODE_POS_STR + "要被拼接到本路径的路径必须是相对路径。"};
 	}
 
-	_path += another._path;
+	return base::Path{_path + '/' + another._path};
+}
+
+base::Path &base::Path::operator+=(base::Path const &another)
+{
+	base::Path sum = *this + another;
+	*this = sum;
 	return *this;
 }
 

@@ -63,7 +63,7 @@ namespace base
 		/// @param another
 		/// @return base::Path
 		///
-		base::Path operator+(base::Path const &another);
+		base::Path operator+(base::Path const &another) const;
 
 		///
 		/// @brief 如果本路径是绝对路径，择允许将一个相对路径拼接到本路径的后面。
