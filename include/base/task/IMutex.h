@@ -13,17 +13,13 @@ namespace base
 	};
 } // namespace base
 
-/**
- * @brief 外部实现的链接时依赖注入的函数。
- *
- */
 namespace base
 {
-	/**
-	 * @brief 创建一个互斥量。
-	 *
-	 * @return std::shared_ptr<base::IMutex>
-	 */
+	///
+	/// @brief 创建一个互斥量。
+	///
+	/// @return std::shared_ptr<base::IMutex>
+	///
 	std::shared_ptr<base::IMutex> CreateIMutex();
 
 } // namespace base

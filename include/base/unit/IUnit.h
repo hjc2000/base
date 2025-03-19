@@ -6,11 +6,10 @@
 
 namespace base
 {
-	/**
-	 * @brief 单位类的接口。
-	 *
-	 * @tparam TSelf
-	 */
+	///
+	/// @brief 单位类的接口。
+	///
+	///
 	template <typename TSelf>
 	class IUnit :
 		public base::ICanToString
@@ -18,23 +17,20 @@ namespace base
 	private:
 		/* #region 类型 */
 
-		/**
-		 * @brief 有等于运算符
-		 *
-		 * @tparam t_another
-		 * @tparam typename
-		 */
+		///
+		/// @brief 有等于运算符
+		///
+		///
 		template <typename t_another, typename = void>
 		struct has_equal_operator :
 			std::false_type
 		{
 		};
 
-		/**
-		 * @brief 有等于运算符
-		 *
-		 * @tparam t_another
-		 */
+		///
+		/// @brief 有等于运算符
+		///
+		///
 		template <typename t_another>
 		struct has_equal_operator<t_another,
 								  std::void_t<decltype(std::declval<TSelf>() == std::declval<t_another>())>> :
@@ -42,23 +38,20 @@ namespace base
 		{
 		};
 
-		/**
-		 * @brief 有小于运算符
-		 *
-		 * @tparam t_another
-		 * @tparam typename
-		 */
+		///
+		/// @brief 有小于运算符
+		///
+		///
 		template <typename t_another, typename = void>
 		struct has_less_operator :
 			std::false_type
 		{
 		};
 
-		/**
-		 * @brief 有小于运算符
-		 *
-		 * @tparam t_another
-		 */
+		///
+		/// @brief 有小于运算符
+		///
+		///
 		template <typename t_another>
 		struct has_less_operator<t_another,
 								 std::void_t<decltype(std::declval<TSelf>() < std::declval<t_another>())>> :
@@ -66,23 +59,20 @@ namespace base
 		{
 		};
 
-		/**
-		 * @brief 有大于运算符
-		 *
-		 * @tparam t_another
-		 * @tparam typename
-		 */
+		///
+		/// @brief 有大于运算符
+		///
+		///
 		template <typename t_another, typename = void>
 		struct has_greater_operator :
 			std::false_type
 		{
 		};
 
-		/**
-		 * @brief 有大于运算符
-		 *
-		 * @tparam t_another
-		 */
+		///
+		/// @brief 有大于运算符
+		///
+		///
 		template <typename t_another>
 		struct has_greater_operator<t_another,
 									std::void_t<decltype(std::declval<TSelf>() > std::declval<t_another>())>> :
@@ -90,23 +80,20 @@ namespace base
 		{
 		};
 
-		/**
-		 * @brief 有小于等于运算符
-		 *
-		 * @tparam t_another
-		 * @tparam typename
-		 */
+		///
+		/// @brief 有小于等于运算符
+		///
+		///
 		template <typename t_another, typename = void>
 		struct has_less_equal_operator :
 			std::false_type
 		{
 		};
 
-		/**
-		 * @brief 有小于等于运算符
-		 *
-		 * @tparam t_another
-		 */
+		///
+		/// @brief 有小于等于运算符
+		///
+		///
 		template <typename t_another>
 		struct has_less_equal_operator<t_another,
 									   std::void_t<decltype(std::declval<TSelf>() <= std::declval<t_another>())>> :
@@ -114,23 +101,20 @@ namespace base
 		{
 		};
 
-		/**
-		 * @brief 有大于等于运算符
-		 *
-		 * @tparam t_another
-		 * @tparam typename
-		 */
+		///
+		/// @brief 有大于等于运算符
+		///
+		///
 		template <typename t_another, typename = void>
 		struct has_greater_equal_operator :
 			std::false_type
 		{
 		};
 
-		/**
-		 * @brief 有大于等于运算符
-		 *
-		 * @tparam t_another
-		 */
+		///
+		/// @brief 有大于等于运算符
+		///
+		///
 		template <typename t_another>
 		struct has_greater_equal_operator<t_another,
 										  std::void_t<decltype(std::declval<TSelf>() >= std::declval<t_another>())>> :
@@ -143,18 +127,18 @@ namespace base
 	public:
 		/* #region 接口 */
 
-		/**
-		 * @brief 单位的值。
-		 *
-		 * @return base::Fraction&
-		 */
+		///
+		/// @brief 单位的值。
+		///
+		/// @return base::Fraction&
+		///
 		virtual base::Fraction &Value() = 0;
 
-		/**
-		 * @brief 单位的字符串。
-		 *
-		 * @return std::string
-		 */
+		///
+		/// @brief 单位的字符串。
+		///
+		/// @return std::string
+		///
 		virtual std::string UnitString() const = 0;
 
 		/* #endregion */
@@ -178,8 +162,11 @@ namespace base
 
 		/* #endregion */
 
+		///
 		/// @brief 转化为字符串
-		/// @return
+		///
+		/// @return std::string
+		///
 		virtual std::string ToString() const override
 		{
 			std::string ret = Value().ToString();
@@ -197,21 +184,21 @@ namespace base
 			return const_cast<IUnit<TSelf> *>(this)->Value();
 		}
 
-		/**
-		 * @brief 向下取整
-		 *
-		 * @return int64_t
-		 */
+		///
+		/// @brief 向下取整
+		///
+		/// @return int64_t
+		///
 		int64_t Floor() const
 		{
 			return Value().Floor();
 		}
 
-		/**
-		 * @brief 向上取整
-		 *
-		 * @return int64_t
-		 */
+		///
+		/// @brief 向上取整
+		///
+		/// @return int64_t
+		///
 		int64_t Ceil() const
 		{
 			return Value().Ceil();
@@ -319,14 +306,13 @@ namespace base
 	};
 } // namespace base
 
-/**
- * @brief 将 IUnit 输出到输出流。
- *
- * @tparam T
- * @param ostream
- * @param right
- * @return std::ostream&
- */
+///
+/// @brief 将 IUnit 输出到输出流。
+///
+/// @param ostream
+/// @param right
+/// @return template <typename T>&
+///
 template <typename T>
 inline std::ostream &operator<<(std::ostream &ostream, base::IUnit<T> const &right)
 {
@@ -334,14 +320,13 @@ inline std::ostream &operator<<(std::ostream &ostream, base::IUnit<T> const &rig
 	return ostream;
 }
 
-/**
- * @brief IUnit 乘法。
- *
- * @tparam T
- * @param left
- * @param right
- * @return T
- */
+///
+/// @brief IUnit 乘法。
+///
+/// @param left
+/// @param right
+/// @return template <typename T>
+///
 template <typename T>
 inline T operator*(base::Fraction const &left, base::IUnit<T> const &right)
 {
@@ -350,26 +335,24 @@ inline T operator*(base::Fraction const &left, base::IUnit<T> const &right)
 
 namespace std
 {
-	/**
-	 * @brief 向下取整
-	 *
-	 * @tparam T
-	 * @param value
-	 * @return int64_t
-	 */
+	///
+	/// @brief 向下取整
+	///
+	/// @param value
+	/// @return template <typename T>
+	///
 	template <typename T>
 	inline int64_t floor(base::IUnit<T> const &value)
 	{
 		return value.Floor();
 	}
 
-	/**
-	 * @brief 向上取整
-	 *
-	 * @tparam T
-	 * @param value
-	 * @return int64_t
-	 */
+	///
+	/// @brief 向上取整
+	///
+	/// @param value
+	/// @return template <typename T>
+	///
 	template <typename T>
 	inline int64_t ceil(base::IUnit<T> const &value)
 	{
