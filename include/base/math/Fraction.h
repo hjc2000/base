@@ -17,6 +17,8 @@ namespace base
 		int64_t _den = 1;
 
 	public:
+		/* #region 构造函数 */
+
 		///
 		/// @brief 默认构造，分子为 0，分母为 1.
 		///
@@ -34,8 +36,8 @@ namespace base
 		/// @param den 分母
 		///
 		Fraction(int64_t num, int64_t den);
+		/* #endregion */
 
-	public:
 		int64_t Num() const;
 		void SetNum(int64_t value);
 
@@ -91,15 +93,19 @@ namespace base
 		Fraction &operator/=(Fraction const &value);
 		/* #endregion */
 
+		///
 		/// @brief 将分数转化为字符串
 		/// @return
+		///
 		std::string ToString() const override;
 
+		/* #region 强制转换 */
 		explicit operator int64_t() const;
 		explicit operator int32_t() const;
 		explicit operator int16_t() const;
 		explicit operator int8_t() const;
 		explicit operator double() const;
+		/* #endregion */
 
 		/* #region 比较 */
 
@@ -124,7 +130,22 @@ namespace base
 		///
 		bool operator<(Fraction const &another) const;
 
+		///
+		/// @brief 本对象大于等于 another.
+		///
+		/// @param another
+		/// @return true
+		/// @return false
+		///
 		bool operator>=(Fraction const &another) const;
+
+		///
+		/// @brief 本对象小于等于 another.
+		///
+		/// @param another
+		/// @return true
+		/// @return false
+		///
 		bool operator<=(Fraction const &another) const;
 
 		/* #endregion */
@@ -132,10 +153,46 @@ namespace base
 } // namespace base
 
 std::ostream &operator<<(std::ostream &ostream, base::Fraction const &right);
+
+/* #region 全局四则运算符 */
+
+///
+/// @brief 加
+///
+/// @param left
+/// @param right
+/// @return base::Fraction
+///
 base::Fraction operator+(int64_t left, base::Fraction const &right);
+
+///
+/// @brief 减
+///
+/// @param left
+/// @param right
+/// @return base::Fraction
+///
 base::Fraction operator-(int64_t left, base::Fraction const &right);
+
+///
+/// @brief 乘
+///
+/// @param left
+/// @param right
+/// @return base::Fraction
+///
 base::Fraction operator*(int64_t left, base::Fraction const &right);
+
+///
+/// @brief 除
+///
+/// @param left
+/// @param right
+/// @return base::Fraction
+///
 base::Fraction operator/(int64_t left, base::Fraction const &right);
+
+/* #endregion */
 
 namespace std
 {

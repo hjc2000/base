@@ -2,6 +2,8 @@
 #include <numeric>
 #include <stdexcept>
 
+/* #region 构造函数 */
+
 base::Fraction::Fraction(int64_t num)
 {
 	SetNum(num);
@@ -13,6 +15,8 @@ base::Fraction::Fraction(int64_t num, int64_t den)
 	SetNum(num);
 	SetDen(den);
 }
+
+/* #endregion */
 
 int64_t base::Fraction::Num() const
 {
@@ -117,6 +121,8 @@ int64_t base::Fraction::Mod() const
 	return _num % _den;
 }
 
+/* #region 四则运算 */
+
 base::Fraction base::Fraction::operator-() const
 {
 	Fraction ret{-_num, _den};
@@ -184,10 +190,14 @@ base::Fraction &base::Fraction::operator/=(Fraction const &value)
 	return *this;
 }
 
+/* #endregion */
+
 std::string base::Fraction::ToString() const
 {
 	return std::to_string(_num) + " / " + std::to_string(_den);
 }
+
+/* #region 强制转换 */
 
 base::Fraction::operator int64_t() const
 {
@@ -213,6 +223,10 @@ base::Fraction::operator double() const
 {
 	return static_cast<double>(_num) / _den;
 }
+
+/* #endregion */
+
+/* #region 比较 */
 
 bool base::Fraction::operator==(Fraction const &another) const
 {
@@ -283,11 +297,15 @@ bool base::Fraction::operator<=(Fraction const &another) const
 	return false;
 }
 
+/* #endregion */
+
 std::ostream &operator<<(std::ostream &ostream, base::Fraction const &right)
 {
 	ostream << right.ToString();
 	return ostream;
 }
+
+/* #region 全局四则运算符 */
 
 base::Fraction operator+(int64_t left, base::Fraction const &right)
 {
@@ -308,6 +326,8 @@ base::Fraction operator/(int64_t left, base::Fraction const &right)
 {
 	return base::Fraction{left} / right;
 }
+
+/* #endregion */
 
 int64_t std::floor(base::Fraction const &value)
 {
