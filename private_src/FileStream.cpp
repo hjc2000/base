@@ -94,7 +94,7 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenExisting(std::string pat
 		throw std::runtime_error{CODE_POS_STR + "文件不可读。"};
 	}
 
-	if (!base::filesystem::is_writeable(path))
+	if (!base::filesystem::IsWriteable(path))
 	{
 		throw std::runtime_error{CODE_POS_STR + "文件不可写。"};
 	}

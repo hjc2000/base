@@ -34,7 +34,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool is_writeable(base::Path const &path);
+		bool IsWriteable(base::Path const &path);
 
 		///
 		/// @brief 检查文件或目录是否可执行。
