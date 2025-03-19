@@ -20,7 +20,7 @@ namespace
 	///
 	void copy_file(base::Path const &source_path,
 				   base::Path const &destination_path,
-				   base::filesystem::OverwriteMethod overwrite_method)
+				   base::filesystem::OverwriteOption overwrite_method)
 	{
 		std::filesystem::copy_options options = std::filesystem::copy_options::copy_symlinks;
 
@@ -33,7 +33,7 @@ namespace
 		}
 
 		// 目标路径存在
-		if (overwrite_method == base::filesystem::OverwriteMethod::Skip)
+		if (overwrite_method == base::filesystem::OverwriteOption::Skip)
 		{
 			std::cout << "跳过：" << source_path << " --> " << destination_path << std::endl;
 			return;
@@ -46,7 +46,7 @@ namespace
 			throw std::runtime_error{message};
 		}
 
-		if (overwrite_method == base::filesystem::OverwriteMethod::Overwrite)
+		if (overwrite_method == base::filesystem::OverwriteOption::Overwrite)
 		{
 			// 无条件覆盖。
 			base::filesystem::remove(destination_path);
@@ -271,7 +271,7 @@ void base::filesystem::remove(base::Path const &path)
 
 void base::filesystem::copy(base::Path const &source_path,
 							base::Path const &destination_path,
-							base::filesystem::OverwriteMethod overwrite_method)
+							base::filesystem::OverwriteOption overwrite_method)
 {
 	if (!base::filesystem::exists(source_path))
 	{

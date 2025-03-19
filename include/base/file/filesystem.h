@@ -5,7 +5,11 @@ namespace base
 {
 	namespace filesystem
 	{
-		enum class OverwriteMethod
+		///
+		/// @brief 文件存在时的覆盖方式。
+		///
+		///
+		enum class OverwriteOption
 		{
 			Skip,
 			Update,
@@ -136,7 +140,7 @@ namespace base
 		///
 		void copy(base::Path const &source_path,
 				  base::Path const &destination_path,
-				  base::filesystem::OverwriteMethod overwrite_method);
+				  base::filesystem::OverwriteOption overwrite_method);
 
 		///
 		/// @brief 将文件或目录从 source_path 移动到 destination_path.
