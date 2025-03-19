@@ -21,36 +21,36 @@ namespace base
 			OctetString = 10,
 			UnicodeString = 39,
 
-			/**
-			 * @brief 带日期指示的 TimeOfDay.
-			 *
-			 */
+			///
+			/// @brief 带日期指示的 TimeOfDay.
+			///
+			///
 			TimeOfDay_WithDateIndication = 12,
 
-			/**
-			 * @brief 已经启用。新设备不应该使用。为了兼容旧设备，控制器应该支持，设备可以不支持。
-			 *
-			 */
+			///
+			/// @brief 已经启用。新设备不应该使用。为了兼容旧设备，控制器应该支持，设备可以不支持。
+			///
+			///
 			TimeDifference_Unused = 13,
 
 			Date = 50,
 
-			/**
-			 * @brief 不带日期指示的 TimeOfDay.
-			 *
-			 */
+			///
+			/// @brief 不带日期指示的 TimeOfDay.
+			///
+			///
 			TimeOfDay_WithoutDateIndication = 52,
 
-			/**
-			 * @brief 带日期指示的 TimeDifference.
-			 *
-			 */
+			///
+			/// @brief 带日期指示的 TimeDifference.
+			///
+			///
 			TimeDifference_WithDateIndication = 53,
 
-			/**
-			 * @brief 不带日期指示的 TimeDifference.
-			 *
-			 */
+			///
+			/// @brief 不带日期指示的 TimeDifference.
+			///
+			///
 			TimeDifference_WithoutDateIndication = 54,
 
 			N2 = 113,

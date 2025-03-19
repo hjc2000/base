@@ -1,6 +1,5 @@
 #include "CancellationToken.h"
 #include "base/LockGuard.h"
-#include <base/string/define.h>
 #include <stdexcept>
 
 std::shared_ptr<base::CancellationToken> base::CancellationToken::_none_cancellation_token{new base::CancellationToken{}};

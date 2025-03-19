@@ -3,15 +3,13 @@
 
 namespace base
 {
-	/**
-	 * @brief 检查一个类型是否是 const
-	 *
-	 * @note 通过模板全特化实现。这里是没有特化的版本，Value 属性是 false，
-	 * 再定义一个特化版本，匹配 Type const，特化版本的 Value 属性是 true。
-	 * 这样就能通过匹配不同的特化版本来检查一个类型是否是 const。
-	 *
-	 * @tparam Type
-	 */
+	///
+	/// @brief 检查一个类型是否是 const.
+	///
+	/// @note 通过模板全特化实现。这里是没有特化的版本，Value 属性是 false，
+	/// 再定义一个特化版本，匹配 Type const，特化版本的 Value 属性是 true。
+	/// 这样就能通过匹配不同的特化版本来检查一个类型是否是 const。
+	///
 	template <typename Type>
 	struct is_const
 	{
@@ -21,14 +19,12 @@ namespace base
 		}
 	};
 
-	/**
-	 * @brief 检查一个类型是否是 const。
-	 *
-	 * @note 这里是 Type const 的特化版本。使用时，当尖括号中的类型是 const 的时，
-	 * 就会匹配到本特化版本，而不是上方的非特化版本。
-	 *
-	 * @tparam Type
-	 */
+	///
+	/// @brief 检查一个类型是否是 const.
+	///
+	/// @note 这里是 Type const 的特化版本。使用时，当尖括号中的类型是 const 的时，
+	/// 就会匹配到本特化版本，而不是上方的非特化版本。
+	///
 	template <typename Type>
 	struct is_const<Type const>
 	{
@@ -38,12 +34,11 @@ namespace base
 		}
 	};
 
-	/**
-	 * @brief 封装 is_const 模板
-	 *
-	 * @tparam T
-	 * @return consteval
-	 */
+	///
+	/// @brief 封装 is_const 模板
+	///
+	/// @return template <typename T>
+	///
 	template <typename T>
 	consteval bool IsConstType()
 	{
