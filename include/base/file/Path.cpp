@@ -53,6 +53,16 @@ base::Path::Path(base::String const &path)
 	}
 }
 
+base::Path::Path(std::string const &path)
+	: base::Path(base::String{path})
+{
+}
+
+base::Path::Path(char const *path)
+	: base::Path(base::String{path})
+{
+}
+
 std::string base::Path::ToString() const
 {
 	return _path.StdString();

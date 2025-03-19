@@ -16,15 +16,9 @@ namespace base
 
 		Path(base::String const &path);
 
-		Path(std::string const &path)
-			: base::Path(base::String{path})
-		{
-		}
+		Path(std::string const &path);
 
-		Path(char const *path)
-			: base::Path(base::String{path})
-		{
-		}
+		Path(char const *path);
 
 		///
 		/// @brief 转化为字符串。
