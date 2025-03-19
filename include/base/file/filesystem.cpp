@@ -1,6 +1,6 @@
 #include "filesystem.h"
+#include "base/file/Path.h"
 #include "base/string/define.h"
-#include "Path.h"
 #include <filesystem>
 #include <string>
 #include <unistd.h>
@@ -74,7 +74,7 @@ namespace
 
 /* #region 访问权限检查 */
 
-bool base::filesystem::is_readable(base::Path const &path)
+bool base::filesystem::IsReadable(base::Path const &path)
 {
 	return access(path.ToString().c_str(), R_OK) == 0;
 }
@@ -281,9 +281,8 @@ void base::filesystem::copy(base::Path const &source_path,
 	}
 
 	// 执行到这里说明源路径存在
-	if (!base::filesystem::is_directory(source_path))
+	if (is_file(source_path))
 	{
-		// 源路径不是目录
 		copy_file(source_path, destination_path, overwrite_method);
 		return;
 	}
@@ -298,7 +297,7 @@ void base::filesystem::copy(base::Path const &source_path,
 		base::Path src_path = source_path + relative_path;
 		base::Path dst_path = destination_path + relative_path;
 
-		if (!is_directory(src_path))
+		if (is_file(src_path))
 		{
 			// 源路径是一个文件
 			copy_file(src_path, dst_path, overwrite_method);

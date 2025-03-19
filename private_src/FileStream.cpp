@@ -89,7 +89,7 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenExisting(std::string pat
 		throw std::runtime_error{CODE_POS_STR + std::format("{} 不是一个文件，而是一个目录", path)};
 	}
 
-	if (!base::filesystem::is_readable(path))
+	if (!base::filesystem::IsReadable(path))
 	{
 		throw std::runtime_error{CODE_POS_STR + "文件不可读。"};
 	}
@@ -136,7 +136,7 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenReadOnly(std::string pat
 		throw std::runtime_error{message};
 	}
 
-	if (!base::filesystem::is_readable(path))
+	if (!base::filesystem::IsReadable(path))
 	{
 		throw std::runtime_error{CODE_POS_STR + "文件不可读。"};
 	}

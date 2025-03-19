@@ -1,5 +1,5 @@
 #pragma once
-#include "Path.h"
+#include "base/file/Path.h"
 
 namespace base
 {
@@ -25,7 +25,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool is_readable(base::Path const &path);
+		bool IsReadable(base::Path const &path);
 
 		///
 		/// @brief 检查文件或目录是否可写。
@@ -70,6 +70,21 @@ namespace base
 		/// @return false
 		///
 		bool is_regular_file(base::Path const &path);
+
+		///
+		/// @brief 是否是广义的文件。
+		///
+		/// @note 广义的文件包括：符号链接、设备文件、套接字等。
+		/// @note 只要不是目录，就是广义的文件。
+		///
+		/// @param path
+		/// @return true
+		/// @return false
+		///
+		inline bool is_file(base::Path const &path)
+		{
+			return !is_directory(path);
+		}
 
 		///
 		/// @brief 检查指定路径是否是一个符号链接。
