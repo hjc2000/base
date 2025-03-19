@@ -21,6 +21,12 @@ namespace base
 		std::chrono::nanoseconds _time_since_epoch{};
 
 	public:
+		using ns_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>;
+		using us_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds>;
+		using ms_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
+		using s_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>;
+		using file_clock_time_point = decltype(std::filesystem::directory_entry{}.last_write_time());
+
 		/* #region 构造函数 */
 
 		///
@@ -38,20 +44,10 @@ namespace base
 
 #if HAS_THREAD
 		/* #region 从时间点构造 */
-
-		using ns_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>;
 		explicit TimePointSinceEpoch(ns_time_point const &value);
-
-		using us_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds>;
 		explicit TimePointSinceEpoch(us_time_point const &value);
-
-		using ms_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
 		explicit TimePointSinceEpoch(ms_time_point const &value);
-
-		using s_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>;
 		explicit TimePointSinceEpoch(s_time_point const &value);
-
-		using file_clock_time_point = decltype(std::filesystem::directory_entry{}.last_write_time());
 		explicit TimePointSinceEpoch(file_clock_time_point const &value);
 		/* #endregion */
 #endif

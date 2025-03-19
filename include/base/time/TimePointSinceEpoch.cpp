@@ -30,32 +30,29 @@ base::TimePointSinceEpoch::TimePointSinceEpoch(std::chrono::seconds const &value
 
 base::TimePointSinceEpoch::TimePointSinceEpoch(timespec const &value)
 {
-	_time_since_epoch = std::chrono::seconds{value.tv_sec} + std::chrono::nanoseconds{value.tv_nsec};
+	_time_since_epoch = std::chrono::seconds{value.tv_sec} +
+						std::chrono::nanoseconds{value.tv_nsec};
 }
 
 #if HAS_THREAD
 /* #region 从时间点构造 */
 
-base::TimePointSinceEpoch::TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock,
-																	   std::chrono::nanoseconds> const &value)
+base::TimePointSinceEpoch::TimePointSinceEpoch(ns_time_point const &value)
 {
 	_time_since_epoch = value.time_since_epoch();
 }
 
-base::TimePointSinceEpoch::TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock,
-																	   std::chrono::microseconds> const &value)
+base::TimePointSinceEpoch::TimePointSinceEpoch(us_time_point const &value)
 {
 	_time_since_epoch = value.time_since_epoch();
 }
 
-base::TimePointSinceEpoch::TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock,
-																	   std::chrono::milliseconds> const &value)
+base::TimePointSinceEpoch::TimePointSinceEpoch(ms_time_point const &value)
 {
 	_time_since_epoch = value.time_since_epoch();
 }
 
-base::TimePointSinceEpoch::TimePointSinceEpoch(std::chrono::time_point<std::chrono::system_clock,
-																	   std::chrono::seconds> const &value)
+base::TimePointSinceEpoch::TimePointSinceEpoch(s_time_point const &value)
 {
 	_time_since_epoch = value.time_since_epoch();
 }
