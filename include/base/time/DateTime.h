@@ -4,13 +4,6 @@
 
 namespace base
 {
-	enum class LeapSecondState
-	{
-		None,
-		AddOneSecond,
-		SubtractOneSecond,
-	};
-
 	class DateTime :
 		public base::ICanToString
 	{
@@ -42,7 +35,7 @@ namespace base
 		DateTime() = default;
 
 		///
-		/// @brief 通过 UTC+0 的日期事件构造。
+		/// @brief 通过 UTC + 0 的日期事件构造。
 		///
 		/// @param year
 		/// @param month
@@ -71,17 +64,20 @@ namespace base
 		///
 		bool IsLeapYear() const;
 
-		///
-		/// @brief 当前分钟的闰秒情况。
-		///
-		/// @return base::LeapSecondState
-		///
-		base::LeapSecondState LeapSecondState() const;
+		int64_t LeapSecond() const;
 
-		void AddYears(int64_t value);
-
+		///
+		/// @brief 增加月。
+		///
+		/// @param value
+		///
 		void AddMonths(int64_t value);
 
+		///
+		/// @brief 增加日。
+		///
+		/// @param value
+		///
 		void AddDays(int64_t value);
 
 		///

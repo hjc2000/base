@@ -97,34 +97,34 @@ namespace
 	/// @brief UTC+0 的闰秒表。
 	///
 	///
-	std::map<PrivateDateTime, base::LeapSecondState> _leap_second_years{
-		{PrivateDateTime{1972, 6}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{1972, 12}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{1973, 12}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{1974, 12}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{1975, 12}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{1976, 12}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{1977, 12}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{1978, 12}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{1979, 12}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{1981, 6}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{1982, 6}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{1983, 6}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{1985, 6}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{1987, 12}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{1989, 12}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{1990, 12}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{1992, 6}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{1993, 6}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{1994, 6}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{1995, 12}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{1997, 6}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{1998, 12}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{2005, 12}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{2008, 12}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{2012, 6}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{2015, 6}, base::LeapSecondState::AddOneSecond},
-		{PrivateDateTime{2016, 12}, base::LeapSecondState::AddOneSecond},
+	std::map<PrivateDateTime, int64_t> _leap_second_years{
+		{PrivateDateTime{1972, 6}, 1},
+		{PrivateDateTime{1972, 12}, 1},
+		{PrivateDateTime{1973, 12}, 1},
+		{PrivateDateTime{1974, 12}, 1},
+		{PrivateDateTime{1975, 12}, 1},
+		{PrivateDateTime{1976, 12}, 1},
+		{PrivateDateTime{1977, 12}, 1},
+		{PrivateDateTime{1978, 12}, 1},
+		{PrivateDateTime{1979, 12}, 1},
+		{PrivateDateTime{1981, 6}, 1},
+		{PrivateDateTime{1982, 6}, 1},
+		{PrivateDateTime{1983, 6}, 1},
+		{PrivateDateTime{1985, 6}, 1},
+		{PrivateDateTime{1987, 12}, 1},
+		{PrivateDateTime{1989, 12}, 1},
+		{PrivateDateTime{1990, 12}, 1},
+		{PrivateDateTime{1992, 6}, 1},
+		{PrivateDateTime{1993, 6}, 1},
+		{PrivateDateTime{1994, 6}, 1},
+		{PrivateDateTime{1995, 12}, 1},
+		{PrivateDateTime{1997, 6}, 1},
+		{PrivateDateTime{1998, 12}, 1},
+		{PrivateDateTime{2005, 12}, 1},
+		{PrivateDateTime{2008, 12}, 1},
+		{PrivateDateTime{2012, 6}, 1},
+		{PrivateDateTime{2015, 6}, 1},
+		{PrivateDateTime{2016, 12}, 1},
 	};
 
 } // namespace
@@ -163,41 +163,9 @@ void base::DateTime::CheckMinute()
 
 void base::DateTime::CheckSecond()
 {
-	if (_second < 0)
+	if (_second < 0 || _second > 59 + LeapSecond())
 	{
 		throw std::invalid_argument{CODE_POS_STR + "非法秒。"};
-	}
-
-	// 需要根据是否闰秒来判断秒的上界
-	switch (LeapSecondState())
-	{
-	case base::LeapSecondState::None:
-		{
-			if (_second > 59)
-			{
-				throw std::invalid_argument{CODE_POS_STR + "非法秒。"};
-			}
-
-			break;
-		}
-	case base::LeapSecondState::AddOneSecond:
-		{
-			if (_second > 60)
-			{
-				throw std::invalid_argument{CODE_POS_STR + "非法秒。"};
-			}
-
-			break;
-		}
-	default:
-		{
-			if (_second > 58)
-			{
-				throw std::invalid_argument{CODE_POS_STR + "非法秒。"};
-			}
-
-			break;
-		}
 	}
 }
 
@@ -229,7 +197,7 @@ void base::DateTime::AddYearByDayIndex(int64_t &day_index)
 				}
 
 				day_index -= 366;
-				AddYears(1);
+				_year += 1;
 			}
 			else
 			{
@@ -240,7 +208,7 @@ void base::DateTime::AddYearByDayIndex(int64_t &day_index)
 				}
 
 				day_index -= 365;
-				AddYears(1);
+				_year += 1;
 			}
 		}
 	}
@@ -249,7 +217,7 @@ void base::DateTime::AddYearByDayIndex(int64_t &day_index)
 	while (true)
 	{
 		// 前往去年
-		AddYears(-1);
+		_year -= 1;
 		if (IsLeapYear())
 		{
 			// 去年是闰年
@@ -332,41 +300,41 @@ bool base::DateTime::IsLeapYear() const
 	return _year % 4 == 0;
 }
 
-base::LeapSecondState base::DateTime::LeapSecondState() const
+int64_t base::DateTime::LeapSecond() const
 {
 	if (_year < 1972 || _year > 2016)
 	{
 		// 1972 年以前没有闰秒。
 		// 目前 2016 年以后没有闰秒。
-		return base::LeapSecondState::None;
+		return 0;
 	}
 
 	if (_month != 6 && _month != 12)
 	{
 		// 只会在 6 月或 12 月添加闰秒。
-		return base::LeapSecondState::None;
+		return 0;
 	}
 
 	if (_month == 6 && _day != 30)
 	{
 		// 6 月份必定在 30 日添加闰秒。
-		return base::LeapSecondState::None;
+		return 0;
 	}
 
 	if (_month == 12 && _day != 31)
 	{
 		// 12 月份必定在 31 日添加闰秒。
-		return base::LeapSecondState::None;
+		return 0;
 	}
 
 	if (_hour != 23)
 	{
-		return base::LeapSecondState::None;
+		return 0;
 	}
 
 	if (_minute != 59)
 	{
-		return base::LeapSecondState::None;
+		return 0;
 	}
 
 	// 开始查表
@@ -376,12 +344,7 @@ base::LeapSecondState base::DateTime::LeapSecondState() const
 		return it->second;
 	}
 
-	return base::LeapSecondState::None;
-}
-
-void base::DateTime::AddYears(int64_t value)
-{
-	_year += value;
+	return 0;
 }
 
 void base::DateTime::AddMonths(int64_t value)
@@ -400,12 +363,12 @@ void base::DateTime::AddMonths(int64_t value)
 	}
 
 	// 不在最小正周期内
-	AddYears(month_index / 12);
+	_year += month_index / 12;
 	month_index %= 12;
 
 	if (month_index < 0)
 	{
-		AddYears(-1);
+		_year -= 1;
 		month_index += 12;
 	}
 
