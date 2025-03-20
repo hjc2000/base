@@ -238,6 +238,10 @@ namespace base
 		///
 		/// @brief 转化为字符串。
 		///
+		/// @note 本类储存的字段是 UTC + 0 的日期时间，但是在转换成字符串时，会加上偏移的
+		/// 小时。例如构造函数设置 utc_hour_offset = 8，则本函数返回的是 UTC + 8 日期时
+		/// 间的字符串。
+		///
 		/// @return std::string
 		///
 		virtual std::string ToString() const override;
