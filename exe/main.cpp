@@ -53,10 +53,10 @@ int main()
 	}
 
 	{
-		for (int i = -366; i <= 0; i++)
+		for (int i = -(25 * 60); i <= 0; i++)
 		{
 			base::DateTime time{2000, 1, 1, 0, 0, 0, 0};
-			time.AddDays(i);
+			time.AddSeconds(i);
 			std::cout << "i=" << i << "  " << time << std::endl;
 		}
 	}

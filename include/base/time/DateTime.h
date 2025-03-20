@@ -24,7 +24,23 @@ namespace base
 		void CheckSecond();
 		void CheckNanosecond();
 
+		///
+		/// @brief 增加月。
+		///
+		/// @param value
+		///
 		void AddMonths(int64_t value);
+
+		///
+		/// @brief 增加日。
+		///
+		/// @param value
+		///
+		void AddDays(int64_t value);
+
+		void AddHours(int64_t value);
+
+		void AddMinutes(int64_t value);
 
 		///
 		/// @brief 以年为周期，将日索引调整到最小正周期内。
@@ -42,11 +58,27 @@ namespace base
 		///
 		void AdjustDayIndexToOneMonth(int64_t &day_index);
 
+		///
+		/// @brief 以日为周期，将小时索引调整到最小正周期。
+		///
+		/// @param hour_index
+		///
+		void AdjustHourIndexToOneDay(int64_t &hour_index);
+
+		///
+		/// @brief 以小时为周期，将分钟索引调整到最小正周期。
+		///
+		/// @param minute_index
+		///
+		void AdjustMinuteIndexToOneHour(int64_t &minute_index);
+
+		void AdjustSecondsIndexToOneMinute(int64_t &second_index);
+
 		static_function base::DateTime CreateWithoutCheck(int64_t year, int64_t month, int64_t day,
 														  int64_t hour, int64_t minute, int64_t second,
 														  int64_t nanosecond);
 
-		static_function int64_t CountLeapSeconds(base::DateTime const &start, base::DateTime const &end);
+		static_function int64_t CountLeapSecondsBetweenTwoMinutes(base::DateTime const &start, base::DateTime const &end);
 
 	public:
 		DateTime() = default;
@@ -151,12 +183,7 @@ namespace base
 		int64_t LeapSecondOfCurrentMinute() const;
 		/* #endregion */
 
-		///
-		/// @brief 增加日。
-		///
-		/// @param value
-		///
-		void AddDays(int64_t value);
+		void AddSeconds(int64_t value);
 
 		///
 		/// @brief 转化为字符串。

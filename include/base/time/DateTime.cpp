@@ -193,7 +193,7 @@ void base::DateTime::AddMonths(int64_t value)
 	}
 
 	int64_t month_index = _month - 1 + value;
-	if (std::abs(month_index) < 12)
+	if (month_index >= 0 && month_index < 12)
 	{
 		// 在最小正周期内
 		_month = month_index + 1;
@@ -211,6 +211,31 @@ void base::DateTime::AddMonths(int64_t value)
 	}
 
 	_month = month_index + 1;
+}
+
+void base::DateTime::AddDays(int64_t value)
+{
+	if (value == 0)
+	{
+		return;
+	}
+
+	// 以本月 1 日为 0 索引，建立日的索引。
+	int64_t day_index = _day - 1 + value;
+	AdjustDayIndexToOneMonth(day_index);
+	_day = day_index + 1;
+}
+
+void base::DateTime::AddHours(int64_t value)
+{
+	_hour += value;
+	AdjustHourIndexToOneDay(_hour);
+}
+
+void base::DateTime::AddMinutes(int64_t value)
+{
+	_minute += value;
+	AdjustMinuteIndexToOneHour(_minute);
 }
 
 void base::DateTime::AdjustDayIndexToOneYear(int64_t &day_index)
@@ -318,6 +343,57 @@ void base::DateTime::AdjustDayIndexToOneMonth(int64_t &day_index)
 	}
 }
 
+void base::DateTime::AdjustHourIndexToOneDay(int64_t &hour_index)
+{
+	if (hour_index >= 0 && hour_index < 24)
+	{
+		return;
+	}
+
+	AddDays(hour_index / 24);
+	hour_index %= 24;
+
+	if (hour_index < 0)
+	{
+		AddDays(-1);
+		hour_index += 24;
+	}
+}
+
+void base::DateTime::AdjustMinuteIndexToOneHour(int64_t &minute_index)
+{
+	if (minute_index >= 0 && minute_index < 60)
+	{
+		return;
+	}
+
+	AddHours(minute_index / 60);
+	minute_index %= 60;
+
+	if (minute_index < 0)
+	{
+		AddHours(-1);
+		minute_index += 60;
+	}
+}
+
+void base::DateTime::AdjustSecondsIndexToOneMinute(int64_t &second_index)
+{
+	if (second_index >= 0 && second_index < 60 + LeapSecondOfCurrentMinute())
+	{
+		return;
+	}
+
+	AddMinutes(second_index / 60);
+	second_index %= 60;
+
+	if (second_index < 0)
+	{
+		AddMinutes(-1);
+		second_index += 60;
+	}
+}
+
 base::DateTime base::DateTime::CreateWithoutCheck(int64_t year, int64_t month, int64_t day,
 												  int64_t hour, int64_t minute, int64_t second,
 												  int64_t nanosecond)
@@ -333,7 +409,7 @@ base::DateTime base::DateTime::CreateWithoutCheck(int64_t year, int64_t month, i
 	return ret;
 }
 
-int64_t base::DateTime::CountLeapSeconds(base::DateTime const &start, base::DateTime const &end)
+int64_t base::DateTime::CountLeapSecondsBetweenTwoMinutes(base::DateTime const &start, base::DateTime const &end)
 {
 	int64_t total_leap_second = 0;
 
@@ -494,17 +570,10 @@ int64_t base::DateTime::LeapSecondOfCurrentMinute() const
 
 /* #endregion */
 
-void base::DateTime::AddDays(int64_t value)
+void base::DateTime::AddSeconds(int64_t value)
 {
-	if (value == 0)
-	{
-		return;
-	}
-
-	// 以本月 1 日为 0 索引，建立日的索引。
-	int64_t day_index = _day - 1 + value;
-	AdjustDayIndexToOneMonth(day_index);
-	_day = day_index + 1;
+	_second += value;
+	AdjustSecondsIndexToOneMinute(_second);
 }
 
 std::string base::DateTime::ToString() const
