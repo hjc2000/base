@@ -53,8 +53,11 @@ int main()
 	}
 
 	{
-		base::DateTime time{2000, 1, 1, 0, 0, 0, 0};
-		time.AddMonth(-13);
-		std::cout << time << std::endl;
+		for (int i = -366; i <= 0; i++)
+		{
+			base::DateTime time{2000, 1, 1, 0, 0, 0, 0};
+			time.AddDays(i);
+			std::cout << "i=" << i << "  " << time << std::endl;
+		}
 	}
 }

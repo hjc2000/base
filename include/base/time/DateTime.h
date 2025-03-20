@@ -49,6 +49,13 @@ namespace base
 				 int64_t nanosecond);
 
 		///
+		/// @brief 当前月份有多少天。
+		///
+		/// @return int64_t
+		///
+		int64_t CurrentMonthDayCount();
+
+		///
 		/// @brief 今年是否是闰年。
 		///
 		/// @return true
@@ -63,12 +70,11 @@ namespace base
 		///
 		base::LeapSecondState LeapSecondState() const;
 
-		void AddYear(int64_t value)
-		{
-			_year += value;
-		}
+		void AddYears(int64_t value);
 
-		void AddMonth(int64_t value);
+		void AddMonths(int64_t value);
+
+		void AddDays(int64_t value);
 
 		///
 		/// @brief 转化为字符串。

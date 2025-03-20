@@ -1,6 +1,7 @@
 #include "DateTime.h"
 #include "base/string/define.h"
 #include <cstdint>
+#include <cstdlib>
 #include <map>
 #include <stdexcept>
 
@@ -138,63 +139,9 @@ void base::DateTime::CheckMonth()
 
 void base::DateTime::CheckDay()
 {
-	if (_day < 1)
+	if (_day < 1 || _day > CurrentMonthDayCount())
 	{
 		throw std::invalid_argument{CODE_POS_STR + "非法日。"};
-	}
-
-	switch (_month)
-	{
-	case 1:
-	case 3:
-	case 5:
-	case 7:
-	case 8:
-	case 10:
-	case 12:
-		{
-			if (_day > 31)
-			{
-				throw std::invalid_argument{CODE_POS_STR + "非法日。"};
-			}
-
-			break;
-		}
-	case 4:
-	case 6:
-	case 9:
-	case 11:
-		{
-			if (_day > 30)
-			{
-				throw std::invalid_argument{CODE_POS_STR + "非法日。"};
-			}
-
-			break;
-		}
-	case 2:
-		{
-			if (IsLeapYear())
-			{
-				if (_day > 29)
-				{
-					throw std::invalid_argument{CODE_POS_STR + "非法日。"};
-				}
-			}
-			else
-			{
-				if (_day > 28)
-				{
-					throw std::invalid_argument{CODE_POS_STR + "非法日。"};
-				}
-			}
-
-			break;
-		}
-	default:
-		{
-			throw std::invalid_argument{CODE_POS_STR + "非法月份。"};
-		}
 	}
 }
 
@@ -282,6 +229,38 @@ base::DateTime::DateTime(int64_t year, int64_t month, int64_t day,
 	CheckNanosecond();
 }
 
+int64_t base::DateTime::CurrentMonthDayCount()
+{
+	switch (_month)
+	{
+	case 2:
+		{
+			if (IsLeapYear())
+			{
+				return 29;
+			}
+
+			return 28;
+		}
+	case 1:
+	case 3:
+	case 5:
+	case 7:
+	case 8:
+	case 10:
+	case 12:
+		{
+			return 31;
+		}
+	default:
+		{
+			return 30;
+		}
+	}
+
+	throw std::invalid_argument{CODE_POS_STR + "非法月份。"};
+}
+
 bool base::DateTime::IsLeapYear() const
 {
 	if (_year % 100 == 0)
@@ -341,19 +320,115 @@ base::LeapSecondState base::DateTime::LeapSecondState() const
 	return base::LeapSecondState::None;
 }
 
-void base::DateTime::AddMonth(int64_t value)
+void base::DateTime::AddYears(int64_t value)
 {
-	int64_t month_count = _month - 1 + value;
-	AddYear(month_count / 12);
-	month_count %= 12;
+	_year += value;
+}
 
-	if (month_count < 0)
+void base::DateTime::AddMonths(int64_t value)
+{
+	if (value == 0)
 	{
-		_year -= 1;
-		month_count += 12;
+		return;
 	}
 
-	_month = month_count + 1;
+	int64_t month_index = _month - 1 + value;
+	if (month_index >= 0 && month_index < 12)
+	{
+		// 在最小正周期内
+		_month = month_index + 1;
+		return;
+	}
+
+	// 不在最小正周期内
+	AddYears(month_index / 12);
+	month_index = month_index % 12;
+
+	if (month_index < 0)
+	{
+		AddYears(-1);
+		month_index += 12;
+	}
+
+	_month = month_index + 1;
+}
+
+void base::DateTime::AddDays(int64_t value)
+{
+	if (value == 0)
+	{
+		return;
+	}
+
+	int64_t day_index = _day - 1 + value;
+	if (day_index >= 0 && day_index < 28)
+	{
+		// 在最小正周期内
+		_day = day_index + 1;
+		return;
+	}
+
+	// 不在最小正周期内
+	if (day_index > 0)
+	{
+		while (true)
+		{
+			if (IsLeapYear())
+			{
+				if (day_index < 366)
+				{
+					break;
+				}
+
+				day_index -= 366;
+				AddYears(1);
+			}
+			else
+			{
+				if (day_index < 365)
+				{
+					break;
+				}
+
+				day_index -= 365;
+				AddYears(1);
+			}
+		}
+	}
+
+	if (day_index > 0)
+	{
+		while (true)
+		{
+			// 想要到达下个月的 1 日要消耗多少天
+			int64_t delta = CurrentMonthDayCount() - _day + 1;
+			if (day_index < delta)
+			{
+				// 到不了下个月
+				_day = day_index + 1;
+				return;
+			}
+
+			day_index -= delta;
+			AddMonths(1);
+		}
+	}
+	else
+	{
+		// 到这里说明 day_index < 0
+		while (true)
+		{
+			// 前往上一个月
+			AddMonths(-1);
+
+			day_index += CurrentMonthDayCount();
+			if (day_index >= 0)
+			{
+				_day = day_index + 1;
+				return;
+			}
+		}
+	}
 }
 
 std::string base::DateTime::ToString() const
