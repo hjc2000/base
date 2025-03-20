@@ -30,6 +30,12 @@ namespace base
 		void CheckSecond();
 		void CheckNanosecond();
 
+		///
+		/// @brief 将 day_index 加减一整年的天数，然后增加或减少年份，
+		/// 将 day_index 调整到一年的天数以内。
+		///
+		/// @param day_index
+		///
 		void AddYearByDayIndex(int64_t &day_index);
 
 	public:
