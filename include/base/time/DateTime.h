@@ -38,8 +38,18 @@ namespace base
 		///
 		void AddDays(int64_t value);
 
+		///
+		/// @brief 增加小时。
+		///
+		/// @param value
+		///
 		void AddHours(int64_t value);
 
+		///
+		/// @brief 增加分钟。
+		///
+		/// @param value
+		///
 		void AddMinutes(int64_t value);
 
 		///
@@ -59,21 +69,38 @@ namespace base
 		void AdjustDayIndexToOneMonth(int64_t &day_index);
 
 		///
-		/// @brief 以日为周期，将小时索引调整到最小正周期。
+		/// @brief 以日为周期，将小时索引调整到最小正周期内。
 		///
 		/// @param hour_index
 		///
 		void AdjustHourIndexToOneDay(int64_t &hour_index);
 
 		///
-		/// @brief 以小时为周期，将分钟索引调整到最小正周期。
+		/// @brief 以小时为周期，将分钟索引调整到最小正周期内。
 		///
 		/// @param minute_index
 		///
 		void AdjustMinuteIndexToOneHour(int64_t &minute_index);
 
+		///
+		/// @brief 以分钟为周期，将秒调整到最小正周期内。
+		///
+		/// @param second_index
+		///
 		void AdjustSecondsIndexToOneMinute(int64_t &second_index);
 
+		///
+		/// @brief 绕过检查机制，构造一个本类对象。
+		///
+		/// @param year
+		/// @param month
+		/// @param day
+		/// @param hour
+		/// @param minute
+		/// @param second
+		/// @param nanosecond
+		/// @return static_function
+		///
 		static_function base::DateTime CreateWithoutCheck(int64_t year, int64_t month, int64_t day,
 														  int64_t hour, int64_t minute, int64_t second,
 														  int64_t nanosecond);
@@ -183,6 +210,11 @@ namespace base
 		int64_t LeapSecondOfCurrentMinute() const;
 		/* #endregion */
 
+		///
+		/// @brief 增加秒。
+		///
+		/// @param value
+		///
 		void AddSeconds(int64_t value);
 
 		///
