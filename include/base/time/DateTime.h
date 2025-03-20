@@ -111,7 +111,7 @@ namespace base
 		DateTime() = default;
 
 		///
-		/// @brief 通过 UTC + 0 的日期事件构造。
+		/// @brief 通过 UTC + 0 的日期时间构造。
 		///
 		/// @param year
 		/// @param month
