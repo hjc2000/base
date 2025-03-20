@@ -171,7 +171,7 @@ void base::DateTime::CheckMinute()
 
 void base::DateTime::CheckSecond()
 {
-	if (_second < 0 || _second > 59 + LeapSecond())
+	if (_second < 0 || _second > 59 + LeapSecondOfCurrentMinute())
 	{
 		throw std::invalid_argument{CODE_POS_STR + "非法秒。"};
 	}
@@ -428,7 +428,7 @@ bool base::DateTime::IsLeapYear() const
 	return _year % 4 == 0;
 }
 
-int64_t base::DateTime::LeapSecond() const
+int64_t base::DateTime::LeapSecondOfCurrentMonth() const
 {
 	if (_year < 1972 || _year > 2016)
 	{
@@ -443,6 +443,18 @@ int64_t base::DateTime::LeapSecond() const
 		return 0;
 	}
 
+	// 开始查表
+	auto it = _leap_second_map.find(PrivateDateTime{_year, _month});
+	if (it != _leap_second_map.end())
+	{
+		return it->second;
+	}
+
+	return 0;
+}
+
+int64_t base::DateTime::LeapSecondOfCurrentDay() const
+{
 	if (_month == 6 && _day != 30)
 	{
 		// 6 月份必定在 30 日添加闰秒。
@@ -455,24 +467,27 @@ int64_t base::DateTime::LeapSecond() const
 		return 0;
 	}
 
+	return LeapSecondOfCurrentMonth();
+}
+
+int64_t base::DateTime::LeapSecondOfCurrentHour() const
+{
 	if (_hour != 23)
 	{
 		return 0;
 	}
 
+	return LeapSecondOfCurrentDay();
+}
+
+int64_t base::DateTime::LeapSecondOfCurrentMinute() const
+{
 	if (_minute != 59)
 	{
 		return 0;
 	}
 
-	// 开始查表
-	auto it = _leap_second_map.find(PrivateDateTime{_year, _month});
-	if (it != _leap_second_map.end())
-	{
-		return it->second;
-	}
-
-	return 0;
+	return LeapSecondOfCurrentHour();
 }
 
 void base::DateTime::AddDays(int64_t value)

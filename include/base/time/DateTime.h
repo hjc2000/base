@@ -121,13 +121,32 @@ namespace base
 		bool IsLeapYear() const;
 
 		///
-		/// @brief 本日的闰秒。
+		/// @brief 当前月的闰秒。
 		///
 		/// @return int64_t 会返回 -1, 0, 1 三个值中的一个。
-		/// 本日没有闰秒则返回 0，本日有闰秒则返回 -1, 1.
-		/// 返回 -1 表示今日最后一分钟少 1 秒。返回 1 表示今日最后一分钟多 1 秒。
 		///
-		int64_t LeapSecond() const;
+		int64_t LeapSecondOfCurrentMonth() const;
+
+		///
+		/// @brief 当前日的闰秒。
+		///
+		/// @return int64_t 会返回 -1, 0, 1 三个值中的一个。
+		///
+		int64_t LeapSecondOfCurrentDay() const;
+
+		///
+		/// @brief 当前小时的闰秒。
+		///
+		/// @return int64_t 会返回 -1, 0, 1 三个值中的一个。
+		///
+		int64_t LeapSecondOfCurrentHour() const;
+
+		///
+		/// @brief 当前分钟的闰秒。
+		///
+		/// @return int64_t 会返回 -1, 0, 1 三个值中的一个。
+		///
+		int64_t LeapSecondOfCurrentMinute() const;
 
 		///
 		/// @brief 增加日。
