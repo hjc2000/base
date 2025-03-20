@@ -14,48 +14,14 @@ namespace
 	private:
 		int64_t _year{};
 		int64_t _month{};
-		int64_t _day{};
-		int64_t _hour{};
-		int64_t _minute{};
-		int64_t _second{};
-		int64_t _nanosecond{};
 
 	public:
 		PrivateDateTime() = default;
 
-		///
-		/// @brief 仅指定年和月，构造一个闰秒月份。
-		///
-		/// @param year
-		/// @param month
-		///
 		PrivateDateTime(int64_t year, int64_t month)
 		{
 			_year = year;
 			_month = month;
-
-			if (month == 6)
-			{
-				_day = 30;
-			}
-			else
-			{
-				_day = 31;
-			}
-
-			_hour = 23;
-			_minute = 59;
-		}
-
-		PrivateDateTime(base::DateTime const &o)
-		{
-			_year = o.Year();
-			_month = o.Month();
-			_day = o.Day();
-			_hour = o.Hour();
-			_minute = o.Minute();
-			_second = o.Second();
-			_nanosecond = o.Nanosecond();
 		}
 
 		/* #region 属性 */
@@ -70,31 +36,6 @@ namespace
 			return _month;
 		}
 
-		int64_t Day() const
-		{
-			return _day;
-		}
-
-		int64_t Hour() const
-		{
-			return _hour;
-		}
-
-		int64_t Minute() const
-		{
-			return _minute;
-		}
-
-		int64_t Second() const
-		{
-			return _second;
-		}
-
-		int64_t Nanosecond() const
-		{
-			return _nanosecond;
-		}
-
 		/* #endregion */
 
 		/* #region 比较 */
@@ -102,12 +43,7 @@ namespace
 		bool operator==(PrivateDateTime const &another) const
 		{
 			return _year == another._year &&
-				   _month == another._month &&
-				   _day == another._day &&
-				   _hour == another._hour &&
-				   _minute == another._minute &&
-				   _second == another._second &&
-				   _nanosecond == another._nanosecond;
+				   _month == another._month;
 		}
 
 		bool operator<(PrivateDateTime const &another) const
@@ -122,57 +58,7 @@ namespace
 				return false;
 			}
 
-			if (_month < another._month)
-			{
-				return true;
-			}
-
-			if (_month > another._month)
-			{
-				return false;
-			}
-
-			if (_day < another._day)
-			{
-				return true;
-			}
-
-			if (_day > another._day)
-			{
-				return false;
-			}
-
-			if (_hour < another._hour)
-			{
-				return true;
-			}
-
-			if (_hour > another._hour)
-			{
-				return false;
-			}
-
-			if (_minute < another._minute)
-			{
-				return true;
-			}
-
-			if (_minute > another._minute)
-			{
-				return false;
-			}
-
-			if (_second < another._second)
-			{
-				return true;
-			}
-
-			if (_second > another._second)
-			{
-				return false;
-			}
-
-			return _nanosecond < another._nanosecond;
+			return _month < another._month;
 		}
 
 		bool operator>(PrivateDateTime const &another) const
@@ -430,6 +316,21 @@ void base::DateTime::AdjustDayIndexToOneMonth(int64_t &day_index)
 			return;
 		}
 	}
+}
+
+base::DateTime base::DateTime::CreateWithoutCheck(int64_t year, int64_t month, int64_t day,
+												  int64_t hour, int64_t minute, int64_t second,
+												  int64_t nanosecond)
+{
+	base::DateTime ret{};
+	ret._year = year;
+	ret._month = month;
+	ret._day = day;
+	ret._hour = hour;
+	ret._minute = minute;
+	ret._second = second;
+	ret._nanosecond = nanosecond;
+	return ret;
 }
 
 base::DateTime::DateTime(int64_t year, int64_t month, int64_t day,

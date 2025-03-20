@@ -1,4 +1,5 @@
 #pragma once
+#include "base/define.h"
 #include "base/string/ICanToString.h"
 #include <cstdint>
 
@@ -40,6 +41,10 @@ namespace base
 		/// @param day_index
 		///
 		void AdjustDayIndexToOneMonth(int64_t &day_index);
+
+		static_function base::DateTime CreateWithoutCheck(int64_t year, int64_t month, int64_t day,
+														  int64_t hour, int64_t minute, int64_t second,
+														  int64_t nanosecond);
 
 	public:
 		DateTime() = default;
