@@ -428,6 +428,8 @@ bool base::DateTime::IsLeapYear() const
 	return _year % 4 == 0;
 }
 
+/* #region 当前闰秒 */
+
 int64_t base::DateTime::LeapSecondOfCurrentMonth() const
 {
 	if (_year < 1972 || _year > 2016)
@@ -489,6 +491,8 @@ int64_t base::DateTime::LeapSecondOfCurrentMinute() const
 
 	return LeapSecondOfCurrentHour();
 }
+
+/* #endregion */
 
 void base::DateTime::AddDays(int64_t value)
 {

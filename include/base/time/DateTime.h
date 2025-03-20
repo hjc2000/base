@@ -120,6 +120,8 @@ namespace base
 		///
 		bool IsLeapYear() const;
 
+		/* #region 当前闰秒 */
+
 		///
 		/// @brief 当前月的闰秒。
 		///
@@ -147,6 +149,7 @@ namespace base
 		/// @return int64_t 会返回 -1, 0, 1 三个值中的一个。
 		///
 		int64_t LeapSecondOfCurrentMinute() const;
+		/* #endregion */
 
 		///
 		/// @brief 增加日。
