@@ -143,7 +143,7 @@ namespace base
 				 int64_t hour, int64_t minute, int64_t second,
 				 int64_t nanosecond);
 
-		/* #region 属性 */
+		/* #region 日期时间属性 */
 
 		int64_t Year() const
 		{
