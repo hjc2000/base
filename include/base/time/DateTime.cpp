@@ -340,3 +340,33 @@ base::LeapSecondState base::DateTime::LeapSecondState() const
 
 	return base::LeapSecondState::None;
 }
+
+void base::DateTime::AddMonth(int64_t value)
+{
+	int64_t month_count = _month - 1 + value;
+	AddYear(month_count / 12);
+	month_count %= 12;
+
+	if (month_count < 0)
+	{
+		_year -= 1;
+		month_count += 12;
+	}
+
+	_month = month_count + 1;
+}
+
+std::string base::DateTime::ToString() const
+{
+	std::string ret{};
+	ret += std::to_string(_year) + '-';
+	ret += std::to_string(_month) + '-';
+	ret += std::to_string(_day);
+	ret += ' ';
+	ret += std::to_string(_hour) + ':';
+	ret += std::to_string(_minute) + ':';
+	ret += std::to_string(_second);
+	ret += '.';
+	ret += std::to_string(_nanosecond);
+	return ret;
+}

@@ -4,6 +4,7 @@
 #include "base/net/IPAddress.h"
 #include "base/net/profinet/dcp/DcpIdentifyRequestReader.h"
 #include "base/string/Parse.h"
+#include "base/time/DateTime.h"
 #include "base/time/time.h"
 #include "base/usage/CountTriangle.h"
 #include "base/usage/GenerateCalculationQuestions.h"
@@ -49,5 +50,11 @@ int main()
 	{
 		auto now = base::time::Now();
 		std::cout << static_cast<std::chrono::year_month_day>(now) << std::endl;
+	}
+
+	{
+		base::DateTime time{2000, 1, 1, 0, 0, 0, 0};
+		time.AddMonth(-13);
+		std::cout << time << std::endl;
 	}
 }

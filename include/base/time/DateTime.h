@@ -1,4 +1,5 @@
 #pragma once
+#include "base/string/ICanToString.h"
 #include <cstdint>
 
 namespace base
@@ -10,7 +11,8 @@ namespace base
 		SubtractOneSecond,
 	};
 
-	class DateTime
+	class DateTime :
+		public base::ICanToString
 	{
 	private:
 		int64_t _year{};
@@ -60,5 +62,19 @@ namespace base
 		/// @return base::LeapSecondState
 		///
 		base::LeapSecondState LeapSecondState() const;
+
+		void AddYear(int64_t value)
+		{
+			_year += value;
+		}
+
+		void AddMonth(int64_t value);
+
+		///
+		/// @brief 转化为字符串。
+		///
+		/// @return std::string
+		///
+		virtual std::string ToString() const override;
 	};
 } // namespace base
