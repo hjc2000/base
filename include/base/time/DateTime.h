@@ -16,6 +16,7 @@ namespace base
 		int64_t _minute{};
 		int64_t _second{};
 		int64_t _nanosecond{};
+		int64_t _utc_hour_offset{};
 
 		void CheckMonth();
 		void CheckDay();

@@ -578,16 +578,19 @@ void base::DateTime::AddSeconds(int64_t value)
 
 std::string base::DateTime::ToString() const
 {
+	DateTime copy{*this};
+	copy.AddHours(_utc_hour_offset);
+
 	std::string ret{};
-	ret += std::to_string(_year) + '-';
-	ret += std::to_string(_month) + '-';
-	ret += std::to_string(_day);
+	ret += std::to_string(copy._year) + '-';
+	ret += std::to_string(copy._month) + '-';
+	ret += std::to_string(copy._day);
 	ret += ' ';
-	ret += std::to_string(_hour) + ':';
-	ret += std::to_string(_minute) + ':';
-	ret += std::to_string(_second);
+	ret += std::to_string(copy._hour) + ':';
+	ret += std::to_string(copy._minute) + ':';
+	ret += std::to_string(copy._second);
 	ret += '.';
-	ret += std::to_string(_nanosecond);
+	ret += std::to_string(copy._nanosecond);
 	return ret;
 }
 
