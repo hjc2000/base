@@ -1,5 +1,5 @@
 #include "SinSignalSource.h"
-#include <base/string/define.h>
+#include "base/string/define.h"
 #include <math.h>
 #include <stdexcept>
 

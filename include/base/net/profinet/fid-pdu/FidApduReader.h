@@ -1,6 +1,6 @@
 #pragma once
-#include <base/net/ethernet/EthernetFrameReader.h>
-#include <base/net/profinet/fid-pdu/FrameIdEnum.h>
+#include "base/net/ethernet/EthernetFrameReader.h"
+#include "base/net/profinet/fid-pdu/FrameIdEnum.h"
 
 namespace base
 {

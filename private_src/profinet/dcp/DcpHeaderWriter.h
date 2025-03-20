@@ -1,8 +1,8 @@
 #pragma once
-#include <base/bit/AutoBitConverter.h>
-#include <base/net/profinet/dcp/DcpServiceIdEnum.h>
-#include <base/net/profinet/dcp/DcpServiceTypeEnum.h>
-#include <base/stream/Span.h>
+#include "base/bit/AutoBitConverter.h"
+#include "base/net/profinet/dcp/DcpServiceIdEnum.h"
+#include "base/net/profinet/dcp/DcpServiceTypeEnum.h"
+#include "base/stream/Span.h"
 
 namespace base
 {

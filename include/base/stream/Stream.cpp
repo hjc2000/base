@@ -1,4 +1,5 @@
 #include "Stream.h"
+#include "base/task/TaskCanceledException.h"
 
 int32_t base::Stream::Read(uint8_t *buffer, int32_t offset, int32_t count)
 {

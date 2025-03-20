@@ -1,6 +1,5 @@
 #include "FidApduWriter.h"
 #include "base/stream/Span.h"
-#include <base/string/define.h>
 
 base::profinet::FidApduWriter::FidApduWriter(base::Span const &span)
 	: _ethernet_frame(span)

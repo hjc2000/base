@@ -1,5 +1,5 @@
 #include "DcpHeaderWriter.h"
-#include <base/string/define.h>
+#include "base/string/define.h"
 #include <stdexcept>
 
 base::profinet::DcpHeaderWriter::DcpHeaderWriter(base::Span const &span)

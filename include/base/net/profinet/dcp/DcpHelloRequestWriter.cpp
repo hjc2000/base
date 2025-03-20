@@ -1,7 +1,6 @@
 #include "DcpHelloRequestWriter.h"
-#include <base/string/define.h>
-#include <DcpHeaderWriter.h>
-#include <DcpTlvStreamWriter.h>
+#include "DcpHeaderWriter.h"
+#include "DcpTlvStreamWriter.h"
 
 void base::profinet::DcpHelloRequestWriter::UpdateSize()
 {

@@ -1,8 +1,8 @@
 #include "test_zoned_time.h"
+#include "base/time/TimePointSinceEpoch.h"
+#include <iostream>
 
 #if HAS_THREAD
-	#include <base/time/TimePointSinceEpoch.h>
-	#include <iostream>
 
 void base::test::test_zoned_time()
 {

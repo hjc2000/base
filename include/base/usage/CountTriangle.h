@@ -1,6 +1,7 @@
 #pragma once
+#include "base/math/PathCollection.h"
+
 #if HAS_THREAD
-	#include <base/math/PathCollection.h>
 
 namespace base
 {
@@ -20,4 +21,5 @@ namespace base
 		void CountTriangle();
 	} // namespace usage
 } // namespace base
-#endif
+
+#endif // HAS_THREAD

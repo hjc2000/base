@@ -1,10 +1,10 @@
 #include "GenerateCalculationQuestions.h"
+#include "base/container/Set.h"
+#include "base/file/IFileStream.h"
+#include "base/math/random.h"
+#include "base/stream/StreamWriter.h"
 
 #if HAS_THREAD
-	#include <base/container/Set.h>
-	#include <base/file/IFileStream.h>
-	#include <base/math/random.h>
-	#include <base/stream/StreamWriter.h>
 
 base::usage::CalculationQuestion::CalculationQuestion(int32_t left, int32_t right, base::usage::Operator op)
 {
@@ -183,4 +183,5 @@ void base::usage::GenerateCalculationQuestions()
 		writer.WriteLine();
 	}
 }
-#endif
+
+#endif // HAS_THREAD

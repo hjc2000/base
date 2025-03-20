@@ -1,5 +1,5 @@
 #include "DcpTlvStreamWriter.h"
-#include <base/string/define.h>
+#include "base/string/define.h"
 
 void base::profinet::DcpTlvStreamWriter::WriteBlockHeader(uint8_t option,
 														  uint8_t suboption,

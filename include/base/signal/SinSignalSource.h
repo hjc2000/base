@@ -1,6 +1,6 @@
 #pragma once
-#include <base/signal/ISignalSource.h>
-#include <base/signal/PeriodicSamplingClock.h>
+#include "base/signal/ISignalSource.h"
+#include "base/signal/PeriodicSamplingClock.h"
 
 namespace base
 {

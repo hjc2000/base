@@ -1,5 +1,5 @@
 #include "DcpHeaderReader.h"
-#include <base/string/define.h>
+#include "base/string/define.h"
 #include <stdexcept>
 
 base::profinet::DcpHeaderReader::DcpHeaderReader(base::ReadOnlySpan const &span)

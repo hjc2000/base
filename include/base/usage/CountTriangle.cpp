@@ -1,7 +1,8 @@
+#include "CountTriangle.h"
+#include "base/math/Combination.h"
+#include <iostream>
+
 #if HAS_THREAD
-	#include "CountTriangle.h"
-	#include <base/math/Combination.h>
-	#include <iostream>
 
 void base::usage::CountTriangle(base::math::PathCollection const &paths)
 {

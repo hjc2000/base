@@ -1,10 +1,11 @@
 #pragma once
+#include "base/math/random.h"
+#include "base/string/ICanToString.h"
+#include <cstdint>
+#include <functional>
+#include <memory>
+
 #if HAS_THREAD
-	#include <base/math/random.h>
-	#include <base/string/ICanToString.h>
-	#include <cstdint>
-	#include <functional>
-	#include <memory>
 
 namespace base
 {

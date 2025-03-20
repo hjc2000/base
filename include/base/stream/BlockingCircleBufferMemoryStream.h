@@ -1,7 +1,7 @@
 #pragma once
-#include <base/stream/CircleBufferMemoryStream.h>
-#include <base/task/IMutex.h>
-#include <base/task/ISemaphore.h>
+#include "base/stream/CircleBufferMemoryStream.h"
+#include "base/task/IMutex.h"
+#include "base/task/ISemaphore.h"
 #include <memory>
 
 namespace base

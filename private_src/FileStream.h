@@ -1,7 +1,7 @@
 #pragma once
+#include "base/file/IFileStream.h"
 
 #if HAS_THREAD
-	#include <base/file/IFileStream.h>
 
 namespace base
 {

@@ -1,7 +1,7 @@
 #pragma once
-#include <base/net/profinet/ApduStatus.h>
-#include <base/net/profinet/C_SDU.h>
-#include <base/stream/Span.h>
+#include "base/net/profinet/ApduStatus.h"
+#include "base/net/profinet/C_SDU.h"
+#include "base/stream/Span.h"
 
 namespace base
 {

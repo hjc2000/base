@@ -1,4 +1,4 @@
-#include "FileStream.h" // IWYU pragma: keep
+#include "FileStream.h"
 #include "base/file/filesystem.h"
 
 #if HAS_THREAD

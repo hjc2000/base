@@ -1,10 +1,9 @@
 #pragma once
+#include "base/container/HysteresisBlockingQueue.h"
+#include "base/IDisposable.h"
+#include "base/pipe/IConsumer.h"
+#include "base/pipe/ISource.h"
 #include <atomic>
-#include <base/container/HysteresisBlockingQueue.h>
-#include <base/IDisposable.h>
-#include <base/pipe/IConsumer.h>
-#include <base/pipe/ISource.h>
-#include <stdexcept>
 
 namespace base
 {

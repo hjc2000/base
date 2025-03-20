@@ -1,8 +1,8 @@
 #pragma once
-#include <base/net/profinet/dcp/DcpServiceIdEnum.h>
-#include <base/net/profinet/dcp/DcpServiceTypeEnum.h>
-#include <base/net/profinet/fid-pdu/FidApduReader.h>
-#include <base/string/Json.h>
+#include "base/net/profinet/dcp/DcpServiceIdEnum.h"
+#include "base/net/profinet/dcp/DcpServiceTypeEnum.h"
+#include "base/net/profinet/fid-pdu/FidApduReader.h"
+#include "base/string/Json.h"
 
 namespace base
 {

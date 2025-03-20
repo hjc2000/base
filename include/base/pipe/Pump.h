@@ -1,9 +1,11 @@
 #pragma once
-#include <base/container/List.h>
-#include <base/delegate/Delegate.h>
-#include <base/pipe/IPump.h>
-#include <base/pipe/ISource.h>
-#include <base/task/TaskCanceledException.h>
+#include "base/container/List.h"
+#include "base/delegate/Delegate.h"
+#include "base/pipe/IPipeSource.h"
+#include "base/pipe/IPump.h"
+#include "base/pipe/ISource.h"
+#include "base/task/CancellationToken.h"
+#include "base/task/TaskCanceledException.h"
 #include <stdexcept>
 
 namespace base

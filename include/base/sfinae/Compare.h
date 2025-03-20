@@ -1,6 +1,6 @@
 #pragma once
-#include <base/sfinae/Equal.h>
-#include <base/string/define.h>
+#include "base/sfinae/Equal.h" // IWYU pragma: export
+#include "base/string/define.h"
 #include <stdexcept>
 #include <type_traits>
 

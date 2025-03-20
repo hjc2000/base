@@ -1,6 +1,6 @@
 #pragma once
-#include <base/net/profinet/DataItem.h>
-#include <base/stream/Span.h>
+#include "base/net/profinet/DataItem.h"
+#include "base/stream/Span.h"
 
 namespace base
 {

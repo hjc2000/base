@@ -1,7 +1,7 @@
 #include "DcpServiceTypeEnum.h"
+#include "base/string/define.h"
+#include "base/string/ToHexString.h"
 #include <base/string/define.h>
-#include <base/string/ToHexString.h>
-#include <stdexcept>
 
 std::string std::to_string(base::profinet::DcpServiceTypeEnum value)
 {

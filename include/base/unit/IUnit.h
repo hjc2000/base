@@ -1,6 +1,6 @@
 #pragma once
-#include <base/math/Fraction.h>
-#include <base/string/ICanToString.h>
+#include "base/math/Fraction.h"
+#include "base/string/ICanToString.h"
 #include <ostream>
 #include <type_traits>
 

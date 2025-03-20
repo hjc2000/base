@@ -36,7 +36,7 @@ For log = natural log uncomment the next line. */
 /* #define TE_NAT_LOG */
 
 #include "tinyexpr.h"
-#include <base/define.h>
+#include "base/define.h"
 #include <ctype.h>
 #include <limits.h>
 #include <math.h>

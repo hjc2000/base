@@ -1,7 +1,7 @@
-#if HAS_THREAD
-
 #include "TimeInterpolator.h"
-#include <base/time/time.h>
+#include "base/time/time.h"
+
+#if HAS_THREAD
 
 int64_t base::TimeInterpolator::DeltaTimeInMilliseconds()
 {

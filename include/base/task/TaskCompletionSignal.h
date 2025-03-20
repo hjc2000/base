@@ -1,10 +1,7 @@
 #pragma once
+#include "base/task/IMutex.h"
+#include "base/task/ISemaphore.h"
 #include <atomic>
-#include <base/task/IMutex.h>
-#include <base/task/ISemaphore.h>
-#include <condition_variable>
-#include <functional>
-#include <mutex>
 
 namespace base
 {

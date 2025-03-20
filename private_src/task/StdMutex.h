@@ -1,7 +1,7 @@
 #pragma once
-#if HAS_THREAD
+#include "base/task/IMutex.h"
 
-	#include <base/task/IMutex.h>
+#if HAS_THREAD
 
 namespace base
 {

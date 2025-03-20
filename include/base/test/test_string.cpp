@@ -1,9 +1,9 @@
 #include "test_string.h"
+#include "base/string/define.h"
+#include "base/string/String.h"
+#include <iostream>
 
 #if HAS_THREAD
-	#include <base/string/define.h>
-	#include <base/string/String.h>
-	#include <iostream>
 
 void base::test::Test_String_LastIndexOf()
 {
