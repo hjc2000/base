@@ -126,6 +126,11 @@ namespace base
 				 int64_t hour, int64_t minute, int64_t second,
 				 int64_t nanosecond);
 
+		DateTime(int64_t utc_hour_offset,
+				 int64_t year, int64_t month, int64_t day,
+				 int64_t hour, int64_t minute, int64_t second,
+				 int64_t nanosecond);
+
 		/* #region 属性 */
 
 		int64_t Year() const

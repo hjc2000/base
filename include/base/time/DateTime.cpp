@@ -460,6 +460,34 @@ base::DateTime::DateTime(int64_t year, int64_t month, int64_t day,
 	CheckNanosecond();
 }
 
+base::DateTime::DateTime(int64_t utc_hour_offset,
+						 int64_t year, int64_t month, int64_t day,
+						 int64_t hour, int64_t minute, int64_t second,
+						 int64_t nanosecond)
+{
+	_utc_hour_offset = utc_hour_offset;
+
+	_year = year;
+	_month = month;
+	_day = day;
+	_hour = hour;
+	_minute = minute;
+	_second = second;
+	_nanosecond = nanosecond;
+
+	CheckMonth();
+	CheckDay();
+	CheckHour();
+
+	// 调整回 UTC + 0 时间。
+	// 因为本类的字段储存的始终是 UTC + 0 时间。
+	AddHours(-_utc_hour_offset);
+
+	CheckMinute();
+	CheckSecond();
+	CheckNanosecond();
+}
+
 int64_t base::DateTime::CurrentMonthDayCount()
 {
 	switch (_month)
