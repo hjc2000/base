@@ -126,6 +126,18 @@ namespace base
 				 int64_t hour, int64_t minute, int64_t second,
 				 int64_t nanosecond);
 
+		///
+		/// @brief 构造 UTC 偏移日期时间。
+		///
+		/// @param utc_hour_offset 你在下面输入的日期时间是 UTC 偏移多少小时。
+		/// @param year
+		/// @param month
+		/// @param day
+		/// @param hour
+		/// @param minute
+		/// @param second
+		/// @param nanosecond
+		///
 		DateTime(int64_t utc_hour_offset,
 				 int64_t year, int64_t month, int64_t day,
 				 int64_t hour, int64_t minute, int64_t second,
