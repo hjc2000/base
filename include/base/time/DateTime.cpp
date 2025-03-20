@@ -14,15 +14,51 @@ namespace
 	private:
 		int64_t _year{};
 		int64_t _month{};
+		int64_t _day{};
+		int64_t _hour{};
+		int64_t _minute{};
+		int64_t _second{};
+		int64_t _nanosecond{};
 
 	public:
 		PrivateDateTime() = default;
 
+		///
+		/// @brief 仅指定年和月，构造一个闰秒月份。
+		///
+		/// @param year
+		/// @param month
+		///
 		PrivateDateTime(int64_t year, int64_t month)
-			: _year(year),
-			  _month(month)
 		{
+			_year = year;
+			_month = month;
+
+			if (month == 6)
+			{
+				_day = 30;
+			}
+			else
+			{
+				_day = 31;
+			}
+
+			_hour = 23;
+			_minute = 59;
 		}
+
+		PrivateDateTime(base::DateTime const &o)
+		{
+			_year = o.Year();
+			_month = o.Month();
+			_day = o.Day();
+			_hour = o.Hour();
+			_minute = o.Minute();
+			_second = o.Second();
+			_nanosecond = o.Nanosecond();
+		}
+
+		/* #region 属性 */
 
 		int64_t Year() const
 		{
@@ -34,10 +70,44 @@ namespace
 			return _month;
 		}
 
+		int64_t Day() const
+		{
+			return _day;
+		}
+
+		int64_t Hour() const
+		{
+			return _hour;
+		}
+
+		int64_t Minute() const
+		{
+			return _minute;
+		}
+
+		int64_t Second() const
+		{
+			return _second;
+		}
+
+		int64_t Nanosecond() const
+		{
+			return _nanosecond;
+		}
+
+		/* #endregion */
+
+		/* #region 比较 */
+
 		bool operator==(PrivateDateTime const &another) const
 		{
 			return _year == another._year &&
-				   _month == another._month;
+				   _month == another._month &&
+				   _day == another._day &&
+				   _hour == another._hour &&
+				   _minute == another._minute &&
+				   _second == another._second &&
+				   _nanosecond == another._nanosecond;
 		}
 
 		bool operator<(PrivateDateTime const &another) const
@@ -52,22 +122,72 @@ namespace
 				return false;
 			}
 
-			return _month < another._month;
-		}
-
-		bool operator>(PrivateDateTime const &another) const
-		{
-			if (_year > another._year)
+			if (_month < another._month)
 			{
 				return true;
 			}
 
-			if (_year < another._year)
+			if (_month > another._month)
 			{
 				return false;
 			}
 
-			return _month > another._month;
+			if (_day < another._day)
+			{
+				return true;
+			}
+
+			if (_day > another._day)
+			{
+				return false;
+			}
+
+			if (_hour < another._hour)
+			{
+				return true;
+			}
+
+			if (_hour > another._hour)
+			{
+				return false;
+			}
+
+			if (_minute < another._minute)
+			{
+				return true;
+			}
+
+			if (_minute > another._minute)
+			{
+				return false;
+			}
+
+			if (_second < another._second)
+			{
+				return true;
+			}
+
+			if (_second > another._second)
+			{
+				return false;
+			}
+
+			return _nanosecond < another._nanosecond;
+		}
+
+		bool operator>(PrivateDateTime const &another) const
+		{
+			if (*this == another)
+			{
+				return false;
+			}
+
+			if (*this < another)
+			{
+				return false;
+			}
+
+			return true;
 		}
 
 		bool operator<=(PrivateDateTime const &another) const
@@ -89,6 +209,8 @@ namespace
 
 			return *this > another;
 		}
+
+		/* #endregion */
 	};
 
 	/* #endregion */
@@ -177,10 +299,39 @@ void base::DateTime::CheckNanosecond()
 	}
 }
 
-void base::DateTime::AddYearByDayIndex(int64_t &day_index)
+void base::DateTime::AddMonths(int64_t value)
 {
-	if (day_index == 0)
+	if (value == 0)
 	{
+		return;
+	}
+
+	int64_t month_index = _month - 1 + value;
+	if (std::abs(month_index) < 12)
+	{
+		// 在最小正周期内
+		_month = month_index + 1;
+		return;
+	}
+
+	// 不在最小正周期内
+	_year += month_index / 12;
+	month_index %= 12;
+
+	if (month_index < 0)
+	{
+		_year -= 1;
+		month_index += 12;
+	}
+
+	_month = month_index + 1;
+}
+
+void base::DateTime::AdjustDayIndexToOneYear(int64_t &day_index)
+{
+	if (day_index >= 0 && day_index < 365)
+	{
+		// 以年为周期，已经处于最小正周期内了。
 		return;
 	}
 
@@ -229,6 +380,51 @@ void base::DateTime::AddYearByDayIndex(int64_t &day_index)
 			day_index += 365;
 		}
 
+		if (day_index >= 0)
+		{
+			return;
+		}
+	}
+}
+
+void base::DateTime::AdjustDayIndexToOneMonth(int64_t &day_index)
+{
+	AdjustDayIndexToOneYear(day_index);
+
+	if (day_index >= 0 && day_index < 28)
+	{
+		// 以月为周期，已经处于最小正周期内了。
+		// 即使周期来到最小的平年 2 月，也能够满足处于一个最小正周期内。
+		return;
+	}
+
+	if (day_index > 0)
+	{
+		while (true)
+		{
+			// 对于本月，当前的日的索引是 day_index 的当前值，如果要将索引起点调整到下一个月
+			// 的 1 日，即坐标原点向右移动，则 day_index 躺枪，被平白无故变小了。
+			//
+			// 则 day_index 的值在新的坐标中要减去偏移量 day_index.
+			int64_t delta = CurrentMonthDayCount();
+			if (day_index < delta)
+			{
+				// 到不了下个月
+				return;
+			}
+
+			day_index -= delta;
+			AddMonths(1);
+		}
+	}
+
+	// 到这里说明 day_index < 0
+	while (true)
+	{
+		// 前往上一个月
+		AddMonths(-1);
+
+		day_index += CurrentMonthDayCount();
 		if (day_index >= 0)
 		{
 			return;
@@ -347,34 +543,6 @@ int64_t base::DateTime::LeapSecond() const
 	return 0;
 }
 
-void base::DateTime::AddMonths(int64_t value)
-{
-	if (value == 0)
-	{
-		return;
-	}
-
-	int64_t month_index = _month - 1 + value;
-	if (month_index >= 0 && month_index < 12)
-	{
-		// 在最小正周期内
-		_month = month_index + 1;
-		return;
-	}
-
-	// 不在最小正周期内
-	_year += month_index / 12;
-	month_index %= 12;
-
-	if (month_index < 0)
-	{
-		_year -= 1;
-		month_index += 12;
-	}
-
-	_month = month_index + 1;
-}
-
 void base::DateTime::AddDays(int64_t value)
 {
 	if (value == 0)
@@ -382,59 +550,10 @@ void base::DateTime::AddDays(int64_t value)
 		return;
 	}
 
+	// 以本月 1 日为 0 索引，建立日的索引。
 	int64_t day_index = _day - 1 + value;
-	if (day_index >= 0 && day_index < 28)
-	{
-		// 在月份中的日的最小正周期内
-		// 周期最小的是平年的 2 月，有 28 天，最大索引是 27.
-		_day = day_index + 1;
-		return;
-	}
-
-	// 不在最小正周期内
-	AddYearByDayIndex(day_index);
-
-	if (day_index >= 0 && day_index < 28)
-	{
-		// 在月份中的日的最小正周期内
-		// 周期最小的是平年的 2 月，有 28 天，最大索引是 27.
-		_day = day_index + 1;
-		return;
-	}
-
-	if (day_index > 0)
-	{
-		while (true)
-		{
-			// 想要到达下个月的 1 日要消耗多少天
-			int64_t delta = CurrentMonthDayCount() - _day + 1;
-			if (day_index < delta)
-			{
-				// 到不了下个月
-				_day = day_index + 1;
-				return;
-			}
-
-			day_index -= delta;
-			AddMonths(1);
-		}
-	}
-	else
-	{
-		// 到这里说明 day_index < 0
-		while (true)
-		{
-			// 前往上一个月
-			AddMonths(-1);
-
-			day_index += CurrentMonthDayCount();
-			if (day_index >= 0)
-			{
-				_day = day_index + 1;
-				return;
-			}
-		}
-	}
+	AdjustDayIndexToOneMonth(day_index);
+	_day = day_index + 1;
 }
 
 std::string base::DateTime::ToString() const
@@ -451,3 +570,118 @@ std::string base::DateTime::ToString() const
 	ret += std::to_string(_nanosecond);
 	return ret;
 }
+
+/* #region 比较 */
+
+bool base::DateTime::operator==(DateTime const &another) const
+{
+	return _year == another._year &&
+		   _month == another._month &&
+		   _day == another._day &&
+		   _hour == another._hour &&
+		   _minute == another._minute &&
+		   _second == another._second &&
+		   _nanosecond == another._nanosecond;
+}
+
+bool base::DateTime::operator<(DateTime const &another) const
+{
+	if (_year < another._year)
+	{
+		return true;
+	}
+
+	if (_year > another._year)
+	{
+		return false;
+	}
+
+	if (_month < another._month)
+	{
+		return true;
+	}
+
+	if (_month > another._month)
+	{
+		return false;
+	}
+
+	if (_day < another._day)
+	{
+		return true;
+	}
+
+	if (_day > another._day)
+	{
+		return false;
+	}
+
+	if (_hour < another._hour)
+	{
+		return true;
+	}
+
+	if (_hour > another._hour)
+	{
+		return false;
+	}
+
+	if (_minute < another._minute)
+	{
+		return true;
+	}
+
+	if (_minute > another._minute)
+	{
+		return false;
+	}
+
+	if (_second < another._second)
+	{
+		return true;
+	}
+
+	if (_second > another._second)
+	{
+		return false;
+	}
+
+	return _nanosecond < another._nanosecond;
+}
+
+bool base::DateTime::operator>(DateTime const &another) const
+{
+	if (*this == another)
+	{
+		return false;
+	}
+
+	if (*this < another)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool base::DateTime::operator<=(DateTime const &another) const
+{
+	if (*this == another)
+	{
+		return true;
+	}
+
+	return *this < another;
+}
+
+bool base::DateTime::operator>=(DateTime const &another) const
+{
+	if (*this == another)
+	{
+		return true;
+	}
+
+	return *this > another;
+}
+
+/* #endregion */
