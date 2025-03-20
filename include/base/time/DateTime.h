@@ -46,6 +46,8 @@ namespace base
 														  int64_t hour, int64_t minute, int64_t second,
 														  int64_t nanosecond);
 
+		static_function int64_t CountLeapSeconds(base::DateTime const &start, base::DateTime const &end);
+
 	public:
 		DateTime() = default;
 

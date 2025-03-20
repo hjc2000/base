@@ -105,7 +105,7 @@ namespace
 	/// @brief UTC+0 的闰秒表。
 	///
 	///
-	std::map<PrivateDateTime, int64_t> _leap_second_years{
+	std::map<PrivateDateTime, int64_t> _leap_second_map{
 		{PrivateDateTime{1972, 6}, 1},
 		{PrivateDateTime{1972, 12}, 1},
 		{PrivateDateTime{1973, 12}, 1},
@@ -333,6 +333,37 @@ base::DateTime base::DateTime::CreateWithoutCheck(int64_t year, int64_t month, i
 	return ret;
 }
 
+int64_t base::DateTime::CountLeapSeconds(base::DateTime const &start, base::DateTime const &end)
+{
+	int64_t total_leap_second = 0;
+
+	for (auto private_date_time_pair : _leap_second_map)
+	{
+		base::DateTime leap_second_date_time;
+
+		{
+			PrivateDateTime const &private_date_time = private_date_time_pair.first;
+			int64_t leap_second = private_date_time_pair.second;
+
+			int64_t day = 31;
+			if (private_date_time.Month() == 6)
+			{
+				day = 30;
+			}
+
+			leap_second_date_time = CreateWithoutCheck(private_date_time.Year(),
+													   private_date_time.Month(),
+													   day,
+													   23,
+													   59,
+													   59 + leap_second,
+													   0);
+		}
+	}
+
+	return total_leap_second;
+}
+
 base::DateTime::DateTime(int64_t year, int64_t month, int64_t day,
 						 int64_t hour, int64_t minute, int64_t second,
 						 int64_t nanosecond)
@@ -435,8 +466,8 @@ int64_t base::DateTime::LeapSecond() const
 	}
 
 	// 开始查表
-	auto it = _leap_second_years.find(PrivateDateTime{_year, _month});
-	if (it != _leap_second_years.end())
+	auto it = _leap_second_map.find(PrivateDateTime{_year, _month});
+	if (it != _leap_second_map.end())
 	{
 		return it->second;
 	}
