@@ -7,18 +7,18 @@
 
 namespace
 {
-	/* #region YearMonth */
+	/* #region PrivateDateTime */
 
-	class YearMonth
+	class PrivateDateTime
 	{
 	private:
 		int64_t _year{};
 		int64_t _month{};
 
 	public:
-		YearMonth() = default;
+		PrivateDateTime() = default;
 
-		YearMonth(int64_t year, int64_t month)
+		PrivateDateTime(int64_t year, int64_t month)
 			: _year(year),
 			  _month(month)
 		{
@@ -34,13 +34,13 @@ namespace
 			return _month;
 		}
 
-		bool operator==(YearMonth const &another) const
+		bool operator==(PrivateDateTime const &another) const
 		{
 			return _year == another._year &&
 				   _month == another._month;
 		}
 
-		bool operator<(YearMonth const &another) const
+		bool operator<(PrivateDateTime const &another) const
 		{
 			if (_year < another._year)
 			{
@@ -55,7 +55,7 @@ namespace
 			return _month < another._month;
 		}
 
-		bool operator>(YearMonth const &another) const
+		bool operator>(PrivateDateTime const &another) const
 		{
 			if (_year > another._year)
 			{
@@ -70,7 +70,7 @@ namespace
 			return _month > another._month;
 		}
 
-		bool operator<=(YearMonth const &another) const
+		bool operator<=(PrivateDateTime const &another) const
 		{
 			if (*this == another)
 			{
@@ -80,7 +80,7 @@ namespace
 			return *this < another;
 		}
 
-		bool operator>=(YearMonth const &another) const
+		bool operator>=(PrivateDateTime const &another) const
 		{
 			if (*this == another)
 			{
@@ -97,34 +97,34 @@ namespace
 	/// @brief UTC+0 的闰秒表。
 	///
 	///
-	std::map<YearMonth, base::LeapSecondState> _leap_second_years{
-		{YearMonth{1972, 6}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{1972, 12}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{1973, 12}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{1974, 12}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{1975, 12}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{1976, 12}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{1977, 12}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{1978, 12}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{1979, 12}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{1981, 6}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{1982, 6}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{1983, 6}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{1985, 6}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{1987, 12}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{1989, 12}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{1990, 12}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{1992, 6}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{1993, 6}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{1994, 6}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{1995, 12}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{1997, 6}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{1998, 12}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{2005, 12}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{2008, 12}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{2012, 6}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{2015, 6}, base::LeapSecondState::AddOneSecond},
-		{YearMonth{2016, 12}, base::LeapSecondState::AddOneSecond},
+	std::map<PrivateDateTime, base::LeapSecondState> _leap_second_years{
+		{PrivateDateTime{1972, 6}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{1972, 12}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{1973, 12}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{1974, 12}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{1975, 12}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{1976, 12}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{1977, 12}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{1978, 12}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{1979, 12}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{1981, 6}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{1982, 6}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{1983, 6}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{1985, 6}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{1987, 12}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{1989, 12}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{1990, 12}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{1992, 6}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{1993, 6}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{1994, 6}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{1995, 12}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{1997, 6}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{1998, 12}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{2005, 12}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{2008, 12}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{2012, 6}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{2015, 6}, base::LeapSecondState::AddOneSecond},
+		{PrivateDateTime{2016, 12}, base::LeapSecondState::AddOneSecond},
 	};
 
 } // namespace
@@ -206,6 +206,65 @@ void base::DateTime::CheckNanosecond()
 	if (_nanosecond < 0 || _nanosecond > 999)
 	{
 		throw std::invalid_argument{CODE_POS_STR + "非法纳秒。"};
+	}
+}
+
+void base::DateTime::AddYearByDayIndex(int64_t &day_index)
+{
+	if (day_index == 0)
+	{
+		return;
+	}
+
+	if (day_index > 0)
+	{
+		while (true)
+		{
+			if (IsLeapYear())
+			{
+				// 是闰年
+				if (day_index < 366)
+				{
+					return;
+				}
+
+				day_index -= 366;
+				AddYears(1);
+			}
+			else
+			{
+				// 是平年
+				if (day_index < 365)
+				{
+					return;
+				}
+
+				day_index -= 365;
+				AddYears(1);
+			}
+		}
+	}
+
+	// day_index < 0
+	while (true)
+	{
+		// 前往去年
+		AddYears(-1);
+		if (IsLeapYear())
+		{
+			// 去年是闰年
+			day_index += 366;
+		}
+		else
+		{
+			// 去年是平年
+			day_index += 365;
+		}
+
+		if (day_index >= 0)
+		{
+			return;
+		}
 	}
 }
 
@@ -311,7 +370,7 @@ base::LeapSecondState base::DateTime::LeapSecondState() const
 	}
 
 	// 开始查表
-	auto it = _leap_second_years.find(YearMonth{_year, _month});
+	auto it = _leap_second_years.find(PrivateDateTime{_year, _month});
 	if (it != _leap_second_years.end())
 	{
 		return it->second;
@@ -342,7 +401,7 @@ void base::DateTime::AddMonths(int64_t value)
 
 	// 不在最小正周期内
 	AddYears(month_index / 12);
-	month_index = month_index % 12;
+	month_index %= 12;
 
 	if (month_index < 0)
 	{
@@ -370,34 +429,7 @@ void base::DateTime::AddDays(int64_t value)
 	}
 
 	// 不在最小正周期内
-	if (day_index > 0)
-	{
-		while (true)
-		{
-			if (IsLeapYear())
-			{
-				// 是闰年
-				if (day_index < 366)
-				{
-					break;
-				}
-
-				day_index -= 366;
-				AddYears(1);
-			}
-			else
-			{
-				// 是平年
-				if (day_index < 365)
-				{
-					break;
-				}
-
-				day_index -= 365;
-				AddYears(1);
-			}
-		}
-	}
+	AddYearByDayIndex(day_index);
 
 	if (day_index >= 0 && day_index < 28)
 	{

@@ -30,6 +30,8 @@ namespace base
 		void CheckSecond();
 		void CheckNanosecond();
 
+		void AddYearByDayIndex(int64_t &day_index);
+
 	public:
 		DateTime() = default;
 
