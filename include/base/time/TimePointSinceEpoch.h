@@ -21,6 +21,8 @@ namespace base
 		std::chrono::nanoseconds _time_since_epoch{};
 
 	public:
+		using local_days_duration_type = decltype(std::chrono::local_days{}.time_since_epoch());
+
 		/* #region time_point 别名 */
 		using ns_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>;
 		using us_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds>;
@@ -70,7 +72,21 @@ namespace base
 		explicit operator std::chrono::seconds() const;
 		explicit operator timespec() const;
 
+		///
+		/// @brief 强制转换为天数。
+		///
+		/// @note 天数 = 秒 / 60 / 60 / 24
+		/// 标准库也只是进行了这种简单计算。闰秒，夏令时等问题应该是转换为 std::chrono::year_month_day
+		/// 时才有考虑。
+		///
+		/// @return std::chrono::local_days
+		///
+		explicit operator std::chrono::local_days() const;
+
 #if HAS_THREAD
+
+		explicit operator std::chrono::year_month_day() const;
+
 		/* #region 强制转换为时间点 */
 		operator ns_time_point() const;
 		operator us_time_point() const;

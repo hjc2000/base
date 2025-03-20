@@ -3,6 +3,7 @@
 #include "base/unit/Hz.h"
 #include "base/unit/Minutes.h"
 #include "base/unit/Nanoseconds.h"
+#include <chrono>
 
 base::Seconds::Seconds(base::Fraction const &value)
 {
@@ -52,6 +53,11 @@ base::Seconds::Seconds(std::chrono::milliseconds const &value)
 base::Seconds::Seconds(std::chrono::microseconds const &value)
 {
 	_value = base::Fraction{value.count()} / 1000 / 1000;
+}
+
+base::Seconds::Seconds(std::chrono::nanoseconds const &value)
+{
+	_value = base::Fraction{value.count()} / 1000 / 1000 / 1000;
 }
 
 std::string base::Seconds::UnitString() const

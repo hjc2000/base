@@ -3,7 +3,6 @@
 #include "base/unit/MHz.h"
 #include "base/unit/Seconds.h"
 
-
 base::Nanoseconds::Nanoseconds(base::Fraction const &value)
 {
 	_value = value;
@@ -50,6 +49,11 @@ base::Nanoseconds::Nanoseconds(std::chrono::milliseconds const &value)
 }
 
 base::Nanoseconds::Nanoseconds(std::chrono::microseconds const &value)
+	: Nanoseconds(base::Seconds{value})
+{
+}
+
+base::Nanoseconds::Nanoseconds(std::chrono::nanoseconds const &value)
 	: Nanoseconds(base::Seconds{value})
 {
 }

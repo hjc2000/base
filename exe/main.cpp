@@ -4,8 +4,10 @@
 #include "base/net/IPAddress.h"
 #include "base/net/profinet/dcp/DcpIdentifyRequestReader.h"
 #include "base/string/Parse.h"
+#include "base/time/time.h"
 #include "base/usage/CountTriangle.h"
 #include "base/usage/GenerateCalculationQuestions.h"
+#include <chrono>
 #include <iostream>
 
 int main()
@@ -42,5 +44,10 @@ int main()
 		base::filesystem::Copy(src_path,
 							   dst_path,
 							   base::filesystem::OverwriteOption::Overwrite);
+	}
+
+	{
+		auto now = base::time::Now();
+		std::cout << static_cast<std::chrono::year_month_day>(now) << std::endl;
 	}
 }

@@ -30,6 +30,7 @@ namespace base
 		explicit Seconds(std::chrono::seconds const &value);
 		explicit Seconds(std::chrono::milliseconds const &value);
 		explicit Seconds(std::chrono::microseconds const &value);
+		explicit Seconds(std::chrono::nanoseconds const &value);
 
 		virtual base::Fraction &Value() override
 		{

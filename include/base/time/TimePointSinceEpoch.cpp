@@ -61,6 +61,8 @@ base::TimePointSinceEpoch::TimePointSinceEpoch(file_clock_time_point const &valu
 {
 	_time_since_epoch = value.time_since_epoch();
 
+	// 文件时钟不准，并不是当前的 epoch 时间，而是与 epoch 时间之间有一个固定的偏移量。
+	// 获取这个偏移量，然后将文件时钟的时间戳加上偏移量就得到了文件时钟时间戳对应的 epoch 时间戳。
 	auto delta = std::chrono::system_clock::now().time_since_epoch() -
 				 std::filesystem::file_time_type::clock::now().time_since_epoch();
 
@@ -108,7 +110,21 @@ base::TimePointSinceEpoch::operator timespec() const
 	return ts;
 }
 
+base::TimePointSinceEpoch::operator std::chrono::local_days() const
+{
+	local_days_duration_type duration = std::chrono::duration_cast<local_days_duration_type>(_time_since_epoch);
+	std::chrono::local_days ret{duration};
+	return ret;
+}
+
 #if HAS_THREAD
+
+base::TimePointSinceEpoch::operator std::chrono::year_month_day() const
+{
+	std::chrono::year_month_day ret{static_cast<std::chrono::local_days>(*this)};
+	return ret;
+}
+
 /* #region 转换为时间点 */
 
 base::TimePointSinceEpoch::operator ns_time_point() const
@@ -133,6 +149,8 @@ base::TimePointSinceEpoch::operator s_time_point() const
 
 base::TimePointSinceEpoch::operator file_clock_time_point() const
 {
+	// 文件时钟不准，并不是当前的 epoch 时间，而是与 epoch 时间之间有一个固定的偏移量。
+	// 获取这个偏移量，然后将 _time_since_epoch 减去这个偏移量就得到了对应的文件时钟时间戳。
 	auto delta = std::chrono::system_clock::now().time_since_epoch() -
 				 std::filesystem::file_time_type::clock::now().time_since_epoch();
 
@@ -147,7 +165,8 @@ base::TimePointSinceEpoch::operator ns_zoned_time() const
 {
 	base::TimePointSinceEpoch utc8 = *this + 8 * base::TimeSpan{std::chrono::seconds{60 * 60}};
 	auto time_point = static_cast<ns_time_point>(utc8);
-	return ns_zoned_time{"UTC", time_point};
+	ns_zoned_time ret{"UTC", time_point};
+	return ret;
 }
 
 base::TimePointSinceEpoch::operator us_zoned_time() const
