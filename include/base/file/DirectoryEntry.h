@@ -30,6 +30,8 @@ namespace base
 		///
 		bool Exists() const;
 
+		/* #region 访问权限 */
+
 		///
 		/// @brief 本条目是否可读。
 		///
@@ -53,6 +55,9 @@ namespace base
 		/// @return false
 		///
 		bool IsExcuteable() const;
+		/* #endregion */
+
+		/* #region 类型判断 */
 
 		///
 		/// @brief 检查本条目是否是目录。
@@ -62,6 +67,38 @@ namespace base
 		///
 		bool IsDirectory() const;
 
+		///
+		/// @brief 是常规文件。
+		///
+		/// @note 常规文件是文件系统中储存在磁盘等介质中的数据，不是设备文件或套接字之类的抽象出来
+		/// 映射到文件系统中的文件。
+		///
+		/// @return true
+		/// @return false
+		///
 		bool IsRegularFile() const;
+
+		///
+		/// @brief 是广义的文件。
+		///
+		/// @note 广义的文件包括：符号链接、设备文件、套接字等。
+		/// @note 只要不是目录，就是广义的文件。
+		///
+		/// @return true
+		/// @return false
+		///
+		bool IsFile() const
+		{
+			return !IsDirectory();
+		}
+
+		///
+		/// @brief 是符号链接。
+		///
+		/// @return true
+		/// @return false
+		///
+		bool IsSymbolicLink() const;
+		/* #endregion */
 	};
 } // namespace base

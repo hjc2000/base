@@ -35,3 +35,8 @@ bool base::DirectoryEntry::IsRegularFile() const
 {
 	return base::filesystem::IsRegularFile(_path);
 }
+
+bool base::DirectoryEntry::IsSymbolicLink() const
+{
+	return base::filesystem::IsSymbolicLink(_path);
+}
