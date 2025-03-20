@@ -363,7 +363,8 @@ void base::DateTime::AddDays(int64_t value)
 	int64_t day_index = _day - 1 + value;
 	if (day_index >= 0 && day_index < 28)
 	{
-		// 在最小正周期内
+		// 在月份中的日的最小正周期内
+		// 周期最小的是平年的 2 月，有 28 天，最大索引是 27.
 		_day = day_index + 1;
 		return;
 	}
@@ -375,6 +376,7 @@ void base::DateTime::AddDays(int64_t value)
 		{
 			if (IsLeapYear())
 			{
+				// 是闰年
 				if (day_index < 366)
 				{
 					break;
@@ -385,6 +387,7 @@ void base::DateTime::AddDays(int64_t value)
 			}
 			else
 			{
+				// 是平年
 				if (day_index < 365)
 				{
 					break;
@@ -394,6 +397,14 @@ void base::DateTime::AddDays(int64_t value)
 				AddYears(1);
 			}
 		}
+	}
+
+	if (day_index >= 0 && day_index < 28)
+	{
+		// 在月份中的日的最小正周期内
+		// 周期最小的是平年的 2 月，有 28 天，最大索引是 27.
+		_day = day_index + 1;
+		return;
 	}
 
 	if (day_index > 0)
