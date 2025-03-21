@@ -2,6 +2,8 @@
 #include "base/time/TimePointSinceEpoch.h"
 #include <chrono>
 
+#if HAS_THREAD
+
 base::TimePointSinceEpoch base::ToTimePointSinceEpoch(ns_time_point const &value)
 {
 	return base::TimePointSinceEpoch{value.time_since_epoch()};
@@ -34,8 +36,6 @@ base::TimePointSinceEpoch base::ToTimePointSinceEpoch(file_clock_time_point cons
 	time_since_epoch += delta;
 	return base::TimePointSinceEpoch{time_since_epoch};
 }
-
-#if HAS_THREAD
 
 /* #region 转换为区域时间 */
 

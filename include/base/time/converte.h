@@ -22,13 +22,13 @@ namespace base
 
 	class TimePointSinceEpoch;
 
+#if HAS_THREAD
+
 	base::TimePointSinceEpoch ToTimePointSinceEpoch(ns_time_point const &value);
 	base::TimePointSinceEpoch ToTimePointSinceEpoch(us_time_point const &value);
 	base::TimePointSinceEpoch ToTimePointSinceEpoch(ms_time_point const &value);
 	base::TimePointSinceEpoch ToTimePointSinceEpoch(s_time_point const &value);
 	base::TimePointSinceEpoch ToTimePointSinceEpoch(file_clock_time_point const &value);
-
-#if HAS_THREAD
 
 	/* #region 转换为区域时间 */
 
