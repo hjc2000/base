@@ -9,11 +9,29 @@
 
 namespace base
 {
+	class StringLength
+	{
+	private:
+		int32_t _value{};
+
+	public:
+		StringLength(int32_t value)
+			: _value(value)
+		{
+		}
+
+		int32_t Value() const
+		{
+			return _value;
+		}
+	};
+
 	///
 	/// @brief 对 std::string 进行包装。
 	///
 	///
 	class String
+
 	{
 	private:
 		std::string _string{};
@@ -162,8 +180,6 @@ namespace base
 
 		/* #endregion */
 
-		/* #region Trim */
-
 		///
 		/// @brief 裁剪掉字符串开头处的空白字符。
 		///
@@ -184,8 +200,6 @@ namespace base
 		/// @note 关于哪些是空白字符，见 IsWhiteChar 函数。
 		///
 		void Trim();
-
-		/* #endregion */
 
 		/* #region IndexOf */
 
@@ -373,6 +387,48 @@ namespace base
 		/// @return false
 		///
 		bool EndWith(base::String const &match) const;
+
+		/* #region 填充 */
+
+		///
+		/// @brief 向字符串左边填充指定字符以达到目标长度。
+		///
+		/// @param pad 用来填充的字符。
+		/// @param length 目标长度。
+		///
+		void PadLeft(char pad, base::StringLength const &length);
+
+		///
+		/// @brief 向字符串左边填充空白字符以达到目标长度。
+		///
+		/// @param pad 用来填充的字符。
+		/// @param length 目标长度。
+		///
+		void PadLeft(base::StringLength const &length)
+		{
+			PadLeft(' ', length);
+		}
+
+		///
+		/// @brief 向字符串右边填充指定字符以达到目标长度。
+		///
+		/// @param pad 用来填充的字符。
+		/// @param length 目标长度。
+		///
+		void PadRight(char pad, base::StringLength const &length);
+
+		///
+		/// @brief 向字符串右边填充空白字符以达到目标长度。
+		///
+		/// @param pad 用来填充的字符。
+		/// @param length 目标长度。
+		///
+		void PadRight(base::StringLength const &length)
+		{
+			PadRight(' ', length);
+		}
+
+		/* #endregion */
 
 		/* #region 迭代器 */
 

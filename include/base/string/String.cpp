@@ -1,7 +1,9 @@
 #include "String.h"
 #include "base/container/Range.h"
 #include "base/string/character.h"
+#include <cstddef>
 #include <stdexcept>
+#include <string>
 
 /* #region 构造函数 */
 
@@ -35,8 +37,6 @@ base::String::String(base::Span const &span)
 
 /* #endregion */
 
-/* #region 获取底层数据 */
-
 std::string &base::String::StdString()
 {
 	return _string;
@@ -62,8 +62,6 @@ base::ReadOnlySpan base::String::Span() const
 		static_cast<int32_t>(_string.size()),
 	};
 }
-
-/* #endregion */
 
 int32_t base::String::Length() const
 {
@@ -98,8 +96,6 @@ base::String base::String::operator[](base::Range const &range) const
 }
 
 /* #endregion */
-
-/* #region 拼接，切片 */
 
 base::String &base::String::operator+=(base::String const &o)
 {
@@ -193,8 +189,6 @@ base::String base::String::Slice(base::Range const &range) const
 	return base::String{ret};
 }
 
-/* #endregion */
-
 /* #region 比较运算符 */
 
 bool base::String::operator==(base::String const &o) const
@@ -223,8 +217,6 @@ bool base::String::operator>=(base::String const &o) const
 }
 
 /* #endregion */
-
-/* #region Trim */
 
 void base::String::TrimStart()
 {
@@ -282,8 +274,6 @@ void base::String::Trim()
 	TrimEnd();
 }
 
-/* #endregion */
-
 /* #region IndexOf */
 
 int32_t base::String::IndexOf(char match) const
@@ -337,8 +327,6 @@ void base::String::Reverse()
 	std::reverse(_string.data(), _string.data() + _string.size());
 }
 
-/* #region Remove */
-
 void base::String::Remove(base::Range const &range)
 {
 	_string.erase(range.Begin(), range.Size());
@@ -348,10 +336,6 @@ void base::String::RemoveAt(int32_t index)
 {
 	_string.erase(index, 1);
 }
-
-/* #endregion */
-
-/* #region Replace */
 
 void base::String::Replace(base::Range const &range, base::String const &replacement)
 {
@@ -379,8 +363,6 @@ void base::String::Replace(base::String const &match, base::String const &replac
 	}
 }
 
-/* #endregion */
-
 void base::String::ToLower()
 {
 	std::transform(_string.begin(),
@@ -407,8 +389,6 @@ bool base::String::Contains(base::String const &match) const
 	return IndexOf(match) >= 0;
 }
 
-/* #region 开始结尾 */
-
 bool base::String::StartWith(char match) const
 {
 	return Span().StartWith(match);
@@ -429,7 +409,38 @@ bool base::String::EndWith(base::String const &match) const
 	return Span().EndWith(match.Span());
 }
 
-/* #endregion */
+void base::String::PadLeft(char pad, base::StringLength const &length)
+{
+	int32_t padding = length.Value() - Length();
+	if (padding <= 0)
+	{
+		return;
+	}
+
+	std::string pad_str{};
+	pad_str.reserve(padding);
+	for (int32_t i = 0; i < padding; i++)
+	{
+		pad_str += pad;
+	}
+
+	_string = pad_str + _string;
+}
+
+void base::String::PadRight(char pad, base::StringLength const &length)
+{
+	int32_t padding = length.Value() - Length();
+	if (padding <= 0)
+	{
+		return;
+	}
+
+	_string.reserve(_string.size() + padding);
+	for (int32_t i = 0; i < padding; i++)
+	{
+		_string += pad;
+	}
+}
 
 /* #region 全局字符串拼接运算符 */
 
