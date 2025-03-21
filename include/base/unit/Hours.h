@@ -32,7 +32,6 @@ namespace base
 		explicit Hours(std::chrono::milliseconds const &value);
 		explicit Hours(std::chrono::microseconds const &value);
 
-	public:
 		virtual base::Fraction &Value() override
 		{
 			return _value;

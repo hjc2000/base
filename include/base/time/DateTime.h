@@ -1,10 +1,28 @@
 #pragma once
-#include "base/define.h"
 #include "base/string/ICanToString.h"
 #include <cstdint>
 
 namespace base
 {
+	class UtcHourOffset
+	{
+	private:
+		int64_t _value{};
+
+	public:
+		UtcHourOffset() = default;
+
+		explicit UtcHourOffset(int64_t value)
+			: _value(value)
+		{
+		}
+
+		int64_t Value() const
+		{
+			return _value;
+		}
+	};
+
 	class DateTime :
 		public base::ICanToString
 	{
@@ -18,12 +36,16 @@ namespace base
 		int64_t _nanosecond{};
 		int64_t _utc_hour_offset{};
 
+		/* #region 检查 */
 		void CheckMonth();
 		void CheckDay();
 		void CheckHour();
 		void CheckMinute();
 		void CheckSecond();
 		void CheckNanosecond();
+		/* #endregion */
+
+		/* #region 私有时间调整方法 */
 
 		///
 		/// @brief 增加月。
@@ -31,27 +53,6 @@ namespace base
 		/// @param value
 		///
 		void AddMonths(int64_t value);
-
-		///
-		/// @brief 增加日。
-		///
-		/// @param value
-		///
-		void AddDays(int64_t value);
-
-		///
-		/// @brief 增加小时。
-		///
-		/// @param value
-		///
-		void AddHours(int64_t value);
-
-		///
-		/// @brief 增加分钟。
-		///
-		/// @param value
-		///
-		void AddMinutes(int64_t value);
 
 		///
 		/// @brief 以年为周期，将日索引调整到最小正周期内。
@@ -89,26 +90,11 @@ namespace base
 		/// @param second_index
 		///
 		void AdjustSecondsIndexToOneMinute(int64_t &second_index);
-
-		///
-		/// @brief 绕过检查机制，构造一个本类对象。
-		///
-		/// @param year
-		/// @param month
-		/// @param day
-		/// @param hour
-		/// @param minute
-		/// @param second
-		/// @param nanosecond
-		/// @return static_function
-		///
-		static_function base::DateTime CreateWithoutCheck(int64_t year, int64_t month, int64_t day,
-														  int64_t hour, int64_t minute, int64_t second,
-														  int64_t nanosecond);
-
-		static_function int64_t CountLeapSecondsBetweenTwoMinutes(base::DateTime const &start, base::DateTime const &end);
+		/* #endregion */
 
 	public:
+		/* #region 构造函数 */
+
 		DateTime() = default;
 
 		///
@@ -138,10 +124,12 @@ namespace base
 		/// @param second
 		/// @param nanosecond
 		///
-		DateTime(int64_t utc_hour_offset,
+		DateTime(base::UtcHourOffset utc_hour_offset,
 				 int64_t year, int64_t month, int64_t day,
 				 int64_t hour, int64_t minute, int64_t second,
 				 int64_t nanosecond);
+
+		/* #endregion */
 
 		/* #region 日期时间属性 */
 
@@ -183,7 +171,14 @@ namespace base
 		/* #endregion */
 
 		///
-		/// @brief 当前月份有多少天。
+		/// @brief 本年总共有多少天。
+		///
+		/// @return int64_t
+		///
+		int64_t CurrentYearDayCount();
+
+		///
+		/// @brief 本月份总共有多少天。
 		///
 		/// @return int64_t
 		///
@@ -197,36 +192,28 @@ namespace base
 		///
 		bool IsLeapYear() const;
 
-		/* #region 当前闰秒 */
+		/* #region 公共时间调整方法 */
 
 		///
-		/// @brief 当前月的闰秒。
+		/// @brief 增加日。
 		///
-		/// @return int64_t 会返回 -1, 0, 1 三个值中的一个。
+		/// @param value
 		///
-		int64_t LeapSecondOfCurrentMonth() const;
+		void AddDays(int64_t value);
 
 		///
-		/// @brief 当前日的闰秒。
+		/// @brief 增加小时。
 		///
-		/// @return int64_t 会返回 -1, 0, 1 三个值中的一个。
+		/// @param value
 		///
-		int64_t LeapSecondOfCurrentDay() const;
+		void AddHours(int64_t value);
 
 		///
-		/// @brief 当前小时的闰秒。
+		/// @brief 增加分钟。
 		///
-		/// @return int64_t 会返回 -1, 0, 1 三个值中的一个。
+		/// @param value
 		///
-		int64_t LeapSecondOfCurrentHour() const;
-
-		///
-		/// @brief 当前分钟的闰秒。
-		///
-		/// @return int64_t 会返回 -1, 0, 1 三个值中的一个。
-		///
-		int64_t LeapSecondOfCurrentMinute() const;
-		/* #endregion */
+		void AddMinutes(int64_t value);
 
 		///
 		/// @brief 增加秒。
@@ -234,6 +221,7 @@ namespace base
 		/// @param value
 		///
 		void AddSeconds(int64_t value);
+		/* #endregion */
 
 		///
 		/// @brief 转化为字符串。

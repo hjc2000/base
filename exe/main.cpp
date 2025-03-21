@@ -53,7 +53,7 @@ int main()
 	}
 
 	{
-		for (int i = -(25 * 60); i <= 0; i++)
+		for (int i = -60 * 5; i <= 60 * 5; i++)
 		{
 			base::DateTime time{2000, 1, 1, 0, 0, 0, 0};
 			time.AddSeconds(i);

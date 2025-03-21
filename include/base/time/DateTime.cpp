@@ -2,140 +2,9 @@
 #include "base/string/define.h"
 #include <cstdint>
 #include <cstdlib>
-#include <map>
 #include <stdexcept>
 
-namespace
-{
-	/* #region PrivateDateTime */
-
-	class PrivateDateTime
-	{
-	private:
-		int64_t _year{};
-		int64_t _month{};
-
-	public:
-		PrivateDateTime() = default;
-
-		PrivateDateTime(int64_t year, int64_t month)
-		{
-			_year = year;
-			_month = month;
-		}
-
-		/* #region 属性 */
-
-		int64_t Year() const
-		{
-			return _year;
-		}
-
-		int64_t Month() const
-		{
-			return _month;
-		}
-
-		/* #endregion */
-
-		/* #region 比较 */
-
-		bool operator==(PrivateDateTime const &another) const
-		{
-			return _year == another._year &&
-				   _month == another._month;
-		}
-
-		bool operator<(PrivateDateTime const &another) const
-		{
-			if (_year < another._year)
-			{
-				return true;
-			}
-
-			if (_year > another._year)
-			{
-				return false;
-			}
-
-			return _month < another._month;
-		}
-
-		bool operator>(PrivateDateTime const &another) const
-		{
-			if (*this == another)
-			{
-				return false;
-			}
-
-			if (*this < another)
-			{
-				return false;
-			}
-
-			return true;
-		}
-
-		bool operator<=(PrivateDateTime const &another) const
-		{
-			if (*this == another)
-			{
-				return true;
-			}
-
-			return *this < another;
-		}
-
-		bool operator>=(PrivateDateTime const &another) const
-		{
-			if (*this == another)
-			{
-				return true;
-			}
-
-			return *this > another;
-		}
-
-		/* #endregion */
-	};
-
-	/* #endregion */
-
-	///
-	/// @brief UTC+0 的闰秒表。
-	///
-	///
-	std::map<PrivateDateTime, int64_t> _leap_second_map{
-		{PrivateDateTime{1972, 6}, 1},
-		{PrivateDateTime{1972, 12}, 1},
-		{PrivateDateTime{1973, 12}, 1},
-		{PrivateDateTime{1974, 12}, 1},
-		{PrivateDateTime{1975, 12}, 1},
-		{PrivateDateTime{1976, 12}, 1},
-		{PrivateDateTime{1977, 12}, 1},
-		{PrivateDateTime{1978, 12}, 1},
-		{PrivateDateTime{1979, 12}, 1},
-		{PrivateDateTime{1981, 6}, 1},
-		{PrivateDateTime{1982, 6}, 1},
-		{PrivateDateTime{1983, 6}, 1},
-		{PrivateDateTime{1985, 6}, 1},
-		{PrivateDateTime{1987, 12}, 1},
-		{PrivateDateTime{1989, 12}, 1},
-		{PrivateDateTime{1990, 12}, 1},
-		{PrivateDateTime{1992, 6}, 1},
-		{PrivateDateTime{1993, 6}, 1},
-		{PrivateDateTime{1994, 6}, 1},
-		{PrivateDateTime{1995, 12}, 1},
-		{PrivateDateTime{1997, 6}, 1},
-		{PrivateDateTime{1998, 12}, 1},
-		{PrivateDateTime{2005, 12}, 1},
-		{PrivateDateTime{2008, 12}, 1},
-		{PrivateDateTime{2012, 6}, 1},
-		{PrivateDateTime{2015, 6}, 1},
-		{PrivateDateTime{2016, 12}, 1},
-	};
-
-} // namespace
+/* #region 检查 */
 
 void base::DateTime::CheckMonth()
 {
@@ -171,7 +40,7 @@ void base::DateTime::CheckMinute()
 
 void base::DateTime::CheckSecond()
 {
-	if (_second < 0 || _second > 59 + LeapSecondOfCurrentMinute())
+	if (_second < 0 || _second > 59)
 	{
 		throw std::invalid_argument{CODE_POS_STR + "非法秒。"};
 	}
@@ -184,6 +53,10 @@ void base::DateTime::CheckNanosecond()
 		throw std::invalid_argument{CODE_POS_STR + "非法纳秒。"};
 	}
 }
+
+/* #endregion */
+
+/* #region 私有时间调整方法 */
 
 void base::DateTime::AddMonths(int64_t value)
 {
@@ -203,7 +76,6 @@ void base::DateTime::AddMonths(int64_t value)
 	// 不在最小正周期内
 	_year += month_index / 12;
 	month_index %= 12;
-
 	if (month_index < 0)
 	{
 		_year -= 1;
@@ -213,34 +85,9 @@ void base::DateTime::AddMonths(int64_t value)
 	_month = month_index + 1;
 }
 
-void base::DateTime::AddDays(int64_t value)
-{
-	if (value == 0)
-	{
-		return;
-	}
-
-	// 以本月 1 日为 0 索引，建立日的索引。
-	int64_t day_index = _day - 1 + value;
-	AdjustDayIndexToOneMonth(day_index);
-	_day = day_index + 1;
-}
-
-void base::DateTime::AddHours(int64_t value)
-{
-	_hour += value;
-	AdjustHourIndexToOneDay(_hour);
-}
-
-void base::DateTime::AddMinutes(int64_t value)
-{
-	_minute += value;
-	AdjustMinuteIndexToOneHour(_minute);
-}
-
 void base::DateTime::AdjustDayIndexToOneYear(int64_t &day_index)
 {
-	if (day_index >= 0 && day_index < 365)
+	if (day_index >= 0 && day_index < CurrentYearDayCount())
 	{
 		// 以年为周期，已经处于最小正周期内了。
 		return;
@@ -250,28 +97,14 @@ void base::DateTime::AdjustDayIndexToOneYear(int64_t &day_index)
 	{
 		while (true)
 		{
-			if (IsLeapYear())
+			int64_t current_year_day_count = CurrentYearDayCount();
+			if (day_index < current_year_day_count)
 			{
-				// 是闰年
-				if (day_index < 366)
-				{
-					return;
-				}
-
-				day_index -= 366;
-				_year += 1;
+				return;
 			}
-			else
-			{
-				// 是平年
-				if (day_index < 365)
-				{
-					return;
-				}
 
-				day_index -= 365;
-				_year += 1;
-			}
+			day_index -= current_year_day_count;
+			_year += 1;
 		}
 	}
 
@@ -280,17 +113,7 @@ void base::DateTime::AdjustDayIndexToOneYear(int64_t &day_index)
 	{
 		// 前往去年
 		_year -= 1;
-		if (IsLeapYear())
-		{
-			// 去年是闰年
-			day_index += 366;
-		}
-		else
-		{
-			// 去年是平年
-			day_index += 365;
-		}
-
+		day_index += CurrentYearDayCount();
 		if (day_index >= 0)
 		{
 			return;
@@ -302,10 +125,8 @@ void base::DateTime::AdjustDayIndexToOneMonth(int64_t &day_index)
 {
 	AdjustDayIndexToOneYear(day_index);
 
-	if (day_index >= 0 && day_index < 28)
+	if (day_index >= 0 && day_index < CurrentMonthDayCount())
 	{
-		// 以月为周期，已经处于最小正周期内了。
-		// 即使周期来到最小的平年 2 月，也能够满足处于一个最小正周期内。
 		return;
 	}
 
@@ -317,14 +138,14 @@ void base::DateTime::AdjustDayIndexToOneMonth(int64_t &day_index)
 			// 的 1 日，即坐标原点向右移动，则 day_index 躺枪，被平白无故变小了。
 			//
 			// 则 day_index 的值在新的坐标中要减去偏移量 day_index.
-			int64_t delta = CurrentMonthDayCount();
-			if (day_index < delta)
+			int64_t current_month_day_count = CurrentMonthDayCount();
+			if (day_index < current_month_day_count)
 			{
 				// 到不了下个月
 				return;
 			}
 
-			day_index -= delta;
+			day_index -= current_month_day_count;
 			AddMonths(1);
 		}
 	}
@@ -334,7 +155,6 @@ void base::DateTime::AdjustDayIndexToOneMonth(int64_t &day_index)
 	{
 		// 前往上一个月
 		AddMonths(-1);
-
 		day_index += CurrentMonthDayCount();
 		if (day_index >= 0)
 		{
@@ -369,7 +189,6 @@ void base::DateTime::AdjustMinuteIndexToOneHour(int64_t &minute_index)
 
 	AddHours(minute_index / 60);
 	minute_index %= 60;
-
 	if (minute_index < 0)
 	{
 		AddHours(-1);
@@ -379,14 +198,13 @@ void base::DateTime::AdjustMinuteIndexToOneHour(int64_t &minute_index)
 
 void base::DateTime::AdjustSecondsIndexToOneMinute(int64_t &second_index)
 {
-	if (second_index >= 0 && second_index < 60 + LeapSecondOfCurrentMinute())
+	if (second_index >= 0 && second_index < 60)
 	{
 		return;
 	}
 
 	AddMinutes(second_index / 60);
 	second_index %= 60;
-
 	if (second_index < 0)
 	{
 		AddMinutes(-1);
@@ -394,51 +212,9 @@ void base::DateTime::AdjustSecondsIndexToOneMinute(int64_t &second_index)
 	}
 }
 
-base::DateTime base::DateTime::CreateWithoutCheck(int64_t year, int64_t month, int64_t day,
-												  int64_t hour, int64_t minute, int64_t second,
-												  int64_t nanosecond)
-{
-	base::DateTime ret{};
-	ret._year = year;
-	ret._month = month;
-	ret._day = day;
-	ret._hour = hour;
-	ret._minute = minute;
-	ret._second = second;
-	ret._nanosecond = nanosecond;
-	return ret;
-}
+/* #endregion */
 
-int64_t base::DateTime::CountLeapSecondsBetweenTwoMinutes(base::DateTime const &start, base::DateTime const &end)
-{
-	int64_t total_leap_second = 0;
-
-	for (auto private_date_time_pair : _leap_second_map)
-	{
-		base::DateTime leap_second_date_time;
-
-		{
-			PrivateDateTime const &private_date_time = private_date_time_pair.first;
-			int64_t leap_second = private_date_time_pair.second;
-
-			int64_t day = 31;
-			if (private_date_time.Month() == 6)
-			{
-				day = 30;
-			}
-
-			leap_second_date_time = CreateWithoutCheck(private_date_time.Year(),
-													   private_date_time.Month(),
-													   day,
-													   23,
-													   59,
-													   59 + leap_second,
-													   0);
-		}
-	}
-
-	return total_leap_second;
-}
+/* #region 构造函数 */
 
 base::DateTime::DateTime(int64_t year, int64_t month, int64_t day,
 						 int64_t hour, int64_t minute, int64_t second,
@@ -460,32 +236,30 @@ base::DateTime::DateTime(int64_t year, int64_t month, int64_t day,
 	CheckNanosecond();
 }
 
-base::DateTime::DateTime(int64_t utc_hour_offset,
+base::DateTime::DateTime(base::UtcHourOffset utc_hour_offset,
 						 int64_t year, int64_t month, int64_t day,
 						 int64_t hour, int64_t minute, int64_t second,
 						 int64_t nanosecond)
+	: DateTime(year, month, day,
+			   hour, minute, second, nanosecond)
 {
-	_utc_hour_offset = utc_hour_offset;
-
-	_year = year;
-	_month = month;
-	_day = day;
-	_hour = hour;
-	_minute = minute;
-	_second = second;
-	_nanosecond = nanosecond;
-
-	CheckMonth();
-	CheckDay();
-	CheckHour();
+	_utc_hour_offset = utc_hour_offset.Value();
 
 	// 调整回 UTC + 0 时间。
 	// 因为本类的字段储存的始终是 UTC + 0 时间。
 	AddHours(-_utc_hour_offset);
+}
 
-	CheckMinute();
-	CheckSecond();
-	CheckNanosecond();
+/* #endregion */
+
+int64_t base::DateTime::CurrentYearDayCount()
+{
+	if (IsLeapYear())
+	{
+		return 366;
+	}
+
+	return 365;
 }
 
 int64_t base::DateTime::CurrentMonthDayCount()
@@ -516,8 +290,6 @@ int64_t base::DateTime::CurrentMonthDayCount()
 			return 30;
 		}
 	}
-
-	throw std::invalid_argument{CODE_POS_STR + "非法月份。"};
 }
 
 bool base::DateTime::IsLeapYear() const
@@ -532,77 +304,40 @@ bool base::DateTime::IsLeapYear() const
 	return _year % 4 == 0;
 }
 
-/* #region 当前闰秒 */
+/* #region 公共时间调整方法 */
 
-int64_t base::DateTime::LeapSecondOfCurrentMonth() const
+void base::DateTime::AddDays(int64_t value)
 {
-	if (_year < 1972 || _year > 2016)
+	if (value == 0)
 	{
-		// 1972 年以前没有闰秒。
-		// 目前 2016 年以后没有闰秒。
-		return 0;
+		return;
 	}
 
-	if (_month != 6 && _month != 12)
-	{
-		// 只会在 6 月或 12 月添加闰秒。
-		return 0;
-	}
-
-	// 开始查表
-	auto it = _leap_second_map.find(PrivateDateTime{_year, _month});
-	if (it != _leap_second_map.end())
-	{
-		return it->second;
-	}
-
-	return 0;
+	// 以本月 1 日为 0 索引，建立日的索引。
+	int64_t day_index = _day - 1 + value;
+	AdjustDayIndexToOneMonth(day_index);
+	_day = day_index + 1;
 }
 
-int64_t base::DateTime::LeapSecondOfCurrentDay() const
+void base::DateTime::AddHours(int64_t value)
 {
-	if (_month == 6 && _day != 30)
-	{
-		// 6 月份必定在 30 日添加闰秒。
-		return 0;
-	}
-
-	if (_month == 12 && _day != 31)
-	{
-		// 12 月份必定在 31 日添加闰秒。
-		return 0;
-	}
-
-	return LeapSecondOfCurrentMonth();
+	_hour += value;
+	AdjustHourIndexToOneDay(_hour);
 }
 
-int64_t base::DateTime::LeapSecondOfCurrentHour() const
+void base::DateTime::AddMinutes(int64_t value)
 {
-	if (_hour != 23)
-	{
-		return 0;
-	}
-
-	return LeapSecondOfCurrentDay();
+	_minute += value;
+	AdjustMinuteIndexToOneHour(_minute);
 }
-
-int64_t base::DateTime::LeapSecondOfCurrentMinute() const
-{
-	if (_minute != 59)
-	{
-		return 0;
-	}
-
-	return LeapSecondOfCurrentHour();
-}
-
-/* #endregion */
 
 void base::DateTime::AddSeconds(int64_t value)
 {
 	_second += value;
 	AdjustSecondsIndexToOneMinute(_second);
 }
+
+/* #endregion */
 
 std::string base::DateTime::ToString() const
 {
