@@ -42,6 +42,11 @@ base::ns_time_point base::to_ns_time_point(base::TimePointSinceEpoch const &valu
 	return ns_time_point{static_cast<std::chrono::nanoseconds>(value)};
 }
 
+base::us_time_point base::to_us_time_point(base::TimePointSinceEpoch const &value)
+{
+	return us_time_point{static_cast<std::chrono::microseconds>(value)};
+}
+
 /* #region 转换为区域时间 */
 
 base::ns_zoned_time base::to_ns_zoned_time(base::TimePointSinceEpoch const &value)
@@ -60,7 +65,7 @@ base::ns_zoned_time base::to_ns_zoned_time(base::UtcHourOffset const &offset,
 
 base::us_zoned_time base::to_us_zoned_time(base::TimePointSinceEpoch const &value)
 {
-	auto time_point = static_cast<us_time_point>(value);
+	auto time_point = base::to_us_time_point(value);
 	return us_zoned_time{"UTC", time_point};
 }
 

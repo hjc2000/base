@@ -83,11 +83,6 @@ base::TimePointSinceEpoch::operator std::chrono::local_days() const
 
 /* #region 转换为时间点 */
 
-base::TimePointSinceEpoch::operator us_time_point() const
-{
-	return us_time_point{static_cast<std::chrono::microseconds>(*this)};
-}
-
 base::TimePointSinceEpoch::operator ms_time_point() const
 {
 	return ms_time_point{static_cast<std::chrono::milliseconds>(*this)};
@@ -197,17 +192,17 @@ std::string base::TimePointSinceEpoch::NanosecondsZonedTimeString() const
 
 std::string base::TimePointSinceEpoch::MicrosecondsZonedTimeString() const
 {
-	return std::format("{:%Y-%m-%d %H:%M:%S}", static_cast<us_zoned_time>(*this));
+	return std::format("{:%Y-%m-%d %H:%M:%S}", base::to_us_zoned_time(*this));
 }
 
 std::string base::TimePointSinceEpoch::MillisecondsZonedTimeString() const
 {
-	return std::format("{:%Y-%m-%d %H:%M:%S}", static_cast<ms_zoned_time>(*this));
+	return std::format("{:%Y-%m-%d %H:%M:%S}", base::to_ms_zoned_time(*this));
 }
 
 std::string base::TimePointSinceEpoch::SecondsZonedTimeString() const
 {
-	return std::format("{:%Y-%m-%d %H:%M:%S}", static_cast<s_zoned_time>(*this));
+	return std::format("{:%Y-%m-%d %H:%M:%S}", base::to_s_zoned_time(*this));
 }
 
 /* #endregion */
