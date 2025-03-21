@@ -222,6 +222,11 @@ namespace base
 		///
 		void AddSeconds(int64_t value);
 
+		///
+		/// @brief 增加纳秒。
+		///
+		/// @param value
+		///
 		void AddNanoseconds(int64_t value);
 
 		/* #endregion */
@@ -259,10 +264,6 @@ namespace base
 		///
 		/// @return base::DateTime
 		///
-		base::DateTime EpochStart() const
-		{
-			base::DateTime start{1970, 1, 1, 0, 0, 0, 0};
-			return start;
-		}
+		base::DateTime EpochStart() const;
 	};
 } // namespace base
