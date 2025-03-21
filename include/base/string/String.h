@@ -9,6 +9,10 @@
 
 namespace base
 {
+	///
+	/// @brief 字符串长度。
+	///
+	///
 	class StringLength
 	{
 	private:
