@@ -118,16 +118,31 @@ namespace base
 		///
 		virtual std::string ToString() const override;
 
+		///
+		/// @brief 年份分隔符。
+		///
+		/// @return char
+		///
 		char YearSeparator() const
 		{
 			return _year_separator;
 		}
 
+		///
+		/// @brief 设置年份分隔符。
+		///
+		/// @param value
+		///
 		void SetYearSeparator(char value)
 		{
 			_year_separator = value;
 		}
 
+		///
+		/// @brief 格式化输出的字符串是否显示纳秒。
+		///
+		/// @param display
+		///
 		void DisplayNanosecond(bool display)
 		{
 			_display_nanosecond = display;
