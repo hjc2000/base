@@ -59,14 +59,6 @@ namespace base
 		/* #region 四则运算 */
 
 		///
-		/// @brief 两个时刻相加没有物理意义。
-		///
-		/// @param rhs
-		/// @return base::TimeSpan
-		///
-		base::TimeSpan operator+(base::TimePointSinceEpoch const &rhs) const = delete;
-
-		///
 		/// @brief 两个时刻相减，得到时间段。
 		///
 		/// @param rhs
@@ -75,7 +67,7 @@ namespace base
 		base::TimeSpan operator-(base::TimePointSinceEpoch const &rhs) const;
 
 		///
-		/// @brief 时刻加上一个时间段，得到新的时刻。
+		/// @brief 将本时刻加上一个时间段，得到新的时刻。
 		///
 		/// @param rhs
 		/// @return base::TimePointSinceEpoch
@@ -83,7 +75,7 @@ namespace base
 		base::TimePointSinceEpoch operator+(base::TimeSpan const &rhs) const;
 
 		///
-		/// @brief 将本时刻加上一个时间段。
+		/// @brief 将本时刻加上一个时间段，得到新的时刻。
 		///
 		/// @param rhs
 		/// @return base::TimePointSinceEpoch&
@@ -91,7 +83,7 @@ namespace base
 		base::TimePointSinceEpoch &operator+=(base::TimeSpan const &rhs);
 
 		///
-		/// @brief 时刻减去一个时间段，得到新的时刻。
+		/// @brief 将本时刻减去一个时间段，得到新的时刻。
 		///
 		/// @param rhs
 		/// @return base::TimePointSinceEpoch
@@ -99,28 +91,13 @@ namespace base
 		base::TimePointSinceEpoch operator-(base::TimeSpan const &rhs) const;
 
 		///
-		/// @brief 将本时刻减去一个时间段。
+		/// @brief 将本时刻减去一个时间段，得到新的时刻。
 		///
 		/// @param rhs
 		/// @return base::TimePointSinceEpoch&
 		///
 		base::TimePointSinceEpoch &operator-=(base::TimeSpan const &rhs);
 
-		///
-		/// @brief 将本时刻乘上一个系数进行缩放，得到新的时刻。
-		///
-		/// @param value
-		/// @return base::TimePointSinceEpoch
-		///
-		base::TimePointSinceEpoch operator*(int64_t value) const;
-
-		///
-		/// @brief 将本时刻乘上一个系数进行缩放。
-		///
-		/// @param value
-		/// @return base::TimePointSinceEpoch&
-		///
-		base::TimePointSinceEpoch &operator*=(int64_t value);
 		/* #endregion */
 
 		/* #region 比较 */
@@ -132,5 +109,3 @@ namespace base
 		/* #endregion */
 	};
 } // namespace base
-
-base::TimePointSinceEpoch operator*(int64_t left, base::TimePointSinceEpoch const &right);

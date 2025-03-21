@@ -1,5 +1,6 @@
 #pragma once
 #include <chrono>
+#include <cstdint>
 #include <ctime>
 
 namespace base
@@ -34,7 +35,7 @@ namespace base
 		/* #region 四则运算 */
 
 		///
-		/// @brief 两个时间段相加，得到一个新的时间段。
+		/// @brief 将本时间段加上另一个时间段。
 		///
 		/// @param rhs
 		/// @return base::TimeSpan
@@ -50,7 +51,7 @@ namespace base
 		base::TimeSpan &operator+=(base::TimeSpan const &rhs);
 
 		///
-		/// @brief 两个时间段相减，得到一个新的时间段。
+		/// @brief 将本时间段减去另一个时间段。
 		///
 		/// @param rhs
 		/// @return base::TimeSpan
@@ -66,27 +67,7 @@ namespace base
 		base::TimeSpan &operator-=(base::TimeSpan const &rhs);
 
 		///
-		/// @brief 时间段加上时刻没有物理意义。
-		///
-		/// @note 这里的主语是 “时间段” 。只有时刻加上时间段才有物理意义，即只能 “时刻” 作主语。
-		///
-		/// @param rhs
-		/// @return base::TimeSpan
-		///
-		base::TimeSpan operator+(base::TimePointSinceEpoch const &rhs) const = delete;
-
-		///
-		/// @brief 时间段减去时刻没有物理意义。
-		///
-		/// @note 这里的主语是 “时间段” 。只有时刻减去时间段才有物理意义，即只能 “时刻” 作主语。
-		///
-		/// @param rhs
-		/// @return base::TimeSpan
-		///
-		base::TimeSpan operator-(base::TimePointSinceEpoch const &rhs) const = delete;
-
-		///
-		/// @brief 将时间段乘上一个系数进行缩放，得到一个新的时间段。
+		/// @brief 将本时间段乘上一个系数进行放大。
 		///
 		/// @param value
 		/// @return base::TimeSpan
@@ -94,12 +75,29 @@ namespace base
 		base::TimeSpan operator*(int64_t value) const;
 
 		///
-		/// @brief 将本时间段乘上一个系数进行缩放。
+		/// @brief 将本时间段乘上一个系数进行放大。
 		///
 		/// @param value
 		/// @return base::TimeSpan&
 		///
 		base::TimeSpan &operator*=(int64_t value);
+
+		///
+		/// @brief 将本时间段除以一个系数进行缩小。
+		///
+		/// @param value
+		/// @return base::TimeSpan
+		///
+		base::TimeSpan operator/(int64_t value) const;
+
+		///
+		/// @brief 将本时间段除以一个系数进行缩小。
+		///
+		/// @param value
+		/// @return base::TimeSpan&
+		///
+		base::TimeSpan &operator/=(int64_t value);
+
 		/* #endregion */
 
 		bool operator==(base::TimeSpan const &another) const;

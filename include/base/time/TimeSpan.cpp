@@ -106,6 +106,17 @@ base::TimeSpan &base::TimeSpan::operator*=(int64_t value)
 	return *this;
 }
 
+base::TimeSpan base::TimeSpan::operator/(int64_t value) const
+{
+	return base::TimeSpan{std::chrono::nanoseconds{_span.count() / value}};
+}
+
+base::TimeSpan &base::TimeSpan::operator/=(int64_t value)
+{
+	_span = std::chrono::nanoseconds{_span.count() / value};
+	return *this;
+}
+
 /* #endregion */
 
 /* #region 比较 */

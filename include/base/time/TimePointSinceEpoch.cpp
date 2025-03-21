@@ -1,6 +1,5 @@
 #include "TimePointSinceEpoch.h"
 #include <chrono>
-#include <cstdint>
 
 /* #region 构造函数 */
 
@@ -110,17 +109,6 @@ base::TimePointSinceEpoch &base::TimePointSinceEpoch::operator-=(base::TimeSpan 
 	return *this;
 }
 
-base::TimePointSinceEpoch base::TimePointSinceEpoch::operator*(int64_t value) const
-{
-	return base::TimePointSinceEpoch{std::chrono::nanoseconds{_time_since_epoch.count() * value}};
-}
-
-base::TimePointSinceEpoch &base::TimePointSinceEpoch::operator*=(int64_t value)
-{
-	_time_since_epoch = std::chrono::nanoseconds{_time_since_epoch.count() * value};
-	return *this;
-}
-
 /* #endregion */
 
 /* #region 比较 */
@@ -151,8 +139,3 @@ bool base::TimePointSinceEpoch::operator>=(base::TimePointSinceEpoch const &anot
 }
 
 /* #endregion */
-
-base::TimePointSinceEpoch operator*(int64_t left, base::TimePointSinceEpoch const &right)
-{
-	return right * left;
-}
