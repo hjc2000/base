@@ -419,11 +419,6 @@ void base::DateTime::AddNanoseconds(int64_t value)
 
 /* #endregion */
 
-base::DateTime::operator base::TimePointSinceEpoch() const
-{
-	return TimePointSinceEpoch();
-}
-
 base::TimePointSinceEpoch base::DateTime::TimePointSinceEpoch() const
 {
 	std::chrono::nanoseconds total_ns{};

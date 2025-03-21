@@ -268,13 +268,6 @@ namespace base
 		///
 		/// @return base::TimePointSinceEpoch
 		///
-		operator base::TimePointSinceEpoch() const;
-
-		///
-		/// @brief 强制转换为时间点。
-		///
-		/// @return base::TimePointSinceEpoch
-		///
 		base::TimePointSinceEpoch TimePointSinceEpoch() const;
 
 		base::DateTimeStringBuilder DateTimeStringBuilder() const;

@@ -62,6 +62,6 @@ int main()
 		std::cout << dsb << std::endl;
 		std::cout << std::to_string(now_time_point) << std::endl;
 		std::cout << static_cast<std::chrono::nanoseconds>(now_time_point) << std::endl;
-		std::cout << static_cast<std::chrono::nanoseconds>(static_cast<base::TimePointSinceEpoch>(now)) << std::endl;
+		std::cout << static_cast<std::chrono::nanoseconds>(now.TimePointSinceEpoch()) << std::endl;
 	}
 }
