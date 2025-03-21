@@ -136,13 +136,9 @@ namespace std
 #if HAS_THREAD
 
 	std::string to_string(base::TimePointSinceEpoch const &value);
-
 	std::string to_string(base::ns_zoned_time const &value);
-
 	std::string to_string(base::us_zoned_time const &value);
-
 	std::string to_string(base::ms_zoned_time const &value);
-
 	std::string to_string(base::s_zoned_time const &value);
 
 #endif // HAS_THREAD
