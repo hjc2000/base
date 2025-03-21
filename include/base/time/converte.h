@@ -25,11 +25,13 @@ namespace base
 
 #if HAS_THREAD
 
+	/* #region 转换为 base::TimePointSinceEpoch */
 	base::TimePointSinceEpoch ToTimePointSinceEpoch(ns_time_point const &value);
 	base::TimePointSinceEpoch ToTimePointSinceEpoch(us_time_point const &value);
 	base::TimePointSinceEpoch ToTimePointSinceEpoch(ms_time_point const &value);
 	base::TimePointSinceEpoch ToTimePointSinceEpoch(s_time_point const &value);
 	base::TimePointSinceEpoch ToTimePointSinceEpoch(file_clock_time_point const &value);
+	/* #endregion */
 
 	/* #region 转换为 std::chrono::time_point */
 	base::ns_time_point to_ns_time_point(base::TimePointSinceEpoch const &value);
