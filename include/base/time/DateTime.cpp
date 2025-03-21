@@ -379,6 +379,7 @@ std::string base::DateTime::ToString() const
 	base::String second{std::to_string(copy._second)};
 	base::String nanosecond{std::to_string(copy._nanosecond)};
 
+	year.PadLeft('0', base::StringLength{4});
 	month.PadLeft('0', base::StringLength{2});
 	day.PadLeft('0', base::StringLength{2});
 	hour.PadLeft('0', base::StringLength{2});
