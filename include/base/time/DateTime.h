@@ -1,5 +1,6 @@
 #pragma once
 #include "base/string/String.h"
+#include "DateTimeStringBuilder.h"
 #include "UtcHourOffset.h"
 #include <chrono>
 #include <cstdint>
@@ -293,7 +294,28 @@ namespace base
 		base::String local_hour_minute_second_nanosecond_string() const;
 		base::String local_year_month_day_hour_minute_second_string() const;
 		base::String local_year_month_day_hour_minute_second_nanosecond_string() const;
+
 		/* #endregion */
+
+		base::DateTimeStringBuilder DateTimeStringBuilder() const
+		{
+			return base::DateTimeStringBuilder{
+				year_string().StdString(),
+				month_string().StdString(),
+				day_string().StdString(),
+				hour_string().StdString(),
+				minute_string().StdString(),
+				second_string().StdString(),
+				nanosecond_string().StdString(),
+			};
+		}
+
+		base::DateTimeStringBuilder LocalDateTimeStringBuilder() const
+		{
+			DateTime copy{*this};
+			copy.AddHours(_utc_hour_offset);
+			return copy.DateTimeStringBuilder();
+		}
 
 		/* #region 比较 */
 
