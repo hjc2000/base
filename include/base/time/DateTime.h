@@ -1,6 +1,7 @@
 #pragma once
 #include "base/string/ICanToString.h"
 #include "UtcHourOffset.h"
+#include <chrono>
 #include <cstdint>
 
 namespace base
@@ -235,6 +236,19 @@ namespace base
 		/// @param value
 		///
 		void AddNanoseconds(int64_t value);
+
+		base::DateTime operator+(std::chrono::seconds const &value) const
+		{
+			base::DateTime ret{*this};
+			ret += value;
+			return ret;
+		}
+
+		base::DateTime &operator+=(std::chrono::seconds const &value)
+		{
+			AddSeconds(value.count());
+			return *this;
+		}
 
 		/* #endregion */
 
