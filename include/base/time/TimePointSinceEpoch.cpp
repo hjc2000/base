@@ -152,45 +152,6 @@ bool base::TimePointSinceEpoch::operator>=(base::TimePointSinceEpoch const &anot
 
 /* #endregion */
 
-/* #region 转换为字符串 */
-
-#if HAS_THREAD
-/* #region 转换为区域时间字符串 */
-
-std::string base::TimePointSinceEpoch::NanosecondsZonedTimeString() const
-{
-	return std::format("{:%Y-%m-%d %H:%M:%S}", base::to_ns_zoned_time(*this));
-}
-
-std::string base::TimePointSinceEpoch::MicrosecondsZonedTimeString() const
-{
-	return std::format("{:%Y-%m-%d %H:%M:%S}", base::to_us_zoned_time(*this));
-}
-
-std::string base::TimePointSinceEpoch::MillisecondsZonedTimeString() const
-{
-	return std::format("{:%Y-%m-%d %H:%M:%S}", base::to_ms_zoned_time(*this));
-}
-
-std::string base::TimePointSinceEpoch::SecondsZonedTimeString() const
-{
-	return std::format("{:%Y-%m-%d %H:%M:%S}", base::to_s_zoned_time(*this));
-}
-
-/* #endregion */
-#endif
-
-std::string base::TimePointSinceEpoch::ToString() const
-{
-#if HAS_THREAD
-	return NanosecondsZonedTimeString();
-#else
-	return std::to_string(_time_since_epoch.count()) + " ns";
-#endif
-}
-
-/* #endregion */
-
 base::TimePointSinceEpoch operator*(int64_t left, base::TimePointSinceEpoch const &right)
 {
 	return right * left;

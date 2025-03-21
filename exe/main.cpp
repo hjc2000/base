@@ -7,10 +7,12 @@
 #include "base/time/DateTime.h"
 #include "base/time/time.h"
 #include "base/time/TimePointSinceEpoch.h"
+#include "base/time/UtcHourOffset.h"
 #include "base/usage/CountTriangle.h"
 #include "base/usage/GenerateCalculationQuestions.h"
 #include <chrono>
 #include <iostream>
+#include <string>
 
 int main()
 {
@@ -54,7 +56,7 @@ int main()
 		};
 
 		std::cout << now << std::endl;
-		std::cout << now_time_point << std::endl;
+		std::cout << std::to_string(base::to_ns_zoned_time(base::UtcHourOffset{8}, now_time_point)) << std::endl;
 		std::cout << static_cast<std::chrono::nanoseconds>(now_time_point) << std::endl;
 		std::cout << static_cast<std::chrono::nanoseconds>(static_cast<base::TimePointSinceEpoch>(now)) << std::endl;
 	}

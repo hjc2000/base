@@ -1,5 +1,4 @@
 #pragma once
-#include "base/string/ICanToString.h"
 #include "base/time/converte.h"
 #include "base/time/TimeSpan.h"
 #include <chrono>
@@ -14,8 +13,7 @@ namespace base
 	/// @note 时刻就像电势那样没有绝对零点，只能选定一个参考的零点。电路中通常选择电源负极作为电势零点，
 	/// 本类选择 epoch 时刻作为时刻的零点。
 	///
-	class TimePointSinceEpoch :
-		public base::ICanToString
+	class TimePointSinceEpoch
 	{
 	private:
 		std::chrono::nanoseconds _time_since_epoch{};
@@ -131,25 +129,6 @@ namespace base
 		bool operator>(base::TimePointSinceEpoch const &another) const;
 		bool operator<=(base::TimePointSinceEpoch const &another) const;
 		bool operator>=(base::TimePointSinceEpoch const &another) const;
-		/* #endregion */
-
-		/* #region 转化为字符串 */
-#if HAS_THREAD
-		/* #region 转换为区域时间字符串 */
-		std::string NanosecondsZonedTimeString() const;
-		std::string MicrosecondsZonedTimeString() const;
-		std::string MillisecondsZonedTimeString() const;
-		std::string SecondsZonedTimeString() const;
-		/* #endregion */
-#endif
-
-		///
-		/// @brief 转化为字符串。
-		///
-		/// @return std::string
-		///
-		virtual std::string ToString() const override;
-
 		/* #endregion */
 	};
 } // namespace base
