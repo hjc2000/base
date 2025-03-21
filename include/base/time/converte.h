@@ -5,6 +5,7 @@
 
 namespace base
 {
+	/* #region 类型别名 */
 	using local_days_duration_type = decltype(std::chrono::local_days{}.time_since_epoch());
 
 	using ns_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>;
@@ -17,10 +18,15 @@ namespace base
 	using us_zoned_time = std::chrono::zoned_time<std::chrono::microseconds>;
 	using ms_zoned_time = std::chrono::zoned_time<std::chrono::milliseconds>;
 	using s_zoned_time = std::chrono::zoned_time<std::chrono::seconds>;
+	/* #endregion */
 
 	class TimePointSinceEpoch;
 
 	base::TimePointSinceEpoch ToTimePointSinceEpoch(ns_time_point const &value);
+	base::TimePointSinceEpoch ToTimePointSinceEpoch(us_time_point const &value);
+	base::TimePointSinceEpoch ToTimePointSinceEpoch(ms_time_point const &value);
+	base::TimePointSinceEpoch ToTimePointSinceEpoch(s_time_point const &value);
+	base::TimePointSinceEpoch ToTimePointSinceEpoch(file_clock_time_point const &value);
 
 	/* #region 转换为区域时间 */
 

@@ -36,16 +36,6 @@ namespace base
 		explicit TimePointSinceEpoch(std::chrono::seconds const &value);
 		explicit TimePointSinceEpoch(timespec const &value);
 
-#if HAS_THREAD
-		/* #region 从时间点构造 */
-		explicit TimePointSinceEpoch(ns_time_point const &value);
-		explicit TimePointSinceEpoch(us_time_point const &value);
-		explicit TimePointSinceEpoch(ms_time_point const &value);
-		explicit TimePointSinceEpoch(s_time_point const &value);
-		explicit TimePointSinceEpoch(file_clock_time_point const &value);
-		/* #endregion */
-#endif
-
 		/* #endregion */
 
 		/* #region 强制转换 */

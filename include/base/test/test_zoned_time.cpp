@@ -1,4 +1,5 @@
 #include "test_zoned_time.h"
+#include "base/time/time.h"
 #include "base/time/TimePointSinceEpoch.h"
 #include <iostream>
 
@@ -6,7 +7,7 @@
 
 void base::test::test_zoned_time()
 {
-	base::TimePointSinceEpoch now{std::chrono::system_clock::now()};
+	base::TimePointSinceEpoch now = base::time::Now();
 	std::cout << now.NanosecondsZonedTimeString() << std::endl;
 	std::cout << now.MicrosecondsZonedTimeString() << std::endl;
 	std::cout << now.MillisecondsZonedTimeString() << std::endl;

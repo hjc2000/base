@@ -34,44 +34,6 @@ base::TimePointSinceEpoch::TimePointSinceEpoch(timespec const &value)
 						std::chrono::nanoseconds{value.tv_nsec};
 }
 
-#if HAS_THREAD
-/* #region 从时间点构造 */
-
-base::TimePointSinceEpoch::TimePointSinceEpoch(ns_time_point const &value)
-{
-	_time_since_epoch = value.time_since_epoch();
-}
-
-base::TimePointSinceEpoch::TimePointSinceEpoch(us_time_point const &value)
-{
-	_time_since_epoch = value.time_since_epoch();
-}
-
-base::TimePointSinceEpoch::TimePointSinceEpoch(ms_time_point const &value)
-{
-	_time_since_epoch = value.time_since_epoch();
-}
-
-base::TimePointSinceEpoch::TimePointSinceEpoch(s_time_point const &value)
-{
-	_time_since_epoch = value.time_since_epoch();
-}
-
-base::TimePointSinceEpoch::TimePointSinceEpoch(file_clock_time_point const &value)
-{
-	_time_since_epoch = value.time_since_epoch();
-
-	// 文件时钟不准，并不是当前的 epoch 时间，而是与 epoch 时间之间有一个固定的偏移量。
-	// 获取这个偏移量，然后将文件时钟的时间戳加上偏移量就得到了文件时钟时间戳对应的 epoch 时间戳。
-	auto delta = std::chrono::system_clock::now().time_since_epoch() -
-				 std::filesystem::file_time_type::clock::now().time_since_epoch();
-
-	_time_since_epoch += delta;
-}
-
-/* #endregion */
-#endif
-
 /* #endregion */
 
 /* #region 强制转换 */
