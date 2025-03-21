@@ -159,23 +159,6 @@ base::TimePointSinceEpoch::operator file_clock_time_point() const
 
 /* #endregion */
 
-/* #region 转换为 zoned_time */
-
-base::TimePointSinceEpoch::operator ms_zoned_time() const
-{
-	base::TimePointSinceEpoch utc8 = *this + 8 * base::TimeSpan{std::chrono::seconds{60 * 60}};
-	auto time_point = static_cast<ms_time_point>(utc8);
-	return ms_zoned_time{"UTC", time_point};
-}
-
-base::TimePointSinceEpoch::operator s_zoned_time() const
-{
-	base::TimePointSinceEpoch utc8 = *this + 8 * base::TimeSpan{std::chrono::seconds{60 * 60}};
-	auto time_point = static_cast<s_time_point>(utc8);
-	return s_zoned_time{"UTC", time_point};
-}
-
-/* #endregion */
 #endif
 
 /* #endregion */

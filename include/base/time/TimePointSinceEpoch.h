@@ -70,19 +70,14 @@ namespace base
 
 		explicit operator std::chrono::year_month_day() const;
 
-		/* #region 强制转换为时间点 */
 		operator ns_time_point() const;
 		operator us_time_point() const;
 		operator ms_time_point() const;
 		operator s_time_point() const;
 		operator file_clock_time_point() const;
-		/* #endregion */
 
-		/* #region 强制转换为 zoned_time */
-		operator ms_zoned_time() const;
-		operator s_zoned_time() const;
-		/* #endregion */
 #endif
+
 		/* #endregion */
 
 		/* #region 四则运算 */

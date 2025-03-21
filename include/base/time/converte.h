@@ -70,4 +70,44 @@ namespace base
 	base::us_zoned_time to_us_zoned_time(base::UtcHourOffset const &offset,
 										 base::TimePointSinceEpoch const &value);
 
+	///
+	/// @brief 将 value 转换为 UTC + 0 区域时间。
+	///
+	/// @param value
+	///
+	/// @return base::ms_zoned_time
+	///
+	base::ms_zoned_time to_ms_zoned_time(base::TimePointSinceEpoch const &value);
+
+	///
+	/// @brief 将 value 转换为 UTC + offset 区域时间。
+	///
+	/// @param offset 你所在的区域的时间相对于 UTC 的偏移量。
+	/// @param value 被转换的时间点。
+	///
+	/// @return base::ms_zoned_time
+	///
+	base::ms_zoned_time to_ms_zoned_time(base::UtcHourOffset const &offset,
+										 base::TimePointSinceEpoch const &value);
+
+	///
+	/// @brief 将 value 转换为 UTC + 0 区域时间。
+	///
+	/// @param value
+	///
+	/// @return base::s_zoned_time
+	///
+	base::s_zoned_time to_s_zoned_time(base::TimePointSinceEpoch const &value);
+
+	///
+	/// @brief 将 value 转换为 UTC + offset 区域时间。
+	///
+	/// @param offset 你所在的区域的时间相对于 UTC 的偏移量。
+	/// @param value 被转换的时间点。
+	///
+	/// @return base::s_zoned_time
+	///
+	base::s_zoned_time to_s_zoned_time(base::UtcHourOffset const &offset,
+									   base::TimePointSinceEpoch const &value);
+
 } // namespace base
