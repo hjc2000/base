@@ -1,5 +1,5 @@
 #pragma once
-#include "base/string/ICanToString.h"
+#include "base/string/String.h"
 #include "UtcHourOffset.h"
 #include <chrono>
 #include <cstdint>
@@ -13,8 +13,7 @@ namespace base
 	///
 	/// @note 计算时始终认为日期时间是固定的规律，即考虑规律是固定的闰年，但不考虑闰秒。
 	///
-	class DateTime :
-		public base::ICanToString
+	class DateTime
 	{
 	private:
 		/* #region 日期时间字段 */
@@ -82,6 +81,7 @@ namespace base
 		/// @param second_index
 		///
 		void AdjustSecondsIndexToOneMinute(int64_t &second_index);
+
 		/* #endregion */
 
 	public:
@@ -252,19 +252,6 @@ namespace base
 
 		/* #endregion */
 
-		/* #region 强制转换 */
-
-		///
-		/// @brief 转化为字符串。
-		///
-		/// @note 本类储存的字段是 UTC + 0 的日期时间，但是在转换成字符串时，会加上偏移的
-		/// 小时。例如构造函数设置 utc_hour_offset = 8，则本函数返回的是 UTC + 8 日期时
-		/// 间的字符串。
-		///
-		/// @return std::string
-		///
-		virtual std::string ToString() const override;
-
 		///
 		/// @brief 强制转换为时间点。
 		///
@@ -278,6 +265,34 @@ namespace base
 		/// @return base::TimePointSinceEpoch
 		///
 		base::TimePointSinceEpoch TimePointSinceEpoch() const;
+
+		/* #region 不考虑时区转换为本地时区的日期时间字符串 */
+		base::String year_string() const;
+		base::String month_string() const;
+		base::String day_string() const;
+		base::String hour_string() const;
+		base::String minute_string() const;
+		base::String second_string() const;
+		base::String nanosecond_string() const;
+
+		base::String year_month_string() const;
+		base::String year_month_day_string() const;
+		base::String hour_minute_string() const;
+		base::String hour_minute_second_string() const;
+		base::String hour_minute_second_nanosecond_string() const;
+		base::String year_month_day_hour_minute_second_string() const;
+		base::String year_month_day_hour_minute_second_nanosecond_string() const;
+		/* #endregion */
+
+		/* #region 考虑时区转换为本地时区的日期时间字符串 */
+		base::String local_year_string() const;
+		base::String local_year_month_string() const;
+		base::String local_year_month_day_string() const;
+		base::String local_hour_minute_string() const;
+		base::String local_hour_minute_second_string() const;
+		base::String local_hour_minute_second_nanosecond_string() const;
+		base::String local_year_month_day_hour_minute_second_string() const;
+		base::String local_year_month_day_hour_minute_second_nanosecond_string() const;
 		/* #endregion */
 
 		/* #region 比较 */

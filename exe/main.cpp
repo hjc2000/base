@@ -55,7 +55,7 @@ int main()
 			now_time_point,
 		};
 
-		std::cout << now << std::endl;
+		std::cout << now.local_year_month_day_hour_minute_second_nanosecond_string() << std::endl;
 		std::cout << std::to_string(now_time_point) << std::endl;
 		std::cout << static_cast<std::chrono::nanoseconds>(now_time_point) << std::endl;
 		std::cout << static_cast<std::chrono::nanoseconds>(static_cast<base::TimePointSinceEpoch>(now)) << std::endl;
