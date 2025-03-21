@@ -30,6 +30,10 @@ namespace base
 
 	base::TimePointSinceEpoch ToTimePointSinceEpoch(ns_time_point const &value);
 
+	/* #region 转换为区域时间 */
+
+#if HAS_THREAD
+
 	///
 	/// @brief 将 value 转换为 UTC + 0 区域时间。
 	///
@@ -109,5 +113,8 @@ namespace base
 	///
 	base::s_zoned_time to_s_zoned_time(base::UtcHourOffset const &offset,
 									   base::TimePointSinceEpoch const &value);
+
+#endif // HAS_THREAD
+	/* #endregion */
 
 } // namespace base
