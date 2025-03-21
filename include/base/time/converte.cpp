@@ -141,6 +141,11 @@ std::chrono::year_month_day base::to_year_month_day(base::TimePointSinceEpoch co
 
 #if HAS_THREAD
 
+std::string std::to_string(base::TimePointSinceEpoch const &value)
+{
+	return std::to_string(base::to_ns_zoned_time(base::UtcHourOffset{8}, value));
+}
+
 std::string std::to_string(base::ns_zoned_time const &value)
 {
 	return std::format("{:%Y-%m-%d %H:%M:%S}", value);
