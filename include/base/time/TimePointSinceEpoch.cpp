@@ -81,18 +81,7 @@ base::TimePointSinceEpoch::operator std::chrono::local_days() const
 
 #if HAS_THREAD
 
-base::TimePointSinceEpoch::operator std::chrono::year_month_day() const
-{
-	std::chrono::year_month_day ret{static_cast<std::chrono::local_days>(*this)};
-	return ret;
-}
-
 /* #region 转换为时间点 */
-
-base::TimePointSinceEpoch::operator ns_time_point() const
-{
-	return ns_time_point{static_cast<std::chrono::nanoseconds>(*this)};
-}
 
 base::TimePointSinceEpoch::operator us_time_point() const
 {
@@ -203,7 +192,7 @@ bool base::TimePointSinceEpoch::operator>=(base::TimePointSinceEpoch const &anot
 
 std::string base::TimePointSinceEpoch::NanosecondsZonedTimeString() const
 {
-	return std::format("{:%Y-%m-%d %H:%M:%S}", static_cast<ns_zoned_time>(*this));
+	return std::format("{:%Y-%m-%d %H:%M:%S}", base::to_ns_zoned_time(*this));
 }
 
 std::string base::TimePointSinceEpoch::MicrosecondsZonedTimeString() const

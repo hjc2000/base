@@ -57,10 +57,6 @@ namespace base
 		explicit operator std::chrono::local_days() const;
 
 #if HAS_THREAD
-
-		explicit operator std::chrono::year_month_day() const;
-
-		operator ns_time_point() const;
 		operator us_time_point() const;
 		operator ms_time_point() const;
 		operator s_time_point() const;

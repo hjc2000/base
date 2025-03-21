@@ -37,11 +37,16 @@ base::TimePointSinceEpoch base::ToTimePointSinceEpoch(file_clock_time_point cons
 	return base::TimePointSinceEpoch{time_since_epoch};
 }
 
+base::ns_time_point base::to_ns_time_point(base::TimePointSinceEpoch const &value)
+{
+	return ns_time_point{static_cast<std::chrono::nanoseconds>(value)};
+}
+
 /* #region 转换为区域时间 */
 
 base::ns_zoned_time base::to_ns_zoned_time(base::TimePointSinceEpoch const &value)
 {
-	auto time_point = static_cast<ns_time_point>(value);
+	auto time_point = base::to_ns_time_point(value);
 	return ns_zoned_time{"UTC", time_point};
 }
 
