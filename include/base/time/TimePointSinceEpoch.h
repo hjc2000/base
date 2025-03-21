@@ -1,32 +1,11 @@
 #pragma once
 #include "base/string/ICanToString.h"
+#include "base/time/converte.h"
 #include "base/time/TimeSpan.h"
 #include <chrono>
-#include <filesystem>
 
 namespace base
 {
-	using local_days_duration_type = decltype(std::chrono::local_days{}.time_since_epoch());
-
-	/* #region time_point 别名 */
-
-	using ns_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>;
-	using us_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds>;
-	using ms_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
-	using s_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>;
-	using file_clock_time_point = decltype(std::filesystem::directory_entry{}.last_write_time());
-
-	/* #endregion */
-
-	/* #region zoned_time 别名 */
-
-	using ns_zoned_time = std::chrono::zoned_time<std::chrono::nanoseconds>;
-	using us_zoned_time = std::chrono::zoned_time<std::chrono::microseconds>;
-	using ms_zoned_time = std::chrono::zoned_time<std::chrono::milliseconds>;
-	using s_zoned_time = std::chrono::zoned_time<std::chrono::seconds>;
-
-	/* #endregion */
-
 	///
 	/// @brief 以 epoch 时刻作为零点的时刻。
 	///
@@ -100,8 +79,6 @@ namespace base
 		/* #endregion */
 
 		/* #region 强制转换为 zoned_time */
-		operator ns_zoned_time() const;
-		operator us_zoned_time() const;
 		operator ms_zoned_time() const;
 		operator s_zoned_time() const;
 		/* #endregion */
