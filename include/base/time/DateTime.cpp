@@ -385,6 +385,7 @@ std::string base::DateTime::ToString() const
 	hour.PadLeft('0', base::StringLength{2});
 	minute.PadLeft('0', base::StringLength{2});
 	second.PadLeft('0', base::StringLength{2});
+	nanosecond.PadLeft('0', base::StringLength{9});
 
 	base::String ret{};
 	ret += year + '-';
