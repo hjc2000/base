@@ -16,6 +16,7 @@ namespace base
 		public base::ICanToString
 	{
 	private:
+		/* #region 日期时间字段 */
 		int64_t _year{};
 		int64_t _month{};
 		int64_t _day{};
@@ -24,6 +25,7 @@ namespace base
 		int64_t _second{};
 		int64_t _nanosecond{};
 		int64_t _utc_hour_offset{};
+		/* #endregion */
 
 		/* #region 检查 */
 		void CheckMonth();
