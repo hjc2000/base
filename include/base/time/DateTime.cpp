@@ -1,5 +1,6 @@
 #include "DateTime.h"
 #include "base/string/define.h"
+#include "base/string/String.h"
 #include "base/time/TimePointSinceEpoch.h"
 #include <bits/chrono.h>
 #include <chrono>
@@ -370,17 +371,35 @@ std::string base::DateTime::ToString() const
 	DateTime copy{*this};
 	copy.AddHours(_utc_hour_offset);
 
-	std::string ret{};
-	ret += std::to_string(copy._year) + '-';
-	ret += std::to_string(copy._month) + '-';
-	ret += std::to_string(copy._day);
+	base::String year{std::to_string(copy._year)};
+	base::String month{std::to_string(copy._month)};
+	base::String day{std::to_string(copy._day)};
+	base::String hour{std::to_string(copy._hour)};
+	base::String minute{std::to_string(copy._minute)};
+	base::String second{std::to_string(copy._second)};
+	base::String nanosecond{std::to_string(copy._nanosecond)};
+
+	month.PadLeft('0', base::StringLength{2});
+	day.PadLeft('0', base::StringLength{2});
+	hour.PadLeft('0', base::StringLength{2});
+	minute.PadLeft('0', base::StringLength{2});
+	second.PadLeft('0', base::StringLength{2});
+
+	base::String ret{};
+	ret += year + '-';
+	ret += month + '-';
+	ret += day;
+
 	ret += ' ';
-	ret += std::to_string(copy._hour) + ':';
-	ret += std::to_string(copy._minute) + ':';
-	ret += std::to_string(copy._second);
+
+	ret += hour + ':';
+	ret += minute + ':';
+	ret += second;
+
 	ret += '.';
-	ret += std::to_string(copy._nanosecond);
-	return ret;
+
+	ret += nanosecond;
+	return ret.StdString();
 }
 
 base::DateTime::operator base::TimePointSinceEpoch() const

@@ -19,7 +19,7 @@ namespace base
 		int32_t _value{};
 
 	public:
-		StringLength(int32_t value)
+		explicit StringLength(int32_t value)
 			: _value(value)
 		{
 		}
