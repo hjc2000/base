@@ -28,9 +28,9 @@ namespace base
 	base::TimePointSinceEpoch ToTimePointSinceEpoch(s_time_point const &value);
 	base::TimePointSinceEpoch ToTimePointSinceEpoch(file_clock_time_point const &value);
 
-	/* #region 转换为区域时间 */
-
 #if HAS_THREAD
+
+	/* #region 转换为区域时间 */
 
 	///
 	/// @brief 将 value 转换为 UTC + 0 区域时间。
@@ -112,7 +112,10 @@ namespace base
 	base::s_zoned_time to_s_zoned_time(base::UtcHourOffset const &offset,
 									   base::TimePointSinceEpoch const &value);
 
-#endif // HAS_THREAD
 	/* #endregion */
+
+	std::chrono::year_month_day to_year_month_day(base::TimePointSinceEpoch const &value);
+
+#endif // HAS_THREAD
 
 } // namespace base

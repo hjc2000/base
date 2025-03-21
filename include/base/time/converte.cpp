@@ -35,9 +35,9 @@ base::TimePointSinceEpoch base::ToTimePointSinceEpoch(file_clock_time_point cons
 	return base::TimePointSinceEpoch{time_since_epoch};
 }
 
-/* #region 转换为区域时间 */
-
 #if HAS_THREAD
+
+/* #region 转换为区域时间 */
 
 base::ns_zoned_time base::to_ns_zoned_time(base::TimePointSinceEpoch const &value)
 {
@@ -95,6 +95,12 @@ base::s_zoned_time base::to_s_zoned_time(base::UtcHourOffset const &offset,
 	return to_s_zoned_time(utc8);
 }
 
-#endif // HAS_THREAD
-
 /* #endregion */
+
+std::chrono::year_month_day base::to_year_month_day(base::TimePointSinceEpoch const &value)
+{
+	std::chrono::year_month_day ret{static_cast<std::chrono::local_days>(value)};
+	return ret;
+}
+
+#endif // HAS_THREAD

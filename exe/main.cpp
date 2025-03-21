@@ -37,20 +37,12 @@ int main()
 	base::usage::GenerateCalculationQuestions();
 
 	{
-		// base::filesystem::create_directory("./test_dir");
-		// base::filesystem::copy("./test_dir", "./test_dir1");
-
 		// base::Path src_path{"C:/Users/huang/dev/.temp/src"};
 		// base::Path dst_path{"C:/Users/huang/dev/.temp/dst"};
 
 		// base::filesystem::Copy(src_path,
 		// 					   dst_path,
 		// 					   base::filesystem::OverwriteOption::Overwrite);
-	}
-
-	{
-		auto now = base::time::Now();
-		std::cout << static_cast<std::chrono::year_month_day>(now) << std::endl;
 	}
 
 	{
