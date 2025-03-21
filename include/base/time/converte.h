@@ -33,6 +33,7 @@ namespace base
 	base::ns_time_point to_ns_time_point(base::TimePointSinceEpoch const &value);
 	base::us_time_point to_us_time_point(base::TimePointSinceEpoch const &value);
 	base::ms_time_point to_ms_time_point(base::TimePointSinceEpoch const &value);
+	base::s_time_point to_s_time_point(base::TimePointSinceEpoch const &value);
 
 	/* #region 转换为区域时间 */
 

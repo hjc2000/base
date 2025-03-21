@@ -83,11 +83,6 @@ base::TimePointSinceEpoch::operator std::chrono::local_days() const
 
 /* #region 转换为时间点 */
 
-base::TimePointSinceEpoch::operator s_time_point() const
-{
-	return s_time_point{static_cast<std::chrono::seconds>(*this)};
-}
-
 base::TimePointSinceEpoch::operator file_clock_time_point() const
 {
 	// 文件时钟不准，并不是当前的 epoch 时间，而是与 epoch 时间之间有一个固定的偏移量。
