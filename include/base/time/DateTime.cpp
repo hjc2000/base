@@ -218,6 +218,59 @@ void base::DateTime::AdjustSecondsIndexToOneMinute(int64_t &second_index)
 
 /* #endregion */
 
+/* #region 不考虑时区转换为本地时区的日期时间字符串 */
+
+base::String base::DateTime::YearString() const
+{
+	base::String ret{std::to_string(_year)};
+	ret.PadLeft('0', base::StringLength{4});
+	return ret;
+}
+
+base::String base::DateTime::MonthString() const
+{
+	base::String ret{std::to_string(_month)};
+	ret.PadLeft('0', base::StringLength{2});
+	return ret;
+}
+
+base::String base::DateTime::DayString() const
+{
+	base::String ret{std::to_string(_day)};
+	ret.PadLeft('0', base::StringLength{2});
+	return ret;
+}
+
+base::String base::DateTime::HourString() const
+{
+	base::String ret{std::to_string(_hour)};
+	ret.PadLeft('0', base::StringLength{2});
+	return ret;
+}
+
+base::String base::DateTime::MinuteString() const
+{
+	base::String ret{std::to_string(_minute)};
+	ret.PadLeft('0', base::StringLength{2});
+	return ret;
+}
+
+base::String base::DateTime::SecondString() const
+{
+	base::String ret{std::to_string(_second)};
+	ret.PadLeft('0', base::StringLength{2});
+	return ret;
+}
+
+base::String base::DateTime::NanosecondString() const
+{
+	base::String ret{std::to_string(_nanosecond)};
+	ret.PadLeft('0', base::StringLength{9});
+	return ret;
+}
+
+/* #endregion */
+
 /* #region 构造函数 */
 
 base::DateTime::DateTime(int64_t year, int64_t month, int64_t day,
@@ -411,153 +464,25 @@ base::TimePointSinceEpoch base::DateTime::TimePointSinceEpoch() const
 	return base::TimePointSinceEpoch{total_ns};
 }
 
-/* #region 不考虑时区转换为本地时区的日期时间字符串 */
-
-base::String base::DateTime::year_string() const
+base::DateTimeStringBuilder base::DateTime::DateTimeStringBuilder() const
 {
-	base::String ret{std::to_string(_year)};
-	ret.PadLeft('0', base::StringLength{4});
-	return ret;
+	return base::DateTimeStringBuilder{
+		YearString().StdString(),
+		MonthString().StdString(),
+		DayString().StdString(),
+		HourString().StdString(),
+		MinuteString().StdString(),
+		SecondString().StdString(),
+		NanosecondString().StdString(),
+	};
 }
 
-base::String base::DateTime::month_string() const
-{
-	base::String ret{std::to_string(_month)};
-	ret.PadLeft('0', base::StringLength{2});
-	return ret;
-}
-
-base::String base::DateTime::day_string() const
-{
-	base::String ret{std::to_string(_day)};
-	ret.PadLeft('0', base::StringLength{2});
-	return ret;
-}
-
-base::String base::DateTime::hour_string() const
-{
-	base::String ret{std::to_string(_hour)};
-	ret.PadLeft('0', base::StringLength{2});
-	return ret;
-}
-
-base::String base::DateTime::minute_string() const
-{
-	base::String ret{std::to_string(_minute)};
-	ret.PadLeft('0', base::StringLength{2});
-	return ret;
-}
-
-base::String base::DateTime::second_string() const
-{
-	base::String ret{std::to_string(_second)};
-	ret.PadLeft('0', base::StringLength{2});
-	return ret;
-}
-
-base::String base::DateTime::nanosecond_string() const
-{
-	base::String ret{std::to_string(_nanosecond)};
-	ret.PadLeft('0', base::StringLength{9});
-	return ret;
-}
-
-base::String base::DateTime::year_month_string() const
-{
-	return year_string() + '-' + month_string();
-}
-
-base::String base::DateTime::year_month_day_string() const
-{
-	return year_month_string() + '-' + day_string();
-}
-
-base::String base::DateTime::hour_minute_string() const
-{
-	return hour_string() + ':' + minute_string();
-}
-
-base::String base::DateTime::hour_minute_second_string() const
-{
-	return hour_minute_string() + +':' + second_string();
-}
-
-base::String base::DateTime::hour_minute_second_nanosecond_string() const
-{
-	return hour_minute_second_string() + '.' + nanosecond_string();
-}
-
-base::String base::DateTime::year_month_day_hour_minute_second_string() const
-{
-	return year_month_day_string() + ' ' + hour_minute_second_string();
-}
-
-base::String base::DateTime::year_month_day_hour_minute_second_nanosecond_string() const
-{
-	return year_month_day_string() + ' ' + hour_minute_second_nanosecond_string();
-}
-
-/* #endregion */
-
-/* #region 考虑时区转换为本地时区的日期时间字符串 */
-
-base::String base::DateTime::local_year_string() const
+base::DateTimeStringBuilder base::DateTime::LocalDateTimeStringBuilder() const
 {
 	DateTime copy{*this};
 	copy.AddHours(_utc_hour_offset);
-	return copy.year_string();
+	return copy.DateTimeStringBuilder();
 }
-
-base::String base::DateTime::local_year_month_string() const
-{
-	DateTime copy{*this};
-	copy.AddHours(_utc_hour_offset);
-	return copy.year_month_string();
-}
-
-base::String base::DateTime::local_year_month_day_string() const
-{
-	DateTime copy{*this};
-	copy.AddHours(_utc_hour_offset);
-	return copy.year_month_day_string();
-}
-
-base::String base::DateTime::local_hour_minute_string() const
-{
-	DateTime copy{*this};
-	copy.AddHours(_utc_hour_offset);
-	return copy.hour_minute_string();
-}
-
-base::String base::DateTime::local_hour_minute_second_string() const
-{
-	DateTime copy{*this};
-	copy.AddHours(_utc_hour_offset);
-	return copy.hour_minute_second_string();
-}
-
-base::String base::DateTime::local_hour_minute_second_nanosecond_string() const
-{
-	DateTime copy{*this};
-	copy.AddHours(_utc_hour_offset);
-	return copy.hour_minute_second_nanosecond_string();
-}
-
-base::String base::DateTime::local_year_month_day_hour_minute_second_string() const
-{
-	DateTime copy{*this};
-	copy.AddHours(_utc_hour_offset);
-	return copy.year_month_day_hour_minute_second_string();
-}
-
-base::String base::DateTime::local_year_month_day_hour_minute_second_nanosecond_string() const
-{
-	DateTime copy{*this};
-	copy.AddHours(_utc_hour_offset);
-	return copy.year_month_day_hour_minute_second_nanosecond_string();
-}
-
-/* #endregion */
 
 /* #region 比较 */
 

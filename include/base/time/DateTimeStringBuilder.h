@@ -4,6 +4,10 @@
 
 namespace base
 {
+	///
+	/// @brief 日期时间字符串构建器。
+	///
+	///
 	class DateTimeStringBuilder :
 		public base::ICanToString
 	{
@@ -28,6 +32,41 @@ namespace base
 							  std::string const &minute,
 							  std::string const &second,
 							  std::string const &nanosecond);
+
+		std::string &Year()
+		{
+			return _year;
+		}
+
+		std::string &Month()
+		{
+			return _month;
+		}
+
+		std::string &Day()
+		{
+			return _day;
+		}
+
+		std::string &Hour()
+		{
+			return _hour;
+		}
+
+		std::string &Minute()
+		{
+			return _minute;
+		}
+
+		std::string &Second()
+		{
+			return _second;
+		}
+
+		std::string &Nanosecond()
+		{
+			return _nanosecond;
+		}
 
 		///
 		/// @brief 转化为字符串。

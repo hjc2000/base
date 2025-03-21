@@ -85,6 +85,16 @@ namespace base
 
 		/* #endregion */
 
+		/* #region 不考虑时区转换为本地时区的日期时间字符串 */
+		base::String YearString() const;
+		base::String MonthString() const;
+		base::String DayString() const;
+		base::String HourString() const;
+		base::String MinuteString() const;
+		base::String SecondString() const;
+		base::String NanosecondString() const;
+		/* #endregion */
+
 	public:
 		/* #region 构造函数 */
 
@@ -267,55 +277,8 @@ namespace base
 		///
 		base::TimePointSinceEpoch TimePointSinceEpoch() const;
 
-		/* #region 不考虑时区转换为本地时区的日期时间字符串 */
-		base::String year_string() const;
-		base::String month_string() const;
-		base::String day_string() const;
-		base::String hour_string() const;
-		base::String minute_string() const;
-		base::String second_string() const;
-		base::String nanosecond_string() const;
-
-		base::String year_month_string() const;
-		base::String year_month_day_string() const;
-		base::String hour_minute_string() const;
-		base::String hour_minute_second_string() const;
-		base::String hour_minute_second_nanosecond_string() const;
-		base::String year_month_day_hour_minute_second_string() const;
-		base::String year_month_day_hour_minute_second_nanosecond_string() const;
-		/* #endregion */
-
-		/* #region 考虑时区转换为本地时区的日期时间字符串 */
-		base::String local_year_string() const;
-		base::String local_year_month_string() const;
-		base::String local_year_month_day_string() const;
-		base::String local_hour_minute_string() const;
-		base::String local_hour_minute_second_string() const;
-		base::String local_hour_minute_second_nanosecond_string() const;
-		base::String local_year_month_day_hour_minute_second_string() const;
-		base::String local_year_month_day_hour_minute_second_nanosecond_string() const;
-
-		/* #endregion */
-
-		base::DateTimeStringBuilder DateTimeStringBuilder() const
-		{
-			return base::DateTimeStringBuilder{
-				year_string().StdString(),
-				month_string().StdString(),
-				day_string().StdString(),
-				hour_string().StdString(),
-				minute_string().StdString(),
-				second_string().StdString(),
-				nanosecond_string().StdString(),
-			};
-		}
-
-		base::DateTimeStringBuilder LocalDateTimeStringBuilder() const
-		{
-			DateTime copy{*this};
-			copy.AddHours(_utc_hour_offset);
-			return copy.DateTimeStringBuilder();
-		}
+		base::DateTimeStringBuilder DateTimeStringBuilder() const;
+		base::DateTimeStringBuilder LocalDateTimeStringBuilder() const;
 
 		/* #region 比较 */
 
