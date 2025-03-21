@@ -7,6 +7,11 @@ namespace base
 {
 	class TimePointSinceEpoch;
 
+	///
+	/// @brief 日期时间。
+	///
+	/// @note 计算时始终认为日期时间是固定的规律，即考虑规律是固定的闰年，但不考虑闰秒。
+	///
 	class DateTime :
 		public base::ICanToString
 	{
