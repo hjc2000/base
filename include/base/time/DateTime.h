@@ -4,6 +4,8 @@
 
 namespace base
 {
+	class TimePointSinceEpoch;
+
 	class UtcHourOffset
 	{
 	private:
@@ -129,6 +131,22 @@ namespace base
 				 int64_t hour, int64_t minute, int64_t second,
 				 int64_t nanosecond);
 
+		///
+		/// @brief 通过时间点构造。
+		///
+		/// @param time_point
+		///
+		DateTime(base::TimePointSinceEpoch const &time_point);
+
+		///
+		/// @brief 通过时间点构造一个 UTC 偏移的日期时间。
+		///
+		/// @param utc_hour_offset
+		/// @param time_point
+		///
+		DateTime(base::UtcHourOffset utc_hour_offset,
+				 base::TimePointSinceEpoch const &time_point);
+
 		/* #endregion */
 
 		/* #region 日期时间属性 */
@@ -221,6 +239,9 @@ namespace base
 		/// @param value
 		///
 		void AddSeconds(int64_t value);
+
+		void AddNanoseconds(int64_t value);
+
 		/* #endregion */
 
 		///
@@ -234,6 +255,13 @@ namespace base
 		///
 		virtual std::string ToString() const override;
 
+		///
+		/// @brief 强制转换为时间点。
+		///
+		/// @return base::TimePointSinceEpoch
+		///
+		operator base::TimePointSinceEpoch() const;
+
 		/* #region 比较 */
 
 		bool operator==(DateTime const &another) const;
@@ -243,5 +271,16 @@ namespace base
 		bool operator>=(DateTime const &another) const;
 
 		/* #endregion */
+
+		///
+		/// @brief epoch 起点。
+		///
+		/// @return base::DateTime
+		///
+		base::DateTime EpochStart() const
+		{
+			base::DateTime start{1970, 1, 1, 0, 0, 0, 0};
+			return start;
+		}
 	};
 } // namespace base

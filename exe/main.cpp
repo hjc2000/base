@@ -6,6 +6,7 @@
 #include "base/string/Parse.h"
 #include "base/time/DateTime.h"
 #include "base/time/time.h"
+#include "base/time/TimePointSinceEpoch.h"
 #include "base/usage/CountTriangle.h"
 #include "base/usage/GenerateCalculationQuestions.h"
 #include <chrono>
@@ -53,11 +54,16 @@ int main()
 	}
 
 	{
-		for (int i = -60 * 5; i <= 60 * 5; i++)
-		{
-			base::DateTime time{2000, 1, 1, 0, 0, 0, 0};
-			time.AddSeconds(i);
-			std::cout << "i=" << i << "  " << time << std::endl;
-		}
+		base::TimePointSinceEpoch now_time_point = base::time::Now();
+
+		base::DateTime now{
+			base::UtcHourOffset{8},
+			now_time_point,
+		};
+
+		std::cout << now << std::endl;
+		std::cout << now_time_point << std::endl;
+		std::cout << static_cast<std::chrono::nanoseconds>(now_time_point) << std::endl;
+		std::cout << static_cast<std::chrono::nanoseconds>(static_cast<base::TimePointSinceEpoch>(now)) << std::endl;
 	}
 }

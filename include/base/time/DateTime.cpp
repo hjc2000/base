@@ -1,5 +1,8 @@
 #include "DateTime.h"
 #include "base/string/define.h"
+#include "base/time/TimePointSinceEpoch.h"
+#include <bits/chrono.h>
+#include <chrono>
 #include <cstdint>
 #include <cstdlib>
 #include <stdexcept>
@@ -48,7 +51,7 @@ void base::DateTime::CheckSecond()
 
 void base::DateTime::CheckNanosecond()
 {
-	if (_nanosecond < 0 || _nanosecond > 999)
+	if (_nanosecond < 0 || _nanosecond >= 1000 * 1000 * 1000)
 	{
 		throw std::invalid_argument{CODE_POS_STR + "非法纳秒。"};
 	}
@@ -250,6 +253,20 @@ base::DateTime::DateTime(base::UtcHourOffset utc_hour_offset,
 	AddHours(-_utc_hour_offset);
 }
 
+base::DateTime::DateTime(base::TimePointSinceEpoch const &time_point)
+{
+	base::DateTime start{EpochStart()};
+	start.AddNanoseconds(static_cast<std::chrono::nanoseconds>(time_point).count());
+	*this = start;
+}
+
+base::DateTime::DateTime(base::UtcHourOffset utc_hour_offset,
+						 base::TimePointSinceEpoch const &time_point)
+	: DateTime(time_point)
+{
+	_utc_hour_offset = utc_hour_offset.Value();
+}
+
 /* #endregion */
 
 int64_t base::DateTime::CurrentYearDayCount()
@@ -337,6 +354,15 @@ void base::DateTime::AddSeconds(int64_t value)
 	AdjustSecondsIndexToOneMinute(_second);
 }
 
+void base::DateTime::AddNanoseconds(int64_t value)
+{
+	std::chrono::nanoseconds total_ns{_nanosecond + value};
+	std::chrono::seconds second_part = std::chrono::duration_cast<std::chrono::seconds>(total_ns);
+	std::chrono::nanoseconds ns_part = total_ns - second_part;
+	AddSeconds(second_part.count());
+	_nanosecond = ns_part.count();
+}
+
 /* #endregion */
 
 std::string base::DateTime::ToString() const
@@ -355,6 +381,46 @@ std::string base::DateTime::ToString() const
 	ret += '.';
 	ret += std::to_string(copy._nanosecond);
 	return ret;
+}
+
+base::DateTime::operator base::TimePointSinceEpoch() const
+{
+	std::chrono::nanoseconds total_ns{};
+	base::DateTime start{EpochStart()};
+
+	// 把 start 的年份调整到当前年份，累加经过的纳秒数。
+	while (true)
+	{
+		if (start._year == _year)
+		{
+			break;
+		}
+		else if (start._year > _year)
+		{
+			start._year--;
+			total_ns -= std::chrono::days{start.CurrentYearDayCount()};
+		}
+		else if (start._year < _year)
+		{
+			total_ns += std::chrono::days{start.CurrentYearDayCount()};
+			start._year++;
+		}
+	}
+
+	// 因为 start 是 1 月，所以一定满足 start._month <= _month
+	while (start._month < _month)
+	{
+		total_ns += std::chrono::days{start.CurrentMonthDayCount()};
+		start._month++;
+	}
+
+	// 因为 start 是 1 日，所以 _day - start._day >= 0
+	total_ns += std::chrono::days{_day - start._day};
+	total_ns += std::chrono::hours{_hour - 0};
+	total_ns += std::chrono::minutes{_minute - 0};
+	total_ns += std::chrono::seconds{_second - 0};
+	total_ns += std::chrono::nanoseconds{_nanosecond - 0};
+	return base::TimePointSinceEpoch{total_ns};
 }
 
 /* #region 比较 */
