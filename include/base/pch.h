@@ -24,7 +24,6 @@
 	#include "base/Guard.h"
 	#include "base/IDisposable.h"
 	#include "base/LockGuard.h"
-	#include "base/math/BigInteger.h"
 	#include "base/sfinae/Compare.h"
 	#include "base/sfinae/Equal.h"
 	#include "base/sfinae/IsConst.h"
@@ -32,6 +31,7 @@
 	#include "base/stream/ReadOnlySpan.h"
 	#include "base/stream/Span.h"
 	#include "base/stream/Stream.h"
+	#include "boost/multiprecision/cpp_int.hpp"
 	#include "nlohmann/json.hpp"
 	#include <algorithm>
 	#include <array>

@@ -64,8 +64,6 @@ namespace base
 
 		/* #endregion */
 
-		/* #region 获取底层数据 */
-
 		///
 		/// @brief 获取被本类包装的 std::string 对象的引用。
 		///
@@ -93,8 +91,6 @@ namespace base
 		/// @return base::ReadOnlySpan
 		///
 		base::ReadOnlySpan Span() const;
-
-		/* #endregion */
 
 		///
 		/// @brief 字符串长度。不包括结尾的空字符。
@@ -342,8 +338,6 @@ namespace base
 		///
 		bool Contains(base::String const &match) const;
 
-		/* #region 开始结尾 */
-
 		///
 		/// @brief 检查字符串是否以 match 开头。
 		///
@@ -379,8 +373,6 @@ namespace base
 		/// @return false
 		///
 		bool EndWith(base::String const &match) const;
-
-		/* #endregion */
 
 		/* #region 迭代器 */
 
