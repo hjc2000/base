@@ -79,24 +79,6 @@ base::TimePointSinceEpoch::operator std::chrono::local_days() const
 	return ret;
 }
 
-#if HAS_THREAD
-
-/* #region 转换为时间点 */
-
-base::TimePointSinceEpoch::operator file_clock_time_point() const
-{
-	// 文件时钟不准，并不是当前的 epoch 时间，而是与 epoch 时间之间有一个固定的偏移量。
-	// 获取这个偏移量，然后将 _time_since_epoch 减去这个偏移量就得到了对应的文件时钟时间戳。
-	auto delta = std::chrono::system_clock::now().time_since_epoch() -
-				 std::filesystem::file_time_type::clock::now().time_since_epoch();
-
-	return file_clock_time_point{_time_since_epoch - delta};
-}
-
-/* #endregion */
-
-#endif
-
 /* #endregion */
 
 /* #region 四则运算 */

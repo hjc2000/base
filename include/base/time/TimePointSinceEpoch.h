@@ -56,11 +56,6 @@ namespace base
 		///
 		explicit operator std::chrono::local_days() const;
 
-#if HAS_THREAD
-		operator file_clock_time_point() const;
-
-#endif
-
 		/* #endregion */
 
 		/* #region 四则运算 */

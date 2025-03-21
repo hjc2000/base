@@ -30,12 +30,15 @@ namespace base
 	base::TimePointSinceEpoch ToTimePointSinceEpoch(s_time_point const &value);
 	base::TimePointSinceEpoch ToTimePointSinceEpoch(file_clock_time_point const &value);
 
+	/* #region 转换为 std::chrono::time_point */
 	base::ns_time_point to_ns_time_point(base::TimePointSinceEpoch const &value);
 	base::us_time_point to_us_time_point(base::TimePointSinceEpoch const &value);
 	base::ms_time_point to_ms_time_point(base::TimePointSinceEpoch const &value);
 	base::s_time_point to_s_time_point(base::TimePointSinceEpoch const &value);
+	base::file_clock_time_point to_file_clock_time_point(base::TimePointSinceEpoch const &value);
+	/* #endregion */
 
-	/* #region 转换为区域时间 */
+	/* #region 转换为 std::chrono::zoned_time */
 
 	///
 	/// @brief 将 value 转换为 UTC + 0 区域时间。
