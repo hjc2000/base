@@ -236,6 +236,8 @@ namespace base
 
 		/* #endregion */
 
+		/* #region 强制转换 */
+
 		///
 		/// @brief 转化为字符串。
 		///
@@ -253,6 +255,14 @@ namespace base
 		/// @return base::TimePointSinceEpoch
 		///
 		operator base::TimePointSinceEpoch() const;
+
+		///
+		/// @brief 强制转换为时间点。
+		///
+		/// @return base::TimePointSinceEpoch
+		///
+		base::TimePointSinceEpoch TimePointSinceEpoch() const;
+		/* #endregion */
 
 		/* #region 比较 */
 

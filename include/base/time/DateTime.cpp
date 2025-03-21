@@ -385,6 +385,11 @@ std::string base::DateTime::ToString() const
 
 base::DateTime::operator base::TimePointSinceEpoch() const
 {
+	return TimePointSinceEpoch();
+}
+
+base::TimePointSinceEpoch base::DateTime::TimePointSinceEpoch() const
+{
 	std::chrono::nanoseconds total_ns{};
 	base::DateTime start{EpochStart()};
 
