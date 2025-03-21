@@ -133,8 +133,6 @@ namespace base
 
 		/* #endregion */
 
-		/* #region 拼接，切片 */
-
 		base::String &operator+=(base::String const &o);
 		base::String operator+(base::String const &o) const;
 
@@ -157,8 +155,6 @@ namespace base
 		/// @return base::String
 		///
 		base::String Slice(base::Range const &range) const;
-
-		/* #endregion */
 
 		/* #region 比较 */
 
