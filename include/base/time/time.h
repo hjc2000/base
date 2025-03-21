@@ -1,5 +1,6 @@
 #pragma once
 #include "base/time/TimePointSinceEpoch.h"
+#include "DateTime.h"
 
 namespace base
 {
@@ -11,6 +12,16 @@ namespace base
 		/// @return base::TimePointSinceEpoch
 		///
 		base::TimePointSinceEpoch Now();
+
+		///
+		/// @brief 获取当前的日期时间。
+		///
+		/// @return base::DateTime
+		///
+		inline base::DateTime NowDateTime()
+		{
+			return base::DateTime{Now()};
+		}
 
 		///
 		/// @brief 获取稳定时钟的当前时刻。
