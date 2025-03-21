@@ -33,6 +33,8 @@ namespace base
 							  std::string const &second,
 							  std::string const &nanosecond);
 
+		/* #region 获取各部分字符串引用 */
+
 		std::string &Year()
 		{
 			return _year;
@@ -67,6 +69,47 @@ namespace base
 		{
 			return _nanosecond;
 		}
+
+		/* #endregion */
+
+		/* #region 获取各部分字符串 const 引用 */
+
+		std::string const &Year() const
+		{
+			return _year;
+		}
+
+		std::string const &Month() const
+		{
+			return _month;
+		}
+
+		std::string const &Day() const
+		{
+			return _day;
+		}
+
+		std::string const &Hour() const
+		{
+			return _hour;
+		}
+
+		std::string const &Minute() const
+		{
+			return _minute;
+		}
+
+		std::string const &Second() const
+		{
+			return _second;
+		}
+
+		std::string const &Nanosecond() const
+		{
+			return _nanosecond;
+		}
+
+		/* #endregion */
 
 		///
 		/// @brief 转化为字符串。
