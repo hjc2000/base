@@ -83,11 +83,6 @@ base::TimePointSinceEpoch::operator std::chrono::local_days() const
 
 /* #region 转换为时间点 */
 
-base::TimePointSinceEpoch::operator ms_time_point() const
-{
-	return ms_time_point{static_cast<std::chrono::milliseconds>(*this)};
-}
-
 base::TimePointSinceEpoch::operator s_time_point() const
 {
 	return s_time_point{static_cast<std::chrono::seconds>(*this)};
