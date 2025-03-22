@@ -125,7 +125,8 @@ namespace base
 		void CreateDirectory(base::Path const &path);
 
 		///
-		/// @brief 确保目标路径是一个存在的目录。
+		/// @brief 确保目标路径是一个存在的目录。如果目标路径不存在，会创建空目录。
+		/// 如果目标路径已存在，但不是目录，会抛出异常。
 		///
 		/// @param path
 		///
