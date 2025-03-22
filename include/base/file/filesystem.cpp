@@ -18,9 +18,9 @@ namespace
 	/// @param destination_path
 	/// @param overwrite_method
 	///
-	void copy_file(base::Path const &source_path,
-				   base::Path const &destination_path,
-				   base::filesystem::OverwriteOption overwrite_method)
+	void CopyFile(base::Path const &source_path,
+				  base::Path const &destination_path,
+				  base::filesystem::OverwriteOption overwrite_method)
 	{
 		std::filesystem::copy_options options = std::filesystem::copy_options::copy_symlinks;
 
@@ -283,7 +283,7 @@ void base::filesystem::Copy(base::Path const &source_path,
 	// 执行到这里说明源路径存在
 	if (IsFile(source_path))
 	{
-		copy_file(source_path, destination_path, overwrite_method);
+		CopyFile(source_path, destination_path, overwrite_method);
 		return;
 	}
 
@@ -300,7 +300,7 @@ void base::filesystem::Copy(base::Path const &source_path,
 		if (IsFile(src_path))
 		{
 			// 源路径是一个文件
-			copy_file(src_path, dst_path, overwrite_method);
+			CopyFile(src_path, dst_path, overwrite_method);
 		}
 		else
 		{
