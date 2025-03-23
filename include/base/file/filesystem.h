@@ -251,8 +251,16 @@ namespace base
 #if HAS_THREAD
 	namespace test
 	{
+		///
+		/// @brief 测试遍历目录条目。
+		///
+		///
 		void TestDirectoryEntryEnumerable();
 
+		///
+		/// @brief 测试递归遍历目录条目。
+		///
+		///
 		void TestRecursiveDirectoryEntryEnumerable();
 	} // namespace test
 #endif // HAS_THREAD
