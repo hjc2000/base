@@ -129,10 +129,19 @@ namespace base
 		void CreateDirectory(base::Path const &path);
 
 		///
+		/// @brief 递归地创建一个目录。
+		///
+		/// @param path 要创建的目录的路径。
+		///
+		/// @exception std::runtime_error 目标路径已存在会抛出异常。
+		///
+		void CreateDirectoryRecursively(base::Path const &path);
+
+		///
 		/// @brief 确保目标路径是一个存在的目录。如果目标路径不存在，会创建空目录。
 		///
 		/// @param path 要确保存在的目录路径。
-		/// @note 不支持通过多层路径直接创建深层目录。
+		/// @note 支持递归创建目录。
 		///
 		/// @exception runtime_error 如果目标路径已存在，但不是目录，会抛出异常。
 		///

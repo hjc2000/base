@@ -384,23 +384,31 @@ void base::filesystem::CreateDirectory(base::Path const &path)
 	}
 }
 
-void base::filesystem::EnsureDirectory(base::Path const &path)
+void base::filesystem::CreateDirectoryRecursively(base::Path const &path)
 {
-	if (!base::filesystem::Exists(path))
+	if (base::filesystem::Exists(path))
 	{
-		// 目标路径不存在，则创建空目录
-		base::filesystem::CreateDirectory(path);
-		return;
+		std::string message = CODE_POS_STR;
+		message += std::format("目标路径 {} 已存在。", path.ToString());
+		throw std::runtime_error{message};
 	}
 
-	// 目标路径存在
-	if (!base::filesystem::IsDirectory(path))
+	std::error_code error_code{};
+	bool ret = std::filesystem::create_directories(path.ToString(), error_code);
+	if (error_code.value() != 0)
 	{
 		std::string message = CODE_POS_STR;
 
-		message += std::format("目标路径 {} 已存在但不是目录。",
-							   path.ToString());
+		message += std::format("创建目录失败。错误代码：{}，错误消息：{}",
+							   error_code.value(),
+							   error_code.message());
 
+		throw std::runtime_error{message};
+	}
+
+	if (!ret)
+	{
+		std::string message = CODE_POS_STR + "创建目录失败，但是没有错误代码。";
 		throw std::runtime_error{message};
 	}
 }
@@ -521,6 +529,27 @@ std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> base::filesystem:
 }
 
 #endif // HAS_THREAD
+
+void base::filesystem::EnsureDirectory(base::Path const &path)
+{
+	if (!base::filesystem::Exists(path))
+	{
+		// 目标路径不存在，则创建空目录
+		base::filesystem::CreateDirectoryRecursively(path);
+		return;
+	}
+
+	// 目标路径存在
+	if (!base::filesystem::IsDirectory(path))
+	{
+		std::string message = CODE_POS_STR;
+
+		message += std::format("目标路径 {} 已存在但不是目录。",
+							   path.ToString());
+
+		throw std::runtime_error{message};
+	}
+}
 
 #if HAS_THREAD
 void base::test::TestDirectoryEntryEnumerable()
