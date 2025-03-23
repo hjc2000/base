@@ -526,7 +526,7 @@ std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> base::filesystem:
 void base::test::TestDirectoryEntryEnumerable()
 {
 	base::filesystem::DirectoryEntryEnumerable entries{"F:/.temp"};
-	for (auto entry : entries)
+	for (base::DirectoryEntry const &entry : entries)
 	{
 		std::cout << entry.Path() << std::endl;
 	}
@@ -535,7 +535,7 @@ void base::test::TestDirectoryEntryEnumerable()
 void base::test::TestRecursiveDirectoryEntryEnumerable()
 {
 	base::filesystem::RecursiveDirectoryEntryEnumerable entries{"F:/.temp"};
-	for (auto entry : entries)
+	for (base::DirectoryEntry const &entry : entries)
 	{
 		std::cout << entry.Path() << std::endl;
 	}
