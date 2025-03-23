@@ -1,6 +1,7 @@
 #include "DateTime.h"
 #include "base/string/define.h"
 #include "base/string/String.h"
+#include "base/time/time.h"
 #include "base/time/TimePointSinceEpoch.h"
 #include <bits/chrono.h>
 #include <chrono>
@@ -599,3 +600,23 @@ base::DateTime base::DateTime::EpochStart() const
 	base::DateTime start{1970, 1, 1, 0, 0, 0, 0};
 	return start;
 }
+
+#if HAS_THREAD
+void base::test::TestDateTime()
+{
+	base::TimePointSinceEpoch now_time_point = base::time::Now();
+
+	base::DateTime now{
+		base::UtcHourOffset{8},
+		now_time_point,
+	};
+
+	base::DateTimeStringBuilder dsb = now.LocalDateTimeStringBuilder();
+	dsb.SetYearSeparator('/');
+
+	std::cout << dsb << std::endl;
+	std::cout << std::to_string(now_time_point) << std::endl;
+	std::cout << static_cast<std::chrono::nanoseconds>(now_time_point) << std::endl;
+	std::cout << static_cast<std::chrono::nanoseconds>(now.TimePointSinceEpoch()) << std::endl;
+}
+#endif

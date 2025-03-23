@@ -270,7 +270,22 @@ namespace base
 		///
 		base::TimePointSinceEpoch TimePointSinceEpoch() const;
 
+		///
+		/// @brief 获取日期时间字符串构建器。
+		///
+		/// @note 不考虑时区。
+		///
+		/// @return base::DateTimeStringBuilder
+		///
 		base::DateTimeStringBuilder DateTimeStringBuilder() const;
+
+		///
+		/// @brief 获取本地日期时间字符串构建器。
+		///
+		/// @note 考虑时区。
+		///
+		/// @return base::DateTimeStringBuilder
+		///
 		base::DateTimeStringBuilder LocalDateTimeStringBuilder() const;
 
 		/* #region 比较 */
@@ -290,4 +305,11 @@ namespace base
 		///
 		base::DateTime EpochStart() const;
 	};
+
+#if HAS_THREAD
+	namespace test
+	{
+		void TestDateTime();
+	} // namespace test
+#endif
 } // namespace base

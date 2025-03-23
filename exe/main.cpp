@@ -1,19 +1,11 @@
-#include "base/file/filesystem.h"
-#include "base/file/Path.h"
 #include "base/math/BigInteger.h"
 #include "base/net/IPAddress.h"
 #include "base/net/profinet/dcp/DcpIdentifyRequestReader.h"
 #include "base/string/Parse.h"
 #include "base/time/DateTime.h"
-#include "base/time/DateTimeStringBuilder.h"
-#include "base/time/time.h"
-#include "base/time/TimePointSinceEpoch.h"
-#include "base/time/UtcHourOffset.h"
 #include "base/usage/CountTriangle.h"
 #include "base/usage/GenerateCalculationQuestions.h"
-#include <chrono>
 #include <iostream>
-#include <string>
 
 int main()
 {
@@ -38,6 +30,7 @@ int main()
 	base::test::test_parse_int64();
 	base::test::test_parse_double();
 	base::usage::GenerateCalculationQuestions();
+	base::test::TestDateTime();
 
 	{
 		// base::Path src_path{"C:/Users/huang/dev/.temp/src"};
@@ -46,22 +39,5 @@ int main()
 		// base::filesystem::Copy(src_path,
 		// 					   dst_path,
 		// 					   base::filesystem::OverwriteOption::Overwrite);
-	}
-
-	{
-		base::TimePointSinceEpoch now_time_point = base::time::Now();
-
-		base::DateTime now{
-			base::UtcHourOffset{8},
-			now_time_point,
-		};
-
-		base::DateTimeStringBuilder dsb = now.LocalDateTimeStringBuilder();
-		dsb.SetYearSeparator('/');
-
-		std::cout << dsb << std::endl;
-		std::cout << std::to_string(now_time_point) << std::endl;
-		std::cout << static_cast<std::chrono::nanoseconds>(now_time_point) << std::endl;
-		std::cout << static_cast<std::chrono::nanoseconds>(now.TimePointSinceEpoch()) << std::endl;
 	}
 }
