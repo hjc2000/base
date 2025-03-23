@@ -15,6 +15,8 @@ namespace base
 		base::Path _path;
 
 	public:
+		DirectoryEntry() = default;
+
 		///
 		/// @brief 根据路径构造一个目录条目。
 		///

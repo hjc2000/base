@@ -1,8 +1,13 @@
 #include "filesystem.h"
+#include "base/container/iterator/IEnumerator.h"
 #include "base/file/Path.h"
 #include "base/string/define.h"
+#include "DirectoryEntry.h"
 #include <filesystem>
+#include <memory>
+#include <stdexcept>
 #include <string>
+#include <system_error>
 #include <unistd.h>
 
 #if HAS_THREAD
@@ -70,6 +75,155 @@ namespace
 		std::cout << "更新：" << source_path << " --> " << destination_path << std::endl;
 		return;
 	}
+
+	///
+	/// @brief 目录条目迭代器。
+	///
+	///
+	class DirectoryEntryEnumerator :
+		public base::IEnumerator<base::DirectoryEntry const>
+	{
+	private:
+		base::Path _path;
+		base::DirectoryEntry _current;
+		bool _move_to_next_for_the_first_time = true;
+		std::filesystem::directory_iterator _begin;
+		std::filesystem::directory_iterator _end;
+
+	public:
+		DirectoryEntryEnumerator(base::Path const &path)
+		{
+			_path = path;
+			Reset();
+		}
+
+		///
+		/// @brief 获取当前值的引用。
+		///
+		/// @return ItemType&
+		///
+		virtual base::DirectoryEntry const &CurrentValue() override
+		{
+			if (_begin == _end)
+			{
+				std::string message = CODE_POS_STR +
+									  "当前没有值，如果是刚刚构造或 Reset 要先调用 MoveNext. "
+									  "也有可能是当前路径没有目录条目。"
+									  "也有可能是已经遍历完了，要重新 Reset.";
+
+				throw std::runtime_error{message};
+			}
+
+			_current = base::DirectoryEntry{_begin->path().string()};
+			return _current;
+		}
+
+		///
+		/// @brief 迭代器前进到下一个值。
+		///
+		/// @return true
+		/// @return false
+		///
+		virtual bool MoveNext() override
+		{
+			if (_move_to_next_for_the_first_time)
+			{
+				_move_to_next_for_the_first_time = false;
+			}
+			else
+			{
+				++_begin;
+			}
+
+			return _begin != _end;
+		}
+
+		///
+		/// @brief 将迭代器重置到容器开始的位置。
+		///
+		/// @note 开始位置是第一个元素前。也就是说重置后，要调用一次 MoveNext 才能获取到第一个值。
+		///
+		virtual void Reset() override
+		{
+			_move_to_next_for_the_first_time = true;
+			_begin = std::filesystem::directory_iterator{_path.ToString()};
+		}
+	};
+
+	///
+	/// @brief 目录条目递归迭代器。
+	///
+	///
+	class RecursiveDirectoryEntryEnumerator :
+		public base::IEnumerator<base::DirectoryEntry const>
+	{
+	private:
+		base::Path _path;
+		base::DirectoryEntry _current;
+		bool _move_to_next_for_the_first_time = true;
+		std::filesystem::recursive_directory_iterator _begin;
+		std::filesystem::recursive_directory_iterator _end;
+
+	public:
+		RecursiveDirectoryEntryEnumerator(base::Path const &path)
+		{
+			_path = path;
+			Reset();
+		}
+
+		///
+		/// @brief 获取当前值的引用。
+		///
+		/// @return ItemType&
+		///
+		virtual base::DirectoryEntry const &CurrentValue() override
+		{
+			if (_begin == _end)
+			{
+				std::string message = CODE_POS_STR +
+									  "当前没有值，如果是刚刚构造或 Reset 要先调用 MoveNext. "
+									  "也有可能是当前路径没有目录条目。"
+									  "也有可能是已经遍历完了，要重新 Reset.";
+
+				throw std::runtime_error{message};
+			}
+
+			_current = base::DirectoryEntry{_begin->path().string()};
+			return _current;
+		}
+
+		///
+		/// @brief 迭代器前进到下一个值。
+		///
+		/// @return true
+		/// @return false
+		///
+		virtual bool MoveNext() override
+		{
+			if (_move_to_next_for_the_first_time)
+			{
+				_move_to_next_for_the_first_time = false;
+			}
+			else
+			{
+				++_begin;
+			}
+
+			return _begin != _end;
+		}
+
+		///
+		/// @brief 将迭代器重置到容器开始的位置。
+		///
+		/// @note 开始位置是第一个元素前。也就是说重置后，要调用一次 MoveNext 才能获取到第一个值。
+		///
+		virtual void Reset() override
+		{
+			_move_to_next_for_the_first_time = true;
+			_begin = std::filesystem::recursive_directory_iterator{_path.ToString()};
+		}
+	};
+
 } // namespace
 
 /* #region 访问权限检查 */
@@ -343,6 +497,16 @@ void base::filesystem::Move(base::Path const &source_path,
 
 		throw std::runtime_error{message};
 	}
+}
+
+std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> base::filesystem::CreateDirectoryEntryEnumerator(base::Path const &path)
+{
+	return std::shared_ptr<DirectoryEntryEnumerator>{new DirectoryEntryEnumerator{path}};
+}
+
+std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> base::filesystem::CreateDirectoryEntryRecursiveEnumerator(base::Path const &path)
+{
+	return std::shared_ptr<RecursiveDirectoryEntryEnumerator>{new RecursiveDirectoryEntryEnumerator{path}};
 }
 
 #endif // HAS_THREAD

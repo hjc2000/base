@@ -1,5 +1,8 @@
 #pragma once
+#include "base/container/iterator/IEnumerable.h"
 #include "base/file/Path.h"
+#include "DirectoryEntry.h"
+#include <memory>
 
 namespace base
 {
@@ -168,6 +171,80 @@ namespace base
 		///
 		void Move(base::Path const &source_path,
 				  base::Path const &destination_path);
+
+		/* #region 迭代目录条目 */
+
+		///
+		/// @brief 创建目录条目迭代器。
+		///
+		/// @param path
+		/// @return std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>>
+		///
+		std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> CreateDirectoryEntryEnumerator(base::Path const &path);
+
+		///
+		/// @brief 创建目录条目递归迭代器。
+		///
+		/// @param path
+		/// @return std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>>
+		///
+		std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> CreateDirectoryEntryRecursiveEnumerator(base::Path const &path);
+
+		///
+		/// @brief 包装目录条目迭代器。
+		///
+		///
+		class DirectoryEntryEnumerable :
+			public base::IEnumerable<base::DirectoryEntry const>
+		{
+		private:
+			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _it;
+
+		public:
+			DirectoryEntryEnumerable(base::Path const &path)
+			{
+				_it = CreateDirectoryEntryEnumerator(path);
+			}
+
+			///
+			/// @brief 获取非 const 迭代器
+			///
+			/// @return std::shared_ptr<base::IEnumerator<ItemType>>
+			///
+			virtual std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> GetEnumerator() override
+			{
+				return _it;
+			}
+		};
+
+		///
+		/// @brief 包装目录条目递归迭代器。
+		///
+		///
+		class RecursiveDirectoryEntryEnumerable :
+			public base::IEnumerable<base::DirectoryEntry const>
+		{
+		private:
+			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _it;
+
+		public:
+			RecursiveDirectoryEntryEnumerable(base::Path const &path)
+			{
+				_it = CreateDirectoryEntryRecursiveEnumerator(path);
+			}
+
+			///
+			/// @brief 获取非 const 迭代器
+			///
+			/// @return std::shared_ptr<base::IEnumerator<ItemType>>
+			///
+			virtual std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> GetEnumerator() override
+			{
+				return _it;
+			}
+		};
+
+		/* #endregion */
 
 	} // namespace filesystem
 } // namespace base
