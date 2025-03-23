@@ -24,6 +24,11 @@ namespace base
 		///
 		DirectoryEntry(base::Path const &path);
 
+		base::Path const &Path() const
+		{
+			return _path;
+		}
+
 		///
 		/// @brief 本条目在文件系统中是否真实存在。
 		///

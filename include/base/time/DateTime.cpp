@@ -619,4 +619,4 @@ void base::test::TestDateTime()
 	std::cout << static_cast<std::chrono::nanoseconds>(now_time_point) << std::endl;
 	std::cout << static_cast<std::chrono::nanoseconds>(now.TimePointSinceEpoch()) << std::endl;
 }
-#endif
+#endif // HAS_THREAD

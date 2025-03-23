@@ -1,3 +1,4 @@
+#include "base/file/filesystem.h"
 #include "base/math/BigInteger.h"
 #include "base/net/IPAddress.h"
 #include "base/net/profinet/dcp/DcpIdentifyRequestReader.h"
@@ -31,6 +32,8 @@ int main()
 	base::test::test_parse_double();
 	base::usage::GenerateCalculationQuestions();
 	base::test::TestDateTime();
+	base::test::TestDirectoryEntryEnumerable();
+	// base::test::TestRecursiveDirectoryEntryEnumerable();
 
 	{
 		// base::Path src_path{"C:/Users/huang/dev/.temp/src"};

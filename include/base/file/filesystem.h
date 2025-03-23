@@ -247,4 +247,14 @@ namespace base
 		/* #endregion */
 
 	} // namespace filesystem
+
+#if HAS_THREAD
+	namespace test
+	{
+		void TestDirectoryEntryEnumerable();
+
+		void TestRecursiveDirectoryEntryEnumerable();
+	} // namespace test
+#endif // HAS_THREAD
+
 } // namespace base

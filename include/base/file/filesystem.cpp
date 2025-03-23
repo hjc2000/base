@@ -4,6 +4,7 @@
 #include "base/string/define.h"
 #include "DirectoryEntry.h"
 #include <filesystem>
+#include <iostream>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -84,7 +85,7 @@ namespace
 		public base::IEnumerator<base::DirectoryEntry const>
 	{
 	private:
-		base::Path _path;
+		std::string _path;
 		base::DirectoryEntry _current;
 		bool _move_to_next_for_the_first_time = true;
 		std::filesystem::directory_iterator _begin;
@@ -93,7 +94,12 @@ namespace
 	public:
 		DirectoryEntryEnumerator(base::Path const &path)
 		{
-			_path = path;
+			_path = path.ToString();
+			if (_path == "")
+			{
+				_path = "./";
+			}
+
 			Reset();
 		}
 
@@ -146,7 +152,7 @@ namespace
 		virtual void Reset() override
 		{
 			_move_to_next_for_the_first_time = true;
-			_begin = std::filesystem::directory_iterator{_path.ToString()};
+			_begin = std::filesystem::directory_iterator{_path};
 		}
 	};
 
@@ -158,7 +164,7 @@ namespace
 		public base::IEnumerator<base::DirectoryEntry const>
 	{
 	private:
-		base::Path _path;
+		std::string _path;
 		base::DirectoryEntry _current;
 		bool _move_to_next_for_the_first_time = true;
 		std::filesystem::recursive_directory_iterator _begin;
@@ -167,7 +173,12 @@ namespace
 	public:
 		RecursiveDirectoryEntryEnumerator(base::Path const &path)
 		{
-			_path = path;
+			_path = path.ToString();
+			if (_path == "")
+			{
+				_path = "./";
+			}
+
 			Reset();
 		}
 
@@ -220,7 +231,7 @@ namespace
 		virtual void Reset() override
 		{
 			_move_to_next_for_the_first_time = true;
-			_begin = std::filesystem::recursive_directory_iterator{_path.ToString()};
+			_begin = std::filesystem::recursive_directory_iterator{_path};
 		}
 	};
 
@@ -509,4 +520,24 @@ std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> base::filesystem:
 	return std::shared_ptr<RecursiveDirectoryEntryEnumerator>{new RecursiveDirectoryEntryEnumerator{path}};
 }
 
+#endif // HAS_THREAD
+
+#if HAS_THREAD
+void base::test::TestDirectoryEntryEnumerable()
+{
+	base::filesystem::DirectoryEntryEnumerable entries{"F:/.temp"};
+	for (auto entry : entries)
+	{
+		std::cout << entry.Path() << std::endl;
+	}
+}
+
+void base::test::TestRecursiveDirectoryEntryEnumerable()
+{
+	base::filesystem::RecursiveDirectoryEntryEnumerable entries{"F:/.temp"};
+	for (auto entry : entries)
+	{
+		std::cout << entry.Path() << std::endl;
+	}
+}
 #endif // HAS_THREAD
