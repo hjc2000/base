@@ -28,7 +28,7 @@ bool base::BinarySemaphore::TryAcquire(base::Seconds const &timeout)
 {
 	if (timeout < 0)
 	{
-		throw std::invalid_argument{CODE_POS_STR + "超时时间不能 <=0."};
+		throw std::invalid_argument{CODE_POS_STR + "超时时间不能 <= 0."};
 	}
 
 	return _bs.try_acquire_for(static_cast<std::chrono::nanoseconds>(timeout));
