@@ -28,18 +28,29 @@ namespace base
 		virtual void Release(int32_t count) = 0;
 
 		///
+		/// @brief 在中断中释放信号量。
+		///
+		/// @param count
+		///
+		virtual void ReleaseFromISR(int32_t count) = 0;
+
+		///
 		/// @brief 释放 1 个信号量。
 		///
 		///
-		void Release();
+		void Release()
+		{
+			Release(1);
+		}
 
 		///
-		/// @brief 释放所有等待者。
+		/// @brief 在中断中释放一个信号量。
 		///
-		/// @note 此方法会发生误触，例如无时间间隔连续一直调用会因为被释放的线程没来得及递减计数
-		/// 而导致以为还有那么多线程被阻塞，进而导致重复释放。
 		///
-		virtual void ReleaseAllAcquire() = 0;
+		void ReleaseFromISR()
+		{
+			ReleaseFromISR(1);
+		}
 
 		///
 		/// @brief 获取信号量。无限等待，永不超时。

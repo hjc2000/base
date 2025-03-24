@@ -1,4 +1,5 @@
 #include "DisposableSemaphore.h"
+#include <cstdint>
 
 #if HAS_THREAD
 
@@ -20,77 +21,51 @@ void base::DisposableSemaphore::Dispose()
 	}
 
 	_disposed = true;
-
-	ReleaseAllAcquire();
+	Release(INT32_MAX);
 }
 
 void base::DisposableSemaphore::Release(int32_t count)
 {
 	if (count <= 0)
 	{
-		throw std::invalid_argument{CODE_POS_STR + "count 不能 <=0."};
+		throw std::invalid_argument{CODE_POS_STR + "count 不能 <= 0."};
 	}
 
-	std::lock_guard g{_lock};
 	_semaphore.release(count);
 }
 
-void base::DisposableSemaphore::ReleaseAllAcquire()
+void base::DisposableSemaphore::ReleaseFromISR(int32_t count)
 {
-	std::lock_guard g{_lock};
-	if (_acquirer_count > 0)
-	{
-		_semaphore.release(_acquirer_count);
-	}
+	Release(count);
 }
 
 void base::DisposableSemaphore::Acquire()
 {
+	if (_disposed)
 	{
-		std::lock_guard g{_lock};
-		if (_disposed)
-		{
-			throw std::runtime_error{CODE_POS_STR + "信号量已经释放，无法获取。"};
-		}
-
-		_acquirer_count++;
+		throw std::runtime_error{CODE_POS_STR + "信号量已经释放，无法获取。"};
 	}
 
 	_semaphore.acquire();
 
+	if (_disposed)
 	{
-		std::lock_guard g{_lock};
-		if (_disposed)
-		{
-			throw std::runtime_error{CODE_POS_STR + "信号量已经释放，无法获取。"};
-		}
-
-		_acquirer_count--;
+		throw std::runtime_error{CODE_POS_STR + "信号量已经释放，无法获取。"};
 	}
 }
 
 bool base::DisposableSemaphore::TryAcquire(base::Seconds const &timeout)
 {
+	if (_disposed)
 	{
-		std::lock_guard g{_lock};
-		if (_disposed)
-		{
-			throw std::runtime_error{CODE_POS_STR + "信号量已经释放，无法获取。"};
-		}
-
-		_acquirer_count++;
+		throw std::runtime_error{CODE_POS_STR + "信号量已经释放，无法获取。"};
 	}
 
 	bool result = _semaphore.try_acquire_for(static_cast<std::chrono::milliseconds>(timeout));
 
+	if (_disposed)
 	{
-		std::lock_guard g{_lock};
-		if (_disposed)
-		{
-			throw std::runtime_error{CODE_POS_STR + "信号量已经释放，无法获取。"};
-		}
-
-		_acquirer_count--;
+		throw std::runtime_error{CODE_POS_STR + "信号量已经释放，无法获取。"};
 	}
 
 	return result;

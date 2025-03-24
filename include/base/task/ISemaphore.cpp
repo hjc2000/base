@@ -1,12 +1,7 @@
 #include "ISemaphore.h"
-
-void base::ISemaphore::Release()
-{
-	Release(1);
-}
+#include <DisposableSemaphore.h>
 
 #if HAS_THREAD
-	#include <DisposableSemaphore.h>
 
 std::shared_ptr<base::ISemaphore> base::CreateISemaphore(int32_t initial_count)
 {

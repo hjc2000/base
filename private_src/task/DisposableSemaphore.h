@@ -15,12 +15,18 @@ namespace base
 	private:
 		std::counting_semaphore<INT32_MAX> _semaphore{0};
 		std::atomic_bool _disposed = false;
-		std::atomic<int64_t> _acquirer_count = 0;
-		std::mutex _lock;
 
 	public:
+		///
+		/// @brief 构造函数。
+		///
+		/// @param initial_count 初始计数。即构造后，
+		/// 	@note 不释放就能允许 initial_count 次获取操作不被阻塞。
+		///
 		DisposableSemaphore(int32_t initial_count);
+
 		~DisposableSemaphore();
+
 		virtual void Dispose() override;
 
 		///
@@ -31,10 +37,11 @@ namespace base
 		virtual void Release(int32_t count) override;
 
 		///
-		/// @brief 释放所有等待者。
+		/// @brief 在中断中释放信号量。
 		///
+		/// @param count
 		///
-		virtual void ReleaseAllAcquire() override;
+		virtual void ReleaseFromISR(int32_t count) override;
 
 		///
 		/// @brief 获取信号量。无限等待，永不超时。
