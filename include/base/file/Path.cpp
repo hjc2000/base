@@ -110,7 +110,7 @@ bool base::Path::IsAbsolutePath() const
 	return false;
 }
 
-bool base::Path::IsWindowsDiskPath() const
+bool base::Path::IsWindowsSytlePath() const
 {
 	if (_path.Length() >= 2 &&
 		base::character::IsAlpha(_path[0]) &&
@@ -174,14 +174,14 @@ void base::test::test_path()
 	std::cout << path << std::endl;
 	std::cout << "IsRootPath: " << path.IsRootPath() << std::endl;
 	std::cout << "IsAbsolutePath: " << path.IsAbsolutePath() << std::endl;
-	std::cout << "IsWindowsDiskPath: " << path.IsWindowsDiskPath() << std::endl;
+	std::cout << "IsWindowsSytlePath: " << path.IsWindowsSytlePath() << std::endl;
 
 	base::Path path1 = path;
 	path1.RemoveBasePath("C:/Users/huang/dev/cpp-lib-build-scripts/");
 	std::cout << path1 << std::endl;
 	std::cout << "IsRootPath: " << path1.IsRootPath() << std::endl;
 	std::cout << "IsAbsolutePath: " << path1.IsAbsolutePath() << std::endl;
-	std::cout << "IsWindowsDiskPath: " << path1.IsWindowsDiskPath() << std::endl;
+	std::cout << "IsWindowsSytlePath: " << path1.IsWindowsSytlePath() << std::endl;
 
 	std::cout << "拼接结果：" << (path + path1) << std::endl;
 }

@@ -55,7 +55,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool IsWindowsDiskPath() const;
+		bool IsWindowsSytlePath() const;
 
 		///
 		/// @brief 将一个相对路径拼接到本路径的后面。
