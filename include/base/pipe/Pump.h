@@ -55,6 +55,7 @@ namespace base
 
 		///
 		/// @brief 将数据从源中取出，泵送给每一个消费者
+		///
 		/// @param cancellation_token
 		///
 		void PumpDataToConsumers(std::shared_ptr<base::CancellationToken> cancellation_token) override
