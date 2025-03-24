@@ -120,15 +120,10 @@ base::List<base::String> base::String::Split(char separator, base::StringSplitOp
 
 	base::List<base::String> ret;
 
-	base::ReadOnlySpan span{
-		reinterpret_cast<uint8_t const *>(_string.data()),
-		static_cast<int32_t>(_string.size()),
-	};
-
 	/// @brief 在设定的选项下将字符串添加到列表中
 	/// @param o 要被添加的字符串的引用。将会根据 options 对其进行修改后添加到 ret
 	/// 列表中。
-	auto AddToListUnderOptions = [&](base::String &o)
+	auto add_to_list_under_options = [&](base::String &o)
 	{
 		if (options.trim_each_substring)
 		{
@@ -143,6 +138,11 @@ base::List<base::String> base::String::Split(char separator, base::StringSplitOp
 		ret.Add(o);
 	};
 
+	base::ReadOnlySpan span{
+		reinterpret_cast<uint8_t const *>(_string.data()),
+		static_cast<int32_t>(_string.size()),
+	};
+
 	while (true)
 	{
 		int32_t index = span.IndexOf(separator);
@@ -150,13 +150,13 @@ base::List<base::String> base::String::Split(char separator, base::StringSplitOp
 		{
 			// 找不到分隔符，将剩余的整个 span 作为一个字符串。
 			base::String temp_str{span};
-			AddToListUnderOptions(temp_str);
+			add_to_list_under_options(temp_str);
 			return ret;
 		}
 
 		// 找到分隔符
 		base::String temp_str{span[base::Range{0, index}]};
-		AddToListUnderOptions(temp_str);
+		add_to_list_under_options(temp_str);
 		if (index + 1 >= span.Size())
 		{
 			// 已经到达末尾了，没有剩余字符了
@@ -164,7 +164,7 @@ base::List<base::String> base::String::Split(char separator, base::StringSplitOp
 			{
 				// 如果以分隔符结尾，还需要末尾再添加一个空字符串。
 				base::String temp_str{""};
-				AddToListUnderOptions(temp_str);
+				add_to_list_under_options(temp_str);
 			}
 
 			return ret;

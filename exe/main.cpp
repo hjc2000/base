@@ -1,3 +1,4 @@
+#include "base/envirenment.h"
 #include "base/file/filesystem.h"
 #include "base/math/BigInteger.h"
 #include "base/net/IPAddress.h"
@@ -6,7 +7,11 @@
 #include "base/time/DateTime.h"
 #include "base/usage/CountTriangle.h"
 #include "base/usage/GenerateCalculationQuestions.h"
+#include <cstdlib>
 #include <iostream>
+#include <stdlib.h>
+
+extern char **environ;
 
 int main()
 {
@@ -24,15 +29,8 @@ int main()
 		std::cout << reader << std::endl;
 	}
 
-	base::usage::CountTriangle();
-	base::TestIpAddress();
-	base::test::TestBigInteger();
-	base::test::test_parse_int32();
-	base::test::test_parse_int64();
-	base::test::test_parse_double();
-	base::usage::GenerateCalculationQuestions();
 	base::test::TestDateTime();
-	base::test::TestDirectoryEntryEnumerable();
+	// base::test::TestDirectoryEntryEnumerable();
 	// base::test::TestRecursiveDirectoryEntryEnumerable();
 
 	{
@@ -43,4 +41,7 @@ int main()
 		// 					   dst_path,
 		// 					   base::filesystem::OverwriteOption::Overwrite);
 	}
+
+	auto dic = base::GetEnvirenmentVariableDictionary();
+	std::cout << dic.Get("Path") << std::endl;
 }
