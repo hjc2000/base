@@ -1,4 +1,5 @@
 #pragma once
+#include "base/unit/Seconds.h"
 #include <chrono>
 
 namespace base
@@ -30,5 +31,12 @@ namespace base
 	/// @param time
 	///
 	void Delay(std::chrono::nanoseconds const &time);
+
+	///
+	/// @brief 延时。
+	///
+	/// @param time
+	///
+	void Delay(base::Seconds const &time);
 
 } // namespace base
