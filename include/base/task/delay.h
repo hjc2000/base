@@ -32,11 +32,15 @@ namespace base
 	///
 	void Delay(std::chrono::nanoseconds const &time);
 
+	/* #region 已经实现 */
+
 	///
 	/// @brief 延时。
 	///
 	/// @param time
 	///
 	void Delay(base::Seconds const &time);
+
+	/* #endregion */
 
 } // namespace base
