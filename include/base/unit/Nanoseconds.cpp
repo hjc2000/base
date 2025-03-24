@@ -2,6 +2,7 @@
 #include "base/unit/Hz.h"
 #include "base/unit/MHz.h"
 #include "base/unit/Seconds.h"
+#include <chrono>
 
 base::Nanoseconds::Nanoseconds(base::Fraction const &value)
 {
@@ -65,20 +66,23 @@ std::string base::Nanoseconds::UnitString() const
 
 base::Nanoseconds::operator std::chrono::seconds() const
 {
-	// 纳秒转换到秒，发生了精度损失。
-	std::chrono::milliseconds milliseconds = static_cast<std::chrono::milliseconds>(*this);
-	return std::chrono::duration_cast<std::chrono::seconds>(milliseconds);
+	std::chrono::nanoseconds ns = static_cast<std::chrono::nanoseconds>(*this);
+	return std::chrono::duration_cast<std::chrono::seconds>(ns);
 }
 
 base::Nanoseconds::operator std::chrono::milliseconds() const
 {
-	// 纳秒转换到毫秒，发生了精度损失。
-	std::chrono::microseconds microseconds = static_cast<std::chrono::microseconds>(*this);
-	return std::chrono::duration_cast<std::chrono::milliseconds>(microseconds);
+	std::chrono::nanoseconds ns = static_cast<std::chrono::nanoseconds>(*this);
+	return std::chrono::duration_cast<std::chrono::milliseconds>(ns);
 }
 
 base::Nanoseconds::operator std::chrono::microseconds() const
 {
-	// 纳秒转换到微秒，发生了精度损失。
-	return std::chrono::microseconds{static_cast<int64_t>(_value / 1000)};
+	std::chrono::nanoseconds ns = static_cast<std::chrono::nanoseconds>(*this);
+	return std::chrono::duration_cast<std::chrono::microseconds>(ns);
+}
+
+base::Nanoseconds::operator std::chrono::nanoseconds() const
+{
+	return std::chrono::nanoseconds{static_cast<int64_t>(_value)};
 }

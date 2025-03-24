@@ -69,10 +69,7 @@ namespace base
 		///
 		virtual bool TryAcquire(base::Seconds const &timeout) = 0;
 	};
-} // namespace base
 
-namespace base
-{
 	///
 	/// @brief 创建一个信号量。
 	///

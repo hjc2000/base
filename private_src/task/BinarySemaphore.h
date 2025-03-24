@@ -1,29 +1,34 @@
 #pragma once
-#include "base/unit/Seconds.h"
-#include <memory>
+#include "base/task/IBinarySemaphore.h"
+#include <semaphore>
+
+#if HAS_THREAD
 
 namespace base
 {
-	///
-	/// @brief 二进制信号量接口
-	///
-	class IBinarySemaphore
+	class BinarySemaphore :
+		public base::IBinarySemaphore
 	{
+	private:
+		std::binary_semaphore _bs;
+
 	public:
+		BinarySemaphore(bool initial_release);
+
 		///
 		/// @brief 释放信号量。
 		///
-		virtual void Release() = 0;
+		virtual void Release() override;
 
 		///
 		/// @brief 在中断中释放信号量。
 		///
-		virtual void ReleaseFromISR() = 0;
+		virtual void ReleaseFromISR() override;
 
 		///
 		/// @brief 获取信号量。无限等待，永不超时。
 		///
-		virtual void Acquire() = 0;
+		virtual void Acquire() override;
 
 		///
 		/// @brief 尝试获取信号量。超时后会失败，并返回 false，成功获取信号量后将
@@ -31,8 +36,8 @@ namespace base
 		/// @param timeout 超时时间。
 		/// @return
 		///
-		virtual bool TryAcquire(base::Seconds const &timeout) = 0;
+		virtual bool TryAcquire(base::Seconds const &timeout) override;
 	};
-
-	std::shared_ptr<base::IBinarySemaphore> CreateIBinarySemaphore(bool initial_release);
 } // namespace base
+
+#endif // HAS_THREAD

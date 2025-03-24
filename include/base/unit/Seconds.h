@@ -41,19 +41,9 @@ namespace base
 		/// @return
 		virtual std::string UnitString() const override;
 
-		explicit operator std::chrono::seconds() const
-		{
-			return std::chrono::seconds{static_cast<int64_t>(_value)};
-		}
-
-		explicit operator std::chrono::milliseconds() const
-		{
-			return std::chrono::milliseconds{static_cast<int64_t>(_value * 1000)};
-		}
-
-		explicit operator std::chrono::microseconds() const
-		{
-			return std::chrono::microseconds{static_cast<int64_t>(_value * 1000 * 1000)};
-		}
+		explicit operator std::chrono::seconds() const;
+		explicit operator std::chrono::milliseconds() const;
+		explicit operator std::chrono::microseconds() const;
+		explicit operator std::chrono::nanoseconds() const;
 	};
 } // namespace base

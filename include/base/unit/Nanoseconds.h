@@ -44,5 +44,6 @@ namespace base
 		explicit operator std::chrono::seconds() const;
 		explicit operator std::chrono::milliseconds() const;
 		explicit operator std::chrono::microseconds() const;
+		explicit operator std::chrono::nanoseconds() const;
 	};
 } // namespace base
