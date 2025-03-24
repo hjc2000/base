@@ -1,17 +1,8 @@
-#include "base/envirenment.h"
-#include "base/file/filesystem.h"
-#include "base/math/BigInteger.h"
-#include "base/net/IPAddress.h"
 #include "base/net/profinet/dcp/DcpIdentifyRequestReader.h"
-#include "base/string/Parse.h"
 #include "base/time/DateTime.h"
-#include "base/usage/CountTriangle.h"
-#include "base/usage/GenerateCalculationQuestions.h"
 #include <cstdlib>
 #include <iostream>
 #include <stdlib.h>
-
-extern char **environ;
 
 int main()
 {
@@ -41,7 +32,4 @@ int main()
 		// 					   dst_path,
 		// 					   base::filesystem::OverwriteOption::Overwrite);
 	}
-
-	auto dic = base::GetEnvirenmentVariableDictionary();
-	std::cout << dic.Get("Path") << std::endl;
 }
