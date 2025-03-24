@@ -8,6 +8,7 @@
 base::Path::Path(base::String const &path)
 {
 	_path = path;
+	_path.Trim();
 
 	_path.Replace('\\', '/');
 
@@ -122,6 +123,11 @@ base::Path base::Path::operator+(base::Path const &another) const
 	if (another.IsAbsolutePath())
 	{
 		throw std::invalid_argument{CODE_POS_STR + "要被拼接到本路径的路径必须是相对路径。"};
+	}
+
+	if (_path == "")
+	{
+		return base::Path{another._path};
 	}
 
 	return base::Path{_path + '/' + another._path};
