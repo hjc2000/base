@@ -82,5 +82,12 @@ namespace base
 			///
 			virtual base::Json ToJson() const override;
 		};
+
+#if HAS_THREAD
+		namespace test
+		{
+			void TestDcpIdentifyRequestReader();
+		} // namespace test
+#endif // HAS_THREAD
 	} // namespace profinet
 } // namespace base
