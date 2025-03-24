@@ -21,8 +21,6 @@ int main()
 	}
 
 	base::test::TestDateTime();
-	// base::test::TestDirectoryEntryEnumerable();
-	// base::test::TestRecursiveDirectoryEntryEnumerable();
 
 	{
 		// base::Path src_path{"C:/Users/huang/dev/.temp/src"};

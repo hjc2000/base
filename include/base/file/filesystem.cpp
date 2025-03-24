@@ -554,7 +554,7 @@ void base::filesystem::EnsureDirectory(base::Path const &path)
 #if HAS_THREAD
 void base::test::TestDirectoryEntryEnumerable()
 {
-	base::filesystem::DirectoryEntryEnumerable entries{"F:/.temp"};
+	base::filesystem::DirectoryEntryEnumerable entries{"C:/Users/huang/dev/.temp"};
 	for (base::DirectoryEntry const &entry : entries)
 	{
 		std::cout << entry.Path() << std::endl;
@@ -563,7 +563,7 @@ void base::test::TestDirectoryEntryEnumerable()
 
 void base::test::TestRecursiveDirectoryEntryEnumerable()
 {
-	base::filesystem::RecursiveDirectoryEntryEnumerable entries{"F:/.temp"};
+	base::filesystem::RecursiveDirectoryEntryEnumerable entries{"C:/Users/huang/dev/.temp"};
 	for (base::DirectoryEntry const &entry : entries)
 	{
 		std::cout << entry.Path() << std::endl;
