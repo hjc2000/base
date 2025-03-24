@@ -18,6 +18,7 @@ namespace base
 		void CorrectPath();
 
 	public:
+		/* #region 构造函数 */
 		Path() = default;
 
 		Path(base::String const &path);
@@ -25,6 +26,7 @@ namespace base
 		Path(std::string const &path);
 
 		Path(char const *path);
+		/* #endregion */
 
 		///
 		/// @brief 转化为字符串。
