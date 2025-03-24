@@ -7,7 +7,11 @@
 #if HAS_THREAD
 
 extern char **environ;
-std::mutex _lock;
+
+namespace
+{
+	std::mutex _lock;
+}
 
 std::string base::GetEnvirenmentVariable(std::string const &name)
 {
