@@ -1,3 +1,4 @@
+#include "base/file/filesystem.h"
 #include "base/net/profinet/dcp/DcpIdentifyRequestReader.h"
 #include "base/time/DateTime.h"
 #include <cstdlib>
@@ -21,13 +22,4 @@ int main()
 	}
 
 	base::test::TestDateTime();
-
-	{
-		// base::Path src_path{"C:/Users/huang/dev/.temp/src"};
-		// base::Path dst_path{"C:/Users/huang/dev/.temp/dst"};
-
-		// base::filesystem::Copy(src_path,
-		// 					   dst_path,
-		// 					   base::filesystem::OverwriteOption::Overwrite);
-	}
 }
