@@ -34,5 +34,14 @@ namespace base
 		virtual bool TryAcquire(base::Seconds const &timeout) = 0;
 	};
 
+	///
+	/// @brief 创建一个二进制信号量。
+	///
+	/// @param initial_release 传入 true 则二进制信号量初始时被释放，既可以直接获取一次不被阻塞。
+	/// 传入 false 阻塞二进制信号量初始时不被释放，直接进行一次获取将被阻塞。
+	///
+	/// @return std::shared_ptr<base::IBinarySemaphore>
+	///
 	std::shared_ptr<base::IBinarySemaphore> CreateIBinarySemaphore(bool initial_release);
+
 } // namespace base
