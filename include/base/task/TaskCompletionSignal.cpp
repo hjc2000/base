@@ -46,12 +46,10 @@ bool base::TaskCompletionSignal::IsCompleted()
 
 void base::TaskCompletionSignal::Wait()
 {
-	/**
-	 * 这里的设计目标是本类对象被 Dispose 后，已经进入等待的线程不会引发异常，新的要进入
-	 * 等待的会引发异常。
-	 *
-	 * 所以在循环内检查到 _disposed 为 true 不会抛出异常。进入循环前则会。
-	 */
+	// 这里的设计目标是本类对象被 Dispose 后，已经进入等待的线程不会引发异常，
+	// 新的要进入等待的会引发异常。
+	//
+	// 所以在循环内检查到 _disposed 为 true 不会抛出异常。进入循环前则会。
 	if (_disposed)
 	{
 		throw std::runtime_error{CODE_POS_STR + "已经释放，无法等待。"};

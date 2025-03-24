@@ -1,5 +1,6 @@
 #include "Stream.h"
-#include "base/task/TaskCanceledException.h"
+#include "base/string/define.h"
+#include <stdexcept>
 
 int32_t base::Stream::Read(uint8_t *buffer, int32_t offset, int32_t count)
 {
@@ -47,7 +48,7 @@ void base::Stream::CopyTo(std::shared_ptr<base::Stream> dst_stream,
 	{
 		if (cancellationToken->IsCancellationRequested())
 		{
-			throw base::TaskCanceledException{};
+			throw std::runtime_error{CODE_POS_STR + "流拷贝操作被取消。"};
 		}
 
 		int32_t have_read = Read(temp_buffer, 0, sizeof(temp_buffer));

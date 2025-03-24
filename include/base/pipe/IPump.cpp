@@ -3,6 +3,7 @@
 #include <thread>
 
 #if HAS_THREAD
+
 void base::IPump::PumpDataToConsumersAsync(std::shared_ptr<base::CancellationToken> cancellation_token)
 {
 	auto thread_func = [this, cancellation_token]()
@@ -24,4 +25,5 @@ void base::IPump::PumpDataToConsumersAsync(std::shared_ptr<base::CancellationTok
 
 	std::thread{thread_func}.detach();
 }
+
 #endif

@@ -5,13 +5,14 @@
 #include "base/pipe/IPump.h"
 #include "base/pipe/ISource.h"
 #include "base/task/CancellationToken.h"
-#include "base/task/TaskCanceledException.h"
 #include <stdexcept>
 
 namespace base
 {
+	///
 	/// @brief 实现一个普通的泵
 	/// @tparam T
+	///
 	template <typename T>
 	class Pump final :
 		public base::IPump,
@@ -33,23 +34,29 @@ namespace base
 			_source = source;
 		}
 
+		///
 		/// @brief 消费者列表
 		/// @return
+		///
 		base::IList<std::shared_ptr<base::IConsumer<T>>> &ConsumerList() override
 		{
 			return _consumer_list;
 		}
 
+		///
 		/// @brief 在每次将数据送给所有消费者时会触发此事件
 		/// @warning 没有线程的环境中，禁止在开始泵送数据后订阅和取消订阅事件。
 		/// @return
+		///
 		base::IEvent<T &> &BeforeSendingDataToConsumersEvent()
 		{
 			return _before_sending_data_to_consumers_event;
 		}
 
+		///
 		/// @brief 将数据从源中取出，泵送给每一个消费者
 		/// @param cancellation_token
+		///
 		void PumpDataToConsumers(std::shared_ptr<base::CancellationToken> cancellation_token) override
 		{
 			T data{};
@@ -57,7 +64,7 @@ namespace base
 			{
 				if (cancellation_token->IsCancellationRequested())
 				{
-					throw base::TaskCanceledException{};
+					throw std::runtime_error{CODE_POS_STR + "将数据泵送给消费者的操作被取消。"};
 				}
 
 				int ret = _source->ReadData(data);
