@@ -20,7 +20,7 @@ namespace base
 		std::string _second;
 		std::string _nanosecond;
 
-		char _year_separator = '-';
+		char _year_month_day_separator = '-';
 
 		bool _display_nanosecond = true;
 
@@ -33,81 +33,56 @@ namespace base
 							  std::string const &second,
 							  std::string const &nanosecond);
 
-		/* #region 获取各部分字符串引用 */
+		/* #region 日期时间的各部分字符串 */
 
-		std::string &Year()
+		std::string Year() const
 		{
 			return _year;
 		}
 
-		std::string &Month()
+		std::string Month() const
 		{
 			return _month;
 		}
 
-		std::string &Day()
+		std::string Day() const
 		{
 			return _day;
 		}
 
-		std::string &Hour()
+		std::string Hour() const
 		{
 			return _hour;
 		}
 
-		std::string &Minute()
+		std::string Minute() const
 		{
 			return _minute;
 		}
 
-		std::string &Second()
+		std::string Second() const
 		{
 			return _second;
 		}
 
-		std::string &Nanosecond()
+		std::string Nanosecond() const
 		{
 			return _nanosecond;
 		}
 
-		/* #endregion */
+		///
+		/// @brief 年月日字符串。
+		///
+		/// @return std::string
+		///
+		std::string YearMonthDay() const;
 
-		/* #region 获取各部分字符串 const 引用 */
-
-		std::string const &Year() const
-		{
-			return _year;
-		}
-
-		std::string const &Month() const
-		{
-			return _month;
-		}
-
-		std::string const &Day() const
-		{
-			return _day;
-		}
-
-		std::string const &Hour() const
-		{
-			return _hour;
-		}
-
-		std::string const &Minute() const
-		{
-			return _minute;
-		}
-
-		std::string const &Second() const
-		{
-			return _second;
-		}
-
-		std::string const &Nanosecond() const
-		{
-			return _nanosecond;
-		}
+		///
+		/// @brief 时分秒字符串。
+		///
+		/// @return std::string
+		///
+		std::string HourMinuteSecond() const;
 
 		/* #endregion */
 
@@ -119,23 +94,23 @@ namespace base
 		virtual std::string ToString() const override;
 
 		///
-		/// @brief 年份分隔符。
+		/// @brief 年月日分隔符。
 		///
 		/// @return char
 		///
-		char YearSeparator() const
+		char YearMonthDaySeparator() const
 		{
-			return _year_separator;
+			return _year_month_day_separator;
 		}
 
 		///
-		/// @brief 设置年份分隔符。
+		/// @brief 设置年月日分隔符。
 		///
 		/// @param value
 		///
-		void SetYearSeparator(char value)
+		void SetYearMonthDaySeparator(char value)
 		{
-			_year_separator = value;
+			_year_month_day_separator = value;
 		}
 
 		///

@@ -612,7 +612,7 @@ void base::test::TestDateTime()
 	};
 
 	base::DateTimeStringBuilder dsb = now.LocalDateTimeStringBuilder();
-	dsb.SetYearSeparator('/');
+	dsb.SetYearMonthDaySeparator('/');
 
 	std::cout << dsb << std::endl;
 	std::cout << std::to_string(now_time_point) << std::endl;

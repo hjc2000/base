@@ -17,11 +17,29 @@ base::DateTimeStringBuilder::DateTimeStringBuilder(std::string const &year,
 {
 }
 
+std::string base::DateTimeStringBuilder::YearMonthDay() const
+{
+	return Year() + _year_month_day_separator +
+		   Month() + _year_month_day_separator +
+		   Day();
+}
+
+std::string base::DateTimeStringBuilder::HourMinuteSecond() const
+{
+	return Hour() + ':' +
+		   Minute() + ':' +
+		   Second();
+}
+
 std::string base::DateTimeStringBuilder::ToString() const
 {
-	std::string ret = _year + _year_separator + _month + _year_separator + _day +
+	std::string ret = _year + _year_month_day_separator +
+					  _month + _year_month_day_separator +
+					  _day +
 					  ' ' +
-					  _hour + ":" + _minute + ':' + _second;
+					  _hour + ":" +
+					  _minute + ':' +
+					  _second;
 
 	if (_display_nanosecond)
 	{
