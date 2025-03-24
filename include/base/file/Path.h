@@ -11,6 +11,12 @@ namespace base
 	private:
 		base::String _path;
 
+		///
+		/// @brief 更正路径为标准形式。
+		///
+		///
+		void CorrectPath();
+
 	public:
 		Path() = default;
 

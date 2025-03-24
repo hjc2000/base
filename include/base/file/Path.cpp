@@ -5,11 +5,8 @@
 #include "base/string/String.h"
 #include <stdexcept>
 
-base::Path::Path(base::String const &path)
+void base::Path::CorrectPath()
 {
-	_path = path;
-	_path.Trim();
-
 	_path.Replace('\\', '/');
 
 	while (_path.Contains("//"))
@@ -52,6 +49,13 @@ base::Path::Path(base::String const &path)
 	{
 		_path[0] = base::character::ToUpper(_path[0]);
 	}
+}
+
+base::Path::Path(base::String const &path)
+{
+	_path = path;
+	_path.Trim();
+	CorrectPath();
 }
 
 base::Path::Path(std::string const &path)
