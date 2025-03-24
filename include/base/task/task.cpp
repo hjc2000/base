@@ -33,4 +33,9 @@ void base::task::Run(std::function<void()> func)
 	std::thread{safe_func}.detach();
 }
 
+void base::task::Run(std::function<void()> func, int64_t stack_size)
+{
+	Run(func);
+}
+
 #endif
