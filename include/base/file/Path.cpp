@@ -51,6 +51,8 @@ void base::Path::CorrectPath()
 	}
 }
 
+/* #region 构造函数 */
+
 base::Path::Path(base::String const &path)
 {
 	_path = path;
@@ -67,6 +69,8 @@ base::Path::Path(char const *path)
 	: base::Path(base::String{path})
 {
 }
+
+/* #endregion */
 
 std::string base::Path::ToString() const
 {
