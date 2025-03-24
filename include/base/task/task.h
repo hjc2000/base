@@ -7,6 +7,20 @@ namespace base
 	namespace task
 	{
 		///
+		/// @brief 默认的任务栈大小。
+		///
+		/// @return int64_t
+		///
+		int64_t DefaultTaskStackSize();
+
+		///
+		/// @brief 设置默认的任务栈大小。
+		///
+		/// @param value
+		///
+		void SetDefaultTaskStackSize(int64_t value);
+
+		///
 		/// @brief 运行一个任务。
 		///
 		/// @note 实现者需要将后台线程实现为捕获所有异常，输出错误消息。

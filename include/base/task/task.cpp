@@ -2,9 +2,20 @@
 #include "base/string/define.h"
 #include <exception>
 #include <iostream>
+#include <stdexcept>
 #include <thread>
 
 #if HAS_THREAD
+
+int64_t base::task::DefaultTaskStackSize()
+{
+	throw std::runtime_error{CODE_POS_STR + "通用操作系统平台不需要这个。"};
+}
+
+void base::task::SetDefaultTaskStackSize(int64_t value)
+{
+	throw std::runtime_error{CODE_POS_STR + "通用操作系统平台不需要这个。"};
+}
 
 void base::task::Run(std::function<void()> func)
 {
