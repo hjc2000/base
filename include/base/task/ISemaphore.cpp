@@ -1,5 +1,5 @@
 #include "ISemaphore.h"
-#include <DisposableSemaphore.h>
+#include "DisposableSemaphore.h"
 
 #if HAS_THREAD
 

@@ -11,10 +11,7 @@ namespace base
 		virtual void Lock() = 0;
 		virtual void Unlock() = 0;
 	};
-} // namespace base
 
-namespace base
-{
 	///
 	/// @brief 创建一个互斥量。
 	///

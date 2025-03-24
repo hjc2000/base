@@ -1,8 +1,7 @@
 #include "IMutex.h"
+#include "StdMutex.h"
 
 #if HAS_THREAD
-
-	#include <StdMutex.h>
 
 std::shared_ptr<base::IMutex> base::CreateIMutex()
 {
