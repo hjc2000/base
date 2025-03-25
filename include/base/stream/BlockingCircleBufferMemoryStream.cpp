@@ -54,7 +54,7 @@ int32_t base::BlockingCircleBufferMemoryStream::Read(base::Span const &span)
 			if (_mstream.Length() > 0)
 			{
 				int64_t have_read = _mstream.Read(span);
-				_buffer_consumed_signal.Release();
+				_buffer_consumed_signal.ReleaseAll();
 				return have_read;
 			}
 		}
@@ -65,8 +65,12 @@ int32_t base::BlockingCircleBufferMemoryStream::Read(base::Span const &span)
 
 void base::BlockingCircleBufferMemoryStream::Write(base::ReadOnlySpan const &span)
 {
-	base::ReadOnlySpan remain_span = span;
+	if (span.Size() <= 0)
+	{
+		return;
+	}
 
+	base::ReadOnlySpan remain_span = span;
 	while (true)
 	{
 		if (_stream_closed)
@@ -81,14 +85,16 @@ void base::BlockingCircleBufferMemoryStream::Write(base::ReadOnlySpan const &spa
 				int32_t should_write = std::min(_mstream.AvailableToWrite(), remain_span.Size());
 				_mstream.Write(remain_span);
 				remain_span = remain_span.Slice(base::Range{should_write, remain_span.Size()});
-				_buffer_avaliable_signal.Release();
+				_buffer_avaliable_signal.ReleaseAll();
 				if (remain_span.Size() <= 0)
 				{
+					// 将所有数据写完了，返回
 					return;
 				}
 			}
 		}
 
+		// 如果刚才将所有数据写完了，已经返回了，到这里说明没写完，但是流已经满了，需要等待。
 		_buffer_consumed_signal.Acquire();
 	}
 }
