@@ -28,7 +28,10 @@ void base::Semaphore::Release(int32_t count)
 void base::Semaphore::ReleaseAll()
 {
 	base::LockGuard l{*_lock};
-	_base_semaphore->Release(_acquire_count);
+	if (_acquire_count > 0)
+	{
+		_base_semaphore->Release(_acquire_count);
+	}
 }
 
 void base::Semaphore::ReleaseFromISR(int32_t count)
@@ -39,7 +42,10 @@ void base::Semaphore::ReleaseFromISR(int32_t count)
 void base::Semaphore::ReleaseAllFromISR()
 {
 	base::LockGuard l{*_lock};
-	_base_semaphore->ReleaseFromISR(_acquire_count);
+	if (_acquire_count > 0)
+	{
+		_base_semaphore->ReleaseFromISR(_acquire_count);
+	}
 }
 
 void base::Semaphore::Acquire()
