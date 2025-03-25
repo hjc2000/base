@@ -3,7 +3,7 @@
 #include "base/IDisposable.h"
 #include "base/string/define.h"
 #include "base/task/IMutex.h"
-#include "base/task/ISemaphore.h"
+#include "base/task/Semaphore.h"
 #include <atomic>
 
 namespace base
@@ -21,7 +21,7 @@ namespace base
 		base::Queue<T> _queue;
 		std::atomic_bool _disposed = false;
 		std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
-		std::shared_ptr<base::ISemaphore> _data_avaliable_signal = base::CreateISemaphore(0);
+		base::Semaphore _data_avaliable_signal{0};
 
 	public:
 		/// @brief 构造函数
@@ -69,7 +69,7 @@ namespace base
 				_queue.Dequeue();
 			}
 
-			_data_avaliable_signal->Release();
+			_data_avaliable_signal.Release();
 		}
 
 		/// @brief 取出数据。
@@ -93,7 +93,7 @@ namespace base
 					}
 				}
 
-				_data_avaliable_signal->Acquire();
+				_data_avaliable_signal.Acquire();
 			}
 		}
 	};
