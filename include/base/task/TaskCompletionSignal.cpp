@@ -72,7 +72,13 @@ void base::TaskCompletionSignal::Wait()
 			return;
 		}
 
-		signal->Acquire();
+		try
+		{
+			signal->Acquire();
+		}
+		catch (...)
+		{
+		}
 	}
 }
 
