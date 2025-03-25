@@ -48,26 +48,32 @@ bool base::TaskCompletionSignal::IsCompleted()
 
 void base::TaskCompletionSignal::Wait()
 {
-	if (_disposed)
+	// 如果调用了 Reset 方法，里面会调用信号量的 Dispose 方法，
+	// 但是没关系，这里是循环，下一个循环还会继续等待。这样就不会因为调用 Reset
+	// 方法导致放过一些早早开始等待的线程了。
+	while (true)
 	{
-		throw std::runtime_error{CODE_POS_STR + "已经释放，无法等待。"};
+		if (_disposed)
+		{
+			throw std::runtime_error{CODE_POS_STR + "已经释放，无法等待。"};
+		}
+
+		std::shared_ptr<base::Semaphore> signal = nullptr;
+
+		{
+			base::LockGuard g{*_lock};
+
+			// 在持有互斥锁的情况下捕获
+			signal = _task_completion_signal;
+		}
+
+		if (signal == nullptr)
+		{
+			return;
+		}
+
+		signal->Acquire();
 	}
-
-	std::shared_ptr<base::Semaphore> signal = nullptr;
-
-	{
-		base::LockGuard g{*_lock};
-
-		// 在持有互斥锁的情况下捕获
-		signal = _task_completion_signal;
-	}
-
-	if (signal == nullptr)
-	{
-		return;
-	}
-
-	signal->Acquire();
 }
 
 void base::TaskCompletionSignal::SetResult()
