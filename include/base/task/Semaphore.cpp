@@ -72,7 +72,7 @@ bool base::Semaphore::TryAcquire(base::Seconds const &timeout)
 		base::LockGuard l{*_lock};
 		if (_disposed)
 		{
-			return false;
+			throw std::runtime_error{CODE_POS_STR + "已经释放，无法获取。"};
 		}
 
 		_acquire_count++;
@@ -85,7 +85,7 @@ bool base::Semaphore::TryAcquire(base::Seconds const &timeout)
 		_acquire_count--;
 		if (_disposed)
 		{
-			return false;
+			throw std::runtime_error{CODE_POS_STR + "已经释放，无法获取。"};
 		}
 	}
 
