@@ -75,7 +75,7 @@ namespace base
 				_queue.Dequeue();
 			}
 
-			_data_avaliable_signal.Release();
+			_data_avaliable_signal.ReleaseAll();
 		}
 
 		///
