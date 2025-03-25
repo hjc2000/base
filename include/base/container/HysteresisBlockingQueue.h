@@ -1,6 +1,7 @@
 #pragma once
 #include "base/container/SafeQueue.h"
 #include "base/IDisposable.h"
+#include "base/string/define.h"
 #include "base/task/IMutex.h"
 #include "base/task/Semaphore.h"
 #include <atomic>
@@ -122,7 +123,7 @@ namespace base
 			{
 				if (_disposed)
 				{
-					throw std::runtime_error{"队列已被释放，无法退队。"};
+					throw std::runtime_error{CODE_POS_STR + "队列已被释放，无法退队。"};
 				}
 
 				// 在持有互斥锁的条件下检查，避免误触，以及操作
@@ -169,7 +170,7 @@ namespace base
 			{
 				if (_disposed)
 				{
-					throw std::runtime_error{"队列已被释放，无法退队。"};
+					throw std::runtime_error{CODE_POS_STR + "队列已被释放，无法退队。"};
 				}
 
 				// 在持有互斥锁的条件下检查，避免误触，以及操作
@@ -217,12 +218,12 @@ namespace base
 			{
 				if (_disposed)
 				{
-					throw std::runtime_error{"队列已被释放，无法入队。"};
+					throw std::runtime_error{CODE_POS_STR + "队列已被释放，无法入队。"};
 				}
 
 				if (_flushed)
 				{
-					throw std::runtime_error{"队列已被冲洗，无法入队。"};
+					throw std::runtime_error{CODE_POS_STR + "队列已被冲洗，无法入队。"};
 				}
 
 				// 在持有互斥锁的条件下检查，避免误触，以及操作
@@ -251,7 +252,7 @@ namespace base
 		{
 			if (_disposed)
 			{
-				throw std::runtime_error{"此对象已释放，不能再使用"};
+				throw std::runtime_error{CODE_POS_STR + "此对象已释放，不能再使用"};
 			}
 
 			_queue.Clear();
@@ -267,7 +268,7 @@ namespace base
 		{
 			if (_disposed)
 			{
-				throw std::runtime_error{"此对象已释放，不能再使用"};
+				throw std::runtime_error{CODE_POS_STR + "此对象已释放，不能再使用"};
 			}
 
 			_flushed = true;

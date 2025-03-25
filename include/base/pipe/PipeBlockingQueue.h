@@ -28,7 +28,7 @@ namespace base
 		/// @brief 释放队列
 		/// @note 释放后队列会被清空。所以如果想要取消阻塞，但又希望能够读出残留的数据，进行
 		/// 收尾，调用 Flush 方法而不是本方法。
-		void Dispose() override
+		virtual void Dispose() override
 		{
 			if (_disposed)
 			{
@@ -42,7 +42,7 @@ namespace base
 		/// @brief 送入数据。
 		/// @note 冲洗后调用本方法会引发异常。
 		/// @param data
-		void SendData(T &data) override
+		virtual void SendData(T &data) override
 		{
 			_queue.Enqueue(data);
 		}
@@ -50,7 +50,7 @@ namespace base
 		/// @brief 冲洗队列。
 		/// @note 冲洗后读取数据不会再被阻塞。
 		/// @note 冲洗后送入数据会引发异常。
-		void Flush() override
+		virtual void Flush() override
 		{
 			_queue.Flush();
 		}
@@ -58,7 +58,7 @@ namespace base
 		/// @brief 读取数据。
 		/// @param data
 		/// @return 读取成功返回 0，失败返回负数的错误代码。
-		int ReadData(T &data) override
+		virtual int ReadData(T &data) override
 		{
 			try
 			{

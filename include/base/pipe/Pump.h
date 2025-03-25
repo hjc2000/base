@@ -38,7 +38,7 @@ namespace base
 		/// @brief 消费者列表
 		/// @return
 		///
-		base::IList<std::shared_ptr<base::IConsumer<T>>> &ConsumerList() override
+		virtual base::IList<std::shared_ptr<base::IConsumer<T>>> &ConsumerList() override
 		{
 			return _consumer_list;
 		}
@@ -58,7 +58,7 @@ namespace base
 		///
 		/// @param cancellation_token
 		///
-		void PumpDataToConsumers(std::shared_ptr<base::CancellationToken> cancellation_token) override
+		virtual void PumpDataToConsumers(std::shared_ptr<base::CancellationToken> cancellation_token) override
 		{
 			T data{};
 			while (true)
