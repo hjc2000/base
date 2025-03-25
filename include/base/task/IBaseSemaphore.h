@@ -1,25 +1,17 @@
 #pragma once
-#include "base/IDisposable.h"
 #include "base/unit/Seconds.h"
+#include <cstdint>
 #include <memory>
 
 namespace base
 {
 	///
-	/// @brief 可以被 Dispose 的信号量。Dispose 之后信号量不再具有阻塞能力。
+	/// @brief 基础功能的信号量接口。
 	///
 	///
-	class ISemaphore :
-		public base::IDisposable
+	class IBaseSemaphore
 	{
 	public:
-		///
-		/// @brief 释放本对象的资源。
-		///
-		/// @note 释放后信号量将不再具有阻塞的能力。再次尝试获取信号量将引发异常。
-		///
-		virtual void Dispose() = 0;
-
 		///
 		/// @brief 释放信号量。
 		///
@@ -33,24 +25,6 @@ namespace base
 		/// @param count
 		///
 		virtual void ReleaseFromISR(int32_t count) = 0;
-
-		///
-		/// @brief 释放 1 个信号量。
-		///
-		///
-		void Release()
-		{
-			Release(1);
-		}
-
-		///
-		/// @brief 在中断中释放一个信号量。
-		///
-		///
-		void ReleaseFromISR()
-		{
-			ReleaseFromISR(1);
-		}
 
 		///
 		/// @brief 获取信号量。无限等待，永不超时。
@@ -71,11 +45,12 @@ namespace base
 	};
 
 	///
-	/// @brief 创建一个信号量。
+	/// @brief 创建一个基础信号量。
 	///
 	/// @param initial_count 信号量的初始计数。
-	/// @return std::shared_ptr<base::ISemaphore>
 	///
-	std::shared_ptr<base::ISemaphore> CreateISemaphore(int32_t initial_count);
+	/// @return std::shared_ptr<base::IBaseSemaphore>
+	///
+	std::shared_ptr<base::IBaseSemaphore> CreateBaseSemaphore(int32_t initial_count);
 
 } // namespace base

@@ -1,5 +1,7 @@
 #include "TaskCompletionSignal.h"
 #include "base/string/define.h"
+#include "Semaphore.h"
+#include <memory>
 
 base::TaskCompletionSignal::TaskCompletionSignal(bool completed)
 {
@@ -46,49 +48,26 @@ bool base::TaskCompletionSignal::IsCompleted()
 
 void base::TaskCompletionSignal::Wait()
 {
-	// 这里的设计目标是本类对象被 Dispose 后，已经进入等待的线程不会引发异常，
-	// 新的要进入等待的会引发异常。
-	//
-	// 所以在循环内检查到 _disposed 为 true 不会抛出异常。进入循环前则会。
 	if (_disposed)
 	{
 		throw std::runtime_error{CODE_POS_STR + "已经释放，无法等待。"};
 	}
 
-	while (true)
+	std::shared_ptr<base::Semaphore> signal = nullptr;
+
 	{
-		std::shared_ptr<base::ISemaphore> signal = nullptr;
+		base::LockGuard g{*_lock};
 
-		{
-			base::LockGuard g{*_lock};
-			if (_disposed)
-			{
-				return;
-			}
-
-			if (_task_completion_signal == nullptr)
-			{
-				return;
-			}
-
-			// 在持有互斥锁的情况下捕获
-			signal = _task_completion_signal;
-		}
-
-		if (signal != nullptr)
-		{
-			try
-			{
-				signal->Acquire();
-			}
-			catch (...)
-			{
-				// 信号量被 Dispose 后就会抛出异常。
-			}
-
-			return;
-		}
+		// 在持有互斥锁的情况下捕获
+		signal = _task_completion_signal;
 	}
+
+	if (signal == nullptr)
+	{
+		return;
+	}
+
+	signal->Acquire();
 }
 
 void base::TaskCompletionSignal::SetResult()
@@ -110,5 +89,5 @@ void base::TaskCompletionSignal::Reset()
 		_task_completion_signal = nullptr;
 	}
 
-	_task_completion_signal = base::CreateISemaphore(0);
+	_task_completion_signal = std::shared_ptr<base::Semaphore>{new base::Semaphore{0}};
 }

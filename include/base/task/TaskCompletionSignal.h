@@ -1,7 +1,8 @@
 #pragma once
 #include "base/task/IMutex.h"
-#include "base/task/ISemaphore.h"
+#include "Semaphore.h"
 #include <atomic>
+#include <memory>
 
 namespace base
 {
@@ -13,7 +14,7 @@ namespace base
 	{
 	private:
 		std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
-		std::shared_ptr<base::ISemaphore> _task_completion_signal = nullptr;
+		std::shared_ptr<base::Semaphore> _task_completion_signal;
 		std::atomic_bool _disposed = false;
 
 	public:
