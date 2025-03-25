@@ -14,8 +14,6 @@ namespace base
 	///
 	/// 	@note 队列空时，再往外拿会阻塞，直到队列中的元素大于一定阈值才取消阻塞。
 	///
-	/// 	@note 本队列线程安全。
-	///
 	/// @tparam T
 	///
 	template <typename T>
@@ -107,7 +105,6 @@ namespace base
 		///
 		int32_t Count() const override
 		{
-			// _queue 线程安全，这里不需要加锁。
 			return _queue.Count();
 		}
 
@@ -136,7 +133,7 @@ namespace base
 						T element = _queue.Dequeue();
 						if (_queue.Count() <= _threshold)
 						{
-							_queue_consumed_signal.Release(_max - _queue.Count());
+							_queue_consumed_signal.ReleaseAll();
 						}
 
 						return element;
@@ -150,9 +147,12 @@ namespace base
 					}
 				}
 
-				if (!_flushed)
+				try
 				{
 					_queue_avaliable_signal.Acquire();
+				}
+				catch (...)
+				{
 				}
 			}
 		}
@@ -179,7 +179,7 @@ namespace base
 						bool result = _queue.TryDequeue(out);
 						if (_queue.Count() <= _threshold)
 						{
-							_queue_consumed_signal.Release(_max - _queue.Count());
+							_queue_consumed_signal.ReleaseAll();
 						}
 
 						return result;
@@ -187,15 +187,16 @@ namespace base
 
 					if (_flushed && _queue.Count() == 0)
 					{
-						// 冲洗后，要强行退队，即使队列为空，这是为了引发异常。
-						T element = _queue.Dequeue();
-						return element;
+						return false;
 					}
 				}
 
-				if (!_flushed)
+				try
 				{
 					_queue_avaliable_signal.Acquire();
+				}
+				catch (...)
+				{
 				}
 			}
 		}
@@ -230,7 +231,7 @@ namespace base
 						_queue.Enqueue(obj);
 						if (_queue.Count() >= _threshold)
 						{
-							_queue_avaliable_signal.Release(_queue.Count());
+							_queue_avaliable_signal.ReleaseAll();
 						}
 
 						return;
@@ -252,7 +253,7 @@ namespace base
 			}
 
 			_queue.Clear();
-			_queue_consumed_signal.Release(_max);
+			_queue_consumed_signal.ReleaseAll();
 		}
 
 		///
