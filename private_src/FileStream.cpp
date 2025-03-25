@@ -5,7 +5,7 @@
 
 /* #region 构造，析构 */
 
-base::FileStream::FileStream(std::string path)
+base::FileStream::FileStream(base::Path const &path)
 {
 	_path = path;
 }
@@ -19,7 +19,7 @@ base::FileStream::~FileStream()
 
 /* #region 工厂函数 */
 
-std::shared_ptr<base::FileStream> base::FileStream::OpenOrCreate(std::string path)
+std::shared_ptr<base::FileStream> base::FileStream::OpenOrCreate(base::Path const &path)
 {
 	try
 	{
@@ -45,7 +45,7 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenOrCreate(std::string pat
 	}
 }
 
-std::shared_ptr<base::FileStream> base::FileStream::CreateNewAnyway(std::string path)
+std::shared_ptr<base::FileStream> base::FileStream::CreateNewAnyway(base::Path const &path)
 {
 	if (base::filesystem::Exists(path))
 	{
@@ -61,13 +61,13 @@ std::shared_ptr<base::FileStream> base::FileStream::CreateNewAnyway(std::string 
 				 std::ios_base::binary;
 
 	fs->_fs = std::shared_ptr<std::fstream>{new std::fstream{
-		path,
+		path.ToString(),
 		flags,
 	}};
 
 	if (fs->_fs->fail())
 	{
-		std::string message = CODE_POS_STR + std::format("创建 {} 失败。", path);
+		std::string message = CODE_POS_STR + std::format("创建 {} 失败。", path.ToString());
 		throw std::runtime_error{message};
 	}
 
@@ -77,16 +77,16 @@ std::shared_ptr<base::FileStream> base::FileStream::CreateNewAnyway(std::string 
 	return fs;
 }
 
-std::shared_ptr<base::FileStream> base::FileStream::OpenExisting(std::string path)
+std::shared_ptr<base::FileStream> base::FileStream::OpenExisting(base::Path const &path)
 {
 	if (!base::filesystem::Exists(path))
 	{
-		throw std::runtime_error{CODE_POS_STR + std::format("文件 {} 不存在。", path)};
+		throw std::runtime_error{CODE_POS_STR + std::format("文件 {} 不存在。", path.ToString())};
 	}
 
 	if (base::filesystem::IsDirectory(path))
 	{
-		throw std::runtime_error{CODE_POS_STR + std::format("{} 不是一个文件，而是一个目录", path)};
+		throw std::runtime_error{CODE_POS_STR + std::format("{} 不是一个文件，而是一个目录", path.ToString())};
 	}
 
 	if (!base::filesystem::IsReadable(path))
@@ -106,13 +106,13 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenExisting(std::string pat
 				 std::ios_base::binary;
 
 	fs->_fs = std::shared_ptr<std::fstream>{new std::fstream{
-		path,
+		path.ToString(),
 		flags,
 	}};
 
 	if (fs->_fs->fail())
 	{
-		std::string message = CODE_POS_STR + std::format("打开 {} 失败。", path);
+		std::string message = CODE_POS_STR + std::format("打开 {} 失败。", path.ToString());
 		throw std::runtime_error{message};
 	}
 
@@ -122,17 +122,17 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenExisting(std::string pat
 	return fs;
 }
 
-std::shared_ptr<base::FileStream> base::FileStream::OpenReadOnly(std::string path)
+std::shared_ptr<base::FileStream> base::FileStream::OpenReadOnly(base::Path const &path)
 {
 	if (!base::filesystem::Exists(path))
 	{
-		std::string message = CODE_POS_STR + std::format("文件 {} 不存在。", path);
+		std::string message = CODE_POS_STR + std::format("文件 {} 不存在。", path.ToString());
 		throw std::runtime_error{message};
 	}
 
 	if (base::filesystem::IsDirectory(path))
 	{
-		std::string message = CODE_POS_STR + std::format("{} 不是一个文件，而是一个目录", path);
+		std::string message = CODE_POS_STR + std::format("{} 不是一个文件，而是一个目录", path.ToString());
 		throw std::runtime_error{message};
 	}
 
@@ -146,13 +146,13 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenReadOnly(std::string pat
 	auto flags = std::ios_base::in | std::ios_base::binary;
 
 	fs->_fs = std::shared_ptr<std::fstream>{new std::fstream{
-		path,
+		path.ToString(),
 		flags,
 	}};
 
 	if (fs->_fs->fail())
 	{
-		std::string message = CODE_POS_STR + std::format("以只读方式打开 {} 失败。", path);
+		std::string message = CODE_POS_STR + std::format("以只读方式打开 {} 失败。", path.ToString());
 		throw std::runtime_error{message};
 	}
 
@@ -205,7 +205,7 @@ void base::FileStream::SetLength(int64_t value)
 	SetPosition(std::min(value, current_pos));
 
 	// 重设大小
-	std::filesystem::resize_file(_path.c_str(), value);
+	std::filesystem::resize_file(_path.ToString().c_str(), value);
 	std::cout << "更改大小后文件大小=" << Length() << std::endl;
 }
 

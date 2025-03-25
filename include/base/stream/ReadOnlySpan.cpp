@@ -38,6 +38,17 @@ base::ReadOnlySpan::ReadOnlySpan(base::String const &str)
 	*this = span;
 }
 
+base::ReadOnlySpan::ReadOnlySpan(base::ArraySpan<uint8_t> const &span)
+{
+	_buffer = span.Buffer();
+	_size = span.Count();
+
+	if (_buffer == nullptr)
+	{
+		_size = 0;
+	}
+}
+
 base::ReadOnlySpan::ReadOnlySpan(base::ReadOnlyArraySpan<uint8_t> const &span)
 {
 	_buffer = span.Buffer();

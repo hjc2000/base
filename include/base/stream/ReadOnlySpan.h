@@ -55,6 +55,13 @@ namespace base
 		ReadOnlySpan(base::String const &str);
 
 		///
+		/// @brief 从 base::ArraySpan<uint8_t> 构造，引用它所引用的内存。
+		///
+		/// @param span
+		///
+		ReadOnlySpan(base::ArraySpan<uint8_t> const &span);
+
+		///
 		/// @brief 从 base::ReadOnlyArraySpan<uint8_t> 构造，引用它所引用的内存段。
 		///
 		/// @param span
@@ -81,6 +88,7 @@ namespace base
 		}
 
 		virtual ~ReadOnlySpan() = default;
+
 		/* #endregion */
 
 		/* #region 索引器 */
