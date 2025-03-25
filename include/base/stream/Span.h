@@ -77,6 +77,7 @@ namespace base
 		}
 
 		virtual ~Span() = default;
+
 		/* #endregion */
 
 		/* #region 索引器 */
