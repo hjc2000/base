@@ -139,7 +139,8 @@ namespace base
 						return element;
 					}
 
-					if (_flushed && _queue.Count() == 0)
+					// 执行到这里说明 Count == 0
+					if (_flushed)
 					{
 						// 冲洗后，要强行退队，即使队列为空，这是为了引发异常。
 						T element = _queue.Dequeue();
@@ -185,7 +186,8 @@ namespace base
 						return result;
 					}
 
-					if (_flushed && _queue.Count() == 0)
+					// 执行到这里说明 Count == 0
+					if (_flushed)
 					{
 						return false;
 					}
