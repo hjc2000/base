@@ -1,4 +1,5 @@
 #include "BlockingCircleBufferMemoryStream.h"
+#include "base/container/Range.h"
 
 bool base::BlockingCircleBufferMemoryStream::CanRead() const
 {
@@ -83,8 +84,8 @@ void base::BlockingCircleBufferMemoryStream::Write(base::ReadOnlySpan const &spa
 			if (_mstream.AvailableToWrite() > 0)
 			{
 				int32_t should_write = std::min(_mstream.AvailableToWrite(), remain_span.Size());
-				_mstream.Write(remain_span);
-				remain_span = remain_span.Slice(base::Range{should_write, remain_span.Size()});
+				_mstream.Write(remain_span[base::Range{0, should_write}]);
+				remain_span = remain_span[base::Range{should_write, remain_span.Size()}];
 				_buffer_avaliable_signal.ReleaseAll();
 				if (remain_span.Size() <= 0)
 				{
