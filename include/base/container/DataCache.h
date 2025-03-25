@@ -8,10 +8,12 @@
 
 namespace base
 {
+	///
 	/// @brief 数据缓存。
 	/// @note 可以往里放入数据和取出数据。本质上是一个队列。
 	/// 当队列的元素数量超过上限时会丢弃最开始的数据。
 	/// @tparam T
+	///
 	template <typename T>
 	class DataChach final :
 		public IDisposable
@@ -24,10 +26,12 @@ namespace base
 		base::Semaphore _data_avaliable_signal{0};
 
 	public:
+		///
 		/// @brief 构造函数
 		/// @note 因为拷贝构造函数和移动构造函数无法对被拷贝和被移动的对象加锁，
 		/// 所以会引发线程安全问题，所以本类不支持拷贝和移动。
 		/// @param max_count 能够缓存的最大的数据个数。
+		///
 		DataChach(int32_t max_count)
 		{
 			if (max_count < 1)
@@ -53,8 +57,10 @@ namespace base
 			_disposed = true;
 		}
 
+		///
 		/// @brief 将数据放到内部队列的末尾。
 		/// @param item
+		///
 		void PushBack(T const &item)
 		{
 			if (_disposed)
@@ -72,9 +78,11 @@ namespace base
 			_data_avaliable_signal.Release();
 		}
 
+		///
 		/// @brief 取出数据。
 		/// @note 如果当前无数据可取会阻塞，直到有数据。取出后，数据将从内部队列中删除。
 		/// @return
+		///
 		T TackOut()
 		{
 			while (true)
