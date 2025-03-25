@@ -3,19 +3,19 @@
 
 #if HAS_THREAD
 
-std::shared_ptr<base::IFileStream> base::file::OpenReadOnly(std::string const &path)
+std::shared_ptr<base::IFileStream> base::file::OpenReadOnly(base::Path const &path)
 {
-	return base::FileStream::OpenReadOnly(path);
+	return base::FileStream::OpenReadOnly(path.ToString());
 }
 
-std::shared_ptr<base::IFileStream> base::file::OpenExisting(std::string const &path)
+std::shared_ptr<base::IFileStream> base::file::OpenExisting(base::Path const &path)
 {
-	return base::FileStream::OpenExisting(path);
+	return base::FileStream::OpenExisting(path.ToString());
 }
 
-std::shared_ptr<base::IFileStream> base::file::CreateNewAnyway(std::string const &path)
+std::shared_ptr<base::IFileStream> base::file::CreateNewAnyway(base::Path const &path)
 {
-	return base::FileStream::CreateNewAnyway(path);
+	return base::FileStream::CreateNewAnyway(path.ToString());
 }
 
 #endif

@@ -1,7 +1,7 @@
 #pragma once
 #include "base/stream/Stream.h"
+#include "Path.h"
 #include <memory>
-#include <string>
 
 namespace base
 {
@@ -109,7 +109,7 @@ namespace base
 		/// @param path
 		/// @return std::shared_ptr<base::IFileStream>
 		///
-		std::shared_ptr<base::IFileStream> OpenOrCreate(std::string const &path);
+		std::shared_ptr<base::IFileStream> OpenOrCreate(base::Path const &path);
 
 		///
 		/// @brief 以只读方式打开文件。文件必须存在，否则会抛出异常。
@@ -119,7 +119,7 @@ namespace base
 		/// @return std::shared_ptr<base::IFileStream> 成功打开则返回 base::IFileStream 对象。
 		/// 失败会抛出异常，不会返回空指针。
 		///
-		std::shared_ptr<base::IFileStream> OpenReadOnly(std::string const &path);
+		std::shared_ptr<base::IFileStream> OpenReadOnly(base::Path const &path);
 
 		///
 		/// @brief 用打开模式打开一个存在的文件。如果文件不存在，此函数不会创建文件。
@@ -129,7 +129,7 @@ namespace base
 		/// @return std::shared_ptr<base::IFileStream> 如果文件存在，且成功打开，
 		/// 则返回 base::IFileStream 对象。失败会抛出异常，不会返回空指针。
 		///
-		std::shared_ptr<base::IFileStream> OpenExisting(std::string const &path);
+		std::shared_ptr<base::IFileStream> OpenExisting(base::Path const &path);
 
 		///
 		/// @brief 用创建模式打开文件流，无论如何都会创建一个新的空白文件。会覆盖旧的。
@@ -139,7 +139,7 @@ namespace base
 		/// @return std::shared_ptr<base::IFileStream> 创建文件成功则返回 base::IFileStream 对象。
 		/// 创建失败会抛出异常，不会返回空指针。
 		///
-		std::shared_ptr<base::IFileStream> CreateNewAnyway(std::string const &path);
+		std::shared_ptr<base::IFileStream> CreateNewAnyway(base::Path const &path);
 
 	} // namespace file
 } // namespace base
