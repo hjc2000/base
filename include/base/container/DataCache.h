@@ -5,6 +5,8 @@
 #include "base/task/IMutex.h"
 #include "base/task/Semaphore.h"
 #include <atomic>
+#include <exception>
+#include <stdexcept>
 
 namespace base
 {
@@ -55,6 +57,7 @@ namespace base
 			}
 
 			_disposed = true;
+			_data_avaliable_signal.Dispose();
 		}
 
 		///
@@ -101,7 +104,14 @@ namespace base
 					}
 				}
 
-				_data_avaliable_signal.Acquire();
+				try
+				{
+					_data_avaliable_signal.Acquire();
+				}
+				catch (std::exception const &e)
+				{
+					throw std::runtime_error{CODE_POS_STR + e.what()};
+				}
 			}
 		}
 	};

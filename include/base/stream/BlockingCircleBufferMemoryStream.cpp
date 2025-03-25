@@ -60,7 +60,14 @@ int32_t base::BlockingCircleBufferMemoryStream::Read(base::Span const &span)
 			}
 		}
 
-		_buffer_avaliable_signal.Acquire();
+		try
+		{
+			_buffer_avaliable_signal.Acquire();
+		}
+		catch (std::exception const &e)
+		{
+			throw std::runtime_error{CODE_POS_STR + e.what()};
+		}
 	}
 }
 
@@ -96,7 +103,14 @@ void base::BlockingCircleBufferMemoryStream::Write(base::ReadOnlySpan const &spa
 		}
 
 		// 如果刚才将所有数据写完了，已经返回了，到这里说明没写完，但是流已经满了，需要等待。
-		_buffer_consumed_signal.Acquire();
+		try
+		{
+			_buffer_consumed_signal.Acquire();
+		}
+		catch (std::exception const &e)
+		{
+			throw std::runtime_error{CODE_POS_STR + e.what()};
+		}
 	}
 }
 

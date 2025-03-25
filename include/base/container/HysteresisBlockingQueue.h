@@ -5,6 +5,8 @@
 #include "base/task/IMutex.h"
 #include "base/task/Semaphore.h"
 #include <atomic>
+#include <exception>
+#include <stdexcept>
 
 namespace base
 {
@@ -153,8 +155,9 @@ namespace base
 				{
 					_queue_avaliable_signal.Acquire();
 				}
-				catch (...)
+				catch (std::exception const &e)
 				{
+					throw std::runtime_error{CODE_POS_STR + e.what()};
 				}
 			}
 		}
@@ -198,8 +201,9 @@ namespace base
 				{
 					_queue_avaliable_signal.Acquire();
 				}
-				catch (...)
+				catch (std::exception const &e)
 				{
+					throw std::runtime_error{CODE_POS_STR + e.what()};
 				}
 			}
 		}
@@ -241,7 +245,14 @@ namespace base
 					}
 				}
 
-				_queue_consumed_signal.Acquire();
+				try
+				{
+					_queue_consumed_signal.Acquire();
+				}
+				catch (std::exception const &e)
+				{
+					throw std::runtime_error{CODE_POS_STR + e.what()};
+				}
 			}
 		}
 
