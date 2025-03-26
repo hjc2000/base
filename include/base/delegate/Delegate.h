@@ -58,14 +58,14 @@ namespace base
 		/// @brief 订阅事件。
 		///
 		/// @param func
-		/// @return std::shared_ptr<base::IIdToken> 用来取消订阅的 token.
+		/// @return base::SpIIdToken 用来取消订阅的 token.
 		///
-		virtual std::shared_ptr<base::IIdToken> Subscribe(std::function<void(Args...)> const &func) override
+		virtual base::SpIIdToken Subscribe(std::function<void(Args...)> const &func) override
 		{
 			base::LockGuard g{*_lock};
 			uint64_t id = _next_id++;
 			_functions[id] = func;
-			return std::shared_ptr<IdToken>{new IdToken{this, id}};
+			return base::SpIIdToken{new IdToken{this, id}};
 		}
 
 		///

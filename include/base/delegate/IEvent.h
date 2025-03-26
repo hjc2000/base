@@ -1,7 +1,6 @@
 #pragma once
 #include "base/IIdToken.h"
 #include <functional>
-#include <memory>
 
 namespace base
 {
@@ -15,13 +14,34 @@ namespace base
 		/// @param func
 		/// @return std::shared_ptr<typename base::IIdToken> 用来取消订阅的 token.
 		///
-		virtual std::shared_ptr<base::IIdToken> Subscribe(std::function<void(Args...)> const &func) = 0;
+		virtual base::SpIIdToken Subscribe(std::function<void(Args...)> const &func) = 0;
 
 		///
 		/// @brief 取消订阅事件。
 		///
 		/// @param token 传入由 Subscribe 方法返回的 token.
 		///
-		virtual void Unsubscribe(std::shared_ptr<base::IIdToken> const &token) = 0;
+		virtual void Unsubscribe(base::SpIIdToken const &token) = 0;
+
+		///
+		/// @brief 订阅事件。
+		///
+		/// @param func
+		/// @return base::SpIIdToken
+		///
+		base::SpIIdToken operator+=(std::function<void(Args...)> const &func)
+		{
+			return Subscribe(func);
+		}
+
+		///
+		/// @brief 取消订阅事件。
+		///
+		/// @param token
+		///
+		void operator-=(base::SpIIdToken const &token)
+		{
+			Unsubscribe(token);
+		}
 	};
 } // namespace base

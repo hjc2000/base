@@ -24,4 +24,7 @@ namespace base
 		///
 		virtual uint64_t ID() const = 0;
 	};
+
+	using SpIIdToken = std::shared_ptr<base::IIdToken>;
+
 } // namespace base
