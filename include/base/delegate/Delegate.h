@@ -60,7 +60,7 @@ namespace base
 		/// @param func
 		/// @return std::shared_ptr<base::IIdToken> 用来取消订阅的 token.
 		///
-		virtual std::shared_ptr<base::IIdToken> Subscribe(std::function<void(Args...)> func) override
+		virtual std::shared_ptr<base::IIdToken> Subscribe(std::function<void(Args...)> const &func) override
 		{
 			base::LockGuard g{*_lock};
 			uint64_t id = _next_id++;
