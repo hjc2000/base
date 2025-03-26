@@ -18,7 +18,7 @@ namespace base
 	/// @tparam T
 	///
 	template <typename T>
-	class DataChach final :
+	class DataCache final :
 		public IDisposable
 	{
 	private:
@@ -35,7 +35,7 @@ namespace base
 		/// 所以会引发线程安全问题，所以本类不支持拷贝和移动。
 		/// @param max_count 能够缓存的最大的数据个数。
 		///
-		DataChach(int32_t max_count)
+		DataCache(int32_t max_count)
 		{
 			if (max_count < 1)
 			{
@@ -45,7 +45,7 @@ namespace base
 			_max_count = max_count;
 		}
 
-		~DataChach()
+		~DataCache()
 		{
 			Dispose();
 		}
