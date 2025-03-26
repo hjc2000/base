@@ -1,4 +1,5 @@
 #pragma once
+#include "base/container/IQueue.h"
 #include "base/container/iterator/IEnumerable.h"
 #include <functional>
 
@@ -160,9 +161,23 @@ namespace base
 		///
 		/// @param list
 		///
-		virtual void Add(IList<ItemType> const &list)
+		void Add(IList<ItemType> const &list)
 		{
 			for (ItemType const &item : list)
+			{
+				Add(item);
+			}
+		}
+
+		///
+		/// @brief 将队列的元素添加到本列表中，添加的同时会退队。
+		///
+		/// @param queue
+		///
+		void Add(base::IQueue<ItemType> &queue)
+		{
+			ItemType item{};
+			while (queue.TryDequeue(item))
 			{
 				Add(item);
 			}
@@ -173,7 +188,7 @@ namespace base
 		///
 		/// @param items
 		///
-		virtual void Add(base::IEnumerable<ItemType> const &items)
+		void Add(base::IEnumerable<ItemType> const &items)
 		{
 			for (ItemType const &item : items)
 			{
@@ -186,7 +201,7 @@ namespace base
 		///
 		/// @param items
 		///
-		virtual void Add(base::IEnumerable<ItemType const> const &items)
+		void Add(base::IEnumerable<ItemType const> const &items)
 		{
 			for (ItemType const &item : items)
 			{
@@ -199,7 +214,7 @@ namespace base
 		///
 		/// @param list
 		///
-		virtual void Add(std::initializer_list<ItemType> const &list)
+		void Add(std::initializer_list<ItemType> const &list)
 		{
 			for (ItemType const &item : list)
 			{
