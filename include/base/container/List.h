@@ -270,6 +270,8 @@ namespace base
 			return _vector.data();
 		}
 
+		/* #region 相等比较 */
+
 		using IList<ItemType>::operator==;
 
 		///
@@ -284,11 +286,17 @@ namespace base
 			return _vector == another._vector;
 		}
 
+		/* #endregion */
+
+		/* #region GetEnumerator */
+
 		using IEnumerable<ItemType>::GetEnumerator;
 
 		virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() override
 		{
 			return base::IRawArray<ItemType>::GetEnumerator();
 		}
+
+		/* #endregion */
 	};
 } // namespace base
