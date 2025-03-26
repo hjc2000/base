@@ -14,6 +14,8 @@ namespace base
 		int64_t _y{};
 
 	public:
+		Position() = default;
+
 		Position(int64_t x, int64_t y);
 
 		int64_t X() const
