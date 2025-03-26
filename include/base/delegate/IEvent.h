@@ -15,7 +15,7 @@ namespace base
 		/// @param func
 		/// @return std::shared_ptr<typename base::IIdToken> 用来取消订阅的 token.
 		///
-		virtual std::shared_ptr<base::IIdToken> Subscribe(std::function<void(Args...)> const &func) = 0;
+		virtual std::shared_ptr<base::IIdToken> Subscribe(std::function<void(Args...)> func) = 0;
 
 		///
 		/// @brief 取消订阅事件。
