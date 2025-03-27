@@ -1,7 +1,31 @@
 #include "TaskPauseSignal.h"
+#include "base/string/define.h"
+#include <stdexcept>
+
+base::TaskPauseSignal::~TaskPauseSignal()
+{
+	Dispose();
+}
+
+void base::TaskPauseSignal::Dispose()
+{
+	if (_disposed)
+	{
+		return;
+	}
+
+	_disposed = true;
+	_block_thread_signal.Dispose();
+	_response_signal.Dispose();
+}
 
 void base::TaskPauseSignal::Request(bool pause)
 {
+	if (_disposed)
+	{
+		throw std::runtime_error{CODE_POS_STR + "已经释放，无法使用。"};
+	}
+
 	if (pause)
 	{
 		_response_signal.Reset();
@@ -28,6 +52,11 @@ void base::TaskPauseSignal::Request(bool pause)
 
 void base::TaskPauseSignal::Response()
 {
+	if (_disposed)
+	{
+		throw std::runtime_error{CODE_POS_STR + "已经释放，无法使用。"};
+	}
+
 	if (_should_pause)
 	{
 		// 重置，准备暂停后台线程。

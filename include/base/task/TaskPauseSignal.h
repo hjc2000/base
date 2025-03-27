@@ -14,6 +14,7 @@ namespace base
 	{
 	private:
 		std::atomic_bool _should_pause = false;
+		std::atomic_bool _disposed = false;
 
 		///
 		/// @brief 用来阻塞后台线程的信号。
@@ -28,20 +29,13 @@ namespace base
 		base::TaskCompletionSignal _response_signal{true};
 
 	public:
-		~TaskPauseSignal()
-		{
-			Dispose();
-		}
+		~TaskPauseSignal();
 
 		///
 		/// @brief 释放。让无论是暂停请求还是后台线程都不再被阻塞。
 		///
 		///
-		virtual void Dispose() override
-		{
-			_block_thread_signal.Dispose();
-			_response_signal.Dispose();
-		}
+		virtual void Dispose() override;
 
 		///
 		/// @brief 请求暂停。
