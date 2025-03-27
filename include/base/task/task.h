@@ -1,6 +1,8 @@
 #pragma once
+#include "base/task/TaskCompletionSignal.h"
 #include <cstdint>
 #include <functional>
+#include <memory>
 
 namespace base
 {
@@ -27,7 +29,9 @@ namespace base
 		///
 		/// @param func
 		///
-		void Run(std::function<void()> func);
+		/// @return std::shared_ptr<base::TaskCompletionSignal>
+		///
+		std::shared_ptr<base::TaskCompletionSignal> Run(std::function<void()> func);
 
 		///
 		/// @brief 运行一个任务。
@@ -37,7 +41,9 @@ namespace base
 		/// @param func
 		/// @param stack_size 任务栈大小。单位：字节。有些平台例如 freertos 需要这个参数。
 		///
-		void Run(std::function<void()> func, int64_t stack_size);
+		/// @return std::shared_ptr<base::TaskCompletionSignal>
+		///
+		std::shared_ptr<base::TaskCompletionSignal> Run(std::function<void()> func, int64_t stack_size);
 
 	} // namespace task
 } // namespace base
