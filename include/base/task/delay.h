@@ -4,43 +4,45 @@
 
 namespace base
 {
-	///
-	/// @brief 延时。
-	///
-	/// @param time
-	///
-	void Delay(std::chrono::seconds const &time);
+	namespace task
+	{
+		///
+		/// @brief 延时。
+		///
+		/// @param time
+		///
+		void Delay(std::chrono::seconds const &time);
 
-	///
-	/// @brief 延时。
-	///
-	/// @param time
-	///
-	void Delay(std::chrono::milliseconds const &time);
+		///
+		/// @brief 延时。
+		///
+		/// @param time
+		///
+		void Delay(std::chrono::milliseconds const &time);
 
-	///
-	/// @brief 延时。
-	///
-	/// @param time
-	///
-	void Delay(std::chrono::microseconds const &time);
+		///
+		/// @brief 延时。
+		///
+		/// @param time
+		///
+		void Delay(std::chrono::microseconds const &time);
 
-	///
-	/// @brief 延时。
-	///
-	/// @param time
-	///
-	void Delay(std::chrono::nanoseconds const &time);
+		///
+		/// @brief 延时。
+		///
+		/// @param time
+		///
+		void Delay(std::chrono::nanoseconds const &time);
 
-	/* #region 已经实现 */
+		/* #region 已经实现 */
 
-	///
-	/// @brief 延时。
-	///
-	/// @param time
-	///
-	void Delay(base::Seconds const &time);
+		///
+		/// @brief 延时。
+		///
+		/// @param time
+		///
+		void Delay(base::Seconds const &time);
 
-	/* #endregion */
-
+		/* #endregion */
+	} // namespace task
 } // namespace base
