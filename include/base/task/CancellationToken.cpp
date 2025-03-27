@@ -1,16 +1,17 @@
 #include "CancellationToken.h"
 #include "base/LockGuard.h"
+#include "base/string/define.h"
 #include <stdexcept>
 
 std::shared_ptr<base::CancellationToken> base::CancellationToken::_none_cancellation_token{new base::CancellationToken{}};
 
 void base::CancellationToken::Cancel()
 {
-	/* 只有取消过一次，即调用本函数一次后，_is_cancellation_request
-	 * 才会为 true。
-	 * _is_cancellation_request 为 true 表示已经取消过一次了，
-	 * 这时候就不要重复取消了
-	 */
+	// 只有取消过一次，即调用本函数一次后，_is_cancellation_request
+	// 才会为 true.
+	//
+	// _is_cancellation_request 为 true 表示已经取消过一次了，
+	// 这时候就不要重复取消了。
 	if (_is_cancellation_request)
 	{
 		// 先检查一次，有机会不竞争锁直接能够返回
@@ -42,6 +43,14 @@ std::shared_ptr<base::CancellationToken> base::CancellationToken::None()
 bool base::CancellationToken::IsCancellationRequested() const
 {
 	return _is_cancellation_request;
+}
+
+void base::CancellationToken::ThrowIfCancellationIsRequested() const
+{
+	if (IsCancellationRequested())
+	{
+		throw std::runtime_error{CODE_POS_STR + "任务取消。"};
+	}
 }
 
 std::shared_ptr<base::IIdToken> base::CancellationToken::Register(std::function<void(void)> const &func)

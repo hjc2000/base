@@ -78,6 +78,13 @@ namespace base
 		bool IsCancellationRequested() const;
 
 		///
+		/// @brief 如果任务被取消了就抛出异常。
+		///
+		/// @note 使用本方法可以从深层嵌套中退出，快速结束当前任务。
+		///
+		void ThrowIfCancellationIsRequested() const;
+
+		///
 		/// @brief 注册一个委托，当令牌取消时会被调用。
 		///
 		/// @param func @note 可以多次调用注册多个委托。
