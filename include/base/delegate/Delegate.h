@@ -19,7 +19,7 @@ namespace base
 		public base::IEvent<Args...>
 	{
 	private:
-		mutable std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
+		std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
 		std::map<uint64_t, std::function<void(Args...)>> _functions;
 		uint64_t _next_id = 0;
 
@@ -97,7 +97,7 @@ namespace base
 		/// @brief 调用所有订阅的函数
 		/// @param ...args
 		///
-		void Invoke(Args... args) const
+		void Invoke(Args... args)
 		{
 			base::LockGuard g{*_lock};
 			for (auto &func : _functions)
@@ -110,7 +110,7 @@ namespace base
 		/// @brief 伪函数
 		/// @param ...args
 		///
-		void operator()(Args... args) const
+		void operator()(Args... args)
 		{
 			Invoke(args...);
 		}
