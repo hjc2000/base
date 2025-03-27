@@ -143,15 +143,26 @@ namespace base
 		///
 		virtual void RemoveIf(std::function<bool(ItemType const &item)> should_remove) override
 		{
-			// remove_if 函数会将容器的符合移除条件的元素移动到容器末尾，最后返回一个迭代器，
-			// 从这个迭代器指向的位置开始到容器末尾的元素，全是满足移除条件的。
-			auto remove_begin = std::remove_if(
-				_vector.begin(),
-				_vector.end(),
-				[&](ItemType const &item)
-				{
-					return should_remove(item);
-				});
+			// 为了避免每移除一个元素就将后面位置的元素向前移动，造成开销过大。可以准备一个临时的容器，
+			// 不需要移除的元素就添加到临时容器，需要移除的就跳过。最后，用临时容器替换掉原来的容器。
+			//
+			// 进一步改进可以把临时容器取消，直接原地操作。准备一个读指针，用来遍历容器，准备一个写指针，
+			// 用来写入不需要移除的元素。在写指针的位置写入就相当于写入临时容器。
+			//
+			// 遍历原容器，在遍历过程中递增读指针。当前元素不需要移除，就写入写指针的位置，然后递增写指针。
+			// 当前元素需要移除，就跳过，即只递增读指针，不递增写指针。
+			//
+			// 最后，写指针的前方就是需要保留的元素，写指针后方的元素是垃圾数据，这其中包括了需要移除的
+			// 元素和不需要移除的元素，它们已经被读指针经过了。其中不需要移除的元素已经被复制到前面了。
+			//
+			// remove_if 最后返回的就是写指针，从写指针到尾指针的这段都是需要去掉的垃圾数据。
+			//
+			auto remove_begin = std::remove_if(_vector.begin(),
+											   _vector.end(),
+											   [&](ItemType const &item)
+											   {
+												   return should_remove(item);
+											   });
 
 			_vector.erase(remove_begin, _vector.end());
 		}
