@@ -82,5 +82,15 @@ namespace base
 		///
 		///
 		void ReleaseFromISR();
+
+		///
+		/// @brief 当前正在等待获取信号量的线程数。
+		///
+		/// @return int32_t
+		///
+		int32_t AcquireCount() const
+		{
+			return _acquire_count;
+		}
 	};
 } // namespace base
