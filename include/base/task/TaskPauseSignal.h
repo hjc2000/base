@@ -1,4 +1,5 @@
 #pragma once
+#include "base/IDisposable.h"
 #include "base/task/TaskCompletionSignal.h"
 #include <atomic>
 
@@ -8,7 +9,8 @@ namespace base
 	/// @brief 任务暂停信号。
 	///
 	///
-	class TaskPauseSignal
+	class TaskPauseSignal :
+		public base::IDisposable
 	{
 	private:
 		std::atomic_bool _should_pause = false;
@@ -26,6 +28,21 @@ namespace base
 		base::TaskCompletionSignal _response_signal{true};
 
 	public:
+		~TaskPauseSignal()
+		{
+			Dispose();
+		}
+
+		///
+		/// @brief 释放。让无论是暂停请求还是后台线程都不再被阻塞。
+		///
+		///
+		virtual void Dispose() override
+		{
+			_block_thread_signal.Dispose();
+			_response_signal.Dispose();
+		}
+
 		///
 		/// @brief 请求暂停。
 		///
