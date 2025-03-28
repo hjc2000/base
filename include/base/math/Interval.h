@@ -1,5 +1,7 @@
 #pragma once
-#include <algorithm>
+
+#include "base/string/define.h"
+#include <stdexcept>
 
 namespace base
 {
@@ -33,8 +35,13 @@ namespace base
 		///
 		ClosedInterval(T const &left, T const &right)
 		{
+			if (left > right)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "区间右端点不能小于左端点。"};
+			}
+
 			_left = left;
-			_right = std::max<T>(left, right);
+			_right = right;
 		}
 
 		///
@@ -55,6 +62,30 @@ namespace base
 		T Right() const
 		{
 			return _right;
+		}
+
+		///
+		/// @brief 检查一个值是否在区间内。
+		///
+		/// @param value
+		/// @return true
+		/// @return false
+		///
+		bool IsInRange(T const &value)
+		{
+			return value >= _left && value <= _right;
+		}
+
+		///
+		/// @brief 检查一个值是否在区间外。
+		///
+		/// @param value
+		/// @return true
+		/// @return false
+		///
+		bool IsOutOfRange(T const &value)
+		{
+			return !IsInRange(value);
 		}
 	};
 
