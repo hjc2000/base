@@ -1,4 +1,5 @@
 #pragma once
+#include "base/define.h"
 
 namespace base
 {
@@ -15,10 +16,7 @@ namespace base
 	class Wrapper
 	{
 	private:
-		Wrapper(Wrapper<T> const &o) = delete;
-		Wrapper(Wrapper<T> const &&o) = delete;
-		Wrapper<T> &operator=(Wrapper<T> const &o) = delete;
-		Wrapper<T> &operator=(Wrapper<T> const &&o) = delete;
+		DELETE_COPY_AND_MOVE(Wrapper)
 
 	public:
 		/* #region 生命周期 */
