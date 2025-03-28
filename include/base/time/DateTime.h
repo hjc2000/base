@@ -135,15 +135,15 @@ namespace base
 		///
 		/// @brief 通过时间点构造。
 		///
-		/// @param time_point
+		/// @param time_point 时间点。epoch 时间戳，与时区无关。
 		///
 		DateTime(base::TimePointSinceEpoch const &time_point);
 
 		///
 		/// @brief 通过时间点构造一个 UTC 偏移的日期时间。
 		///
-		/// @param utc_hour_offset
-		/// @param time_point
+		/// @param utc_hour_offset 你所处的时区的 UTC 小时偏移量。
+		/// @param time_point 时间点。epoch 时间戳，与时区无关。
 		///
 		DateTime(base::UtcHourOffset utc_hour_offset,
 				 base::TimePointSinceEpoch const &time_point);
