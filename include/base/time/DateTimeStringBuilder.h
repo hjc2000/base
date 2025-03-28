@@ -25,6 +25,17 @@ namespace base
 		bool _display_nanosecond = true;
 
 	public:
+		///
+		/// @brief 通过日期时间的各部分的字符串构造日期时间字符串。
+		///
+		/// @param year 年字符串。
+		/// @param month 月字符串。
+		/// @param day 日字符串。
+		/// @param hour 小时字符串。
+		/// @param minute 分钟字符串。
+		/// @param second 秒字符串。
+		/// @param nanosecond 纳秒字符串。
+		///
 		DateTimeStringBuilder(std::string const &year,
 							  std::string const &month,
 							  std::string const &day,
