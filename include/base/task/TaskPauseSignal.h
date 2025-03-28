@@ -1,4 +1,5 @@
 #pragma once
+#include "base/define.h"
 #include "base/IDisposable.h"
 #include "base/task/TaskCompletionSignal.h"
 #include <atomic>
@@ -13,6 +14,8 @@ namespace base
 		public base::IDisposable
 	{
 	private:
+		DELETE_COPY_AND_MOVE(TaskPauseSignal)
+
 		std::atomic_bool _should_pause = false;
 		std::atomic_bool _disposed = false;
 
@@ -27,11 +30,6 @@ namespace base
 		///
 		///
 		base::TaskCompletionSignal _response_signal{true};
-
-		TaskPauseSignal(TaskPauseSignal const &o) = delete;
-		TaskPauseSignal &operator=(TaskPauseSignal const &o) = delete;
-		TaskPauseSignal(TaskPauseSignal const &&o) = delete;
-		TaskPauseSignal &operator=(TaskPauseSignal const &&o) = delete;
 
 	public:
 		~TaskPauseSignal();
