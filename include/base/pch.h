@@ -26,6 +26,7 @@
 	#include "base/task/IMutex.h"
 	#include "base/task/Semaphore.h"
 	#include "base/task/task.h"
+	#include "base/unit/IUnit.h"
 	#include "boost/multiprecision/cpp_int.hpp"
 	#include "nlohmann/json.hpp"
 	#include <algorithm>
@@ -44,6 +45,7 @@
 	#include <set>
 	#include <stdexcept>
 	#include <string>
+	#include <type_traits>
 	#include <vector>
 
 	#if HAS_THREAD
