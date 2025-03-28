@@ -18,6 +18,8 @@ namespace base
 		CancellationTokenSource &operator=(CancellationTokenSource const &&o) = delete;
 
 	public:
+		CancellationTokenSource() = default;
+
 		///
 		/// @brief 检查任务是否已经取消了。
 		///
