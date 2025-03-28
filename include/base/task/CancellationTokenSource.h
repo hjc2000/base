@@ -1,4 +1,5 @@
 #pragma once
+#include "base/define.h"
 #include "base/task/CancellationToken.h"
 
 namespace base
@@ -12,10 +13,7 @@ namespace base
 	private:
 		std::shared_ptr<CancellationToken> _token{new CancellationToken{}};
 
-		CancellationTokenSource(CancellationTokenSource const &o) = delete;
-		CancellationTokenSource &operator=(CancellationTokenSource const &o) = delete;
-		CancellationTokenSource(CancellationTokenSource const &&o) = delete;
-		CancellationTokenSource &operator=(CancellationTokenSource const &&o) = delete;
+		DELETE_COPY_AND_MOVE(CancellationTokenSource)
 
 	public:
 		CancellationTokenSource() = default;
