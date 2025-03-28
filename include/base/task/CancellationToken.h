@@ -50,6 +50,10 @@ namespace base
 		/* #endregion */
 
 		CancellationToken() = default;
+		CancellationToken(CancellationToken const &o) = delete;
+		CancellationToken &operator=(CancellationToken const &o) = delete;
+		CancellationToken(CancellationToken const &&o) = delete;
+		CancellationToken &operator=(CancellationToken const &&o) = delete;
 
 		friend class CancellationTokenSource;
 		std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();

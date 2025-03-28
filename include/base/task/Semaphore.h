@@ -18,6 +18,11 @@ namespace base
 		std::atomic_bool _disposed = false;
 		int32_t _acquire_count = 0;
 
+		Semaphore(Semaphore const &o) = delete;
+		Semaphore &operator=(Semaphore const &o) = delete;
+		Semaphore(Semaphore const &&o) = delete;
+		Semaphore &operator=(Semaphore const &&o) = delete;
+
 	public:
 		Semaphore(int32_t initial_count);
 

@@ -28,6 +28,11 @@ namespace base
 		///
 		base::TaskCompletionSignal _response_signal{true};
 
+		TaskPauseSignal(TaskPauseSignal const &o) = delete;
+		TaskPauseSignal &operator=(TaskPauseSignal const &o) = delete;
+		TaskPauseSignal(TaskPauseSignal const &&o) = delete;
+		TaskPauseSignal &operator=(TaskPauseSignal const &&o) = delete;
+
 	public:
 		~TaskPauseSignal();
 

@@ -12,6 +12,11 @@ namespace base
 	private:
 		std::shared_ptr<CancellationToken> _token{new CancellationToken{}};
 
+		CancellationTokenSource(CancellationTokenSource const &o) = delete;
+		CancellationTokenSource &operator=(CancellationTokenSource const &o) = delete;
+		CancellationTokenSource(CancellationTokenSource const &&o) = delete;
+		CancellationTokenSource &operator=(CancellationTokenSource const &&o) = delete;
+
 	public:
 		///
 		/// @brief 检查任务是否已经取消了。

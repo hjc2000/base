@@ -17,6 +17,11 @@ namespace base
 		std::shared_ptr<base::Semaphore> _semaphore;
 		std::atomic_bool _disposed = false;
 
+		TaskCompletionSignal(TaskCompletionSignal const &o) = delete;
+		TaskCompletionSignal &operator=(TaskCompletionSignal const &o) = delete;
+		TaskCompletionSignal(TaskCompletionSignal const &&o) = delete;
+		TaskCompletionSignal &operator=(TaskCompletionSignal const &&o) = delete;
+
 	public:
 		///
 		/// @brief 构造函数。
