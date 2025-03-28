@@ -1,4 +1,5 @@
 #include "TaskCompletionSignal.h"
+#include "base/IDisposable.h"
 #include "base/string/define.h"
 #include "Semaphore.h"
 #include <memory>
@@ -55,7 +56,7 @@ void base::TaskCompletionSignal::Wait()
 	{
 		if (_disposed)
 		{
-			throw std::runtime_error{CODE_POS_STR + "已经释放，无法等待。"};
+			throw base::ObjectDisposedException{CODE_POS_STR + "已经释放，无法等待。"};
 		}
 
 		std::shared_ptr<base::Semaphore> signal = nullptr;

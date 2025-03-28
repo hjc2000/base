@@ -2,7 +2,6 @@
 #include "base/LockGuard.h"
 #include "base/string/define.h"
 #include "IBaseSemaphore.h"
-#include <stdexcept>
 
 base::Semaphore::Semaphore(int32_t initial_count)
 {
@@ -54,7 +53,7 @@ void base::Semaphore::Acquire()
 		base::LockGuard l{*_lock};
 		if (_disposed)
 		{
-			throw std::runtime_error{CODE_POS_STR + "已经释放，无法获取。"};
+			throw base::ObjectDisposedException{CODE_POS_STR + "已经释放，无法获取。"};
 		}
 
 		_acquire_count++;
@@ -67,7 +66,7 @@ void base::Semaphore::Acquire()
 		_acquire_count--;
 		if (_disposed)
 		{
-			throw std::runtime_error{CODE_POS_STR + "已经释放，无法获取。"};
+			throw base::ObjectDisposedException{CODE_POS_STR + "已经释放，无法获取。"};
 		}
 	}
 }
@@ -78,7 +77,7 @@ bool base::Semaphore::TryAcquire(base::Seconds const &timeout)
 		base::LockGuard l{*_lock};
 		if (_disposed)
 		{
-			throw std::runtime_error{CODE_POS_STR + "已经释放，无法获取。"};
+			throw base::ObjectDisposedException{CODE_POS_STR + "已经释放，无法获取。"};
 		}
 
 		_acquire_count++;
@@ -91,7 +90,7 @@ bool base::Semaphore::TryAcquire(base::Seconds const &timeout)
 		_acquire_count--;
 		if (_disposed)
 		{
-			throw std::runtime_error{CODE_POS_STR + "已经释放，无法获取。"};
+			throw base::ObjectDisposedException{CODE_POS_STR + "已经释放，无法获取。"};
 		}
 	}
 
