@@ -34,30 +34,35 @@ base::Version base::Version::operator++(int)
 bool base::Version::operator==(base::Version const &another) const
 {
 	base::LockGuard g{*_lock};
+	base::LockGuard g1{*another._lock};
 	return _value == another._value;
 }
 
 bool base::Version::operator<(base::Version const &another) const
 {
 	base::LockGuard g{*_lock};
+	base::LockGuard g1{*another._lock};
 	return _value < another._value;
 }
 
 bool base::Version::operator>(base::Version const &another) const
 {
 	base::LockGuard g{*_lock};
+	base::LockGuard g1{*another._lock};
 	return _value > another._value;
 }
 
 bool base::Version::operator<=(base::Version const &another) const
 {
 	base::LockGuard g{*_lock};
+	base::LockGuard g1{*another._lock};
 	return _value <= another._value;
 }
 
 bool base::Version::operator>=(base::Version const &another) const
 {
 	base::LockGuard g{*_lock};
+	base::LockGuard g1{*another._lock};
 	return _value >= another._value;
 }
 
