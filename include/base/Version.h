@@ -17,6 +17,12 @@ namespace base
 		uint64_t _value = 0;
 
 	public:
+		Version() = default;
+
+		Version(base::Version const &o);
+
+		Version &operator=(base::Version const &o);
+
 		///
 		/// @brief 前缀递增。
 		///

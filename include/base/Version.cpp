@@ -1,6 +1,19 @@
 #include "Version.h"
 #include "LockGuard.h"
 
+base::Version::Version(base::Version const &o)
+{
+	*this = o;
+}
+
+base::Version &base::Version::operator=(base::Version const &o)
+{
+	base::LockGuard g{*_lock};
+	base::LockGuard g1{*o._lock};
+	_value = o._value;
+	return *this;
+}
+
 base::Version &base::Version::operator++()
 {
 	base::LockGuard g{*_lock};
