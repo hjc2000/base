@@ -25,14 +25,8 @@ namespace base
 		public std::runtime_error
 	{
 	public:
-		ObjectDisposedException()
-			: ObjectDisposedException("ObjectDisposedException")
-		{
-		}
+		ObjectDisposedException();
 
-		ObjectDisposedException(std::string const &message)
-			: std::runtime_error(message)
-		{
-		}
+		ObjectDisposedException(std::string const &message);
 	};
 } // namespace base

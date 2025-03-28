@@ -1,6 +1,6 @@
 #include "TaskPauseSignal.h"
+#include "base/IDisposable.h"
 #include "base/string/define.h"
-#include <stdexcept>
 
 base::TaskPauseSignal::~TaskPauseSignal()
 {
@@ -23,7 +23,7 @@ void base::TaskPauseSignal::Request(bool pause)
 {
 	if (_disposed)
 	{
-		throw std::runtime_error{CODE_POS_STR + "已经释放，无法使用。"};
+		throw base::ObjectDisposedException{CODE_POS_STR + "已经释放，无法使用。"};
 	}
 
 	if (pause)
@@ -54,7 +54,7 @@ void base::TaskPauseSignal::Response()
 {
 	if (_disposed)
 	{
-		throw std::runtime_error{CODE_POS_STR + "已经释放，无法使用。"};
+		throw base::ObjectDisposedException{CODE_POS_STR + "已经释放，无法使用。"};
 	}
 
 	if (_should_pause)
