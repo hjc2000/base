@@ -13,8 +13,8 @@ namespace base
 	class TaskCompletionSignal final
 	{
 	private:
-		std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
-		std::shared_ptr<base::Semaphore> _task_completion_signal;
+		mutable std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
+		std::shared_ptr<base::Semaphore> _semaphore;
 		std::atomic_bool _disposed = false;
 
 	public:
@@ -42,7 +42,7 @@ namespace base
 		///
 		/// @return
 		///
-		bool IsCompleted();
+		bool IsCompleted() const;
 
 		///
 		/// @brief 等待，直到完成信号被触发。

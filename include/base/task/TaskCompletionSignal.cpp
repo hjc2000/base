@@ -31,7 +31,7 @@ void base::TaskCompletionSignal::Dispose()
 	SetResult();
 }
 
-bool base::TaskCompletionSignal::IsCompleted()
+bool base::TaskCompletionSignal::IsCompleted() const
 {
 	base::LockGuard g{*_lock};
 	if (_disposed)
@@ -39,7 +39,7 @@ bool base::TaskCompletionSignal::IsCompleted()
 		return true;
 	}
 
-	if (_task_completion_signal == nullptr)
+	if (_semaphore == nullptr)
 	{
 		return true;
 	}
@@ -65,7 +65,7 @@ void base::TaskCompletionSignal::Wait()
 			base::LockGuard g{*_lock};
 
 			// 在持有互斥锁的情况下捕获
-			signal = _task_completion_signal;
+			signal = _semaphore;
 		}
 
 		if (signal == nullptr)
@@ -86,21 +86,21 @@ void base::TaskCompletionSignal::Wait()
 void base::TaskCompletionSignal::SetResult()
 {
 	base::LockGuard g{*_lock};
-	if (_task_completion_signal != nullptr)
+	if (_semaphore != nullptr)
 	{
-		_task_completion_signal->Dispose();
-		_task_completion_signal = nullptr;
+		_semaphore->Dispose();
+		_semaphore = nullptr;
 	}
 }
 
 void base::TaskCompletionSignal::Reset()
 {
 	base::LockGuard g{*_lock};
-	if (_task_completion_signal != nullptr)
+	if (_semaphore != nullptr)
 	{
-		_task_completion_signal->Dispose();
-		_task_completion_signal = nullptr;
+		_semaphore->Dispose();
+		_semaphore = nullptr;
 	}
 
-	_task_completion_signal = std::shared_ptr<base::Semaphore>{new base::Semaphore{0}};
+	_semaphore = std::shared_ptr<base::Semaphore>{new base::Semaphore{0}};
 }
