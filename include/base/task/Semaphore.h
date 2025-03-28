@@ -1,4 +1,5 @@
 #pragma once
+#include "base/define.h"
 #include "base/IDisposable.h"
 #include "base/task/IMutex.h"
 #include "IBaseSemaphore.h"
@@ -9,19 +10,20 @@
 
 namespace base
 {
+	///
+	/// @brief 信号量。
+	///
+	///
 	class Semaphore :
 		public base::IDisposable
 	{
 	private:
+		DELETE_COPY_AND_MOVE(Semaphore)
+
 		std::shared_ptr<base::IBaseSemaphore> _base_semaphore;
 		std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
 		std::atomic_bool _disposed = false;
 		int32_t _acquire_count = 0;
-
-		Semaphore(Semaphore const &o) = delete;
-		Semaphore &operator=(Semaphore const &o) = delete;
-		Semaphore(Semaphore const &&o) = delete;
-		Semaphore &operator=(Semaphore const &&o) = delete;
 
 	public:
 		Semaphore(int32_t initial_count);

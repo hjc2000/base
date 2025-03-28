@@ -12,10 +12,20 @@
 #include "base/string/define.h"
 
 #ifdef __cplusplus
+
+	#include "base/delegate/Delegate.h"
+	#include "base/delegate/IEvent.h"
+	#include "base/Guard.h"
+	#include "base/IIdToken.h"
 	#include "base/sfinae/Compare.h"
 	#include "base/sfinae/Equal.h"
 	#include "base/sfinae/IsConst.h"
 	#include "base/sfinae/TypeSelector.h"
+	#include "base/stream/Stream.h"
+	#include "base/task/delay.h"
+	#include "base/task/IMutex.h"
+	#include "base/task/Semaphore.h"
+	#include "base/task/task.h"
 	#include "boost/multiprecision/cpp_int.hpp"
 	#include "nlohmann/json.hpp"
 	#include <algorithm>
@@ -37,6 +47,7 @@
 	#include <vector>
 
 	#if HAS_THREAD
+
 		#include <filesystem>
 		#include <format>
 		#include <fstream>
