@@ -1,5 +1,8 @@
 #pragma once
+#include "base/task/IMutex.h"
+#include "task/IMutex.h"
 #include <cstdint>
+#include <memory>
 
 namespace base
 {
@@ -10,6 +13,7 @@ namespace base
 	class Version
 	{
 	private:
+		std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
 		uint64_t _value = 0;
 
 	public:
@@ -29,30 +33,15 @@ namespace base
 
 		/* #region 比较运算符 */
 
-		bool operator==(base::Version const &another) const
-		{
-			return _value == another._value;
-		}
+		bool operator==(base::Version const &another) const;
 
-		bool operator<(base::Version const &another) const
-		{
-			return _value < another._value;
-		}
+		bool operator<(base::Version const &another) const;
 
-		bool operator>(base::Version const &another) const
-		{
-			return _value > another._value;
-		}
+		bool operator>(base::Version const &another) const;
 
-		bool operator<=(base::Version const &another) const
-		{
-			return _value <= another._value;
-		}
+		bool operator<=(base::Version const &another) const;
 
-		bool operator>=(base::Version const &another) const
-		{
-			return _value >= another._value;
-		}
+		bool operator>=(base::Version const &another) const;
 
 		/* #endregion */
 
