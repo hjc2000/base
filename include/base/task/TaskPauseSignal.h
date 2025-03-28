@@ -50,4 +50,25 @@ namespace base
 		///
 		void Response();
 	};
+
+	///
+	/// @brief 后台线程函数中需要使用本守卫，防止 UI 线程中发出暂停请求后，后台线程还没响应暂停
+	/// 请求，就遇到异常，直接退出了。这就会导致 UI 线程永久卡死。
+	///
+	class TaskPauseSignalGuard
+	{
+	private:
+		base::TaskPauseSignal &_signal;
+
+	public:
+		TaskPauseSignalGuard(base::TaskPauseSignal &signal)
+			: _signal(signal)
+		{
+		}
+
+		~TaskPauseSignalGuard()
+		{
+			_signal.Dispose();
+		}
+	};
 } // namespace base
