@@ -11,7 +11,7 @@ base::Version &base::Version::operator++()
 base::Version base::Version::operator++(int)
 {
 	base::LockGuard g{*_lock};
-	Version ret{*this};
+	base::Version ret{*this};
 	++(*this);
 	return ret;
 }
