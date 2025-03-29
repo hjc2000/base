@@ -1,4 +1,5 @@
 #pragma once
+#include "base/define.h"
 #include "base/task/IMutex.h"
 #include "Semaphore.h"
 #include <atomic>
@@ -13,14 +14,11 @@ namespace base
 	class TaskCompletionSignal final
 	{
 	private:
+		DELETE_COPY_AND_MOVE(TaskCompletionSignal)
+
 		mutable std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
 		std::shared_ptr<base::Semaphore> _semaphore;
 		std::atomic_bool _disposed = false;
-
-		TaskCompletionSignal(TaskCompletionSignal const &o) = delete;
-		TaskCompletionSignal &operator=(TaskCompletionSignal const &o) = delete;
-		TaskCompletionSignal(TaskCompletionSignal const &&o) = delete;
-		TaskCompletionSignal &operator=(TaskCompletionSignal const &&o) = delete;
 
 	public:
 		///
