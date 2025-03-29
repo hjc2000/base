@@ -43,6 +43,9 @@ namespace base
 		///
 		/// @brief 请求暂停。
 		///
+		/// @note 前台线程如果需要暂停后台线程，就调用本方法，等待后台线程调用 Response 方法。
+		/// 在这之前，本方法将会阻塞。
+		///
 		/// @param pause 传入 true 暂停，传入 false 取消暂停。
 		///
 		void Request(bool pause);
