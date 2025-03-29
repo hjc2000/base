@@ -55,8 +55,13 @@ namespace base
 	};
 
 	///
-	/// @brief 后台线程函数中需要使用本守卫，防止 UI 线程中发出暂停请求后，后台线程还没响应暂停
+	/// @brief 用来响应 TaskPauseSignal 的守卫。
+	///
+	/// @note 后台线程函数中需要使用本守卫，防止 UI 线程中发出暂停请求后，后台线程还没响应暂停
 	/// 请求，就遇到异常，直接退出了。这就会导致 UI 线程永久卡死。
+	///
+	/// @note 本守卫会在析构时响应暂停请求。
+	///
 	///
 	class TaskPauseSignalGuard
 	{
@@ -71,7 +76,7 @@ namespace base
 
 		~TaskPauseSignalGuard()
 		{
-			_signal.Dispose();
+			_signal.Response();
 		}
 	};
 } // namespace base
