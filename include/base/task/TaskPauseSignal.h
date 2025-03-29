@@ -32,6 +32,10 @@ namespace base
 		base::TaskCompletionSignal _response_signal{true};
 
 	public:
+		///
+		/// @brief 析构时会自动调用 Dispose.
+		///
+		///
 		~TaskPauseSignal();
 
 		///
