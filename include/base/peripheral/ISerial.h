@@ -317,6 +317,13 @@ namespace base
 		};
 
 		///
+		/// @brief 主串口。
+		///
+		/// @return
+		///
+		base::serial::ISerial &MainSerial();
+
+		///
 		/// @brief 包含所有可用串口的集合。
 		///
 		/// @note 这里的串口使用的是单例模式。
