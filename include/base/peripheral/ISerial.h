@@ -128,6 +128,8 @@ namespace base
 		public:
 			virtual std::string Name() = 0;
 
+			/* #region Open */
+
 			///
 			/// @brief 打开串口。
 			///
@@ -155,6 +157,8 @@ namespace base
 			/// @param baud_rate 波特率。
 			///
 			void Open(base::serial::BaudRate const &baud_rate);
+
+			/* #endregion */
 
 			/* #region 串口属性 */
 
