@@ -134,7 +134,7 @@ namespace base
 			///
 			/// @return std::string
 			///
-			virtual std::string Name() = 0;
+			virtual std::string Name() const = 0;
 
 			/* #region Open */
 
@@ -182,7 +182,7 @@ namespace base
 			/// @brief 数据传输方向
 			/// @return
 			///
-			virtual base::serial::Direction Direction() = 0;
+			virtual base::serial::Direction Direction() const = 0;
 
 			///
 			/// @brief 波特率。
