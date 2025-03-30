@@ -14,7 +14,6 @@ namespace base
 	public:
 		virtual ~Stream() = default;
 
-	public:
 		/* #region 流属性 */
 
 		///

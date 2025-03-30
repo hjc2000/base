@@ -1,4 +1,5 @@
 #pragma once
+#include "base/container/IDictionary.h"
 #include "base/stream/Stream.h"
 #include <string>
 
@@ -126,6 +127,8 @@ namespace base
 			public base::Stream
 		{
 		public:
+			virtual ~ISerial() = default;
+
 			///
 			/// @brief 串口名称。
 			///
@@ -306,9 +309,21 @@ namespace base
 			///
 			/// @note 关闭后对流的操作将会引发异常。
 			///
+			/// @note 因为本接口是串口接口，所以关闭流也等于关闭串口。
+			///
 			virtual void Close() override = 0;
 
 			/* #endregion */
 		};
+
+		///
+		/// @brief 包含所有可用串口的集合。
+		///
+		/// @note 这里的串口使用的是单例模式。
+		///
+		/// @return
+		///
+		base::IDictionary<std::string, base::serial::ISerial *> const &SerialCollection();
+
 	} // namespace serial
 } // namespace base
