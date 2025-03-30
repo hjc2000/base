@@ -126,6 +126,11 @@ namespace base
 			public base::Stream
 		{
 		public:
+			///
+			/// @brief 串口名称。
+			///
+			/// @return std::string
+			///
 			virtual std::string Name() = 0;
 
 			/* #region Open */
