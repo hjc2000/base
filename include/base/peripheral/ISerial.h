@@ -136,8 +136,6 @@ namespace base
 			///
 			virtual std::string Name() const = 0;
 
-			/* #region Open */
-
 			///
 			/// @brief 打开串口。
 			///
@@ -154,19 +152,6 @@ namespace base
 							  base::serial::Parity parity,
 							  base::serial::StopBits stop_bits,
 							  base::serial::HardwareFlowControl hardware_flow_control) = 0;
-
-			///
-			/// @brief 使用默认参数打开。
-			///
-			void Open();
-
-			///
-			/// @brief 使用指定的波特率打开。其他参数默认。
-			/// @param baud_rate 波特率。
-			///
-			void Open(base::serial::BaudRate const &baud_rate);
-
-			/* #endregion */
 
 			///
 			/// @brief 串口已经打开。
@@ -213,13 +198,6 @@ namespace base
 			/// @return
 			///
 			virtual base::serial::HardwareFlowControl HardwareFlowControl() const = 0;
-
-			///
-			/// @brief 计算 frame_count 个帧占用多少个波特。
-			/// @param frame_count
-			/// @return
-			///
-			uint32_t FramesBaudCount(uint32_t frame_count) const;
 
 			/* #endregion */
 
@@ -316,6 +294,28 @@ namespace base
 			/// @note 因为本接口是串口接口，所以关闭流也等于关闭串口。
 			///
 			virtual void Close() override = 0;
+
+			/* #endregion */
+
+			/* #region 接口扩展 */
+
+			///
+			/// @brief 计算 frame_count 个帧占用多少个波特。
+			/// @param frame_count
+			/// @return
+			///
+			uint32_t FramesBaudCount(uint32_t frame_count) const;
+
+			///
+			/// @brief 使用默认参数打开。
+			///
+			void Open();
+
+			///
+			/// @brief 使用指定的波特率打开。其他参数默认。
+			/// @param baud_rate 波特率。
+			///
+			void Open(base::serial::BaudRate const &baud_rate);
 
 			/* #endregion */
 		};
