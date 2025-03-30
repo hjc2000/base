@@ -281,6 +281,8 @@ namespace base
 
 			/* #region 读写冲关 */
 
+			using base::Stream::Read;
+
 			///
 			/// @brief 将本流的数据读取到 span 中。
 			///
@@ -288,6 +290,8 @@ namespace base
 			/// @return int32_t
 			///
 			virtual int32_t Read(base::Span const &span) override = 0;
+
+			using base::Stream::Write;
 
 			///
 			/// @brief 将 span 中的数据写入本流。
