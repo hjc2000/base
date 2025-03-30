@@ -68,6 +68,7 @@ namespace base
 		/// @param value
 		///
 		virtual void SetPosition(int64_t value) = 0;
+
 		/* #endregion */
 
 		/* #region 读写冲关 */
@@ -101,6 +102,7 @@ namespace base
 		/// @note 关闭后对流的操作将会引发异常。
 		///
 		virtual void Close() = 0;
+
 		/* #endregion */
 
 		/* #region 接口扩展 */
