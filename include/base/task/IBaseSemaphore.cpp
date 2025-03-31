@@ -1,4 +1,5 @@
 #include "IBaseSemaphore.h"
+#include "base/string/define.h"
 #include <cstdint>
 #include <memory>
 #include <semaphore>

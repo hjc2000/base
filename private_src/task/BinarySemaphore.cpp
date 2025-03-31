@@ -1,4 +1,5 @@
 #include "BinarySemaphore.h"
+#include "base/string/define.h"
 #include "base/unit/Nanoseconds.h"
 #include <chrono>
 
