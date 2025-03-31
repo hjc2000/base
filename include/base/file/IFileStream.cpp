@@ -3,6 +3,11 @@
 
 #if HAS_THREAD
 
+std::shared_ptr<base::IFileStream> base::file::OpenOrCreate(base::Path const &path)
+{
+	return base::FileStream::OpenOrCreate(path.ToString());
+}
+
 std::shared_ptr<base::IFileStream> base::file::OpenReadOnly(base::Path const &path)
 {
 	return base::FileStream::OpenReadOnly(path.ToString());
