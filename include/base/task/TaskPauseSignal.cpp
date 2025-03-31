@@ -69,3 +69,20 @@ void base::TaskPauseSignal::Response()
 		_block_thread_signal.Wait();
 	}
 }
+
+/* #region TaskPauseSignalGuard */
+
+base::TaskPauseSignalGuard::TaskPauseSignalGuard(base::TaskPauseSignal &signal)
+	: _signal(signal)
+{
+}
+
+base::TaskPauseSignalGuard::~TaskPauseSignalGuard()
+{
+	// 因为线程退出后，不再能够暂停，也无法再响应暂停请求，所以为了防止 UI 线程
+	// 再次发出暂停请求，需要使用 Dispose 而不是使用 Response 来响应一次暂停
+	// 请求。
+	_signal.Dispose();
+}
+
+/* #endregion */

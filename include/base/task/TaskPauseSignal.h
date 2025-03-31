@@ -67,23 +67,18 @@ namespace base
 	/// @note 后台线程函数中需要使用本守卫，防止 UI 线程中发出暂停请求后，后台线程还没响应暂停
 	/// 请求，就遇到异常，直接退出了。这就会导致 UI 线程永久卡死。
 	///
-	/// @note 本守卫会在析构时响应暂停请求。
-	///
-	///
 	class TaskPauseSignalGuard
 	{
 	private:
 		base::TaskPauseSignal &_signal;
 
 	public:
-		TaskPauseSignalGuard(base::TaskPauseSignal &signal)
-			: _signal(signal)
-		{
-		}
+		TaskPauseSignalGuard(base::TaskPauseSignal &signal);
 
-		~TaskPauseSignalGuard()
-		{
-			_signal.Response();
-		}
+		///
+		/// @brief 析构。会 Dispose base::TaskPauseSignal, 使其不再能够使用。
+		///
+		///
+		~TaskPauseSignalGuard();
 	};
 } // namespace base
