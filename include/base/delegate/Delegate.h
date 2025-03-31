@@ -1,7 +1,9 @@
 #pragma once
 #include "base/delegate/IEvent.h"
+#include "base/IDisposable.h"
 #include "base/string/define.h"
 #include "base/task/IMutex.h"
+#include <atomic>
 #include <cstdint>
 #include <map>
 
@@ -16,12 +18,14 @@ namespace base
 	///
 	template <typename... Args>
 	class Delegate final :
-		public base::IEvent<Args...>
+		public base::IEvent<Args...>,
+		public base::IDisposable
 	{
 	private:
 		std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
 		std::map<uint64_t, std::function<void(Args...)>> _functions;
 		uint64_t _next_id = 0;
+		std::atomic_bool _disposed = false;
 
 	private:
 		/* #region IdToken */
@@ -54,6 +58,32 @@ namespace base
 		/* #endregion */
 
 	public:
+		~Delegate()
+		{
+			Dispose();
+		}
+
+		///
+		/// @brief 主动释放对象，让对象不再能够工作。
+		///
+		///
+		virtual void Dispose() override
+		{
+			if (_disposed)
+			{
+				return;
+			}
+
+			base::LockGuard g{*_lock};
+			if (_disposed)
+			{
+				return;
+			}
+
+			_disposed = true;
+			_functions.clear();
+		}
+
 		///
 		/// @brief 订阅事件。
 		///
@@ -62,7 +92,17 @@ namespace base
 		///
 		virtual base::SpIIdToken Subscribe(std::function<void(Args...)> const &func) override
 		{
+			if (_disposed)
+			{
+				throw base::ObjectDisposedException{CODE_POS_STR + "释放后无法订阅。"};
+			}
+
 			base::LockGuard g{*_lock};
+			if (_disposed)
+			{
+				throw base::ObjectDisposedException{CODE_POS_STR + "释放后无法订阅。"};
+			}
+
 			uint64_t id = _next_id++;
 			_functions[id] = func;
 			return base::SpIIdToken{new IdToken{this, id}};
@@ -85,7 +125,17 @@ namespace base
 				throw std::invalid_argument{CODE_POS_STR + "传入了错误的 IIdToken，它不是本对象发放的。"};
 			}
 
+			if (_disposed)
+			{
+				throw base::ObjectDisposedException{CODE_POS_STR + "释放后不需要取消订阅，因为委托 map 清空了。"};
+			}
+
 			base::LockGuard g{*_lock};
+			if (_disposed)
+			{
+				throw base::ObjectDisposedException{CODE_POS_STR + "释放后不需要取消订阅，因为委托 map 清空了。"};
+			}
+
 			auto it = _functions.find(token->ID());
 			if (it != _functions.end())
 			{
@@ -99,7 +149,17 @@ namespace base
 		///
 		void Invoke(Args... args)
 		{
+			if (_disposed)
+			{
+				throw base::ObjectDisposedException{CODE_POS_STR + "释放后无法调用。"};
+			}
+
 			base::LockGuard g{*_lock};
+			if (_disposed)
+			{
+				throw base::ObjectDisposedException{CODE_POS_STR + "释放后无法调用。"};
+			}
+
 			for (auto &func : _functions)
 			{
 				func.second(args...);
