@@ -1,5 +1,4 @@
 #pragma once
-
 #include "base/container/IDictionary.h"
 
 namespace base
@@ -56,8 +55,25 @@ namespace base
 		///
 		base::IDictionary<std::string, base::led::IDigitalLed *> const &DigitalLedCollection();
 
+		///
+		/// @brief 红色 LED.
+		///
+		/// @return base::led::IDigitalLed&
+		///
 		base::led::IDigitalLed &RedDigitalLed();
+
+		///
+		/// @brief 绿色 LED.
+		///
+		/// @return base::led::IDigitalLed&
+		///
 		base::led::IDigitalLed &GreenDigitalLed();
+
+		///
+		/// @brief 蓝色 LED.
+		///
+		/// @return base::led::IDigitalLed&
+		///
 		base::led::IDigitalLed &BlueDigitalLed();
 
 	} // namespace led
