@@ -64,8 +64,9 @@ namespace base
 		}
 
 		///
-		/// @brief 主动释放对象，让对象不再能够工作。
+		/// @brief 释放后会清空委托 map, 并且无法再订阅或调用委托。
 		///
+		/// @note 因为委托 map 被清空了，所以也不需要取消订阅了，取消订阅操作也会引发异常。
 		///
 		virtual void Dispose() override
 		{
