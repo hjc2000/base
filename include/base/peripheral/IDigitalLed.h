@@ -1,5 +1,7 @@
 #pragma once
 
+#include "base/container/IDictionary.h"
+
 namespace base
 {
 	namespace led
@@ -46,6 +48,17 @@ namespace base
 			virtual base::led::State State() = 0;
 
 		}; // class IDigitalLed
+
+		///
+		/// @brief 数字 LED 灯集合。
+		///
+		/// @return
+		///
+		base::IDictionary<std::string, base::led::IDigitalLed *> const &DigitalLedCollection();
+
+		base::led::IDigitalLed &RedDigitalLed();
+		base::led::IDigitalLed &GreenDigitalLed();
+		base::led::IDigitalLed &BlueDigitalLed();
 
 	} // namespace led
 } // namespace base
