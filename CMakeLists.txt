@@ -13,9 +13,6 @@ if(1)
 endif()
 
 
-include(target_import_boost)
-include(target_import_nlohmann_json)
-
 # 编译目标
 add_library(${ProjectName})
 target_import_src(${ProjectName})
