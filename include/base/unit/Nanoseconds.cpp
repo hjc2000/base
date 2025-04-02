@@ -4,6 +4,8 @@
 #include "base/unit/Seconds.h"
 #include <chrono>
 
+/* #region 构造函数 */
+
 base::Nanoseconds::Nanoseconds(base::Fraction const &value)
 {
 	_value = value;
@@ -59,10 +61,19 @@ base::Nanoseconds::Nanoseconds(std::chrono::nanoseconds const &value)
 {
 }
 
+/* #endregion */
+
+base::Fraction &base::Nanoseconds::Value()
+{
+	return _value;
+}
+
 std::string base::Nanoseconds::UnitString() const
 {
 	return "ns";
 }
+
+/* #region 强制转换运算符 */
 
 base::Nanoseconds::operator std::chrono::seconds() const
 {
@@ -86,3 +97,5 @@ base::Nanoseconds::operator std::chrono::nanoseconds() const
 {
 	return std::chrono::nanoseconds{static_cast<int64_t>(_value)};
 }
+
+/* #endregion */

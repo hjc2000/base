@@ -1,6 +1,9 @@
 #include "Minutes.h"
 #include "base/unit/Hours.h"
 #include "base/unit/Seconds.h"
+#include "Nanoseconds.h"
+
+/* #region 构造函数 */
 
 base::Minutes::Minutes(base::Fraction const &value)
 {
@@ -52,10 +55,24 @@ base::Minutes::Minutes(std::chrono::microseconds const &value)
 {
 }
 
+base::Minutes::Minutes(std::chrono::nanoseconds const &value)
+	: base::Minutes(base::Nanoseconds{value})
+{
+}
+
+/* #endregion */
+
+base::Fraction &base::Minutes::Value()
+{
+	return _value;
+}
+
 std::string base::Minutes::UnitString() const
 {
 	return "m";
 }
+
+/* #region 强制转换运算符 */
 
 base::Minutes::operator std::chrono::seconds() const
 {
@@ -71,3 +88,5 @@ base::Minutes::operator std::chrono::microseconds() const
 {
 	return std::chrono::seconds{base::Seconds{*this}};
 }
+
+/* #endregion */

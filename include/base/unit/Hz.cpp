@@ -31,6 +31,11 @@ base::Hz::Hz(base::Nanoseconds const &value)
 
 /* #endregion */
 
+base::Fraction &base::Hz::Value()
+{
+	return _value;
+}
+
 std::string base::Hz::UnitString() const
 {
 	return "Hz";

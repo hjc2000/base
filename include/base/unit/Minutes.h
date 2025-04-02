@@ -30,14 +30,20 @@ namespace base
 		explicit Minutes(std::chrono::seconds const &value);
 		explicit Minutes(std::chrono::milliseconds const &value);
 		explicit Minutes(std::chrono::microseconds const &value);
+		explicit Minutes(std::chrono::nanoseconds const &value);
 
-		virtual base::Fraction &Value() override
-		{
-			return _value;
-		}
+		///
+		/// @brief 单位的值。
+		///
+		/// @return base::Fraction&
+		///
+		virtual base::Fraction &Value() override;
 
+		///
 		/// @brief 单位的字符串。
-		/// @return
+		///
+		/// @return std::string
+		///
 		virtual std::string UnitString() const override;
 
 		explicit operator std::chrono::seconds() const;

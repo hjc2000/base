@@ -11,7 +11,10 @@ namespace base
 	class Seconds;
 	class Nanoseconds;
 
+	///
 	/// @brief 纳秒
+	///
+	///
 	class Nanoseconds :
 		public base::IUnit<Nanoseconds>
 	{
@@ -32,13 +35,18 @@ namespace base
 		explicit Nanoseconds(std::chrono::microseconds const &value);
 		explicit Nanoseconds(std::chrono::nanoseconds const &value);
 
-		virtual base::Fraction &Value() override
-		{
-			return _value;
-		}
+		///
+		/// @brief 单位的值。
+		///
+		/// @return base::Fraction&
+		///
+		virtual base::Fraction &Value() override;
 
+		///
 		/// @brief 单位的字符串。
-		/// @return
+		///
+		/// @return std::string
+		///
 		virtual std::string UnitString() const override;
 
 		explicit operator std::chrono::seconds() const;
