@@ -29,6 +29,8 @@ namespace base
 		///
 		bool ShouldReverse() const;
 
+		/* #region 转换为数值类型 */
+
 		///
 		/// @brief 从缓冲区中 offset 处开始，反序列化出 uint16_t.
 		///
@@ -177,6 +179,10 @@ namespace base
 		///
 		double ToDouble(base::Stream &stream) const;
 
+		/* #endregion */
+
+		/* #region GetBytes */
+
 		///
 		/// @brief 将 value 序列化到缓冲区中的 offset 处。
 		///
@@ -318,5 +324,7 @@ namespace base
 		/// @return
 		///
 		void GetBytes(double value, base::Stream &stream) const;
+
+		/* #endregion */
 	};
 } // namespace base
