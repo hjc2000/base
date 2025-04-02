@@ -1,5 +1,6 @@
 #include "IBaseSemaphore.h"
 #include "base/string/define.h"
+#include "base/unit/Seconds.h"
 #include <cstdint>
 #include <memory>
 #include <semaphore>
@@ -65,7 +66,7 @@ namespace
 		///
 		virtual bool TryAcquire(base::Seconds const &timeout) override
 		{
-			if (timeout < 0)
+			if (timeout < base::Seconds{0})
 			{
 				throw std::invalid_argument{CODE_POS_STR + "超时时间不能 <= 0."};
 			}

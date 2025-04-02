@@ -1,6 +1,7 @@
 #include "BinarySemaphore.h"
 #include "base/string/define.h"
 #include "base/unit/Nanoseconds.h"
+#include "base/unit/Seconds.h"
 #include <chrono>
 
 #if HAS_THREAD
@@ -27,7 +28,7 @@ void base::BinarySemaphore::Acquire()
 
 bool base::BinarySemaphore::TryAcquire(base::Seconds const &timeout)
 {
-	if (timeout < 0)
+	if (timeout < base::Seconds{0})
 	{
 		throw std::invalid_argument{CODE_POS_STR + "超时时间不能 <= 0."};
 	}
