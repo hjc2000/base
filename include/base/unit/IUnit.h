@@ -136,16 +136,6 @@ namespace base
 														  !has_equal_operator<_type>::value,
 													  bool>;
 
-		///
-		/// @brief 用来判定是否使能加减运算。
-		///
-		/// @note 必须得是显示构造的单位类型的对象才能与本对象加减。此时才允许使能加减运算符。
-		///
-		template <typename _type, typename _return_type>
-		using enable_add_sub_judge = std::enable_if_t<!std::is_same_v<_type, int64_t> &&
-														  !std::is_same_v<_type, base::Fraction>,
-													  _return_type>;
-
 	public:
 		/* #region 接口 */
 
@@ -233,27 +223,63 @@ namespace base
 			return -Value();
 		}
 
+		///
+		/// @brief 加上本单位或能够转换为本单位的其他单位的值。
+		///
+		/// @param value
+		/// @return std::enable_if_t<!std::is_same_v<_type, int64_t> && !std::is_same_v<_type, base::Fraction>, TSelf>
+		///
 		template <typename _type>
-		auto operator+(_type const &value) const -> enable_add_sub_judge<_type, TSelf>
+		auto operator+(_type const &value) const
+			-> std::enable_if_t<!std::is_same_v<_type, int64_t> &&
+									!std::is_same_v<_type, base::Fraction>,
+								TSelf>
 		{
 			return TSelf{Value() + TSelf{value}.Value()};
 		}
 
+		///
+		/// @brief 加上本单位或能够转换为本单位的其他单位的值。
+		///
+		/// @param value
+		/// @return std::enable_if_t<!std::is_same_v<_type, int64_t> && !std::is_same_v<_type, base::Fraction>, TSelf &>
+		///
 		template <typename _type>
-		auto operator+=(_type const &value) -> enable_add_sub_judge<_type, TSelf &>
+		auto operator+=(_type const &value)
+			-> std::enable_if_t<!std::is_same_v<_type, int64_t> &&
+									!std::is_same_v<_type, base::Fraction>,
+								TSelf &>
 		{
 			Value() += TSelf{value}.Value();
 			return *reinterpret_cast<TSelf *>(this);
 		}
 
+		///
+		/// @brief 减去本单位或能够转换为本单位的其他单位的值。
+		///
+		/// @param value
+		/// @return std::enable_if_t<!std::is_same_v<_type, int64_t> && !std::is_same_v<_type, base::Fraction>, TSelf>
+		///
 		template <typename _type>
-		auto operator-(_type const &value) const -> enable_add_sub_judge<_type, TSelf>
+		auto operator-(_type const &value) const
+			-> std::enable_if_t<!std::is_same_v<_type, int64_t> &&
+									!std::is_same_v<_type, base::Fraction>,
+								TSelf>
 		{
 			return TSelf{Value() - TSelf{value}.Value()};
 		}
 
+		///
+		/// @brief 减去本单位或能够转换为本单位的其他单位的值。
+		///
+		/// @param value
+		/// @return std::enable_if_t<!std::is_same_v<_type, int64_t> && !std::is_same_v<_type, base::Fraction>, TSelf &>
+		///
 		template <typename _type>
-		auto operator-=(_type const &value) -> enable_add_sub_judge<_type, TSelf &>
+		auto operator-=(_type const &value)
+			-> std::enable_if_t<!std::is_same_v<_type, int64_t> &&
+									!std::is_same_v<_type, base::Fraction>,
+								TSelf &>
 		{
 			Value() -= TSelf{value}.Value();
 			return *reinterpret_cast<TSelf *>(this);
@@ -267,9 +293,11 @@ namespace base
 		///
 		template <typename _type>
 		auto operator*(_type const &value) const
-			-> std::enable_if_t<std::is_same_v<_type, int64_t> || std::is_same_v<_type, base::Fraction>, TSelf>
+			-> std::enable_if_t<std::is_same_v<_type, int64_t> ||
+									std::is_same_v<_type, base::Fraction>,
+								TSelf>
 		{
-			return TSelf{Value() * TSelf{value}.Value()};
+			return TSelf{Value() * value};
 		}
 
 		///
@@ -280,31 +308,58 @@ namespace base
 		///
 		template <typename _type>
 		auto operator*=(_type const &value)
-			-> std::enable_if_t<std::is_same_v<_type, int64_t> || std::is_same_v<_type, base::Fraction>, TSelf &>
+			-> std::enable_if_t<std::is_same_v<_type, int64_t> ||
+									std::is_same_v<_type, base::Fraction>,
+								TSelf &>
 		{
-			Value() *= TSelf{value}.Value();
+			Value() *= value;
 			return *reinterpret_cast<TSelf *>(this);
 		}
 
+		///
+		/// @brief 除以一个无量纲的系数。
+		///
+		/// @param value
+		/// @return std::enable_if_t<std::is_same_v<_type, int64_t> || std::is_same_v<_type, base::Fraction>, TSelf>
+		///
 		template <typename _type>
 		auto operator/(_type const &value) const
-			-> std::enable_if_t<std::is_same_v<_type, int64_t> || std::is_same_v<_type, base::Fraction>, TSelf>
+			-> std::enable_if_t<std::is_same_v<_type, int64_t> ||
+									std::is_same_v<_type, base::Fraction>,
+								TSelf>
 		{
-			return TSelf{Value() / TSelf{value}.Value()};
+			return TSelf{Value() / value};
 		}
 
+		///
+		/// @brief 除以一个无量纲的系数。
+		///
+		/// @param value
+		/// @return std::enable_if_t<std::is_same_v<_type, int64_t> || std::is_same_v<_type, base::Fraction>, TSelf &>
+		///
+		template <typename _type>
+		auto operator/=(_type const &value)
+			-> std::enable_if_t<std::is_same_v<_type, int64_t> ||
+									std::is_same_v<_type, base::Fraction>,
+								TSelf &>
+		{
+			Value() /= value;
+			return *reinterpret_cast<TSelf *>(this);
+		}
+
+		///
+		/// @brief 除以本单位或能够转换为本单位的其他单位，变成一个无量纲的常数。
+		///
+		/// @param value
+		/// @return std::enable_if_t<!std::is_same_v<_type, int64_t> && !std::is_same_v<_type, base::Fraction>, base::Fraction>
+		///
 		template <typename _type>
 		auto operator/(_type const &value) const
-			-> std::enable_if_t<!std::is_same_v<_type, int64_t> && !std::is_same_v<_type, base::Fraction>, base::Fraction>
+			-> std::enable_if_t<!std::is_same_v<_type, int64_t> &&
+									!std::is_same_v<_type, base::Fraction>,
+								base::Fraction>
 		{
 			return Value() / TSelf{value}.Value();
-		}
-
-		template <typename T>
-		TSelf &operator/=(T const &value)
-		{
-			Value() /= TSelf{value}.Value();
-			return *reinterpret_cast<TSelf *>(this);
 		}
 
 		/* #endregion */
