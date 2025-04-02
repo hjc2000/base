@@ -17,8 +17,8 @@ namespace base
 
 	public:
 		Nm() = default;
-		Nm(int64_t value);
-		Nm(base::Fraction const &value);
+		explicit Nm(int64_t value);
+		explicit Nm(base::Fraction const &value);
 
 		///
 		/// @brief 单位的值。
