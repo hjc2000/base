@@ -11,6 +11,8 @@ bool base::AutoBitConverter::ShouldReverse() const
 	return std::endian::native != _remote_endian;
 }
 
+/* #region 转换为数值类型 */
+
 uint16_t base::AutoBitConverter::ToUInt16(base::ReadOnlySpan const &span) const
 {
 	uint16_t ret = bit_converte::ToUInt16(span);
@@ -203,6 +205,10 @@ double base::AutoBitConverter::ToDouble(base::Stream &stream) const
 	return ToDouble(base::Span{buffer, sizeof(buffer)});
 }
 
+/* #endregion */
+
+/* #region GetBytes */
+
 void base::AutoBitConverter::GetBytes(uint16_t value, base::Span const &span) const
 {
 	base::bit_converte::GetBytes(value, span);
@@ -362,3 +368,5 @@ void base::AutoBitConverter::GetBytes(double value, base::Stream &stream) const
 
 	stream.Write(buffer, 0, sizeof(value));
 }
+
+/* #endregion */
