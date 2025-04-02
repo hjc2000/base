@@ -199,25 +199,30 @@ namespace base
 		///
 		/// @brief 向下取整
 		///
-		/// @return int64_t
+		/// @return TSelf
 		///
-		int64_t Floor() const
+		TSelf Floor() const
 		{
-			return Value().Floor();
+			return TSelf{Value().Floor()};
 		}
 
 		///
 		/// @brief 向上取整
 		///
-		/// @return int64_t
+		/// @return TSelf
 		///
-		int64_t Ceil() const
+		TSelf Ceil() const
 		{
-			return Value().Ceil();
+			return TSelf{Value().Ceil()};
 		}
 
 		/* #region 算术运算 */
 
+		///
+		/// @brief 取相反数。
+		///
+		/// @return TSelf
+		///
 		TSelf operator-() const
 		{
 			return -Value();
@@ -227,7 +232,7 @@ namespace base
 		/// @brief 加上本单位或能够转换为本单位的其他单位的值。
 		///
 		/// @param value
-		/// @return std::enable_if_t<!std::convertible_to<_type, int64_t> && !std::convertible_to<_type, base::Fraction>, TSelf>
+		/// @return TSelf
 		///
 		template <typename _type>
 		auto operator+(_type const &value) const
@@ -242,7 +247,7 @@ namespace base
 		/// @brief 加上本单位或能够转换为本单位的其他单位的值。
 		///
 		/// @param value
-		/// @return std::enable_if_t<!std::convertible_to<_type, int64_t> && !std::convertible_to<_type, base::Fraction>, TSelf &>
+		/// @return TSelf &
 		///
 		template <typename _type>
 		auto operator+=(_type const &value)
@@ -258,7 +263,7 @@ namespace base
 		/// @brief 减去本单位或能够转换为本单位的其他单位的值。
 		///
 		/// @param value
-		/// @return std::enable_if_t<!std::convertible_to<_type, int64_t> && !std::convertible_to<_type, base::Fraction>, TSelf>
+		/// @return TSelf
 		///
 		template <typename _type>
 		auto operator-(_type const &value) const
@@ -273,7 +278,7 @@ namespace base
 		/// @brief 减去本单位或能够转换为本单位的其他单位的值。
 		///
 		/// @param value
-		/// @return std::enable_if_t<!std::convertible_to<_type, int64_t> && !std::convertible_to<_type, base::Fraction>, TSelf &>
+		/// @return TSelf &
 		///
 		template <typename _type>
 		auto operator-=(_type const &value)
@@ -289,7 +294,7 @@ namespace base
 		/// @brief 乘上无量纲的系数。
 		///
 		/// @param value
-		/// @return std::enable_if_t<std::convertible_to<_type, int64_t> || std::convertible_to<_type, base::Fraction>, TSelf>
+		/// @return TSelf
 		///
 		template <typename _type>
 		auto operator*(_type const &value) const
@@ -304,7 +309,7 @@ namespace base
 		/// @brief 乘上无量纲的系数。
 		///
 		/// @param value
-		/// @return std::enable_if_t<std::convertible_to<_type, int64_t> || std::convertible_to<_type, base::Fraction>, TSelf &>
+		/// @return sTSelf &
 		///
 		template <typename _type>
 		auto operator*=(_type const &value)
@@ -320,7 +325,7 @@ namespace base
 		/// @brief 除以一个无量纲的系数。
 		///
 		/// @param value
-		/// @return std::enable_if_t<std::convertible_to<_type, int64_t> || std::convertible_to<_type, base::Fraction>, TSelf>
+		/// @return TSelf
 		///
 		template <typename _type>
 		auto operator/(_type const &value) const
@@ -335,7 +340,7 @@ namespace base
 		/// @brief 除以一个无量纲的系数。
 		///
 		/// @param value
-		/// @return std::enable_if_t<std::convertible_to<_type, int64_t> || std::convertible_to<_type, base::Fraction>, TSelf &>
+		/// @return TSelf &
 		///
 		template <typename _type>
 		auto operator/=(_type const &value)
@@ -351,7 +356,7 @@ namespace base
 		/// @brief 除以本单位或能够转换为本单位的其他单位，变成一个无量纲的常数。
 		///
 		/// @param value
-		/// @return std::enable_if_t<!std::convertible_to<_type, int64_t> && !std::convertible_to<_type, base::Fraction>, base::Fraction>
+		/// @return base::Fraction
 		///
 		template <typename _type>
 		auto operator/(_type const &value) const
@@ -415,16 +420,20 @@ inline std::ostream &operator<<(std::ostream &ostream, base::IUnit<T> const &rig
 }
 
 ///
-/// @brief IUnit 乘法。
+/// @brief 单位乘上一个无量纲的系数。
 ///
 /// @param left
 /// @param right
-/// @return template <typename T>
 ///
-template <typename T>
-inline T operator*(base::Fraction const &left, base::IUnit<T> const &right)
+/// @return TUnit
+///
+template <typename TLeft, typename TUnit>
+inline auto operator*(TLeft const &left, base::IUnit<TUnit> const &right)
+	-> std::enable_if_t<std::convertible_to<TLeft, int64_t> ||
+							std::convertible_to<TLeft, base::Fraction>,
+						TUnit>
 {
-	return T{left * static_cast<base::Fraction>(right)};
+	return right * left;
 }
 
 namespace std
@@ -433,10 +442,10 @@ namespace std
 	/// @brief 向下取整
 	///
 	/// @param value
-	/// @return template <typename T>
+	/// @return TUnit
 	///
-	template <typename T>
-	inline int64_t floor(base::IUnit<T> const &value)
+	template <typename TUnit>
+	inline TUnit floor(base::IUnit<TUnit> const &value)
 	{
 		return value.Floor();
 	}
@@ -445,10 +454,10 @@ namespace std
 	/// @brief 向上取整
 	///
 	/// @param value
-	/// @return template <typename T>
+	/// @return TUnit
 	///
-	template <typename T>
-	inline int64_t ceil(base::IUnit<T> const &value)
+	template <typename TUnit>
+	inline TUnit ceil(base::IUnit<TUnit> const &value)
 	{
 		return value.Ceil();
 	}
