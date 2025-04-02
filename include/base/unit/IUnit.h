@@ -196,6 +196,8 @@ namespace base
 			return const_cast<IUnit<TSelf> *>(this)->Value();
 		}
 
+		/* #region 算术运算 */
+
 		///
 		/// @brief 向下取整
 		///
@@ -215,8 +217,6 @@ namespace base
 		{
 			return TSelf{Value().Ceil()};
 		}
-
-		/* #region 算术运算 */
 
 		///
 		/// @brief 取相反数。
