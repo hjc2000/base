@@ -20,6 +20,8 @@ namespace base
 		explicit Nm(int64_t value);
 		explicit Nm(base::Fraction const &value);
 
+		using base::IUnit<Nm>::Value;
+
 		///
 		/// @brief 单位的值。
 		///
