@@ -30,8 +30,6 @@ namespace base
 
 		PeriodicSamplingClock &operator+=(base::Seconds value);
 		PeriodicSamplingClock &operator-=(base::Seconds value);
-		PeriodicSamplingClock &operator*=(base::Seconds value);
-		PeriodicSamplingClock &operator/=(base::Seconds value);
 
 		///
 		/// @brief 本时钟的周期。

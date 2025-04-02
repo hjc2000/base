@@ -16,7 +16,7 @@ namespace base
 		public base::ICanToString
 	{
 	private:
-		/* #region 类型 */
+		/* #region 判断是否有比较运算符的模板 */
 
 		///
 		/// @brief 有等于运算符
@@ -123,13 +123,28 @@ namespace base
 		{
 		};
 
-		template <typename _type>
-		using enable_compare_condition = std::enable_if_t<!std::is_same_v<_type, int64_t> &&
-															  !std::is_same_v<_type, base::Fraction> &&
-															  !has_equal_operator<_type>::value,
-														  bool>;
-
 		/* #endregion */
+
+		///
+		/// @brief 是否使能比较运算符的判定模板
+		///
+		/// @note 必须得是显式构造的单位类型对象才能与本对象比较，此时才允许使能比较运算符。
+		///
+		template <typename _type>
+		using enable_compare_judge = std::enable_if_t<!std::is_same_v<_type, int64_t> &&
+														  !std::is_same_v<_type, base::Fraction> &&
+														  !has_equal_operator<_type>::value,
+													  bool>;
+
+		///
+		/// @brief 用来判定是否使能加减运算。
+		///
+		/// @note 必须得是显示构造的单位类型的对象才能与本对象加减。此时才允许使能加减运算符。
+		///
+		template <typename _type, typename _return_type>
+		using enable_add_sub_judge = std::enable_if_t<!std::is_same_v<_type, int64_t> &&
+														  !std::is_same_v<_type, base::Fraction>,
+													  _return_type>;
 
 	public:
 		/* #region 接口 */
@@ -218,49 +233,71 @@ namespace base
 			return -Value();
 		}
 
-		template <typename T>
-		TSelf operator+(T const &value) const
+		template <typename _type>
+		auto operator+(_type const &value) const -> enable_add_sub_judge<_type, TSelf>
 		{
 			return TSelf{Value() + TSelf{value}.Value()};
 		}
 
-		template <typename T>
-		TSelf operator-(T const &value) const
-		{
-			return TSelf{Value() - TSelf{value}.Value()};
-		}
-
-		template <typename T>
-		TSelf operator*(T const &value) const
-		{
-			return TSelf{Value() * TSelf{value}.Value()};
-		}
-
-		template <typename T>
-		TSelf operator/(T const &value) const
-		{
-			return TSelf{Value() / TSelf{value}.Value()};
-		}
-
-		template <typename T>
-		TSelf &operator+=(T const &value)
+		template <typename _type>
+		auto operator+=(_type const &value) -> enable_add_sub_judge<_type, TSelf &>
 		{
 			Value() += TSelf{value}.Value();
 			return *reinterpret_cast<TSelf *>(this);
 		}
 
-		template <typename T>
-		TSelf &operator-=(T const &value)
+		template <typename _type>
+		auto operator-(_type const &value) const -> enable_add_sub_judge<_type, TSelf>
+		{
+			return TSelf{Value() - TSelf{value}.Value()};
+		}
+
+		template <typename _type>
+		auto operator-=(_type const &value) -> enable_add_sub_judge<_type, TSelf &>
 		{
 			Value() -= TSelf{value}.Value();
 			return *reinterpret_cast<TSelf *>(this);
 		}
 
-		template <typename T>
-		TSelf &operator*=(T const &value)
+		///
+		/// @brief 乘上无量纲的系数。
+		///
+		/// @param value
+		/// @return std::enable_if_t<std::is_same_v<_type, int64_t> || std::is_same_v<_type, base::Fraction>, TSelf>
+		///
+		template <typename _type>
+		auto operator*(_type const &value) const
+			-> std::enable_if_t<std::is_same_v<_type, int64_t> || std::is_same_v<_type, base::Fraction>, TSelf>
+		{
+			return TSelf{Value() * TSelf{value}.Value()};
+		}
+
+		///
+		/// @brief 乘上无量纲的系数。
+		///
+		/// @param value
+		/// @return std::enable_if_t<std::is_same_v<_type, int64_t> || std::is_same_v<_type, base::Fraction>, TSelf &>
+		///
+		template <typename _type>
+		auto operator*=(_type const &value)
+			-> std::enable_if_t<std::is_same_v<_type, int64_t> || std::is_same_v<_type, base::Fraction>, TSelf &>
 		{
 			Value() *= TSelf{value}.Value();
 			return *reinterpret_cast<TSelf *>(this);
+		}
+
+		template <typename _type>
+		auto operator/(_type const &value) const
+			-> std::enable_if_t<std::is_same_v<_type, int64_t> || std::is_same_v<_type, base::Fraction>, TSelf>
+		{
+			return TSelf{Value() / TSelf{value}.Value()};
+		}
+
+		template <typename _type>
+		auto operator/(_type const &value) const
+			-> std::enable_if_t<!std::is_same_v<_type, int64_t> && !std::is_same_v<_type, base::Fraction>, base::Fraction>
+		{
+			return Value() / TSelf{value}.Value();
 		}
 
 		template <typename T>
@@ -275,31 +312,31 @@ namespace base
 		/* #region 比较 */
 
 		template <typename T>
-		auto operator==(T const &value) const -> enable_compare_condition<T>
+		auto operator==(T const &value) const -> enable_compare_judge<T>
 		{
 			return Value() == TSelf{value}.Value();
 		}
 
 		template <typename T>
-		auto operator<(T const &value) const -> enable_compare_condition<T>
+		auto operator<(T const &value) const -> enable_compare_judge<T>
 		{
 			return Value() < TSelf{value}.Value();
 		}
 
 		template <typename T>
-		auto operator>(T const &value) const -> enable_compare_condition<T>
+		auto operator>(T const &value) const -> enable_compare_judge<T>
 		{
 			return Value() > TSelf{value}.Value();
 		}
 
 		template <typename T>
-		auto operator<=(T const &value) const -> enable_compare_condition<T>
+		auto operator<=(T const &value) const -> enable_compare_judge<T>
 		{
 			return Value() <= TSelf{value}.Value();
 		}
 
 		template <typename T>
-		auto operator>=(T const &value) const -> enable_compare_condition<T>
+		auto operator>=(T const &value) const -> enable_compare_judge<T>
 		{
 			return Value() >= TSelf{value}.Value();
 		}

@@ -26,20 +26,6 @@ base::PeriodicSamplingClock &base::PeriodicSamplingClock::operator-=(base::Secon
 	return *this;
 }
 
-base::PeriodicSamplingClock &base::PeriodicSamplingClock::operator*=(base::Seconds value)
-{
-	_current_time *= value;
-	AdjustTime();
-	return *this;
-}
-
-base::PeriodicSamplingClock &base::PeriodicSamplingClock::operator/=(base::Seconds value)
-{
-	_current_time /= value;
-	AdjustTime();
-	return *this;
-}
-
 base::Seconds base::PeriodicSamplingClock::Period() const
 {
 	return _period;
