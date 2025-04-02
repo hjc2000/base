@@ -31,6 +31,7 @@ namespace base
 		explicit Days(std::chrono::seconds const &value);
 		explicit Days(std::chrono::milliseconds const &value);
 		explicit Days(std::chrono::microseconds const &value);
+		explicit Days(std::chrono::nanoseconds const &value);
 
 		virtual base::Fraction &Value() override
 		{

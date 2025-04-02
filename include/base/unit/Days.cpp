@@ -1,5 +1,8 @@
 #include "Days.h"
 #include "base/unit/Hours.h"
+#include "base/unit/Nanoseconds.h"
+
+/* #region 构造函数 */
 
 base::Days::Days(base::Fraction const &value)
 {
@@ -56,6 +59,15 @@ base::Days::Days(std::chrono::microseconds const &value)
 {
 }
 
+base::Days::Days(std::chrono::nanoseconds const &value)
+	: Days(base::Nanoseconds{value})
+{
+}
+
+/* #endregion */
+
+/* #region 强制转换运算符 */
+
 base::Days::operator std::chrono::seconds() const
 {
 	return std::chrono::seconds{base::Hours{*this}};
@@ -70,3 +82,5 @@ base::Days::operator std::chrono::microseconds() const
 {
 	return std::chrono::seconds{base::Hours{*this}};
 }
+
+/* #endregion */
