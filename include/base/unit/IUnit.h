@@ -1,6 +1,7 @@
 #pragma once
 #include "base/math/Fraction.h"
 #include "base/string/ICanToString.h"
+#include <cstdint>
 #include <ostream>
 #include <type_traits>
 
@@ -121,6 +122,12 @@ namespace base
 			std::true_type
 		{
 		};
+
+		template <typename _type>
+		using enable_compare_condition = std::enable_if_t<!std::is_same_v<_type, int64_t> &&
+															  !std::is_same_v<_type, base::Fraction> &&
+															  !has_equal_operator<_type>::value,
+														  bool>;
 
 		/* #endregion */
 
@@ -268,36 +275,31 @@ namespace base
 		/* #region 比较 */
 
 		template <typename T>
-		auto operator==(T const &value) const
-			-> std::enable_if_t<!has_equal_operator<T>::value, bool>
+		auto operator==(T const &value) const -> enable_compare_condition<T>
 		{
 			return Value() == TSelf{value}.Value();
 		}
 
 		template <typename T>
-		auto operator<(T const &value) const
-			-> std::enable_if_t<!has_less_operator<T>::value, bool>
+		auto operator<(T const &value) const -> enable_compare_condition<T>
 		{
 			return Value() < TSelf{value}.Value();
 		}
 
 		template <typename T>
-		auto operator>(T const &value) const
-			-> std::enable_if_t<!has_greater_operator<T>::value, bool>
+		auto operator>(T const &value) const -> enable_compare_condition<T>
 		{
 			return Value() > TSelf{value}.Value();
 		}
 
 		template <typename T>
-		auto operator<=(T const &value) const
-			-> std::enable_if_t<!has_less_equal_operator<T>::value, bool>
+		auto operator<=(T const &value) const -> enable_compare_condition<T>
 		{
 			return Value() <= TSelf{value}.Value();
 		}
 
 		template <typename T>
-		auto operator>=(T const &value) const
-			-> std::enable_if_t<!has_greater_equal_operator<T>::value, bool>
+		auto operator>=(T const &value) const -> enable_compare_condition<T>
 		{
 			return Value() >= TSelf{value}.Value();
 		}
