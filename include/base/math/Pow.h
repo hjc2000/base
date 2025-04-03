@@ -19,7 +19,7 @@ namespace base
 			return 0;
 		}
 
-		if (y <= 0)
+		if (y < 0)
 		{
 			return 0;
 		}

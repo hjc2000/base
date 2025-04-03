@@ -1,16 +1,12 @@
-#include "base/bit/bit.h"
+#include "base/math/Fraction.h"
+#include "base/wrapper/number-wrapper.h"
 #include <cmath>
-#include <cstdint>
 #include <cstdlib>
 #include <iostream>
 #include <stdlib.h>
 
 int main()
 {
-	uint64_t reg = 0;
-	base::bit::SetBit(reg, 1);
-	std::cout << reg << std::endl;
-	base::bit::ResetBit(reg, 1);
-	std::cout << reg << std::endl;
-	std::cout << base::bit::BitMask(0, 2) << std::endl;
+	base::Fraction f{base::Double{0.5}};
+	std::cout << f << std::endl;
 }
