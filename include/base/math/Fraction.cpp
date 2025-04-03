@@ -43,6 +43,8 @@ void base::Fraction::SetDen(int64_t value)
 	_den = value;
 }
 
+/* #region 计算 */
+
 base::Fraction base::Fraction::Simplify() const
 {
 	if (_den == 0)
@@ -120,6 +122,8 @@ int64_t base::Fraction::Mod() const
 {
 	return _num % _den;
 }
+
+/* #endregion */
 
 /* #region 四则运算 */
 
