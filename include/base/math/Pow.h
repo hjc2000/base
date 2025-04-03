@@ -28,7 +28,30 @@ namespace base
 		}
 
 		int64_t result = 1;
-		for (int i = 0; i < y; i++)
+		for (int64_t i = 0; i < y; i++)
+		{
+			result *= x;
+		}
+
+		return result;
+	}
+
+	///
+	/// @brief 求幂。
+	///
+	/// @param x 底数
+	/// @param y 指数
+	/// @return constexpr int64_t
+	///
+	constexpr uint64_t UIntPow(uint64_t x, uint64_t y)
+	{
+		if (x == 0)
+		{
+			throw std::invalid_argument{CODE_POS_STR + "x 不能等于 0."};
+		}
+
+		uint64_t result = 1;
+		for (uint64_t i = 0; i < y; i++)
 		{
 			result *= x;
 		}

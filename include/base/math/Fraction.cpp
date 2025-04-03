@@ -21,13 +21,13 @@ base::Fraction::Fraction(base::Double const &value)
 {
 	double db = value.Value();
 	int loop_times = 0;
-	int64_t factor = base::IntPow(2, 63);
+	uint64_t factor = base::UIntPow(2, 63);
 	while (db != 0)
 	{
-		int64_t int_part = static_cast<int64_t>(db);
+		boost::multiprecision::cpp_int int_part{db};
 		base::Fraction temp{int_part, base::BigIntPow(factor, loop_times)};
 		(*this) += temp;
-		db -= int_part;
+		db -= static_cast<double>(int_part);
 		db *= factor;
 		++loop_times;
 	}
