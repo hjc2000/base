@@ -1,6 +1,7 @@
 #pragma once
 #include <bit>
 #include <cstdint>
+#include <type_traits>
 
 namespace base
 {
@@ -159,14 +160,88 @@ namespace base
 		}
 
 		///
-		/// @brief 获取一个只有 bit_index 指定的位置位的掩码。
+		/// @brief 获取一个只有 bit_index 指定的位为 1, 其他位都为 0 的掩码。
 		///
 		/// @param bit_index
 		/// @return constexpr uint64_t
 		///
 		constexpr uint64_t Bit(int bit_index)
 		{
+			if (bit_index < 0)
+			{
+				return 0;
+			}
+
+			if (bit_index >= 64)
+			{
+				return 0;
+			}
+
 			return 0b1 << bit_index;
+		}
+
+		///
+		/// @brief 获取位掩码。其中指定范围内的位为 1, 其他位为 0.
+		///
+		/// @param begin
+		/// @param end
+		/// @return constexpr uint64_t
+		///
+		constexpr uint64_t BitMask(int begin, int end)
+		{
+			uint64_t ret = 0;
+			if (begin < 0)
+			{
+				begin = 0;
+			}
+
+			if (end > 64)
+			{
+				end = 64;
+			}
+
+			for (int i = begin; i < end; i++)
+			{
+				ret |= Bit(i);
+			}
+
+			return ret;
+		}
+
+		///
+		/// @brief 置位指定的位。
+		///
+		/// @param reg 寄存器。
+		/// 	@note 其实就是普通的整型，只要是整型都可以。寄存器也可以强制转换成整型的指针，
+		/// 	解引用后传进来。
+		///
+		/// @param bit_index 要置位的位的索引。
+		///
+		/// @return std::enable_if_t<std::is_integral_v<RegisterType>, void>
+		///
+		template <typename RegisterType>
+		constexpr auto SetBit(RegisterType &reg, int bit_index)
+			-> std::enable_if_t<std::is_integral_v<RegisterType>, void>
+		{
+			reg |= Bit(bit_index);
+		}
+
+		///
+		/// @brief 复位指定的位。
+		///
+		/// @param reg 寄存器。
+		/// 	@note 其实就是普通的整型，只要是整型都可以。寄存器也可以强制转换成整型的指针，
+		/// 	解引用后传进来。
+		///
+		/// @param bit_index 要复位的位的索引。
+		///
+		/// @return std::enable_if_t<std::is_integral_v<RegisterType>, void>
+		///
+		template <typename RegisterType>
+		constexpr auto ResetBit(RegisterType &reg, int bit_index)
+			-> std::enable_if_t<std::is_integral_v<RegisterType>, void>
+		{
+			reg &= ~Bit(bit_index);
 		}
 	} // namespace bit
 } // namespace base
