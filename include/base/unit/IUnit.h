@@ -2,7 +2,6 @@
 #include "base/math/Fraction.h"
 #include "base/string/ICanToString.h"
 #include <cstdint>
-#include <ostream>
 #include <type_traits>
 
 namespace base
@@ -404,20 +403,6 @@ namespace base
 		/* #endregion */
 	};
 } // namespace base
-
-///
-/// @brief 将 IUnit 输出到输出流。
-///
-/// @param ostream
-/// @param right
-/// @return template <typename T>&
-///
-template <typename T>
-inline std::ostream &operator<<(std::ostream &ostream, base::IUnit<T> const &right)
-{
-	ostream << right.ToString();
-	return ostream;
-}
 
 ///
 /// @brief 单位乘上一个无量纲的系数。
