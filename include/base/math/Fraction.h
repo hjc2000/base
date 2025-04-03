@@ -38,11 +38,37 @@ namespace base
 
 		/* #endregion */
 
+		/* #region 分子分母 */
+
+		///
+		/// @brief 获取分子。
+		///
+		/// @return int64_t
+		///
 		int64_t Num() const;
+
+		///
+		/// @brief 设置分子。
+		///
+		/// @param value
+		///
 		void SetNum(int64_t value);
 
+		///
+		/// @brief 获取分母。
+		///
+		/// @return int64_t
+		///
 		int64_t Den() const;
+
+		///
+		/// @brief 设置分母。
+		///
+		/// @param value
+		///
 		void SetDen(int64_t value);
+
+		/* #endregion */
 
 		/* #region 计算函数 */
 

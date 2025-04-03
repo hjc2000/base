@@ -18,6 +18,8 @@ base::Fraction::Fraction(int64_t num, int64_t den)
 
 /* #endregion */
 
+/* #region 分子分母 */
+
 int64_t base::Fraction::Num() const
 {
 	return _num;
@@ -42,6 +44,8 @@ void base::Fraction::SetDen(int64_t value)
 
 	_den = value;
 }
+
+/* #endregion */
 
 /* #region 计算函数 */
 
