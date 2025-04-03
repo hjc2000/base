@@ -1,5 +1,6 @@
 #include "Fraction.h"
 #include "base/math/Pow.h"
+#include "base/string/define.h"
 #include <cstdint>
 #include <numeric>
 #include <stdexcept>
@@ -22,15 +23,18 @@ base::Fraction::Fraction(base::Double const &value)
 {
 	double db = value.Value();
 	int loop_times = 0;
+	int64_t factor = base::IntPow(2, 53);
 	while (db != 0)
 	{
 		int64_t int_part = static_cast<int64_t>(db);
-		base::Fraction temp{int_part, base::IntPow(16, loop_times)};
+		base::Fraction temp{int_part, base::IntPow(factor, loop_times)};
 		(*this) += temp;
 		db -= int_part;
-		db *= 16;
+		db *= factor;
 		++loop_times;
 	}
+
+	std::cout << CODE_POS_STR << "loop_times = " << loop_times << std::endl;
 }
 
 /* #endregion */

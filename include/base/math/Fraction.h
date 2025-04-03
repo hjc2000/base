@@ -1,6 +1,7 @@
 #pragma once
 #include "base/string/ICanToString.h"
 #include "base/wrapper/number-wrapper.h"
+#include "boost/multiprecision/cpp_int.hpp" // IWYU pragma: keep
 #include <stdint.h>
 #include <string>
 

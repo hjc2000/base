@@ -3,10 +3,11 @@
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
+#include <numbers>
 #include <stdlib.h>
 
 int main()
 {
-	base::Fraction f{base::Double{0.125}};
+	base::Fraction f{base::Double{std::numbers::pi}};
 	std::cout << f << std::endl;
 }

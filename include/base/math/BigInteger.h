@@ -6,92 +6,32 @@
 
 namespace base
 {
-	class BigInteger :
+	class BigInteger final :
 		public base::ICanToString
 	{
 	private:
 		boost::multiprecision::cpp_int _value;
 
 	public:
-		/* #region 生命周期 */
+		/* #region 构造函数 */
 
 		BigInteger() = default;
 
-		BigInteger(int64_t value)
+		template <typename T, typename std::enable_if<std::is_integral_v<T>, int>::type = 0>
+		BigInteger(T value)
 		{
 			_value = value;
 		}
 
-		BigInteger(uint64_t value)
+		BigInteger(boost::multiprecision::cpp_int const &cpp_int_value)
 		{
-			_value = value;
-		}
-
-		BigInteger(int32_t value)
-		{
-			_value = value;
-		}
-
-		BigInteger(uint32_t value)
-		{
-			_value = value;
-		}
-
-		BigInteger(int16_t value)
-		{
-			_value = value;
-		}
-
-		BigInteger(uint16_t value)
-		{
-			_value = value;
-		}
-
-		BigInteger(int8_t value)
-		{
-			_value = value;
-		}
-
-		BigInteger(uint8_t value)
-		{
-			_value = value;
-		}
-
-		/**
-		 * @brief 使用模板和 std::enable_if 来添加 int 类型的构造函数。
-		 *
-		 * @tparam T
-		 * @param value
-		 */
-		template <typename T>
-		BigInteger(T value, typename std::enable_if<std::is_same<T, int>::value, int>::type = 0)
-		{
-			_value = value;
-		}
-
-		/**
-		 * @brief 使用模板和 std::enable_if 来添加 unsigned int 类型的构造函数
-		 *
-		 * @tparam T
-		 * @param value
-		 */
-		template <typename T>
-		BigInteger(T value, typename std::enable_if<std::is_same<T, unsigned int>::value, int>::type = 0)
-		{
-			_value = value;
-		}
-
-		BigInteger(boost::multiprecision::cpp_int const &value)
-		{
-			_value = value;
+			_value = cpp_int_value;
 		}
 
 		BigInteger(base::String const &value)
 		{
 			_value = boost::multiprecision::cpp_int{value.StdString()};
 		}
-
-		virtual ~BigInteger() = default;
 
 		/* #endregion */
 
@@ -137,6 +77,16 @@ namespace base
 			return static_cast<uint8_t>(_value);
 		}
 
+		explicit operator double() const
+		{
+			return static_cast<double>(_value);
+		}
+
+		explicit operator float() const
+		{
+			return static_cast<float>(_value);
+		}
+
 		explicit operator bool() const
 		{
 			return static_cast<bool>(_value);
@@ -149,62 +99,66 @@ namespace base
 
 		/* #endregion */
 
-		/* #region 算术运算 */
+		/* #region 自增、自减 */
 
-		/**
-		 * @brief 求负运算符。
-		 *
-		 * @return BigInteger
-		 */
-		BigInteger operator-() const
-		{
-			return BigInteger{-_value};
-		}
-
-		/**
-		 * @brief 前缀递增。
-		 *
-		 * @return BigInteger&
-		 */
+		///
+		/// @brief 前缀递增。
+		///
+		/// @return BigInteger&
+		///
 		BigInteger &operator++()
 		{
 			++_value;
 			return *this;
 		}
 
-		/**
-		 * @brief 后缀递增。
-		 *
-		 * @return BigInteger
-		 */
+		///
+		/// @brief 后缀递增。
+		///
+		/// @return BigInteger
+		///
 		BigInteger operator++(int)
 		{
 			BigInteger ret{*this};
-			_value++;
+			++_value;
 			return ret;
 		}
 
-		/**
-		 * @brief 前缀递减。
-		 *
-		 * @return BigInteger&
-		 */
+		///
+		/// @brief 前缀递减。
+		///
+		/// @return BigInteger&
+		///
 		BigInteger &operator--()
 		{
 			--_value;
 			return *this;
 		}
 
-		/**
-		 * @brief 后缀递减。
-		 *
-		 * @return BigInteger
-		 */
+		///
+		/// @brief 后缀递减。
+		///
+		/// @return BigInteger
+		///
 		BigInteger operator--(int)
 		{
 			BigInteger ret{*this};
-			_value--;
+			--_value;
 			return ret;
+		}
+
+		/* #endregion */
+
+		/* #region 算术运算 */
+
+		///
+		/// @brief 取相反数。
+		///
+		/// @return BigInteger
+		///
+		BigInteger operator-() const
+		{
+			return BigInteger{-_value};
 		}
 
 		BigInteger operator+(BigInteger const &right_value) const
@@ -226,6 +180,10 @@ namespace base
 		{
 			return BigInteger{_value / right_value._value};
 		}
+
+		/* #endregion */
+
+		/* #region 自改变算术运算 */
 
 		BigInteger &operator+=(BigInteger const &right_value)
 		{
@@ -254,27 +212,28 @@ namespace base
 		/* #endregion */
 
 		/* #region 比较 */
-		bool operator==(BigInteger const &another)
+
+		bool operator==(BigInteger const &another) const
 		{
 			return _value == another._value;
 		}
 
-		bool operator<(BigInteger const &another)
+		bool operator<(BigInteger const &another) const
 		{
 			return _value < another._value;
 		}
 
-		bool operator>(BigInteger const &another)
+		bool operator>(BigInteger const &another) const
 		{
 			return _value > another._value;
 		}
 
-		bool operator<=(BigInteger const &another)
+		bool operator<=(BigInteger const &another) const
 		{
 			return _value <= another._value;
 		}
 
-		bool operator>=(BigInteger const &another)
+		bool operator>=(BigInteger const &another) const
 		{
 			return _value >= another._value;
 		}
@@ -287,6 +246,16 @@ namespace base
 		/// @return std::string
 		///
 		virtual std::string ToString() const override;
+
+		boost::multiprecision::cpp_int &Value()
+		{
+			return _value;
+		}
+
+		boost::multiprecision::cpp_int const &Value() const
+		{
+			return _value;
+		}
 	};
 
 #if HAS_THREAD
