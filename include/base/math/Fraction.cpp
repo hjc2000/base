@@ -43,7 +43,7 @@ void base::Fraction::SetDen(int64_t value)
 	_den = value;
 }
 
-/* #region 计算 */
+/* #region 计算函数 */
 
 base::Fraction base::Fraction::Simplify() const
 {
@@ -327,6 +327,8 @@ base::Fraction operator/(int64_t left, base::Fraction const &right)
 
 /* #endregion */
 
+/* #region 全局计算函数 */
+
 int64_t std::floor(base::Fraction const &value)
 {
 	return value.Floor();
@@ -336,3 +338,5 @@ int64_t std::ceil(base::Fraction const &value)
 {
 	return value.Ceil();
 }
+
+/* #endregion */

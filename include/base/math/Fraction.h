@@ -44,7 +44,7 @@ namespace base
 		int64_t Den() const;
 		void SetDen(int64_t value);
 
-		/* #region 计算 */
+		/* #region 计算函数 */
 
 		///
 		/// @brief 化简分数，返回化简后的值。
