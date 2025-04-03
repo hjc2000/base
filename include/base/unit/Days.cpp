@@ -78,6 +78,21 @@ std::string base::Days::UnitString() const
 
 /* #region 强制转换运算符 */
 
+base::Days::operator std::chrono::days() const
+{
+	return std::chrono::days{base::Hours{*this}};
+}
+
+base::Days::operator std::chrono::hours() const
+{
+	return std::chrono::hours{base::Hours{*this}};
+}
+
+base::Days::operator std::chrono::minutes() const
+{
+	return std::chrono::minutes{base::Hours{*this}};
+}
+
 base::Days::operator std::chrono::seconds() const
 {
 	return std::chrono::seconds{base::Hours{*this}};
