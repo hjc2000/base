@@ -1,5 +1,6 @@
 #pragma once
 #include "base/string/ICanToString.h"
+#include "base/wrapper/number-wrapper.h"
 #include <stdint.h>
 #include <string>
 
@@ -10,6 +11,7 @@ namespace base
 	///
 	class Fraction final :
 		public base::ICanToString
+
 	{
 	private:
 		int64_t _num = 0;
@@ -27,14 +29,29 @@ namespace base
 		/// @brief 整型转化为分数，则分子等于整型，分母为 1.
 		/// @param num
 		///
-		Fraction(int64_t num);
+		Fraction(int64_t num)
+		{
+			SetNum(num);
+			SetDen(1);
+		}
 
 		///
 		/// @brief 通过分子，分母进行构造。
 		/// @param num 分子
 		/// @param den 分母
 		///
-		Fraction(int64_t num, int64_t den);
+		Fraction(int64_t num, int64_t den)
+		{
+			SetNum(num);
+			SetDen(den);
+		}
+
+		///
+		/// @brief 通过浮点数构造。
+		///
+		/// @param value
+		///
+		Fraction(Double const &value);
 
 		/* #endregion */
 

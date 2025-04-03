@@ -4,16 +4,8 @@
 
 /* #region 构造函数 */
 
-base::Fraction::Fraction(int64_t num)
+base::Fraction::Fraction(Double const &value)
 {
-	SetNum(num);
-	SetDen(1);
-}
-
-base::Fraction::Fraction(int64_t num, int64_t den)
-{
-	SetNum(num);
-	SetDen(den);
 }
 
 /* #endregion */
