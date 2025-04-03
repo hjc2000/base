@@ -1,9 +1,14 @@
 #pragma once
 #include "base/math/Fraction.h"
 #include "IUnit.h"
+#include <cstdint>
 
 namespace base
 {
+	///
+	/// @brief 电流单位：安培。
+	///
+	///
 	class A :
 		public base::IUnit<A>
 	{
@@ -11,6 +16,10 @@ namespace base
 		base::Fraction _value;
 
 	public:
+		A() = default;
+		A(int64_t value);
+		A(base::Fraction const &value);
+
 		using base::IUnit<A>::Value;
 
 		///
