@@ -20,6 +20,11 @@ base::Bps::Bps(Mbps const &o)
 
 /* #endregion */
 
+base::Fraction &base::Bps::Value()
+{
+	return _value;
+}
+
 std::string base::Bps::UnitString() const
 {
 	return "bps";
