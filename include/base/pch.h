@@ -13,6 +13,7 @@
 
 #ifdef __cplusplus
 
+	#include "base/bit/bit.h"
 	#include "base/delegate/Delegate.h"
 	#include "base/delegate/IEvent.h"
 	#include "base/Guard.h"

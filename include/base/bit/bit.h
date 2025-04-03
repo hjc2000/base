@@ -1,5 +1,6 @@
 #pragma once
 #include <bit>
+#include <cstdint>
 
 namespace base
 {
@@ -157,5 +158,15 @@ namespace base
 			return num << HighZeroCount(num);
 		}
 
+		///
+		/// @brief 获取一个只有 bit_index 指定的位置位的掩码。
+		///
+		/// @param bit_index
+		/// @return constexpr uint64_t
+		///
+		constexpr uint64_t Bit(int bit_index)
+		{
+			return 0b1 << bit_index;
+		}
 	} // namespace bit
 } // namespace base
