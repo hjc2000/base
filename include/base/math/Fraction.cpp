@@ -1,11 +1,36 @@
 #include "Fraction.h"
+#include "base/math/Pow.h"
+#include <cstdint>
 #include <numeric>
 #include <stdexcept>
 
 /* #region 构造函数 */
 
-base::Fraction::Fraction(Double const &value)
+base::Fraction::Fraction(int64_t num)
 {
+	SetNum(num);
+	SetDen(1);
+}
+
+base::Fraction::Fraction(int64_t num, int64_t den)
+{
+	SetNum(num);
+	SetDen(den);
+}
+
+base::Fraction::Fraction(base::Double const &value)
+{
+	double db = value.Value();
+	int loop_times = 0;
+	while (db != 0)
+	{
+		int64_t int_part = static_cast<int64_t>(db);
+		base::Fraction temp{int_part, base::IntPow(16, loop_times)};
+		(*this) += temp;
+		db -= int_part;
+		db *= 16;
+		++loop_times;
+	}
 }
 
 /* #endregion */
