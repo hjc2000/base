@@ -299,12 +299,6 @@ bool base::Fraction::operator<=(Fraction const &another) const
 
 /* #endregion */
 
-std::ostream &operator<<(std::ostream &ostream, base::Fraction const &right)
-{
-	ostream << right.ToString();
-	return ostream;
-}
-
 /* #region 全局四则运算符 */
 
 base::Fraction operator+(int64_t left, base::Fraction const &right)

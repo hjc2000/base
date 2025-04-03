@@ -1,6 +1,5 @@
 #pragma once
 #include "base/string/ICanToString.h"
-#include <ostream>
 #include <stdint.h>
 #include <string>
 
@@ -36,6 +35,7 @@ namespace base
 		/// @param den 分母
 		///
 		Fraction(int64_t num, int64_t den);
+
 		/* #endregion */
 
 		int64_t Num() const;
@@ -43,6 +43,8 @@ namespace base
 
 		int64_t Den() const;
 		void SetDen(int64_t value);
+
+		/* #region 计算 */
 
 		///
 		/// @brief 化简分数，返回化简后的值。
@@ -80,6 +82,8 @@ namespace base
 		///
 		int64_t Mod() const;
 
+		/* #endregion */
+
 		/* #region 四则运算 */
 		Fraction operator-() const;
 		Fraction operator+(Fraction const &value) const;
@@ -97,9 +101,9 @@ namespace base
 		/// @brief 将分数转化为字符串
 		/// @return
 		///
-		std::string ToString() const override;
+		virtual std::string ToString() const override;
 
-		/* #region 强制转换 */
+		/* #region 强制转换运算符 */
 		explicit operator int64_t() const;
 		explicit operator int32_t() const;
 		explicit operator int16_t() const;
@@ -151,8 +155,6 @@ namespace base
 		/* #endregion */
 	};
 } // namespace base
-
-std::ostream &operator<<(std::ostream &ostream, base::Fraction const &right);
 
 /* #region 全局四则运算符 */
 
