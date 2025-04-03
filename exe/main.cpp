@@ -7,6 +7,6 @@
 
 int main()
 {
-	base::Fraction f{base::Double{0.5}};
+	base::Fraction f{base::Double{0.125}};
 	std::cout << f << std::endl;
 }
