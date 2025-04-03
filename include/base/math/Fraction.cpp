@@ -1,6 +1,5 @@
 #include "Fraction.h"
 #include "base/math/Pow.h"
-#include "base/string/define.h"
 #include <cstdint>
 #include <stdexcept>
 
@@ -32,8 +31,6 @@ base::Fraction::Fraction(base::Double const &value)
 		db *= factor;
 		++loop_times;
 	}
-
-	std::cout << CODE_POS_STR << "loop_times = " << loop_times << std::endl;
 }
 
 /* #endregion */
