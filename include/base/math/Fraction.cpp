@@ -25,7 +25,7 @@ base::Fraction::Fraction(base::Double const &value)
 	while (db != 0)
 	{
 		int64_t int_part = static_cast<int64_t>(db);
-		base::Fraction temp{int_part, base::IntPow(factor, loop_times)};
+		base::Fraction temp{int_part, base::BigIntPow(factor, loop_times)};
 		(*this) += temp;
 		db -= int_part;
 		db *= factor;

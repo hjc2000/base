@@ -9,7 +9,7 @@ namespace base
 	///
 	/// @brief 求幂。
 	///
-	/// @note 只能求指数 >=0 的幂。
+	/// @note 只能求指数 >= 0 的幂。
 	///
 	/// @param x 底数
 	/// @param y 指数
@@ -39,12 +39,12 @@ namespace base
 	///
 	/// @brief 求幂。
 	///
-	/// @note 只能求指数 >=0 的幂。
+	/// @note 只能求指数 >= 0 的幂。
 	///
 	/// @param x 底数
 	/// @param y 指数
 	/// @return constexpr boost::multiprecision::cpp_int
 	///
-	boost::multiprecision::cpp_int IntPow(boost::multiprecision::cpp_int x,
-										  boost::multiprecision::cpp_int y);
+	boost::multiprecision::cpp_int BigIntPow(boost::multiprecision::cpp_int x,
+											 boost::multiprecision::cpp_int y);
 } // namespace base
