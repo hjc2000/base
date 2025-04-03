@@ -190,6 +190,11 @@ namespace base
 			return ret;
 		}
 
+		///
+		/// @brief 单位的值。
+		///
+		/// @return base::Fraction const&
+		///
 		base::Fraction const &Value() const
 		{
 			return const_cast<IUnit<TSelf> *>(this)->Value();

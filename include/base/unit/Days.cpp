@@ -66,6 +66,16 @@ base::Days::Days(std::chrono::nanoseconds const &value)
 
 /* #endregion */
 
+base::Fraction &base::Days::Value()
+{
+	return _value;
+}
+
+std::string base::Days::UnitString() const
+{
+	return "d";
+}
+
 /* #region 强制转换运算符 */
 
 base::Days::operator std::chrono::seconds() const
@@ -75,12 +85,17 @@ base::Days::operator std::chrono::seconds() const
 
 base::Days::operator std::chrono::milliseconds() const
 {
-	return std::chrono::seconds{base::Hours{*this}};
+	return std::chrono::milliseconds{base::Hours{*this}};
 }
 
 base::Days::operator std::chrono::microseconds() const
 {
-	return std::chrono::seconds{base::Hours{*this}};
+	return std::chrono::microseconds{base::Hours{*this}};
+}
+
+base::Days::operator std::chrono::nanoseconds() const
+{
+	return std::chrono::nanoseconds{base::Hours{*this}};
 }
 
 /* #endregion */

@@ -86,12 +86,17 @@ base::Hours::operator std::chrono::seconds() const
 
 base::Hours::operator std::chrono::milliseconds() const
 {
-	return std::chrono::seconds{base::Minutes{*this}};
+	return std::chrono::milliseconds{base::Minutes{*this}};
 }
 
 base::Hours::operator std::chrono::microseconds() const
 {
-	return std::chrono::seconds{base::Minutes{*this}};
+	return std::chrono::microseconds{base::Minutes{*this}};
+}
+
+base::Hours::operator std::chrono::nanoseconds() const
+{
+	return std::chrono::nanoseconds{base::Minutes{*this}};
 }
 
 /* #endregion */
