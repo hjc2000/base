@@ -250,8 +250,6 @@ base::Fraction operator/(boost::multiprecision::cpp_int left, base::Fraction con
 
 namespace std
 {
-	std::string to_string(boost::multiprecision::cpp_int const &value);
-
 	///
 	/// @brief 向下取整
 	/// @param value
@@ -265,4 +263,7 @@ namespace std
 	/// @return
 	///
 	boost::multiprecision::cpp_int ceil(base::Fraction const &value);
+
+	std::string to_string(boost::multiprecision::cpp_int const &value);
+
 } // namespace std

@@ -357,6 +357,20 @@ base::Fraction operator/(boost::multiprecision::cpp_int left, base::Fraction con
 
 /* #endregion */
 
+/* #region 全局计算函数 */
+
+boost::multiprecision::cpp_int std::floor(base::Fraction const &value)
+{
+	return value.Floor();
+}
+
+boost::multiprecision::cpp_int std::ceil(base::Fraction const &value)
+{
+	return value.Ceil();
+}
+
+/* #endregion */
+
 std::string std::to_string(boost::multiprecision::cpp_int const &value)
 {
 	boost::multiprecision::cpp_int temp = value;
@@ -381,17 +395,3 @@ std::string std::to_string(boost::multiprecision::cpp_int const &value)
 
 	return ret;
 }
-
-/* #region 全局计算函数 */
-
-boost::multiprecision::cpp_int std::floor(base::Fraction const &value)
-{
-	return value.Floor();
-}
-
-boost::multiprecision::cpp_int std::ceil(base::Fraction const &value)
-{
-	return value.Ceil();
-}
-
-/* #endregion */
