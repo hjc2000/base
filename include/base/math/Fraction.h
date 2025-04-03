@@ -12,11 +12,10 @@ namespace base
 	///
 	class Fraction final :
 		public base::ICanToString
-
 	{
 	private:
-		int64_t _num = 0;
-		int64_t _den = 1;
+		boost::multiprecision::cpp_int _num = 0;
+		boost::multiprecision::cpp_int _den = 1;
 
 	public:
 		/* #region 构造函数 */
@@ -27,17 +26,29 @@ namespace base
 		Fraction() = default;
 
 		///
+		/// @brief 从整型值构造。分子为 num, 分母为 1.
+		///
+		/// @param num 分子。
+		///
+		template <typename T, typename std::enable_if<std::is_integral_v<T>, int>::type = 0>
+		Fraction(T num)
+		{
+			_num = num;
+			_den = 1;
+		}
+
+		///
 		/// @brief 整型转化为分数，则分子等于整型，分母为 1.
 		/// @param num
 		///
-		Fraction(int64_t num);
+		Fraction(boost::multiprecision::cpp_int num);
 
 		///
 		/// @brief 通过分子，分母进行构造。
 		/// @param num 分子
 		/// @param den 分母
 		///
-		Fraction(int64_t num, int64_t den);
+		Fraction(boost::multiprecision::cpp_int num, boost::multiprecision::cpp_int den);
 
 		///
 		/// @brief 通过浮点数构造。
@@ -53,30 +64,30 @@ namespace base
 		///
 		/// @brief 获取分子。
 		///
-		/// @return int64_t
+		/// @return boost::multiprecision::cpp_int
 		///
-		int64_t Num() const;
+		boost::multiprecision::cpp_int Num() const;
 
 		///
 		/// @brief 设置分子。
 		///
 		/// @param value
 		///
-		void SetNum(int64_t value);
+		void SetNum(boost::multiprecision::cpp_int value);
 
 		///
 		/// @brief 获取分母。
 		///
-		/// @return int64_t
+		/// @return boost::multiprecision::cpp_int
 		///
-		int64_t Den() const;
+		boost::multiprecision::cpp_int Den() const;
 
 		///
 		/// @brief 设置分母。
 		///
 		/// @param value
 		///
-		void SetDen(int64_t value);
+		void SetDen(boost::multiprecision::cpp_int value);
 
 		/* #endregion */
 
@@ -98,29 +109,30 @@ namespace base
 		/// @brief 向下取整
 		/// @return
 		///
-		int64_t Floor() const;
+		boost::multiprecision::cpp_int Floor() const;
 
 		///
 		/// @brief 向上取整
 		/// @return
 		///
-		int64_t Ceil() const;
+		boost::multiprecision::cpp_int Ceil() const;
 
 		///
 		/// @brief 获取分子除以分母的值
 		/// @return
 		///
-		int64_t Div() const;
+		boost::multiprecision::cpp_int Div() const;
 
 		///
 		/// @brief 获取分子除以分母的余数
 		/// @return
 		///
-		int64_t Mod() const;
+		boost::multiprecision::cpp_int Mod() const;
 
 		/* #endregion */
 
 		/* #region 四则运算 */
+
 		Fraction operator-() const;
 		Fraction operator+(Fraction const &value) const;
 		Fraction operator-(Fraction const &value) const;
@@ -131,6 +143,7 @@ namespace base
 		Fraction &operator-=(Fraction const &value);
 		Fraction &operator*=(Fraction const &value);
 		Fraction &operator/=(Fraction const &value);
+
 		/* #endregion */
 
 		///
@@ -140,11 +153,14 @@ namespace base
 		virtual std::string ToString() const override;
 
 		/* #region 强制转换运算符 */
+
+		explicit operator boost::multiprecision::cpp_int() const;
 		explicit operator int64_t() const;
 		explicit operator int32_t() const;
 		explicit operator int16_t() const;
 		explicit operator int8_t() const;
 		explicit operator double() const;
+
 		/* #endregion */
 
 		/* #region 比较 */
@@ -201,7 +217,7 @@ namespace base
 /// @param right
 /// @return base::Fraction
 ///
-base::Fraction operator+(int64_t left, base::Fraction const &right);
+base::Fraction operator+(boost::multiprecision::cpp_int left, base::Fraction const &right);
 
 ///
 /// @brief 减
@@ -210,7 +226,7 @@ base::Fraction operator+(int64_t left, base::Fraction const &right);
 /// @param right
 /// @return base::Fraction
 ///
-base::Fraction operator-(int64_t left, base::Fraction const &right);
+base::Fraction operator-(boost::multiprecision::cpp_int left, base::Fraction const &right);
 
 ///
 /// @brief 乘
@@ -219,7 +235,7 @@ base::Fraction operator-(int64_t left, base::Fraction const &right);
 /// @param right
 /// @return base::Fraction
 ///
-base::Fraction operator*(int64_t left, base::Fraction const &right);
+base::Fraction operator*(boost::multiprecision::cpp_int left, base::Fraction const &right);
 
 ///
 /// @brief 除
@@ -228,23 +244,25 @@ base::Fraction operator*(int64_t left, base::Fraction const &right);
 /// @param right
 /// @return base::Fraction
 ///
-base::Fraction operator/(int64_t left, base::Fraction const &right);
+base::Fraction operator/(boost::multiprecision::cpp_int left, base::Fraction const &right);
 
 /* #endregion */
 
 namespace std
 {
+	std::string to_string(boost::multiprecision::cpp_int const &value);
+
 	///
 	/// @brief 向下取整
 	/// @param value
 	/// @return
 	///
-	int64_t floor(base::Fraction const &value);
+	boost::multiprecision::cpp_int floor(base::Fraction const &value);
 
 	///
 	/// @brief 向上取整
 	/// @param value
 	/// @return
 	///
-	int64_t ceil(base::Fraction const &value);
+	boost::multiprecision::cpp_int ceil(base::Fraction const &value);
 } // namespace std

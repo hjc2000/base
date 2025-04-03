@@ -1,5 +1,8 @@
 #pragma once
+#include "base/string/define.h"
+#include "boost/multiprecision/cpp_int.hpp" // IWYU pragma: keep
 #include <cstdint>
+#include <stdexcept>
 
 namespace base
 {
@@ -16,12 +19,12 @@ namespace base
 	{
 		if (x == 0)
 		{
-			return 0;
+			throw std::invalid_argument{CODE_POS_STR + "x 不能等于 0."};
 		}
 
 		if (y < 0)
 		{
-			return 0;
+			throw std::invalid_argument{CODE_POS_STR + "y 不能小于 0."};
 		}
 
 		int64_t result = 1;
@@ -32,4 +35,16 @@ namespace base
 
 		return result;
 	}
+
+	///
+	/// @brief 求幂。
+	///
+	/// @note 只能求指数 >=0 的幂。
+	///
+	/// @param x 底数
+	/// @param y 指数
+	/// @return constexpr boost::multiprecision::cpp_int
+	///
+	boost::multiprecision::cpp_int IntPow(boost::multiprecision::cpp_int x,
+										  boost::multiprecision::cpp_int y);
 } // namespace base

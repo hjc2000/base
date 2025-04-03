@@ -1,6 +1,8 @@
 #pragma once
+#include "base/string/define.h"
 #include <bit>
 #include <cstdint>
+#include <stdexcept>
 #include <type_traits>
 
 namespace base
@@ -169,12 +171,12 @@ namespace base
 		{
 			if (bit_index < 0)
 			{
-				return 0;
+				throw std::invalid_argument{CODE_POS_STR + "索引溢出。"};
 			}
 
 			if (bit_index >= 64)
 			{
-				return 0;
+				throw std::invalid_argument{CODE_POS_STR + "索引溢出。"};
 			}
 
 			return 0b1 << bit_index;
@@ -192,12 +194,12 @@ namespace base
 			uint64_t ret = 0;
 			if (begin < 0)
 			{
-				begin = 0;
+				throw std::invalid_argument{CODE_POS_STR + "索引溢出。"};
 			}
 
 			if (end > 64)
 			{
-				end = 64;
+				throw std::invalid_argument{CODE_POS_STR + "索引溢出。"};
 			}
 
 			for (int i = begin; i < end; i++)

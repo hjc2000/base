@@ -80,9 +80,9 @@ bool base::Combination::MoveToNext()
 
 int64_t base::Combination::Count() const
 {
-	base::BigInteger result = base::Factorial(_n) /
-							  base::Factorial(_n - _m) /
-							  base::Factorial(_m);
+	boost::multiprecision::cpp_int result = base::Factorial(_n) /
+											base::Factorial(_n - _m) /
+											base::Factorial(_m);
 
 	return static_cast<int64_t>(result);
 }

@@ -2,18 +2,17 @@
 #include "base/math/Pow.h"
 #include "base/string/define.h"
 #include <cstdint>
-#include <numeric>
 #include <stdexcept>
 
 /* #region 构造函数 */
 
-base::Fraction::Fraction(int64_t num)
+base::Fraction::Fraction(boost::multiprecision::cpp_int num)
 {
 	SetNum(num);
 	SetDen(1);
 }
 
-base::Fraction::Fraction(int64_t num, int64_t den)
+base::Fraction::Fraction(boost::multiprecision::cpp_int num, boost::multiprecision::cpp_int den)
 {
 	SetNum(num);
 	SetDen(den);
@@ -23,7 +22,7 @@ base::Fraction::Fraction(base::Double const &value)
 {
 	double db = value.Value();
 	int loop_times = 0;
-	int64_t factor = base::IntPow(2, 53);
+	int64_t factor = base::IntPow(2, 63);
 	while (db != 0)
 	{
 		int64_t int_part = static_cast<int64_t>(db);
@@ -41,22 +40,22 @@ base::Fraction::Fraction(base::Double const &value)
 
 /* #region 分子分母 */
 
-int64_t base::Fraction::Num() const
+boost::multiprecision::cpp_int base::Fraction::Num() const
 {
 	return _num;
 }
 
-void base::Fraction::SetNum(int64_t value)
+void base::Fraction::SetNum(boost::multiprecision::cpp_int value)
 {
 	_num = value;
 }
 
-int64_t base::Fraction::Den() const
+boost::multiprecision::cpp_int base::Fraction::Den() const
 {
 	return _den;
 }
 
-void base::Fraction::SetDen(int64_t value)
+void base::Fraction::SetDen(boost::multiprecision::cpp_int value)
 {
 	if (value == 0)
 	{
@@ -78,9 +77,9 @@ base::Fraction base::Fraction::Simplify() const
 	}
 
 	// 分子分母同时除以最大公约数
-	int64_t gcd_value = std::gcd(_num, _den);
-	int64_t scaled_num = _num / gcd_value;
-	int64_t scaled_den = _den / gcd_value;
+	boost::multiprecision::cpp_int gcd_value = boost::multiprecision::gcd(_num, _den);
+	boost::multiprecision::cpp_int scaled_num = _num / gcd_value;
+	boost::multiprecision::cpp_int scaled_den = _den / gcd_value;
 
 	if (scaled_den < 0)
 	{
@@ -99,9 +98,9 @@ base::Fraction base::Fraction::Reciprocal() const
 	return ret.Simplify();
 }
 
-int64_t base::Fraction::Floor() const
+boost::multiprecision::cpp_int base::Fraction::Floor() const
 {
-	int64_t ret = Div();
+	boost::multiprecision::cpp_int ret = Div();
 	if (*this < 0)
 	{
 		if (Mod())
@@ -121,9 +120,9 @@ int64_t base::Fraction::Floor() const
 	return ret;
 }
 
-int64_t base::Fraction::Ceil() const
+boost::multiprecision::cpp_int base::Fraction::Ceil() const
 {
-	int64_t ret = Div();
+	boost::multiprecision::cpp_int ret = Div();
 	if (*this > 0)
 	{
 		if (Mod())
@@ -138,12 +137,12 @@ int64_t base::Fraction::Ceil() const
 	return ret;
 }
 
-int64_t base::Fraction::Div() const
+boost::multiprecision::cpp_int base::Fraction::Div() const
 {
 	return _num / _den;
 }
 
-int64_t base::Fraction::Mod() const
+boost::multiprecision::cpp_int base::Fraction::Mod() const
 {
 	return _num % _den;
 }
@@ -161,11 +160,11 @@ base::Fraction base::Fraction::operator-() const
 base::Fraction base::Fraction::operator+(Fraction const &value) const
 {
 	// 通分后的分母为本对象的分母和 value 的分母的最小公倍数
-	int64_t scaled_den = std::lcm(_den, value.Den());
+	boost::multiprecision::cpp_int scaled_den = boost::multiprecision::lcm(_den, value.Den());
 
 	// 通分后的分子为本对象的分子乘上分母所乘的倍数
-	int64_t scaled_num = _num * (scaled_den / _den);
-	int64_t value_scaled_num = value.Num() * (scaled_den / value.Den());
+	boost::multiprecision::cpp_int scaled_num = _num * (scaled_den / _den);
+	boost::multiprecision::cpp_int value_scaled_num = value.Num() * (scaled_den / value.Den());
 
 	Fraction ret{
 		scaled_num + value_scaled_num,
@@ -226,31 +225,40 @@ std::string base::Fraction::ToString() const
 	return std::to_string(_num) + " / " + std::to_string(_den);
 }
 
-/* #region 强制转换 */
+/* #region 强制转换运算符 */
+
+base::Fraction::operator boost::multiprecision::cpp_int() const
+{
+	return Div();
+}
 
 base::Fraction::operator int64_t() const
 {
-	return Div();
+	return static_cast<int64_t>(Div());
 }
 
 base::Fraction::operator int32_t() const
 {
-	return Div();
+	return static_cast<int32_t>(Div());
 }
 
 base::Fraction::operator int16_t() const
 {
-	return Div();
+	return static_cast<int16_t>(Div());
 }
 
 base::Fraction::operator int8_t() const
 {
-	return Div();
+	return static_cast<int8_t>(Div());
 }
 
 base::Fraction::operator double() const
 {
-	return static_cast<double>(_num) / _den;
+	base::Fraction copy{*this};
+	double int_part = static_cast<double>(copy.Div());
+	copy -= copy.Div();
+	double fraction_part = static_cast<double>(copy.Num()) / static_cast<double>(copy.Den());
+	return int_part + fraction_part;
 }
 
 /* #endregion */
@@ -330,36 +338,61 @@ bool base::Fraction::operator<=(Fraction const &another) const
 
 /* #region 全局四则运算符 */
 
-base::Fraction operator+(int64_t left, base::Fraction const &right)
+base::Fraction operator+(boost::multiprecision::cpp_int left, base::Fraction const &right)
 {
 	return base::Fraction{left} + right;
 }
 
-base::Fraction operator-(int64_t left, base::Fraction const &right)
+base::Fraction operator-(boost::multiprecision::cpp_int left, base::Fraction const &right)
 {
 	return base::Fraction{left} - right;
 }
 
-base::Fraction operator*(int64_t left, base::Fraction const &right)
+base::Fraction operator*(boost::multiprecision::cpp_int left, base::Fraction const &right)
 {
 	return base::Fraction(left) * right;
 }
 
-base::Fraction operator/(int64_t left, base::Fraction const &right)
+base::Fraction operator/(boost::multiprecision::cpp_int left, base::Fraction const &right)
 {
 	return base::Fraction{left} / right;
 }
 
 /* #endregion */
 
+std::string std::to_string(boost::multiprecision::cpp_int const &value)
+{
+	boost::multiprecision::cpp_int temp = value;
+	bool is_negative = temp < 0;
+	std::string ret;
+	if (temp < 0)
+	{
+		temp = -temp;
+	}
+
+	while (temp > 0)
+	{
+		uint8_t num = static_cast<uint8_t>(temp % 10);
+		ret = std::to_string(num) + ret;
+		temp /= 10;
+	}
+
+	if (is_negative)
+	{
+		ret = '-' + ret;
+	}
+
+	return ret;
+}
+
 /* #region 全局计算函数 */
 
-int64_t std::floor(base::Fraction const &value)
+boost::multiprecision::cpp_int std::floor(base::Fraction const &value)
 {
 	return value.Floor();
 }
 
-int64_t std::ceil(base::Fraction const &value)
+boost::multiprecision::cpp_int std::ceil(base::Fraction const &value)
 {
 	return value.Ceil();
 }
