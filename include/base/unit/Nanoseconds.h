@@ -49,6 +49,9 @@ namespace base
 		///
 		virtual std::string UnitString() const override;
 
+		explicit operator std::chrono::days() const;
+		explicit operator std::chrono::hours() const;
+		explicit operator std::chrono::minutes() const;
 		explicit operator std::chrono::seconds() const;
 		explicit operator std::chrono::milliseconds() const;
 		explicit operator std::chrono::microseconds() const;

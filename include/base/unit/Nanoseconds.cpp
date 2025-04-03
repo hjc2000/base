@@ -75,27 +75,39 @@ std::string base::Nanoseconds::UnitString() const
 
 /* #region 强制转换运算符 */
 
+base::Nanoseconds::operator std::chrono::days() const
+{
+	return std::chrono::days{base::Seconds{*this}};
+}
+
+base::Nanoseconds::operator std::chrono::hours() const
+{
+	return std::chrono::hours{base::Seconds{*this}};
+}
+
+base::Nanoseconds::operator std::chrono::minutes() const
+{
+	return std::chrono::minutes{base::Seconds{*this}};
+}
+
 base::Nanoseconds::operator std::chrono::seconds() const
 {
-	std::chrono::nanoseconds ns = static_cast<std::chrono::nanoseconds>(*this);
-	return std::chrono::duration_cast<std::chrono::seconds>(ns);
+	return std::chrono::seconds{base::Seconds{*this}};
 }
 
 base::Nanoseconds::operator std::chrono::milliseconds() const
 {
-	std::chrono::nanoseconds ns = static_cast<std::chrono::nanoseconds>(*this);
-	return std::chrono::duration_cast<std::chrono::milliseconds>(ns);
+	return std::chrono::milliseconds{base::Seconds{*this}};
 }
 
 base::Nanoseconds::operator std::chrono::microseconds() const
 {
-	std::chrono::nanoseconds ns = static_cast<std::chrono::nanoseconds>(*this);
-	return std::chrono::duration_cast<std::chrono::microseconds>(ns);
+	return std::chrono::microseconds{base::Seconds{*this}};
 }
 
 base::Nanoseconds::operator std::chrono::nanoseconds() const
 {
-	return std::chrono::nanoseconds{static_cast<int64_t>(_value)};
+	return std::chrono::nanoseconds{base::Seconds{*this}};
 }
 
 /* #endregion */
