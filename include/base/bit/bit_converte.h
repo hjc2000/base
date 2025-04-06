@@ -171,6 +171,23 @@ namespace base
 
 		/* #endregion */
 
+		template <typename ReturnType>
+		ReturnType FromBytes(base::ReadOnlySpan const &span)
+		{
+			if (span.Size() < static_cast<int32_t>(sizeof(ReturnType)))
+			{
+				throw std::invalid_argument{CODE_POS_STR + "传入的 span 太小。"};
+			}
+
+			ReturnType ret{};
+
+			std::copy(span.Buffer(),
+					  span.Buffer() + sizeof(ret),
+					  reinterpret_cast<uint8_t *>(&ret));
+
+			return ret;
+		}
+
 		///
 		/// @brief 将 value 序列化，写入 span 中。
 		///
@@ -190,6 +207,19 @@ namespace base
 			std::copy(buffer,
 					  buffer + sizeof(ValueType),
 					  span.Buffer());
+		}
+
+		///
+		/// @brief 将 value 序列化，写入 stream 中。
+		///
+		/// @param value
+		/// @param stream
+		///
+		template <typename ValueType>
+		void GetBytes(ValueType value, base::Stream &stream)
+		{
+			uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
+			stream.Write(buffer, 0, sizeof(value));
 		}
 
 	} // namespace bit_converte
