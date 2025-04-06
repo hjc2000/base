@@ -1,6 +1,10 @@
 #pragma once
 #include "base/stream/ReadOnlySpan.h"
+#include "base/stream/Span.h"
 #include "base/stream/Stream.h"
+#include "base/string/define.h"
+#include <algorithm>
+#include <stdexcept>
 
 namespace base
 {
@@ -167,137 +171,26 @@ namespace base
 
 		/* #endregion */
 
-		/* #region GetBytes */
-
 		///
 		/// @brief 将 value 序列化，写入 span 中。
 		///
 		/// @param value
 		/// @param span
 		///
-		void GetBytes(uint16_t value, base::Span const &span);
+		template <typename ValueType>
+		void GetBytes(ValueType value, base::Span const &span)
+		{
+			if (span.Size() < static_cast<int32_t>(sizeof(ValueType)))
+			{
+				throw std::invalid_argument{CODE_POS_STR + "传入的 span 太小。"};
+			}
 
-		///
-		/// @brief 将 value 序列化，写入 stream 中。
-		///
-		/// @param value
-		/// @param stream
-		///
-		void GetBytes(uint16_t value, base::Stream &stream);
+			uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
 
-		///
-		/// @brief 将 value 序列化，写入 span 中。
-		///
-		/// @param value
-		/// @param span
-		///
-		void GetBytes(int16_t value, base::Span const &span);
-
-		///
-		/// @brief 将 value 序列化，写入 stream 中。
-		///
-		/// @param value
-		/// @param stream
-		///
-		void GetBytes(int16_t value, base::Stream &stream);
-
-		///
-		/// @brief 将 value 序列化，写入 span 中。
-		///
-		/// @param value
-		/// @param span
-		///
-		void GetBytes(uint32_t value, base::Span const &span);
-
-		///
-		/// @brief 将 value 序列化，写入 stream 中。
-		///
-		/// @param value
-		/// @param stream
-		///
-		void GetBytes(uint32_t value, base::Stream &stream);
-
-		///
-		/// @brief 将 value 序列化，写入 span 中。
-		///
-		/// @param value
-		/// @param span
-		///
-		void GetBytes(int32_t value, base::Span const &span);
-
-		///
-		/// @brief 将 value 序列化，写入 stream 中。
-		///
-		/// @param value
-		/// @param stream
-		///
-		void GetBytes(int32_t value, base::Stream &stream);
-
-		///
-		/// @brief 将 value 序列化，写入 span 中。
-		///
-		/// @param value
-		/// @param span
-		///
-		void GetBytes(uint64_t value, base::Span const &span);
-
-		///
-		/// @brief 将 value 序列化，写入 stream 中。
-		///
-		/// @param value
-		/// @param stream
-		///
-		void GetBytes(uint64_t value, base::Stream &stream);
-
-		///
-		/// @brief 将 value 序列化，写入 span 中。
-		///
-		/// @param value
-		/// @param span
-		///
-		void GetBytes(int64_t value, base::Span const &span);
-
-		///
-		/// @brief 将 value 序列化，写入 stream 中。
-		///
-		/// @param value
-		/// @param stream
-		///
-		void GetBytes(int64_t value, base::Stream &stream);
-
-		///
-		/// @brief 将 value 序列化，写入 span 中。
-		///
-		/// @param value
-		/// @param span
-		///
-		void GetBytes(float value, base::Span const &span);
-
-		///
-		/// @brief 将 value 序列化，写入 stream 中。
-		///
-		/// @param value
-		/// @param stream
-		///
-		void GetBytes(float value, base::Stream &stream);
-
-		///
-		/// @brief 将 value 序列化，写入 span 中。
-		///
-		/// @param value
-		/// @param span
-		///
-		void GetBytes(double value, base::Span const &span);
-
-		///
-		/// @brief 将 value 序列化，写入 stream 中。
-		///
-		/// @param value
-		/// @param stream
-		///
-		void GetBytes(double value, base::Stream &stream);
-
-		/* #endregion */
+			std::copy(buffer,
+					  buffer + sizeof(ValueType),
+					  span.Buffer());
+		}
 
 	} // namespace bit_converte
 } // namespace base
