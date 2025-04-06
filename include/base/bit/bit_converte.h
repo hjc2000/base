@@ -171,6 +171,12 @@ namespace base
 
 		/* #endregion */
 
+		///
+		/// @brief 从字节序列中反序列化出 ReturnType.
+		///
+		/// @param span
+		/// @return ReturnType
+		///
 		template <typename ReturnType>
 		ReturnType FromBytes(base::ReadOnlySpan const &span)
 		{
