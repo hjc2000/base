@@ -30,7 +30,7 @@ namespace base
 			ReturnType ret{};
 
 			std::copy(span.Buffer(),
-					  span.Buffer() + sizeof(ret),
+					  span.Buffer() + sizeof(ReturnType),
 					  reinterpret_cast<uint8_t *>(&ret));
 
 			return ret;
@@ -96,7 +96,7 @@ namespace base
 		void GetBytes(ValueType value, base::Stream &stream)
 		{
 			uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
-			stream.Write(buffer, 0, sizeof(value));
+			stream.Write(buffer, 0, sizeof(ValueType));
 		}
 
 		/* #endregion */
