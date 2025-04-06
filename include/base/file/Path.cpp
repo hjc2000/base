@@ -25,7 +25,8 @@ void base::Path::CorrectPath()
 		_path.Replace("/./", "/");
 	}
 
-	// 去除路径结尾的斜杠
+	// 去除路径结尾的斜杠，除非路径只有一个 / ，即根路径。
+	// 所以加了判断，_path.Length() > 1.
 	if (_path.Length() > 1 && _path.EndWith('/'))
 	{
 		_path = _path[base::Range{0, _path.Length() - 1}];
@@ -88,7 +89,7 @@ bool base::Path::IsRootPath() const
 		return true;
 	}
 
-	if (_path == '/')
+	if (_path == "/")
 	{
 		return true;
 	}

@@ -19,6 +19,7 @@ namespace base
 
 	public:
 		/* #region 构造函数 */
+
 		Path() = default;
 
 		Path(base::String const &path);
@@ -26,6 +27,7 @@ namespace base
 		Path(std::string const &path);
 
 		Path(char const *path);
+
 		/* #endregion */
 
 		///
