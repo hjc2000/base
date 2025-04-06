@@ -171,6 +171,8 @@ namespace base
 
 		/* #endregion */
 
+		/* #region FromBytes */
+
 		///
 		/// @brief 从字节序列中反序列化出 ReturnType.
 		///
@@ -219,6 +221,10 @@ namespace base
 			return FromBytes<ReturnType>(span);
 		}
 
+		/* #endregion */
+
+		/* #region GetBytes */
+
 		///
 		/// @brief 将 value 序列化，写入 span 中。
 		///
@@ -252,6 +258,8 @@ namespace base
 			uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
 			stream.Write(buffer, 0, sizeof(value));
 		}
+
+		/* #endregion */
 
 	} // namespace bit_converte
 } // namespace base
