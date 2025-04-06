@@ -195,6 +195,31 @@ namespace base
 		}
 
 		///
+		/// @brief 从流中反序列化出 ReturnType.
+		///
+		/// @param stream
+		/// @return ReturnType
+		///
+		template <typename ReturnType>
+		ReturnType FromBytes(base::Stream &stream)
+		{
+			uint8_t buffer[sizeof(ReturnType)];
+
+			base::Span span{
+				buffer,
+				static_cast<int32_t>(sizeof(ReturnType)),
+			};
+
+			int32_t have_read = stream.ReadExactly(span);
+			if (have_read < static_cast<int32_t>(sizeof(ReturnType)))
+			{
+				throw std::runtime_error{CODE_POS_STR + "流中没有足够的字节。"};
+			}
+
+			return FromBytes<ReturnType>(span);
+		}
+
+		///
 		/// @brief 将 value 序列化，写入 span 中。
 		///
 		/// @param value
