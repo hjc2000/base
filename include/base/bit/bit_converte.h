@@ -211,7 +211,7 @@ namespace base
 			};
 
 			int32_t have_read = stream.ReadExactly(span);
-			if (have_read < static_cast<int32_t>(sizeof(ReturnType)))
+			if (have_read < span.Size())
 			{
 				throw std::runtime_error{CODE_POS_STR + "流中没有足够的字节。"};
 			}
