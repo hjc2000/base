@@ -3,7 +3,7 @@
 base::profidrive::V2::V2(base::ReadOnlySpan const &span)
 {
 	// 经过转换后，变成小端序了，第 1 个字节是 bit0 到 bit7，第 2 个字节是 bit8 到 bit15.
-	uint16_t data = _converter.ToUInt16(span);
+	uint16_t data = _converter.FromBytes<uint16_t>(span);
 	for (int i = 0; i < 16; i++)
 	{
 		_bitset[i] = data & (1 << i);

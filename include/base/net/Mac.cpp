@@ -60,7 +60,7 @@ base::Mac::operator uint64_t() const
 	 */
 	base::AutoBitConverter converter{std::endian::little};
 
-	uint64_t value = converter.ToUInt64(
+	uint64_t value = converter.FromBytes<uint64_t>(
 		base::ReadOnlySpan{
 			_mac_buffer.Buffer(),
 			_mac_buffer.Count(),

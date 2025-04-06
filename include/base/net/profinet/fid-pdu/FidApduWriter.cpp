@@ -12,7 +12,7 @@ base::profinet::FidApduWriter::FidApduWriter(base::Span const &span)
 base::profinet::FrameIdEnum base::profinet::FidApduWriter::FrameId() const
 {
 	base::Span span = _this_span.Slice(base::Range{0, 2});
-	uint16_t value = _converter.ToUInt16(span);
+	uint16_t value = _converter.FromBytes<uint16_t>(span);
 	return static_cast<base::profinet::FrameIdEnum>(value);
 }
 

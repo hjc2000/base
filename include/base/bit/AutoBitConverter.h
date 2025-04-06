@@ -1,4 +1,5 @@
 #pragma once
+#include "base/bit/bit_converte.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Stream.h"
 #include <bit>
@@ -27,157 +28,56 @@ namespace base
 		/// @return true 远程字节序和本机字节序不同，需要翻转。
 		/// @return false 远程字节序和本机字节序相同，不需要翻转。
 		///
-		bool ShouldReverse() const;
+		bool ShouldReverse() const
+		{
+			return std::endian::native != _remote_endian;
+		}
 
-		/* #region 转换为数值类型 */
+		/* #region FromBytes */
 
 		///
-		/// @brief 从缓冲区中 offset 处开始，反序列化出 uint16_t.
+		/// @brief 从字节序列中反序列化出 ReturnType.
 		///
 		/// @param span
-		/// @return uint16_t
+		/// @return ReturnType
 		///
-		uint16_t ToUInt16(base::ReadOnlySpan const &span) const;
+		template <typename ReturnType>
+		ReturnType FromBytes(base::ReadOnlySpan const &span) const
+		{
+			ReturnType ret = bit_converte::FromBytes<ReturnType>(span);
+			if (ShouldReverse())
+			{
+				uint8_t *p = reinterpret_cast<uint8_t *>(&ret);
+				std::reverse(p, p + sizeof(ReturnType));
+			}
+
+			return ret;
+		}
 
 		///
-		/// @brief 从流中反序列化出数值。
+		/// @brief 从流中反序列化出 ReturnType.
 		///
 		/// @param stream
-		/// @return uint16_t
+		/// @return ReturnType
 		///
-		uint16_t ToUInt16(base::Stream &stream) const;
+		template <typename ReturnType>
+		ReturnType FromBytes(base::Stream &stream) const
+		{
+			uint8_t buffer[sizeof(ReturnType)];
 
-		///
-		/// @brief 从缓冲区中 offset 处开始，反序列化出 int16_t
-		///
-		/// @param span
-		/// @return int16_t
-		///
-		int16_t ToInt16(base::ReadOnlySpan const &span) const;
+			base::Span span{
+				buffer,
+				static_cast<int32_t>(sizeof(ReturnType)),
+			};
 
-		///
-		/// @brief 从流中反序列化出数值。
-		///
-		/// @param stream
-		/// @return int16_t
-		///
-		int16_t ToInt16(base::Stream &stream) const;
+			int32_t have_read = stream.ReadExactly(span);
+			if (have_read < span.Size())
+			{
+				throw std::runtime_error{CODE_POS_STR + "流中没有足够的字节。"};
+			}
 
-		///
-		/// @brief 将高字节和低字节拼接成 uint16_t.
-		/// @param high
-		/// @param low
-		/// @return
-		///
-		uint16_t ToUInt16(uint8_t high, uint8_t low) const;
-
-		///
-		/// @brief 从缓冲区中 offset 处开始，反序列化出 uint32_t
-		/// @param span
-		/// @return
-		///
-		uint32_t ToUInt32(base::ReadOnlySpan const &span) const;
-
-		/// @brief 从流中反序列化出数值。
-		/// @param stream
-		/// @return
-		///
-		uint32_t ToUInt32(base::Stream &stream) const;
-
-		///
-		/// @brief 从缓冲区中 offset 处开始，反序列化出 int32_t
-		/// @param span
-		/// @return
-		///
-		int32_t ToInt32(base::ReadOnlySpan const &span) const;
-
-		///
-		/// @brief 从流中反序列化出数值。
-		/// @param stream
-		/// @return
-		///
-		int32_t ToInt32(base::Stream &stream) const;
-
-		///
-		/// @brief 将 4 个字节拼接成 uint32_t. b0 是最低字节，b3 是最高字节。
-		/// @param b3 最高字节
-		/// @param b2
-		/// @param b1
-		/// @param b0 最低字节
-		/// @return
-		///
-		uint32_t ToUInt32(uint8_t b3, uint8_t b2, uint8_t b1, uint8_t b0) const;
-
-		///
-		/// @brief 将低 uint16_t 和高 uint16_t 拼接成 uint32_t.
-		/// @param high
-		/// @param low
-		/// @return
-		///
-		uint32_t ToUInt32(uint16_t high, uint16_t low) const;
-
-		///
-		/// @brief 从缓冲区中 offset 处开始，反序列化出 uint64_t
-		/// @param span
-		/// @return
-		///
-		uint64_t ToUInt64(base::ReadOnlySpan const &span) const;
-
-		///
-		/// @brief 从流中反序列化出数值。
-		///
-		/// @param stream
-		/// @return
-		///
-		uint64_t ToUInt64(base::Stream &stream) const;
-
-		///
-		/// @brief 从缓冲区中 offset 处开始，反序列化出 int64_t
-		///
-		/// @param span
-		/// @return
-		///
-		int64_t ToInt64(base::ReadOnlySpan const &span) const;
-
-		///
-		/// @brief 从流中反序列化出数值。
-		///
-		/// @param stream
-		/// @return
-		///
-		int64_t ToInt64(base::Stream &stream) const;
-
-		///
-		/// @brief 从缓冲区中 offset 处开始，反序列化出 float
-		///
-		/// @param span
-		/// @return
-		///
-		float ToFloat(base::ReadOnlySpan const &span) const;
-
-		///
-		/// @brief 从流中反序列化出数值。
-		///
-		/// @param stream
-		/// @return
-		///
-		float ToFloat(base::Stream &stream) const;
-
-		///
-		/// @brief 从缓冲区中 offset 处开始，反序列化出 double
-		///
-		/// @param span
-		/// @return
-		///
-		double ToDouble(base::ReadOnlySpan const &span) const;
-
-		///
-		/// @brief 从流中反序列化出数值。
-		///
-		/// @param stream
-		/// @return
-		///
-		double ToDouble(base::Stream &stream) const;
+			return FromBytes<ReturnType>(span);
+		}
 
 		/* #endregion */
 
@@ -189,7 +89,16 @@ namespace base
 		/// @param value
 		/// @param span
 		///
-		void GetBytes(uint16_t value, base::Span const &span) const;
+		template <typename ValueType>
+		void GetBytes(ValueType value, base::Span const &span) const
+		{
+			base::bit_converte::GetBytes<ValueType>(value, span);
+			if (ShouldReverse())
+			{
+				std::reverse(span.Buffer(),
+							 span.Buffer() + sizeof(ValueType));
+			}
+		}
 
 		///
 		/// @brief 将 value 序列化到流中。
@@ -199,131 +108,18 @@ namespace base
 		///
 		/// @return
 		///
-		void GetBytes(uint16_t value, base::Stream &stream) const;
+		template <typename ValueType>
+		void GetBytes(ValueType value, base::Stream &stream) const
+		{
+			uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
+			if (ShouldReverse())
+			{
+				// 直接翻转位于函数参数栈上的 ValueType.
+				std::reverse(buffer, buffer + sizeof(ValueType));
+			}
 
-		///
-		/// @brief 将 value 序列化到缓冲区中的 offset 处。
-		///
-		/// @param value
-		/// @param span
-		///
-		void GetBytes(int16_t value, base::Span const &span) const;
-
-		///
-		/// @brief 将 value 序列化到流中。
-		///
-		/// @param value
-		/// @param stream
-		///
-		/// @return
-		///
-		void GetBytes(int16_t value, base::Stream &stream) const;
-
-		///
-		/// @brief 将 value 序列化到缓冲区中的 offset 处。
-		///
-		/// @param value
-		/// @param span
-		///
-		void GetBytes(uint32_t value, base::Span const &span) const;
-
-		///
-		/// @brief 将 value 序列化到流中。
-		///
-		/// @param value
-		/// @param stream
-		///
-		/// @return
-		///
-		void GetBytes(uint32_t value, base::Stream &stream) const;
-
-		///
-		/// @brief 将 value 序列化到缓冲区中的 offset 处。
-		///
-		/// @param value
-		/// @param span
-		///
-		void GetBytes(int32_t value, base::Span const &span) const;
-
-		/// @brief 将 value 序列化到流中。
-		///
-		/// @param value
-		/// @param stream
-		///
-		/// @return
-		///
-		void GetBytes(int32_t value, base::Stream &stream) const;
-
-		/// @brief 将 value 序列化到缓冲区中的 offset 处。
-		///
-		/// @param value
-		/// @param span
-		///
-		void GetBytes(uint64_t value, base::Span const &span) const;
-
-		///
-		/// @brief 将 value 序列化到流中。
-		///
-		/// @param value
-		/// @param stream
-		///
-		/// @return
-		///
-		void GetBytes(uint64_t value, base::Stream &stream) const;
-
-		///
-		/// @brief 将 value 序列化到缓冲区中的 offset 处。
-		///
-		/// @param value
-		/// @param span
-		///
-		void GetBytes(int64_t value, base::Span const &span) const;
-
-		///
-		/// @brief 将 value 序列化到流中。
-		///
-		/// @param value
-		/// @param stream
-		///
-		/// @return
-		///
-		void GetBytes(int64_t value, base::Stream &stream) const;
-
-		///
-		/// @brief 将 value 序列化到缓冲区中的 offset 处。
-		///
-		/// @param value
-		/// @param span
-		///
-		void GetBytes(float value, base::Span const &span) const;
-
-		///
-		/// @brief 将 value 序列化到流中。
-		///
-		/// @param value
-		/// @param stream
-		///
-		/// @return
-		///
-		void GetBytes(float value, base::Stream &stream) const;
-
-		///
-		/// @brief 将 value 序列化到缓冲区中的 offset 处。
-		///
-		/// @param value
-		/// @param span
-		///
-		void GetBytes(double value, base::Span const &span) const;
-
-		///
-		/// @brief 将 value 序列化到流中。
-		///
-		/// @param value
-		/// @param stream
-		///
-		/// @return
-		///
-		void GetBytes(double value, base::Stream &stream) const;
+			stream.Write(buffer, 0, sizeof(ValueType));
+		}
 
 		/* #endregion */
 	};

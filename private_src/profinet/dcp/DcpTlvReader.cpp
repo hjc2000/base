@@ -12,7 +12,7 @@ base::profinet::DcpTlvReader::DcpTlvReader(base::ReadOnlySpan const &span)
 		if (option == 2 && suboption == 2)
 		{
 			_has_name_of_station_block = true;
-			uint16_t length = _converter.ToUInt16(tlv.Slice(base::Range{2, 4}));
+			uint16_t length = _converter.FromBytes<uint16_t>(tlv.Slice(base::Range{2, 4}));
 			base::ReadOnlySpan name_span = tlv.Slice(4, length);
 			_station_name = std::string{reinterpret_cast<char const *>(name_span.Buffer()), length};
 		}

@@ -35,7 +35,7 @@ void base::profinet::DcpHeaderWriter::SetServiceType(base::profinet::DcpServiceT
 uint32_t base::profinet::DcpHeaderWriter::Xid() const
 {
 	base::Span span = _span.Slice(base::Range{2, 6});
-	return _converter.ToUInt32(span);
+	return _converter.FromBytes<uint32_t>(span);
 }
 
 void base::profinet::DcpHeaderWriter::SetXid(uint32_t value)
@@ -47,7 +47,7 @@ void base::profinet::DcpHeaderWriter::SetXid(uint32_t value)
 uint16_t base::profinet::DcpHeaderWriter::ResponseDelay() const
 {
 	base::Span span = _span.Slice(base::Range{6, 8});
-	return _converter.ToUInt32(span);
+	return _converter.FromBytes<uint16_t>(span);
 }
 
 void base::profinet::DcpHeaderWriter::SetResponseDelay(uint16_t value)
@@ -59,7 +59,7 @@ void base::profinet::DcpHeaderWriter::SetResponseDelay(uint16_t value)
 uint16_t base::profinet::DcpHeaderWriter::DataLength() const
 {
 	base::Span span = _span.Slice(base::Range{8, 10});
-	return _converter.ToUInt16(span);
+	return _converter.FromBytes<uint16_t>(span);
 }
 
 void base::profinet::DcpHeaderWriter::SetDataLength(uint16_t value)

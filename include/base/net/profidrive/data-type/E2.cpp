@@ -12,7 +12,7 @@ base::profidrive::E2::E2(base::ReadOnlySpan const &span)
 	 *
 	 * 想要获得分数的实际值，就将这个整型除以 Factor.
 	 */
-	int16_t e2 = _converter.ToInt16(span);
+	int16_t e2 = _converter.FromBytes<int16_t>(span);
 	_value = base::Fraction{e2, Factor()};
 }
 

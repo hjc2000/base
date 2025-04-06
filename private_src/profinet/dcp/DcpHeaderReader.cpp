@@ -25,17 +25,17 @@ base::profinet::DcpServiceTypeEnum base::profinet::DcpHeaderReader::ServiceType(
 uint32_t base::profinet::DcpHeaderReader::Xid() const
 {
 	base::ReadOnlySpan span = _span.Slice(base::Range{2, 6});
-	return _converter.ToUInt32(span);
+	return _converter.FromBytes<uint32_t>(span);
 }
 
 uint16_t base::profinet::DcpHeaderReader::ResponseDelay() const
 {
 	base::ReadOnlySpan span = _span.Slice(base::Range{6, 8});
-	return _converter.ToUInt16(span);
+	return _converter.FromBytes<uint16_t>(span);
 }
 
 uint16_t base::profinet::DcpHeaderReader::DataLength() const
 {
 	base::ReadOnlySpan span = _span.Slice(base::Range{8, 10});
-	return _converter.ToUInt16(span);
+	return _converter.FromBytes<uint16_t>(span);
 }

@@ -12,7 +12,7 @@ base::profidrive::X4::X4(base::ReadOnlySpan const &span)
 	 *
 	 * 想要获得分数的实际值，就将这个整型除以 Factor.
 	 */
-	int32_t x4 = _converter.ToInt32(span);
+	int32_t x4 = _converter.FromBytes<int32_t>(span);
 	_value = base::Fraction{x4, Factor()};
 }
 

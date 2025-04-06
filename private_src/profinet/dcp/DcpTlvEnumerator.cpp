@@ -22,7 +22,7 @@ bool base::profinet::DcpTlvEnumerator::MoveNext()
 		return false;
 	}
 
-	uint16_t length = _converter.ToUInt16(_remain_span.Slice(base::Range{2, 4}));
+	uint16_t length = _converter.FromBytes<uint16_t>(_remain_span.Slice(base::Range{2, 4}));
 
 	uint16_t padding_size = 0;
 	if (length % 2 != 0)
