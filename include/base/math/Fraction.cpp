@@ -371,6 +371,12 @@ boost::multiprecision::cpp_int std::ceil(base::Fraction const &value)
 
 /* #endregion */
 
+base::Fraction base::constant::PI()
+{
+	base::Fraction pi{base::Double{std::numbers::pi}};
+	return pi;
+}
+
 std::string std::to_string(boost::multiprecision::cpp_int const &value)
 {
 	boost::multiprecision::cpp_int temp = value;

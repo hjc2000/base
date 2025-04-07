@@ -206,6 +206,13 @@ namespace base
 
 		/* #endregion */
 	};
+
+	namespace constant
+	{
+		base::Fraction PI();
+
+	} // namespace constant
+
 } // namespace base
 
 /* #region 全局四则运算符 */
