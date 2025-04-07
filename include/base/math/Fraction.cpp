@@ -372,7 +372,7 @@ boost::multiprecision::cpp_int std::ceil(base::Fraction const &value)
 
 /* #endregion */
 
-REGISTER_PREINIT(base::constant::PI);
+PREINIT(base::constant::PI);
 
 base::Fraction base::constant::PI()
 {
