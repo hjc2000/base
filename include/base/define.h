@@ -30,19 +30,19 @@
 		Class &operator=(Class const &) = delete; \
 		Class &operator=(Class &&) = delete;
 
-	#define PREINIT(func)          \
-		namespace                  \
-		{                          \
-			class Init             \
-			{                      \
-			public:                \
-				Init()             \
-				{                  \
-					func();        \
-				}                  \
-			};                     \
-                                   \
-			Init volatile _init{}; \
+	#define PREINIT(func)             \
+		namespace                     \
+		{                             \
+			class Init                \
+			{                         \
+			public:                   \
+				Init()                \
+				{                     \
+					func();           \
+				}                     \
+			};                        \
+                                      \
+			Init volatile _preinit{}; \
 		}
 
 #endif
