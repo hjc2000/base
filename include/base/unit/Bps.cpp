@@ -1,31 +1,31 @@
-#include "Bps.h"
+#include "bps.h"
 #include <base/unit/Mbps.h>
 
 /* #region 构造函数 */
 
-base::Bps::Bps(int64_t value)
+base::bps::bps(int64_t value)
 {
 	_value = value;
 }
 
-base::Bps::Bps(base::Fraction const &o)
+base::bps::bps(base::Fraction const &o)
 {
 	_value = o;
 }
 
-base::Bps::Bps(Mbps const &o)
+base::bps::bps(Mbps const &o)
 {
 	_value = static_cast<base::Fraction>(o) * 1000 * 1000;
 }
 
 /* #endregion */
 
-base::Fraction &base::Bps::Value()
+base::Fraction &base::bps::Value()
 {
 	return _value;
 }
 
-std::string base::Bps::UnitString() const
+std::string base::bps::UnitString() const
 {
 	return "bps";
 }

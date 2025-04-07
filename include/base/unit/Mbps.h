@@ -3,7 +3,7 @@
 
 namespace base
 {
-	class Bps;
+	class bps;
 
 	/// @brief 比特率。每秒的比特数。这里是 Mbit / s.
 	/// @note 在通信领域，1 Mbit = 1000 * 1000 bit.
@@ -17,7 +17,7 @@ namespace base
 		Mbps() = default;
 		explicit Mbps(int64_t value);
 		explicit Mbps(base::Fraction const &o);
-		explicit Mbps(base::Bps const &o);
+		explicit Mbps(base::bps const &o);
 
 	public:
 		virtual base::Fraction &Value() override

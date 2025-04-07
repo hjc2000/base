@@ -1,5 +1,5 @@
 #include "Mbps.h"
-#include "base/unit/Bps.h"
+#include "base/unit/bps.h"
 
 base::Mbps::Mbps(int64_t value)
 {
@@ -11,7 +11,7 @@ base::Mbps::Mbps(base::Fraction const &o)
 	_value = o;
 }
 
-base::Mbps::Mbps(base::Bps const &o)
+base::Mbps::Mbps(base::bps const &o)
 {
 	_value = static_cast<base::Fraction>(o) / 1000 / 1000;
 }
