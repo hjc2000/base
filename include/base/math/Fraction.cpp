@@ -382,7 +382,7 @@ namespace
 		}
 	};
 
-	Initializer volatile _global_pi_initializer{};
+	Initializer volatile _global_pi_hjc_init{};
 
 } // namespace
 
