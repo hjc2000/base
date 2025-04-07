@@ -30,4 +30,19 @@
 		Class &operator=(Class const &) = delete; \
 		Class &operator=(Class &&) = delete;
 
+	#define REGISTER_PREINIT(func) \
+		namespace                  \
+		{                          \
+			class Init             \
+			{                      \
+			public:                \
+				Init()             \
+				{                  \
+					func();        \
+				}                  \
+			};                     \
+                                   \
+			Init volatile _init{}; \
+		}
+
 #endif
