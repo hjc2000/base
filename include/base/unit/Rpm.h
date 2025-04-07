@@ -5,7 +5,7 @@
 
 namespace base
 {
-	class Rps;
+	class rps;
 	class rpm;
 
 	///
@@ -22,7 +22,7 @@ namespace base
 		rpm() = default;
 		explicit rpm(int64_t value);
 		explicit rpm(base::Fraction const &value);
-		explicit rpm(base::Rps const &value);
+		explicit rpm(base::rps const &value);
 
 		using base::IUnit<rpm>::Value;
 

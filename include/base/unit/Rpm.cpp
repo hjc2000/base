@@ -1,5 +1,5 @@
 #include "rpm.h"
-#include "Rps.h"
+#include "rps.h"
 
 base::rpm::rpm(int64_t value)
 {
@@ -11,7 +11,7 @@ base::rpm::rpm(base::Fraction const &value)
 	_value = value;
 }
 
-base::rpm::rpm(base::Rps const &value)
+base::rpm::rpm(base::rps const &value)
 {
 	_value = value.Value() * 60;
 }

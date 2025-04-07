@@ -5,26 +5,26 @@
 
 namespace base
 {
-	class Rps;
+	class rps;
 	class rpm;
 
 	///
 	/// @brief 转速。圈 / 秒。
 	///
 	///
-	class Rps :
-		public base::IUnit<Rps>
+	class rps :
+		public base::IUnit<rps>
 	{
 	private:
 		base::Fraction _value;
 
 	public:
-		Rps() = default;
-		explicit Rps(int64_t value);
-		explicit Rps(base::Fraction const &value);
-		explicit Rps(base::rpm const &value);
+		rps() = default;
+		explicit rps(int64_t value);
+		explicit rps(base::Fraction const &value);
+		explicit rps(base::rpm const &value);
 
-		using base::IUnit<Rps>::Value;
+		using base::IUnit<rps>::Value;
 
 		///
 		/// @brief 单位的值。
