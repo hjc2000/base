@@ -8,28 +8,28 @@ namespace base
 	class W;
 	class kW;
 
-	class W :
-		public base::IUnit<W>
+	class kW :
+		public base::IUnit<kW>
 	{
 	private:
 		base::Fraction _value;
 
 	public:
-		W() = default;
+		kW() = default;
 
-		W(int64_t value)
+		kW(int64_t value)
 		{
 			_value = value;
 		}
 
-		W(base::Fraction const &value)
+		kW(base::Fraction const &value)
 		{
 			_value = value;
 		}
 
-		W(base::kW const &value);
+		kW(base::W const &value);
 
-		using base::IUnit<W>::Value;
+		using base::IUnit<kW>::Value;
 
 		///
 		/// @brief 单位的值。

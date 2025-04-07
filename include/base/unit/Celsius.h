@@ -28,6 +28,8 @@ namespace base
 			_value = value;
 		}
 
+		using base::IUnit<Celsius>::Value;
+
 		///
 		/// @brief 单位的值。
 		///
