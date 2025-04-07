@@ -1,4 +1,5 @@
 #include "Fraction.h"
+#include "base/define.h"
 #include "base/math/Pow.h"
 #include <cstdint>
 #include <stdexcept>
@@ -371,20 +372,7 @@ boost::multiprecision::cpp_int std::ceil(base::Fraction const &value)
 
 /* #endregion */
 
-namespace
-{
-	class Initializer
-	{
-	public:
-		Initializer()
-		{
-			base::constant::PI();
-		}
-	};
-
-	Initializer volatile _global_pi_hjc_init{};
-
-} // namespace
+REGISTER_PREINIT(base::constant::PI);
 
 base::Fraction base::constant::PI()
 {
