@@ -5,35 +5,30 @@
 
 namespace base
 {
-	class W;
-	class kW;
-
 	///
-	/// @brief 功率单位：千瓦。
+	/// @brief 电压单位：伏特。
 	///
 	///
-	class kW :
-		public base::IUnit<kW>
+	class V :
+		public base::IUnit<V>
 	{
 	private:
 		base::Fraction _value;
 
 	public:
-		kW() = default;
+		V() = default;
 
-		kW(int64_t value)
+		V(int64_t value)
 		{
 			_value = value;
 		}
 
-		kW(base::Fraction const &value)
+		V(base::Fraction const &value)
 		{
 			_value = value;
 		}
 
-		kW(base::W const &value);
-
-		using base::IUnit<kW>::Value;
+		using base::IUnit<V>::Value;
 
 		///
 		/// @brief 单位的值。

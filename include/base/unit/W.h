@@ -8,6 +8,10 @@ namespace base
 	class W;
 	class kW;
 
+	///
+	/// @brief 功率单位：瓦。
+	///
+	///
 	class W :
 		public base::IUnit<W>
 	{
