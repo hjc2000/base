@@ -200,7 +200,7 @@ namespace base
 			return const_cast<IUnit<TSelf> *>(this)->Value();
 		}
 
-		/* #region 算术运算 */
+		/* #region 计算函数 */
 
 		///
 		/// @brief 向下取整
@@ -221,6 +221,10 @@ namespace base
 		{
 			return TSelf{Value().Ceil()};
 		}
+
+		/* #endregion */
+
+		/* #region 算术运算 */
 
 		///
 		/// @brief 取相反数。
@@ -248,6 +252,70 @@ namespace base
 		}
 
 		///
+		/// @brief 减去本单位或能够转换为本单位的其他单位的值。
+		///
+		/// @param value
+		/// @return TSelf
+		///
+		template <typename _type>
+		auto operator-(_type const &value) const
+			-> std::enable_if_t<!std::convertible_to<_type, int64_t> &&
+									!std::convertible_to<_type, base::Fraction>,
+								TSelf>
+		{
+			return TSelf{Value() - TSelf{value}.Value()};
+		}
+
+		///
+		/// @brief 乘上无量纲的系数。
+		///
+		/// @param value
+		/// @return TSelf
+		///
+		template <typename _type>
+		auto operator*(_type const &value) const
+			-> std::enable_if_t<std::convertible_to<_type, int64_t> ||
+									std::convertible_to<_type, base::Fraction>,
+								TSelf>
+		{
+			return TSelf{Value() * value};
+		}
+
+		///
+		/// @brief 除以一个无量纲的系数。
+		///
+		/// @param value
+		/// @return TSelf
+		///
+		template <typename _type>
+		auto operator/(_type const &value) const
+			-> std::enable_if_t<std::convertible_to<_type, int64_t> ||
+									std::convertible_to<_type, base::Fraction>,
+								TSelf>
+		{
+			return TSelf{Value() / value};
+		}
+
+		///
+		/// @brief 除以本单位或能够转换为本单位的其他单位，变成一个无量纲的常数。
+		///
+		/// @param value
+		/// @return base::Fraction
+		///
+		template <typename _type>
+		auto operator/(_type const &value) const
+			-> std::enable_if_t<!std::convertible_to<_type, int64_t> &&
+									!std::convertible_to<_type, base::Fraction>,
+								base::Fraction>
+		{
+			return Value() / TSelf{value}.Value();
+		}
+
+		/* #endregion */
+
+		/* #region 自改变算术运算符 */
+
+		///
 		/// @brief 加上本单位或能够转换为本单位的其他单位的值。
 		///
 		/// @param value
@@ -261,21 +329,6 @@ namespace base
 		{
 			Value() += TSelf{value}.Value();
 			return *reinterpret_cast<TSelf *>(this);
-		}
-
-		///
-		/// @brief 减去本单位或能够转换为本单位的其他单位的值。
-		///
-		/// @param value
-		/// @return TSelf
-		///
-		template <typename _type>
-		auto operator-(_type const &value) const
-			-> std::enable_if_t<!std::convertible_to<_type, int64_t> &&
-									!std::convertible_to<_type, base::Fraction>,
-								TSelf>
-		{
-			return TSelf{Value() - TSelf{value}.Value()};
 		}
 
 		///
@@ -298,21 +351,6 @@ namespace base
 		/// @brief 乘上无量纲的系数。
 		///
 		/// @param value
-		/// @return TSelf
-		///
-		template <typename _type>
-		auto operator*(_type const &value) const
-			-> std::enable_if_t<std::convertible_to<_type, int64_t> ||
-									std::convertible_to<_type, base::Fraction>,
-								TSelf>
-		{
-			return TSelf{Value() * value};
-		}
-
-		///
-		/// @brief 乘上无量纲的系数。
-		///
-		/// @param value
 		/// @return sTSelf &
 		///
 		template <typename _type>
@@ -329,21 +367,6 @@ namespace base
 		/// @brief 除以一个无量纲的系数。
 		///
 		/// @param value
-		/// @return TSelf
-		///
-		template <typename _type>
-		auto operator/(_type const &value) const
-			-> std::enable_if_t<std::convertible_to<_type, int64_t> ||
-									std::convertible_to<_type, base::Fraction>,
-								TSelf>
-		{
-			return TSelf{Value() / value};
-		}
-
-		///
-		/// @brief 除以一个无量纲的系数。
-		///
-		/// @param value
 		/// @return TSelf &
 		///
 		template <typename _type>
@@ -354,21 +377,6 @@ namespace base
 		{
 			Value() /= value;
 			return *reinterpret_cast<TSelf *>(this);
-		}
-
-		///
-		/// @brief 除以本单位或能够转换为本单位的其他单位，变成一个无量纲的常数。
-		///
-		/// @param value
-		/// @return base::Fraction
-		///
-		template <typename _type>
-		auto operator/(_type const &value) const
-			-> std::enable_if_t<!std::convertible_to<_type, int64_t> &&
-									!std::convertible_to<_type, base::Fraction>,
-								base::Fraction>
-		{
-			return Value() / TSelf{value}.Value();
 		}
 
 		/* #endregion */
