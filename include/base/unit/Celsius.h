@@ -1,6 +1,7 @@
 #pragma once
 #include "base/math/Fraction.h"
 #include "base/unit/IUnit.h"
+#include <cstdint>
 
 namespace base
 {
@@ -15,6 +16,18 @@ namespace base
 		base::Fraction _value;
 
 	public:
+		Celsius() = default;
+
+		Celsius(int64_t value)
+		{
+			_value = value;
+		}
+
+		Celsius(base::Fraction const &value)
+		{
+			_value = value;
+		}
+
 		///
 		/// @brief 单位的值。
 		///
