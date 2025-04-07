@@ -382,13 +382,17 @@ namespace
 		}
 	};
 
-	Initializer volatile _initializer{};
+	Initializer volatile _global_pi_initializer{};
 
 } // namespace
 
 base::Fraction base::constant::PI()
 {
-	static base::Fraction pi{base::Double{std::numbers::pi}};
+	static base::Fraction pi{
+		static_cast<uint64_t>(884279719003555),
+		static_cast<uint64_t>(281474976710656),
+	};
+
 	return pi;
 }
 
