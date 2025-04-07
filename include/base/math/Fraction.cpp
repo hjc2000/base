@@ -371,9 +371,24 @@ boost::multiprecision::cpp_int std::ceil(base::Fraction const &value)
 
 /* #endregion */
 
+namespace
+{
+	class Initializer
+	{
+	public:
+		Initializer()
+		{
+			base::constant::PI();
+		}
+	};
+
+	Initializer volatile _initializer{};
+
+} // namespace
+
 base::Fraction base::constant::PI()
 {
-	base::Fraction pi{base::Double{std::numbers::pi}};
+	static base::Fraction pi{base::Double{std::numbers::pi}};
 	return pi;
 }
 
