@@ -1,27 +1,27 @@
-#include "Rpm.h"
+#include "rpm.h"
 #include "Rps.h"
 
-base::Rpm::Rpm(int64_t value)
+base::rpm::rpm(int64_t value)
 {
 	_value = value;
 }
 
-base::Rpm::Rpm(base::Fraction const &value)
+base::rpm::rpm(base::Fraction const &value)
 {
 	_value = value;
 }
 
-base::Rpm::Rpm(base::Rps const &value)
+base::rpm::rpm(base::Rps const &value)
 {
 	_value = value.Value() * 60;
 }
 
-base::Fraction &base::Rpm::Value()
+base::Fraction &base::rpm::Value()
 {
 	return _value;
 }
 
-std::string base::Rpm::UnitString() const
+std::string base::rpm::UnitString() const
 {
 	return "rpm";
 }

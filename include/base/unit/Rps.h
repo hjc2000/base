@@ -6,7 +6,7 @@
 namespace base
 {
 	class Rps;
-	class Rpm;
+	class rpm;
 
 	///
 	/// @brief 转速。圈 / 秒。
@@ -22,7 +22,7 @@ namespace base
 		Rps() = default;
 		explicit Rps(int64_t value);
 		explicit Rps(base::Fraction const &value);
-		explicit Rps(base::Rpm const &value);
+		explicit Rps(base::rpm const &value);
 
 		using base::IUnit<Rps>::Value;
 
