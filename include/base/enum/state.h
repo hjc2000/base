@@ -32,5 +32,24 @@ namespace base
 			///
 			HasFault,
 		};
+
+		///
+		/// @brief 警告状态。
+		///
+		///
+		enum class WarningState
+		{
+			///
+			/// @brief 无警告。
+			///
+			///
+			HasNoWarning,
+
+			///
+			/// @brief 有警告。
+			///
+			///
+			HasWarning,
+		};
 	} // namespace Enum
 } // namespace base
