@@ -53,7 +53,7 @@ namespace base
 			///
 			/// @brief 2
 			///
-			Tow,
+			Two,
 		};
 
 		///

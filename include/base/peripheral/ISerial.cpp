@@ -51,7 +51,7 @@ uint32_t base::serial::ISerial::FramesBaudCount(uint32_t frame_count) const
 
 			break;
 		}
-	case base::serial::StopBits::Tow:
+	case base::serial::StopBits::Two:
 		{
 			baud_count += 2 * frame_count;
 			break;
