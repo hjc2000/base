@@ -55,6 +55,8 @@ namespace base
 		///
 		base::IDictionary<std::string, base::led::IDigitalLed *> const &DigitalLedCollection();
 
+		/* #region 各种颜色的 LED */
+
 		///
 		/// @brief 红色 LED.
 		///
@@ -75,6 +77,8 @@ namespace base
 		/// @return base::led::IDigitalLed&
 		///
 		base::led::IDigitalLed &BlueDigitalLed();
+
+		/* #endregion */
 
 	} // namespace led
 } // namespace base

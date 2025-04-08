@@ -5,7 +5,6 @@
 
 namespace base
 {
-	/// @brief 参数、枚举
 	namespace serial
 	{
 		/* #region 串口属性 */
@@ -297,14 +296,14 @@ namespace base
 
 			/* #endregion */
 
-			/* #region 接口扩展 */
-
 			///
 			/// @brief 计算 frame_count 个帧占用多少个波特。
 			/// @param frame_count
 			/// @return
 			///
 			uint32_t FramesBaudCount(uint32_t frame_count) const;
+
+			/* #region Open */
 
 			///
 			/// @brief 使用默认参数打开。
@@ -323,6 +322,9 @@ namespace base
 		///
 		/// @brief 主串口。
 		///
+		/// @note 单片机中通常会有一个主串口，通用计算机中则没有。没有可以不实现本函数，直接让
+		/// 本函数抛出异常。
+		///
 		/// @return
 		///
 		base::serial::ISerial &MainSerial();
@@ -332,9 +334,20 @@ namespace base
 		///
 		/// @note 这里的串口使用的是单例模式。
 		///
+		/// @note 调用 ScanSerials 将重新扫描串口。
+		/// 	@li 单片机中不需要重新扫描，因为 UART 外设的数量是固定的，有几个串口已经一开始就确定了，
+		/// 		不会像通用计算机即插即用那样开机后可以增加任意数量的串口。
+		/// 	@li 通用计算机中需要扫描串口，在调用本函数前需要调用 ScanSerials 扫描一下串口。
+		///
 		/// @return
 		///
 		base::IDictionary<std::string, base::serial::ISerial *> const &SerialCollection();
+
+		///
+		/// @brief 扫描串口。扫描后 SerialCollection 返回的集合会更新。
+		///
+		///
+		void ScanSerials();
 
 	} // namespace serial
 } // namespace base
