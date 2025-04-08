@@ -70,6 +70,16 @@ namespace base
 		};
 
 		///
+		/// @brief 开关状态。
+		///
+		///
+		enum class SwitchState
+		{
+			Off,
+			On,
+		};
+
+		///
 		/// @brief 电机控制模式。
 		///
 		///
