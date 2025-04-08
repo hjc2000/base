@@ -1,6 +1,7 @@
 #pragma once
 #include "base/container/IQueue.h"
 #include "base/container/iterator/IEnumerable.h"
+#include <cstdint>
 #include <functional>
 
 namespace base
@@ -240,16 +241,27 @@ namespace base
 
 		/* #endregion */
 
-		///
-		/// @brief 两个 IList 对象的指针相等时才认为相等。
-		///
-		/// @param o
-		/// @return true
-		/// @return false
-		///
 		bool operator==(IList<ItemType> const &o) const
 		{
-			return this == &o;
+			if (this == &o)
+			{
+				return true;
+			}
+
+			if (Count() != o.Count())
+			{
+				return false;
+			}
+
+			for (int32_t i = 0; i < Count(); i++)
+			{
+				if ((*this)[i] != o[i])
+				{
+					return false;
+				}
+			}
+
+			return true;
 		}
 	};
 } // namespace base
