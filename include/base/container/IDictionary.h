@@ -26,14 +26,24 @@ namespace base
 		/// @return 移除成功返回 true，元素不存在返回 false。
 		virtual bool Remove(KeyType const &key) = 0;
 
+		///
+		/// @brief 清空所有元素。
+		///
+		///
+		virtual void Clear() = 0;
+
 		/// @brief 设置一个元素。本来不存在，会添加；本来就存在了，会覆盖。
 		/// @param key
 		/// @param item
 		virtual void Set(KeyType const &key, ValueType const &item) = 0;
 
+		using base::IEnumerable<std::pair<KeyType const, ValueType>>::GetEnumerator;
+
 		/// @brief 获取迭代器
 		/// @return
-		virtual std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>> GetEnumerator() = 0;
+		virtual std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>> GetEnumerator() override = 0;
+
+		/* #region 接口扩展 */
 
 		/// @brief 获取元素。找不到会抛出异常。
 		/// @param key
@@ -110,5 +120,7 @@ namespace base
 				Add(pair);
 			}
 		}
+
+		/* #endregion */
 	};
 } // namespace base

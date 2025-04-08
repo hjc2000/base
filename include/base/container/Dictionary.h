@@ -12,7 +12,7 @@ namespace base
 		public base::IDictionary<KeyType, ValueType>
 	{
 	private:
-		std::map<KeyType, ValueType> _map{};
+		/* #region Enumerator */
 
 		class Enumerator :
 			public IEnumerator<std::pair<KeyType const, ValueType>>
@@ -69,7 +69,13 @@ namespace base
 			}
 		};
 
+		/* #endregion */
+
+		std::map<KeyType, ValueType> _map{};
+
 	public:
+		/* #region 构造函数 */
+
 		/// @brief 构造一个空字典。
 		Dictionary() = default;
 
@@ -85,12 +91,11 @@ namespace base
 			Add(list);
 		}
 
-	public:
-		using base::IDictionary<KeyType, ValueType>::Add;
+		/* #endregion */
 
 		/// @brief 获取元素个数。
 		/// @return
-		int Count() const override
+		virtual int Count() const override
 		{
 			return _map.size();
 		}
@@ -98,7 +103,7 @@ namespace base
 		/// @brief 查找元素。
 		/// @param key 键
 		/// @return 指针。找到了返回元素的指针，找不到返回空指针。
-		ValueType *Find(KeyType const &key) override
+		virtual ValueType *Find(KeyType const &key) override
 		{
 			auto it = _map.find(key);
 			if (it == _map.end())
@@ -112,7 +117,7 @@ namespace base
 		/// @brief 移除一个元素。
 		/// @param key 键
 		/// @return 移除成功返回 true，元素不存在返回 false。
-		bool Remove(KeyType const &key) override
+		virtual bool Remove(KeyType const &key) override
 		{
 			auto it = _map.find(key);
 			if (it != _map.end())
@@ -124,17 +129,28 @@ namespace base
 			return false;
 		}
 
+		///
+		/// @brief 清空所有元素。
+		///
+		///
+		virtual void Clear() override
+		{
+			_map.clear();
+		}
+
 		/// @brief 设置一个元素。本来不存在，会添加；本来就存在了，会覆盖。
 		/// @param key
 		/// @param value
-		void Set(KeyType const &key, ValueType const &value) override
+		virtual void Set(KeyType const &key, ValueType const &value) override
 		{
 			_map[key] = value;
 		}
 
+		using base::IEnumerable<std::pair<KeyType const, ValueType>>::GetEnumerator;
+
 		/// @brief 获取迭代器
 		/// @return
-		std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>> GetEnumerator() override
+		virtual std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>> GetEnumerator() override
 		{
 			return std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>>{new Enumerator{&_map}};
 		}
