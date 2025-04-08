@@ -52,5 +52,11 @@ namespace base
 		{
 			_y = value;
 		}
+
+		bool operator==(base::Position const &another) const;
+		bool operator<(base::Position const &another) const;
+		bool operator>(base::Position const &another) const;
+		bool operator<=(base::Position const &another) const;
+		bool operator>=(base::Position const &another) const;
 	};
 } // namespace base
