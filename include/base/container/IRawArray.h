@@ -167,5 +167,141 @@ namespace base
 		}
 
 		/* #endregion */
+
+		/* #region 比较运算符 */
+
+		bool operator==(IRawArray<ItemType> const &o) const
+		{
+			if (this == &o)
+			{
+				return true;
+			}
+
+			if (Count() != o.Count())
+			{
+				return false;
+			}
+
+			// 执行到这里说明 Count 相等。
+			for (int32_t i = 0; i < Count(); i++)
+			{
+				if ((*this)[i] != o[i])
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		bool operator<(IRawArray<ItemType> const &o) const
+		{
+			if (this == &o)
+			{
+				return false;
+			}
+
+			int32_t count = std::min(Count(), o.Count());
+			for (int32_t i = 0; i < count; i++)
+			{
+				if ((*this)[i] < o[i])
+				{
+					return true;
+				}
+
+				if ((*this)[i] > o[i])
+				{
+					return false;
+				}
+
+				// 相等就继续下一轮循环
+			}
+
+			// 经过循环后还没返回，说明比较结果都是相等。接下来比较长度。
+			return Count() < o.Count();
+		}
+
+		bool operator>(IRawArray<ItemType> const &o) const
+		{
+			if (this == &o)
+			{
+				return false;
+			}
+
+			int32_t count = std::min(Count(), o.Count());
+			for (int32_t i = 0; i < count; i++)
+			{
+				if ((*this)[i] > o[i])
+				{
+					return true;
+				}
+
+				if ((*this)[i] < o[i])
+				{
+					return false;
+				}
+
+				// 相等就继续下一轮循环
+			}
+
+			// 经过循环后还没返回，说明比较结果都是相等。接下来比较长度。
+			return Count() > o.Count();
+		}
+
+		bool operator<=(IRawArray<ItemType> const &o) const
+		{
+			if (this == &o)
+			{
+				return false;
+			}
+
+			int32_t count = std::min(Count(), o.Count());
+			for (int32_t i = 0; i < count; i++)
+			{
+				if ((*this)[i] < o[i])
+				{
+					return true;
+				}
+
+				if ((*this)[i] > o[i])
+				{
+					return false;
+				}
+
+				// 相等就继续下一轮循环
+			}
+
+			// 经过循环后还没返回，说明比较结果都是相等。接下来比较长度。
+			return Count() <= o.Count();
+		}
+
+		bool operator>=(IRawArray<ItemType> const &o) const
+		{
+			if (this == &o)
+			{
+				return false;
+			}
+
+			int32_t count = std::min(Count(), o.Count());
+			for (int32_t i = 0; i < count; i++)
+			{
+				if ((*this)[i] > o[i])
+				{
+					return true;
+				}
+
+				if ((*this)[i] < o[i])
+				{
+					return false;
+				}
+
+				// 相等就继续下一轮循环
+			}
+
+			// 经过循环后还没返回，说明比较结果都是相等。接下来比较长度。
+			return Count() >= o.Count();
+		}
+
+		/* #endregion */
 	};
 } // namespace base

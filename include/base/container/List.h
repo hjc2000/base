@@ -309,5 +309,11 @@ namespace base
 		}
 
 		/* #endregion */
+
+		using base::IRawArray<ItemType>::operator==;
+		using base::IRawArray<ItemType>::operator<;
+		using base::IRawArray<ItemType>::operator>;
+		using base::IRawArray<ItemType>::operator<=;
+		using base::IRawArray<ItemType>::operator>=;
 	};
 } // namespace base
