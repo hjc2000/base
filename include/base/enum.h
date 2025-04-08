@@ -77,5 +77,24 @@ namespace base
 			Torque,
 		};
 
+		///
+		/// @brief 电机旋转方向。
+		///
+		///
+		enum class MotorRotationDirection
+		{
+			///
+			/// @brief 正向。
+			///
+			///
+			Forward,
+
+			///
+			/// @brief 反向。
+			///
+			///
+			Reverse
+		};
+
 	} // namespace Enum
 } // namespace base
