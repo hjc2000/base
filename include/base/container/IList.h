@@ -263,5 +263,32 @@ namespace base
 
 			return true;
 		}
+
+		bool operator<(IList<ItemType> const &o) const
+		{
+			if (this == &o)
+			{
+				return false;
+			}
+
+			int32_t count = std::min(Count(), o.Count());
+			for (int32_t i = 0; i < count; i++)
+			{
+				if ((*this)[i] < o[i])
+				{
+					return true;
+				}
+
+				if ((*this)[i] > o[i])
+				{
+					return false;
+				}
+
+				// 相等就继续下一轮循环
+			}
+
+			// 经过循环后还没返回，说明比较结果都是相等。接下来比较长度。
+			return Count() < o.Count();
+		}
 	};
 } // namespace base
