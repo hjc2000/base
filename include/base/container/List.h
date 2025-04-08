@@ -68,7 +68,7 @@ namespace base
 		///
 		/// @param item
 		///
-		void Add(ItemType const &item) override
+		virtual void Add(ItemType const &item) override
 		{
 			_vector.push_back(item);
 		}
@@ -79,7 +79,7 @@ namespace base
 		/// @param index
 		/// @param item
 		///
-		void Insert(int32_t const index, ItemType const &item) override
+		virtual void Insert(int32_t const index, ItemType const &item) override
 		{
 			if (index < 0 || index > static_cast<int32_t>(_vector.size()))
 			{
@@ -102,7 +102,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool Remove(ItemType const &item) override
+		virtual bool Remove(ItemType const &item) override
 		{
 			auto it = std::find_if(_vector.begin(),
 								   _vector.end(),
@@ -126,7 +126,7 @@ namespace base
 		///
 		/// @param index
 		///
-		void RemoveAt(int32_t const index) override
+		virtual void RemoveAt(int32_t const index) override
 		{
 			if (index < 0 || index >= static_cast<int32_t>(_vector.size()))
 			{
@@ -171,7 +171,7 @@ namespace base
 		/// @brief 清空列表。
 		///
 		///
-		void Clear() override
+		virtual void Clear() override
 		{
 			_vector.clear();
 		}
@@ -186,7 +186,7 @@ namespace base
 		/// @param item
 		/// @return int32_t
 		///
-		int32_t IndexOf(ItemType const &item) const override
+		virtual int32_t IndexOf(ItemType const &item) const override
 		{
 			auto it = std::find_if(_vector.begin(),
 								   _vector.end(),
@@ -211,7 +211,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool Contains(ItemType const &item) const override
+		virtual bool Contains(ItemType const &item) const override
 		{
 			auto it = std::find_if(_vector.begin(),
 								   _vector.end(),
@@ -230,7 +230,7 @@ namespace base
 		///
 		/// @return int32_t
 		///
-		int32_t Count() const override
+		virtual int32_t Count() const override
 		{
 			return static_cast<int32_t>(_vector.size());
 		}
@@ -243,7 +243,7 @@ namespace base
 		/// @param index
 		/// @return ItemType&
 		///
-		ItemType &operator[](int32_t const index) override
+		virtual ItemType &operator[](int32_t const index) override
 		{
 			return IRawArray<ItemType>::operator[](index);
 		}
@@ -254,7 +254,7 @@ namespace base
 		/// @param index
 		/// @return ItemType const&
 		///
-		ItemType const &operator[](int32_t const index) const override
+		virtual ItemType const &operator[](int32_t const index) const override
 		{
 			return IRawArray<ItemType>::operator[](index);
 		}
