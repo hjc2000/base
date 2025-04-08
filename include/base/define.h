@@ -19,7 +19,7 @@
 #define static_field static
 
 #ifdef __cplusplus
-	#include <cstdint>
+	#include <cstdint> // IWYU pragma: keep
 
 	///
 	/// @brief 删除类的拷贝构造函数、拷贝赋值运算符、移动构造函数、移动赋值运算符
