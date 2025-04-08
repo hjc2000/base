@@ -219,11 +219,8 @@ namespace base
 		///
 		/// @param bit_index 要置位的位的索引。
 		///
-		/// @return std::enable_if_t<std::is_integral_v<RegisterType>, void>
-		///
-		template <typename RegisterType>
-		constexpr auto SetBit(RegisterType &reg, int bit_index)
-			-> std::enable_if_t<std::is_integral_v<RegisterType>, void>
+		template <typename RegisterType, std::enable_if_t<std::is_integral_v<RegisterType>, int> = 0>
+		constexpr void SetBit(RegisterType &reg, int bit_index)
 		{
 			reg |= Bit(bit_index);
 		}
@@ -237,11 +234,8 @@ namespace base
 		///
 		/// @param bit_index 要复位的位的索引。
 		///
-		/// @return std::enable_if_t<std::is_integral_v<RegisterType>, void>
-		///
-		template <typename RegisterType>
-		constexpr auto ResetBit(RegisterType &reg, int bit_index)
-			-> std::enable_if_t<std::is_integral_v<RegisterType>, void>
+		template <typename RegisterType, std::enable_if_t<std::is_integral_v<RegisterType>, int> = 0>
+		constexpr void ResetBit(RegisterType &reg, int bit_index)
 		{
 			reg &= ~Bit(bit_index);
 		}
