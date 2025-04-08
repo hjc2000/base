@@ -193,7 +193,6 @@ namespace base
 		///
 		constexpr uint64_t BitMask(int begin, int end)
 		{
-			uint64_t ret = 0;
 			if (begin < 0)
 			{
 				throw std::invalid_argument{CODE_POS_STR + "索引溢出。"};
@@ -204,6 +203,12 @@ namespace base
 				throw std::invalid_argument{CODE_POS_STR + "索引溢出。"};
 			}
 
+			if (begin > end)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "begin 不能大于 begin."};
+			}
+
+			uint64_t ret = 0;
 			for (int i = begin; i < end; i++)
 			{
 				ret |= Bit(i);
@@ -254,6 +259,38 @@ namespace base
 		constexpr bool ReadBit(RegisterType const &reg, int bit_index)
 		{
 			return reg & Bit(bit_index);
+		}
+
+		///
+		/// @brief 读取指定范围内的位。
+		/// 	@note 读取后会将取出的这些位移动到与最低位对齐。
+		///
+		/// @param reg
+		/// @param begin
+		/// @param end
+		/// @return template <typename RegisterType, std::enable_if_t<std::is_integral_v<RegisterType>, int> = 0> constexpr
+		///
+		template <typename RegisterType, std::enable_if_t<std::is_integral_v<RegisterType>, int> = 0>
+		constexpr RegisterType ReadBits(RegisterType const &reg, int begin, int end)
+		{
+			if (begin < 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "索引溢出。"};
+			}
+
+			if (end > 64)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "索引溢出。"};
+			}
+
+			if (begin > end)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "begin 不能大于 begin."};
+			}
+
+			RegisterType ret = reg & BitMask(begin, end);
+			ret >>= begin;
+			return ret;
 		}
 
 	} // namespace bit
