@@ -184,9 +184,11 @@ namespace base
 
 		///
 		/// @brief 获取位掩码。其中指定范围内的位为 1, 其他位为 0.
+		/// 	@note 是一个左闭右开区间。
 		///
-		/// @param begin
-		/// @param end
+		/// @param begin 起始索引。左端点是闭的。
+		/// @param end 结束索引。右端点是开的。
+		///
 		/// @return constexpr uint64_t
 		///
 		constexpr uint64_t BitMask(int begin, int end)
