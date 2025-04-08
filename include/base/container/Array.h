@@ -5,12 +5,10 @@
 
 namespace base
 {
-	/**
-	 * @brief 数组
-	 *
-	 * @tparam ItemType
-	 * @tparam TCount
-	 */
+	///
+	/// @brief 数组
+	///
+	///
 	template <typename ItemType, int32_t TCount>
 	class Array :
 		public base::IRawArray<ItemType>
@@ -21,11 +19,11 @@ namespace base
 	public:
 		/* #region 构造函数 */
 
-		/**
-		 * @brief 无参构造。
-		 *
-		 * @note 构造出的数组的元素也全部使用无参构造函数初始化。
-		 */
+		///
+		/// @brief 无参构造。
+		///
+		/// @note 构造出的数组的元素也全部使用无参构造函数初始化。
+		///
 		Array() = default;
 
 		Array(base::ReadOnlyArraySpan<ItemType> const &span)
@@ -38,11 +36,11 @@ namespace base
 			this->Span().CopyFrom(span);
 		}
 
-		/**
-		 * @brief 将初始化列表的数据拷贝过来。
-		 *
-		 * @param list 初始化列表。
-		 */
+		///
+		/// @brief 将初始化列表的数据拷贝过来。
+		///
+		/// @param list 初始化列表。
+		///
 		Array(std::initializer_list<ItemType> const &list)
 		{
 			int32_t i = 0;
@@ -52,11 +50,11 @@ namespace base
 			}
 		}
 
-		/**
-		 * @brief 将 o 的数据拷贝过来。
-		 *
-		 * @param o
-		 */
+		///
+		/// @brief 将 o 的数据拷贝过来。
+		///
+		/// @param o
+		///
 		Array(std::array<ItemType, TCount> const &o)
 		{
 			_arr = o;
@@ -64,32 +62,32 @@ namespace base
 
 		/* #endregion */
 
-		/**
-		 * @brief 数组的大小
-		 *
-		 * @return int32_t
-		 */
-		int32_t Count() const override
+		///
+		/// @brief 数组的大小。
+		///
+		/// @return int32_t
+		///
+		virtual int32_t Count() const override
 		{
 			return TCount;
 		}
 
-		/**
-		 * @brief 获取底层的缓冲区
-		 *
-		 * @return ItemType*
-		 */
-		ItemType *Buffer() override
+		///
+		/// @brief 获取底层的缓冲区。
+		///
+		/// @return ItemType*
+		///
+		virtual ItemType *Buffer() override
 		{
 			return _arr.data();
 		}
 
-		/**
-		 * @brief 获取底层的缓冲区
-		 *
-		 * @return ItemType const*
-		 */
-		ItemType const *Buffer() const override
+		///
+		/// @brief 获取底层的缓冲区。
+		///
+		/// @return ItemType const*
+		///
+		virtual ItemType const *Buffer() const override
 		{
 			return _arr.data();
 		}
