@@ -241,5 +241,20 @@ namespace base
 		{
 			reg &= ~Bit(bit_index);
 		}
+
+		///
+		/// @brief 读取指定位的值。
+		///
+		/// @param reg 寄存器。
+		/// @param bit_index 要读取的位的索引。
+		///
+		/// @return bool
+		///
+		template <typename RegisterType, std::enable_if_t<std::is_integral_v<RegisterType>, int> = 0>
+		constexpr bool ReadBit(RegisterType const &reg, int bit_index)
+		{
+			return reg & Bit(bit_index);
+		}
+
 	} // namespace bit
 } // namespace base
