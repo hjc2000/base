@@ -19,6 +19,7 @@
 #define static_field static
 
 #ifdef __cplusplus
+	#include <cstdint>
 
 	///
 	/// @brief 删除类的拷贝构造函数、拷贝赋值运算符、移动构造函数、移动赋值运算符
@@ -30,19 +31,23 @@
 		Class &operator=(Class const &) = delete; \
 		Class &operator=(Class &&) = delete;
 
-	#define PREINIT(func)             \
-		namespace                     \
-		{                             \
-			class Init                \
-			{                         \
-			public:                   \
-				Init()                \
-				{                     \
-					func();           \
-				}                     \
-			};                        \
-                                      \
-			Init volatile _preinit{}; \
+	#define CONCAT_IMPL(x, y) x##y
+	#define CONCAT(x, y) CONCAT_IMPL(x, y)
+
+	#define PREINIT(func)                                                    \
+		namespace                                                            \
+		{                                                                    \
+			template <uint64_t UniqueID>                                     \
+			class InitHelper                                                 \
+			{                                                                \
+			public:                                                          \
+				InitHelper()                                                 \
+				{                                                            \
+					func();                                                  \
+				}                                                            \
+			};                                                               \
+                                                                             \
+			InitHelper<__COUNTER__> volatile CONCAT(_preinit_, __COUNTER__); \
 		}
 
 #endif
