@@ -5,6 +5,23 @@ namespace base
 	namespace Enum
 	{
 		///
+		/// @brief 运行状态。
+		///
+		///
+		enum class RunningState
+		{
+			///
+			/// @brief 停止。
+			///
+			Stop,
+
+			///
+			/// @brief 运行。
+			///
+			Run,
+		};
+
+		///
 		/// @brief 有效状态。
 		///
 		///
