@@ -34,20 +34,23 @@
 	#define CONCAT_IMPL(x, y) x##y
 	#define CONCAT(x, y) CONCAT_IMPL(x, y)
 
-	#define PREINIT(func)                                                    \
-		namespace                                                            \
-		{                                                                    \
-			template <uint64_t UniqueID>                                     \
-			class InitHelper                                                 \
-			{                                                                \
-			public:                                                          \
-				InitHelper()                                                 \
-				{                                                            \
-					func();                                                  \
-				}                                                            \
-			};                                                               \
-                                                                             \
-			InitHelper<__COUNTER__> volatile CONCAT(_preinit_, __COUNTER__); \
+	#define PREINIT(func)                              \
+		namespace                                      \
+		{                                              \
+			struct                                     \
+			{                                          \
+				class InitHelper                       \
+				{                                      \
+				public:                                \
+					InitHelper()                       \
+					{                                  \
+						func();                        \
+					}                                  \
+				};                                     \
+                                                       \
+				InitHelper _init{};                    \
+                                                       \
+			} volatile CONCAT(_preinit_, __COUNTER__); \
 		}
 
 #endif
