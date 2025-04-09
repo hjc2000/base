@@ -19,7 +19,8 @@
 #define static_field static
 
 #ifdef __cplusplus
-	#include <cstdint> // IWYU pragma: keep
+	#include <cstdint>   // IWYU pragma: keep
+	#include <stdexcept> // IWYU pragma: keep
 
 	///
 	/// @brief 删除类的拷贝构造函数、拷贝赋值运算符、移动构造函数、移动赋值运算符
@@ -34,7 +35,7 @@
 	#define CONCAT_IMPL(x, y) x##y
 	#define CONCAT(x, y) CONCAT_IMPL(x, y)
 
-extern bool _preinit_error;
+extern bool volatile _preinit_error;
 
 	#define PREINIT(func)                               \
 		namespace                                       \

@@ -1,3 +1,3 @@
 #include "define.h"
 
-bool _preinit_error = false;
+bool volatile _preinit_error = false;
