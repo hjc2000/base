@@ -119,6 +119,8 @@ namespace base
 
 		/* #endregion */
 
+		class SerialContext;
+
 		///
 		/// @brief 串口接口。
 		///
@@ -126,6 +128,8 @@ namespace base
 			public base::Stream
 		{
 		public:
+			virtual base::serial::SerialContext &Context() = 0;
+
 			///
 			/// @brief 串口名称。
 			///
