@@ -126,8 +126,6 @@ namespace base
 			public base::Stream
 		{
 		public:
-			virtual ~ISerial() = default;
-
 			///
 			/// @brief 串口名称。
 			///
