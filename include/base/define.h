@@ -37,34 +37,30 @@
 
 extern bool volatile _preinit_error;
 
-	#define PREINIT(func)                               \
-		namespace                                       \
-		{                                               \
-			struct                                      \
-			{                                           \
-				class InitHelper                        \
-				{                                       \
-				public:                                 \
-					InitHelper()                        \
-					{                                   \
-						try                             \
-						{                               \
-							func();                     \
-						}                               \
-						catch (std::exception const &e) \
-						{                               \
-							_preinit_error = true;      \
-						}                               \
-						catch (...)                     \
-						{                               \
-							_preinit_error = true;      \
-						}                               \
-					}                                   \
-				};                                      \
-                                                        \
-				InitHelper _init{};                     \
-                                                        \
-			} volatile CONCAT(_preinit_, __COUNTER__);  \
+	#define PREINIT(func)                              \
+		namespace                                      \
+		{                                              \
+			struct                                     \
+			{                                          \
+				class InitHelper                       \
+				{                                      \
+				public:                                \
+					InitHelper()                       \
+					{                                  \
+						try                            \
+						{                              \
+							func();                    \
+						}                              \
+						catch (...)                    \
+						{                              \
+							_preinit_error = true;     \
+						}                              \
+					}                                  \
+				};                                     \
+                                                       \
+				InitHelper _init{};                    \
+                                                       \
+			} volatile CONCAT(_preinit_, __COUNTER__); \
 		}
 
 #endif
