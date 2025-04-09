@@ -34,23 +34,36 @@
 	#define CONCAT_IMPL(x, y) x##y
 	#define CONCAT(x, y) CONCAT_IMPL(x, y)
 
-	#define PREINIT(func)                              \
-		namespace                                      \
-		{                                              \
-			struct                                     \
-			{                                          \
-				class InitHelper                       \
-				{                                      \
-				public:                                \
-					InitHelper()                       \
-					{                                  \
-						func();                        \
-					}                                  \
-				};                                     \
-                                                       \
-				InitHelper _init{};                    \
-                                                       \
-			} volatile CONCAT(_preinit_, __COUNTER__); \
+extern bool _preinit_error;
+
+	#define PREINIT(func)                               \
+		namespace                                       \
+		{                                               \
+			struct                                      \
+			{                                           \
+				class InitHelper                        \
+				{                                       \
+				public:                                 \
+					InitHelper()                        \
+					{                                   \
+						try                             \
+						{                               \
+							func();                     \
+						}                               \
+						catch (std::exception const &e) \
+						{                               \
+							_preinit_error = true;      \
+						}                               \
+						catch (...)                     \
+						{                               \
+							_preinit_error = true;      \
+						}                               \
+					}                                   \
+				};                                      \
+                                                        \
+				InitHelper _init{};                     \
+                                                        \
+			} volatile CONCAT(_preinit_, __COUNTER__);  \
 		}
 
 #endif
