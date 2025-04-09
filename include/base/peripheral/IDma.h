@@ -89,7 +89,7 @@ namespace base
 		class IDma
 		{
 		public:
-			virtual base::dma::DmaContext *Context() = 0;
+			virtual base::dma::DmaContext &Context() = 0;
 		};
 
 		/* #region 全局的 DMA 打开函数 */
