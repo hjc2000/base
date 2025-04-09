@@ -18,6 +18,9 @@
 ///
 #define static_field static
 
+#define CONCAT_IMPL(x, y) x##y
+#define CONCAT(x, y) CONCAT_IMPL(x, y)
+
 #ifdef __cplusplus
 	#include <cstdint>   // IWYU pragma: keep
 	#include <stdexcept> // IWYU pragma: keep
@@ -31,9 +34,6 @@
 		Class(Class &&) = delete;                 \
 		Class &operator=(Class const &) = delete; \
 		Class &operator=(Class &&) = delete;
-
-	#define CONCAT_IMPL(x, y) x##y
-	#define CONCAT(x, y) CONCAT_IMPL(x, y)
 
 extern bool volatile _preinit_error;
 
