@@ -1,4 +1,5 @@
 #pragma once
+#include "ISerial.h"
 
 namespace base
 {
@@ -77,6 +78,38 @@ namespace base
 				return _value;
 			}
 		};
+
+		///
+		/// @brief DMA 接口。
+		///
+		///
+		class IDma
+		{
+		public:
+		};
+
+		/* #region 全局的 DMA Open 函数 */
+
+		///
+		/// @brief 打开 DMA.
+		///
+		/// @param dma 要打开的 DMA 对象。
+		/// @param parent DMA 要连接到的父设备。
+		/// @param peripheral_increment
+		/// @param memory_increment
+		/// @param peripheral_data_alignment
+		/// @param memory_data_alignment
+		/// @param priority
+		///
+		void Open(base::dma::IDma *dma,
+				  base::serial::ISerial *parent,
+				  base::dma::PeripheralIncrement peripheral_increment,
+				  base::dma::MemoryIncrement memory_increment,
+				  base::dma::PeripheralDataAlignment const &peripheral_data_alignment,
+				  base::dma::MemoryDataAlignment const &memory_data_alignment,
+				  base::dma::Priority priority);
+
+		/* #endregion */
 
 	} // namespace dma
 } // namespace base
