@@ -87,6 +87,7 @@ namespace base
 		class IDma
 		{
 		public:
+			virtual void *UnderlayerHandle() = 0;
 		};
 
 		/* #region 全局的 DMA Open 函数 */
