@@ -1,5 +1,6 @@
 #pragma once
 #include "ISerial.h"
+#include <cstdint>
 
 namespace base
 {
@@ -111,6 +112,17 @@ namespace base
 				  base::dma::Priority priority);
 
 		/* #endregion */
+
+		///
+		/// @brief 获取 DMA 本次启动后剩余的未传输的字节数。
+		///
+		/// @note 将本次启动 DMA 所设置的目标传输字节数减去本属性，即可得到传输了多少个字节。
+		///
+		/// @param dma
+		/// @return int32_t
+		///
+		PLATFORM_IMPLEMENTATION_REQUIRED
+		int32_t RemainingUntransmittedBytes(base::dma::IDma *dma);
 
 	} // namespace dma
 } // namespace base
