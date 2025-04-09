@@ -94,9 +94,21 @@ namespace base
 
 		/* #region 全局的 DMA 打开函数 */
 
+		///
+		/// @brief 为串口的接收打开 DMA.
+		///
+		/// @param dma
+		/// @param serial
+		///
 		PLATFORM_IMPLEMENTATION_REQUIRED
 		void OpenForSerialReceiving(base::dma::IDma *dma, base::serial::ISerial *serial);
 
+		///
+		/// @brief 为串口的发送打开 DMA.
+		///
+		/// @param dma
+		/// @param serial
+		///
 		PLATFORM_IMPLEMENTATION_REQUIRED
 		void OpenForSerialSending(base::dma::IDma *dma, base::serial::ISerial *serial);
 
