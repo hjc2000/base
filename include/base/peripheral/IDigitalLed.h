@@ -44,7 +44,24 @@ namespace base
 			///
 			/// @return base::led::State
 			///
-			virtual base::led::State State() = 0;
+			virtual base::led::State State() const = 0;
+
+			///
+			/// @brief 设置 LED 灯的状态。
+			///
+			/// @param value
+			///
+			void SetState(base::led::State value)
+			{
+				if (value == base::led::State::On)
+				{
+					TurnOn();
+				}
+				else
+				{
+					TurnOff();
+				}
+			}
 
 		}; // class IDigitalLed
 
