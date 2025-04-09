@@ -90,10 +90,10 @@ namespace base
 			virtual void *UnderlayerHandle() = 0;
 		};
 
-		/* #region 全局的 DMA Open 函数 */
+		/* #region 全局的 DMA 打开函数 */
 
 		///
-		/// @brief 打开 DMA.
+		/// @brief 将 DMA 打开为 “外设到内存传输模式”。
 		///
 		/// @param dma 要打开的 DMA 对象。
 		/// @param parent DMA 要连接到的父设备。
@@ -104,13 +104,13 @@ namespace base
 		/// @param priority
 		///
 		PLATFORM_IMPLEMENTATION_REQUIRED
-		void Open(base::dma::IDma *dma,
-				  base::serial::ISerial *parent,
-				  base::dma::PeripheralIncrement peripheral_increment,
-				  base::dma::MemoryIncrement memory_increment,
-				  base::dma::PeripheralDataAlignment const &peripheral_data_alignment,
-				  base::dma::MemoryDataAlignment const &memory_data_alignment,
-				  base::dma::Priority priority);
+		void OpenAsPeripheralToMemoryMode(base::dma::IDma *dma,
+										  base::serial::ISerial *parent,
+										  base::dma::PeripheralIncrement peripheral_increment,
+										  base::dma::MemoryIncrement memory_increment,
+										  base::dma::PeripheralDataAlignment const &peripheral_data_alignment,
+										  base::dma::MemoryDataAlignment const &memory_data_alignment,
+										  base::dma::Priority priority);
 
 		/* #endregion */
 
