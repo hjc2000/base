@@ -114,6 +114,26 @@ namespace base
 										  base::dma::MemoryDataAlignment const &memory_data_alignment,
 										  base::dma::Priority priority);
 
+		///
+		/// @brief 将 DMA 打开为 “内存到外设传输模式”。
+		///
+		/// @param dma 要打开的 DMA 对象。
+		/// @param parent DMA 要连接到的父设备。
+		/// @param peripheral_increment
+		/// @param memory_increment
+		/// @param peripheral_data_alignment
+		/// @param memory_data_alignment
+		/// @param priority
+		///
+		PLATFORM_IMPLEMENTATION_REQUIRED
+		void OpenAsMemoryToPeripheralMode(base::dma::IDma *dma,
+										  base::serial::ISerial *parent,
+										  base::dma::PeripheralIncrement peripheral_increment,
+										  base::dma::MemoryIncrement memory_increment,
+										  base::dma::PeripheralDataAlignment const &peripheral_data_alignment,
+										  base::dma::MemoryDataAlignment const &memory_data_alignment,
+										  base::dma::Priority priority);
+
 		/* #endregion */
 
 		///
