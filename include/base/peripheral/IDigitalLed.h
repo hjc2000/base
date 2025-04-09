@@ -57,6 +57,8 @@ namespace base
 
 		/* #region 各种颜色的 LED */
 
+		// 这里的 LED 灯有的话就实现这些函数，没有的话就不实现。
+
 		///
 		/// @brief 红色 LED.
 		///
