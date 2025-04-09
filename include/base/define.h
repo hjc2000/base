@@ -1,6 +1,12 @@
 #pragma once
 
 ///
+/// @brief 用来标记某个函数需要底层自己实现。
+///
+///
+#define PLATFORM_IMPLEMENTATION_REQUIRED
+
+///
 /// @brief 静态全局变量。
 ///
 ///

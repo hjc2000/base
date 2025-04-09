@@ -101,6 +101,7 @@ namespace base
 		/// @param memory_data_alignment
 		/// @param priority
 		///
+		PLATFORM_IMPLEMENTATION_REQUIRED
 		void Open(base::dma::IDma *dma,
 				  base::serial::ISerial *parent,
 				  base::dma::PeripheralIncrement peripheral_increment,
