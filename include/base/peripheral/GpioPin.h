@@ -17,6 +17,34 @@ namespace base
 			{
 			}
 
+			/* #region 初始化函数 */
+
+			void InitializeAsInputMode(base::gpio::PullMode pull_mode,
+									   base::gpio::TriggerEdge trigger_edge)
+			{
+				base::gpio::initialize_as_input_mode(_handle, pull_mode, trigger_edge);
+			}
+
+			void InitializeAsOutputMode(base::gpio::PullMode pull_mode,
+										base::gpio::DriveMode drive_mode)
+			{
+				base::gpio::initialize_as_output_mode(_handle,
+													  pull_mode,
+													  drive_mode);
+			}
+
+			void InitializeAsAlternateFunctionMode(base::gpio::AlternateFunction af,
+												   base::gpio::PullMode pull_mode,
+												   base::gpio::DriveMode drive_mode)
+			{
+				base::gpio::initialize_as_alternate_function_mode(_handle,
+																  af,
+																  pull_mode,
+																  drive_mode);
+			}
+
+			/* #endregion */
+
 			std::string Name() const
 			{
 				return base::gpio::pin_name(_handle);
