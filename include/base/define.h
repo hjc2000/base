@@ -72,6 +72,12 @@ extern bool volatile _preinit_error;
 
 namespace base
 {
+	///
+	/// @brief 自动指针。
+	///
+	/// @note 在有线程的平台上是共享指针，在无线程的平台上是裸指针。
+	///
+	///
 	#if HAS_THREAD
 	template <typename T>
 	using AutoPtr = std::shared_ptr<T>;
