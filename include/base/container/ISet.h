@@ -46,6 +46,8 @@ namespace base
 		///
 		virtual int32_t Count() const = 0;
 
+		using base::IEnumerable<ItemType const>::GetEnumerator;
+
 		///
 		/// @brief 获取非 const 迭代器
 		///

@@ -150,6 +150,10 @@ namespace base
 			return _set.size();
 		}
 
+		/* #region GetEnumerator */
+
+		using base::IEnumerable<ItemType const>::GetEnumerator;
+
 		///
 		/// @brief 获取非 const 迭代器
 		///
@@ -159,6 +163,10 @@ namespace base
 		{
 			return std::shared_ptr<base::IEnumerator<ItemType const>>{new Enumerator{_set}};
 		}
+
+		/* #endregion */
+
+		/* #region 集合运算符 */
 
 		///
 		/// @brief 两个集合拼接，组成并集。
@@ -206,6 +214,10 @@ namespace base
 			return ret;
 		}
 
+		/* #endregion */
+
+		/* #region 自改变集合运算符 */
+
 		///
 		/// @brief 将本集合和 another 拼接，形成并集。或者说将 another 的元素全部添加到本集合中。
 		///
@@ -241,6 +253,8 @@ namespace base
 			base::Set<ItemType> temp = *this * another;
 			*this = temp;
 		}
+
+		/* #endregion */
 	};
 } // namespace base
 
