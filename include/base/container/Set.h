@@ -174,18 +174,6 @@ namespace base
 		}
 
 		///
-		/// @brief 将本集合和 another 拼接，形成并集。或者说将 another 的元素全部添加到本集合中。
-		///
-		/// @param another
-		/// @return base::Set<ItemType>&
-		///
-		base::Set<ItemType> &operator+=(base::ISet<ItemType> const &another)
-		{
-			Add(another);
-			return *this;
-		}
-
-		///
 		/// @brief 创建一个新集合，拷贝本集合，然后从新集合中移除 another 中含有的元素。
 		///
 		/// @param another
@@ -196,18 +184,6 @@ namespace base
 			base::Set<ItemType> ret{*this};
 			ret.Remove(another);
 			return ret;
-		}
-
-		///
-		/// @brief 从本集合中移除 another 中含有的元素。
-		///
-		/// @param another
-		/// @return base::Set<ItemType>&
-		///
-		base::Set<ItemType> &operator-=(base::ISet<ItemType> const &another)
-		{
-			Remove(another);
-			return *this;
 		}
 
 		///
@@ -228,6 +204,30 @@ namespace base
 			}
 
 			return ret;
+		}
+
+		///
+		/// @brief 将本集合和 another 拼接，形成并集。或者说将 another 的元素全部添加到本集合中。
+		///
+		/// @param another
+		/// @return base::Set<ItemType>&
+		///
+		base::Set<ItemType> &operator+=(base::ISet<ItemType> const &another)
+		{
+			Add(another);
+			return *this;
+		}
+
+		///
+		/// @brief 从本集合中移除 another 中含有的元素。
+		///
+		/// @param another
+		/// @return base::Set<ItemType>&
+		///
+		base::Set<ItemType> &operator-=(base::ISet<ItemType> const &another)
+		{
+			Remove(another);
+			return *this;
 		}
 
 		///
