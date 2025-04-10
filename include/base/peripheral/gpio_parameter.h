@@ -139,8 +139,7 @@ namespace base
 		///
 		enum class AlternateFunction
 		{
-			UART_RX,
-			UART_TX,
+			UART1,
 		};
 
 	} // namespace gpio
