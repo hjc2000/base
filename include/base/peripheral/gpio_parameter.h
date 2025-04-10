@@ -4,6 +4,26 @@ namespace base
 {
 	namespace gpio
 	{
+		enum class PortEnum
+		{
+			PortA,
+			PortB,
+			PortC,
+			PortD,
+			PortE,
+			PortF,
+			PortG,
+			PortH,
+			PortI,
+			PortJ,
+			PortK,
+			PortL,
+			PortM,
+			PortN,
+			PortO,
+			PortP,
+		};
+
 		///
 		/// @brief 引脚方向
 		///
