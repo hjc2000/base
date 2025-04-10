@@ -3,6 +3,7 @@
 #include "base/container/iterator/IEnumerator.h"
 #include "ISet.h"
 #include <cstdint>
+#include <initializer_list>
 #include <set>
 
 namespace base
@@ -98,6 +99,29 @@ namespace base
 		///
 		///
 		Set() = default;
+
+		Set(std::initializer_list<ItemType> list)
+		{
+			for (auto &item : list)
+			{
+				Add(item);
+			}
+		}
+
+		Set(ISet<ItemType> const &set)
+		{
+			Add(set);
+		}
+
+		Set(base::IEnumerable<ItemType> const &items)
+		{
+			Add(items);
+		}
+
+		Set(base::IEnumerable<ItemType const> const &items)
+		{
+			Add(items);
+		}
 
 		using base::ISet<ItemType>::Add;
 
@@ -248,10 +272,11 @@ namespace base
 		/// @param another
 		/// @return base::Set<ItemType>
 		///
-		base::Set<ItemType> operator*=(base::ISet<ItemType> const &another)
+		base::Set<ItemType> &operator*=(base::ISet<ItemType> const &another)
 		{
 			base::Set<ItemType> temp = *this * another;
 			*this = temp;
+			return *this;
 		}
 
 		/* #endregion */

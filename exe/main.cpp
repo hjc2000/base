@@ -1,4 +1,5 @@
 #include "base/bit/bit.h"
+#include "base/container/Set.h"
 #include "base/math/Fraction.h"
 #include "base/wrapper/number-wrapper.h"
 #include <cmath>
@@ -34,4 +35,6 @@ int main()
 		uint32_t reg = 5;
 		std::cout << base::bit::ReadBits(reg, 2, 3) << std::endl;
 	}
+
+	base::test::test_set();
 }
