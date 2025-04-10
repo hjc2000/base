@@ -160,7 +160,6 @@ namespace base
 			return std::shared_ptr<base::IEnumerator<ItemType const>>{new Enumerator{_set}};
 		}
 
-	public:
 		///
 		/// @brief 两个集合拼接，组成并集。
 		///
