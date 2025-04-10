@@ -147,11 +147,11 @@ namespace base
 
 		/* #endregion */
 
-		std::string pin_name(sp_gpio_handle h);
+		std::string pin_name(sp_gpio_handle const &h);
 
-		bool read_pin(sp_gpio_handle h);
-		void write_pin(sp_gpio_handle h, bool value);
-		void toggle_pin(sp_gpio_handle h);
+		bool read_pin(sp_gpio_handle const &h);
+		void write_pin(sp_gpio_handle const &h, bool value);
+		void toggle_pin(sp_gpio_handle const &h);
 
 		///
 		/// @brief 注册中断回调函数。
@@ -159,14 +159,14 @@ namespace base
 		/// @param h
 		/// @param callback_func
 		///
-		void register_interrupt_callback(sp_gpio_handle h, std::function<void()> callback_func);
+		void register_interrupt_callback(sp_gpio_handle const &h, std::function<void()> callback_func);
 
 		///
 		/// @brief 取消注册中断回调函数。
 		///
 		/// @param h
 		///
-		void unregister_interrupt_callback(sp_gpio_handle h);
+		void unregister_interrupt_callback(sp_gpio_handle const &h);
 
 	} // namespace gpio
 } // namespace base
