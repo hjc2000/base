@@ -94,10 +94,8 @@ namespace base
 		/* #endregion */
 
 	public:
-		///
-		/// @brief 构造一个空集合。
-		///
-		///
+		/* #region 构造函数 */
+
 		Set() = default;
 
 		Set(std::initializer_list<ItemType> list)
@@ -122,6 +120,8 @@ namespace base
 		{
 			Add(items);
 		}
+
+		/* #endregion */
 
 		using base::ISet<ItemType>::Add;
 
