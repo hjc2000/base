@@ -9,10 +9,10 @@ namespace base
 		class GpioPin
 		{
 		private:
-			sp_gpio_pin_handle _handle{};
+			base::gpio::sp_gpio_pin_handle _handle{};
 
 		public:
-			GpioPin(sp_gpio_pin_handle const &h)
+			GpioPin(base::gpio::sp_gpio_pin_handle const &h)
 				: _handle(h)
 			{
 			}
@@ -32,7 +32,7 @@ namespace base
 				base::gpio::write_pin(_handle, value);
 			}
 
-			void TogglePin(sp_gpio_pin_handle const &h)
+			void TogglePin(base::gpio::sp_gpio_pin_handle const &h)
 			{
 				base::gpio::toggle_pin(_handle);
 			}
