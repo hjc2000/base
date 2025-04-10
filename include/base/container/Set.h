@@ -194,7 +194,7 @@ namespace base
 		///
 		base::Set<ItemType> operator*(base::ISet<ItemType> const &another)
 		{
-			base::Set<ItemType> ret{*this};
+			base::Set<ItemType> ret{};
 			for (ItemType const &item : _set)
 			{
 				if (another.Contains(item))
