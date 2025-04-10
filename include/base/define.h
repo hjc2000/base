@@ -29,6 +29,7 @@
 
 #ifdef __cplusplus
 	#include <cstdint>   // IWYU pragma: keep
+	#include <memory>    // IWYU pragma: keep
 	#include <stdexcept> // IWYU pragma: keep
 
 	///
@@ -68,5 +69,17 @@ extern bool volatile _preinit_error;
                                                        \
 			} volatile CONCAT(_preinit_, __COUNTER__); \
 		}
+
+namespace base
+{
+	#if HAS_THREAD
+	template <typename T>
+	using AutoPtr = std::shared_ptr<T>;
+	#else
+	template <typename T>
+	using AutoPtr = T *;
+	#endif
+
+} // namespace base
 
 #endif
