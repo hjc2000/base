@@ -1,5 +1,6 @@
 #pragma once
 #include "gpio_handle.h"
+#include <cstdint>
 #include <string>
 
 namespace base
@@ -9,12 +10,16 @@ namespace base
 		class GpioPin
 		{
 		private:
+			base::gpio::PortEnum _port{};
+			uint32_t _pin{};
 			base::gpio::sp_gpio_pin_handle _handle{};
 
 		public:
-			GpioPin(base::gpio::sp_gpio_pin_handle const &h)
-				: _handle(h)
+			GpioPin(base::gpio::PortEnum port, uint32_t pin)
+				: _port(port),
+				  _pin(pin)
 			{
+				_handle = base::gpio::open(_port, _pin);
 			}
 
 			/* #region 初始化函数 */
