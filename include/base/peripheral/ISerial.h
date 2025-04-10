@@ -1,5 +1,6 @@
 #pragma once
 #include "base/container/IDictionary.h"
+#include "base/define.h"
 #include "base/stream/Stream.h"
 #include <string>
 
@@ -343,7 +344,7 @@ namespace base
 		///
 		/// @return
 		///
-		base::IDictionary<std::string, base::serial::ISerial *> const &SerialCollection();
+		base::IDictionary<std::string, base::AutoPtr<base::serial::ISerial>> const &SerialCollection();
 
 		///
 		/// @brief 扫描串口。扫描后 SerialCollection 返回的集合会更新。
