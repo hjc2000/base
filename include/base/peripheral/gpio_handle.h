@@ -1,5 +1,6 @@
 #pragma once
 #include "gpio_parameter.h"
+#include <cstdint>
 #include <functional>
 #include <memory>
 #include <string>
@@ -14,17 +15,17 @@ namespace base
 		/* #region 打开函数 */
 
 		sp_gpio_pin_handle open_as_input_mode(base::gpio::PortEnum port,
-											  int pin,
+											  int32_t pin,
 											  base::gpio::PullMode pull_mode,
 											  base::gpio::TriggerEdge trigger_edge);
 
 		sp_gpio_pin_handle open_as_output_mode(base::gpio::PortEnum port,
-											   int pin,
+											   int32_t pin,
 											   base::gpio::PullMode pull_mode,
 											   base::gpio::DriveMode drive_mode);
 
 		sp_gpio_pin_handle open_as_alternate_function_mode(base::gpio::PortEnum port,
-														   int pin,
+														   int32_t pin,
 														   base::gpio::AlternateFunction af,
 														   base::gpio::PullMode pull_mode,
 														   base::gpio::DriveMode drive_mode);
