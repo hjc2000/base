@@ -115,9 +115,8 @@ namespace base
 			///
 			/// @brief 翻转引脚电平。
 			///
-			/// @param h
 			///
-			void TogglePin(base::gpio::sp_gpio_pin_handle const &h)
+			void TogglePin()
 			{
 				base::gpio::toggle_pin(_handle);
 			}

@@ -151,6 +151,7 @@ namespace base
 			DAC,
 			SDRAM,
 			NAND_FLASH,
+			TIMER,
 		};
 
 	} // namespace gpio
