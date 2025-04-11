@@ -123,6 +123,31 @@ namespace base
 			}
 
 			/* #endregion */
+
+			/* #region 中断回调 */
+
+			///
+			/// @brief 注册中断回调函数。
+			///
+			/// @param h
+			/// @param callback_func
+			///
+			void RegisterInterruptCallback(std::function<void()> const &callback_func)
+			{
+				base::gpio::register_interrupt_callback(_handle, callback_func);
+			}
+
+			///
+			/// @brief 取消注册中断回调函数。
+			///
+			/// @param h
+			///
+			void UnregisterInterruptCallback()
+			{
+				base::gpio::unregister_interrupt_callback(_handle);
+			}
+
+			/* #endregion */
 		};
 
 	} // namespace gpio
