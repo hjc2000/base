@@ -12,6 +12,15 @@ namespace base
 		using sp_serial_handle = std::shared_ptr<serial_handle>;
 
 		///
+		/// @brief 扫描可用的串口。
+		///
+		/// @return std::vector<std::string>
+		///
+		std::vector<std::string> scan_serials();
+
+		/* #region open */
+
+		///
 		/// @brief 通过串口名称打开串口。
 		///
 		/// @param name 串口名称。
@@ -30,6 +39,8 @@ namespace base
 		/// @return base::serial::sp_serial_handle
 		///
 		base::serial::sp_serial_handle open(int serial_id);
+
+		/* #endregion */
 
 		///
 		/// @brief 获取串口名称。
