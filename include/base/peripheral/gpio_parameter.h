@@ -4,6 +4,10 @@ namespace base
 {
 	namespace gpio
 	{
+		///
+		/// @brief GPIO 端口枚举。
+		///
+		///
 		enum class PortEnum
 		{
 			PortA,
