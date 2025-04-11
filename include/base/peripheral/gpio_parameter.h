@@ -143,7 +143,14 @@ namespace base
 		///
 		enum class AlternateFunction
 		{
-			UART1,
+			UART,
+			SPI,
+			IIC,
+			PWM,
+			ADC,
+			DAC,
+			SDRAM,
+			NAND_FLASH,
 		};
 
 	} // namespace gpio
