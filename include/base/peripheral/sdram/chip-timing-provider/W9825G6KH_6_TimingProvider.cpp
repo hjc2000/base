@@ -4,6 +4,7 @@ base::sdram::sdram_timing base::sdram::W9825G6KH_6_TimingProvider::GetTiming(bas
 {
 	base::Nanoseconds clock_period{clock_frequency};
 
+	// 计算时序时，很多地方额外加了一个 clock_period，这是为了提供更加保守的时序。
 	base::sdram::sdram_timing ret{};
 	ret._row_count = 8192;
 	ret._clock_frequency = clock_frequency;
