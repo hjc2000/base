@@ -32,6 +32,36 @@ namespace base
 				_handle = base::gpio::open(_port, _pin);
 			}
 
+			///
+			/// @brief 端口号。
+			///
+			/// @return base::gpio::PortEnum
+			///
+			base::gpio::PortEnum Port() const
+			{
+				return _port;
+			}
+
+			///
+			/// @brief 引脚号。
+			///
+			/// @return uint32_t
+			///
+			uint32_t Pin() const
+			{
+				return _pin;
+			}
+
+			///
+			/// @brief 获取被包装的句柄。
+			///
+			/// @return base::gpio::sp_gpio_pin_handle const&
+			///
+			base::gpio::sp_gpio_pin_handle const &Handle() const
+			{
+				return _handle;
+			}
+
 			/* #region 初始化函数 */
 
 			///
