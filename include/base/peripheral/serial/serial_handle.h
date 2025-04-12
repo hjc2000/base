@@ -1,4 +1,5 @@
 #pragma once
+#include "base/stream/Span.h"
 #include "serial_parameter.h"
 #include <memory>
 #include <string>
@@ -42,6 +43,8 @@ namespace base
 
 		/* #endregion */
 
+		/* #region 串口属性 */
+
 		///
 		/// @brief 获取串口名称。
 		///
@@ -49,6 +52,45 @@ namespace base
 		/// @return std::string
 		///
 		std::string name(base::serial::sp_serial_handle const &h);
+
+		///
+		/// @brief 数据传输方向
+		/// @return
+		///
+		base::serial::Direction direction();
+
+		///
+		/// @brief 波特率。
+		/// @return
+		///
+		uint32_t baud_rate();
+
+		///
+		/// @brief 数据位的个数。
+		/// @return
+		///
+		uint8_t data_bits();
+
+		///
+		/// @brief 校验位。
+		/// @return
+		///
+		base::serial::Parity parity();
+
+		///
+		/// @brief 停止位个数。
+		/// @return
+		///
+		base::serial::StopBits stop_bits();
+
+		///
+		/// @brief 硬件流控。
+		///
+		/// @return
+		///
+		base::serial::HardwareFlowControl hardware_flow_control();
+
+		/* #endregion */
 
 		/* #region 启动串口 */
 
@@ -106,6 +148,12 @@ namespace base
 		}
 
 		/* #endregion */
+
+		int32_t read(base::serial::sp_serial_handle const &h, base::Span const &span);
+
+		void write(base::serial::sp_serial_handle const &h, base::ReadOnlySpan const &span);
+
+		void flush(base::serial::sp_serial_handle const &h);
 
 	} // namespace serial
 } // namespace base
