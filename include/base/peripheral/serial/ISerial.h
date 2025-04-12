@@ -3,6 +3,7 @@
 #include "base/define.h"
 #include "base/stream/Stream.h"
 #include "serial_parameter.h"
+#include <memory>
 #include <string>
 
 namespace base
@@ -17,13 +18,6 @@ namespace base
 		{
 		public:
 			///
-			/// @brief 串口名称。
-			///
-			/// @return std::string
-			///
-			virtual std::string Name() const = 0;
-
-			///
 			/// @brief 打开串口。
 			///
 			/// @param direction 串口数据方向。可以选择只发、只收、收发。
@@ -33,20 +27,12 @@ namespace base
 			/// @param stop_bits 停止位位数。
 			/// @param hardware_flow_control 硬件流控。
 			///
-			virtual void Open(base::serial::Direction direction,
-							  base::serial::BaudRate const &baud_rate,
-							  base::serial::DataBits const &data_bits,
-							  base::serial::Parity parity,
-							  base::serial::StopBits stop_bits,
-							  base::serial::HardwareFlowControl hardware_flow_control) = 0;
-
-			///
-			/// @brief 串口已经打开。
-			///
-			/// @return true 已经打开。
-			/// @return false 还没打开。
-			///
-			virtual bool IsOpen() const = 0;
+			virtual void Start(base::serial::Direction direction,
+							   base::serial::BaudRate const &baud_rate,
+							   base::serial::DataBits const &data_bits,
+							   base::serial::Parity parity,
+							   base::serial::StopBits stop_bits,
+							   base::serial::HardwareFlowControl hardware_flow_control) = 0;
 
 			/* #region 串口属性 */
 
@@ -191,21 +177,52 @@ namespace base
 			///
 			uint32_t FramesBaudCount(uint32_t frame_count) const;
 
-			/* #region Open */
+			/* #region Start */
 
 			///
 			/// @brief 使用默认参数打开。
 			///
-			void Open();
+			void Start();
 
 			///
 			/// @brief 使用指定的波特率打开。其他参数默认。
 			/// @param baud_rate 波特率。
 			///
-			void Open(base::serial::BaudRate const &baud_rate);
+			void Start(base::serial::BaudRate const &baud_rate);
 
 			/* #endregion */
 		};
+
+		///
+		/// @brief 扫描可用的串口。
+		///
+		/// @return std::vector<std::string>
+		///
+		std::vector<std::string> ScanSerials();
+
+		/* #region Open */
+
+		///
+		/// @brief 通过串口名称打开串口。
+		///
+		/// @param name 串口名称。
+		///		@note 通用操作系统中使用这种方式。
+		///
+		/// @return std::shared_ptr<base::serial::ISerial>
+		///
+		std::shared_ptr<base::serial::ISerial> Open(std::string const &name);
+
+		///
+		/// @brief 通过串口 ID 打开串口。
+		///
+		/// @param serial_id 串口 ID.
+		/// 	@note 单片机中使用这种方式。例如想要打开 UART1 就传入 1.
+		///
+		/// @return std::shared_ptr<base::serial::ISerial>
+		///
+		std::shared_ptr<base::serial::ISerial> Open(int serial_id);
+
+		/* #endregion */
 
 		///
 		/// @brief 主串口。
@@ -222,20 +239,9 @@ namespace base
 		///
 		/// @note 这里的串口使用的是单例模式。
 		///
-		/// @note 调用 ScanSerials 将重新扫描串口。
-		/// 	@li 单片机中不需要重新扫描，因为 UART 外设的数量是固定的，有几个串口已经一开始就确定了，
-		/// 		不会像通用计算机即插即用那样开机后可以增加任意数量的串口。
-		/// 	@li 通用计算机中需要扫描串口，在调用本函数前需要调用 ScanSerials 扫描一下串口。
-		///
 		/// @return
 		///
 		base::IDictionary<std::string, base::AutoPtr<base::serial::ISerial>> const &SerialCollection();
-
-		///
-		/// @brief 扫描串口。扫描后 SerialCollection 返回的集合会更新。
-		///
-		///
-		void ScanSerials();
 
 	} // namespace serial
 } // namespace base

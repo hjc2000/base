@@ -61,26 +61,26 @@ uint32_t base::serial::ISerial::FramesBaudCount(uint32_t frame_count) const
 	return baud_count;
 }
 
-/* #region Open */
+/* #region Start */
 
-void base::serial::ISerial::Open()
+void base::serial::ISerial::Start()
 {
-	Open(base::serial::Direction::RX_TX,
-		 base::serial::BaudRate{115200},
-		 base::serial::DataBits{8},
-		 base::serial::Parity::None,
-		 base::serial::StopBits::One,
-		 base::serial::HardwareFlowControl::None);
+	Start(base::serial::Direction::RX_TX,
+		  base::serial::BaudRate{115200},
+		  base::serial::DataBits{8},
+		  base::serial::Parity::None,
+		  base::serial::StopBits::One,
+		  base::serial::HardwareFlowControl::None);
 }
 
-void base::serial::ISerial::Open(base::serial::BaudRate const &baud_rate)
+void base::serial::ISerial::Start(base::serial::BaudRate const &baud_rate)
 {
-	Open(base::serial::Direction::RX_TX,
-		 baud_rate,
-		 base::serial::DataBits{8},
-		 base::serial::Parity::None,
-		 base::serial::StopBits::One,
-		 base::serial::HardwareFlowControl::None);
+	Start(base::serial::Direction::RX_TX,
+		  baud_rate,
+		  base::serial::DataBits{8},
+		  base::serial::Parity::None,
+		  base::serial::StopBits::One,
+		  base::serial::HardwareFlowControl::None);
 }
 
 /* #endregion */
