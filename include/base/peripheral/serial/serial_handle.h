@@ -1,4 +1,5 @@
 #pragma once
+#include "base/define.h"
 #include "base/stream/Span.h"
 #include "serial_parameter.h"
 #include <memory>
@@ -54,41 +55,62 @@ namespace base
 		std::string name(base::serial::sp_serial_handle const &h);
 
 		///
-		/// @brief 数据传输方向
-		/// @return
+		/// @brief 数据传输方向。
 		///
-		base::serial::Direction direction();
+		/// @param h
+		/// @return base::serial::Direction
+		///
+		base::serial::Direction direction(base::serial::sp_serial_handle const &h);
 
 		///
 		/// @brief 波特率。
-		/// @return
 		///
-		uint32_t baud_rate();
+		/// @param h
+		/// @return uint32_t
+		///
+		uint32_t baud_rate(base::serial::sp_serial_handle const &h);
 
 		///
 		/// @brief 数据位的个数。
-		/// @return
 		///
-		uint8_t data_bits();
+		/// @param h
+		/// @return uint8_t
+		///
+		uint8_t data_bits(base::serial::sp_serial_handle const &h);
 
 		///
 		/// @brief 校验位。
-		/// @return
 		///
-		base::serial::Parity parity();
+		/// @param h
+		/// @return base::serial::Parity
+		///
+		base::serial::Parity parity(base::serial::sp_serial_handle const &h);
 
 		///
 		/// @brief 停止位个数。
-		/// @return
 		///
-		base::serial::StopBits stop_bits();
+		/// @param h
+		/// @return base::serial::StopBits
+		///
+		base::serial::StopBits stop_bits(base::serial::sp_serial_handle const &h);
 
 		///
 		/// @brief 硬件流控。
 		///
-		/// @return
+		/// @param h
+		/// @return base::serial::HardwareFlowControl
 		///
-		base::serial::HardwareFlowControl hardware_flow_control();
+		base::serial::HardwareFlowControl hardware_flow_control(base::serial::sp_serial_handle const &h);
+
+		///
+		/// @brief 计算 frame_count 个帧占用多少个波特。
+		///
+		/// @param h
+		/// @param frame_count
+		/// @return uint32_t
+		///
+		IMPLEMENTED
+		uint32_t frames_baud_count(base::serial::sp_serial_handle const &h, uint32_t frame_count);
 
 		/* #endregion */
 
