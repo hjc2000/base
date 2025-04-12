@@ -57,7 +57,7 @@ namespace base
 		/// @param stop_bits
 		/// @param hardware_flow_control
 		///
-		void start(base::serial::sp_serial_handle const &h,
+		void start(base::serial::serial_handle &h,
 				   base::serial::Direction direction,
 				   base::serial::BaudRate const &baud_rate,
 				   base::serial::DataBits const &data_bits,
@@ -71,7 +71,7 @@ namespace base
 		/// @param h
 		///
 		IMPLEMENTED
-		void start(base::serial::sp_serial_handle const &h);
+		void start(base::serial::serial_handle &h);
 
 		///
 		/// @brief 启动串口。
@@ -80,7 +80,7 @@ namespace base
 		/// @param baud_rate
 		///
 		IMPLEMENTED
-		void start(base::serial::sp_serial_handle const &h,
+		void start(base::serial::serial_handle &h,
 				   base::serial::BaudRate const &baud_rate);
 
 		/* #endregion */
@@ -93,7 +93,7 @@ namespace base
 		/// @param h
 		/// @return std::string
 		///
-		std::string name(base::serial::sp_serial_handle const &h);
+		std::string name(base::serial::serial_handle &h);
 
 		///
 		/// @brief 数据传输方向。
@@ -101,7 +101,7 @@ namespace base
 		/// @param h
 		/// @return base::serial::Direction
 		///
-		base::serial::Direction direction(base::serial::sp_serial_handle const &h);
+		base::serial::Direction direction(base::serial::serial_handle &h);
 
 		///
 		/// @brief 波特率。
@@ -109,7 +109,7 @@ namespace base
 		/// @param h
 		/// @return uint32_t
 		///
-		uint32_t baud_rate(base::serial::sp_serial_handle const &h);
+		uint32_t baud_rate(base::serial::serial_handle &h);
 
 		///
 		/// @brief 数据位的个数。
@@ -117,7 +117,7 @@ namespace base
 		/// @param h
 		/// @return uint8_t
 		///
-		uint8_t data_bits(base::serial::sp_serial_handle const &h);
+		uint8_t data_bits(base::serial::serial_handle &h);
 
 		///
 		/// @brief 校验位。
@@ -125,7 +125,7 @@ namespace base
 		/// @param h
 		/// @return base::serial::Parity
 		///
-		base::serial::Parity parity(base::serial::sp_serial_handle const &h);
+		base::serial::Parity parity(base::serial::serial_handle &h);
 
 		///
 		/// @brief 停止位个数。
@@ -133,7 +133,7 @@ namespace base
 		/// @param h
 		/// @return base::serial::StopBits
 		///
-		base::serial::StopBits stop_bits(base::serial::sp_serial_handle const &h);
+		base::serial::StopBits stop_bits(base::serial::serial_handle &h);
 
 		///
 		/// @brief 硬件流控。
@@ -141,7 +141,7 @@ namespace base
 		/// @param h
 		/// @return base::serial::HardwareFlowControl
 		///
-		base::serial::HardwareFlowControl hardware_flow_control(base::serial::sp_serial_handle const &h);
+		base::serial::HardwareFlowControl hardware_flow_control(base::serial::serial_handle &h);
 
 		///
 		/// @brief 计算 frame_count 个帧占用多少个波特。
@@ -151,7 +151,7 @@ namespace base
 		/// @return uint32_t
 		///
 		IMPLEMENTED
-		uint32_t frames_baud_count(base::serial::sp_serial_handle const &h, uint32_t frame_count);
+		uint32_t frames_baud_count(base::serial::serial_handle &h, uint32_t frame_count);
 
 		///
 		/// @brief 检查串口能否读。
@@ -160,7 +160,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool can_read(base::serial::sp_serial_handle const &h);
+		bool can_read(base::serial::serial_handle &h);
 
 		///
 		/// @brief 检查串口能否写。
@@ -169,7 +169,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool can_write(base::serial::sp_serial_handle const &h);
+		bool can_write(base::serial::serial_handle &h);
 
 		/* #endregion */
 
@@ -182,7 +182,7 @@ namespace base
 		/// @return int32_t 成功读取的字节数。永远不应该返回 0. 应该将本函数实现为等同 Stream
 		/// 的 Read 方法。
 		///
-		int32_t read(base::serial::sp_serial_handle const &h, base::Span const &span);
+		int32_t read(base::serial::serial_handle &h, base::Span const &span);
 
 		///
 		/// @brief 向串口写入数据。
@@ -190,14 +190,14 @@ namespace base
 		/// @param h
 		/// @param span
 		///
-		void write(base::serial::sp_serial_handle const &h, base::ReadOnlySpan const &span);
+		void write(base::serial::serial_handle &h, base::ReadOnlySpan const &span);
 
 		///
 		/// @brief 冲洗串口。
 		///
 		/// @param h
 		///
-		void flush(base::serial::sp_serial_handle const &h);
+		void flush(base::serial::serial_handle &h);
 
 	} // namespace serial
 } // namespace base

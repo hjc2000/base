@@ -1,6 +1,6 @@
 #include "serial_handle.h"
 
-void base::serial::start(base::serial::sp_serial_handle const &h)
+void base::serial::start(base::serial::serial_handle &h)
 {
 	start(h,
 		  base::serial::Direction::RX_TX,
@@ -11,7 +11,7 @@ void base::serial::start(base::serial::sp_serial_handle const &h)
 		  base::serial::HardwareFlowControl::None);
 }
 
-void base::serial::start(base::serial::sp_serial_handle const &h,
+void base::serial::start(base::serial::serial_handle &h,
 						 base::serial::BaudRate const &baud_rate)
 {
 	start(h,
@@ -23,7 +23,7 @@ void base::serial::start(base::serial::sp_serial_handle const &h,
 		  base::serial::HardwareFlowControl::None);
 }
 
-uint32_t base::serial::frames_baud_count(base::serial::sp_serial_handle const &h, uint32_t frame_count)
+uint32_t base::serial::frames_baud_count(base::serial::serial_handle &h, uint32_t frame_count)
 {
 	uint32_t baud_count = 0;
 

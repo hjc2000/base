@@ -45,7 +45,7 @@ namespace base
 					   base::serial::StopBits stop_bits,
 					   base::serial::HardwareFlowControl hardware_flow_control)
 			{
-				base::serial::start(_handle,
+				base::serial::start(*_handle,
 									direction,
 									baud_rate,
 									data_bits,
@@ -58,9 +58,9 @@ namespace base
 			/// @brief 启动串口。
 			///
 			///
-			void start(base::serial::sp_serial_handle const &h)
+			void Start()
 			{
-				base::serial::start(_handle);
+				base::serial::start(*_handle);
 			}
 
 			///
@@ -68,10 +68,9 @@ namespace base
 			///
 			/// @param baud_rate
 			///
-			void start(base::serial::sp_serial_handle const &h,
-					   base::serial::BaudRate const &baud_rate)
+			void Start(base::serial::BaudRate const &baud_rate)
 			{
-				base::serial::start(_handle, baud_rate);
+				base::serial::start(*_handle, baud_rate);
 			}
 
 			/* #endregion */
@@ -85,7 +84,7 @@ namespace base
 			///
 			std::string Name() const
 			{
-				return base::serial::name(_handle);
+				return base::serial::name(*_handle);
 			}
 
 			///
@@ -95,7 +94,7 @@ namespace base
 			///
 			base::serial::Direction Direction() const
 			{
-				return base::serial::direction(_handle);
+				return base::serial::direction(*_handle);
 			}
 
 			///
@@ -105,7 +104,7 @@ namespace base
 			///
 			uint32_t BaudRate() const
 			{
-				return base::serial::baud_rate(_handle);
+				return base::serial::baud_rate(*_handle);
 			}
 
 			///
@@ -115,7 +114,7 @@ namespace base
 			///
 			uint8_t DataBits() const
 			{
-				return base::serial::data_bits(_handle);
+				return base::serial::data_bits(*_handle);
 			}
 
 			///
@@ -125,7 +124,7 @@ namespace base
 			///
 			base::serial::Parity Parity() const
 			{
-				return base::serial::parity(_handle);
+				return base::serial::parity(*_handle);
 			}
 
 			///
@@ -135,7 +134,7 @@ namespace base
 			///
 			base::serial::StopBits StopBits() const
 			{
-				return base::serial::stop_bits(_handle);
+				return base::serial::stop_bits(*_handle);
 			}
 
 			///
@@ -145,7 +144,7 @@ namespace base
 			///
 			base::serial::HardwareFlowControl HardwareFlowControl() const
 			{
-				return base::serial::hardware_flow_control(_handle);
+				return base::serial::hardware_flow_control(*_handle);
 			}
 
 			///
@@ -156,7 +155,7 @@ namespace base
 			///
 			uint32_t FramesBaudCount(uint32_t frame_count) const
 			{
-				return base::serial::frames_baud_count(_handle, frame_count);
+				return base::serial::frames_baud_count(*_handle, frame_count);
 			}
 
 			/* #endregion */
@@ -171,7 +170,7 @@ namespace base
 			///
 			virtual bool CanRead() const override
 			{
-				return base::serial::can_read(_handle);
+				return base::serial::can_read(*_handle);
 			}
 
 			///
@@ -182,7 +181,7 @@ namespace base
 			///
 			virtual bool CanWrite() const override
 			{
-				return base::serial::can_write(_handle);
+				return base::serial::can_write(*_handle);
 			}
 
 			///
@@ -250,7 +249,7 @@ namespace base
 			///
 			virtual int32_t Read(base::Span const &span) override
 			{
-				return base::serial::read(_handle, span);
+				return base::serial::read(*_handle, span);
 			}
 
 			using base::Stream::Write;
@@ -262,7 +261,7 @@ namespace base
 			///
 			virtual void Write(base::ReadOnlySpan const &span) override
 			{
-				base::serial::write(_handle, span);
+				base::serial::write(*_handle, span);
 			}
 
 			///
@@ -273,7 +272,7 @@ namespace base
 			///
 			virtual void Flush() override
 			{
-				base::serial::flush(_handle);
+				base::serial::flush(*_handle);
 			}
 
 			///
