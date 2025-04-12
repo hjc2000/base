@@ -16,7 +16,6 @@ namespace base
 		{
 		public:
 			int64_t _row_count = 0;
-			base::MHz _max_clock_frequency{};
 			base::MHz _clock_frequency{};
 			base::Nanoseconds _t_rsc{};
 			base::Nanoseconds _t_xsr{};
