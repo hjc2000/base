@@ -7,53 +7,25 @@ namespace base
 {
 	namespace sdram
 	{
+		///
+		/// @brief SDRAM 时序。
+		///
+		///
 		class sdram_timing :
 			public base::IJsonSerializable
 		{
-		private:
-			int64_t _row_count = 0;
-
-			base::MHz _clock_frequency{};
-			base::Nanoseconds _clock_period{};
-
-			base::Nanoseconds _t_rsc{};
-			int _t_rsc_clock_count = 0;
-
-			base::Nanoseconds _t_xsr{};
-			int _t_xsr_clock_count = 0;
-
-			base::Nanoseconds _t_ras{};
-			int _t_ras_clock_count = 0;
-
-			base::Nanoseconds _t_rc{};
-			int _t_rc_clock_count = 0;
-
-			base::Nanoseconds _t_wr{};
-			int _t_wr_clock_count = 0;
-
-			base::Nanoseconds _t_rp{};
-			int _t_rp_clock_count = 0;
-
-			base::Nanoseconds _t_rcd{};
-			int _t_rcd_clock_count = 0;
-
-			base::Nanoseconds _t_ref{};
-			int _t_ref_clock_count = 0;
-
-			int _cas_latency = 0;
-
 		public:
-			sdram_timing(int64_t row_count,
-						 base::MHz const &clock_frequency,
-						 base::Nanoseconds const &t_rsc,
-						 base::Nanoseconds const &t_xsr,
-						 base::Nanoseconds T_RAS,
-						 base::Nanoseconds T_RC,
-						 base::Nanoseconds T_WR,
-						 base::Nanoseconds T_RP,
-						 base::Nanoseconds T_RCD,
-						 base::Nanoseconds T_REF,
-						 int cas_latency);
+			int64_t _row_count = 0;
+			base::MHz _clock_frequency{};
+			base::Nanoseconds _t_rsc{};
+			base::Nanoseconds _t_xsr{};
+			base::Nanoseconds _t_ras{};
+			base::Nanoseconds _t_rc{};
+			base::Nanoseconds _t_wr{};
+			base::Nanoseconds _t_rp{};
+			base::Nanoseconds _t_rcd{};
+			base::Nanoseconds _t_ref{};
+			int _cas_latency = 0;
 
 			///
 			/// @brief SDRAM 的行数。
@@ -82,7 +54,7 @@ namespace base
 			///
 			base::Nanoseconds clock_period() const
 			{
-				return _clock_period;
+				return base::Nanoseconds{_clock_frequency};
 			}
 
 			///
@@ -102,7 +74,8 @@ namespace base
 
 			int t_rsc_clock_count() const
 			{
-				return _t_rsc_clock_count;
+				base::Fraction value{_t_rsc / clock_period()};
+				return static_cast<int>(value.Ceil());
 			}
 
 			///
@@ -119,7 +92,8 @@ namespace base
 
 			int t_xsr_clock_count() const
 			{
-				return _t_xsr_clock_count;
+				base::Fraction value{_t_xsr / clock_period()};
+				return static_cast<int>(value.Ceil());
 			}
 
 			///
@@ -137,7 +111,8 @@ namespace base
 
 			int t_ras_clock_count() const
 			{
-				return _t_ras_clock_count;
+				base::Fraction value{_t_ras / clock_period()};
+				return static_cast<int>(value.Ceil());
 			}
 
 			///
@@ -153,7 +128,8 @@ namespace base
 
 			int t_rc_clock_count() const
 			{
-				return _t_rc_clock_count;
+				base::Fraction value{_t_rc / clock_period()};
+				return static_cast<int>(value.Ceil());
 			}
 
 			///
@@ -171,7 +147,8 @@ namespace base
 
 			int t_wr_clock_count() const
 			{
-				return _t_wr_clock_count;
+				base::Fraction value{_t_wr / clock_period()};
+				return static_cast<int>(value.Ceil());
 			}
 
 			///
@@ -189,7 +166,8 @@ namespace base
 
 			int t_rp_clock_count() const
 			{
-				return _t_rp_clock_count;
+				base::Fraction value{_t_rp / clock_period()};
+				return static_cast<int>(value.Ceil());
 			}
 
 			///
@@ -207,7 +185,8 @@ namespace base
 
 			int t_rcd_clock_count() const
 			{
-				return _t_rcd_clock_count;
+				base::Fraction value{_t_rcd / clock_period()};
+				return static_cast<int>(value.Ceil());
 			}
 
 			///
@@ -230,7 +209,8 @@ namespace base
 
 			int t_ref_clock_count() const
 			{
-				return _t_ref_clock_count;
+				base::Fraction value{_t_ref / clock_period()};
+				return static_cast<int>(value.Ceil());
 			}
 
 			///
@@ -268,5 +248,6 @@ namespace base
 			///
 			virtual base::Json ToJson() const override;
 		};
+
 	} // namespace sdram
 } // namespace base
