@@ -1,21 +1,15 @@
 #include "get_sdram_chip_timing.h"
-#include "base/string/define.h"
 #include "base/unit/MHz.h"
 #include "base/unit/Nanoseconds.h"
 #include "sdram_timing.h"
-#include <stdexcept>
 
 base::sdram::sdram_timing base::sdram::get_w9825g6kh_6_timing(base::MHz const &clock_frequency)
 {
-	if (clock_frequency > base::MHz{166})
-	{
-		throw std::invalid_argument{CODE_POS_STR + "时钟频率过高。"};
-	}
-
 	base::Nanoseconds clock_period{clock_frequency};
 
 	base::sdram::sdram_timing ret{};
 	ret._row_count = 8192;
+	ret._max_clock_frequency = base::MHz{166};
 	ret._clock_frequency = clock_frequency;
 	ret._t_rsc = 2 * clock_period + clock_period;
 	ret._t_xsr = base::Nanoseconds{72} + clock_period;
