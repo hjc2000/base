@@ -70,6 +70,7 @@ namespace base
 		///
 		/// @param h
 		///
+		IMPLEMENTED
 		inline void start(base::serial::sp_serial_handle const &h)
 		{
 			start(h,
@@ -87,6 +88,7 @@ namespace base
 		/// @param h
 		/// @param baud_rate
 		///
+		IMPLEMENTED
 		inline void start(base::serial::sp_serial_handle const &h,
 						  base::serial::BaudRate const &baud_rate)
 		{
