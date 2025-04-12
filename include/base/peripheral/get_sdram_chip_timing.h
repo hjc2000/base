@@ -1,5 +1,5 @@
 #pragma once
-
+#include "base/unit/MHz.h"
 #include "sdram_timing.h"
 
 namespace base
