@@ -1,5 +1,28 @@
 #include "serial_handle.h"
 
+void base::serial::start(base::serial::sp_serial_handle const &h)
+{
+	start(h,
+		  base::serial::Direction::RX_TX,
+		  base::serial::BaudRate{115200},
+		  base::serial::DataBits{8},
+		  base::serial::Parity::None,
+		  base::serial::StopBits::One,
+		  base::serial::HardwareFlowControl::None);
+}
+
+void base::serial::start(base::serial::sp_serial_handle const &h,
+						 base::serial::BaudRate const &baud_rate)
+{
+	start(h,
+		  base::serial::Direction::RX_TX,
+		  baud_rate,
+		  base::serial::DataBits{8},
+		  base::serial::Parity::None,
+		  base::serial::StopBits::One,
+		  base::serial::HardwareFlowControl::None);
+}
+
 uint32_t base::serial::frames_baud_count(base::serial::sp_serial_handle const &h, uint32_t frame_count)
 {
 	uint32_t baud_count = 0;

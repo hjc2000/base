@@ -71,16 +71,7 @@ namespace base
 		/// @param h
 		///
 		IMPLEMENTED
-		inline void start(base::serial::sp_serial_handle const &h)
-		{
-			start(h,
-				  base::serial::Direction::RX_TX,
-				  base::serial::BaudRate{115200},
-				  base::serial::DataBits{8},
-				  base::serial::Parity::None,
-				  base::serial::StopBits::One,
-				  base::serial::HardwareFlowControl::None);
-		}
+		void start(base::serial::sp_serial_handle const &h);
 
 		///
 		/// @brief 启动串口。
@@ -89,17 +80,8 @@ namespace base
 		/// @param baud_rate
 		///
 		IMPLEMENTED
-		inline void start(base::serial::sp_serial_handle const &h,
-						  base::serial::BaudRate const &baud_rate)
-		{
-			start(h,
-				  base::serial::Direction::RX_TX,
-				  baud_rate,
-				  base::serial::DataBits{8},
-				  base::serial::Parity::None,
-				  base::serial::StopBits::One,
-				  base::serial::HardwareFlowControl::None);
-		}
+		void start(base::serial::sp_serial_handle const &h,
+				   base::serial::BaudRate const &baud_rate);
 
 		/* #endregion */
 
