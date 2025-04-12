@@ -189,10 +189,30 @@ namespace base
 
 		/* #endregion */
 
+		///
+		/// @brief 从串口读取数据
+		///
+		/// @param h
+		/// @param span
+		///
+		/// @return int32_t 成功读取的字节数。永远不应该返回 0. 应该将本函数实现为等同 Stream
+		/// 的 Read 方法。
+		///
 		int32_t read(base::serial::sp_serial_handle const &h, base::Span const &span);
 
+		///
+		/// @brief 向串口写入数据。
+		///
+		/// @param h
+		/// @param span
+		///
 		void write(base::serial::sp_serial_handle const &h, base::ReadOnlySpan const &span);
 
+		///
+		/// @brief 冲洗串口。
+		///
+		/// @param h
+		///
 		void flush(base::serial::sp_serial_handle const &h);
 
 	} // namespace serial
