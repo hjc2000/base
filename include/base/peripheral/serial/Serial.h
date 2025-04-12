@@ -1,12 +1,16 @@
 #pragma once
+#include "base/stream/Stream.h"
+#include "base/string/define.h"
 #include "serial_handle.h"
+#include <stdexcept>
 #include <string>
 
 namespace base
 {
 	namespace serial
 	{
-		class Serial
+		class Serial :
+			public base::Stream
 		{
 		private:
 			base::serial::sp_serial_handle _handle{};
@@ -21,6 +25,56 @@ namespace base
 			{
 				_handle = base::serial::open(serial_name);
 			}
+
+			/* #region 启动串口 */
+
+			///
+			/// @brief 启动串口。
+			///
+			/// @param direction
+			/// @param baud_rate
+			/// @param data_bits
+			/// @param parity
+			/// @param stop_bits
+			/// @param hardware_flow_control
+			///
+			void Start(base::serial::Direction direction,
+					   base::serial::BaudRate const &baud_rate,
+					   base::serial::DataBits const &data_bits,
+					   base::serial::Parity parity,
+					   base::serial::StopBits stop_bits,
+					   base::serial::HardwareFlowControl hardware_flow_control)
+			{
+				base::serial::start(_handle,
+									direction,
+									baud_rate,
+									data_bits,
+									parity,
+									stop_bits,
+									hardware_flow_control);
+			}
+
+			///
+			/// @brief 启动串口。
+			///
+			///
+			void start(base::serial::sp_serial_handle const &h)
+			{
+				base::serial::start(_handle);
+			}
+
+			///
+			/// @brief 启动串口。
+			///
+			/// @param baud_rate
+			///
+			void start(base::serial::sp_serial_handle const &h,
+					   base::serial::BaudRate const &baud_rate)
+			{
+				base::serial::start(_handle, baud_rate);
+			}
+
+			/* #endregion */
 
 			/* #region 串口属性 */
 
@@ -107,68 +161,131 @@ namespace base
 
 			/* #endregion */
 
-			/* #region 启动串口 */
+			/* #region 流属性 */
 
 			///
-			/// @brief 启动串口。
+			/// @brief 本流能否读取。
 			///
-			/// @param h
-			/// @param direction
-			/// @param baud_rate
-			/// @param data_bits
-			/// @param parity
-			/// @param stop_bits
-			/// @param hardware_flow_control
+			/// @return true 能读取。
+			/// @return false 不能读取。
 			///
-			void start(base::serial::sp_serial_handle const &h,
-					   base::serial::Direction direction,
-					   base::serial::BaudRate const &baud_rate,
-					   base::serial::DataBits const &data_bits,
-					   base::serial::Parity parity,
-					   base::serial::StopBits stop_bits,
-					   base::serial::HardwareFlowControl hardware_flow_control);
-
-			///
-			/// @brief 启动串口。
-			///
-			/// @param h
-			///
-			inline void start(base::serial::sp_serial_handle const &h)
+			virtual bool CanRead() const override
 			{
-				start(h,
-					  base::serial::Direction::RX_TX,
-					  base::serial::BaudRate{115200},
-					  base::serial::DataBits{8},
-					  base::serial::Parity::None,
-					  base::serial::StopBits::One,
-					  base::serial::HardwareFlowControl::None);
+				return base::serial::can_read(_handle);
 			}
 
 			///
-			/// @brief 启动串口。
+			/// @brief 本流能否写入。
 			///
-			/// @param h
-			/// @param baud_rate
+			/// @return true 能写入。
+			/// @return false 不能写入。
 			///
-			inline void start(base::serial::sp_serial_handle const &h,
-							  base::serial::BaudRate const &baud_rate)
+			virtual bool CanWrite() const override
 			{
-				start(h,
-					  base::serial::Direction::RX_TX,
-					  baud_rate,
-					  base::serial::DataBits{8},
-					  base::serial::Parity::None,
-					  base::serial::StopBits::One,
-					  base::serial::HardwareFlowControl::None);
+				return base::serial::can_write(_handle);
+			}
+
+			///
+			/// @brief 本流能否定位。
+			///
+			/// @return true 能定位。
+			/// @return false 不能定位。
+			///
+			virtual bool CanSeek() const override
+			{
+				return false;
+			}
+
+			///
+			/// @brief 流的长度
+			///
+			/// @return int64_t
+			///
+			virtual int64_t Length() const override
+			{
+				throw std::runtime_error{CODE_POS_STR + "串口不支持该操作。"};
+			}
+
+			///
+			/// @brief 设置流的长度。
+			///
+			/// @param value
+			///
+			virtual void SetLength(int64_t value) override
+			{
+				throw std::runtime_error{CODE_POS_STR + "串口不支持该操作。"};
+			}
+
+			///
+			/// @brief 流当前的位置。
+			///
+			/// @return int64_t
+			///
+			virtual int64_t Position() const override
+			{
+				throw std::runtime_error{CODE_POS_STR + "串口不支持该操作。"};
+			}
+
+			///
+			/// @brief 设置流当前的位置。
+			///
+			/// @param value
+			///
+			virtual void SetPosition(int64_t value) override
+			{
+				throw std::runtime_error{CODE_POS_STR + "串口不支持该操作。"};
 			}
 
 			/* #endregion */
 
-			int32_t read(base::serial::sp_serial_handle const &h, base::Span const &span);
+			/* #region 读写冲关 */
 
-			void write(base::serial::sp_serial_handle const &h, base::ReadOnlySpan const &span);
+			using base::Stream::Read;
 
-			void flush(base::serial::sp_serial_handle const &h);
+			///
+			/// @brief 将本流的数据读取到 span 中。
+			///
+			/// @param span
+			/// @return int32_t
+			///
+			virtual int32_t Read(base::Span const &span) override
+			{
+				return base::serial::read(_handle, span);
+			}
+
+			using base::Stream::Write;
+
+			///
+			/// @brief 将 span 中的数据写入本流。
+			///
+			/// @param span
+			///
+			virtual void Write(base::ReadOnlySpan const &span) override
+			{
+				base::serial::write(_handle, span);
+			}
+
+			///
+			/// @brief 冲洗流。
+			///
+			/// @note 对于写入的数据，作用是将其从内部缓冲区转移到底层。
+			/// @note 对于内部的可以读取但尚未读取的数据，一般不会有什么作用。Flush 没见过对可读数据生效的。
+			///
+			virtual void Flush() override
+			{
+				base::serial::flush(_handle);
+			}
+
+			///
+			/// @brief 关闭流。
+			///
+			/// @note 要关闭请析构本对象。本方法什么都不做。
+			///
+			virtual void Close() override
+			{
+			}
+
+			/* #endregion */
 		};
 	} // namespace serial
 } // namespace base

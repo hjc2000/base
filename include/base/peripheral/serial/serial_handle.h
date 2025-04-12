@@ -44,6 +44,63 @@ namespace base
 
 		/* #endregion */
 
+		/* #region 启动串口 */
+
+		///
+		/// @brief 启动串口。
+		///
+		/// @param h
+		/// @param direction
+		/// @param baud_rate
+		/// @param data_bits
+		/// @param parity
+		/// @param stop_bits
+		/// @param hardware_flow_control
+		///
+		void start(base::serial::sp_serial_handle const &h,
+				   base::serial::Direction direction,
+				   base::serial::BaudRate const &baud_rate,
+				   base::serial::DataBits const &data_bits,
+				   base::serial::Parity parity,
+				   base::serial::StopBits stop_bits,
+				   base::serial::HardwareFlowControl hardware_flow_control);
+
+		///
+		/// @brief 启动串口。
+		///
+		/// @param h
+		///
+		inline void start(base::serial::sp_serial_handle const &h)
+		{
+			start(h,
+				  base::serial::Direction::RX_TX,
+				  base::serial::BaudRate{115200},
+				  base::serial::DataBits{8},
+				  base::serial::Parity::None,
+				  base::serial::StopBits::One,
+				  base::serial::HardwareFlowControl::None);
+		}
+
+		///
+		/// @brief 启动串口。
+		///
+		/// @param h
+		/// @param baud_rate
+		///
+		inline void start(base::serial::sp_serial_handle const &h,
+						  base::serial::BaudRate const &baud_rate)
+		{
+			start(h,
+				  base::serial::Direction::RX_TX,
+				  baud_rate,
+				  base::serial::DataBits{8},
+				  base::serial::Parity::None,
+				  base::serial::StopBits::One,
+				  base::serial::HardwareFlowControl::None);
+		}
+
+		/* #endregion */
+
 		/* #region 串口属性 */
 
 		///
@@ -112,62 +169,23 @@ namespace base
 		IMPLEMENTED
 		uint32_t frames_baud_count(base::serial::sp_serial_handle const &h, uint32_t frame_count);
 
-		/* #endregion */
-
-		/* #region 启动串口 */
-
 		///
-		/// @brief 启动串口。
+		/// @brief 检查串口能否读。
 		///
 		/// @param h
-		/// @param direction
-		/// @param baud_rate
-		/// @param data_bits
-		/// @param parity
-		/// @param stop_bits
-		/// @param hardware_flow_control
+		/// @return true
+		/// @return false
 		///
-		void start(base::serial::sp_serial_handle const &h,
-				   base::serial::Direction direction,
-				   base::serial::BaudRate const &baud_rate,
-				   base::serial::DataBits const &data_bits,
-				   base::serial::Parity parity,
-				   base::serial::StopBits stop_bits,
-				   base::serial::HardwareFlowControl hardware_flow_control);
+		bool can_read(base::serial::sp_serial_handle const &h);
 
 		///
-		/// @brief 启动串口。
+		/// @brief 检查串口能否写。
 		///
 		/// @param h
+		/// @return true
+		/// @return false
 		///
-		inline void start(base::serial::sp_serial_handle const &h)
-		{
-			start(h,
-				  base::serial::Direction::RX_TX,
-				  base::serial::BaudRate{115200},
-				  base::serial::DataBits{8},
-				  base::serial::Parity::None,
-				  base::serial::StopBits::One,
-				  base::serial::HardwareFlowControl::None);
-		}
-
-		///
-		/// @brief 启动串口。
-		///
-		/// @param h
-		/// @param baud_rate
-		///
-		inline void start(base::serial::sp_serial_handle const &h,
-						  base::serial::BaudRate const &baud_rate)
-		{
-			start(h,
-				  base::serial::Direction::RX_TX,
-				  baud_rate,
-				  base::serial::DataBits{8},
-				  base::serial::Parity::None,
-				  base::serial::StopBits::One,
-				  base::serial::HardwareFlowControl::None);
-		}
+		bool can_write(base::serial::sp_serial_handle const &h);
 
 		/* #endregion */
 
