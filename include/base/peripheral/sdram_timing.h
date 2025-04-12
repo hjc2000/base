@@ -12,22 +12,41 @@ namespace base
 		{
 		private:
 			int64_t _row_count = 0;
+
 			base::MHz _clock_frequency{};
-			base::Nanoseconds _T_RSC{};
-			base::Nanoseconds _T_XSR{};
-			base::Nanoseconds _T_RAS{};
-			base::Nanoseconds _T_RC{};
-			base::Nanoseconds _T_WR{};
-			base::Nanoseconds _T_RP{};
-			base::Nanoseconds _T_RCD{};
-			base::Nanoseconds _T_REF{};
+			base::Nanoseconds _clock_period{};
+
+			base::Nanoseconds _t_rsc{};
+			int _t_rsc_clock_count = 0;
+
+			base::Nanoseconds _t_xsr{};
+			int _t_xsr_clock_count = 0;
+
+			base::Nanoseconds _t_ras{};
+			int _t_ras_clock_count = 0;
+
+			base::Nanoseconds _t_rc{};
+			int _t_rc_clock_count = 0;
+
+			base::Nanoseconds _t_wr{};
+			int _t_wr_clock_count = 0;
+
+			base::Nanoseconds _t_rp{};
+			int _t_rp_clock_count = 0;
+
+			base::Nanoseconds _t_rcd{};
+			int _t_rcd_clock_count = 0;
+
+			base::Nanoseconds _t_ref{};
+			int _t_ref_clock_count = 0;
+
 			int _cas_latency = 0;
 
 		public:
 			sdram_timing(int64_t row_count,
 						 base::MHz const &clock_frequency,
-						 base::Nanoseconds const &T_RSC,
-						 base::Nanoseconds const &T_XSR,
+						 base::Nanoseconds const &t_rsc,
+						 base::Nanoseconds const &t_xsr,
 						 base::Nanoseconds T_RAS,
 						 base::Nanoseconds T_RC,
 						 base::Nanoseconds T_WR,
@@ -37,16 +56,79 @@ namespace base
 						 int cas_latency)
 			{
 				_row_count = row_count;
-				_clock_frequency = clock_frequency;
-				_T_RSC = T_RSC;
-				_T_XSR = T_XSR;
-				_T_RAS = T_RAS;
-				_T_RC = T_RC;
-				_T_WR = T_WR;
-				_T_RP = T_RP;
-				_T_RCD = T_RCD;
-				_T_REF = T_REF;
+
+				{
+					_clock_frequency = clock_frequency;
+					_clock_period = base::Nanoseconds{_clock_frequency};
+				}
+
+				{
+					_t_rsc = t_rsc;
+
+					base::Fraction value{_t_rsc / _clock_period};
+					_t_rsc_clock_count = static_cast<int>(value.Ceil());
+				}
+
+				{
+					_t_xsr = t_xsr;
+
+					base::Fraction value{_t_xsr / _clock_period};
+					_t_xsr_clock_count = static_cast<int>(value.Ceil());
+				}
+
+				{
+					_t_ras = T_RAS;
+
+					base::Fraction value{_t_ras / clock_period()};
+					_t_ras_clock_count = static_cast<int>(value.Ceil());
+				}
+
+				{
+					_t_rc = T_RC;
+
+					base::Fraction value{_t_rc / clock_period()};
+					_t_rc_clock_count = static_cast<int>(value.Ceil());
+				}
+
+				{
+					_t_wr = T_WR;
+
+					base::Fraction value{_t_wr / clock_period()};
+					_t_wr_clock_count = static_cast<int>(value.Ceil());
+				}
+
+				{
+					_t_rp = T_RP;
+
+					base::Fraction value{_t_rp / clock_period()};
+					_t_rp_clock_count = static_cast<int>(value.Ceil());
+				}
+
+				{
+					_t_ref = T_REF;
+
+					base::Fraction value{_t_ref / clock_period()};
+					_t_ref_clock_count = static_cast<int>(value.Ceil());
+				}
+
+				{
+					_t_rcd = T_RCD;
+
+					base::Fraction value{_t_rcd / clock_period()};
+					_t_rcd_clock_count = static_cast<int>(value.Ceil());
+				}
+
 				_cas_latency = cas_latency;
+			}
+
+			///
+			/// @brief SDRAM 的行数。
+			///
+			/// @return
+			///
+			int64_t row_count() const
+			{
+				return _row_count;
 			}
 
 			///
@@ -66,28 +148,27 @@ namespace base
 			///
 			base::Nanoseconds clock_period() const
 			{
-				return base::Nanoseconds{_clock_frequency};
+				return _clock_period;
 			}
 
 			///
 			/// @brief 模式寄存器设置延迟。
 			///
 			/// @note 设置模式寄存器后要等待这么长时间才可以进行下一个命令。
-			/// 	@li 设置模式寄存器后要等待 T_RSC 后才可以进行下一次的设置模式寄存器。
-			/// 	@li 设置模式寄存器后要等待 T_RSC 后才可以发送行激活命令。
-			/// 	@li 设置模式寄存器后要等待 T_RSC 后才可以发送自动刷新命令。
+			/// 	@li 设置模式寄存器后要等待 t_rsc 后才可以进行下一次的设置模式寄存器。
+			/// 	@li 设置模式寄存器后要等待 t_rsc 后才可以发送行激活命令。
+			/// 	@li 设置模式寄存器后要等待 t_rsc 后才可以发送自动刷新命令。
 			///
 			/// @return
 			///
-			base::Nanoseconds T_RSC() const
+			base::Nanoseconds t_rsc() const
 			{
-				return _T_RSC;
+				return _t_rsc;
 			}
 
-			int T_RSC_CLK_Count() const
+			int t_rsc_clock_count() const
 			{
-				base::Fraction value{T_RSC() / clock_period()};
-				return static_cast<int>(value.Ceil());
+				return _t_rsc_clock_count;
 			}
 
 			///
@@ -97,15 +178,14 @@ namespace base
 			///
 			/// @return
 			///
-			base::Nanoseconds T_XSR() const
+			base::Nanoseconds t_xsr() const
 			{
-				return _T_XSR;
+				return _t_xsr;
 			}
 
-			int T_XSR_CLK_Count() const
+			int t_xsr_clock_count() const
 			{
-				base::Fraction value{T_XSR() / clock_period()};
-				return static_cast<int>(value.Ceil());
+				return _t_xsr_clock_count;
 			}
 
 			///
@@ -116,15 +196,14 @@ namespace base
 			///
 			/// @return
 			///
-			base::Nanoseconds T_RAS() const
+			base::Nanoseconds t_ras() const
 			{
-				return _T_RAS;
+				return _t_ras;
 			}
 
-			int T_RAS_CLK_Count() const
+			int t_ras_clock_count() const
 			{
-				base::Fraction value{T_RAS() / clock_period()};
-				return static_cast<int>(value.Ceil());
+				return _t_ras_clock_count;
 			}
 
 			///
@@ -133,15 +212,14 @@ namespace base
 			///
 			/// @return
 			///
-			base::Nanoseconds T_RC() const
+			base::Nanoseconds t_rc() const
 			{
-				return _T_RC;
+				return _t_rc;
 			}
 
-			int T_RC_CLK_Count() const
+			int t_rc_clock_count() const
 			{
-				base::Fraction value{T_RC() / clock_period()};
-				return static_cast<int>(value.Ceil());
+				return _t_rc_clock_count;
 			}
 
 			///
@@ -152,15 +230,14 @@ namespace base
 			///
 			/// @return
 			///
-			base::Nanoseconds T_WR() const
+			base::Nanoseconds t_wr() const
 			{
-				return _T_WR;
+				return _t_wr;
 			}
 
-			int T_WR_CLK_Count() const
+			int t_wr_clock_count() const
 			{
-				base::Fraction value{T_WR() / clock_period()};
-				return static_cast<int>(value.Ceil());
+				return _t_wr_clock_count;
 			}
 
 			///
@@ -171,15 +248,14 @@ namespace base
 			///
 			/// @return
 			///
-			base::Nanoseconds T_RP() const
+			base::Nanoseconds t_rp() const
 			{
-				return _T_RP;
+				return _t_rp;
 			}
 
-			int T_RP_CLK_Count() const
+			int t_rp_clock_count() const
 			{
-				base::Fraction value{T_RP() / clock_period()};
-				return static_cast<int>(value.Ceil());
+				return _t_rp_clock_count;
 			}
 
 			///
@@ -190,15 +266,14 @@ namespace base
 			///
 			/// @return
 			///
-			base::Nanoseconds T_RCD() const
+			base::Nanoseconds t_rcd() const
 			{
-				return _T_RCD;
+				return _t_rcd;
 			}
 
-			int T_RCD_CLK_Count() const
+			int t_rcd_clock_count() const
 			{
-				base::Fraction value{T_RCD() / clock_period()};
-				return static_cast<int>(value.Ceil());
+				return _t_rcd_clock_count;
 			}
 
 			///
@@ -214,25 +289,14 @@ namespace base
 			///
 			/// @return
 			///
-			base::Nanoseconds T_REF() const
+			base::Nanoseconds t_ref() const
 			{
-				return _T_REF;
+				return _t_ref;
 			}
 
-			int T_REF_CLK_Count() const
+			int t_ref_clock_count() const
 			{
-				base::Fraction value{T_REF() / clock_period()};
-				return static_cast<int>(value.Ceil());
-			}
-
-			///
-			/// @brief SDRAM 的行数。
-			///
-			/// @return
-			///
-			int64_t row_count() const
-			{
-				return _row_count;
+				return _t_ref_clock_count;
 			}
 
 			///
@@ -241,7 +305,7 @@ namespace base
 			///
 			base::Nanoseconds auto_refresh_command_period() const
 			{
-				return T_REF() / row_count();
+				return t_ref() / row_count();
 			}
 
 			///
