@@ -1,5 +1,5 @@
 # 编译目标
-add_library(${ProjectName})
+add_library(${ProjectName} STATIC)
 target_import_src(${ProjectName})
 
 target_import_boost(${ProjectName} PUBLIC)
