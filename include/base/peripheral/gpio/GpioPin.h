@@ -73,7 +73,7 @@ namespace base
 			void InitializeAsInputMode(base::gpio::PullMode pull_mode,
 									   base::gpio::TriggerEdge trigger_edge)
 			{
-				base::gpio::initialize_as_input_mode(_handle, pull_mode, trigger_edge);
+				base::gpio::initialize_as_input_mode(*_handle, pull_mode, trigger_edge);
 			}
 
 			///
@@ -85,7 +85,7 @@ namespace base
 			void InitializeAsOutputMode(base::gpio::PullMode pull_mode,
 										base::gpio::DriveMode drive_mode)
 			{
-				base::gpio::initialize_as_output_mode(_handle,
+				base::gpio::initialize_as_output_mode(*_handle,
 													  pull_mode,
 													  drive_mode);
 			}
@@ -101,7 +101,7 @@ namespace base
 												   base::gpio::PullMode pull_mode,
 												   base::gpio::DriveMode drive_mode)
 			{
-				base::gpio::initialize_as_alternate_function_mode(_handle,
+				base::gpio::initialize_as_alternate_function_mode(*_handle,
 																  af,
 																  pull_mode,
 																  drive_mode);
@@ -116,7 +116,7 @@ namespace base
 			///
 			std::string Name() const
 			{
-				return base::gpio::pin_name(_handle);
+				return base::gpio::pin_name(*_handle);
 			}
 
 			/* #region 读写引脚电平 */
@@ -129,7 +129,7 @@ namespace base
 			///
 			bool ReadPin() const
 			{
-				return base::gpio::read_pin(_handle);
+				return base::gpio::read_pin(*_handle);
 			}
 
 			///
@@ -139,7 +139,7 @@ namespace base
 			///
 			void WritePin(bool value)
 			{
-				base::gpio::write_pin(_handle, value);
+				base::gpio::write_pin(*_handle, value);
 			}
 
 			///
@@ -148,7 +148,7 @@ namespace base
 			///
 			void TogglePin()
 			{
-				base::gpio::toggle_pin(_handle);
+				base::gpio::toggle_pin(*_handle);
 			}
 
 			/* #endregion */
@@ -163,7 +163,7 @@ namespace base
 			///
 			void RegisterInterruptCallback(std::function<void()> const &callback_func)
 			{
-				base::gpio::register_interrupt_callback(_handle, callback_func);
+				base::gpio::register_interrupt_callback(*_handle, callback_func);
 			}
 
 			///
@@ -173,7 +173,7 @@ namespace base
 			///
 			void UnregisterInterruptCallback()
 			{
-				base::gpio::unregister_interrupt_callback(_handle);
+				base::gpio::unregister_interrupt_callback(*_handle);
 			}
 
 			/* #endregion */

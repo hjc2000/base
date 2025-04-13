@@ -32,7 +32,7 @@ namespace base
 		/// @param pull_mode
 		/// @param trigger_edge
 		///
-		void initialize_as_input_mode(base::gpio::sp_gpio_pin_handle const &h,
+		void initialize_as_input_mode(base::gpio::gpio_pin_handle &h,
 									  base::gpio::PullMode pull_mode,
 									  base::gpio::TriggerEdge trigger_edge);
 
@@ -43,7 +43,7 @@ namespace base
 		/// @param pull_mode
 		/// @param drive_mode
 		///
-		void initialize_as_output_mode(base::gpio::sp_gpio_pin_handle const &h,
+		void initialize_as_output_mode(base::gpio::gpio_pin_handle &h,
 									   base::gpio::PullMode pull_mode,
 									   base::gpio::DriveMode drive_mode);
 
@@ -55,7 +55,7 @@ namespace base
 		/// @param pull_mode
 		/// @param drive_mode
 		///
-		void initialize_as_alternate_function_mode(base::gpio::sp_gpio_pin_handle const &h,
+		void initialize_as_alternate_function_mode(base::gpio::gpio_pin_handle &h,
 												   base::gpio::AlternateFunction af,
 												   base::gpio::PullMode pull_mode,
 												   base::gpio::DriveMode drive_mode);
@@ -68,7 +68,7 @@ namespace base
 		/// @param h
 		/// @return std::string
 		///
-		std::string pin_name(base::gpio::sp_gpio_pin_handle const &h);
+		std::string pin_name(base::gpio::gpio_pin_handle &h);
 
 		/* #region 读写引脚电平 */
 
@@ -79,7 +79,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool read_pin(base::gpio::sp_gpio_pin_handle const &h);
+		bool read_pin(base::gpio::gpio_pin_handle &h);
 
 		///
 		/// @brief 写引脚电平。
@@ -87,14 +87,14 @@ namespace base
 		/// @param h
 		/// @param value
 		///
-		void write_pin(base::gpio::sp_gpio_pin_handle const &h, bool value);
+		void write_pin(base::gpio::gpio_pin_handle &h, bool value);
 
 		///
 		/// @brief 翻转引脚电平。
 		///
 		/// @param h
 		///
-		void toggle_pin(base::gpio::sp_gpio_pin_handle const &h);
+		void toggle_pin(base::gpio::gpio_pin_handle &h);
 
 		/* #endregion */
 
@@ -106,7 +106,7 @@ namespace base
 		/// @param h
 		/// @param callback_func
 		///
-		void register_interrupt_callback(base::gpio::sp_gpio_pin_handle const &h,
+		void register_interrupt_callback(base::gpio::gpio_pin_handle &h,
 										 std::function<void()> const &callback_func);
 
 		///
@@ -114,7 +114,7 @@ namespace base
 		///
 		/// @param h
 		///
-		void unregister_interrupt_callback(base::gpio::sp_gpio_pin_handle const &h);
+		void unregister_interrupt_callback(base::gpio::gpio_pin_handle &h);
 
 		/* #endregion */
 
