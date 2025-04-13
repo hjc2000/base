@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace base
 {
 	namespace gpio
@@ -161,4 +163,7 @@ namespace base
 		};
 
 	} // namespace gpio
+
+	std::string to_string(base::gpio::PortEnum port);
+
 } // namespace base
