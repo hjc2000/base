@@ -22,13 +22,18 @@ namespace base
 		public:
 			KeyScanner(std::initializer_list<base::key::Key> keys);
 
+			std::vector<base::key::Key> const &Keys() const
+			{
+				return _keys;
+			}
+
 			void ScanKeys();
 
-			bool HasKeyDownEvent(int key_index);
+			bool HasKeyDownEvent(int key_index) const;
 
-			bool HasKeyUpEvent(int key_index);
+			bool HasKeyUpEvent(int key_index) const;
 
-			bool HasKeyPressedEvent(int key_index);
+			bool HasKeyPressedEvent(int key_index) const;
 		};
 	} // namespace key
 } // namespace base

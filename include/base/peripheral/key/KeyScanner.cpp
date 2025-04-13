@@ -27,17 +27,17 @@ void base::key::KeyScanner::ScanKeys()
 	_current_scan_result = _no_delay_scan_result1 & _no_delay_scan_result2;
 }
 
-bool base::key::KeyScanner::HasKeyDownEvent(int key_index)
+bool base::key::KeyScanner::HasKeyDownEvent(int key_index) const
 {
 	return _current_scan_result[key_index] && (!_last_scan_result[key_index]);
 }
 
-bool base::key::KeyScanner::HasKeyUpEvent(int key_index)
+bool base::key::KeyScanner::HasKeyUpEvent(int key_index) const
 {
 	return (!_current_scan_result[key_index]) && _last_scan_result[key_index];
 }
 
-bool base::key::KeyScanner::HasKeyPressedEvent(int key_index)
+bool base::key::KeyScanner::HasKeyPressedEvent(int key_index) const
 {
 	return _current_scan_result[key_index];
 }
