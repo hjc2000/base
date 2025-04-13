@@ -8,6 +8,10 @@ namespace base
 {
 	namespace key
 	{
+		///
+		/// @brief 按键扫描器。
+		///
+		///
 		class KeyScanner
 		{
 		private:
