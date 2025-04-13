@@ -11,16 +11,19 @@ namespace base
 		class KeyScanner
 		{
 		private:
-			std::vector<base::key::Key> _keys;
-			boost::dynamic_bitset<> _last_scan_result;
-			boost::dynamic_bitset<> _current_scan_result;
-			boost::dynamic_bitset<> _no_delay_scan_result1;
-			boost::dynamic_bitset<> _no_delay_scan_result2;
+			std::vector<base::key::Key> _keys{};
+			boost::dynamic_bitset<> _last_scan_result{};
+			boost::dynamic_bitset<> _current_scan_result{};
+			boost::dynamic_bitset<> _no_delay_scan_result1{};
+			boost::dynamic_bitset<> _no_delay_scan_result2{};
+
+			boost::dynamic_bitset<> _key_down_events{};
+			boost::dynamic_bitset<> _key_up_events{};
 
 			void ScanKeysNoDelay(boost::dynamic_bitset<> &out);
 
 		public:
-			KeyScanner(std::initializer_list<base::key::Key> keys);
+			KeyScanner(std::initializer_list<base::key::Key> const &keys);
 
 			std::vector<base::key::Key> const &Keys() const
 			{
