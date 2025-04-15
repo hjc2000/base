@@ -18,9 +18,9 @@ if(platform STREQUAL "msys")
 	set(exe_name "test")
 	add_executable(${exe_name} ${CMAKE_CURRENT_SOURCE_DIR}/exe/main.cpp)
 
-	target_link_options(${ProjectName} PUBLIC "LINKER:--start-group")
+	target_link_options(${exe_name} PUBLIC "LINKER:--start-group")
 	target_link_libraries(${exe_name} ${ProjectName})
-	target_link_options(${ProjectName} PUBLIC "LINKER:--end-group")
+	target_link_options(${exe_name} PUBLIC "LINKER:--end-group")
 
 	target_install(${exe_name})
 endif()
