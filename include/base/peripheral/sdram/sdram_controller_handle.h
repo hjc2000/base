@@ -1,5 +1,6 @@
 #pragma once
 #include "base/peripheral/sdram/ISDRAMTimingProvider.h"
+#include "base/stream/Span.h"
 #include "parameter.h"
 #include <memory>
 
@@ -85,13 +86,12 @@ namespace base
 		base::sdram::sdram_timing const &timing(sdram_controller_handle &h);
 
 		///
-		/// @brief 此 SDRAM 控制器所管理的内存段的起始地址。打开 SDRAM 后，
-		/// 对着这个地址开始往后的内存区域读写数据即可读写 SDRAM 的内容。
+		/// @brief 此 SDRAM 控制器所管理的内存段。打开 SDRAM 后，对着这个地址区域读写数据即可读写 SDRAM.
 		///
 		/// @param h
-		/// @return uint8_t*
+		/// @return base::Span
 		///
-		uint8_t *start_address(sdram_controller_handle &h);
+		base::Span span(sdram_controller_handle &h);
 
 	} // namespace sdram
 } // namespace base
