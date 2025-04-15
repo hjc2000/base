@@ -91,7 +91,7 @@ namespace base
 			///
 			/// @return base::sdram::sdram_timing const&
 			///
-			base::sdram::sdram_timing const &Timing()
+			base::sdram::sdram_timing const &Timing() const
 			{
 				return base::sdram::timing(*_handle);
 			}
@@ -104,7 +104,7 @@ namespace base
 			///
 			/// @return base::Span
 			///
-			base::Span Span()
+			base::Span Span() const
 			{
 				return base::sdram::span(*_handle);
 			}
