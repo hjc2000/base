@@ -88,6 +88,9 @@ namespace base
 		///
 		/// @brief 此 SDRAM 控制器所管理的内存段。打开 SDRAM 后，对着这个地址区域读写数据即可读写 SDRAM.
 		///
+		/// @warning 注意，以实际的 SDRAM 芯片的大小为准。本控制器可能可以管理很大的区域，但是 SDRAM 芯片
+		/// 实际上没有这么大。
+		///
 		/// @param h
 		/// @return base::Span
 		///
