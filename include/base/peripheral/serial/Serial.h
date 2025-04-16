@@ -1,5 +1,4 @@
 #pragma once
-#include "base/define.h"
 #include "base/stream/Stream.h"
 #include "base/string/define.h"
 #include "serial_handle.h"
