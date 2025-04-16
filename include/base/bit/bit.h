@@ -367,12 +367,11 @@ namespace base
 
 			// 将值移位，与要写入的寄存器位置对齐。
 			value <<= begin;
-
-			// 读取出范围内的位，其它部分的位丢弃（让它们是 0.）
-			value = ReadBits(value, begin, end);
+			uint64_t bit_mask = base::bit::BitMask(begin, end);
+			value &= bit_mask;
 
 			// 将要写入的范围先清零
-			ResetBits(reg, begin, end);
+			reg &= ~bit_mask;
 
 			// 通过按位或运算写入这些位。
 			reg |= value;
