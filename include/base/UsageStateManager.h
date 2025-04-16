@@ -1,6 +1,7 @@
 #pragma once
 #include "base/string/define.h"
 #include "base/task/IMutex.h"
+#include <atomic>
 
 namespace base
 {
@@ -13,7 +14,7 @@ namespace base
 	{
 	private:
 		inline static std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
-		inline static bool _is_used = false;
+		inline static std::atomic_bool _is_used = false;
 
 		void CheckUsage()
 		{
@@ -23,13 +24,8 @@ namespace base
 			}
 		}
 
-		///
-		/// @brief 设置为使用。
-		///
-		/// @note 如果本来已经是使用中了，则会抛出异常。
-		///
-		///
-		void SetAsUsed()
+	public:
+		UsageStateManager()
 		{
 			// 双重检查锁定
 			CheckUsage();
@@ -39,25 +35,10 @@ namespace base
 			_is_used = true;
 		}
 
-		///
-		/// @brief 设置为未使用。
-		///
-		///
-		void SetAsUnused()
+		~UsageStateManager()
 		{
 			base::LockGuard g{*_lock};
 			_is_used = false;
-		}
-
-	public:
-		UsageStateManager()
-		{
-			SetAsUsed();
-		}
-
-		~UsageStateManager()
-		{
-			SetAsUnused();
 		}
 	};
 } // namespace base
