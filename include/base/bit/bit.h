@@ -276,6 +276,14 @@ namespace base
 			reg &= ~Bit(bit_index);
 		}
 
+		///
+		/// @brief 将指定范围内的位复位（置成 0.）。
+		///
+		/// @param reg 寄存器。
+		/// @param begin 要复位的区间起点。闭端点。
+		/// @param end 要复位的区间终点。开端点。
+		/// @return
+		///
 		template <typename RegisterType, std::enable_if_t<std::is_integral_v<RegisterType>, int> = 0>
 		constexpr void ResetBits(RegisterType &reg, int begin, int end)
 		{
