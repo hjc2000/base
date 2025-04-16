@@ -1,7 +1,6 @@
 #pragma once
 #include "base/string/define.h"
 #include "base/task/IMutex.h"
-#include <atomic>
 
 namespace base
 {
@@ -14,7 +13,7 @@ namespace base
 	{
 	private:
 		inline static std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
-		inline static std::atomic_bool _is_used = false;
+		inline static bool _is_used = false;
 
 		void CheckUsage()
 		{
