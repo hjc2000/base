@@ -14,12 +14,12 @@ namespace base
 			int _value = 0;
 
 		public:
-			explicit BankCount(int value)
+			constexpr explicit BankCount(int value)
 				: _value(value)
 			{
 			}
 
-			int Value() const
+			constexpr int Value() const
 			{
 				return _value;
 			}
@@ -35,12 +35,12 @@ namespace base
 			int _value = 0;
 
 		public:
-			explicit RowBitCount(int value)
+			constexpr explicit RowBitCount(int value)
 				: _value(value)
 			{
 			}
 
-			int Value() const
+			constexpr int Value() const
 			{
 				return _value;
 			}
@@ -56,12 +56,12 @@ namespace base
 			int _value = 0;
 
 		public:
-			explicit ColumnBitCount(int value)
+			constexpr explicit ColumnBitCount(int value)
 				: _value(value)
 			{
 			}
 
-			int Value() const
+			constexpr int Value() const
 			{
 				return _value;
 			}
@@ -77,12 +77,12 @@ namespace base
 			int _value = 0;
 
 		public:
-			explicit DataWidth(int value)
+			constexpr explicit DataWidth(int value)
 				: _value(value)
 			{
 			}
 
-			int Value() const
+			constexpr int Value() const
 			{
 				return _value;
 			}
@@ -98,12 +98,12 @@ namespace base
 			int _value = 0;
 
 		public:
-			explicit ReadBurstLength(int value)
+			constexpr explicit ReadBurstLength(int value)
 				: _value(value)
 			{
 			}
 
-			int Value() const
+			constexpr int Value() const
 			{
 				return _value;
 			}
