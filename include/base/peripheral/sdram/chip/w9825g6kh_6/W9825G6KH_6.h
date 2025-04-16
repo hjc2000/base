@@ -19,7 +19,10 @@ namespace base
 					/// @brief 构造函数。
 					/// @param controller 需要一个控制器来控制 SDRAM 芯片。
 					///
-					W9825G6KH_6(base::sdram::SdramController const &controller);
+					W9825G6KH_6(base::sdram::SdramController const &controller)
+						: _controller(controller)
+					{
+					}
 
 					///
 					/// @brief 打开 SDRAM.

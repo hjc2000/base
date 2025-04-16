@@ -4,11 +4,6 @@
 #include "ModeRegister.h"
 #include <cstdint>
 
-base::sdram::chip::w9825g6kh_6::W9825G6KH_6::W9825G6KH_6(base::sdram::SdramController const &controller)
-	: _controller(controller)
-{
-}
-
 void base::sdram::chip::w9825g6kh_6::W9825G6KH_6::Open()
 {
 	_controller.InitializeAsReadBurstMode(base::sdram::W9825G6KH_6_TimingProvider{},

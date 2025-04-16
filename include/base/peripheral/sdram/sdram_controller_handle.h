@@ -10,6 +10,8 @@ namespace base
 	{
 		class sdram_controller_handle;
 
+		/* #region open */
+
 		///
 		/// @brief 打开 SDRAM 控制器。
 		///
@@ -27,6 +29,8 @@ namespace base
 		/// @return std::shared_ptr<base::sdram::sdram_controller_handle>
 		///
 		std::shared_ptr<base::sdram::sdram_controller_handle> open(int sdram_controller_id);
+
+		/* #endregion */
 
 		///
 		/// @brief 将 SDRAM 控制器初始化为读突发模式。写不突发。
@@ -46,6 +50,8 @@ namespace base
 										   base::sdram::ColumnBitCount const &column_bit_count,
 										   base::sdram::DataWidth const &data_width,
 										   base::sdram::ReadBurstLength const &read_burst_length);
+
+		/* #region 控制命令 */
 
 		///
 		/// @brief 发送：“预充电所有 BANK” 的命令。
@@ -76,6 +82,8 @@ namespace base
 		/// @param value
 		///
 		void write_mode_register(base::sdram::sdram_controller_handle &h, uint32_t value);
+
+		/* #endregion */
 
 		///
 		/// @brief 控制器被打开后所使用的时序。
