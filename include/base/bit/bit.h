@@ -253,6 +253,13 @@ namespace base
 			reg |= Bit(bit_index);
 		}
 
+		///
+		/// @brief 将指定范围内的位置位。
+		///
+		/// @param reg 寄存器。
+		/// @param begin 要置位的区间起点。闭端点。
+		/// @param end 要置位的区间终点。开端点。
+		///
 		template <typename RegisterType, std::enable_if_t<std::is_integral_v<RegisterType>, int> = 0>
 		constexpr void SetBits(RegisterType &reg, int begin, int end)
 		{
@@ -282,7 +289,6 @@ namespace base
 		/// @param reg 寄存器。
 		/// @param begin 要复位的区间起点。闭端点。
 		/// @param end 要复位的区间终点。开端点。
-		/// @return
 		///
 		template <typename RegisterType, std::enable_if_t<std::is_integral_v<RegisterType>, int> = 0>
 		constexpr void ResetBits(RegisterType &reg, int begin, int end)
@@ -331,7 +337,6 @@ namespace base
 		/// @param begin 位范围起始。闭端点。
 		/// @param end 位范围结束。开端点。
 		/// @param value 要写入 reg 的指定范围内的值。
-		/// @return
 		///
 		template <typename RegisterType, std::enable_if_t<std::is_integral_v<RegisterType>, int> = 0>
 		constexpr void WriteBits(RegisterType &reg, int begin, int end, uint64_t value)
