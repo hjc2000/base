@@ -335,7 +335,11 @@ namespace base
 
 			// 读取出范围内的位，其它部分的位丢弃（让它们是 0.）
 			value = ReadBits(value, begin, end);
+
+			// 将要写入的范围先清零
 			ResetBits(reg, begin, end);
+
+			// 通过按位或运算写入这些位。
 			reg |= value;
 		}
 
