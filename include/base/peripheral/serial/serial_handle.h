@@ -2,7 +2,6 @@
 #include "base/define.h"
 #include "base/stream/Span.h"
 #include "serial_parameter.h"
-#include <memory>
 #include <string>
 #include <vector>
 
@@ -11,7 +10,6 @@ namespace base
 	namespace serial
 	{
 		class serial_handle;
-		using sp_serial_handle = std::shared_ptr<serial_handle>;
 
 		///
 		/// @brief 扫描可用的串口。
@@ -28,9 +26,9 @@ namespace base
 		/// @param name 串口名称。
 		///		@note 通用操作系统中使用这种方式。
 		///
-		/// @return base::serial::sp_serial_handle
+		/// @return base::serial::serial_handle*
 		///
-		base::serial::sp_serial_handle open(std::string const &name);
+		base::serial::serial_handle *open(std::string const &name);
 
 		///
 		/// @brief 通过串口 ID 打开串口。
@@ -38,11 +36,18 @@ namespace base
 		/// @param serial_id 串口 ID.
 		/// 	@note 单片机中使用这种方式。例如想要打开 UART1 就传入 1.
 		///
-		/// @return base::serial::sp_serial_handle
+		/// @return base::serial::serial_handle*
 		///
-		base::serial::sp_serial_handle open(int serial_id);
+		base::serial::serial_handle *open(int serial_id);
 
 		/* #endregion */
+
+		///
+		/// @brief 释放串口。
+		///
+		/// @param h 串口句柄的指针的引用。释放后指针将被修改为指向 nullptr.
+		///
+		void free(base::serial::serial_handle *&h);
 
 		/* #region 启动串口 */
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "base/define.h"
 #include "base/stream/Stream.h"
 #include "base/string/define.h"
 #include "serial_handle.h"
@@ -13,7 +14,9 @@ namespace base
 			public base::Stream
 		{
 		private:
-			base::serial::sp_serial_handle _handle{};
+			DELETE_COPY_AND_MOVE(Serial)
+
+			base::serial::serial_handle *_handle{};
 
 		public:
 			Serial(int serial_id)
@@ -27,6 +30,11 @@ namespace base
 			}
 
 			/* #region 启动串口 */
+
+			~Serial()
+			{
+				base::serial::free(_handle);
+			}
 
 			///
 			/// @brief 启动串口。
