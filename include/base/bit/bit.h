@@ -331,6 +331,28 @@ namespace base
 		}
 
 		///
+		/// @brief 向指定索引的位写入值。
+		///
+		/// @param reg
+		/// @param bit_index
+		/// @param value
+		/// @return
+		///
+		template <typename RegisterType, std::enable_if_t<std::is_integral_v<RegisterType>, int> = 0>
+		constexpr void WriteBit(RegisterType &reg, int bit_index, bool value)
+		{
+			CheckBitIndex<RegisterType>(index);
+			if (value)
+			{
+				SetBit(reg, bit_index);
+			}
+			else
+			{
+				ResetBit(reg, bit_index);
+			}
+		}
+
+		///
 		/// @brief 将值写入寄存器指定的位范围。
 		///
 		/// @param reg 寄存器。
