@@ -86,7 +86,7 @@ namespace base
 					///
 					constexpr void SetReadingBurstLength(uint32_t value)
 					{
-						if (value % 2 != 0)
+						if (value % 2 != 0 && value != 1)
 						{
 							throw std::invalid_argument{CODE_POS_STR + "读突发长度只能是 2 的整数幂。"};
 						}
