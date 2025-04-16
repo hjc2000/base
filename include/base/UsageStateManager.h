@@ -8,11 +8,12 @@ namespace base
 	/// @brief 使用状态管理器。
 	///
 	///
+	template <typename T>
 	class UsageStateManager
 	{
 	private:
-		std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
-		bool _is_used = false;
+		inline static std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
+		inline static bool _is_used = false;
 
 		void CheckUsage()
 		{
@@ -22,7 +23,6 @@ namespace base
 			}
 		}
 
-	public:
 		///
 		/// @brief 设置为使用。
 		///
@@ -47,6 +47,17 @@ namespace base
 		{
 			base::LockGuard g{*_lock};
 			_is_used = false;
+		}
+
+	public:
+		UsageStateManager()
+		{
+			SetAsUsed();
+		}
+
+		~UsageStateManager()
+		{
+			SetAsUnused();
 		}
 	};
 } // namespace base
