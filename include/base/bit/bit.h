@@ -10,14 +10,14 @@ namespace base
 	namespace bit
 	{
 		template <typename RegisterType>
-		constexpr void CheckBitIndex(int index)
+		constexpr void CheckBitIndex(int bit_index)
 		{
-			if (index < 0)
+			if (bit_index < 0)
 			{
 				throw std::invalid_argument{CODE_POS_STR + "位索引不能 < 0."};
 			}
 
-			if (index >= static_cast<int>(8 * sizeof(RegisterType)))
+			if (bit_index >= static_cast<int>(8 * sizeof(RegisterType)))
 			{
 				throw std::invalid_argument{CODE_POS_STR + "位索引不能 >= 64."};
 			}
@@ -341,7 +341,7 @@ namespace base
 		template <typename RegisterType, std::enable_if_t<std::is_integral_v<RegisterType>, int> = 0>
 		constexpr void WriteBit(RegisterType &reg, int bit_index, bool value)
 		{
-			CheckBitIndex<RegisterType>(index);
+			CheckBitIndex<RegisterType>(bit_index);
 			if (value)
 			{
 				SetBit(reg, bit_index);
