@@ -1,5 +1,5 @@
 #include "W9825G6KH_6.h"
-#include "base/peripheral/sdram/chip/W9825G6KH_6_TimingProvider.h"
+#include "base/peripheral/sdram/chip/w9825g6kh_6/W9825G6KH_6_TimingProvider.h"
 #include "base/task/delay.h"
 
 // SDRAM配置参数
@@ -19,12 +19,12 @@
 #define SDRAM_MODEREG_WRITEBURST_MODE_PROGRAMMED ((uint16_t)0x0000)
 #define SDRAM_MODEREG_WRITEBURST_MODE_SINGLE ((uint16_t)0x0200)
 
-base::sdram::chip::W9825G6KH_6::W9825G6KH_6(base::sdram::SdramController const &controller)
+base::sdram::chip::w9825g6kh_6::W9825G6KH_6::W9825G6KH_6(base::sdram::SdramController const &controller)
 	: _controller(controller)
 {
 }
 
-void base::sdram::chip::W9825G6KH_6::Open()
+void base::sdram::chip::w9825g6kh_6::W9825G6KH_6::Open()
 {
 	_controller.InitializeAsReadBurstMode(base::sdram::W9825G6KH_6_TimingProvider{},
 										  base::sdram::BankCount{4},
@@ -59,7 +59,7 @@ void base::sdram::chip::W9825G6KH_6::Open()
 	_controller.WriteModeRegister(sdram_mod_register);
 }
 
-base::Span base::sdram::chip::W9825G6KH_6::Span() const
+base::Span base::sdram::chip::w9825g6kh_6::W9825G6KH_6::Span() const
 {
 	return base::Span{_controller.Span().Buffer(), 32 * 1024 * 1024};
 }
