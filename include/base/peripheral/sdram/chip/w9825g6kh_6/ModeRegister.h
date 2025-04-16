@@ -79,8 +79,23 @@ namespace base
 						return value;
 					}
 
+					///
+					/// @brief 设置读突发长度。
+					///
+					/// @param value 读突发长度。只能是 2 的整数幂。
+					///
 					constexpr void SetReadingBurstLength(uint32_t value)
 					{
+						if (value % 2 != 0)
+						{
+							throw std::invalid_argument{CODE_POS_STR + "读突发长度只能是 2 的整数幂。"};
+						}
+
+						if (value > 8)
+						{
+							throw std::invalid_argument{CODE_POS_STR + "读突发长度不能 > 8."};
+						}
+
 						base::bit::WriteBits(_value, 0, 3, value / 2);
 					}
 
@@ -123,12 +138,12 @@ namespace base
 					{
 						if (value < 2)
 						{
-							throw std::invalid_argument{CODE_POS_STR};
+							throw std::invalid_argument{CODE_POS_STR + "非法 CasLatency 值。"};
 						}
 
 						if (value > 3)
 						{
-							throw std::invalid_argument{CODE_POS_STR};
+							throw std::invalid_argument{CODE_POS_STR + "非法 CasLatency 值。"};
 						}
 
 						base::bit::WriteBits(_value, 4, 6, value);
