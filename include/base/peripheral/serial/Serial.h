@@ -14,9 +14,7 @@ namespace base
 			public base::Stream
 		{
 		private:
-			DELETE_COPY_AND_MOVE(Serial)
-
-			base::serial::serial_handle *_handle{};
+			std::shared_ptr<base::serial::serial_handle> _handle{};
 
 		public:
 			Serial(int serial_id)
@@ -30,11 +28,6 @@ namespace base
 			}
 
 			/* #region 启动串口 */
-
-			~Serial()
-			{
-				base::serial::free(_handle);
-			}
 
 			///
 			/// @brief 启动串口。
