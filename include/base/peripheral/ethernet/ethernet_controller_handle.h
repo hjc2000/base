@@ -44,5 +44,34 @@ namespace base
 						uint32_t phy_address,
 						base::Mac const &mac);
 
+		///
+		/// @brief 获取以太网控制器所使用的 MAC 地址。
+		///
+		/// @param h
+		/// @return
+		///
+		base::Mac mac(base::ethernet::ethernet_controller_handle &h);
+
+		///
+		/// @brief 读取 PHY 的寄存器。
+		///
+		/// @param h
+		/// @param reg_index
+		/// @return
+		///
+		uint32_t read_phy_register(base::ethernet::ethernet_controller_handle &h,
+								   uint32_t reg_index);
+
+		///
+		/// @brief 写 PHY 的寄存器。
+		///
+		/// @param h
+		/// @param reg_index
+		/// @param value
+		///
+		void write_phy_register(base::ethernet::ethernet_controller_handle &h,
+								uint32_t reg_index,
+								uint32_t value);
+
 	} // namespace ethernet
 } // namespace base
