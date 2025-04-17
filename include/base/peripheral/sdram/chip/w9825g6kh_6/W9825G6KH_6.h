@@ -1,5 +1,5 @@
 #pragma once
-#include "base/peripheral/sdram/chip/w9825g6kh_6/W9825G6KH_6_TimingProvider.h"
+#include "base/peripheral/sdram/chip/w9825g6kh_6/TimingProvider.h"
 #include "base/peripheral/sdram/SdramController.h"
 #include "base/task/delay.h"
 #include "ModeRegister.h"
@@ -37,7 +37,7 @@ namespace base
 					///
 					void Open()
 					{
-						_controller.InitializeAsReadBurstMode(base::sdram::W9825G6KH_6_TimingProvider{},
+						_controller.InitializeAsReadBurstMode(base::sdram::chip::w9825g6kh_6::TimingProvider{},
 															  base::sdram::BankCount{4},
 															  base::sdram::RowBitCount{13},
 															  base::sdram::ColumnBitCount{9},
