@@ -1,4 +1,6 @@
 #pragma once
+#include "base/net/Mac.h"
+#include "parameter.h"
 #include <cstdint>
 #include <memory>
 
@@ -28,6 +30,19 @@ namespace base
 		std::shared_ptr<base::ethernet::ethernet_controller_handle> open(uint32_t id);
 
 		/* #endregion */
+
+		///
+		/// @brief 初始化以太网控制器。
+		///
+		/// @param h
+		/// @param type
+		/// @param phy_address
+		/// @param mac
+		///
+		void initialize(base::ethernet::ethernet_controller_handle &h,
+						base::ethernet::InterfaceType type,
+						uint32_t phy_address,
+						base::Mac const &mac);
 
 	} // namespace ethernet
 } // namespace base
