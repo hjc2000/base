@@ -13,6 +13,10 @@ namespace base
 		{
 			namespace w9825g6kh_6
 			{
+				///
+				/// @brief W9825G6KH_6 芯片操作器。
+				///
+				///
 				class W9825G6KH_6
 				{
 				private:

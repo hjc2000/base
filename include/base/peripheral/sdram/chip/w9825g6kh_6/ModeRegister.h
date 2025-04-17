@@ -12,6 +12,8 @@ namespace base
 		{
 			namespace w9825g6kh_6
 			{
+				/* #region 模式寄存器参数类 */
+
 				///
 				/// @brief 读突发模式。
 				///
@@ -49,6 +51,8 @@ namespace base
 					///
 					Single,
 				};
+
+				/* #endregion */
 
 				///
 				/// @brief w9825g6kh_6 的模式寄存器。
