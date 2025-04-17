@@ -21,5 +21,24 @@ namespace base
 			RMII,
 		};
 
+		///
+		/// @brief 双工模式
+		///
+		///
+		enum class DuplexMode
+		{
+			///
+			/// @brief 全双工
+			///
+			///
+			FullDuplex,
+
+			///
+			/// @brief 半双工
+			///
+			///
+			HalfDuplex,
+		};
+
 	} // namespace ethernet
 } // namespace base
