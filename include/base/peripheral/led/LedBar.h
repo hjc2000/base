@@ -53,6 +53,11 @@ namespace base
 
 			/* #endregion */
 
+			int32_t Count() const
+			{
+				return _leds.Count();
+			}
+
 			/* #region operator[] */
 
 			base::led::Led &operator[](int32_t index)
@@ -96,14 +101,6 @@ namespace base
 		/// @return
 		///
 		LedBar &GlobalLedBar();
-
-		///
-		/// @brief 点亮错误 LED.
-		///
-		/// @note 发生错误时可以调用本函数，点亮一个表示错误的 LED 灯。
-		/// 这个 LED 灯对象可以借助 GlobalLedBar 来保存。
-		///
-		void turn_on_error_led();
 
 	} // namespace led
 } // namespace base
