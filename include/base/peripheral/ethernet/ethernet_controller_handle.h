@@ -54,6 +54,8 @@ namespace base
 		///
 		base::Mac mac(base::ethernet::ethernet_controller_handle &h);
 
+		/* #region 控制 PHY */
+
 		///
 		/// @brief 读取 PHY 的寄存器。
 		///
@@ -74,6 +76,8 @@ namespace base
 		void write_phy_register(base::ethernet::ethernet_controller_handle &h,
 								uint32_t reg_index,
 								uint32_t value);
+
+		/* #endregion */
 
 		///
 		/// @brief 启动以太网控制器。
