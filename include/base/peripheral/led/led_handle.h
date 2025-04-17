@@ -56,6 +56,8 @@ namespace base
 
 		/* #endregion */
 
+		/* #region LED 灯属性 */
+
 		///
 		/// @brief 获取 LED 灯的状态。
 		///
@@ -88,6 +90,8 @@ namespace base
 		/// @param value 是个分数，表示亮度是额定亮度的多少倍。
 		///
 		void set_brightness(base::led::led_handle &h, base::Fraction const &value);
+
+		/* #endregion */
 
 	} // namespace led
 } // namespace base
