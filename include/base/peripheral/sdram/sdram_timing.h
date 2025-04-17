@@ -2,6 +2,7 @@
 #include "base/string/Json.h"
 #include "base/unit/MHz.h"
 #include "base/unit/Nanoseconds.h"
+#include <cstdint>
 
 namespace base
 {
@@ -14,7 +15,7 @@ namespace base
 		class sdram_timing :
 			public base::IJsonSerializable
 		{
-		public:
+		private:
 			int64_t _row_count = 0;
 			base::MHz _clock_frequency{};
 			base::Nanoseconds _t_rsc{};
@@ -25,8 +26,9 @@ namespace base
 			base::Nanoseconds _t_rp{};
 			base::Nanoseconds _t_rcd{};
 			base::Nanoseconds _t_ref{};
-			int _cas_latency = 0;
+			uint32_t _cas_latency = 2;
 
+		public:
 			///
 			/// @brief SDRAM 的行数。
 			///
@@ -35,6 +37,11 @@ namespace base
 			int64_t row_count() const
 			{
 				return _row_count;
+			}
+
+			void set_row_count(int64_t value)
+			{
+				_row_count = value;
 			}
 
 			///
@@ -47,6 +54,11 @@ namespace base
 				return _clock_frequency;
 			}
 
+			void set_clock_frequency(base::MHz const &value)
+			{
+				_clock_frequency = value;
+			}
+
 			///
 			/// @brief 时钟信号周期。
 			///
@@ -55,6 +67,11 @@ namespace base
 			base::Nanoseconds clock_period() const
 			{
 				return base::Nanoseconds{_clock_frequency};
+			}
+
+			void set_clock_period(base::Nanoseconds const &value)
+			{
+				_clock_frequency = base::MHz{value};
 			}
 
 			///
@@ -70,6 +87,11 @@ namespace base
 			base::Nanoseconds t_rsc() const
 			{
 				return _t_rsc;
+			}
+
+			void set_t_rsc(base::Nanoseconds const &value)
+			{
+				_t_rsc = value;
 			}
 
 			int t_rsc_clock_count() const
@@ -88,6 +110,11 @@ namespace base
 			base::Nanoseconds t_xsr() const
 			{
 				return _t_xsr;
+			}
+
+			void set_t_xsr(base::Nanoseconds const &value)
+			{
+				_t_xsr = value;
 			}
 
 			int t_xsr_clock_count() const
@@ -109,6 +136,11 @@ namespace base
 				return _t_ras;
 			}
 
+			void set_t_ras(base::Nanoseconds const &value)
+			{
+				_t_ras = value;
+			}
+
 			int t_ras_clock_count() const
 			{
 				base::Fraction value{_t_ras / clock_period()};
@@ -124,6 +156,11 @@ namespace base
 			base::Nanoseconds t_rc() const
 			{
 				return _t_rc;
+			}
+
+			void set_t_rc(base::Nanoseconds const &value)
+			{
+				_t_rc = value;
 			}
 
 			int t_rc_clock_count() const
@@ -145,6 +182,11 @@ namespace base
 				return _t_wr;
 			}
 
+			void set_t_wr(base::Nanoseconds const &value)
+			{
+				_t_wr = value;
+			}
+
 			int t_wr_clock_count() const
 			{
 				base::Fraction value{_t_wr / clock_period()};
@@ -164,6 +206,11 @@ namespace base
 				return _t_rp;
 			}
 
+			void set_t_rp(base::Nanoseconds const &value)
+			{
+				_t_rp = value;
+			}
+
 			int t_rp_clock_count() const
 			{
 				base::Fraction value{_t_rp / clock_period()};
@@ -181,6 +228,11 @@ namespace base
 			base::Nanoseconds t_rcd() const
 			{
 				return _t_rcd;
+			}
+
+			void set_t_rcd(base::Nanoseconds const &value)
+			{
+				_t_rcd = value;
 			}
 
 			int t_rcd_clock_count() const
@@ -205,6 +257,11 @@ namespace base
 			base::Nanoseconds t_ref() const
 			{
 				return _t_ref;
+			}
+
+			void set_t_ref(base::Nanoseconds const &value)
+			{
+				_t_ref = value;
 			}
 
 			int t_ref_clock_count() const
@@ -237,9 +294,14 @@ namespace base
 			///
 			/// @return
 			///
-			int cas_latency() const
+			uint32_t cas_latency() const
 			{
 				return _cas_latency;
+			}
+
+			void set_cas_latency(uint32_t value)
+			{
+				_cas_latency = value;
 			}
 
 			///
