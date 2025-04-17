@@ -12,6 +12,8 @@ namespace base
 			std::shared_ptr<base::led::led_handle> _handle;
 
 		public:
+			/* #region 构造函数 */
+
 			Led(uint32_t led_id)
 			{
 				_handle = base::led::open(led_id);
@@ -21,6 +23,8 @@ namespace base
 			{
 				_handle = base::led::open(color);
 			}
+
+			/* #endregion */
 
 			/* #region 控制 LED 开关 */
 
