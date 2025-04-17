@@ -1,5 +1,7 @@
 #pragma once
 #include "base/net/Mac.h"
+#include "base/stream/ReadOnlySpan.h"
+#include "base/unit/Mbps.h"
 #include "parameter.h"
 #include <cstdint>
 #include <memory>
@@ -72,6 +74,42 @@ namespace base
 		void write_phy_register(base::ethernet::ethernet_controller_handle &h,
 								uint32_t reg_index,
 								uint32_t value);
+
+		///
+		/// @brief 启动以太网控制器。
+		///
+		/// @note 通过读写 PHY 寄存器，控制 PHY 的初始化，等到 PHY 与远程连接后，读取出
+		/// 使用的双工模式和连接速率，用来启动以太网控制器。因为以太网控制器不支持自动从 PHY
+		/// 中获取这些信息。
+		///
+		/// @param h
+		/// @param duplex_mode 双工模式。
+		/// @param speed 连接速率。
+		///
+		void start(base::ethernet::ethernet_controller_handle &h,
+				   base::ethernet::DuplexMode duplex_mode,
+				   base::Mbps const &speed);
+
+		/* #region 收发数据 */
+
+		///
+		/// @brief 发送数据。
+		///
+		/// @param h
+		/// @param span
+		///
+		void send(base::ethernet::ethernet_controller_handle &h,
+				  base::ReadOnlySpan const &span);
+
+		///
+		/// @brief 接收数据。
+		///
+		/// @param h
+		/// @return
+		///
+		base::ReadOnlySpan receive(base::ethernet::ethernet_controller_handle &h);
+
+		/* #endregion */
 
 	} // namespace ethernet
 } // namespace base
