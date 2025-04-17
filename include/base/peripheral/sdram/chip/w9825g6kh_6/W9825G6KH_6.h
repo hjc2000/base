@@ -58,6 +58,17 @@ namespace base
 					}
 
 					///
+					/// @brief 为 stm32h743iit6 设计的打开函数。
+					///
+					/// @note 如果有些单片机实在太特殊，就为它单独设计一个函数。然后 SDRAM 句柄那边
+					/// 也给它单独设计一个初始化函数。
+					///
+					void open_for_stm32h743iit6()
+					{
+						Open();
+					}
+
+					///
 					/// @brief 此 SDRAM 的内存段。
 					/// @return
 					///
