@@ -18,17 +18,17 @@ namespace base
 		/// @brief 根据 LED 的 ID 打开 LED.
 		///
 		/// @param led_id
-		/// @return std::shared_ptr<led_handle>
+		/// @return
 		///
-		std::shared_ptr<led_handle> open(uint32_t led_id);
+		std::shared_ptr<base::led::led_handle> open(uint32_t led_id);
 
 		///
 		/// @brief 根据 LED 的颜色打开 LED.
 		///
 		/// @param color
-		/// @return std::shared_ptr<led_handle>
+		/// @return
 		///
-		std::shared_ptr<led_handle> open(base::ui::Color color);
+		std::shared_ptr<base::led::led_handle> open(base::ui::Color color);
 
 		/* #endregion */
 
