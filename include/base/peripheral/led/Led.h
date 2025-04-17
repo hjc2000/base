@@ -60,7 +60,7 @@ namespace base
 			///
 			/// @return base::led::State
 			///
-			base::led::State State()
+			base::led::State State() const
 			{
 				return base::led::state(*_handle);
 			}
@@ -80,7 +80,7 @@ namespace base
 			///
 			/// @return 是个分数，表示当前亮度是额定亮度的多少倍。
 			///
-			base::Fraction Brightness()
+			base::Fraction Brightness() const
 			{
 				return base::led::brightness(*_handle);
 			}

@@ -261,6 +261,8 @@ namespace base
 
 		/* #endregion */
 
+		/* #region Buffer */
+
 		///
 		/// @brief 获取底层的缓冲区。
 		///
@@ -280,6 +282,8 @@ namespace base
 		{
 			return _vector.data();
 		}
+
+		/* #endregion */
 
 		/* #region 相等比较 */
 
@@ -310,10 +314,14 @@ namespace base
 
 		/* #endregion */
 
+		/* #region 比较运算符 */
+
 		using base::IRawArray<ItemType>::operator==;
 		using base::IRawArray<ItemType>::operator<;
 		using base::IRawArray<ItemType>::operator>;
 		using base::IRawArray<ItemType>::operator<=;
 		using base::IRawArray<ItemType>::operator>=;
+
+		/* #endregion */
 	};
 } // namespace base

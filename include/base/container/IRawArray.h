@@ -1,6 +1,7 @@
 #pragma once
 #include "base/container/ArraySpan.h"
 #include "base/container/iterator/IEnumerable.h"
+#include "base/string/define.h"
 
 namespace base
 {
@@ -44,7 +45,7 @@ namespace base
 		{
 			if (index < 0 || index >= Count())
 			{
-				throw std::out_of_range{"索引超出范围"};
+				throw std::out_of_range{CODE_POS_STR + "索引超出范围"};
 			}
 
 			return Buffer()[index];
@@ -54,7 +55,7 @@ namespace base
 		{
 			if (index < 0 || index >= static_cast<int32_t>(Count()))
 			{
-				throw std::out_of_range{"索引超出范围"};
+				throw std::out_of_range{CODE_POS_STR + "索引超出范围"};
 			}
 
 			return Buffer()[index];
