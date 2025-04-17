@@ -223,6 +223,34 @@ namespace base
 			}
 		}
 
+		///
+		/// @brief 将向量中的元素添加到本列表中。
+		///
+		/// @param list
+		///
+		void Add(std::vector<ItemType> const &list)
+		{
+			for (ItemType const &item : list)
+			{
+				Add(item);
+			}
+		}
+
+		///
+		/// @brief 将数组的元素添加到本列表。
+		///
+		/// @param list
+		/// @return
+		///
+		template <int32_t Count>
+		void Add(std::array<ItemType, Count> const &list)
+		{
+			for (ItemType const &item : list)
+			{
+				Add(item);
+			}
+		}
+
 		/* #endregion */
 
 		/* #region GetEnumerator */

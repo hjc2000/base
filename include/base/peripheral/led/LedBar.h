@@ -4,9 +4,11 @@
 #include "base/define.h"
 #include "base/peripheral/led/Led.h"
 #include "base/string/define.h"
+#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <stdexcept>
+#include <vector>
 
 namespace base
 {
@@ -26,10 +28,30 @@ namespace base
 		public:
 			LedBar() = default;
 
+			/* #region Add */
+
 			void Add(base::IEnumerable<base::led::Led> const &leds)
 			{
 				_leds.Add(leds);
 			}
+
+			void Add(base::IEnumerable<base::led::Led const> const &leds)
+			{
+				_leds.Add(leds);
+			}
+
+			void Add(std::vector<base::led::Led> const &leds)
+			{
+				_leds.Add(leds);
+			}
+
+			template <int32_t Count>
+			void Add(std::array<base::led::Led, Count> const &leds)
+			{
+				_leds.Add(leds);
+			}
+
+			/* #endregion */
 
 			/* #region operator[] */
 
@@ -67,5 +89,21 @@ namespace base
 
 			/* #endregion */
 		};
+
+		///
+		/// @brief 全局的 LED 灯条。可以向这里添加 LED 灯。
+		///
+		/// @return
+		///
+		LedBar &GlobalLedBar();
+
+		///
+		/// @brief 点亮错误 LED.
+		///
+		/// @note 发生错误时可以调用本函数，点亮一个表示错误的 LED 灯。
+		/// 这个 LED 灯对象可以借助 GlobalLedBar 来保存。
+		///
+		void turn_on_error_led();
+
 	} // namespace led
 } // namespace base
