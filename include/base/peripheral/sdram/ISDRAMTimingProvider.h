@@ -6,6 +6,10 @@ namespace base
 {
 	namespace sdram
 	{
+		///
+		/// @brief SDRAM 时序提供者。
+		///
+		///
 		class ISDRAMTimingProvider
 		{
 		public:
