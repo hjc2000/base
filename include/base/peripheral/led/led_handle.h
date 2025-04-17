@@ -3,6 +3,7 @@
 #include "base/math/Fraction.h"
 #include "base/peripheral/led/parameter.h"
 #include "base/ui/Color.h"
+#include <cstdint>
 #include <memory>
 
 namespace base
@@ -19,7 +20,7 @@ namespace base
 		/// @param led_id
 		/// @return std::shared_ptr<led_handle>
 		///
-		std::shared_ptr<led_handle> open(int led_id);
+		std::shared_ptr<led_handle> open(uint32_t led_id);
 
 		///
 		/// @brief 根据 LED 的颜色打开 LED.
