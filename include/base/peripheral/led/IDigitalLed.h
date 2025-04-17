@@ -1,20 +1,11 @@
 #pragma once
 #include "base/container/IDictionary.h"
+#include "base/peripheral/led/parameter.h"
 
 namespace base
 {
 	namespace led
 	{
-		///
-		/// @brief LED 灯的状态。
-		///
-		///
-		enum class State
-		{
-			On,
-			Off,
-		};
-
 		///
 		/// @brief 数字 LED。只能开或关，无法调节亮度。
 		///
