@@ -1,5 +1,6 @@
 #pragma once
 #include "base/define.h"
+#include "base/math/Fraction.h"
 #include "base/peripheral/led/parameter.h"
 #include "base/ui/Color.h"
 #include <memory>
@@ -71,6 +72,22 @@ namespace base
 		///
 		IMPLEMENTED
 		void set_state(base::led::led_handle &h, base::led::State value);
+
+		///
+		/// @brief 获取 LED 灯得分亮度。
+		///
+		/// @param h
+		/// @return 是个分数，表示当前亮度是额定亮度的多少倍。
+		///
+		base::Fraction brightness(base::led::led_handle &h);
+
+		///
+		/// @brief 设置亮度。
+		///
+		/// @param h
+		/// @param value 是个分数，表示亮度是额定亮度的多少倍。
+		///
+		void set_brightness(base::led::led_handle &h, base::Fraction const &value);
 
 	} // namespace led
 } // namespace base
