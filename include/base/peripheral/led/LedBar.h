@@ -53,6 +53,11 @@ namespace base
 
 			/* #endregion */
 
+			///
+			/// @brief 灯条中 LED 灯的数量。
+			///
+			/// @return
+			///
 			int32_t Count() const
 			{
 				return _leds.Count();
