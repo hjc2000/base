@@ -28,6 +28,8 @@ namespace base
 					{
 					}
 
+					/* #region 通用的打开方法 */
+
 					///
 					/// @brief 打开 SDRAM.
 					///
@@ -57,6 +59,10 @@ namespace base
 						_controller.WriteModeRegister(reg.Value());
 					}
 
+					/* #endregion */
+
+					/* #region 为特殊单片机定制的打开方法 */
+
 					///
 					/// @brief 为 stm32h743iit6 设计的打开函数。
 					///
@@ -67,6 +73,8 @@ namespace base
 					{
 						Open();
 					}
+
+					/* #endregion */
 
 					///
 					/// @brief 此 SDRAM 的内存段。
