@@ -14,127 +14,6 @@ namespace base
 	class IUnit :
 		public base::ICanToString
 	{
-	private:
-		/* #region 判断是否有比较运算符的模板 */
-
-		///
-		/// @brief 有等于运算符
-		///
-		///
-		template <typename t_another, typename = void>
-		struct has_equal_operator :
-			std::false_type
-		{
-		};
-
-		///
-		/// @brief 有等于运算符
-		///
-		///
-		template <typename t_another>
-		struct has_equal_operator<t_another,
-								  std::void_t<decltype(std::declval<TSelf>() == std::declval<t_another>())>> :
-			std::true_type
-		{
-		};
-
-		///
-		/// @brief 有小于运算符
-		///
-		///
-		template <typename t_another, typename = void>
-		struct has_less_operator :
-			std::false_type
-		{
-		};
-
-		///
-		/// @brief 有小于运算符
-		///
-		///
-		template <typename t_another>
-		struct has_less_operator<t_another,
-								 std::void_t<decltype(std::declval<TSelf>() < std::declval<t_another>())>> :
-			std::true_type
-		{
-		};
-
-		///
-		/// @brief 有大于运算符
-		///
-		///
-		template <typename t_another, typename = void>
-		struct has_greater_operator :
-			std::false_type
-		{
-		};
-
-		///
-		/// @brief 有大于运算符
-		///
-		///
-		template <typename t_another>
-		struct has_greater_operator<t_another,
-									std::void_t<decltype(std::declval<TSelf>() > std::declval<t_another>())>> :
-			std::true_type
-		{
-		};
-
-		///
-		/// @brief 有小于等于运算符
-		///
-		///
-		template <typename t_another, typename = void>
-		struct has_less_equal_operator :
-			std::false_type
-		{
-		};
-
-		///
-		/// @brief 有小于等于运算符
-		///
-		///
-		template <typename t_another>
-		struct has_less_equal_operator<t_another,
-									   std::void_t<decltype(std::declval<TSelf>() <= std::declval<t_another>())>> :
-			std::true_type
-		{
-		};
-
-		///
-		/// @brief 有大于等于运算符
-		///
-		///
-		template <typename t_another, typename = void>
-		struct has_greater_equal_operator :
-			std::false_type
-		{
-		};
-
-		///
-		/// @brief 有大于等于运算符
-		///
-		///
-		template <typename t_another>
-		struct has_greater_equal_operator<t_another,
-										  std::void_t<decltype(std::declval<TSelf>() >= std::declval<t_another>())>> :
-			std::true_type
-		{
-		};
-
-		///
-		/// @brief 是否使能比较运算符的判定模板
-		///
-		/// @note 必须得是显式构造的单位类型对象才能与本对象比较，此时才允许使能比较运算符。
-		///
-		template <typename _type>
-		using enable_compare_judge = std::enable_if_t<!std::convertible_to<_type, int64_t> &&
-														  !std::convertible_to<_type, base::Fraction> &&
-														  !has_equal_operator<_type>::value,
-													  bool>;
-
-		/* #endregion */
-
 	public:
 		/* #region 接口 */
 
@@ -383,39 +262,73 @@ namespace base
 
 		/* #region 比较 */
 
-		template <typename T>
-		auto operator==(T const &value) const -> enable_compare_judge<T>
+		template <typename T, std::enable_if_t<!std::convertible_to<T, int64_t> && !std::convertible_to<T, base::Fraction>, int> = 0>
+		bool Equal(T const &another) const
 		{
-			return Value() == TSelf{value}.Value();
+			return Value() == TSelf{another}.Value();
 		}
 
-		template <typename T>
-		auto operator<(T const &value) const -> enable_compare_judge<T>
+		template <typename T, std::enable_if_t<!std::convertible_to<T, int64_t> && !std::convertible_to<T, base::Fraction>, int> = 0>
+		bool LessThan(T const &another) const
 		{
-			return Value() < TSelf{value}.Value();
+			return Value() < TSelf{another}.Value();
 		}
 
-		template <typename T>
-		auto operator>(T const &value) const -> enable_compare_judge<T>
+		template <typename T, std::enable_if_t<!std::convertible_to<T, int64_t> && !std::convertible_to<T, base::Fraction>, int> = 0>
+		bool GreaterThan(T const &another) const
 		{
-			return Value() > TSelf{value}.Value();
+			return Value() > TSelf{another}.Value();
 		}
 
-		template <typename T>
-		auto operator<=(T const &value) const -> enable_compare_judge<T>
+		template <typename T, std::enable_if_t<!std::convertible_to<T, int64_t> && !std::convertible_to<T, base::Fraction>, int> = 0>
+		bool LessThanOrEqual(T const &another) const
 		{
-			return Value() <= TSelf{value}.Value();
+			return Value() <= TSelf{another}.Value();
 		}
 
-		template <typename T>
-		auto operator>=(T const &value) const -> enable_compare_judge<T>
+		template <typename T, std::enable_if_t<!std::convertible_to<T, int64_t> && !std::convertible_to<T, base::Fraction>, int> = 0>
+		bool GreaterThanOrEqual(T const &another) const
 		{
-			return Value() >= TSelf{value}.Value();
+			return Value() >= TSelf{another}.Value();
 		}
 
 		/* #endregion */
 	};
 } // namespace base
+
+/* #region 全局比较函数 */
+
+template <typename TLeft, typename TRight>
+bool operator==(base::IUnit<TLeft> const &left, base::IUnit<TRight> const &right)
+{
+	return left.Equal(reinterpret_cast<TRight const &>(right));
+}
+
+template <typename TLeft, typename TRight>
+bool operator<(base::IUnit<TLeft> const &left, base::IUnit<TRight> const &right)
+{
+	return left.LessThan(reinterpret_cast<TRight const &>(right));
+}
+
+template <typename TLeft, typename TRight>
+bool operator>(base::IUnit<TLeft> const &left, base::IUnit<TRight> const &right)
+{
+	return left.GreaterThan(reinterpret_cast<TRight const &>(right));
+}
+
+template <typename TLeft, typename TRight>
+bool operator<=(base::IUnit<TLeft> const &left, base::IUnit<TRight> const &right)
+{
+	return left.LessThanOrEqual(reinterpret_cast<TRight const &>(right));
+}
+
+template <typename TLeft, typename TRight>
+bool operator>=(base::IUnit<TLeft> const &left, base::IUnit<TRight> const &right)
+{
+	return left.GreaterThanOrEqual(reinterpret_cast<TRight const &>(right));
+}
+
+/* #endregion */
 
 ///
 /// @brief 单位乘上一个无量纲的系数。

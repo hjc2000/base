@@ -25,6 +25,8 @@ namespace base
 		explicit MHz(base::Seconds const &value);
 		explicit MHz(base::Nanoseconds const &value);
 
+		using base::IUnit<MHz>::Value;
+
 		///
 		/// @brief 单位的值。
 		///
