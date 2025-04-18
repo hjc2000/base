@@ -46,7 +46,6 @@ namespace base
 			///
 			/// @brief 获取以太网控制器所使用的 MAC 地址。
 			///
-			/// @param h
 			/// @return
 			///
 			base::Mac Mac() const
