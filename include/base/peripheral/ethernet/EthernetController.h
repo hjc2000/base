@@ -6,6 +6,10 @@ namespace base
 {
 	namespace ethernet
 	{
+		///
+		/// @brief 以太网控制器。
+		///
+		///
 		class EthernetController
 		{
 		private:
@@ -21,6 +25,100 @@ namespace base
 			{
 				_handle = base::ethernet::open(id);
 			}
+
+			///
+			/// @brief 初始化以太网控制器。
+			///
+			/// @param type
+			/// @param phy_address
+			/// @param mac
+			///
+			void Initialize(base::ethernet::InterfaceType type,
+							uint32_t phy_address,
+							base::Mac const &mac) const
+			{
+				base::ethernet::initialize(*_handle,
+										   type,
+										   phy_address,
+										   mac);
+			}
+
+			///
+			/// @brief 获取以太网控制器所使用的 MAC 地址。
+			///
+			/// @param h
+			/// @return
+			///
+			base::Mac Mac() const
+			{
+				return base::ethernet::mac(*_handle);
+			}
+
+			/* #region 控制 PHY */
+
+			///
+			/// @brief 读取 PHY 的寄存器。
+			///
+			/// @param reg_index
+			/// @return
+			///
+			uint32_t ReadPhyRegister(uint32_t reg_index) const
+			{
+				return base::ethernet::read_phy_register(*_handle, reg_index);
+			}
+
+			///
+			/// @brief 写 PHY 的寄存器。
+			///
+			/// @param reg_index
+			/// @param value
+			///
+			void WritePhyRegister(uint32_t reg_index, uint32_t value) const
+			{
+				base::ethernet::write_phy_register(*_handle, reg_index, value);
+			}
+
+			/* #endregion */
+
+			///
+			/// @brief 启动以太网控制器。
+			///
+			/// @note 通过读写 PHY 寄存器，控制 PHY 的初始化，等到 PHY 与远程连接后，读取出
+			/// 使用的双工模式和连接速率，用来启动以太网控制器。因为以太网控制器不支持自动从 PHY
+			/// 中获取这些信息。
+			///
+			/// @param duplex_mode 双工模式。
+			/// @param speed 连接速率。
+			///
+			void Start(base::ethernet::DuplexMode duplex_mode,
+					   base::Mbps const &speed) const
+			{
+				base::ethernet::start(*_handle, duplex_mode, speed);
+			}
+
+			/* #region 收发数据 */
+
+			///
+			/// @brief 发送数据。
+			///
+			/// @param span
+			///
+			void Send(base::ReadOnlySpan const &span) const
+			{
+				base::ethernet::send(*_handle, span);
+			}
+
+			///
+			/// @brief 接收数据。
+			///
+			/// @return
+			///
+			base::ReadOnlySpan Receive() const
+			{
+				return base::ethernet::receive(*_handle);
+			}
+
+			/* #endregion */
 		};
 	} // namespace ethernet
 } // namespace base
