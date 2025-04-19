@@ -12,17 +12,6 @@ namespace base
 	{
 		class ethernet_controller_handle;
 
-		/* #region open */
-
-		///
-		/// @brief 打开以太网控制器。
-		///
-		/// @note 如果只有一个以太网控制器，可以使用本函数打开。
-		///
-		/// @return
-		///
-		std::shared_ptr<base::ethernet::ethernet_controller_handle> open();
-
 		///
 		/// @brief 根据以太网控制器的 ID 打开以太网控制器。
 		///
@@ -30,8 +19,6 @@ namespace base
 		/// @return
 		///
 		std::shared_ptr<base::ethernet::ethernet_controller_handle> open(uint32_t id);
-
-		/* #endregion */
 
 		///
 		/// @brief 初始化以太网控制器。

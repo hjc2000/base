@@ -2,6 +2,7 @@
 #include "base/define.h"
 #include "base/stream/Span.h"
 #include "serial_parameter.h"
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <vector>
@@ -34,12 +35,12 @@ namespace base
 		///
 		/// @brief 通过串口 ID 打开串口。
 		///
-		/// @param serial_id 串口 ID.
+		/// @param id 串口 ID.
 		/// 	@note 单片机中使用这种方式。例如想要打开 UART1 就传入 1.
 		///
 		/// @return std::shared_ptr<base::serial::serial_handle>
 		///
-		std::shared_ptr<base::serial::serial_handle> open(int serial_id);
+		std::shared_ptr<base::serial::serial_handle> open(uint32_t id);
 
 		/* #endregion */
 

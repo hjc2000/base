@@ -10,27 +10,13 @@ namespace base
 	{
 		class sdram_controller_handle;
 
-		/* #region open */
-
-		///
-		/// @brief 打开 SDRAM 控制器。
-		///
-		/// @note 如果只有一个 SDRAM 控制器，不需要指定打开哪一个 SDRAM 控制器，
-		/// 可以使用本函数。
-		///
-		/// @return std::shared_ptr<base::sdram::sdram_controller_handle>
-		///
-		std::shared_ptr<base::sdram::sdram_controller_handle> open();
-
 		///
 		/// @brief 打开指定的 SDRAM 控制器。
 		///
-		/// @param sdram_controller_id
+		/// @param id
 		/// @return std::shared_ptr<base::sdram::sdram_controller_handle>
 		///
-		std::shared_ptr<base::sdram::sdram_controller_handle> open(int sdram_controller_id);
-
-		/* #endregion */
+		std::shared_ptr<base::sdram::sdram_controller_handle> open(uint32_t id);
 
 		///
 		/// @brief 将 SDRAM 控制器初始化为读突发模式。写不突发。

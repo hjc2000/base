@@ -16,9 +16,9 @@ namespace base
 			std::shared_ptr<base::serial::serial_handle> _handle{};
 
 		public:
-			Serial(int serial_id)
+			Serial(uint32_t id)
 			{
-				_handle = base::serial::open(serial_id);
+				_handle = base::serial::open(id);
 			}
 
 			Serial(std::string const &serial_name)

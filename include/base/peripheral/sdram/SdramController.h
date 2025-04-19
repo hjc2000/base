@@ -12,14 +12,9 @@ namespace base
 			std::shared_ptr<base::sdram::sdram_controller_handle> _handle;
 
 		public:
-			SdramController()
+			SdramController(uint32_t id)
 			{
-				_handle = base::sdram::open();
-			}
-
-			SdramController(int sdram_controller_id)
-			{
-				_handle = base::sdram::open(sdram_controller_id);
+				_handle = base::sdram::open(id);
 			}
 
 			///
