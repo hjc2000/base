@@ -102,29 +102,4 @@ namespace base
 
 	/* #endregion */
 
-	///
-	/// @brief 比较。
-	///
-	/// @param left
-	/// @param right
-	///
-	/// @return 如果 left 小于 right，则返回 -1，如果 left 大于 right ，则返回 1，
-	/// 其他情况视为等于，返回 0.
-	///
-	template <typename T>
-	int Compare(T const &left, T const &right)
-	{
-		if (base::LessThan(left, right))
-		{
-			return -1;
-		}
-
-		if (base::GreaterThan(left, right))
-		{
-			return 1;
-		}
-
-		return 0;
-	}
-
 } // namespace base
