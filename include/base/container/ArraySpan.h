@@ -367,13 +367,10 @@ namespace base
 		///
 		/// @brief 排序。
 		///
-		/// @param compare 自定义比较器。如果 left 小于 right，则返回小于 0 的值，如果相等，则返回 0，
-		/// 如果 left 大于 right 则返回大于 0 的值。
+		/// @param compare 谓语。如果希望 left 排到 right 前面，则返回 true. 如果返回 false,
+		/// 则 left 和 right 会保持当前相对顺序，不会调整。
 		///
-		/// @param ascending 是否按升序排序，即从小到大排序。传入 true 则按升序排序，传入 false 则按降序排序。
-		///
-		void Sort(std::function<int(ItemType const &left, ItemType const &right)> compare,
-				  bool ascending = true)
+		void Sort(std::function<bool(ItemType const &left, ItemType const &right)> compare)
 		{
 			try
 			{
@@ -381,14 +378,7 @@ namespace base
 								 Buffer() + Count(),
 								 [&](ItemType const &left, ItemType const &right) -> bool
 								 {
-									 if (ascending)
-									 {
-										 return compare(left, right) < 0;
-									 }
-									 else
-									 {
-										 return compare(left, right) > 0;
-									 }
+									 return compare(left, right);
 								 });
 			}
 			catch (std::exception const &e)
@@ -412,7 +402,12 @@ namespace base
 				temp_vec.push_back(Buffer()[index]);
 			}
 
-			CopyFrom(base::ReadOnlyArraySpan<ItemType>{temp_vec.data(), static_cast<int32_t>(temp_vec.size())});
+			base::ReadOnlyArraySpan<ItemType> temp_vec_span{
+				temp_vec.data(),
+				static_cast<int32_t>(temp_vec.size()),
+			};
+
+			CopyFrom(temp_vec_span);
 		}
 
 		/* #region GetEnumerator */
