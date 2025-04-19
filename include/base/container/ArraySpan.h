@@ -18,13 +18,11 @@ namespace base
 	template <typename ItemType>
 	class ReadOnlyArraySpan;
 
-	/**
-	 * @brief 只读的数组内存段。
-	 *
-	 * @note 引用一段内存，不会持有这段内存，不管理这段内存的生命周期。
-	 *
-	 * @tparam ItemType
-	 */
+	///
+	/// @brief 只读的数组内存段。
+	///
+	/// @note 引用一段内存，不会持有这段内存，不管理这段内存的生命周期。
+	///
 	template <typename ItemType>
 	class ReadOnlyArraySpan :
 		public base::IEnumerable<ItemType const>
@@ -121,21 +119,21 @@ namespace base
 
 		/* #endregion */
 
-		/**
-		 * @brief 获取本对象引用的内存段。
-		 *
-		 * @return ItemType const*
-		 */
+		///
+		/// @brief 获取本对象引用的内存段。
+		///
+		/// @return
+		///
 		ItemType const *Buffer() const
 		{
 			return _buffer;
 		}
 
-		/**
-		 * @brief 本对象引用的内存段的元素个数。
-		 *
-		 * @return int32_t
-		 */
+		///
+		/// @brief 本对象引用的内存段的元素个数。
+		///
+		/// @return
+		///
 		int32_t Count() const
 		{
 			return _count;
@@ -151,24 +149,28 @@ namespace base
 			return base::ReadOnlyArraySpan<ItemType>{Buffer() + range.Begin(), range.Size()};
 		}
 
-		/**
-		 * @brief 获取迭代器
-		 *
-		 * @return std::shared_ptr<IEnumerator<ItemType const>>
-		 */
+		/* #region GetEnumerator */
+
+		using base::IEnumerable<ItemType const>::GetEnumerator;
+
+		///
+		/// @brief 获取迭代器。
+		///
+		/// @return
+		///
 		std::shared_ptr<IEnumerator<ItemType const>> GetEnumerator() override
 		{
 			return std::shared_ptr<IEnumerator<ItemType const>>{new Enumerator{Buffer(), Count()}};
 		}
+
+		/* #endregion */
 	};
 
-	/**
-	 * @brief 数组内存段。
-	 *
-	 * @note 引用一段内存，不会持有这段内存，不管理这段内存的生命周期。
-	 *
-	 * @tparam ItemType
-	 */
+	///
+	/// @brief 数组内存段。
+	///
+	/// @note 引用一段内存，不会持有这段内存，不管理这段内存的生命周期。
+	///
 	template <typename ItemType>
 	class ArraySpan :
 		public base::IEnumerable<ItemType>
@@ -264,20 +266,20 @@ namespace base
 			return _buffer;
 		}
 
-		/**
-		 * @brief 本对象引用的内存段的元素个数。
-		 *
-		 * @return int32_t
-		 */
+		///
+		/// @brief 本对象引用的内存段的元素个数。
+		///
+		/// @return
+		///
 		int32_t Count() const
 		{
 			return _count;
 		}
 
-		/**
-		 * @brief 翻转本对象引用的内存段中的元素。
-		 *
-		 */
+		///
+		/// @brief 翻转本对象引用的内存段中的元素。
+		///
+		///
 		void Reverse() const
 		{
 			std::reverse(_buffer, _buffer + _count);
@@ -294,7 +296,7 @@ namespace base
 		{
 			if (another.Count() != Count())
 			{
-				throw std::invalid_argument{"another 的 Count 属性必须和本对象的 Count 属性相等。"};
+				throw std::invalid_argument{CODE_POS_STR + "another 的 Count 属性必须和本对象的 Count 属性相等。"};
 			}
 
 			std::copy(another.Buffer(),
@@ -343,6 +345,11 @@ namespace base
 								 {
 									 if (ascending)
 									 {
+										 // std::stable_sort 函数的机制是如果谓语返回 true, 则将 left 排到 right
+										 // 的前面，否则就不调整 left 和 right 的顺序。
+										 //
+										 // 如果返回的是 base::LessThan, 则小于的时候谓语返回 true, left 排到
+										 // right 前面，那这就是升序排列，即从小到大排列。
 										 return base::LessThan(left, right);
 									 }
 									 else
