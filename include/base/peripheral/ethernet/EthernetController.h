@@ -103,6 +103,16 @@ namespace base
 			}
 
 			///
+			/// @brief 发送数据。
+			///
+			/// @param spans
+			///
+			void Send(base::IEnumerable<base::ReadOnlySpan> const &spans) const
+			{
+				base::ethernet::send(*_handle, spans);
+			}
+
+			///
 			/// @brief 接收数据。
 			///
 			/// @return

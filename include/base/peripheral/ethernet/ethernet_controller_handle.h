@@ -93,6 +93,15 @@ namespace base
 				  base::ReadOnlySpan const &span);
 
 		///
+		/// @brief 发送数据。
+		///
+		/// @param h
+		/// @param spans
+		///
+		void send(base::ethernet::ethernet_controller_handle &h,
+				  base::IEnumerable<base::ReadOnlySpan> const &spans);
+
+		///
 		/// @brief 接收数据。
 		///
 		/// @param h
