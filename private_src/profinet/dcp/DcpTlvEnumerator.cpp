@@ -3,7 +3,6 @@
 base::profinet::DcpTlvEnumerator::DcpTlvEnumerator(base::ReadOnlySpan const &span)
 {
 	_span = span;
-	Reset();
 }
 
 base::ReadOnlySpan &base::profinet::DcpTlvEnumerator::CurrentValue()
@@ -11,15 +10,21 @@ base::ReadOnlySpan &base::profinet::DcpTlvEnumerator::CurrentValue()
 	return _current_value;
 }
 
-bool base::profinet::DcpTlvEnumerator::MoveNext()
+void base::profinet::DcpTlvEnumerator::Add()
 {
+	if (_is_end)
+	{
+		return;
+	}
+
 	if (_remain_span.Size() < 4)
 	{
 		/**
 		 * 每个块至少有 1 字节的 option，1 字节的 suboption，2 字节的长度。
 		 * 总共 4 字节。如果 4 字节都不到，就是非法的块。
 		 */
-		return false;
+		_is_end = true;
+		return;
 	}
 
 	uint16_t length = _converter.FromBytes<uint16_t>(_remain_span.Slice(base::Range{2, 4}));
@@ -34,16 +39,10 @@ bool base::profinet::DcpTlvEnumerator::MoveNext()
 	uint16_t block_size = 4 + length + padding_size;
 	if (block_size > _remain_span.Size())
 	{
-		return false;
+		_is_end = true;
+		return;
 	}
 
 	_current_value = _remain_span.Slice(base::Range{0, block_size});
 	_remain_span = _remain_span.Slice(base::Range{block_size, _remain_span.Size()});
-	return true;
-}
-
-void base::profinet::DcpTlvEnumerator::Reset()
-{
-	_current_value = base::ReadOnlySpan{};
-	_remain_span = _span;
 }

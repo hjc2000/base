@@ -30,7 +30,6 @@ namespace base
 		private:
 			IList<item_type> *_list;
 			int32_t _index = 0;
-			bool _is_first_move = true;
 
 		public:
 			Enumerator(IList<item_type> *list)
@@ -38,29 +37,33 @@ namespace base
 				_list = list;
 			}
 
+			///
+			/// @brief 迭代器当前是否指向尾后元素。
+			///
+			/// @return
+			///
+			virtual bool IsEnd() const override
+			{
+				return _index == _list->Count();
+			}
+
+			///
+			/// @brief 获取当前值的引用。
+			///
+			/// @return ItemType&
+			///
 			virtual item_type &CurrentValue() override
 			{
 				return (*_list)[_index];
 			}
 
-			virtual bool MoveNext() override
+			///
+			/// @brief 递增迭代器的位置。
+			///
+			///
+			virtual void Add() override
 			{
-				if (_is_first_move)
-				{
-					_is_first_move = false;
-				}
-				else
-				{
-					_index++;
-				}
-
-				return _index < _list->Count();
-			}
-
-			virtual void Reset() override
-			{
-				_is_first_move = true;
-				_index = 0;
+				++_index;
 			}
 		};
 

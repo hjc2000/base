@@ -18,54 +18,44 @@ namespace base
 			public IEnumerator<std::pair<KeyType const, ValueType>>
 		{
 		private:
-			std::map<KeyType, ValueType> *_map = nullptr;
-			bool _first_move = true;
-
-			/// @brief _map 的迭代器类型
-			using IteratorType = decltype(_map->begin());
-			IteratorType _it;
+			using IteratorType = decltype(std::map<KeyType, ValueType>{}.begin());
+			IteratorType _current;
+			IteratorType _end;
 
 		public:
-			Enumerator(std::map<KeyType, ValueType> *map)
+			Enumerator(std::map<KeyType, ValueType> &map)
 			{
-				_map = map;
-				Reset();
+				_current = map.begin();
+				_end = map.end();
 			}
 
-			/// @brief 获取当前值的引用
+			///
+			/// @brief 迭代器当前是否指向尾后元素。
+			///
 			/// @return
-			std::pair<KeyType const, ValueType> &CurrentValue() override
+			///
+			virtual bool IsEnd() const override
 			{
-				return *_it;
+				return _current == _end;
 			}
 
-			/// @brief 迭代器前进到下一个值
-			/// @return
-			bool MoveNext() override
+			///
+			/// @brief 获取当前值的引用。
+			///
+			/// @return ItemType&
+			///
+			virtual std::pair<KeyType const, ValueType> &CurrentValue() override
 			{
-				if (_first_move)
-				{
-					_first_move = false;
-				}
-				else
-				{
-					++_it;
-				}
-
-				if (_it == _map->end())
-				{
-					return false;
-				}
-
-				return true;
+				return *_current;
 			}
 
-			/// @brief 将迭代器重置到容器开始的位置。
-			/// @note 开始位置是第一个元素前。也就是说重置后，要调用一次 MoveNext 才能获取到第一个值。
-			void Reset() override
+			///
+			/// @brief 递增迭代器的位置。
+			///
+			///
+			virtual void Add() override
 			{
-				_it = _map->begin();
-				_first_move = true;
+				++_current;
 			}
 		};
 
@@ -152,7 +142,7 @@ namespace base
 		/// @return
 		virtual std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>> GetEnumerator() override
 		{
-			return std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>>{new Enumerator{&_map}};
+			return std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>>{new Enumerator{_map}};
 		}
 	};
 } // namespace base

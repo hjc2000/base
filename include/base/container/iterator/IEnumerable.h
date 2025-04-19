@@ -33,19 +33,28 @@ namespace base
 				_enumerator = enumerator;
 			}
 
+			///
+			/// @brief 迭代器当前是否指向尾后元素。
+			///
+			/// @return
+			///
+			virtual bool IsEnd() const override
+			{
+				return _enumerator->IsEnd();
+			}
+
 			item_type const &CurrentValue() override
 			{
 				return _enumerator->CurrentValue();
 			}
 
-			virtual bool MoveNext() override
+			///
+			/// @brief 递增迭代器的位置。
+			///
+			///
+			virtual void Add() override
 			{
-				return _enumerator->MoveNext();
-			}
-
-			virtual void Reset() override
-			{
-				_enumerator->Reset();
+				_enumerator->Add();
 			}
 		};
 
@@ -65,14 +74,11 @@ namespace base
 		{
 		private:
 			std::shared_ptr<IEnumerator<item_type>> _enumerator;
-			bool _end = false;
 
 		public:
 			ForwardIterator(std::shared_ptr<IEnumerator<item_type>> enumertor)
 			{
 				_enumerator = enumertor;
-				_enumerator->Reset();
-				_end = !_enumerator->MoveNext();
 			}
 
 			item_type &operator*()
@@ -92,8 +98,7 @@ namespace base
 			///
 			ForwardIterator<item_type> &operator++()
 			{
-				// 不做任何操作，因为 == 运算符里面已经 MoveNext 了。
-				_end = !_enumerator->MoveNext();
+				_enumerator->Add();
 				return *this;
 			}
 
@@ -111,7 +116,7 @@ namespace base
 
 			bool operator==(ForwardIterator<item_type> const &o) const
 			{
-				return _end;
+				return _enumerator->IsEnd();
 			}
 
 			bool operator!=(ForwardIterator<item_type> const &o) const

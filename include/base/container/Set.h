@@ -27,24 +27,31 @@ namespace base
 			public base::IEnumerator<ItemType const>
 		{
 		private:
-			std::set<ItemType> &_set;
-			bool _move_to_next_for_the_first_time = true;
-
-			using it_type = decltype(_set.begin());
+			using it_type = decltype(std::set<ItemType>{}.begin());
 			it_type _current;
+			it_type _end;
 
 		public:
 			Enumerator(std::set<ItemType> &set)
-				: _set(set)
 			{
-				Reset();
+				_current = set.begin();
+				_end = set.end();
 			}
 
-		public:
 			///
-			/// @brief 获取当前值的引用
+			/// @brief 迭代器当前是否指向尾后元素。
 			///
-			/// @return ItemType const&
+			/// @return
+			///
+			virtual bool IsEnd() const override
+			{
+				return _current == _end;
+			}
+
+			///
+			/// @brief 获取当前值的引用。
+			///
+			/// @return ItemType&
 			///
 			virtual ItemType const &CurrentValue() override
 			{
@@ -52,42 +59,12 @@ namespace base
 			}
 
 			///
-			/// @brief 迭代器前进到下一个值
+			/// @brief 递增迭代器的位置。
 			///
-			/// @return true
-			/// @return false
 			///
-			virtual bool MoveNext() override
+			virtual void Add() override
 			{
-				if (_set.size() == 0)
-				{
-					return false;
-				}
-
-				if (_move_to_next_for_the_first_time)
-				{
-					_move_to_next_for_the_first_time = false;
-					return true;
-				}
-
 				++_current;
-				if (_current == _set.end())
-				{
-					return false;
-				}
-
-				return true;
-			}
-
-			///
-			/// @brief 将迭代器重置到容器开始的位置。
-			///
-			/// @note 开始位置是第一个元素前。也就是说重置后，要调用一次 MoveNext 才能获取到第一个值。
-			///
-			virtual void Reset() override
-			{
-				_move_to_next_for_the_first_time = true;
-				_current = _set.begin();
 			}
 		};
 

@@ -15,6 +15,7 @@ namespace base
 			base::ReadOnlySpan _span;
 			base::ReadOnlySpan _remain_span;
 			base::ReadOnlySpan _current_value;
+			bool _is_end = false;
 			base::AutoBitConverter _converter{std::endian::big};
 
 		public:
@@ -22,17 +23,28 @@ namespace base
 			/// @param span 含有很多 TLV 的 base::ReadOnlySpan.
 			DcpTlvEnumerator(base::ReadOnlySpan const &span);
 
-			/// @brief 获取当前值的引用
+			///
+			/// @brief 迭代器当前是否指向尾后元素。
+			///
 			/// @return
-			base::ReadOnlySpan &CurrentValue() override;
+			///
+			virtual bool IsEnd() const override
+			{
+				return _is_end;
+			}
 
-			/// @brief 迭代器前进到下一个值
-			/// @return
-			bool MoveNext() override;
+			///
+			/// @brief 获取当前值的引用。
+			///
+			/// @return ItemType&
+			///
+			virtual base::ReadOnlySpan &CurrentValue() override;
 
-			/// @brief 将迭代器重置到容器开始的位置。
-			/// @note 开始位置是第一个元素前。也就是说重置后，要调用一次 MoveNext 才能获取到第一个值。
-			void Reset() override;
+			///
+			/// @brief 递增迭代器的位置。
+			///
+			///
+			virtual void Add() override;
 		};
 	} // namespace profinet
 } // namespace base
