@@ -30,7 +30,8 @@ namespace base
 		///
 		/// @param num 分子。
 		///
-		template <typename T, typename std::enable_if_t<std::is_integral_v<T>, int> = 0>
+		template <typename T>
+			requires(std::is_integral_v<T>)
 		Fraction(T num)
 		{
 			_num = num;

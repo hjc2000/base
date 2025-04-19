@@ -1,5 +1,4 @@
 #include "Fraction.h"
-#include "base/define.h"
 #include "base/math/Pow.h"
 #include <cstdint>
 #include <stdexcept>
@@ -372,16 +371,18 @@ boost::multiprecision::cpp_int std::ceil(base::Fraction const &value)
 
 /* #endregion */
 
-PREINIT(base::constant::PI);
-
-base::Fraction base::constant::PI()
+namespace
 {
-	static base::Fraction pi{
+	base::Fraction _pi{
 		static_cast<uint64_t>(884279719003555),
 		static_cast<uint64_t>(281474976710656),
 	};
 
-	return pi;
+}
+
+base::Fraction base::constant::PI()
+{
+	return _pi;
 }
 
 std::string std::to_string(boost::multiprecision::cpp_int const &value)

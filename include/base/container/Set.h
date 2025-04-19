@@ -258,14 +258,12 @@ namespace base
 
 		/* #endregion */
 	};
-} // namespace base
 
 #if HAS_THREAD
-namespace base
-{
 	namespace test
 	{
 		void test_set();
 	} // namespace test
-} // namespace base
 #endif
+
+} // namespace base
