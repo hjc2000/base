@@ -370,7 +370,7 @@ namespace base
 		/// @param compare 谓语。如果希望 left 排到 right 前面，则返回 true. 如果返回 false,
 		/// 则 left 和 right 会保持当前相对顺序，不会调整。
 		///
-		void Sort(std::function<bool(ItemType const &left, ItemType const &right)> compare)
+		void Sort(std::function<bool(ItemType const &left, ItemType const &right)> const &compare)
 		{
 			try
 			{
