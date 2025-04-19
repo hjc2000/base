@@ -107,16 +107,6 @@ namespace base
 			///
 			/// @param spans 多个内存段中的数据合起来组成一个以太网帧。
 			///
-			void Send(base::IEnumerable<base::ReadOnlySpan> const &spans) const
-			{
-				base::ethernet::send(*_handle, spans);
-			}
-
-			///
-			/// @brief 发送数据。
-			///
-			/// @param spans 多个内存段中的数据合起来组成一个以太网帧。
-			///
 			void Send(std::vector<base::ReadOnlySpan> const &spans) const
 			{
 				base::ethernet::send(*_handle, spans);
