@@ -2,7 +2,6 @@
 #include "base/math/Fraction.h"
 #include "base/string/ICanToString.h"
 #include <cstdint>
-#include <type_traits>
 
 namespace base
 {
@@ -122,10 +121,8 @@ namespace base
 		/// @return TSelf
 		///
 		template <typename _type>
-		auto operator+(_type const &value) const
-			-> std::enable_if_t<!std::convertible_to<_type, int64_t> &&
-									!std::convertible_to<_type, base::Fraction>,
-								TSelf>
+			requires(!std::convertible_to<_type, int64_t> && !std::convertible_to<_type, base::Fraction>)
+		TSelf operator+(_type const &value) const
 		{
 			return TSelf{Value() + TSelf{value}.Value()};
 		}
@@ -137,10 +134,8 @@ namespace base
 		/// @return TSelf
 		///
 		template <typename _type>
-		auto operator-(_type const &value) const
-			-> std::enable_if_t<!std::convertible_to<_type, int64_t> &&
-									!std::convertible_to<_type, base::Fraction>,
-								TSelf>
+			requires(!std::convertible_to<_type, int64_t> && !std::convertible_to<_type, base::Fraction>)
+		TSelf operator-(_type const &value) const
 		{
 			return TSelf{Value() - TSelf{value}.Value()};
 		}
@@ -152,10 +147,8 @@ namespace base
 		/// @return TSelf
 		///
 		template <typename _type>
-		auto operator*(_type const &value) const
-			-> std::enable_if_t<std::convertible_to<_type, int64_t> ||
-									std::convertible_to<_type, base::Fraction>,
-								TSelf>
+			requires(std::convertible_to<_type, int64_t> || std::convertible_to<_type, base::Fraction>)
+		TSelf operator*(_type const &value) const
 		{
 			return TSelf{Value() * value};
 		}
@@ -167,10 +160,8 @@ namespace base
 		/// @return TSelf
 		///
 		template <typename _type>
-		auto operator/(_type const &value) const
-			-> std::enable_if_t<std::convertible_to<_type, int64_t> ||
-									std::convertible_to<_type, base::Fraction>,
-								TSelf>
+			requires(std::convertible_to<_type, int64_t> || std::convertible_to<_type, base::Fraction>)
+		TSelf operator/(_type const &value) const
 		{
 			return TSelf{Value() / value};
 		}
@@ -182,10 +173,8 @@ namespace base
 		/// @return base::Fraction
 		///
 		template <typename _type>
-		auto operator/(_type const &value) const
-			-> std::enable_if_t<!std::convertible_to<_type, int64_t> &&
-									!std::convertible_to<_type, base::Fraction>,
-								base::Fraction>
+			requires(!std::convertible_to<_type, int64_t> && !std::convertible_to<_type, base::Fraction>)
+		base::Fraction operator/(_type const &value) const
 		{
 			return Value() / TSelf{value}.Value();
 		}
@@ -201,10 +190,8 @@ namespace base
 		/// @return TSelf &
 		///
 		template <typename _type>
-		auto operator+=(_type const &value)
-			-> std::enable_if_t<!std::convertible_to<_type, int64_t> &&
-									!std::convertible_to<_type, base::Fraction>,
-								TSelf &>
+			requires(!std::convertible_to<_type, int64_t> && !std::convertible_to<_type, base::Fraction>)
+		TSelf &operator+=(_type const &value)
 		{
 			Value() += TSelf{value}.Value();
 			return *reinterpret_cast<TSelf *>(this);
@@ -217,10 +204,8 @@ namespace base
 		/// @return TSelf &
 		///
 		template <typename _type>
-		auto operator-=(_type const &value)
-			-> std::enable_if_t<!std::convertible_to<_type, int64_t> &&
-									!std::convertible_to<_type, base::Fraction>,
-								TSelf &>
+			requires(!std::convertible_to<_type, int64_t> && !std::convertible_to<_type, base::Fraction>)
+		TSelf &operator-=(_type const &value)
 		{
 			Value() -= TSelf{value}.Value();
 			return *reinterpret_cast<TSelf *>(this);
@@ -233,10 +218,8 @@ namespace base
 		/// @return sTSelf &
 		///
 		template <typename _type>
-		auto operator*=(_type const &value)
-			-> std::enable_if_t<std::convertible_to<_type, int64_t> ||
-									std::convertible_to<_type, base::Fraction>,
-								TSelf &>
+			requires(std::convertible_to<_type, int64_t> || std::convertible_to<_type, base::Fraction>)
+		TSelf &operator*=(_type const &value)
 		{
 			Value() *= value;
 			return *reinterpret_cast<TSelf *>(this);
@@ -249,10 +232,8 @@ namespace base
 		/// @return TSelf &
 		///
 		template <typename _type>
-		auto operator/=(_type const &value)
-			-> std::enable_if_t<std::convertible_to<_type, int64_t> ||
-									std::convertible_to<_type, base::Fraction>,
-								TSelf &>
+			requires(std::convertible_to<_type, int64_t> || std::convertible_to<_type, base::Fraction>)
+		TSelf &operator/=(_type const &value)
 		{
 			Value() /= value;
 			return *reinterpret_cast<TSelf *>(this);
@@ -343,13 +324,11 @@ bool operator>=(base::IUnit<TLeft> const &left, base::IUnit<TRight> const &right
 ///
 /// @return TUnit
 ///
-template <typename TLeft, typename TUnit>
-inline auto operator*(TLeft const &left, base::IUnit<TUnit> const &right)
-	-> std::enable_if_t<std::convertible_to<TLeft, int64_t> ||
-							std::convertible_to<TLeft, base::Fraction>,
-						TUnit>
+template <typename TLeft, typename TRight>
+	requires(std::convertible_to<TLeft, int64_t> || std::convertible_to<TLeft, base::Fraction>)
+inline TRight operator*(TLeft const &left, base::IUnit<TRight> const &right)
 {
-	return right * left;
+	return reinterpret_cast<TRight const &>(right) * left;
 }
 
 namespace std
