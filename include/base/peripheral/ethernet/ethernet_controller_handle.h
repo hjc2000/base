@@ -5,6 +5,7 @@
 #include "parameter.h"
 #include <cstdint>
 #include <memory>
+#include <vector>
 
 namespace base
 {
@@ -100,6 +101,15 @@ namespace base
 		///
 		void send(base::ethernet::ethernet_controller_handle &h,
 				  base::IEnumerable<base::ReadOnlySpan> const &spans);
+
+		///
+		/// @brief 发送数据。
+		///
+		/// @param h
+		/// @param spans 多个内存段中的数据合起来组成一个以太网帧。
+		///
+		void send(base::ethernet::ethernet_controller_handle &h,
+				  std::vector<base::ReadOnlySpan> const &spans);
 
 		///
 		/// @brief 接收数据。
