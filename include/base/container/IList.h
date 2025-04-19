@@ -1,6 +1,8 @@
 #pragma once
 #include "base/container/IQueue.h"
 #include "base/container/iterator/IEnumerable.h"
+#include "base/sfinae/Compare.h"
+#include "base/sfinae/Equal.h"
 #include <cstdint>
 #include <functional>
 
@@ -272,6 +274,9 @@ namespace base
 		/* #region 比较运算符 */
 
 		bool operator==(IList<ItemType> const &o) const
+			requires(base::has_equal_operator<ItemType> &&
+					 base::has_less_than_operator<ItemType> &&
+					 base::has_greater_than_operator<ItemType>)
 		{
 			if (this == &o)
 			{
@@ -296,6 +301,9 @@ namespace base
 		}
 
 		bool operator<(IList<ItemType> const &o) const
+			requires(base::has_equal_operator<ItemType> &&
+					 base::has_less_than_operator<ItemType> &&
+					 base::has_greater_than_operator<ItemType>)
 		{
 			if (this == &o)
 			{
@@ -323,6 +331,9 @@ namespace base
 		}
 
 		bool operator>(IList<ItemType> const &o) const
+			requires(base::has_equal_operator<ItemType> &&
+					 base::has_less_than_operator<ItemType> &&
+					 base::has_greater_than_operator<ItemType>)
 		{
 			if (this == &o)
 			{
@@ -350,6 +361,9 @@ namespace base
 		}
 
 		bool operator<=(IList<ItemType> const &o) const
+			requires(base::has_equal_operator<ItemType> &&
+					 base::has_less_than_operator<ItemType> &&
+					 base::has_greater_than_operator<ItemType>)
 		{
 			if (this == &o)
 			{
@@ -377,6 +391,9 @@ namespace base
 		}
 
 		bool operator>=(IList<ItemType> const &o) const
+			requires(base::has_equal_operator<ItemType> &&
+					 base::has_less_than_operator<ItemType> &&
+					 base::has_greater_than_operator<ItemType>)
 		{
 			if (this == &o)
 			{

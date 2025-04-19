@@ -75,7 +75,6 @@ namespace base
 				_end = !_enumerator->MoveNext();
 			}
 
-		public:
 			item_type &operator*()
 			{
 				return _enumerator->CurrentValue();
@@ -86,7 +85,6 @@ namespace base
 				return &operator*();
 			}
 
-		public:
 			///
 			/// @brief 前缀递增
 			///
@@ -111,7 +109,6 @@ namespace base
 				return ret;
 			}
 
-		public:
 			bool operator==(ForwardIterator<item_type> const &o) const
 			{
 				return _end;
