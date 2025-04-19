@@ -15,6 +15,8 @@
 
 namespace
 {
+	/* #region CopyFile */
+
 	///
 	/// @brief 拷贝单个文件。
 	///
@@ -77,6 +79,10 @@ namespace
 		return;
 	}
 
+	/* #endregion */
+
+	/* #region DirectoryEntryEnumerator */
+
 	///
 	/// @brief 目录条目迭代器。
 	///
@@ -85,22 +91,30 @@ namespace
 		public base::IEnumerator<base::DirectoryEntry const>
 	{
 	private:
-		std::string _path;
 		base::DirectoryEntry _current;
-		bool _move_to_next_for_the_first_time = true;
-		std::filesystem::directory_iterator _begin;
-		std::filesystem::directory_iterator _end;
+		std::filesystem::directory_iterator _current_it;
+		std::filesystem::directory_iterator _end_it;
 
 	public:
 		DirectoryEntryEnumerator(base::Path const &path)
 		{
-			_path = path.ToString();
-			if (_path == "")
+			std::string path_str = path.ToString();
+			if (path_str == "")
 			{
-				_path = "./";
+				path_str = "./";
 			}
 
-			Reset();
+			_current_it = std::filesystem::directory_iterator{path_str};
+		}
+
+		///
+		/// @brief 迭代器当前是否指向尾后元素。
+		///
+		/// @return
+		///
+		virtual bool IsEnd() const override
+		{
+			return _current_it == _end_it;
 		}
 
 		///
@@ -110,51 +124,23 @@ namespace
 		///
 		virtual base::DirectoryEntry const &CurrentValue() override
 		{
-			if (_begin == _end)
-			{
-				std::string message = CODE_POS_STR +
-									  "当前没有值，如果是刚刚构造或 Reset 要先调用 MoveNext. "
-									  "也有可能是当前路径没有目录条目。"
-									  "也有可能是已经遍历完了，要重新 Reset.";
-
-				throw std::runtime_error{message};
-			}
-
-			_current = base::DirectoryEntry{_begin->path().string()};
+			_current = base::DirectoryEntry{_current_it->path().string()};
 			return _current;
 		}
 
 		///
-		/// @brief 迭代器前进到下一个值。
+		/// @brief 递增迭代器的位置。
 		///
-		/// @return true
-		/// @return false
 		///
-		virtual bool MoveNext() override
+		virtual void Add() override
 		{
-			if (_move_to_next_for_the_first_time)
-			{
-				_move_to_next_for_the_first_time = false;
-			}
-			else
-			{
-				++_begin;
-			}
-
-			return _begin != _end;
-		}
-
-		///
-		/// @brief 将迭代器重置到容器开始的位置。
-		///
-		/// @note 开始位置是第一个元素前。也就是说重置后，要调用一次 MoveNext 才能获取到第一个值。
-		///
-		virtual void Reset() override
-		{
-			_move_to_next_for_the_first_time = true;
-			_begin = std::filesystem::directory_iterator{_path};
+			++_current_it;
 		}
 	};
+
+	/* #endregion */
+
+	/* #region RecursiveDirectoryEntryEnumerator */
 
 	///
 	/// @brief 目录条目递归迭代器。
@@ -164,22 +150,30 @@ namespace
 		public base::IEnumerator<base::DirectoryEntry const>
 	{
 	private:
-		std::string _path;
 		base::DirectoryEntry _current;
-		bool _move_to_next_for_the_first_time = true;
-		std::filesystem::recursive_directory_iterator _begin;
-		std::filesystem::recursive_directory_iterator _end;
+		std::filesystem::recursive_directory_iterator _current_it;
+		std::filesystem::recursive_directory_iterator _end_it;
 
 	public:
 		RecursiveDirectoryEntryEnumerator(base::Path const &path)
 		{
-			_path = path.ToString();
-			if (_path == "")
+			std::string path_str = path.ToString();
+			if (path_str == "")
 			{
-				_path = "./";
+				path_str = "./";
 			}
 
-			Reset();
+			_current_it = std::filesystem::recursive_directory_iterator{path_str};
+		}
+
+		///
+		/// @brief 迭代器当前是否指向尾后元素。
+		///
+		/// @return
+		///
+		virtual bool IsEnd() const override
+		{
+			return _current_it == _end_it;
 		}
 
 		///
@@ -189,51 +183,21 @@ namespace
 		///
 		virtual base::DirectoryEntry const &CurrentValue() override
 		{
-			if (_begin == _end)
-			{
-				std::string message = CODE_POS_STR +
-									  "当前没有值，如果是刚刚构造或 Reset 要先调用 MoveNext. "
-									  "也有可能是当前路径没有目录条目。"
-									  "也有可能是已经遍历完了，要重新 Reset.";
-
-				throw std::runtime_error{message};
-			}
-
-			_current = base::DirectoryEntry{_begin->path().string()};
+			_current = base::DirectoryEntry{_current_it->path().string()};
 			return _current;
 		}
 
 		///
-		/// @brief 迭代器前进到下一个值。
+		/// @brief 递增迭代器的位置。
 		///
-		/// @return true
-		/// @return false
 		///
-		virtual bool MoveNext() override
+		virtual void Add() override
 		{
-			if (_move_to_next_for_the_first_time)
-			{
-				_move_to_next_for_the_first_time = false;
-			}
-			else
-			{
-				++_begin;
-			}
-
-			return _begin != _end;
-		}
-
-		///
-		/// @brief 将迭代器重置到容器开始的位置。
-		///
-		/// @note 开始位置是第一个元素前。也就是说重置后，要调用一次 MoveNext 才能获取到第一个值。
-		///
-		virtual void Reset() override
-		{
-			_move_to_next_for_the_first_time = true;
-			_begin = std::filesystem::recursive_directory_iterator{_path};
+			++_current_it;
 		}
 	};
+
+	/* #endregion */
 
 } // namespace
 
