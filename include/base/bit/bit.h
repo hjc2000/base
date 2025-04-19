@@ -246,7 +246,8 @@ namespace base
 		///
 		/// @param bit_index 要置位的位的索引。
 		///
-		template <typename RegisterType, std::enable_if_t<std::is_integral_v<RegisterType>, int> = 0>
+		template <typename RegisterType>
+			requires(std::is_integral_v<RegisterType>)
 		constexpr void SetBit(RegisterType &reg, int bit_index)
 		{
 			CheckBitIndex<RegisterType>(bit_index);
@@ -260,7 +261,8 @@ namespace base
 		/// @param begin 要置位的区间起点。闭端点。
 		/// @param end 要置位的区间终点。开端点。
 		///
-		template <typename RegisterType, std::enable_if_t<std::is_integral_v<RegisterType>, int> = 0>
+		template <typename RegisterType>
+			requires(std::is_integral_v<RegisterType>)
 		constexpr void SetBits(RegisterType &reg, int begin, int end)
 		{
 			CheckBitRange<RegisterType>(begin, end);
@@ -276,7 +278,8 @@ namespace base
 		///
 		/// @param bit_index 要复位的位的索引。
 		///
-		template <typename RegisterType, std::enable_if_t<std::is_integral_v<RegisterType>, int> = 0>
+		template <typename RegisterType>
+			requires(std::is_integral_v<RegisterType>)
 		constexpr void ResetBit(RegisterType &reg, int bit_index)
 		{
 			CheckBitIndex<RegisterType>(bit_index);
@@ -290,7 +293,8 @@ namespace base
 		/// @param begin 要复位的区间起点。闭端点。
 		/// @param end 要复位的区间终点。开端点。
 		///
-		template <typename RegisterType, std::enable_if_t<std::is_integral_v<RegisterType>, int> = 0>
+		template <typename RegisterType>
+			requires(std::is_integral_v<RegisterType>)
 		constexpr void ResetBits(RegisterType &reg, int begin, int end)
 		{
 			CheckBitRange<RegisterType>(begin, end);
@@ -305,7 +309,8 @@ namespace base
 		///
 		/// @return
 		///
-		template <typename RegisterType, std::enable_if_t<std::is_integral_v<RegisterType>, int> = 0>
+		template <typename RegisterType>
+			requires(std::is_integral_v<RegisterType>)
 		constexpr bool ReadBit(RegisterType const &reg, int bit_index)
 		{
 			CheckBitIndex<RegisterType>(bit_index);
@@ -321,7 +326,8 @@ namespace base
 		/// @param end
 		/// @return
 		///
-		template <typename RegisterType, std::enable_if_t<std::is_integral_v<RegisterType>, int> = 0>
+		template <typename RegisterType>
+			requires(std::is_integral_v<RegisterType>)
 		constexpr RegisterType ReadBits(RegisterType const &reg, int begin, int end)
 		{
 			CheckBitRange<RegisterType>(begin, end);
@@ -338,7 +344,8 @@ namespace base
 		/// @param value
 		/// @return
 		///
-		template <typename RegisterType, std::enable_if_t<std::is_integral_v<RegisterType>, int> = 0>
+		template <typename RegisterType>
+			requires(std::is_integral_v<RegisterType>)
 		constexpr void WriteBit(RegisterType &reg, int bit_index, bool value)
 		{
 			CheckBitIndex<RegisterType>(bit_index);
@@ -360,7 +367,8 @@ namespace base
 		/// @param end 位范围结束。开端点。
 		/// @param value 要写入 reg 的指定范围内的值。
 		///
-		template <typename RegisterType, std::enable_if_t<std::is_integral_v<RegisterType>, int> = 0>
+		template <typename RegisterType>
+			requires(std::is_integral_v<RegisterType>)
 		constexpr void WriteBits(RegisterType &reg, int begin, int end, uint64_t value)
 		{
 			CheckBitRange<RegisterType>(begin, end);
