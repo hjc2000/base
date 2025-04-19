@@ -1,4 +1,5 @@
 #include "base/bit/bit.h"
+#include "base/container/Dictionary.h"
 #include "base/container/Set.h"
 #include "base/math/Fraction.h"
 #include "base/wrapper/number-wrapper.h"
@@ -37,4 +38,5 @@ int main()
 	}
 
 	base::test::test_set();
+	base::test::TestDictionary();
 }

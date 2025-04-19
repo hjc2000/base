@@ -147,8 +147,11 @@ namespace base
 		}
 	};
 
+#if HAS_THREAD
 	namespace test
 	{
 		void TestDictionary();
 	} // namespace test
+#endif
+
 } // namespace base
