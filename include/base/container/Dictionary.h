@@ -4,9 +4,10 @@
 
 namespace base
 {
+	///
 	/// @brief 字典
-	/// @tparam KeyType
-	/// @tparam ValueType
+	///
+	///
 	template <typename KeyType, typename ValueType>
 	class Dictionary :
 		public base::IDictionary<KeyType, ValueType>
@@ -145,4 +146,9 @@ namespace base
 			return std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>>{new Enumerator{_map}};
 		}
 	};
+
+	namespace test
+	{
+		void TestDictionary();
+	} // namespace test
 } // namespace base
