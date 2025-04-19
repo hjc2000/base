@@ -1,18 +1,17 @@
 #pragma once
-#include <type_traits>
 
 namespace base
 {
-	template <typename T, typename = void>
-	struct has_equal_operator :
-		std::false_type
-	{
-	};
-
+	///
+	/// @brief 概念：T 具有比较运算符。
+	///
+	/// @param a
+	/// @param b
+	/// @return
+	///
 	template <typename T>
-	struct has_equal_operator<T, std::void_t<decltype(std::declval<T>() == std::declval<T>())>> :
-		std::true_type
-	{
+	concept has_equal_operator = requires(T a, T b) {
+		requires std::same_as<decltype(a == b), bool>;
 	};
 
 	///
@@ -23,8 +22,8 @@ namespace base
 	/// @return std::enable_if_t<base::has_equal_operator<T>::value, bool>
 	///
 	template <typename T>
-	inline constexpr auto Equal(T const &lhs, T const &rhs)
-		-> std::enable_if_t<base::has_equal_operator<T>::value, bool>
+		requires(base::has_equal_operator<T>)
+	inline constexpr bool Equal(T const &lhs, T const &rhs)
 	{
 		return lhs == rhs;
 	}
@@ -37,8 +36,8 @@ namespace base
 	/// @return std::enable_if_t<!base::has_equal_operator<T>::value, bool>
 	///
 	template <typename T>
-	inline constexpr auto Equal(T const &lhs, T const &rhs)
-		-> std::enable_if_t<!base::has_equal_operator<T>::value, bool>
+		requires(!base::has_equal_operator<T>)
+	inline constexpr bool Equal(T const &lhs, T const &rhs)
 	{
 		return &lhs == &rhs;
 	}

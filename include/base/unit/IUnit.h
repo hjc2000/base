@@ -262,31 +262,36 @@ namespace base
 
 		/* #region 比较 */
 
-		template <typename T, std::enable_if_t<!std::convertible_to<T, int64_t> && !std::convertible_to<T, base::Fraction>, int> = 0>
+		template <typename T>
+			requires(!std::convertible_to<T, int64_t> && !std::convertible_to<T, base::Fraction>)
 		bool Equal(T const &another) const
 		{
 			return Value() == TSelf{another}.Value();
 		}
 
-		template <typename T, std::enable_if_t<!std::convertible_to<T, int64_t> && !std::convertible_to<T, base::Fraction>, int> = 0>
+		template <typename T>
+			requires(!std::convertible_to<T, int64_t> && !std::convertible_to<T, base::Fraction>)
 		bool LessThan(T const &another) const
 		{
 			return Value() < TSelf{another}.Value();
 		}
 
-		template <typename T, std::enable_if_t<!std::convertible_to<T, int64_t> && !std::convertible_to<T, base::Fraction>, int> = 0>
+		template <typename T>
+			requires(!std::convertible_to<T, int64_t> && !std::convertible_to<T, base::Fraction>)
 		bool GreaterThan(T const &another) const
 		{
 			return Value() > TSelf{another}.Value();
 		}
 
-		template <typename T, std::enable_if_t<!std::convertible_to<T, int64_t> && !std::convertible_to<T, base::Fraction>, int> = 0>
+		template <typename T>
+			requires(!std::convertible_to<T, int64_t> && !std::convertible_to<T, base::Fraction>)
 		bool LessThanOrEqual(T const &another) const
 		{
 			return Value() <= TSelf{another}.Value();
 		}
 
-		template <typename T, std::enable_if_t<!std::convertible_to<T, int64_t> && !std::convertible_to<T, base::Fraction>, int> = 0>
+		template <typename T>
+			requires(!std::convertible_to<T, int64_t> && !std::convertible_to<T, base::Fraction>)
 		bool GreaterThanOrEqual(T const &another) const
 		{
 			return Value() >= TSelf{another}.Value();

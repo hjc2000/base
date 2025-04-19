@@ -1,152 +1,116 @@
 #pragma once
 #include "base/sfinae/Equal.h" // IWYU pragma: export
 #include "base/string/define.h"
+#include <concepts>
 #include <stdexcept>
-#include <type_traits>
 
-/**
- * @brief 小于
- *
- */
 namespace base
 {
+	/* #region 小于 */
+
 	template <typename T, typename = void>
-	struct has_less_than_operator :
-		std::false_type
-	{
+	concept has_less_than_operator = requires(T a, T b) {
+		requires std::same_as<decltype(a < b), bool>;
 	};
 
 	template <typename T>
-	struct has_less_than_operator<T, std::void_t<decltype(std::declval<T>() < std::declval<T>())>> :
-		std::true_type
-	{
-	};
-
-	template <typename T>
-	inline constexpr auto LessThan(T const &lhs, T const &rhs)
-		-> std::enable_if_t<base::has_less_than_operator<T>::value, bool>
+		requires(base::has_less_than_operator<T>)
+	inline constexpr bool LessThan(T const &lhs, T const &rhs)
 	{
 		return lhs < rhs;
 	}
 
 	template <typename T>
-	inline constexpr auto LessThan(T const &lhs, T const &rhs)
-		-> std::enable_if_t<!base::has_less_than_operator<T>::value, bool>
+		requires(!base::has_less_than_operator<T>)
+	inline constexpr bool LessThan(T const &lhs, T const &rhs)
 	{
 		throw std::runtime_error{CODE_POS_STR + "请先实现 < 运算符。"};
+		return false;
 	}
-} // namespace base
 
-/**
- * @brief 大于。
- *
- */
-namespace base
-{
+	/* #endregion */
+
+	/* #region 大于 */
+
 	template <typename T, typename = void>
-	struct has_greater_than_operator :
-		std::false_type
-	{
+	concept has_greater_than_operator = requires(T a, T b) {
+		requires std::same_as<decltype(a > b), bool>;
 	};
 
 	template <typename T>
-	struct has_greater_than_operator<T, std::void_t<decltype(std::declval<T>() > std::declval<T>())>> :
-		std::true_type
-	{
-	};
-
-	template <typename T>
-	inline constexpr auto GreaterThan(T const &lhs, T const &rhs)
-		-> std::enable_if_t<base::has_greater_than_operator<T>::value, bool>
+		requires(base::has_less_than_operator<T>)
+	inline constexpr bool GreaterThan(T const &lhs, T const &rhs)
 	{
 		return lhs > rhs;
 	}
 
 	template <typename T>
-	inline constexpr auto GreaterThan(T const &lhs, T const &rhs)
-		-> std::enable_if_t<!base::has_greater_than_operator<T>::value, bool>
+		requires(!base::has_less_than_operator<T>)
+	inline constexpr bool GreaterThan(T const &lhs, T const &rhs)
 	{
 		throw std::runtime_error{CODE_POS_STR + "请先实现 > 运算符。"};
+		return false;
 	}
-} // namespace base
 
-/**
- * @brief 小于等于。
- *
- */
-namespace base
-{
+	/* #endregion */
+
+	/* #region 小于等于。 */
+
 	template <typename T, typename = void>
-	struct has_less_than_or_equal_operator :
-		std::false_type
-	{
+	concept has_less_than_or_equal_operator = requires(T a, T b) {
+		requires std::same_as<decltype(a <= b), bool>;
 	};
 
 	template <typename T>
-	struct has_less_than_or_equal_operator<T, std::void_t<decltype(std::declval<T>() <= std::declval<T>())>> :
-		std::true_type
-	{
-	};
-
-	template <typename T>
-	inline constexpr auto GreaterThanOrEqual(T const &lhs, T const &rhs)
-		-> std::enable_if_t<base::has_less_than_or_equal_operator<T>::value, bool>
+		requires(base::has_less_than_or_equal_operator<T>)
+	inline constexpr bool LessThanOrEqual(T const &lhs, T const &rhs)
 	{
 		return lhs <= rhs;
 	}
 
 	template <typename T>
-	inline constexpr auto GreaterThanOrEqual(T const &lhs, T const &rhs)
-		-> std::enable_if_t<!base::has_less_than_or_equal_operator<T>::value, bool>
+		requires(!base::has_less_than_or_equal_operator<T>)
+	inline constexpr bool LessThanOrEqual(T const &lhs, T const &rhs)
 	{
 		throw std::runtime_error{CODE_POS_STR + "请先实现 <= 运算符。"};
+		return false;
 	}
-} // namespace base
 
-/**
- * @brief 大于等于。
- *
- */
-namespace base
-{
+	/* #endregion */
+
+	/* #region 大于等于。 */
+
 	template <typename T, typename = void>
-	struct has_greater_than_or_equal_operator :
-		std::false_type
-	{
+	concept has_greater_than_or_equal_operator = requires(T a, T b) {
+		requires std::same_as<decltype(a >= b), bool>;
 	};
 
 	template <typename T>
-	struct has_greater_than_or_equal_operator<T, std::void_t<decltype(std::declval<T>() >= std::declval<T>())>> :
-		std::true_type
-	{
-	};
-
-	template <typename T>
-	inline constexpr auto GreaterThanOrEqual(T const &lhs, T const &rhs)
-		-> std::enable_if_t<base::has_greater_than_or_equal_operator<T>::value, bool>
+		requires(base::has_greater_than_or_equal_operator<T>)
+	inline constexpr bool GreaterThanOrEqual(T const &lhs, T const &rhs)
 	{
 		return lhs >= rhs;
 	}
 
 	template <typename T>
-	inline constexpr auto GreaterThanOrEqual(T const &lhs, T const &rhs)
-		-> std::enable_if_t<!base::has_greater_than_or_equal_operator<T>::value, bool>
+		requires(!base::has_greater_than_or_equal_operator<T>)
+	inline constexpr bool GreaterThanOrEqual(T const &lhs, T const &rhs)
 	{
 		throw std::runtime_error{CODE_POS_STR + "请先实现 >= 运算符。"};
+		return false;
 	}
-} // namespace base
 
-namespace base
-{
-	/**
-	 * @brief 比较。
-	 *
-	 * @tparam T
-	 * @param left
-	 * @param right
-	 * @return int 如果 left 小于 right，则返回 -1，如果 left 大于 right ，则返回 1，
-	 * 其他情况视为等于，返回 0.
-	 */
+	/* #endregion */
+
+	///
+	/// @brief 比较。
+	///
+	/// @param left
+	/// @param right
+	///
+	/// @return 如果 left 小于 right，则返回 -1，如果 left 大于 right ，则返回 1，
+	/// 其他情况视为等于，返回 0.
+	///
 	template <typename T>
 	int Compare(T const &left, T const &right)
 	{
@@ -162,4 +126,5 @@ namespace base
 
 		return 0;
 	}
+
 } // namespace base
