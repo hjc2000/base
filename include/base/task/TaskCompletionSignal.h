@@ -1,6 +1,6 @@
 #pragma once
 #include "base/define.h"
-#include "base/task/IMutex.h"
+#include "Mutex.h"
 #include "Semaphore.h"
 #include <atomic>
 #include <memory>
@@ -20,7 +20,7 @@ namespace base
 		/// @brief 共享指针本身不是线程安全的，多线程同时读写需要加锁。
 		///
 		///
-		mutable std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
+		base::task::Mutex _lock{};
 
 		///
 		/// @brief 共享指针本身不是线程安全的，多线程同时读写需要加锁。

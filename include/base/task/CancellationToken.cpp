@@ -1,6 +1,6 @@
 #include "CancellationToken.h"
-#include "base/LockGuard.h"
 #include "base/string/define.h"
+#include "Mutex.h"
 #include <stdexcept>
 
 std::shared_ptr<base::CancellationToken> base::CancellationToken::_none_cancellation_token{new base::CancellationToken{}};
@@ -18,7 +18,7 @@ void base::CancellationToken::Cancel()
 		return;
 	}
 
-	base::LockGuard l{*_lock};
+	base::task::MutexGuard g{_lock};
 
 	if (_is_cancellation_request)
 	{
@@ -60,7 +60,7 @@ std::shared_ptr<base::IIdToken> base::CancellationToken::Register(std::function<
 		throw std::runtime_error{"不要对 None 调用 Register 方法"};
 	}
 
-	base::LockGuard l{*_lock};
+	base::task::MutexGuard g{_lock};
 	uint64_t current_id = _id++;
 	_delegates[current_id] = func;
 	return std::shared_ptr<IdToken>{new IdToken{this, current_id}};
@@ -83,6 +83,6 @@ void base::CancellationToken::Unregister(std::shared_ptr<base::IIdToken> const &
 		throw std::invalid_argument{CODE_POS_STR + "传入了错误的 IIdToken，它不是本对象发放的。"};
 	}
 
-	base::LockGuard l{*_lock};
+	base::task::MutexGuard g{_lock};
 	_delegates.erase(token->ID());
 }

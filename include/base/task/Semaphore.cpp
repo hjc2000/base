@@ -1,7 +1,7 @@
 #include "Semaphore.h"
-#include "base/LockGuard.h"
 #include "base/string/define.h"
 #include "IBaseSemaphore.h"
+#include "Mutex.h"
 
 base::Semaphore::Semaphore(int32_t initial_count)
 {
@@ -26,7 +26,7 @@ void base::Semaphore::Release(int32_t count)
 
 void base::Semaphore::ReleaseAll()
 {
-	base::LockGuard l{*_lock};
+	base::task::MutexGuard g{_lock};
 	if (_acquire_count > 0)
 	{
 		_base_semaphore->Release(_acquire_count);
@@ -40,7 +40,7 @@ void base::Semaphore::ReleaseFromISR(int32_t count)
 
 void base::Semaphore::ReleaseAllFromISR()
 {
-	base::LockGuard l{*_lock};
+	base::task::MutexGuard g{_lock};
 	if (_acquire_count > 0)
 	{
 		_base_semaphore->ReleaseFromISR(_acquire_count);
@@ -50,7 +50,7 @@ void base::Semaphore::ReleaseAllFromISR()
 void base::Semaphore::Acquire()
 {
 	{
-		base::LockGuard l{*_lock};
+		base::task::MutexGuard g{_lock};
 		if (_disposed)
 		{
 			throw base::ObjectDisposedException{CODE_POS_STR + "已经释放，无法获取。"};
@@ -62,7 +62,7 @@ void base::Semaphore::Acquire()
 	_base_semaphore->Acquire();
 
 	{
-		base::LockGuard l{*_lock};
+		base::task::MutexGuard g{_lock};
 		_acquire_count--;
 		if (_disposed)
 		{
@@ -74,7 +74,7 @@ void base::Semaphore::Acquire()
 bool base::Semaphore::TryAcquire(base::Seconds const &timeout)
 {
 	{
-		base::LockGuard l{*_lock};
+		base::task::MutexGuard g{_lock};
 		if (_disposed)
 		{
 			throw base::ObjectDisposedException{CODE_POS_STR + "已经释放，无法获取。"};
@@ -86,7 +86,7 @@ bool base::Semaphore::TryAcquire(base::Seconds const &timeout)
 	bool result = _base_semaphore->TryAcquire(timeout);
 
 	{
-		base::LockGuard l{*_lock};
+		base::task::MutexGuard g{_lock};
 		_acquire_count--;
 		if (_disposed)
 		{

@@ -1,6 +1,7 @@
 #include "TaskCompletionSignal.h"
 #include "base/IDisposable.h"
 #include "base/string/define.h"
+#include "Mutex.h"
 #include "Semaphore.h"
 #include <memory>
 
@@ -33,7 +34,7 @@ void base::TaskCompletionSignal::Dispose()
 
 bool base::TaskCompletionSignal::IsCompleted() const
 {
-	base::LockGuard g{*_lock};
+	base::task::MutexGuard g{_lock};
 	if (_disposed)
 	{
 		return true;
@@ -62,7 +63,7 @@ void base::TaskCompletionSignal::Wait()
 		std::shared_ptr<base::Semaphore> signal = nullptr;
 
 		{
-			base::LockGuard g{*_lock};
+			base::task::MutexGuard g{_lock};
 
 			// 在持有互斥锁的情况下捕获
 			signal = _semaphore;
@@ -85,7 +86,7 @@ void base::TaskCompletionSignal::Wait()
 
 void base::TaskCompletionSignal::SetResult()
 {
-	base::LockGuard g{*_lock};
+	base::task::MutexGuard g{_lock};
 	if (_disposed)
 	{
 		return;
@@ -104,7 +105,7 @@ void base::TaskCompletionSignal::SetResult()
 
 void base::TaskCompletionSignal::Reset()
 {
-	base::LockGuard g{*_lock};
+	base::task::MutexGuard g{_lock};
 	if (_semaphore != nullptr)
 	{
 		_semaphore->Dispose();

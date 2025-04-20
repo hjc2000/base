@@ -1,9 +1,8 @@
 #pragma once
 #include "base/define.h"
 #include "base/IDisposable.h"
-#include "base/task/IMutex.h"
 #include "IBaseSemaphore.h"
-#include "IMutex.h"
+#include "Mutex.h"
 #include <atomic>
 #include <cstdint>
 #include <memory>
@@ -21,7 +20,7 @@ namespace base
 		DELETE_COPY_AND_MOVE(Semaphore)
 
 		std::shared_ptr<base::IBaseSemaphore> _base_semaphore;
-		std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
+		base::task::Mutex _lock{};
 		std::atomic_bool _disposed = false;
 		int32_t _acquire_count = 0;
 

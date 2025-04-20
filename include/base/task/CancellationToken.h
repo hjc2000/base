@@ -1,7 +1,7 @@
 #pragma once
 #include "base/define.h"
 #include "base/IIdToken.h"
-#include "base/task/IMutex.h"
+#include "Mutex.h"
 #include <atomic>
 #include <cstdint>
 #include <functional>
@@ -53,7 +53,7 @@ namespace base
 		DELETE_COPY_AND_MOVE(CancellationToken)
 
 		friend class CancellationTokenSource;
-		std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
+		base::task::Mutex _lock{};
 		std::atomic_bool _is_cancellation_request = false;
 		std::map<uint64_t, std::function<void(void)>> _delegates;
 
