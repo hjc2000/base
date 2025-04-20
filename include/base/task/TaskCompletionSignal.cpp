@@ -86,11 +86,20 @@ void base::TaskCompletionSignal::Wait()
 void base::TaskCompletionSignal::SetResult()
 {
 	base::LockGuard g{*_lock};
-	if (_semaphore != nullptr)
+	if (_disposed)
 	{
-		_semaphore->Dispose();
-		_semaphore = nullptr;
+		return;
 	}
+
+	if (_semaphore == nullptr)
+	{
+		// 这里是读取智能指针，好像不用加锁。但是智能指针本身不是原子的，
+		// 一个线程写的同时另一个线程读不安全。
+		return;
+	}
+
+	_semaphore->Dispose();
+	_semaphore = nullptr;
 }
 
 void base::TaskCompletionSignal::Reset()

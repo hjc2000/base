@@ -16,8 +16,18 @@ namespace base
 	private:
 		DELETE_COPY_AND_MOVE(TaskCompletionSignal)
 
+		///
+		/// @brief 共享指针本身不是线程安全的，多线程同时读写需要加锁。
+		///
+		///
 		mutable std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
-		std::shared_ptr<base::Semaphore> _semaphore;
+
+		///
+		/// @brief 共享指针本身不是线程安全的，多线程同时读写需要加锁。
+		///
+		///
+		std::shared_ptr<base::Semaphore> _semaphore = nullptr;
+
 		std::atomic_bool _disposed = false;
 
 	public:
