@@ -2,7 +2,7 @@
 #include "base/container/Queue.h"
 #include "base/IDisposable.h"
 #include "base/string/define.h"
-#include "base/task/IMutex.h"
+#include "base/task/Mutex.h"
 #include "base/task/Semaphore.h"
 #include <atomic>
 #include <exception>
@@ -25,7 +25,7 @@ namespace base
 		int32_t _max_count;
 		base::Queue<T> _queue;
 		std::atomic_bool _disposed = false;
-		std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
+		base::task::Mutex _lock{};
 		base::Semaphore _data_avaliable_signal{0};
 
 	public:
@@ -72,7 +72,7 @@ namespace base
 				throw std::runtime_error{CODE_POS_STR + "已经释放了，无法放入数据。"};
 			}
 
-			base::LockGuard g{*_lock};
+			base::task::MutexGuard g{_lock};
 			_queue.Enqueue(item);
 			if (_queue.Count() > _max_count)
 			{
@@ -98,7 +98,7 @@ namespace base
 
 				// 在持有互斥锁的条件下检查，避免误触，以及操作
 				{
-					base::LockGuard g{*_lock};
+					base::task::MutexGuard g{_lock};
 					if (_queue.Count() > 0)
 					{
 						return _queue.Dequeue();
