@@ -6,10 +6,17 @@ namespace base
 {
 	namespace task
 	{
+		///
+		/// @brief 二进制信号量句柄。
+		///
+		///
 		class binary_semaphore_handle;
 
 		///
 		/// @brief 创建一个二进制信号量。
+		///
+		/// @param initial_release 二进制信号量初始时是否已经处于已释放的状态。
+		/// 传入 true 表示已释放，传入 false 表示未释放。
 		///
 		/// @return
 		///
