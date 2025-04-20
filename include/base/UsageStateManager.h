@@ -28,7 +28,7 @@ namespace base
 		{
 			// 双重检查锁定
 			CheckUsage();
-			base::task::LockGuard g{_lock};
+			base::task::MutexGuard g{_lock};
 			CheckUsage();
 
 			_is_used = true;
@@ -36,7 +36,7 @@ namespace base
 
 		~UsageStateManager()
 		{
-			base::task::LockGuard g{_lock};
+			base::task::MutexGuard g{_lock};
 			_is_used = false;
 		}
 	};

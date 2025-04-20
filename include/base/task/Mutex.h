@@ -25,19 +25,19 @@ namespace base
 			}
 		};
 
-		class LockGuard
+		class MutexGuard
 		{
 		private:
 			base::task::Mutex const &_mutex;
 
 		public:
-			LockGuard(base::task::Mutex const &m)
+			MutexGuard(base::task::Mutex const &m)
 				: _mutex(m)
 			{
 				_mutex.Lock();
 			}
 
-			~LockGuard()
+			~MutexGuard()
 			{
 				_mutex.Unlock();
 			}
