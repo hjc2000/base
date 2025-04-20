@@ -112,5 +112,12 @@ namespace base
 
 		/* #endregion */
 
+		///
+		/// @brief 通过 PHY 的复位引脚复位 PHY.
+		///
+		/// @param h
+		///
+		void hardware_reset_phy(base::ethernet::ethernet_controller_handle &h);
+
 	} // namespace ethernet
 } // namespace base

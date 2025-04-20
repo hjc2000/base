@@ -123,6 +123,15 @@ namespace base
 			}
 
 			/* #endregion */
+
+			///
+			/// @brief 通过 PHY 的复位引脚复位 PHY.
+			///
+			///
+			void HardwareResetPhy()
+			{
+				base::ethernet::hardware_reset_phy(*_handle);
+			}
 		};
 	} // namespace ethernet
 } // namespace base
