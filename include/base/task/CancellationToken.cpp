@@ -35,7 +35,7 @@ void base::CancellationToken::Cancel()
 	}
 }
 
-std::shared_ptr<base::CancellationToken> base::CancellationToken::None()
+std::shared_ptr<base::CancellationToken> const &base::CancellationToken::None()
 {
 	return _none_cancellation_token;
 }

@@ -66,9 +66,9 @@ namespace base
 		///
 		/// @brief 获取一个不被取消令牌源管理的取消令牌。此令牌永远无法被取消。
 		///
-		/// @return static_function
+		/// @return
 		///
-		static_function std::shared_ptr<CancellationToken> None();
+		static std::shared_ptr<CancellationToken> const &None();
 
 		///
 		/// @brief 是否需要取消。
