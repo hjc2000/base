@@ -1,7 +1,6 @@
 #pragma once
 #include "base/container/IQueue.h"
-#include "base/LockGuard.h"
-#include "base/task/IMutex.h"
+#include "base/task/Mutex.h"
 #include <queue>
 #include <stdexcept>
 
@@ -17,7 +16,7 @@ namespace base
 	{
 	private:
 		std::queue<T> _queue;
-		mutable std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
+		base::task::Mutex _lock{};
 
 	public:
 		/* #region 生命周期 */
@@ -55,7 +54,7 @@ namespace base
 		///
 		base::SafeQueue<T> &operator=(SafeQueue<T> const &o)
 		{
-			base::LockGuard l[] = {*_lock, *o._lock};
+			base::task::MutexGuard l[] = {_lock, o._lock};
 			_queue = o._queue;
 			return *this;
 		}
@@ -68,7 +67,7 @@ namespace base
 		///
 		base::SafeQueue<T> &operator=(SafeQueue<T> const &&o)
 		{
-			base::LockGuard l[] = {*_lock, *o._lock};
+			base::task::MutexGuard l[] = {_lock, o._lock};
 			_queue = std::move(o._queue);
 			return *this;
 		}
@@ -81,7 +80,7 @@ namespace base
 		///
 		int32_t Count() const override
 		{
-			base::LockGuard g{*_lock};
+			base::task::MutexGuard g{_lock};
 			return _queue.size();
 		}
 
@@ -91,7 +90,7 @@ namespace base
 		///
 		T Dequeue() override
 		{
-			base::LockGuard g{*_lock};
+			base::task::MutexGuard g{_lock};
 			if (_queue.empty())
 			{
 				throw std::runtime_error{"队列当前为空，无法退队"};
@@ -109,7 +108,7 @@ namespace base
 		///
 		bool TryDequeue(T &out) override
 		{
-			base::LockGuard g{*_lock};
+			base::task::MutexGuard g{_lock};
 			if (_queue.empty())
 			{
 				return false;
@@ -126,7 +125,7 @@ namespace base
 		///
 		void Enqueue(T const &obj) override
 		{
-			base::LockGuard g{*_lock};
+			base::task::MutexGuard g{_lock};
 			_queue.push(obj);
 		}
 
@@ -135,7 +134,7 @@ namespace base
 		///
 		void Clear() override
 		{
-			base::LockGuard g{*_lock};
+			base::task::MutexGuard g{_lock};
 			_queue = std::queue<T>{};
 		}
 	};
