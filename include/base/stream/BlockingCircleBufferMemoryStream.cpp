@@ -18,25 +18,25 @@ bool base::BlockingCircleBufferMemoryStream::CanSeek() const
 
 int64_t base::BlockingCircleBufferMemoryStream::Length() const
 {
-	base::LockGuard l{*_lock};
+	base::task::MutexGuard g{_lock};
 	return _mstream.Length();
 }
 
 void base::BlockingCircleBufferMemoryStream::SetLength(int64_t value)
 {
-	base::LockGuard l{*_lock};
+	base::task::MutexGuard g{_lock};
 	_mstream.SetLength(value);
 }
 
 int64_t base::BlockingCircleBufferMemoryStream::Position() const
 {
-	base::LockGuard l{*_lock};
+	base::task::MutexGuard g{_lock};
 	return _mstream.Position();
 }
 
 void base::BlockingCircleBufferMemoryStream::SetPosition(int64_t value)
 {
-	base::LockGuard l{*_lock};
+	base::task::MutexGuard g{_lock};
 	_mstream.SetPosition(value);
 }
 
@@ -51,7 +51,7 @@ int32_t base::BlockingCircleBufferMemoryStream::Read(base::Span const &span)
 
 		// 在持有互斥锁的条件下检查，避免误触，以及操作
 		{
-			base::LockGuard l{*_lock};
+			base::task::MutexGuard g{_lock};
 			if (_mstream.Length() > 0)
 			{
 				int64_t have_read = _mstream.Read(span);
@@ -87,7 +87,7 @@ void base::BlockingCircleBufferMemoryStream::Write(base::ReadOnlySpan const &spa
 		}
 
 		{
-			base::LockGuard l{*_lock};
+			base::task::MutexGuard g{_lock};
 			if (_mstream.AvailableToWrite() > 0)
 			{
 				int32_t should_write = std::min(_mstream.AvailableToWrite(), remain_span.Size());
@@ -116,13 +116,13 @@ void base::BlockingCircleBufferMemoryStream::Write(base::ReadOnlySpan const &spa
 
 void base::BlockingCircleBufferMemoryStream::Flush()
 {
-	base::LockGuard l{*_lock};
+	base::task::MutexGuard g{_lock};
 	_mstream.Flush();
 }
 
 void base::BlockingCircleBufferMemoryStream::Close()
 {
-	base::LockGuard l{*_lock};
+	base::task::MutexGuard g{_lock};
 	_stream_closed = true;
 	_buffer_avaliable_signal.Dispose();
 	_buffer_consumed_signal.Dispose();

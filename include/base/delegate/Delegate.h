@@ -2,7 +2,7 @@
 #include "base/delegate/IEvent.h"
 #include "base/IDisposable.h"
 #include "base/string/define.h"
-#include "base/task/IMutex.h"
+#include "base/task/Mutex.h"
 #include <atomic>
 #include <cstdint>
 #include <map>
@@ -22,7 +22,7 @@ namespace base
 		public base::IDisposable
 	{
 	private:
-		std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
+		base::task::Mutex _lock{};
 		std::map<uint64_t, std::function<void(Args...)>> _functions;
 		uint64_t _next_id = 0;
 		std::atomic_bool _disposed = false;
@@ -75,7 +75,7 @@ namespace base
 				return;
 			}
 
-			base::LockGuard g{*_lock};
+			base::task::MutexGuard g{_lock};
 			if (_disposed)
 			{
 				return;
@@ -98,7 +98,7 @@ namespace base
 				throw base::ObjectDisposedException{CODE_POS_STR + "释放后无法订阅。"};
 			}
 
-			base::LockGuard g{*_lock};
+			base::task::MutexGuard g{_lock};
 			if (_disposed)
 			{
 				throw base::ObjectDisposedException{CODE_POS_STR + "释放后无法订阅。"};
@@ -131,7 +131,7 @@ namespace base
 				throw base::ObjectDisposedException{CODE_POS_STR + "释放后不需要取消订阅，因为委托 map 清空了。"};
 			}
 
-			base::LockGuard g{*_lock};
+			base::task::MutexGuard g{_lock};
 			if (_disposed)
 			{
 				throw base::ObjectDisposedException{CODE_POS_STR + "释放后不需要取消订阅，因为委托 map 清空了。"};
@@ -155,7 +155,7 @@ namespace base
 				throw base::ObjectDisposedException{CODE_POS_STR + "释放后无法调用。"};
 			}
 
-			base::LockGuard g{*_lock};
+			base::task::MutexGuard g{_lock};
 			if (_disposed)
 			{
 				throw base::ObjectDisposedException{CODE_POS_STR + "释放后无法调用。"};

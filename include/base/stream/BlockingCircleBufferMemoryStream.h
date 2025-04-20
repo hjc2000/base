@@ -1,8 +1,7 @@
 #pragma once
 #include "base/stream/CircleBufferMemoryStream.h"
-#include "base/task/IMutex.h"
+#include "base/task/Mutex.h"
 #include "base/task/Semaphore.h"
-#include <memory>
 
 namespace base
 {
@@ -13,7 +12,7 @@ namespace base
 	private:
 		base::CircleBufferMemoryStream _mstream;
 		std::atomic_bool _stream_closed = false;
-		std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
+		base::task::Mutex _lock{};
 
 		/// @brief 流中的数据被消费了，现在处于不是满的状态
 		base::Semaphore _buffer_consumed_signal{1};
