@@ -1,6 +1,6 @@
 #pragma once
 #include "base/string/define.h"
-#include "base/task/IMutex.h"
+#include "task/Mutex.h"
 
 namespace base
 {
@@ -12,7 +12,7 @@ namespace base
 	class UsageStateManager
 	{
 	private:
-		inline static std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
+		inline static base::task::Mutex _lock{};
 		inline static bool _is_used = false;
 
 		void CheckUsage()
@@ -28,7 +28,7 @@ namespace base
 		{
 			// 双重检查锁定
 			CheckUsage();
-			base::LockGuard g{*_lock};
+			base::task::LockGuard g{_lock};
 			CheckUsage();
 
 			_is_used = true;
@@ -36,7 +36,7 @@ namespace base
 
 		~UsageStateManager()
 		{
-			base::LockGuard g{*_lock};
+			base::task::LockGuard g{_lock};
 			_is_used = false;
 		}
 	};
