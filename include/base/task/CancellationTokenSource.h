@@ -29,9 +29,9 @@ namespace base
 		///
 		/// @brief 取消令牌
 		///
-		/// @return std::shared_ptr<CancellationToken>
+		/// @return
 		///
-		std::shared_ptr<CancellationToken> Token() const;
+		std::shared_ptr<CancellationToken> const &Token() const;
 
 		///
 		/// @brief 取消任务。
