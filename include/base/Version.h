@@ -1,8 +1,6 @@
 #pragma once
-#include "base/task/IMutex.h"
-#include "task/IMutex.h"
+#include "base/task/Mutex.h"
 #include <cstdint>
-#include <memory>
 
 namespace base
 {
@@ -13,7 +11,7 @@ namespace base
 	class Version
 	{
 	private:
-		std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
+		base::task::Mutex _lock{};
 		uint64_t _value = 0;
 
 	public:
