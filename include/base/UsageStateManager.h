@@ -1,4 +1,5 @@
 #pragma once
+#include "base/define.h"
 #include "base/string/define.h"
 #include "task/Mutex.h"
 
@@ -12,6 +13,8 @@ namespace base
 	class UsageStateManager
 	{
 	private:
+		DELETE_COPY_AND_MOVE(UsageStateManager)
+
 		inline static base::task::Mutex _lock{};
 		inline static bool _is_used = false;
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "base/define.h"
 #include "mutex_handle.h"
 #include <memory>
 
@@ -9,6 +10,8 @@ namespace base
 		class Mutex
 		{
 		private:
+			DELETE_COPY_AND_MOVE(Mutex)
+
 			std::shared_ptr<base::task::mutex_handle> _handle;
 
 		public:
