@@ -1,7 +1,7 @@
 #pragma once
 #include "base/peripheral/ethernet/EthernetController.h"
 #include "base/peripheral/ethernet/parameter.h"
-#include "base/unit/bps.h"
+#include "base/unit/Mbps.h"
 
 namespace base
 {
@@ -18,7 +18,7 @@ namespace base
 
 			/// @brief 获取此网口的速度。
 			/// @return
-			virtual base::bps Speed() = 0;
+			virtual base::Mbps Speed() = 0;
 
 			/// @brief 软件复位 PHY.
 			void SoftwareReset();

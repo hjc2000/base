@@ -27,7 +27,7 @@ base::ethernet::DuplexMode base::ethernet::YT8512CPhyDriver::DuplexMode()
 	return base::ethernet::DuplexMode::HalfDuplex;
 }
 
-base::bps base::ethernet::YT8512CPhyDriver::Speed()
+base::Mbps base::ethernet::YT8512CPhyDriver::Speed()
 {
 	uint32_t register_value = ReadRegister(0x11);
 	uint32_t const mask = 0b11 << 14;
@@ -35,15 +35,15 @@ base::bps base::ethernet::YT8512CPhyDriver::Speed()
 
 	if (duplex_register == 0b00)
 	{
-		return base::bps{base::Mbps{10}};
+		return base::Mbps{10};
 	}
 	else if (duplex_register == 0b01)
 	{
-		return base::bps{base::Mbps{100}};
+		return base::Mbps{100};
 	}
 	else if (duplex_register == 0b01)
 	{
-		return base::bps{base::Mbps{1000}};
+		return base::Mbps{1000};
 	}
 	else
 	{
