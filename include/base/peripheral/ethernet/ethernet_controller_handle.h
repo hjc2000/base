@@ -22,6 +22,14 @@ namespace base
 		std::shared_ptr<base::ethernet::ethernet_controller_handle> open(uint32_t id);
 
 		///
+		/// @brief 获取以太网控制器的 ID.
+		///
+		/// @param h
+		/// @return
+		///
+		uint32_t id(base::ethernet::ethernet_controller_handle &h);
+
+		///
 		/// @brief 初始化以太网控制器。
 		///
 		/// @param h

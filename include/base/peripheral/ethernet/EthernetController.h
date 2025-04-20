@@ -1,5 +1,6 @@
 #pragma once
 #include "ethernet_controller_handle.h"
+#include <cstdint>
 #include <memory>
 
 namespace base
@@ -19,6 +20,16 @@ namespace base
 			EthernetController(uint32_t id)
 			{
 				_handle = base::ethernet::open(id);
+			}
+
+			///
+			/// @brief 获取以太网控制器的 ID.
+			///
+			/// @return
+			///
+			uint32_t ID() const
+			{
+				return base::ethernet::id(*_handle);
 			}
 
 			///
