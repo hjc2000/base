@@ -2,7 +2,7 @@
 #include "base/container/SafeQueue.h"
 #include "base/IDisposable.h"
 #include "base/string/define.h"
-#include "base/task/IMutex.h"
+#include "base/task/Mutex.h"
 #include "base/task/Semaphore.h"
 #include <atomic>
 #include <exception>
@@ -46,7 +46,7 @@ namespace base
 
 		base::SafeQueue<T> _queue;
 
-		std::shared_ptr<base::IMutex> _lock = base::CreateIMutex();
+		base::task::Mutex _lock{};
 
 		///
 		/// @brief 队列被消费了，需要入队了，就触发此信号。
@@ -130,7 +130,7 @@ namespace base
 
 				// 在持有互斥锁的条件下检查，避免误触，以及操作
 				{
-					base::LockGuard g{*_lock};
+					base::task::MutexGuard g{_lock};
 					if (_queue.Count() > 0)
 					{
 						T element = _queue.Dequeue();
@@ -178,7 +178,7 @@ namespace base
 
 				// 在持有互斥锁的条件下检查，避免误触，以及操作
 				{
-					base::LockGuard g{*_lock};
+					base::task::MutexGuard g{_lock};
 					if (_queue.Count() > 0)
 					{
 						bool result = _queue.TryDequeue(out);
@@ -232,7 +232,7 @@ namespace base
 
 				// 在持有互斥锁的条件下检查，避免误触，以及操作
 				{
-					base::LockGuard g{*_lock};
+					base::task::MutexGuard g{_lock};
 					if (_queue.Count() < _max)
 					{
 						_queue.Enqueue(obj);
