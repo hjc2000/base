@@ -3,7 +3,7 @@
 #include "base/task/delay.h"
 #include <base/container/Array.h>
 
-void base::IPhyDriver::SoftwareReset()
+void base::ethernet::IPhyDriver::SoftwareReset()
 {
 	/* BCR 的 bit15 用来软件复位。写入 1 立刻进行软件复位。
 	 * 复位过程中，bit15 会保持为 1，复位完成后自动清 0. 所以可以通过检查自动清 0
@@ -32,7 +32,7 @@ void base::IPhyDriver::SoftwareReset()
 	}
 }
 
-bool base::IPhyDriver::SupportAutoNegotiation()
+bool base::ethernet::IPhyDriver::SupportAutoNegotiation()
 {
 	/* BSR bit3 指示是否支持自动协商。
 	 *		0：不支持自动协商。
@@ -44,7 +44,7 @@ bool base::IPhyDriver::SupportAutoNegotiation()
 	return value;
 }
 
-void base::IPhyDriver::EnableAutoNegotiation()
+void base::ethernet::IPhyDriver::EnableAutoNegotiation()
 {
 	if (!SupportAutoNegotiation())
 	{
@@ -77,7 +77,7 @@ void base::IPhyDriver::EnableAutoNegotiation()
 	}
 }
 
-bool base::IPhyDriver::AutoNegotiationCompleted()
+bool base::ethernet::IPhyDriver::AutoNegotiationCompleted()
 {
 	/* BSR bit5 指示自动协商是否完成。
 	 *		0：自动协商未完成。
@@ -89,35 +89,35 @@ bool base::IPhyDriver::AutoNegotiationCompleted()
 	return value;
 }
 
-void base::IPhyDriver::EnablePowerDownMode()
+void base::ethernet::IPhyDriver::EnablePowerDownMode()
 {
 	uint32_t bcr = ReadRegister(0);
 	bcr |= 0x0800U;
 	WriteRegister(0, bcr);
 }
 
-void base::IPhyDriver::DisablePowerDownMode()
+void base::ethernet::IPhyDriver::DisablePowerDownMode()
 {
 	uint32_t bcr = ReadRegister(0);
 	bcr &= ~0x0800U;
 	WriteRegister(0, bcr);
 }
 
-void base::IPhyDriver::EnableLoopbackMode()
+void base::ethernet::IPhyDriver::EnableLoopbackMode()
 {
 	uint32_t register_value = ReadRegister(0);
 	register_value |= 0x4000U;
 	WriteRegister(0, register_value);
 }
 
-void base::IPhyDriver::DisableLoopbackMode()
+void base::ethernet::IPhyDriver::DisableLoopbackMode()
 {
 	uint32_t register_value = ReadRegister(0);
 	register_value &= ~0x4000U;
 	WriteRegister(0, register_value);
 }
 
-bool base::IPhyDriver::IsLinked()
+bool base::ethernet::IPhyDriver::IsLinked()
 {
 	uint32_t regval = ReadRegister(1);
 	bool is_linked = regval & 0x0004U;
