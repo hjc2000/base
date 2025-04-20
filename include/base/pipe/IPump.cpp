@@ -4,7 +4,7 @@
 #include <exception>
 #include <stdexcept>
 
-void base::IPump::PumpDataToConsumersAsync(std::shared_ptr<base::CancellationToken> cancellation_token)
+std::shared_ptr<base::TaskCompletionSignal> base::IPump::PumpDataToConsumersAsync(std::shared_ptr<base::CancellationToken> cancellation_token)
 {
 	auto thread_func = [this, cancellation_token]()
 	{
@@ -18,5 +18,5 @@ void base::IPump::PumpDataToConsumersAsync(std::shared_ptr<base::CancellationTok
 		}
 	};
 
-	base::task::Run(thread_func);
+	return base::task::run(thread_func);
 }

@@ -13,14 +13,14 @@ namespace base
 		///
 		/// @return int64_t
 		///
-		int64_t DefaultTaskStackSize();
+		int64_t default_task_stack_size();
 
 		///
 		/// @brief 设置默认的任务栈大小。
 		///
 		/// @param value
 		///
-		void SetDefaultTaskStackSize(int64_t value);
+		void set_default_task_stack_size(int64_t value);
 
 		///
 		/// @brief 运行一个任务。
@@ -31,7 +31,7 @@ namespace base
 		///
 		/// @return std::shared_ptr<base::TaskCompletionSignal>
 		///
-		std::shared_ptr<base::TaskCompletionSignal> Run(std::function<void()> func);
+		std::shared_ptr<base::TaskCompletionSignal> run(std::function<void()> const &func);
 
 		///
 		/// @brief 运行一个任务。
@@ -43,7 +43,7 @@ namespace base
 		///
 		/// @return std::shared_ptr<base::TaskCompletionSignal>
 		///
-		std::shared_ptr<base::TaskCompletionSignal> Run(std::function<void()> func, int64_t stack_size);
+		std::shared_ptr<base::TaskCompletionSignal> run(std::function<void()> const &func, int64_t stack_size);
 
 	} // namespace task
 } // namespace base

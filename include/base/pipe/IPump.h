@@ -1,5 +1,6 @@
 #pragma once
 #include "base/task/CancellationToken.h"
+#include "base/task/TaskCompletionSignal.h"
 
 namespace base
 {
@@ -21,6 +22,6 @@ namespace base
 		/// @note 此调用不会阻塞，会立即返回。
 		/// @param cancellation_token
 		///
-		virtual void PumpDataToConsumersAsync(std::shared_ptr<base::CancellationToken> cancellation_token);
+		virtual std::shared_ptr<base::TaskCompletionSignal> PumpDataToConsumersAsync(std::shared_ptr<base::CancellationToken> cancellation_token);
 	};
 } // namespace base

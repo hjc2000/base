@@ -3,22 +3,11 @@
 #include "base/task/TaskCompletionSignal.h"
 #include <exception>
 #include <iostream>
-#include <stdexcept>
 #include <thread>
 
 #if HAS_THREAD
 
-int64_t base::task::DefaultTaskStackSize()
-{
-	throw std::runtime_error{CODE_POS_STR + "通用操作系统平台不需要这个。"};
-}
-
-void base::task::SetDefaultTaskStackSize(int64_t value)
-{
-	throw std::runtime_error{CODE_POS_STR + "通用操作系统平台不需要这个。"};
-}
-
-std::shared_ptr<base::TaskCompletionSignal> base::task::Run(std::function<void()> func)
+std::shared_ptr<base::TaskCompletionSignal> base::task::run(std::function<void()> const &func)
 {
 	std::shared_ptr<base::TaskCompletionSignal> signal{new base::TaskCompletionSignal{false}};
 
@@ -48,12 +37,6 @@ std::shared_ptr<base::TaskCompletionSignal> base::task::Run(std::function<void()
 
 	std::thread{safe_func}.detach();
 	return signal;
-}
-
-std::shared_ptr<base::TaskCompletionSignal> base::task::Run(std::function<void()> func,
-															int64_t stack_size)
-{
-	return Run(func);
 }
 
 #endif
