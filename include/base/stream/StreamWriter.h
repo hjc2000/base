@@ -6,6 +6,10 @@
 
 namespace base
 {
+	///
+	/// @brief 向流中写入字符串的工具。
+	///
+	///
 	class StreamWriter
 	{
 	private:
