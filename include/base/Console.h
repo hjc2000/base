@@ -80,7 +80,7 @@ namespace base
 			_writer->WriteLine(str);
 		}
 
-		void WriteErrorLine(std::string const &str)
+		void WriteErrorLine(std::string const &str) noexcept
 		{
 			base::task::MutexGuard g{_lock};
 			if (_writer == nullptr)
@@ -88,7 +88,13 @@ namespace base
 				return;
 			}
 
-			_writer->WriteLine(str);
+			try
+			{
+				_writer->WriteLine(str);
+			}
+			catch (...)
+			{
+			}
 		}
 
 		/* #endregion */
@@ -127,7 +133,7 @@ namespace base
 			_writer->WriteLine(str);
 		}
 
-		void WriteErrorLine(base::String const &str)
+		void WriteErrorLine(base::String const &str) noexcept
 		{
 			base::task::MutexGuard g{_lock};
 			if (_writer == nullptr)
@@ -135,7 +141,13 @@ namespace base
 				return;
 			}
 
-			_writer->WriteLine(str);
+			try
+			{
+				_writer->WriteLine(str);
+			}
+			catch (...)
+			{
+			}
 		}
 
 		/* #endregion */
@@ -174,7 +186,7 @@ namespace base
 			_writer->WriteLine(c);
 		}
 
-		void WriteErrorLine(char c)
+		void WriteErrorLine(char c) noexcept
 		{
 			base::task::MutexGuard g{_lock};
 			if (_writer == nullptr)
@@ -182,7 +194,13 @@ namespace base
 				return;
 			}
 
-			_writer->WriteLine(c);
+			try
+			{
+				_writer->WriteLine(c);
+			}
+			catch (...)
+			{
+			}
 		}
 
 		/* #endregion */
@@ -221,7 +239,7 @@ namespace base
 			_writer->WriteLine(str);
 		}
 
-		void WriteErrorLine(char const *str)
+		void WriteErrorLine(char const *str) noexcept
 		{
 			base::task::MutexGuard g{_lock};
 			if (_writer == nullptr)
@@ -229,7 +247,13 @@ namespace base
 				return;
 			}
 
-			_writer->WriteLine(str);
+			try
+			{
+				_writer->WriteLine(str);
+			}
+			catch (...)
+			{
+			}
 		}
 
 		///
@@ -266,7 +290,7 @@ namespace base
 			_writer->WriteLine(str, length);
 		}
 
-		void WriteErrorLine(char const *str, int32_t length)
+		void WriteErrorLine(char const *str, int32_t length) noexcept
 		{
 			base::task::MutexGuard g{_lock};
 			if (_writer == nullptr)
@@ -274,7 +298,13 @@ namespace base
 				return;
 			}
 
-			_writer->WriteLine(str, length);
+			try
+			{
+				_writer->WriteLine(str, length);
+			}
+			catch (...)
+			{
+			}
 		}
 
 		/* #endregion */
@@ -313,7 +343,7 @@ namespace base
 			_writer->WriteLine(o);
 		}
 
-		void WriteErrorLine(base::ICanToString const &o)
+		void WriteErrorLine(base::ICanToString const &o) noexcept
 		{
 			base::task::MutexGuard g{_lock};
 			if (_writer == nullptr)
@@ -321,7 +351,13 @@ namespace base
 				return;
 			}
 
-			_writer->WriteLine(o);
+			try
+			{
+				_writer->WriteLine(o);
+			}
+			catch (...)
+			{
+			}
 		}
 
 		/* #endregion */
@@ -360,7 +396,7 @@ namespace base
 			_writer->WriteLine(span);
 		}
 
-		void WriteErrorLine(base::ReadOnlySpan const &span)
+		void WriteErrorLine(base::ReadOnlySpan const &span) noexcept
 		{
 			base::task::MutexGuard g{_lock};
 			if (_writer == nullptr)
@@ -368,7 +404,13 @@ namespace base
 				return;
 			}
 
-			_writer->WriteLine(span);
+			try
+			{
+				_writer->WriteLine(span);
+			}
+			catch (...)
+			{
+			}
 		}
 
 		/* #endregion */
@@ -388,7 +430,7 @@ namespace base
 			_writer->WriteLine();
 		}
 
-		void WriteErrorLine()
+		void WriteErrorLine() noexcept
 		{
 			base::task::MutexGuard g{_lock};
 			if (_writer == nullptr)
@@ -396,7 +438,13 @@ namespace base
 				return;
 			}
 
-			_writer->WriteLine();
+			try
+			{
+				_writer->WriteLine();
+			}
+			catch (...)
+			{
+			}
 		}
 	};
 
