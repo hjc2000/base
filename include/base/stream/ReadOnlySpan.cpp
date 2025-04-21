@@ -1,6 +1,8 @@
 #include "ReadOnlySpan.h"
 #include "base/container/Range.h"
 #include "base/string/String.h"
+#include <algorithm>
+#include <cstdint>
 
 /* #region 生命周期 */
 
@@ -384,18 +386,25 @@ bool base::ReadOnlySpan::EndWith(base::ReadOnlySpan const &match)
 
 int32_t base::ReadOnlySpan::Compare(base::ReadOnlySpan const &another) const
 {
-	if (Size() != another.Size())
-	{
-		throw std::invalid_argument{CODE_POS_STR + "两段大小相等的内存才可以比较。"};
-	}
-
-	if (Size() == 0)
+	if (Size() == 0 && another.Size() == 0)
 	{
 		// 两段内存的大小都为 0，也认为相等。
 		return 0;
 	}
 
-	return memcmp(_buffer, another.Buffer(), _size);
+	int32_t result = memcmp(Buffer(),
+							another.Buffer(),
+							std::min<int32_t>(Size(), another.Size()));
+
+	if (result == 0)
+	{
+		// 如果比较结果 == 0, 说明说比较的直接都相等。接下来就是谁更长，谁的字典序更后面了。
+		// 如果本内存段更长，减法的结果是正数，表示本内存段应该排更后面。
+		// 如果本内存段更短，减法的结果是负数，表示本内存段应该排更后面。
+		return Size() - another.Size();
+	}
+
+	return result;
 }
 
 int32_t base::ReadOnlySpan::Compare(base::Span const &another) const

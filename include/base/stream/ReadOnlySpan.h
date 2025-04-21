@@ -276,13 +276,7 @@ namespace base
 		/* #region 比较 */
 
 		///
-		/// @brief 比较两段内存。
-		///
-		/// @note 如果两段内存大小相等，且每个字节都相等，则这两段内存相等。
-		///
-		/// @note 逐个字节比较，直到找到一对不等的字节，这个字节的大小关系就是内存段的大小
-		/// 关系。例如本内存段第 1 个字节就和 another 的第 1 个字节不等了，并且本内存段的第
-		/// 1 个字节小于 another 的第 1 个字节，则认为本内存段小于 another.
+		/// @brief 基于字典序的比较逻辑比较两段内存。
 		///
 		/// @param another
 		/// @return int32_t
@@ -290,13 +284,7 @@ namespace base
 		int32_t Compare(base::ReadOnlySpan const &another) const;
 
 		///
-		/// @brief 比较两段内存。
-		///
-		/// @note 如果两段内存大小相等，且每个字节都相等，则这两段内存相等。
-		///
-		/// @note 逐个字节比较，直到找到一对不等的字节，这个字节的大小关系就是内存段的大小
-		/// 关系。例如本内存段第 1 个字节就和 another 的第 1 个字节不等了，并且本内存段的第
-		/// 1 个字节小于 another 的第 1 个字节，则认为本内存段小于 another.
+		/// @brief 基于字典序的比较逻辑比较两段内存。
 		///
 		/// @param another
 		/// @return int32_t
