@@ -1,51 +1,21 @@
 #include "MemoryStream.h"
 
-class base::MemoryStream::BufferContext
-{
-private:
-	std::unique_ptr<uint8_t[]> _buffer;
-
-	/// @brief 引用 _buffer 字段的内存或引用从构造函数中传进来的外部内存。
-	/// @note 让本类对象具有引用外部内存的能力，避免拷贝整个缓冲区，可以提高性能。
-	base::Span _span{};
-
-public:
-	BufferContext(int32_t max_size)
-	{
-		_buffer = std::unique_ptr<uint8_t[]>{new uint8_t[max_size]};
-		_span = base::Span{_buffer.get(), max_size};
-	}
-
-	BufferContext(base::Span const &span)
-	{
-		_span = span;
-	}
-
-	base::Span Span() const
-	{
-		return _span;
-	}
-};
-
 base::MemoryStream::MemoryStream(int32_t max_size)
+	: _buffer_context(max_size)
 {
-	if (max_size <= 0)
-	{
-		throw std::invalid_argument{"max_size 不能小于等于 0."};
-	}
-
-	_buffer_context = std::shared_ptr<BufferContext>{new BufferContext{max_size}};
 }
 
 base::MemoryStream::MemoryStream(base::Span const &span)
+	: _buffer_context(span)
 {
-	_buffer_context = std::shared_ptr<BufferContext>{new BufferContext{span}};
 }
 
 base::Span base::MemoryStream::Span() const
 {
-	return _buffer_context->Span();
+	return _buffer_context.Span();
 }
+
+/* #region 流属性 */
 
 bool base::MemoryStream::CanRead() const
 {
@@ -80,6 +50,25 @@ void base::MemoryStream::SetLength(int64_t value)
 		_position = _length;
 	}
 }
+
+int64_t base::MemoryStream::Position() const
+{
+	return _position;
+}
+
+void base::MemoryStream::SetPosition(int64_t value)
+{
+	if (value > _length)
+	{
+		throw std::invalid_argument{"value 不能大于流的长度。"};
+	}
+
+	_position = value;
+}
+
+/* #endregion */
+
+/* #region 读写冲关 */
 
 int32_t base::MemoryStream::Read(base::Span const &span)
 {
@@ -135,23 +124,10 @@ void base::MemoryStream::Close()
 {
 }
 
+/* #endregion */
+
 void base::MemoryStream::Clear()
 {
 	_position = 0;
 	_length = 0;
-}
-
-int64_t base::MemoryStream::Position() const
-{
-	return _position;
-}
-
-void base::MemoryStream::SetPosition(int64_t value)
-{
-	if (value > _length)
-	{
-		throw std::invalid_argument{"value 不能大于流的长度。"};
-	}
-
-	_position = value;
 }
