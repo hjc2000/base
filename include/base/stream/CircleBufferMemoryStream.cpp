@@ -1,32 +1,24 @@
 #include "CircleBufferMemoryStream.h"
 
-base::CircleBufferMemoryStream::CircleBufferMemoryStream(int32_t size)
+base::CircleBufferMemoryStream::CircleBufferMemoryStream(int32_t buffer_size)
 {
-	_buffer_size = size;
+	_buffer_size = buffer_size;
 	_start = 0;
 	_end = 0;
 	_is_full = false;
-	_buffer = std::unique_ptr<uint8_t[]>{new uint8_t[size]};
+	_buffer = std::unique_ptr<uint8_t[]>{new uint8_t[buffer_size]};
 }
 
-/// @brief 递增头指针
-/// @param value
 void base::CircleBufferMemoryStream::AddHead(int32_t value)
 {
 	_start = (_start + value) % _buffer_size;
 }
 
-/// @brief 递增尾指针
-/// @param value
 void base::CircleBufferMemoryStream::AddTail(int32_t value)
 {
 	_end = (_end + value) % _buffer_size;
 }
 
-/// @brief 以非环绕方式读取。
-///	@warning 从 _start 处开始读取 span，不管会不会超出边界，所以调用本方法前需要检查。
-/// @param span
-/// @return
 void base::CircleBufferMemoryStream::ReadNonCircular(base::Span const &span)
 {
 	std::copy(_buffer.get() + _start,
@@ -37,9 +29,6 @@ void base::CircleBufferMemoryStream::ReadNonCircular(base::Span const &span)
 	_is_full = false;
 }
 
-/// @brief 以非环绕方式写入。
-/// @warning 从 _end 处开始往后写入 span，不会管会不会超出边界，所以调用本方法前需要检查。
-/// @param span
 void base::CircleBufferMemoryStream::WriteNonCircular(base::ReadOnlySpan const &span)
 {
 	std::copy(span.Buffer(),
@@ -61,6 +50,8 @@ void base::CircleBufferMemoryStream::Clear()
 	_end = 0;
 	_is_full = false;
 }
+
+/* #region 流属性 */
 
 bool base::CircleBufferMemoryStream::CanRead() const
 {
@@ -109,6 +100,20 @@ void base::CircleBufferMemoryStream::SetLength(int64_t value)
 {
 	throw std::runtime_error{"不支持的操作"};
 }
+
+int64_t base::CircleBufferMemoryStream::Position() const
+{
+	throw std::runtime_error{"不支持的操作"};
+}
+
+void base::CircleBufferMemoryStream::SetPosition(int64_t value)
+{
+	throw std::runtime_error{"不支持的操作"};
+}
+
+/* #endregion */
+
+/* #region 读写冲关 */
 
 int32_t base::CircleBufferMemoryStream::Read(base::Span const &span)
 {
@@ -182,12 +187,12 @@ void base::CircleBufferMemoryStream::Write(base::ReadOnlySpan const &span)
 	WriteNonCircular(span2);
 }
 
-int64_t base::CircleBufferMemoryStream::Position() const
+void base::CircleBufferMemoryStream::Flush()
 {
-	throw std::runtime_error{"不支持的操作"};
 }
 
-void base::CircleBufferMemoryStream::SetPosition(int64_t value)
+void base::CircleBufferMemoryStream::Close()
 {
-	throw std::runtime_error{"不支持的操作"};
 }
+
+/* #endregion */
