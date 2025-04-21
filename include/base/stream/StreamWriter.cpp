@@ -5,6 +5,8 @@ base::StreamWriter::StreamWriter(std::shared_ptr<base::Stream> const &stream)
 {
 }
 
+/* #region 写入 std::string */
+
 void base::StreamWriter::Write(std::string const &str)
 {
 	base::ReadOnlySpan span{
@@ -15,10 +17,29 @@ void base::StreamWriter::Write(std::string const &str)
 	_stream->Write(span);
 }
 
+void base::StreamWriter::WriteLine(std::string const &str)
+{
+	Write(str);
+	WriteLine();
+}
+
+/* #endregion */
+
+/* #region 写入 base::String */
+
 void base::StreamWriter::Write(base::String const &str)
 {
 	Write(str.StdString());
 }
+
+void base::StreamWriter::WriteLine(base::String const &str)
+{
+	WriteLine(str.StdString());
+}
+
+/* #endregion */
+
+/* #region 写入 char */
 
 void base::StreamWriter::Write(char c)
 {
@@ -29,6 +50,16 @@ void base::StreamWriter::Write(char c)
 
 	_stream->Write(span);
 }
+
+void base::StreamWriter::WriteLine(char c)
+{
+	Write(c);
+	WriteLine();
+}
+
+/* #endregion */
+
+/* #region 写入 char const * */
 
 void base::StreamWriter::Write(char const *str)
 {
@@ -58,33 +89,15 @@ void base::StreamWriter::Write(char const *str)
 				   end_index);
 }
 
-void base::StreamWriter::WriteLine(std::string const &str)
-{
-	Write(str);
-	WriteLine();
-}
-
-void base::StreamWriter::WriteLine(base::String const &str)
-{
-	WriteLine(str.StdString());
-}
-
-void base::StreamWriter::WriteLine(char c)
-{
-	Write(c);
-	WriteLine();
-}
-
 void base::StreamWriter::WriteLine(char const *str)
 {
 	Write(str);
 	WriteLine();
 }
 
-void base::StreamWriter::WriteLine()
-{
-	Write('\n');
-}
+/* #endregion */
+
+/* #region 写入 base::ICanToString */
 
 void base::StreamWriter::Write(base::ICanToString const &o)
 {
@@ -96,6 +109,10 @@ void base::StreamWriter::WriteLine(base::ICanToString const &o)
 	WriteLine(o.ToString());
 }
 
+/* #endregion */
+
+/* #region 写入 base::ReadOnlySpan */
+
 void base::StreamWriter::Write(base::ReadOnlySpan const &span)
 {
 	_stream->Write(span);
@@ -105,4 +122,11 @@ void base::StreamWriter::WriteLine(base::ReadOnlySpan const &span)
 {
 	_stream->Write(span);
 	WriteLine();
+}
+
+/* #endregion */
+
+void base::StreamWriter::WriteLine()
+{
+	Write('\n');
 }
