@@ -19,6 +19,11 @@ namespace base
 	public:
 		StreamWriter(std::shared_ptr<base::Stream> const &stream);
 
+		std::shared_ptr<base::Stream> Stream() const
+		{
+			return _stream;
+		}
+
 		/* #region 写入 std::string */
 
 		///

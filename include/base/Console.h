@@ -16,7 +16,6 @@ namespace base
 	{
 	private:
 		base::task::Mutex _lock;
-		std::shared_ptr<base::Stream> _output_stream;
 		std::shared_ptr<base::StreamWriter> _output_stream_writer;
 
 	public:
@@ -26,21 +25,21 @@ namespace base
 		{
 			// 共享指针本身不线程安全，在另一个线程会写它的情况下，读写都需要加锁。
 			base::task::MutexGuard g{_lock};
-			return _output_stream;
+			if (_output_stream_writer == nullptr)
+			{
+				return nullptr;
+			}
+
+			return _output_stream_writer->Stream();
 		}
 
 		void SetOutputStream(std::shared_ptr<base::Stream> const &value)
 		{
 			// 共享指针本身不线程安全，在另一个线程会写它的情况下，读写都需要加锁。
 			base::task::MutexGuard g{_lock};
-			_output_stream = value;
-			if (_output_stream == nullptr)
+			if (value != nullptr)
 			{
-				_output_stream_writer = nullptr;
-			}
-			else
-			{
-				_output_stream_writer = std::shared_ptr<base::StreamWriter>{new base::StreamWriter{_output_stream}};
+				_output_stream_writer = std::shared_ptr<base::StreamWriter>{new base::StreamWriter{value}};
 			}
 		}
 
