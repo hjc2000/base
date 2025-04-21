@@ -3,6 +3,7 @@
 #include "base/stream/Stream.h"
 #include "base/string/ICanToString.h"
 #include "base/string/String.h"
+#include <cstdint>
 
 namespace base
 {
@@ -84,6 +85,22 @@ namespace base
 		/// @param str C 风格的字符串。
 		///
 		void WriteLine(char const *str);
+
+		///
+		/// @brief 向流中写入字符串。
+		///
+		/// @param str
+		/// @param length
+		///
+		void Write(char const *str, int32_t length);
+
+		///
+		/// @brief 向流中写入字符串。
+		///
+		/// @param str
+		/// @param length
+		///
+		void WriteLine(char const *str, int32_t length);
 
 		/* #endregion */
 

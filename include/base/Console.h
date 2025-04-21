@@ -3,6 +3,7 @@
 #include "base/stream/Stream.h"
 #include "base/task/Mutex.h"
 #include "stream/StreamWriter.h"
+#include <cstdint>
 #include <memory>
 
 namespace base
@@ -79,6 +80,17 @@ namespace base
 			_writer->WriteLine(str);
 		}
 
+		void WriteErrorLine(std::string const &str)
+		{
+			base::task::MutexGuard g{_lock};
+			if (_writer == nullptr)
+			{
+				return;
+			}
+
+			_writer->WriteLine(str);
+		}
+
 		/* #endregion */
 
 		/* #region 写入 base::String */
@@ -105,6 +117,17 @@ namespace base
 		/// @param str
 		///
 		void WriteLine(base::String const &str)
+		{
+			base::task::MutexGuard g{_lock};
+			if (_writer == nullptr)
+			{
+				return;
+			}
+
+			_writer->WriteLine(str);
+		}
+
+		void WriteErrorLine(base::String const &str)
 		{
 			base::task::MutexGuard g{_lock};
 			if (_writer == nullptr)
@@ -151,6 +174,17 @@ namespace base
 			_writer->WriteLine(c);
 		}
 
+		void WriteErrorLine(char c)
+		{
+			base::task::MutexGuard g{_lock};
+			if (_writer == nullptr)
+			{
+				return;
+			}
+
+			_writer->WriteLine(c);
+		}
+
 		/* #endregion */
 
 		/* #region char const * */
@@ -187,6 +221,62 @@ namespace base
 			_writer->WriteLine(str);
 		}
 
+		void WriteErrorLine(char const *str)
+		{
+			base::task::MutexGuard g{_lock};
+			if (_writer == nullptr)
+			{
+				return;
+			}
+
+			_writer->WriteLine(str);
+		}
+
+		///
+		/// @brief 向流中写入字符串。
+		///
+		/// @param str
+		/// @param length
+		///
+		void Write(char const *str, int32_t length)
+		{
+			base::task::MutexGuard g{_lock};
+			if (_writer == nullptr)
+			{
+				return;
+			}
+
+			_writer->Write(str, length);
+		}
+
+		///
+		/// @brief 向流中写入字符串。
+		///
+		/// @param str
+		/// @param length
+		///
+		void WriteLine(char const *str, int32_t length)
+		{
+			base::task::MutexGuard g{_lock};
+			if (_writer == nullptr)
+			{
+				return;
+			}
+
+			_writer->WriteLine(str, length);
+		}
+
+		void WriteErrorLine(char const *str, int32_t length)
+		{
+			base::task::MutexGuard g{_lock};
+			if (_writer == nullptr)
+			{
+				return;
+			}
+
+			_writer->WriteLine(str, length);
+		}
+
 		/* #endregion */
 
 		/* #region 写入 base::ICanToString */
@@ -213,6 +303,17 @@ namespace base
 		/// @param o
 		///
 		void WriteLine(base::ICanToString const &o)
+		{
+			base::task::MutexGuard g{_lock};
+			if (_writer == nullptr)
+			{
+				return;
+			}
+
+			_writer->WriteLine(o);
+		}
+
+		void WriteErrorLine(base::ICanToString const &o)
 		{
 			base::task::MutexGuard g{_lock};
 			if (_writer == nullptr)
@@ -259,6 +360,17 @@ namespace base
 			_writer->WriteLine(span);
 		}
 
+		void WriteErrorLine(base::ReadOnlySpan const &span)
+		{
+			base::task::MutexGuard g{_lock};
+			if (_writer == nullptr)
+			{
+				return;
+			}
+
+			_writer->WriteLine(span);
+		}
+
 		/* #endregion */
 
 		///
@@ -266,6 +378,17 @@ namespace base
 		///
 		///
 		void WriteLine()
+		{
+			base::task::MutexGuard g{_lock};
+			if (_writer == nullptr)
+			{
+				return;
+			}
+
+			_writer->WriteLine();
+		}
+
+		void WriteErrorLine()
 		{
 			base::task::MutexGuard g{_lock};
 			if (_writer == nullptr)

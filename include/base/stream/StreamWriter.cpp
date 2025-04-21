@@ -95,6 +95,24 @@ void base::StreamWriter::WriteLine(char const *str)
 	WriteLine();
 }
 
+void base::StreamWriter::Write(char const *str, int32_t length)
+{
+	if (length <= 0)
+	{
+		return;
+	}
+
+	_stream->Write(reinterpret_cast<uint8_t const *>(str),
+				   0,
+				   length);
+}
+
+void base::StreamWriter::WriteLine(char const *str, int32_t length)
+{
+	Write(str, length);
+	WriteLine();
+}
+
 /* #endregion */
 
 /* #region 写入 base::ICanToString */
