@@ -12,11 +12,6 @@ namespace base
 
 		/* #region 写入 std::string */
 
-		///
-		/// @brief 向流中写入字符串。
-		///
-		/// @param str
-		///
 		void Write(std::string const &str)
 		{
 			base::ReadOnlySpan span{
@@ -27,11 +22,6 @@ namespace base
 			Write(span);
 		}
 
-		///
-		/// @brief 向流中写入字符串然后换行。
-		///
-		/// @param str
-		///
 		void WriteLine(std::string const &str)
 		{
 			Write(str);
@@ -42,21 +32,11 @@ namespace base
 
 		/* #region 写入 base::String */
 
-		///
-		/// @brief 向流中写入字符串。
-		///
-		/// @param str
-		///
 		void Write(base::String const &str)
 		{
 			Write(str.StdString());
 		}
 
-		///
-		/// @brief 向流中写入字符串然后换行。
-		///
-		/// @param str
-		///
 		void WriteLine(base::String const &str)
 		{
 			WriteLine(str.StdString());
@@ -66,11 +46,6 @@ namespace base
 
 		/* #region 写入 char */
 
-		///
-		/// @brief 向流中写入字符。
-		///
-		/// @param c
-		///
 		void Write(char c)
 		{
 			base::ReadOnlySpan span{
@@ -81,11 +56,6 @@ namespace base
 			Write(span);
 		}
 
-		///
-		/// @brief 向流中写入字符然后换行。
-		///
-		/// @param c
-		///
 		void WriteLine(char c)
 		{
 			Write(c);
@@ -97,7 +67,7 @@ namespace base
 		/* #region char const * */
 
 		///
-		/// @brief 向流中写入字符串。
+		/// @brief
 		///
 		/// @param str C 风格的字符串。
 		///
@@ -133,7 +103,7 @@ namespace base
 		}
 
 		///
-		/// @brief 向流中写入字符串。
+		/// @brief
 		///
 		/// @param str C 风格的字符串。
 		///
@@ -143,12 +113,6 @@ namespace base
 			WriteLine();
 		}
 
-		///
-		/// @brief 向流中写入字符串。
-		///
-		/// @param str
-		/// @param length
-		///
 		void Write(char const *str, int32_t length)
 		{
 			if (length <= 0)
@@ -164,12 +128,6 @@ namespace base
 			Write(span);
 		}
 
-		///
-		/// @brief 向流中写入字符串。
-		///
-		/// @param str
-		/// @param length
-		///
 		void WriteLine(char const *str, int32_t length)
 		{
 			Write(str, length);
@@ -180,21 +138,11 @@ namespace base
 
 		/* #region 写入 base::ICanToString */
 
-		///
-		/// @brief 将 base::ICanToString 转换为字符串后写入流。
-		///
-		/// @param o
-		///
 		void Write(base::ICanToString const &o)
 		{
 			Write(o.ToString());
 		}
 
-		///
-		/// @brief 将 base::ICanToString 转换为字符串后写入流，然后换行。
-		///
-		/// @param o
-		///
 		void WriteLine(base::ICanToString const &o)
 		{
 			WriteLine(o.ToString());
@@ -212,10 +160,6 @@ namespace base
 
 		/* #endregion */
 
-		///
-		/// @brief 向流中写入换行符。
-		///
-		///
 		void WriteLine()
 		{
 			Write('\n');
