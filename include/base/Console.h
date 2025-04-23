@@ -1,5 +1,4 @@
 #pragma once
-
 #include "base/stream/Stream.h"
 #include "base/task/Mutex.h"
 #include "stream/StreamWriter.h"
