@@ -37,6 +37,8 @@ namespace base
 		///
 		void set_default_priority(uint32_t value);
 
+		/* #region run */
+
 		///
 		/// @brief 运行一个任务。
 		///
@@ -58,7 +60,8 @@ namespace base
 		///
 		/// @return
 		///
-		std::shared_ptr<base::TaskCompletionSignal> run(size_t stack_size, std::function<void()> const &func);
+		std::shared_ptr<base::TaskCompletionSignal> run(size_t stack_size,
+														std::function<void()> const &func);
 
 		///
 		/// @brief 运行一个任务。
@@ -71,6 +74,59 @@ namespace base
 		std::shared_ptr<base::TaskCompletionSignal> run(uint32_t priority,
 														size_t stack_size,
 														std::function<void()> const &func);
+
+		/* #endregion */
+
+		/* #region 调度管理 */
+
+		///
+		/// @brief 启动调度。
+		///
+		/// @note 有的平台需要手动启动调度。例如 freertos. 如果平台不需要手动启动调度，
+		/// 则不实现此函数。
+		///
+		void start_scheduler();
+
+		///
+		/// @brief 任务调度已经开始了。
+		///
+		/// @return
+		///
+		bool scheduler_has_started();
+
+		///
+		/// @brief 暂停所有任务的调度。
+		///
+		///
+		void suspend_all_task_scheduler();
+
+		///
+		/// @brief 恢复所有任务的调度。
+		///
+		///
+		void resume_all_task_scheduler();
+
+		///
+		/// @brief 任务调度暂停守卫。
+		///
+		/// @note 构造时暂停所有任务的调度，析构时恢复所有任务的调度。
+		///
+		///
+		class TaskSchedulerSuspendGuard
+		{
+		public:
+			TaskSchedulerSuspendGuard()
+			{
+				suspend_all_task_scheduler();
+			}
+
+			~TaskSchedulerSuspendGuard()
+			{
+				resume_all_task_scheduler();
+			}
+		};
+
+		/* #endregion */
 
 	} // namespace task
 } // namespace base
