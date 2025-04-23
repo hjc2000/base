@@ -103,9 +103,8 @@ namespace base
 		///
 		/// @brief 全局的 LED 灯条。可以向这里添加 LED 灯。
 		///
-		/// @return
 		///
-		LedBar &GlobalLedBar();
+		extern base::led::LedBar led_bar;
 
 	} // namespace led
 } // namespace base
