@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
+#include <string>
 
 namespace base
 {
@@ -69,9 +70,25 @@ namespace base
 		/// @param priority 任务优先级。
 		/// @param stack_size 任务栈大小。单位：直接。
 		/// @param func 任务函数。
+		///
 		/// @return
 		///
 		std::shared_ptr<base::TaskCompletionSignal> run(uint32_t priority,
+														size_t stack_size,
+														std::function<void()> const &func);
+
+		///
+		/// @brief 运行一个任务。
+		///
+		/// @param task_name 任务名。
+		/// @param priority 任务优先级。
+		/// @param stack_size 任务栈大小。单位：直接。
+		/// @param func 任务函数。
+		///
+		/// @return
+		///
+		std::shared_ptr<base::TaskCompletionSignal> run(std::string const &task_name,
+														uint32_t priority,
 														size_t stack_size,
 														std::function<void()> const &func);
 
