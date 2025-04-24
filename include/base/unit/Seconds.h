@@ -20,8 +20,15 @@ namespace base
 
 	public:
 		Seconds() = default;
+
+		template <typename value_type>
+			requires(std::is_integral_v<value_type>)
+		explicit Seconds(value_type value)
+		{
+			_value = value;
+		}
+
 		explicit Seconds(base::Fraction const &value);
-		explicit Seconds(int64_t value);
 		explicit Seconds(base::Hours const &value);
 		explicit Seconds(base::Minutes const &value);
 		explicit Seconds(base::Nanoseconds const &value);

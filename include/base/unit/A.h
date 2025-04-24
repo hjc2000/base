@@ -17,7 +17,14 @@ namespace base
 
 	public:
 		A() = default;
-		A(int64_t value);
+
+		template <typename value_type>
+			requires(std::is_integral_v<value_type>)
+		explicit A(value_type value)
+		{
+			_value = value;
+		}
+
 		A(base::Fraction const &value);
 
 		using base::IUnit<A>::Value;

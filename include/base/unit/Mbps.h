@@ -15,7 +15,14 @@ namespace base
 
 	public:
 		Mbps() = default;
-		explicit Mbps(int64_t value);
+
+		template <typename value_type>
+			requires(std::is_integral_v<value_type>)
+		explicit Mbps(value_type value)
+		{
+			_value = value;
+		}
+
 		explicit Mbps(base::Fraction const &o);
 		explicit Mbps(base::bps const &o);
 

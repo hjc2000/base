@@ -16,9 +16,16 @@ namespace base
 
 	public:
 		Hz() = default;
+
+		template <typename value_type>
+			requires(std::is_integral_v<value_type>)
+		explicit Hz(value_type value)
+		{
+			_value = value;
+		}
+
 		explicit Hz(base::Fraction const &value);
 		explicit Hz(base::MHz const &value);
-		explicit Hz(int64_t value);
 		explicit Hz(base::Seconds const &value);
 		explicit Hz(base::Nanoseconds const &value);
 

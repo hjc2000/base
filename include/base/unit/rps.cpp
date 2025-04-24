@@ -1,11 +1,6 @@
 #include "rps.h"
 #include "rpm.h"
 
-base::rps::rps(int64_t value)
-{
-	_value = value;
-}
-
 base::rps::rps(base::Fraction const &value)
 {
 	_value = value;

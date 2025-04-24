@@ -23,8 +23,15 @@ namespace base
 
 	public:
 		Nanoseconds() = default;
+
+		template <typename value_type>
+			requires(std::is_integral_v<value_type>)
+		explicit Nanoseconds(value_type value)
+		{
+			_value = value;
+		}
+
 		explicit Nanoseconds(base::Fraction const &value);
-		explicit Nanoseconds(int64_t value);
 		explicit Nanoseconds(base::Hours const &value);
 		explicit Nanoseconds(base::Minutes const &value);
 		explicit Nanoseconds(base::Seconds const &value);

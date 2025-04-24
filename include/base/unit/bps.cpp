@@ -3,11 +3,6 @@
 
 /* #region 构造函数 */
 
-base::bps::bps(int64_t value)
-{
-	_value = value;
-}
-
 base::bps::bps(base::Fraction const &o)
 {
 	_value = o;

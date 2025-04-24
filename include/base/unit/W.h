@@ -1,7 +1,6 @@
 #pragma once
 #include "base/math/Fraction.h"
 #include "IUnit.h"
-#include <cstdint>
 
 namespace base
 {
@@ -21,7 +20,9 @@ namespace base
 	public:
 		W() = default;
 
-		W(int64_t value)
+		template <typename value_type>
+			requires(std::is_integral_v<value_type>)
+		explicit W(value_type value)
 		{
 			_value = value;
 		}

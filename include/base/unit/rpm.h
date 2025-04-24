@@ -20,7 +20,14 @@ namespace base
 
 	public:
 		rpm() = default;
-		explicit rpm(int64_t value);
+
+		template <typename value_type>
+			requires(std::is_integral_v<value_type>)
+		explicit rpm(value_type value)
+		{
+			_value = value;
+		}
+
 		explicit rpm(base::Fraction const &value);
 		explicit rpm(base::rps const &value);
 

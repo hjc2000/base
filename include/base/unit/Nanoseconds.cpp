@@ -11,11 +11,6 @@ base::Nanoseconds::Nanoseconds(base::Fraction const &value)
 	_value = value;
 }
 
-base::Nanoseconds::Nanoseconds(int64_t value)
-{
-	_value = value;
-}
-
 base::Nanoseconds::Nanoseconds(base::Hours const &value)
 	: Nanoseconds{base::Seconds{value}}
 {

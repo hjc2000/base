@@ -17,7 +17,14 @@ namespace base
 
 	public:
 		Nm() = default;
-		explicit Nm(int64_t value);
+
+		template <typename value_type>
+			requires(std::is_integral_v<value_type>)
+		explicit Nm(value_type value)
+		{
+			_value = value;
+		}
+
 		explicit Nm(base::Fraction const &value);
 
 		using base::IUnit<Nm>::Value;

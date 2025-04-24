@@ -20,8 +20,15 @@ namespace base
 
 	public:
 		Days() = default;
+
+		template <typename value_type>
+			requires(std::is_integral_v<value_type>)
+		explicit Days(value_type value)
+		{
+			_value = value;
+		}
+
 		explicit Days(base::Fraction const &value);
-		explicit Days(int64_t value);
 		explicit Days(base::Hours const &value);
 		explicit Days(base::Minutes const &value);
 		explicit Days(base::Seconds const &value);

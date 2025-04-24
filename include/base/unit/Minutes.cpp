@@ -10,11 +10,6 @@ base::Minutes::Minutes(base::Fraction const &value)
 	_value = value;
 }
 
-base::Minutes::Minutes(int64_t value)
-{
-	_value = value;
-}
-
 base::Minutes::Minutes(base::Hours const &value)
 {
 	_value = static_cast<base::Fraction>(value) * 60;

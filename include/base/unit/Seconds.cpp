@@ -12,11 +12,6 @@ base::Seconds::Seconds(base::Fraction const &value)
 	_value = value;
 }
 
-base::Seconds::Seconds(int64_t value)
-{
-	_value = value;
-}
-
 base::Seconds::Seconds(base::Hours const &value)
 {
 	_value = static_cast<base::Fraction>(value) * 60 * 60;

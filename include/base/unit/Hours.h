@@ -20,8 +20,15 @@ namespace base
 
 	public:
 		Hours() = default;
+
+		template <typename value_type>
+			requires(std::is_integral_v<value_type>)
+		explicit Hours(value_type value)
+		{
+			_value = value;
+		}
+
 		explicit Hours(base::Fraction const &value);
-		explicit Hours(int64_t value);
 		explicit Hours(base::Days const &value);
 		explicit Hours(base::Minutes const &value);
 		explicit Hours(base::Seconds const &value);

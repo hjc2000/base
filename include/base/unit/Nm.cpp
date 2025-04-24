@@ -2,11 +2,6 @@
 
 /* #region 构造函数 */
 
-base::Nm::Nm(int64_t value)
-{
-	_value = value;
-}
-
 base::Nm::Nm(base::Fraction const &value)
 {
 	_value = value;

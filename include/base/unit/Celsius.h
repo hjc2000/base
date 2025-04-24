@@ -18,7 +18,9 @@ namespace base
 	public:
 		Celsius() = default;
 
-		Celsius(int64_t value)
+		template <typename value_type>
+			requires(std::is_integral_v<value_type>)
+		explicit Celsius(value_type value)
 		{
 			_value = value;
 		}
