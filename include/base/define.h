@@ -6,6 +6,21 @@
 ///
 #define IMPLEMENTED
 
+/* #region 强制内联 */
+
+#if defined(_MSC_VER)
+	// MSVC 编译器
+	#define FORCE_INLINE __forceinline
+#elif defined(__GNUC__) || defined(__clang__)
+	// GCC 或 Clang 编译器
+	#define FORCE_INLINE inline __attribute__((always_inline))
+#else
+	// 其他编译器（无法保证强制内联）
+	#define FORCE_INLINE inline
+#endif
+
+/* #endregion */
+
 ///
 /// @brief 静态全局变量。
 ///
