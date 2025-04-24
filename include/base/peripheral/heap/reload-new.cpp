@@ -97,4 +97,4 @@ void operator delete[](void *ptr, size_t size) noexcept
 	base::heap::Free(ptr);
 }
 
-#endif
+#endif // !HAS_THREAD

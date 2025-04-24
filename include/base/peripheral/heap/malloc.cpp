@@ -91,4 +91,4 @@ extern "C"
 	}
 }
 
-#endif
+#endif // !HAS_THREAD
