@@ -71,5 +71,12 @@ namespace base
 
 		/* #endregion */
 
+		///
+		/// @brief 系统时间戳。
+		///
+		/// @return
+		///
+		std::chrono::nanoseconds system_time_stamp();
+
 	} // namespace systick
 } // namespace base
