@@ -1,7 +1,6 @@
 #pragma once
 #include "base/math/Fraction.h"
 #include "base/unit/IUnit.h"
-#include <cstdint>
 
 namespace base
 {
