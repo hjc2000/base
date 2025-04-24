@@ -1,5 +1,7 @@
 #pragma once
+#include "base/define.h"
 #include "base/unit/MHz.h"
+#include <chrono>
 #include <cstdint>
 
 namespace base
@@ -31,6 +33,43 @@ namespace base
 		/// @return
 		///
 		uint64_t reload_value();
+
+		///
+		/// @brief 定时时间到处理函数。
+		///
+		/// @warning 实现者需要将本函数实现为线程安全和可重入。
+		/// 	@note 最简单的方法就是在本函数的操作期间禁用全局中断。
+		/// 	@note 最佳实践是只禁用 systick 的中断。
+		///
+		/// @warning 不要在中断函数中调用本函数。永远只能在主程序中调用本函数。
+		///
+		/// @param func
+		///
+		void set_elapsed_handler(std::function<void()> func);
+
+		/* #region 延时函数 */
+
+		///
+		/// @brief 循环中检测 current_value 的值来判断是否超时，从而进行延时。
+		///
+		/// @param value 要延时多少个 systick 的计数值。
+		///
+		IMPLEMENTED
+		void delay_for_ticks(uint64_t value);
+
+		IMPLEMENTED
+		void delay(std::chrono::nanoseconds value);
+
+		IMPLEMENTED
+		void delay(std::chrono::microseconds value);
+
+		IMPLEMENTED
+		void delay(std::chrono::milliseconds value);
+
+		IMPLEMENTED
+		void delay(std::chrono::seconds value);
+
+		/* #endregion */
 
 	} // namespace systick
 } // namespace base
