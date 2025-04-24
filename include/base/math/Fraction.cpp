@@ -222,44 +222,6 @@ std::string base::Fraction::ToString() const
 	return std::to_string(_num) + " / " + std::to_string(_den);
 }
 
-/* #region 强制转换运算符 */
-
-base::Fraction::operator boost::multiprecision::cpp_int() const
-{
-	return Div();
-}
-
-base::Fraction::operator int64_t() const
-{
-	return static_cast<int64_t>(Div());
-}
-
-base::Fraction::operator int32_t() const
-{
-	return static_cast<int32_t>(Div());
-}
-
-base::Fraction::operator int16_t() const
-{
-	return static_cast<int16_t>(Div());
-}
-
-base::Fraction::operator int8_t() const
-{
-	return static_cast<int8_t>(Div());
-}
-
-base::Fraction::operator double() const
-{
-	base::Fraction copy{*this};
-	double int_part = static_cast<double>(copy.Div());
-	copy -= copy.Div();
-	double fraction_part = static_cast<double>(copy.Num()) / static_cast<double>(copy.Den());
-	return int_part + fraction_part;
-}
-
-/* #endregion */
-
 /* #region 比较 */
 
 bool base::Fraction::operator==(Fraction const &another) const

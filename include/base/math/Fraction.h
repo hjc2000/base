@@ -155,12 +155,59 @@ namespace base
 
 		/* #region 强制转换运算符 */
 
-		explicit operator boost::multiprecision::cpp_int() const;
-		explicit operator int64_t() const;
-		explicit operator int32_t() const;
-		explicit operator int16_t() const;
-		explicit operator int8_t() const;
-		explicit operator double() const;
+		explicit operator boost::multiprecision::cpp_int() const
+		{
+			return Div();
+		}
+
+		explicit operator int64_t() const
+		{
+			return static_cast<int64_t>(Div());
+		}
+
+		explicit operator uint64_t() const
+		{
+			return static_cast<uint64_t>(Div());
+		}
+
+		explicit operator int32_t() const
+		{
+			return static_cast<int32_t>(Div());
+		}
+
+		explicit operator uint32_t() const
+		{
+			return static_cast<uint32_t>(Div());
+		}
+
+		explicit operator int16_t() const
+		{
+			return static_cast<int16_t>(Div());
+		}
+
+		explicit operator uint16_t() const
+		{
+			return static_cast<uint16_t>(Div());
+		}
+
+		explicit operator int8_t() const
+		{
+			return static_cast<int8_t>(Div());
+		}
+
+		explicit operator uint8_t() const
+		{
+			return static_cast<uint8_t>(Div());
+		}
+
+		explicit operator double() const
+		{
+			base::Fraction copy{*this};
+			double int_part = static_cast<double>(copy.Div());
+			copy -= copy.Div();
+			double fraction_part = static_cast<double>(copy.Num()) / static_cast<double>(copy.Den());
+			return int_part + fraction_part;
+		}
 
 		/* #endregion */
 
