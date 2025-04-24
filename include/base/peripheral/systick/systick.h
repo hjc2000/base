@@ -1,6 +1,7 @@
 #pragma once
 #include "base/define.h"
 #include "base/unit/MHz.h"
+#include "base/unit/Nanoseconds.h"
 #include <chrono>
 #include <cstdint>
 
@@ -52,7 +53,7 @@ namespace base
 		///
 		/// @return
 		///
-		std::chrono::nanoseconds system_time_stamp();
+		base::Nanoseconds system_time_stamp();
 
 		/* #region 延时函数 */
 
