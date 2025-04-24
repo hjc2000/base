@@ -1,5 +1,5 @@
 #include "YT8512CPhyDriver.h"
-#include "base/peripheral/ethernet/parameter.h"
+#include "base/embedded/ethernet/parameter.h"
 #include "base/string/define.h"
 #include "base/unit/Mbps.h"
 

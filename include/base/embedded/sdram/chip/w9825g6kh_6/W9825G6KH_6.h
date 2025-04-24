@@ -1,6 +1,6 @@
 #pragma once
-#include "base/peripheral/sdram/chip/w9825g6kh_6/TimingProvider.h"
-#include "base/peripheral/sdram/SdramController.h"
+#include "base/embedded/sdram/chip/w9825g6kh_6/TimingProvider.h"
+#include "base/embedded/sdram/SdramController.h"
 #include "base/task/delay.h"
 #include "ModeRegister.h"
 #include <cstdint>

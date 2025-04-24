@@ -1,6 +1,6 @@
 #include "base/bit/bit_converte.h"
+#include "base/embedded/heap/heap.h"
 #include "base/Guard.h"
-#include "base/peripheral/heap/heap.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
 #include <algorithm>

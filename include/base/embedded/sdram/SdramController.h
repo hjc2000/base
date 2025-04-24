@@ -1,5 +1,5 @@
 #pragma once
-#include "base/peripheral/sdram/sdram_controller_handle.h"
+#include "base/embedded/sdram/sdram_controller_handle.h"
 #include <memory>
 
 namespace base

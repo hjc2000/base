@@ -1,4 +1,4 @@
-#include "base/peripheral/heap/heap.h"
+#include "base/embedded/heap/heap.h"
 #include <cstddef>
 
 #if !HAS_THREAD

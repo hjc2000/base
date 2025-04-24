@@ -1,6 +1,6 @@
 #pragma once
-#include "base/peripheral/ethernet/EthernetController.h"
-#include "base/peripheral/ethernet/parameter.h"
+#include "base/embedded/ethernet/EthernetController.h"
+#include "base/embedded/ethernet/parameter.h"
 #include "base/unit/Mbps.h"
 
 namespace base

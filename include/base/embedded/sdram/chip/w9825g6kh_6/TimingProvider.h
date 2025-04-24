@@ -1,5 +1,5 @@
 #pragma once
-#include "base/peripheral/sdram/ISDRAMTimingProvider.h"
+#include "base/embedded/sdram/ISDRAMTimingProvider.h"
 
 namespace base
 {

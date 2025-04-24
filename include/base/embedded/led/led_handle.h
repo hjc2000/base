@@ -1,7 +1,7 @@
 #pragma once
 #include "base/define.h"
+#include "base/embedded/led/parameter.h"
 #include "base/math/Fraction.h"
-#include "base/peripheral/led/parameter.h"
 #include "base/ui/Color.h"
 #include <cstdint>
 #include <memory>

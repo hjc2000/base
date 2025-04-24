@@ -1,19 +1,20 @@
 #pragma once
-#include "base/peripheral/ethernet/parameter.h"
-#include "base/peripheral/ethernet/phy/IPhyDriver.h"
+#include "base/embedded/ethernet/EthernetController.h"
+#include "base/embedded/ethernet/parameter.h"
+#include "base/embedded/ethernet/phy/IPhyDriver.h"
 
 namespace base
 {
 	namespace ethernet
 	{
-		class LAN8720APhyDriver :
+		class YT8512CPhyDriver :
 			public base::ethernet::IPhyDriver
 		{
 		private:
 			base::ethernet::EthernetController _ethernet_controller;
 
 		public:
-			LAN8720APhyDriver(base::ethernet::EthernetController const &controller);
+			YT8512CPhyDriver(base::ethernet::EthernetController const &controller);
 
 			virtual base::ethernet::EthernetController &EthernetController() override;
 

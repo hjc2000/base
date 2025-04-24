@@ -1,5 +1,5 @@
 #pragma once
-#include "base/peripheral/sdram/ISDRAMTimingProvider.h"
+#include "base/embedded/sdram/ISDRAMTimingProvider.h"
 #include "base/stream/Span.h"
 #include "parameter.h"
 #include <memory>
