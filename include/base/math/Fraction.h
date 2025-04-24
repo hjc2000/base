@@ -257,6 +257,11 @@ namespace base
 
 	namespace constant
 	{
+		///
+		/// @brief 圆周率 Π.
+		///
+		/// @return
+		///
 		base::Fraction PI();
 
 	} // namespace constant
