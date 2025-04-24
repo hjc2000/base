@@ -2,6 +2,7 @@
 #include "base/math/Fraction.h"
 #include "base/string/ICanToString.h"
 #include <cstdint>
+#include <type_traits>
 
 namespace base
 {
@@ -39,9 +40,50 @@ namespace base
 			return Value();
 		}
 
+		explicit operator uint64_t() const
+		{
+			return static_cast<uint64_t>(Value());
+		}
+
 		explicit operator int64_t() const
 		{
 			return static_cast<int64_t>(Value());
+		}
+
+		explicit operator uint32_t() const
+		{
+			return static_cast<uint32_t>(Value());
+		}
+
+		explicit operator int32_t() const
+		{
+			return static_cast<int32_t>(Value());
+		}
+
+		explicit operator uint16_t() const
+		{
+			return static_cast<uint16_t>(Value());
+		}
+
+		explicit operator int16_t() const
+		{
+			return static_cast<int16_t>(Value());
+		}
+
+		explicit operator uint8_t() const
+		{
+			return static_cast<uint8_t>(Value());
+		}
+
+		explicit operator int8_t() const
+		{
+			return static_cast<int8_t>(Value());
+		}
+
+		explicit operator int() const
+			requires(!std::is_same_v<int, int32_t>)
+		{
+			return static_cast<int8_t>(Value());
 		}
 
 		explicit operator double() const
