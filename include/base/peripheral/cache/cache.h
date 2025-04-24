@@ -20,7 +20,7 @@ namespace base
 		void disable();
 
 		///
-		/// @brief 是 D-Cache 无效。
+		/// @brief 使 D-Cache 无效。
 		///
 		/// @note 即将 D-Cache 的数据标记为过期的，重新从内存中读取数据放到 D-Cache 中。
 		///
