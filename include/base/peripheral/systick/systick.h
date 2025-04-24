@@ -47,6 +47,13 @@ namespace base
 		///
 		void set_elapsed_handler(std::function<void()> func);
 
+		///
+		/// @brief 系统时间戳。
+		///
+		/// @return
+		///
+		std::chrono::nanoseconds system_time_stamp();
+
 		/* #region 延时函数 */
 
 		///
@@ -70,13 +77,6 @@ namespace base
 		void delay(std::chrono::seconds value);
 
 		/* #endregion */
-
-		///
-		/// @brief 系统时间戳。
-		///
-		/// @return
-		///
-		std::chrono::nanoseconds system_time_stamp();
 
 	} // namespace systick
 } // namespace base
