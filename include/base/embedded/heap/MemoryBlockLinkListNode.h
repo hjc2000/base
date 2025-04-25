@@ -22,18 +22,6 @@ namespace base
 			size_t _size{};
 		};
 
-		/* Check if multiplying a and b will result in overflow. */
-		constexpr bool HeapMultiplyWillOverflow(size_t a, size_t b)
-		{
-			return ((a) > 0) && ((b) > (SIZE_MAX / (a)));
-		}
-
-		/* Check if adding a and b will result in overflow. */
-		constexpr bool HeapAddWillOverflow(size_t a, size_t b)
-		{
-			return (a) > (SIZE_MAX - (b));
-		}
-
 		constexpr bool HeapBlockSizeIsValid(size_t _size)
 		{
 			return (_size & base::bit::MSB<size_t>()) == 0;
