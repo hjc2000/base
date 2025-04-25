@@ -9,6 +9,8 @@ namespace base
 {
 	namespace bit
 	{
+		/* #region 检查参数合法性 */
+
 		template <typename RegisterType>
 		constexpr void CheckBitIndex(int bit_index)
 		{
@@ -51,6 +53,8 @@ namespace base
 				throw std::invalid_argument{CODE_POS_STR + "begin 不能 > end."};
 			}
 		}
+
+		/* #endregion */
 
 		///
 		/// @brief 从最高位开始数，有多少个连续的 0.
@@ -96,6 +100,8 @@ namespace base
 			return num << HighZeroCount(num);
 		}
 
+		/* #region 掩码 */
+
 		///
 		/// @brief 获取一个只有 bit_index 指定的位为 1, 其他位都为 0 的掩码。
 		///
@@ -106,6 +112,29 @@ namespace base
 		{
 			CheckBitIndex<uint64_t>(bit_index);
 			return 0b1 << bit_index;
+		}
+
+		///
+		/// @brief 最低有效位。
+		///
+		///
+		template <typename RegisterType>
+			requires(std::is_integral_v<RegisterType>)
+		constexpr RegisterType LSB()
+		{
+			return static_cast<RegisterType>(1);
+		}
+
+		///
+		/// @brief 最高有效位。
+		///
+		///
+		template <typename RegisterType>
+			requires(std::is_integral_v<RegisterType>)
+		constexpr RegisterType MSB()
+		{
+			uint8_t bit_count = sizeof(RegisterType) * 8;
+			return static_cast<RegisterType>(base::bit::Bit(bit_count - 1));
 		}
 
 		///
@@ -128,6 +157,8 @@ namespace base
 
 			return ret;
 		}
+
+		/* #endregion */
 
 		///
 		/// @brief 置位指定的位。
