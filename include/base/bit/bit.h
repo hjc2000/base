@@ -326,26 +326,6 @@ namespace base
 		/* #endregion */
 
 		///
-		/// @brief 获取指定类型的对齐后的大小。
-		///
-		/// @return
-		///
-		template <typename T, size_t AlignByteCount = 8>
-		constexpr size_t GetAlignedSize()
-		{
-			size_t size = sizeof(T);
-			size_t mod = size % AlignByteCount;
-
-			size_t aligned_size = (size / AlignByteCount) * AlignByteCount;
-			if (mod > 0)
-			{
-				aligned_size += AlignByteCount;
-			}
-
-			return aligned_size;
-		}
-
-		///
 		/// @brief 将 address 向上调整到 align_byte_count 字节对齐的地址。
 		///
 		/// @param address
@@ -363,6 +343,17 @@ namespace base
 			}
 
 			return aligned_size;
+		}
+
+		///
+		/// @brief 获取指定类型的对齐后的大小。
+		///
+		/// @return
+		///
+		template <typename T, size_t AlignByteCount = 8>
+		constexpr size_t GetAlignedSize()
+		{
+			return base::bit::AlignUp(sizeof(T), AlignByteCount);
 		}
 
 	} // namespace bit
