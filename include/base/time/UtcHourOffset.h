@@ -16,14 +16,14 @@ namespace base
 		/// @brief UTC + 0.
 		///
 		///
-		UtcHourOffset() = default;
+		constexpr UtcHourOffset() = default;
 
 		///
 		/// @brief UTC + value.
 		///
 		/// @param value
 		///
-		explicit UtcHourOffset(int64_t value)
+		constexpr explicit UtcHourOffset(int64_t value)
 			: _value(value)
 		{
 		}
@@ -33,7 +33,7 @@ namespace base
 		///
 		/// @return int64_t
 		///
-		int64_t Value() const
+		constexpr int64_t Value() const
 		{
 			return _value;
 		}
