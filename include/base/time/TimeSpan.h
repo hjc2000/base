@@ -1,6 +1,5 @@
 #pragma once
 #include <chrono>
-#include <cstdint>
 #include <ctime>
 
 namespace base
@@ -90,74 +89,138 @@ namespace base
 		/// @brief 将本时间段加上另一个时间段。
 		///
 		/// @param rhs
-		/// @return base::TimeSpan
+		/// @return
 		///
-		base::TimeSpan operator+(base::TimeSpan const &rhs) const;
+		constexpr base::TimeSpan operator+(base::TimeSpan const &rhs) const
+		{
+			return base::TimeSpan{_span + rhs._span};
+		}
+
+		///
+		/// @brief 将本时间段减去另一个时间段。
+		///
+		/// @param rhs
+		/// @return
+		///
+		constexpr base::TimeSpan operator-(base::TimeSpan const &rhs) const
+		{
+			return base::TimeSpan{_span - rhs._span};
+		}
+
+		///
+		/// @brief 将本时间段乘上一个系数进行放大。
+		///
+		/// @param value
+		/// @return
+		///
+		template <typename RightType>
+			requires(std::is_integral_v<RightType>)
+		constexpr base::TimeSpan operator*(RightType value) const
+		{
+			return base::TimeSpan{std::chrono::nanoseconds{_span.count() * value}};
+		}
+
+		///
+		/// @brief 将本时间段除以一个系数进行缩小。
+		///
+		/// @param value
+		/// @return
+		///
+		template <typename RightType>
+			requires(std::is_integral_v<RightType>)
+		constexpr base::TimeSpan operator/(RightType value) const
+		{
+			return base::TimeSpan{std::chrono::nanoseconds{_span.count() / value}};
+		}
 
 		///
 		/// @brief 将本时间段加上另一个时间段。
 		///
 		/// @param rhs
-		/// @return base::TimeSpan&
+		/// @return
 		///
-		base::TimeSpan &operator+=(base::TimeSpan const &rhs);
+		constexpr base::TimeSpan &operator+=(base::TimeSpan const &rhs)
+		{
+			_span += rhs._span;
+			return *this;
+		}
 
 		///
 		/// @brief 将本时间段减去另一个时间段。
 		///
 		/// @param rhs
-		/// @return base::TimeSpan
+		/// @return
 		///
-		base::TimeSpan operator-(base::TimeSpan const &rhs) const;
-
-		///
-		/// @brief 将本时间段减去另一个时间段。
-		///
-		/// @param rhs
-		/// @return base::TimeSpan&
-		///
-		base::TimeSpan &operator-=(base::TimeSpan const &rhs);
+		constexpr base::TimeSpan &operator-=(base::TimeSpan const &rhs)
+		{
+			_span -= rhs._span;
+			return *this;
+		}
 
 		///
 		/// @brief 将本时间段乘上一个系数进行放大。
 		///
 		/// @param value
-		/// @return base::TimeSpan
+		/// @return
 		///
-		base::TimeSpan operator*(int64_t value) const;
-
-		///
-		/// @brief 将本时间段乘上一个系数进行放大。
-		///
-		/// @param value
-		/// @return base::TimeSpan&
-		///
-		base::TimeSpan &operator*=(int64_t value);
-
-		///
-		/// @brief 将本时间段除以一个系数进行缩小。
-		///
-		/// @param value
-		/// @return base::TimeSpan
-		///
-		base::TimeSpan operator/(int64_t value) const;
+		template <typename RightType>
+			requires(std::is_integral_v<RightType>)
+		constexpr base::TimeSpan &operator*=(RightType value)
+		{
+			_span = std::chrono::nanoseconds{_span.count() * value};
+			return *this;
+		}
 
 		///
 		/// @brief 将本时间段除以一个系数进行缩小。
 		///
 		/// @param value
-		/// @return base::TimeSpan&
+		/// @return
 		///
-		base::TimeSpan &operator/=(int64_t value);
+		template <typename RightType>
+			requires(std::is_integral_v<RightType>)
+		constexpr base::TimeSpan &operator/=(RightType value)
+		{
+			_span = std::chrono::nanoseconds{_span.count() / value};
+			return *this;
+		}
 
 		/* #endregion */
 
-		bool operator==(base::TimeSpan const &another) const;
-		bool operator<(base::TimeSpan const &another) const;
-		bool operator>(base::TimeSpan const &another) const;
-		bool operator<=(base::TimeSpan const &another) const;
-		bool operator>=(base::TimeSpan const &another) const;
+		/* #region 比较 */
+
+		bool operator==(base::TimeSpan const &another) const
+		{
+			return _span == another._span;
+		}
+
+		bool operator<(base::TimeSpan const &another) const
+		{
+			return _span < another._span;
+		}
+
+		bool operator>(base::TimeSpan const &another) const
+		{
+			return _span > another._span;
+		}
+
+		bool operator<=(base::TimeSpan const &another) const
+		{
+			return _span <= another._span;
+		}
+
+		bool operator>=(base::TimeSpan const &another) const
+		{
+			return _span >= another._span;
+		}
+
+		/* #endregion */
 	};
 } // namespace base
 
-base::TimeSpan operator*(int64_t left, base::TimeSpan const &right);
+template <typename LeftType>
+	requires(std::is_integral_v<LeftType>)
+constexpr base::TimeSpan operator*(LeftType left, base::TimeSpan const &right)
+{
+	return right * left;
+}
