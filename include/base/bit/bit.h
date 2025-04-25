@@ -160,6 +160,8 @@ namespace base
 
 		/* #endregion */
 
+		/* #region 置位 */
+
 		///
 		/// @brief 置位指定的位。
 		///
@@ -192,6 +194,10 @@ namespace base
 			reg |= BitMask(begin, end);
 		}
 
+		/* #endregion */
+
+		/* #region 复位 */
+
 		///
 		/// @brief 复位指定的位。
 		///
@@ -223,6 +229,10 @@ namespace base
 			CheckBitRange<RegisterType>(begin, end);
 			reg &= ~BitMask(begin, end);
 		}
+
+		/* #endregion */
+
+		/* #region 读位 */
 
 		///
 		/// @brief 读取指定位的值。
@@ -258,6 +268,10 @@ namespace base
 			ret >>= begin;
 			return ret;
 		}
+
+		/* #endregion */
+
+		/* #region 写位 */
 
 		///
 		/// @brief 向指定索引的位写入值。
@@ -307,6 +321,8 @@ namespace base
 			// 通过按位或运算写入这些位。
 			reg |= value;
 		}
+
+		/* #endregion */
 
 	} // namespace bit
 } // namespace base
