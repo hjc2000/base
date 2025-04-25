@@ -345,5 +345,25 @@ namespace base
 			return aligned_size;
 		}
 
+		///
+		/// @brief 将 address 向上调整到 align_byte_count 字节对齐的地址。
+		///
+		/// @param address
+		/// @param align_byte_count
+		/// @return
+		///
+		constexpr size_t AlignUp(size_t address, size_t align_byte_count = 8)
+		{
+			size_t mod = address % align_byte_count;
+
+			size_t aligned_size = (address / align_byte_count) * align_byte_count;
+			if (mod > 0)
+			{
+				aligned_size += align_byte_count;
+			}
+
+			return aligned_size;
+		}
+
 	} // namespace bit
 } // namespace base
