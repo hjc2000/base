@@ -1,6 +1,7 @@
 #pragma once
 #include "base/string/define.h"
 #include <bit>
+#include <cstddef>
 #include <cstdint>
 #include <stdexcept>
 #include <type_traits>
@@ -323,6 +324,26 @@ namespace base
 		}
 
 		/* #endregion */
+
+		///
+		/// @brief 获取指定类型的对齐后的大小。
+		///
+		/// @return
+		///
+		template <typename T, size_t AlignByteCount = 8>
+		constexpr size_t GetAlignedSize()
+		{
+			size_t size = sizeof(T);
+			size_t mod = size % AlignByteCount;
+
+			size_t aligned_size = (size / AlignByteCount) * AlignByteCount;
+			if (mod > 0)
+			{
+				aligned_size += AlignByteCount;
+			}
+
+			return aligned_size;
+		}
 
 	} // namespace bit
 } // namespace base
