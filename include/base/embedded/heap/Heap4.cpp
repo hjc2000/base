@@ -22,7 +22,9 @@ void freertos::Heap4::InsertBlockIntoFreeList(base::heap::MemoryBlockLinkListNod
 
 	/* Iterate through the list until a block is found that has a higher address
 	 * than the block being inserted. */
-	for (pxIterator = &_head_element; pxIterator->_next_free_block < pxBlockToInsert; pxIterator = pxIterator->_next_free_block)
+	for (pxIterator = &_head_element;
+		 pxIterator->_next_free_block < pxBlockToInsert;
+		 pxIterator = pxIterator->_next_free_block)
 	{
 		/* Nothing to do here, just iterate to the right position. */
 	}
