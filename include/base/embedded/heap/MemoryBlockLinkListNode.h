@@ -1,5 +1,4 @@
 #pragma once
-#include "base/bit/bit.h"
 #include <cstddef>
 
 namespace base
@@ -21,16 +20,6 @@ namespace base
 			///
 			size_t _size{};
 		};
-
-		///
-		/// @brief size_t 的最高位被置为 1, 表示这块内存已经被分配了，置为 0 表示还是自由的内存块。
-		///
-		/// @return
-		///
-		constexpr size_t SizeTypeMsbMask()
-		{
-			return static_cast<size_t>(base::bit::Bit((sizeof(size_t) * 8) - 1));
-		}
 
 	} // namespace heap
 } // namespace base
