@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void freertos::Heap4::InsertBlockIntoFreeList(base::heap::MemoryBlockLinkListNode *pxBlockToInsert)
+void base::heap::Heap4::InsertBlockIntoFreeList(base::heap::MemoryBlockLinkListNode *pxBlockToInsert)
 {
 	base::heap::MemoryBlockLinkListNode *pxIterator{};
 	uint8_t *puc{};
@@ -71,7 +71,7 @@ void freertos::Heap4::InsertBlockIntoFreeList(base::heap::MemoryBlockLinkListNod
 	}
 }
 
-freertos::Heap4::Heap4(uint8_t *buffer, size_t size)
+base::heap::Heap4::Heap4(uint8_t *buffer, size_t size)
 {
 	/* Ensure the heap starts on a correctly aligned boundary. */
 	_buffer = base::bit::AlignUp(buffer, 8);
@@ -100,7 +100,7 @@ freertos::Heap4::Heap4(uint8_t *buffer, size_t size)
 	xFreeBytesRemaining = pxFirstFreeBlock->_size;
 }
 
-void *freertos::Heap4::Malloc(size_t xWantedSize)
+void *base::heap::Heap4::Malloc(size_t xWantedSize)
 {
 	base::heap::MemoryBlockLinkListNode *pxBlock;
 	base::heap::MemoryBlockLinkListNode *pxPreviousBlock;
@@ -203,7 +203,7 @@ void *freertos::Heap4::Malloc(size_t xWantedSize)
 	return pvReturn;
 }
 
-void freertos::Heap4::Free(void *pv)
+void base::heap::Heap4::Free(void *pv)
 {
 	uint8_t *puc = (uint8_t *)pv;
 	base::heap::MemoryBlockLinkListNode *pxLink;
@@ -238,17 +238,17 @@ void freertos::Heap4::Free(void *pv)
 	}
 }
 
-uint8_t const *freertos::Heap4::begin() const
+uint8_t const *base::heap::Heap4::begin() const
 {
 	return _buffer;
 }
 
-uint8_t const *freertos::Heap4::end() const
+uint8_t const *base::heap::Heap4::end() const
 {
 	return _buffer + _size;
 }
 
-size_t freertos::Heap4::RemainingFreeSize() const
+size_t base::heap::Heap4::RemainingFreeSize() const
 {
 	return xFreeBytesRemaining;
 }
