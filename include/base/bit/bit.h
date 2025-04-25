@@ -336,15 +336,15 @@ namespace base
 			requires(std::is_same_v<AddressType, size_t> || std::is_same_v<AddressType, uint8_t *>)
 		constexpr AddressType AlignUp(AddressType address, size_t align_byte_count = 8)
 		{
-			AddressType mod = address % align_byte_count;
-
-			AddressType aligned_size = (address / align_byte_count) * align_byte_count;
+			size_t size = reinterpret_cast<size_t>(address);
+			size_t mod = size % align_byte_count;
+			size_t aligned_size = (size / align_byte_count) * align_byte_count;
 			if (mod > 0)
 			{
 				aligned_size += align_byte_count;
 			}
 
-			return aligned_size;
+			return reinterpret_cast<AddressType>(aligned_size);
 		}
 
 		///
@@ -358,8 +358,9 @@ namespace base
 			requires(std::is_same_v<AddressType, size_t> || std::is_same_v<AddressType, uint8_t *>)
 		constexpr AddressType AlignDown(AddressType address, size_t align_byte_count = 8)
 		{
-			AddressType aligned_size = (address / align_byte_count) * align_byte_count;
-			return aligned_size;
+			size_t size = reinterpret_cast<size_t>(address);
+			size_t aligned_size = (size / align_byte_count) * align_byte_count;
+			return reinterpret_cast<AddressType>(aligned_size);
 		}
 
 		///
