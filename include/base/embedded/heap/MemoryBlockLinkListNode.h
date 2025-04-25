@@ -1,5 +1,7 @@
 #pragma once
+#include "base/bit/bit.h"
 #include <cstddef>
+#include <cstdint>
 
 namespace base
 {
@@ -20,6 +22,16 @@ namespace base
 			///
 			size_t _size{};
 		};
+
+		constexpr uint8_t BitCountPerByte()
+		{
+			return 8;
+		}
+
+		constexpr size_t SizeTypeMsbMask()
+		{
+			return static_cast<size_t>(base::bit::Bit((sizeof(size_t) * 8) - 1));
+		}
 
 	} // namespace heap
 } // namespace base
