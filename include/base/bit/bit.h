@@ -346,6 +346,19 @@ namespace base
 		}
 
 		///
+		/// @brief 将 address 向下调整到 align_byte_count 字节对齐的地址。
+		///
+		/// @param address
+		/// @param align_byte_count
+		/// @return
+		///
+		constexpr size_t AlignDown(size_t address, size_t align_byte_count = 8)
+		{
+			size_t aligned_size = (address / align_byte_count) * align_byte_count;
+			return aligned_size;
+		}
+
+		///
 		/// @brief 获取指定类型的对齐后的大小。
 		///
 		/// @return
