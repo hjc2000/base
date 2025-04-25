@@ -1,7 +1,6 @@
 #pragma once
 #include "base/bit/bit.h"
 #include <cstddef>
-#include <cstdint>
 
 namespace base
 {
@@ -22,11 +21,6 @@ namespace base
 			///
 			size_t _size{};
 		};
-
-		constexpr uint8_t BitCountPerByte()
-		{
-			return 8;
-		}
 
 		///
 		/// @brief size_t 的最高位被置为 1, 表示这块内存已经被分配了，置为 0 表示还是自由的内存块。
