@@ -54,5 +54,19 @@ namespace base
 			(pxBlock->_size) &= ~base::bit::MSB<size_t>();
 		}
 
+		///
+		/// @brief 允许的内存块的最小大小。
+		///
+		/// @note 如果内存块大小小于此值的话，链表节点本身占用的内存都比指向的内存块大了，
+		/// 那这块内存就不值得用一个链表节点去指向它。
+		///
+		/// @return
+		///
+		constexpr size_t MinimumBlockSize()
+		{
+			size_t ret = base::bit::GetAlignedSize<base::heap::MemoryBlockLinkListNode>() * 2;
+			return ret;
+		}
+
 	} // namespace heap
 } // namespace base
