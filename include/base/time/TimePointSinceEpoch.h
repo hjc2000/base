@@ -117,7 +117,7 @@ namespace base
 		/// @param rhs
 		/// @return base::TimePointSinceEpoch
 		///
-		base::TimePointSinceEpoch operator+(base::TimeSpan const &rhs) const
+		constexpr base::TimePointSinceEpoch operator+(base::TimeSpan const &rhs) const
 		{
 			return base::TimePointSinceEpoch{_time_since_epoch + static_cast<std::chrono::nanoseconds>(rhs)};
 		}
@@ -128,7 +128,7 @@ namespace base
 		/// @param rhs
 		/// @return base::TimeSpan
 		///
-		base::TimeSpan operator-(base::TimePointSinceEpoch const &rhs) const
+		constexpr base::TimeSpan operator-(base::TimePointSinceEpoch const &rhs) const
 		{
 			return base::TimeSpan{_time_since_epoch - rhs._time_since_epoch};
 		}
@@ -139,7 +139,7 @@ namespace base
 		/// @param rhs
 		/// @return base::TimePointSinceEpoch
 		///
-		base::TimePointSinceEpoch operator-(base::TimeSpan const &rhs) const
+		constexpr base::TimePointSinceEpoch operator-(base::TimeSpan const &rhs) const
 		{
 			return base::TimePointSinceEpoch{_time_since_epoch - static_cast<std::chrono::nanoseconds>(rhs)};
 		}
@@ -150,7 +150,7 @@ namespace base
 		/// @param rhs
 		/// @return base::TimePointSinceEpoch&
 		///
-		base::TimePointSinceEpoch &operator+=(base::TimeSpan const &rhs)
+		constexpr base::TimePointSinceEpoch &operator+=(base::TimeSpan const &rhs)
 		{
 			_time_since_epoch += static_cast<std::chrono::nanoseconds>(rhs);
 			return *this;
@@ -162,7 +162,7 @@ namespace base
 		/// @param rhs
 		/// @return base::TimePointSinceEpoch&
 		///
-		base::TimePointSinceEpoch &operator-=(base::TimeSpan const &rhs)
+		constexpr base::TimePointSinceEpoch &operator-=(base::TimeSpan const &rhs)
 		{
 			_time_since_epoch -= static_cast<std::chrono::nanoseconds>(rhs);
 			return *this;

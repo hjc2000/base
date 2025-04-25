@@ -5,8 +5,6 @@
 
 namespace base
 {
-	class TimePointSinceEpoch;
-
 	///
 	/// @brief 时间片。
 	///
@@ -18,19 +16,73 @@ namespace base
 
 	public:
 		/* #region 构造函数 */
-		TimeSpan();
-		explicit TimeSpan(std::chrono::nanoseconds const &value);
-		explicit TimeSpan(std::chrono::microseconds const &value);
-		explicit TimeSpan(std::chrono::milliseconds const &value);
-		explicit TimeSpan(std::chrono::seconds const &value);
-		explicit TimeSpan(timespec const &value);
+
+		constexpr TimeSpan() = default;
+
+		constexpr explicit TimeSpan(std::chrono::nanoseconds const &value)
+		{
+			_span = value;
+		}
+
+		constexpr explicit TimeSpan(std::chrono::microseconds const &value)
+		{
+			_span = std::chrono::nanoseconds{value};
+		}
+
+		constexpr explicit TimeSpan(std::chrono::milliseconds const &value)
+		{
+			_span = std::chrono::nanoseconds{value};
+		}
+
+		constexpr explicit TimeSpan(std::chrono::seconds const &value)
+		{
+			_span = std::chrono::nanoseconds{value};
+		}
+
+		constexpr explicit TimeSpan(timespec const &value)
+		{
+			_span = std::chrono::seconds{value.tv_sec} + std::chrono::nanoseconds{value.tv_nsec};
+		}
+
 		/* #endregion */
 
-		explicit operator std::chrono::nanoseconds() const;
-		explicit operator std::chrono::microseconds() const;
-		explicit operator std::chrono::milliseconds() const;
-		explicit operator std::chrono::seconds() const;
-		explicit operator timespec() const;
+		/* #region 强制转换 */
+
+		constexpr explicit operator std::chrono::nanoseconds() const
+		{
+			return _span;
+		}
+
+		constexpr explicit operator std::chrono::microseconds() const
+		{
+			return std::chrono::duration_cast<std::chrono::microseconds>(_span);
+		}
+
+		constexpr explicit operator std::chrono::milliseconds() const
+		{
+			return std::chrono::duration_cast<std::chrono::milliseconds>(_span);
+		}
+
+		constexpr explicit operator std::chrono::seconds() const
+		{
+			return std::chrono::duration_cast<std::chrono::seconds>(_span);
+		}
+
+		constexpr explicit operator timespec() const
+		{
+			timespec ts{};
+			std::chrono::seconds seconds_part = std::chrono::duration_cast<std::chrono::seconds>(_span);
+			std::chrono::nanoseconds nanoseconds_part = _span - std::chrono::nanoseconds{seconds_part};
+
+			// 整秒部分
+			ts.tv_sec = static_cast<decltype(ts.tv_sec)>(seconds_part.count());
+
+			// 纳秒部分
+			ts.tv_nsec = static_cast<decltype(ts.tv_nsec)>(nanoseconds_part.count());
+			return ts;
+		}
+
+		/* #endregion */
 
 		/* #region 四则运算 */
 
