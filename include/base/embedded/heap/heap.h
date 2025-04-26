@@ -51,8 +51,6 @@ namespace base
 		///
 		base::heap::IHeap &Heap();
 
-		std::shared_ptr<base::heap::IHeap> CreateHeap(uint8_t *buffer, size_t size);
-
 		/* #region AddHeap */
 
 		/// @brief 添加一个堆到堆列表。一旦添加，堆就会投入使用，被用于动态内存分配。

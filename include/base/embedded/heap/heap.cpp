@@ -1,6 +1,8 @@
 #include "heap.h"
+#include "base/embedded/heap/Heap4.h"
 #include "base/RentedPtrFactory.h"
 #include "base/task/task.h"
+#include <memory>
 #include <vector>
 
 namespace
@@ -33,7 +35,8 @@ void base::heap::AddHeap(std::shared_ptr<base::heap::IHeap> const &heap)
 void base::heap::AddHeap(uint8_t *buffer, size_t size)
 {
 	base::task::TaskSchedulerSuspendGuard g;
-	base::heap::AddHeap(base::heap::CreateHeap(buffer, size));
+	std::shared_ptr<base::heap::Heap4> heap{new base::heap::Heap4{buffer, size}};
+	base::heap::AddHeap(heap);
 }
 
 void base::heap::AddHeap(base::Span const &span)

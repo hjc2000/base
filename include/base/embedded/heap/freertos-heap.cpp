@@ -11,8 +11,6 @@ extern "C"
 		return base::heap::Malloc(xWantedSize);
 	}
 
-	/*-----------------------------------------------------------*/
-
 	void vPortFree(void *pv)
 	{
 		base::heap::Free(pv);
