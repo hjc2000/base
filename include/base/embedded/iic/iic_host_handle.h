@@ -13,6 +13,53 @@ namespace base
 		std::shared_ptr<base::iic::iic_host_handle> open(uint32_t id);
 
 		///
+		/// @brief 获取 IIC 主机接口的名称。
+		///
+		/// @param h
+		/// @return
+		///
+		std::string name(base::iic::iic_host_handle &h);
+
+		/* #region 锁 */
+
+		///
+		/// @brief 锁住 IIC 接口。
+		///
+		/// @note IIC 的操作是一个序列，整个操作期间需要保持锁住 IIC 接口，
+		/// 不能被打断。操作序列完成后才可以解锁，交给其他线程进行下一个操作序列。
+		///
+		/// @param h
+		///
+		void lock(base::iic::iic_host_handle &h);
+
+		///
+		/// @brief 解锁 IIC 接口。
+		///
+		/// @param h
+		///
+		void unlock(base::iic::iic_host_handle &h);
+
+		class iic_host_handle_lock_guard
+		{
+		private:
+			base::iic::iic_host_handle &_handle;
+
+		public:
+			iic_host_handle_lock_guard(base::iic::iic_host_handle &handle)
+				: _handle(handle)
+			{
+				base::iic::lock(_handle);
+			}
+
+			~iic_host_handle_lock_guard()
+			{
+				base::iic::unlock(_handle);
+			}
+		};
+
+		/* #endregion */
+
+		///
 		/// @brief 初始化 IIC 主机接口。
 		///
 		/// @param h
@@ -22,14 +69,6 @@ namespace base
 		void initialize(base::iic::iic_host_handle &h,
 						base::Nanoseconds const &scl_cycle,
 						base::Nanoseconds const &waiting_for_ack_signal_timeout);
-
-		///
-		/// @brief 获取 IIC 主机接口的名称。
-		///
-		/// @param h
-		/// @return
-		///
-		std::string name(base::iic::iic_host_handle &h);
 
 		///
 		/// @brief 发送 IIC 启动信号。
