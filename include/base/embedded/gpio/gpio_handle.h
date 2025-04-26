@@ -11,6 +11,8 @@ namespace base
 	{
 		class gpio_pin_handle;
 
+		/* #region open */
+
 		///
 		/// @brief 打开 GPIO 引脚。
 		///
@@ -28,7 +30,9 @@ namespace base
 		/// @param pin_id
 		/// @return
 		///
-		std::shared_ptr<base::gpio::gpio_pin_handle> open(base::gpio::PinId const &pin_id);
+		std::shared_ptr<base::gpio::gpio_pin_handle> open(uint32_t pin_id);
+
+		/* #endregion */
 
 		/* #region 初始化函数 */
 
@@ -69,6 +73,8 @@ namespace base
 
 		/* #endregion */
 
+		/* #region 引脚信息 */
+
 		///
 		/// @brief 获取引脚名称。
 		///
@@ -76,6 +82,32 @@ namespace base
 		/// @return std::string
 		///
 		std::string pin_name(base::gpio::gpio_pin_handle &h);
+
+		///
+		/// @brief 端口号。
+		///
+		/// @param h
+		/// @return
+		///
+		base::gpio::PortEnum port(base::gpio::gpio_pin_handle &h);
+
+		///
+		/// @brief 引脚号。
+		///
+		/// @param h
+		/// @return
+		///
+		uint32_t pin(base::gpio::gpio_pin_handle &h);
+
+		///
+		/// @brief 引脚 ID.
+		///
+		/// @param h
+		/// @return
+		///
+		uint32_t pin_id(base::gpio::gpio_pin_handle &h);
+
+		/* #endregion */
 
 		/* #region 读写引脚电平 */
 

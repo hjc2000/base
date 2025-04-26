@@ -14,42 +14,17 @@ namespace base
 		class GpioPin
 		{
 		private:
-			base::gpio::PortEnum _port{};
-			uint32_t _pin{};
 			std::shared_ptr<base::gpio::gpio_pin_handle> _handle{};
 
 		public:
-			///
-			/// @brief 构造时会打开 GPIO 引脚。
-			///
-			/// @param port
-			/// @param pin
-			///
 			GpioPin(base::gpio::PortEnum port, uint32_t pin)
-				: _port(port),
-				  _pin(pin)
 			{
-				_handle = base::gpio::open(_port, _pin);
+				_handle = base::gpio::open(port, pin);
 			}
 
-			///
-			/// @brief 端口号。
-			///
-			/// @return base::gpio::PortEnum
-			///
-			base::gpio::PortEnum Port() const
+			GpioPin(uint32_t pin_id)
 			{
-				return _port;
-			}
-
-			///
-			/// @brief 引脚号。
-			///
-			/// @return uint32_t
-			///
-			uint32_t Pin() const
-			{
-				return _pin;
+				_handle = base::gpio::open(pin_id);
 			}
 
 			///
@@ -109,6 +84,8 @@ namespace base
 
 			/* #endregion */
 
+			/* #region 引脚信息 */
+
 			///
 			/// @brief GPIO 引脚名称。
 			///
@@ -118,6 +95,38 @@ namespace base
 			{
 				return base::gpio::pin_name(*_handle);
 			}
+
+			///
+			/// @brief 端口号。
+			///
+			/// @return
+			///
+			base::gpio::PortEnum Port() const
+			{
+				return base::gpio::port(*_handle);
+			}
+
+			///
+			/// @brief 引脚号。
+			///
+			/// @return
+			///
+			uint32_t Pin() const
+			{
+				return base::gpio::pin(*_handle);
+			}
+
+			///
+			/// @brief 引脚 ID.
+			///
+			/// @return
+			///
+			uint32_t PinId() const
+			{
+				return base::gpio::pin_id(*_handle);
+			}
+
+			/* #endregion */
 
 			/* #region 读写引脚电平 */
 

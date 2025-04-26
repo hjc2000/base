@@ -1,29 +1,10 @@
 #pragma once
-
-#include <cstdint>
 #include <string>
 
 namespace base
 {
 	namespace gpio
 	{
-		class PinId
-		{
-		private:
-			uint32_t _value = 0;
-
-		public:
-			constexpr explicit PinId(uint32_t value)
-				: _value(value)
-			{
-			}
-
-			constexpr uint32_t Value() const
-			{
-				return _value;
-			}
-		};
-
 		///
 		/// @brief GPIO 端口枚举。
 		///
