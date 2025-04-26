@@ -105,13 +105,5 @@ namespace base
 		///
 		uint8_t receive_byte(base::iic::iic_host_handle &h, bool send_nack);
 
-		///
-		/// @brief SCL 信号的周期。
-		///
-		/// @param h
-		/// @return
-		///
-		base::Nanoseconds scl_cycle(base::iic::iic_host_handle &h);
-
 	} // namespace iic
 } // namespace base
