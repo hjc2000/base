@@ -10,7 +10,6 @@ namespace base
 	namespace gpio
 	{
 		class gpio_pin_handle;
-		using sp_gpio_pin_handle = std::shared_ptr<base::gpio::gpio_pin_handle>;
 
 		///
 		/// @brief 打开 GPIO 引脚。
@@ -21,7 +20,7 @@ namespace base
 		/// @param pin
 		/// @return base::gpio::sp_gpio_pin_handle
 		///
-		base::gpio::sp_gpio_pin_handle open(base::gpio::PortEnum port, uint32_t pin);
+		std::shared_ptr<base::gpio::gpio_pin_handle> open(base::gpio::PortEnum port, uint32_t pin);
 
 		///
 		/// @brief 根据引脚 ID 打开引脚。
@@ -29,7 +28,7 @@ namespace base
 		/// @param pin_id
 		/// @return
 		///
-		base::gpio::sp_gpio_pin_handle open(base::gpio::PinId const &pin_id);
+		std::shared_ptr<base::gpio::gpio_pin_handle> open(base::gpio::PinId const &pin_id);
 
 		/* #region 初始化函数 */
 

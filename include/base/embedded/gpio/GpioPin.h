@@ -16,7 +16,7 @@ namespace base
 		private:
 			base::gpio::PortEnum _port{};
 			uint32_t _pin{};
-			base::gpio::sp_gpio_pin_handle _handle{};
+			std::shared_ptr<base::gpio::gpio_pin_handle> _handle{};
 
 		public:
 			///
@@ -55,9 +55,9 @@ namespace base
 			///
 			/// @brief 获取被包装的句柄。
 			///
-			/// @return base::gpio::sp_gpio_pin_handle const&
+			/// @return
 			///
-			base::gpio::sp_gpio_pin_handle const &Handle() const
+			std::shared_ptr<base::gpio::gpio_pin_handle> const &Handle() const
 			{
 				return _handle;
 			}
