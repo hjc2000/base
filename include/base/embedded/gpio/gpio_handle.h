@@ -23,6 +23,14 @@ namespace base
 		///
 		base::gpio::sp_gpio_pin_handle open(base::gpio::PortEnum port, uint32_t pin);
 
+		///
+		/// @brief 根据引脚 ID 打开引脚。
+		///
+		/// @param pin_id
+		/// @return
+		///
+		base::gpio::sp_gpio_pin_handle open(base::gpio::PinId const &pin_id);
+
 		/* #region 初始化函数 */
 
 		///
