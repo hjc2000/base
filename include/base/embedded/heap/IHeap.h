@@ -19,14 +19,14 @@ namespace base
 			///
 			/// @return
 			///
-			virtual void *Malloc(size_t size) = 0;
+			virtual void *Malloc(size_t size) noexcept = 0;
 
 			///
 			/// @brief 要释放的由 Malloc 方法分配的内存块。
 			///
 			/// @param p Malloc 方法返回的指针。
 			///
-			virtual void Free(void *p) = 0;
+			virtual void Free(void *p) noexcept = 0;
 
 			///
 			/// @brief 堆的起点。

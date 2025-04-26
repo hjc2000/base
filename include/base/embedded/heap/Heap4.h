@@ -41,11 +41,11 @@ namespace base
 			/// @brief 分配内存。
 			/// @param size 要分配的内存块大小。单位：字节。
 			/// @return
-			virtual void *Malloc(size_t xWantedSize) override;
+			virtual void *Malloc(size_t xWantedSize) noexcept override;
 
 			/// @brief 要释放的由 Malloc 方法分配的内存块。
 			/// @param p Malloc 方法返回的指针。
-			virtual void Free(void *pv) override;
+			virtual void Free(void *pv) noexcept override;
 
 			/// @brief 堆的起点。
 			/// @return

@@ -100,7 +100,7 @@ base::heap::Heap4::Heap4(uint8_t *buffer, size_t size)
 	xFreeBytesRemaining = pxFirstFreeBlock->_size;
 }
 
-void *base::heap::Heap4::Malloc(size_t xWantedSize)
+void *base::heap::Heap4::Malloc(size_t xWantedSize) noexcept
 {
 	base::heap::MemoryBlockLinkListNode *pxBlock;
 	base::heap::MemoryBlockLinkListNode *pxPreviousBlock;
@@ -203,7 +203,7 @@ void *base::heap::Heap4::Malloc(size_t xWantedSize)
 	return pvReturn;
 }
 
-void base::heap::Heap4::Free(void *pv)
+void base::heap::Heap4::Free(void *pv) noexcept
 {
 	uint8_t *puc = (uint8_t *)pv;
 	base::heap::MemoryBlockLinkListNode *pxLink;
