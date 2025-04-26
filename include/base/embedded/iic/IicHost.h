@@ -1,4 +1,5 @@
 #pragma once
+#include "base/define.h"
 #include "base/embedded/iic/iic_host_handle.h"
 #include "base/task/Mutex.h"
 
@@ -15,6 +16,7 @@ namespace base
 		class IicHost
 		{
 		private:
+			DELETE_COPY_AND_MOVE(IicHost)
 			friend class IicHostOperator;
 
 			std::shared_ptr<base::iic::iic_host_handle> _handle;
