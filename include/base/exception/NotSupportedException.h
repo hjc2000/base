@@ -13,8 +13,6 @@ namespace base
 			public std::exception
 		{
 		public:
-			using std::exception::exception;
-
 			virtual char const *what() const noexcept override
 			{
 				return "不支持的功能。";
