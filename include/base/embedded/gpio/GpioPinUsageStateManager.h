@@ -1,0 +1,55 @@
+#pragma once
+#include "base/string/define.h"
+#include "base/task/Mutex.h"
+#include "gpio_parameter.h"
+#include <array>
+#include <bitset>
+#include <cstdint>
+
+namespace base
+{
+	namespace gpio
+	{
+		template <uint32_t PortQuantity, uint32_t PinQuantityPerPort>
+		class GpioPinUsageStateManager
+		{
+		private:
+			inline static std::array<std::bitset<PinQuantityPerPort>, PortQuantity> _states{};
+			inline static base::task::Mutex _lock{};
+
+			base::gpio::PortEnum _port{};
+			uint32_t _pin{};
+
+		public:
+			GpioPinUsageStateManager(base::gpio::PortEnum port, uint32_t pin)
+				: _port(port),
+				  _pin(pin)
+			{
+				if (static_cast<int>(port) >= PortQuantity)
+				{
+					throw std::invalid_argument{CODE_POS_STR + "端口号超出范围。"};
+				}
+
+				if (static_cast<int>(pin) >= PinQuantityPerPort)
+				{
+					throw std::invalid_argument{CODE_POS_STR + "引脚号超出范围。"};
+				}
+
+				base::task::MutexGuard g{_lock};
+				if (_states[static_cast<int>(port)][pin])
+				{
+					throw std::runtime_error{CODE_POS_STR + PinName(port, pin) + "已经占用了，无法再次占用。"};
+				}
+
+				_states[static_cast<int>(port)][pin] = true;
+			}
+
+			~GpioPinUsageStateManager()
+			{
+				base::task::MutexGuard g{_lock};
+				_states[static_cast<int>(_port)][_pin] = false;
+			}
+		};
+
+	} // namespace gpio
+} // namespace base
