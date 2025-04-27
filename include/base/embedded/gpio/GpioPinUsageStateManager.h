@@ -40,6 +40,9 @@ namespace base
 				}
 
 				base::task::MutexGuard g{_lock};
+
+				// 这里只能在加锁的情况下检查，不能使用 2 不检查锁定来加速。因为 bitset 的位
+				// 不是原子的，多线程读写会冲突。
 				if (_states[static_cast<int>(port)][pin])
 				{
 					throw std::runtime_error{CODE_POS_STR + PinName(port, pin) + "已经占用了，无法再次占用。"};
