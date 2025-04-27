@@ -1,7 +1,10 @@
 #pragma once
+#include "base/container/IDictionary.h"
 #include "base/define.h"
 #include "base/embedded/iic/iic_host_handle.h"
 #include "base/task/Mutex.h"
+#include <cstdint>
+#include <memory>
 
 namespace base
 {
@@ -117,6 +120,15 @@ namespace base
 				return base::iic::receive_byte(*_host._handle, send_nack);
 			}
 		};
+
+		///
+		/// @brief IIC 主机的插槽。
+		///
+		/// @note 初始化阶段打开 IIC 主机，然后插入此插槽。
+		///
+		/// @return
+		///
+		base::IDictionary<uint32_t, std::shared_ptr<base::iic::IicHost>> &IicHostIdSlot();
 
 	} // namespace iic
 } // namespace base
