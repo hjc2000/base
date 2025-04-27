@@ -10,15 +10,7 @@ namespace base
 	{
 		class iic_host_handle;
 
-		///
-		/// @brief 获取 IIC 总线实例。
-		///
-		/// @note 只要是相同的 id, 底层就返回同一个实例。
-		///
-		/// @param id
-		/// @return
-		///
-		std::shared_ptr<base::iic::iic_host_handle> get(uint32_t id);
+		std::shared_ptr<base::iic::iic_host_handle> open(uint32_t id);
 
 		///
 		/// @brief 获取 IIC 主机接口的名称。

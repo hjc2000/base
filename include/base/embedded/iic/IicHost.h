@@ -27,7 +27,7 @@ namespace base
 		public:
 			IicHost(uint32_t id)
 			{
-				_handle = base::iic::get(id);
+				_handle = base::iic::open(id);
 			}
 
 			///
