@@ -163,7 +163,18 @@ namespace base
 		};
 
 	} // namespace gpio
+} // namespace base
 
+namespace std
+{
+	/* #region to_string */
+
+	///
+	/// @brief 将端口号转换为字符串。
+	///
+	/// @param port
+	/// @return
+	///
 	constexpr std::string to_string(base::gpio::PortEnum port)
 	{
 		switch (port)
@@ -239,9 +250,25 @@ namespace base
 		}
 	}
 
-	inline std::string PinName(base::gpio::PortEnum port, uint32_t pin)
-	{
-		return base::to_string(port) + std::to_string(pin);
-	}
+	/* #endregion */
 
+} // namespace std
+
+namespace base
+{
+	namespace gpio
+	{
+		///
+		/// @brief 获取引脚名称。
+		///
+		/// @param port
+		/// @param pin
+		/// @return
+		///
+		inline std::string PinName(base::gpio::PortEnum port, uint32_t pin)
+		{
+			return std::to_string(port) + std::to_string(pin);
+		}
+
+	} // namespace gpio
 } // namespace base
