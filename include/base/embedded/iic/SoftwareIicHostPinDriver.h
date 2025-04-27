@@ -7,23 +7,37 @@ namespace base
 {
 	namespace iic
 	{
+		/* #region ISoftwareIicHostPinDriver */
+
 		class ISoftwareIicHostPinDriver
 		{
 		public:
+			///
 			/// @brief 写 SCL 引脚的值。
+			///
 			/// @param value
+			///
 			virtual void WriteSCL(bool value) = 0;
 
+			///
 			/// @brief 更改 SDA 引脚的 IO 方向。
+			///
 			/// @param value
+			///
 			virtual void ChangeSDADirection(base::gpio::Direction value) = 0;
 
+			///
 			/// @brief 写 SDA 引脚的值。
+			///
 			/// @param value
+			///
 			virtual void WriteSDA(bool value) = 0;
 
+			///
 			/// @brief 读 SDA 引脚的值。
+			///
 			/// @return
+			///
 			virtual bool ReadSDA() const = 0;
 		};
 
@@ -32,22 +46,36 @@ namespace base
 			public base::iic::ISoftwareIicHostPinDriver
 		{
 		public:
+			///
 			/// @brief 写 SCL 引脚的值。
+			///
 			/// @param value
+			///
 			virtual void WriteSCL(bool value) override = 0;
 
+			///
 			/// @brief 更改 SDA 引脚的 IO 方向。
+			///
 			/// @param value
+			///
 			virtual void ChangeSDADirection(base::gpio::Direction value) override = 0;
 
+			///
 			/// @brief 写 SDA 引脚的值。
+			///
 			/// @param value
+			///
 			virtual void WriteSDA(bool value) override = 0;
 
+			///
 			/// @brief 读 SDA 引脚的值。
+			///
 			/// @return
+			///
 			virtual bool ReadSDA() const override = 0;
 		};
+
+		/* #endregion */
 
 		template <>
 		class SoftwareIicHostPinDriver<base::gpio::GpioPin> :
@@ -64,23 +92,58 @@ namespace base
 				  _sda_pin(sda_pin)
 			{
 				_scl_pin.InitializeAsOutputMode();
+				_sda_pin.InitializeAsOutputMode();
+
+				_scl_pin.WritePin(true);
+				_sda_pin.WritePin(true);
 			}
 
+			///
 			/// @brief 写 SCL 引脚的值。
+			///
 			/// @param value
-			virtual void WriteSCL(bool value) override;
+			///
+			virtual void WriteSCL(bool value) final override
+			{
+				_scl_pin.WritePin(value);
+			}
 
+			///
 			/// @brief 更改 SDA 引脚的 IO 方向。
+			///
 			/// @param value
-			virtual void ChangeSDADirection(base::gpio::Direction value) override;
+			///
+			virtual void ChangeSDADirection(base::gpio::Direction value) final override
+			{
+				if (value == base::gpio::Direction::Input)
+				{
+					_sda_pin.InitializeAsInputMode();
+				}
+				else
+				{
+					_sda_pin.InitializeAsOutputMode();
+				}
+			}
 
+			///
 			/// @brief 写 SDA 引脚的值。
+			///
 			/// @param value
-			virtual void WriteSDA(bool value) override;
+			///
+			virtual void WriteSDA(bool value) final override
+			{
+				_sda_pin.WritePin(value);
+			}
 
+			///
 			/// @brief 读 SDA 引脚的值。
+			///
 			/// @return
-			virtual bool ReadSDA() const override;
+			///
+			virtual bool ReadSDA() const final override
+			{
+				return _sda_pin.ReadPin();
+			}
 		};
 
 	} // namespace iic
