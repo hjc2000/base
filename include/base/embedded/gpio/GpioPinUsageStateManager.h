@@ -10,6 +10,10 @@ namespace base
 {
 	namespace gpio
 	{
+		///
+		/// @brief GPIO 引脚使用状态管理器。
+		///
+		///
 		template <uint32_t PortQuantity, uint32_t PinQuantityPerPort>
 		class GpioPinUsageStateManager
 		{
