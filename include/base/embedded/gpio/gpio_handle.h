@@ -59,6 +59,16 @@ namespace base
 									   base::gpio::DriveMode drive_mode);
 
 		///
+		/// @brief 初始化为输出模式。
+		///
+		/// @note 简单地配置为输出模式。不关心是上拉下拉，驱动方式是什么。反正只要能输出
+		/// 高低电平就行。
+		///
+		/// @param h
+		///
+		void initialize_as_output_mode(base::gpio::gpio_pin_handle &h);
+
+		///
 		/// @brief 初始化为复用功能模式。
 		///
 		/// @param h
