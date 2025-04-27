@@ -48,6 +48,17 @@ namespace base
 									  base::gpio::TriggerEdge trigger_edge);
 
 		///
+		/// @brief 初始化为输入模式。
+		///
+		/// @note 简单地初始化为输入模式。不关心上下拉。
+		/// @note 不要使能中断。
+		/// @note 只要保证能读取引脚的电平就行。
+		///
+		/// @param h
+		///
+		void initialize_as_input_mode(base::gpio::gpio_pin_handle &h);
+
+		///
 		/// @brief 初始化为输出模式。
 		///
 		/// @param h
