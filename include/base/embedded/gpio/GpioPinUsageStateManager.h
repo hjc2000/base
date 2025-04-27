@@ -29,12 +29,12 @@ namespace base
 				: _port(port),
 				  _pin(pin)
 			{
-				if (static_cast<int>(port) >= PortQuantity)
+				if (static_cast<uint32_t>(port) >= PortQuantity)
 				{
 					throw std::invalid_argument{CODE_POS_STR + "端口号超出范围。"};
 				}
 
-				if (static_cast<int>(pin) >= PinQuantityPerPort)
+				if (static_cast<uint32_t>(pin) >= PinQuantityPerPort)
 				{
 					throw std::invalid_argument{CODE_POS_STR + "引脚号超出范围。"};
 				}
