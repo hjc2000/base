@@ -22,6 +22,9 @@ namespace base
 			///
 			/// @brief 更改 SDA 引脚的 IO 方向。
 			///
+			/// @warning 改变方向和读写是分开的。不要自作聪明，在 WriteSDA 的实现中将 SDA
+			/// 引脚方向切换为输出，在 ReadSDA 的实现中将 SDA 引脚的方向切换为输入。
+			///
 			/// @param value
 			///
 			virtual void ChangeSDADirection(base::gpio::Direction value) = 0;
@@ -110,6 +113,9 @@ namespace base
 
 			///
 			/// @brief 更改 SDA 引脚的 IO 方向。
+			///
+			/// @warning 改变方向和读写是分开的。不要自作聪明，在 WriteSDA 的实现中将 SDA
+			/// 引脚方向切换为输出，在 ReadSDA 的实现中将 SDA 引脚的方向切换为输入。
 			///
 			/// @param value
 			///
