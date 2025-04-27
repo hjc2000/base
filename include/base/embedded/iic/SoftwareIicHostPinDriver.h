@@ -80,6 +80,8 @@ namespace base
 
 		/* #endregion */
 
+		/* #region 针对 base::gpio::GpioPin 特化 */
+
 		template <>
 		class SoftwareIicHostPinDriver<base::gpio::GpioPin> :
 			public base::iic::ISoftwareIicHostPinDriver
@@ -151,6 +153,8 @@ namespace base
 				return _sda_pin.ReadPin();
 			}
 		};
+
+		/* #endregion */
 
 	} // namespace iic
 } // namespace base
