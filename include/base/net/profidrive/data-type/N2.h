@@ -55,7 +55,7 @@ namespace base
 
 			/* #endregion */
 
-			base::Fraction Value() const
+			base::Fraction const &Value() const
 			{
 				return _value;
 			}
