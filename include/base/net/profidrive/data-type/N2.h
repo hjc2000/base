@@ -12,15 +12,20 @@ namespace base
 		/// @brief profidrive 行规特定类型: N2.
 		///
 		///
-		class N2 final
+		class N2
 		{
 		private:
 			base::Fraction _value;
 			base::AutoBitConverter _converter{std::endian::big};
 
-			int32_t Factor() const;
+			static constexpr int32_t Factor()
+			{
+				return static_cast<int64_t>(1 << 14);
+			}
 
 		public:
+			/* #region 构造函数 */
+
 			N2() = default;
 
 			///
@@ -28,66 +33,42 @@ namespace base
 			///
 			/// @param span
 			///
-			N2(base::ReadOnlySpan const &span);
+			N2(base::ReadOnlySpan const &span)
+			{
+				// 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
+				// 放大后截断为整型。
+				//
+				// 想要获得分数的实际值，就将这个整型除以 Factor.
+				int16_t n2 = _converter.FromBytes<int16_t>(span);
+				_value = base::Fraction{n2, Factor()};
+			}
 
 			///
 			/// @brief 通过实际的分数值构造行规特定数据类型。
 			///
 			/// @param value
 			///
-			N2(base::Fraction const &value);
-
-			///
-			/// @brief 强制转换为分数类型。
-			///
-			/// @return base::Fraction
-			///
-			explicit operator base::Fraction() const;
-
-			base::Array<uint8_t, 2> BufferForSending() const;
-
-			N2 operator+(N2 const &right_value) const
+			N2(base::Fraction const &value)
 			{
-				return base::profidrive::N2{_value + right_value._value};
+				_value = value;
 			}
 
-			N2 operator-(N2 const &right_value) const
+			/* #endregion */
+
+			base::Fraction Value() const
 			{
-				return base::profidrive::N2{_value - right_value._value};
+				return _value;
 			}
 
-			N2 operator*(N2 const &right_value) const
+			base::Array<uint8_t, 2> BufferForSending() const
 			{
-				return base::profidrive::N2{_value * right_value._value};
-			}
+				// 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
+				// 放大后截断为整型。
+				int16_t n2 = static_cast<int16_t>(_value * Factor());
 
-			N2 operator/(N2 const &right_value) const
-			{
-				return base::profidrive::N2{_value / right_value._value};
-			}
-
-			N2 &operator+=(N2 const &right_value)
-			{
-				_value += right_value._value;
-				return *this;
-			}
-
-			N2 &operator-=(N2 const &right_value)
-			{
-				_value -= right_value._value;
-				return *this;
-			}
-
-			N2 &operator*=(N2 const &right_value)
-			{
-				_value *= right_value._value;
-				return *this;
-			}
-
-			N2 &operator/=(N2 const &right_value)
-			{
-				_value /= right_value._value;
-				return *this;
+				base::Array<uint8_t, 2> buffer;
+				_converter.GetBytes(n2, buffer.Span());
+				return buffer;
 			}
 		};
 	} // namespace profidrive

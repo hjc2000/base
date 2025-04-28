@@ -12,7 +12,7 @@ namespace base
 		/// @brief profidrive 行规特定类型: N4.
 		///
 		///
-		class N4 final
+		class N4
 		{
 		private:
 			base::Fraction _value;

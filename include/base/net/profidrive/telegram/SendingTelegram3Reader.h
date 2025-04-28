@@ -9,10 +9,10 @@ namespace base
 	namespace profidrive
 	{
 		///
-		/// @brief 控制器接收的标准报文 3.
+		/// @brief 控制器发送的标准报文 3.
 		///
 		///
-		class ReceivingTelegram3Reader
+		class SendingTelegram3Reader
 		{
 		private:
 			base::ReadOnlySpan _span;
@@ -22,11 +22,11 @@ namespace base
 			///
 			/// @brief 构造函数。
 			///
-			/// @param span 将控制器接收的报文 3 传进来。
+			/// @param span 将控制器发送的报文 3 传进来。
 			/// @param rated_speed 额定转速。
 			///
-			ReceivingTelegram3Reader(base::ReadOnlySpan const &span,
-									 base::rpm const &rated_speed)
+			SendingTelegram3Reader(base::ReadOnlySpan const &span,
+								   base::rpm const &rated_speed)
 				: _span(span),
 				  _rated_speed(rated_speed)
 			{
