@@ -8,11 +8,10 @@ int32_t base::profidrive::N4::Factor() const
 
 base::profidrive::N4::N4(base::ReadOnlySpan const &span)
 {
-	/* 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
-	 * 放大后截断为整型。
-	 *
-	 * 想要获得分数的实际值，就将这个整型除以 Factor.
-	 */
+	// 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
+	// 放大后截断为整型。
+	//
+	// 想要获得分数的实际值，就将这个整型除以 Factor.
 	int32_t n4 = _converter.FromBytes<int32_t>(span);
 	_value = base::Fraction{n4, Factor()};
 }
@@ -29,9 +28,8 @@ base::profidrive::N4::operator base::Fraction() const
 
 base::Array<uint8_t, 4> base::profidrive::N4::BufferForSending() const
 {
-	/* 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
-	 * 放大后截断为整型。
-	 */
+	// 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
+	// 放大后截断为整型。
 	int32_t n4 = static_cast<int32_t>(_value * Factor());
 
 	base::Array<uint8_t, 4> buffer;
