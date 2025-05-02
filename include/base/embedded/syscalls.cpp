@@ -11,6 +11,13 @@ extern "C"
 	#include <sys/times.h>
 	#include <unistd.h>
 
+	/* #region 进程 */
+
+	char *getenv(char const *name)
+	{
+		return nullptr;
+	}
+
 	int _getpid(void)
 	{
 		return 1;
@@ -22,6 +29,12 @@ extern "C"
 		return -1;
 	}
 
+	int _wait(int *status)
+	{
+		errno = ECHILD;
+		return -1;
+	}
+
 	void _exit(int status)
 	{
 		_kill(status, -1);
@@ -30,6 +43,26 @@ extern "C"
 			/* Make sure we hang here */
 		}
 	}
+
+	/* #endregion */
+
+	/* #region 线程 */
+
+	int _fork(void)
+	{
+		errno = EAGAIN;
+		return -1;
+	}
+
+	int _execve(char *name, char **argv, char **env)
+	{
+		errno = ENOMEM;
+		return -1;
+	}
+
+	/* #endregion */
+
+	/* #region 文件操作 */
 
 	int _read(int file, char *ptr, int len)
 	{
@@ -84,23 +117,6 @@ extern "C"
 		return -1;
 	}
 
-	int _wait(int *status)
-	{
-		errno = ECHILD;
-		return -1;
-	}
-
-	int _unlink(char *name)
-	{
-		errno = ENOENT;
-		return -1;
-	}
-
-	int _times(struct tms *buf)
-	{
-		return -1;
-	}
-
 	int _stat(char *file, struct stat *st)
 	{
 		st->st_mode = S_IFCHR;
@@ -113,21 +129,10 @@ extern "C"
 		return -1;
 	}
 
-	int _fork(void)
+	int _unlink(char *name)
 	{
-		errno = EAGAIN;
+		errno = ENOENT;
 		return -1;
-	}
-
-	int _execve(char *name, char **argv, char **env)
-	{
-		errno = ENOMEM;
-		return -1;
-	}
-
-	char *getenv(char const *name)
-	{
-		return nullptr;
 	}
 
 	int fputc(int ch, FILE *f)
@@ -139,6 +144,13 @@ extern "C"
 	{
 		// 成功返回0，可以根据实际需求调整
 		return 0;
+	}
+
+	/* #endregion */
+
+	int _times(struct tms *buf)
+	{
+		return -1;
 	}
 
 	/* #region _sbrk */
