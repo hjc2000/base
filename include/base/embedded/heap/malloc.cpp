@@ -77,34 +77,6 @@ extern "C"
 		return new_mem;
 	}
 
-	/* #region _sbrk */
-
-	///
-	/// @brief 使用自定义堆管理之后，禁止使用本函数。
-	///
-	/// @param incr
-	/// @return
-	///
-	void *_sbrk(ptrdiff_t incr)
-	{
-		errno = ENOMEM;
-		return (void *)-1;
-	}
-
-	///
-	/// @brief 使用自定义堆管理之后，禁止使用本函数。
-	///
-	/// @param r
-	/// @param incr
-	/// @return void*
-	///
-	void *_sbrk_r(struct _reent *r, ptrdiff_t incr)
-	{
-		errno = ENOMEM;
-		return (void *)-1;
-	}
-
-	/* #endregion */
-}
+} // extern "C"
 
 #endif // !HAS_THREAD
