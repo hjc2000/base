@@ -48,6 +48,17 @@ namespace base
 			{
 				base::clock::configure(*_handle, channel_factor_map);
 			}
+
+			///
+			/// @brief 设置为旁路模式。
+			///
+			/// @param bypass_input_frequency 旁路的输入频率。
+			///
+			void ConfigureAsBypassMode(base::MHz const &bypass_input_frequency)
+			{
+				base::clock::configure_as_bypass_mode(*_handle,
+													  bypass_input_frequency);
+			}
 		};
 	} // namespace clock
 } // namespace base

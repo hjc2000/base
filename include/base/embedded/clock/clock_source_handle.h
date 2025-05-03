@@ -39,5 +39,14 @@ namespace base
 		void configure(clock_source_handle &h,
 					   std::map<std::string, uint32_t> const &channel_factor_map);
 
+		///
+		/// @brief 设置为旁路模式。
+		///
+		/// @param h
+		/// @param bypass_input_frequency 旁路的输入频率。
+		///
+		void configure_as_bypass_mode(clock_source_handle &h,
+									  base::MHz const &bypass_input_frequency);
+
 	} // namespace clock
 } // namespace base
