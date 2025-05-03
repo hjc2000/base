@@ -48,5 +48,12 @@ namespace base
 		void configure_as_bypass_mode(clock_source_handle &h,
 									  base::MHz const &bypass_input_frequency);
 
+		///
+		/// @brief 关闭此时钟源。
+		///
+		/// @param h
+		///
+		void turn_off(clock_source_handle &h);
+
 	} // namespace clock
 } // namespace base

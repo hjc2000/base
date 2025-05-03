@@ -59,6 +59,15 @@ namespace base
 				base::clock::configure_as_bypass_mode(*_handle,
 													  bypass_input_frequency);
 			}
+
+			///
+			/// @brief 关闭此时钟源。
+			///
+			///
+			void TurnOff()
+			{
+				base::clock::turn_off(*_handle);
+			}
 		};
 	} // namespace clock
 } // namespace base
