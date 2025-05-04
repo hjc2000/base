@@ -42,6 +42,17 @@ namespace base
 		///
 		/// @param h
 		///
+		/// @param channel_factor_map 储存着各个通道的分频或倍频系数的 map. 其中 key 是通道的
+		/// 名称，value 是系数。
+		///
+		void configure(clock_source_handle &h,
+					   std::map<std::string, uint32_t> const &channel_factor_map);
+
+		///
+		/// @brief 配置时钟源。
+		///
+		/// @param h
+		///
 		/// @param input_channel_name
 		///
 		/// @param channel_factor_map 储存着各个通道的分频或倍频系数的 map. 其中 key 是通道的
