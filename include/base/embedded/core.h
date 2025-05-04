@@ -7,6 +7,7 @@ namespace base
 		///
 		/// @brief 执行初始化。需要在 main 的开头调用。
 		///
+		/// @note 需要实现为幂等的。
 		///
 		void initialize();
 
