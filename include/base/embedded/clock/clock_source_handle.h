@@ -22,6 +22,15 @@ namespace base
 		base::MHz frequency(clock_source_handle &h);
 
 		///
+		/// @brief 获取指定输出通道的频率。
+		///
+		/// @param h
+		/// @param output_channel_name
+		/// @return
+		///
+		base::MHz frequency(clock_source_handle &h, std::string const &output_channel_name);
+
+		///
 		/// @brief 配置时钟源。
 		///
 		/// @param h
