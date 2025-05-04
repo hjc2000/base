@@ -13,6 +13,8 @@ namespace base
 
 		std::shared_ptr<base::clock::clock_source_handle> open(std::string const &name);
 
+		/* #region frequency */
+
 		///
 		/// @brief 获取时钟源的频率。
 		///
@@ -29,6 +31,10 @@ namespace base
 		/// @return
 		///
 		base::MHz frequency(clock_source_handle &h, std::string const &output_channel_name);
+
+		/* #endregion */
+
+		/* #region configure */
 
 		///
 		/// @brief 配置时钟源。
@@ -61,6 +67,8 @@ namespace base
 		void configure(clock_source_handle &h,
 					   std::string const &input_channel_name,
 					   std::map<std::string, uint32_t> const &channel_factor_map);
+
+		/* #endregion */
 
 		///
 		/// @brief 设置为旁路模式。
