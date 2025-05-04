@@ -19,6 +19,8 @@ namespace base
 				_handle = base::clock::open(name);
 			}
 
+			/* #region Frequency */
+
 			///
 			/// @brief 获取时钟源的频率。
 			///
@@ -39,6 +41,10 @@ namespace base
 			{
 				return base::clock::frequency(*_handle, output_channel_name);
 			}
+
+			/* #endregion */
+
+			/* #region Configure */
 
 			///
 			/// @brief 配置时钟源。
@@ -75,6 +81,8 @@ namespace base
 									   input_channel_name,
 									   channel_factor_map);
 			}
+
+			/* #endregion */
 
 			///
 			/// @brief 设置为旁路模式。
