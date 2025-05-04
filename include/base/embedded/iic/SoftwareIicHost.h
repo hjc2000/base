@@ -16,6 +16,8 @@ namespace base
 			base::Nanoseconds _scl_cycle;
 			base::Nanoseconds _waiting_for_ack_signal_timeout;
 
+			/* #region 收发 IIC 控制信号 */
+
 			///
 			/// @brief 发送应答信号。
 			///
@@ -74,6 +76,10 @@ namespace base
 				return true;
 			}
 
+			/* #endregion */
+
+			/* #region 收发一位数据 */
+
 			///
 			/// @brief 发送一位数据。
 			///
@@ -106,6 +112,8 @@ namespace base
 				base::task::Delay(static_cast<std::chrono::nanoseconds>(_scl_cycle / 2));
 				return bit;
 			}
+
+			/* #endregion */
 
 		public:
 			SoftwareIicHost(std::shared_ptr<base::iic::ISoftwareIicHostPinDriver> const &pin_driver)
