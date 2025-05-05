@@ -1,5 +1,6 @@
 #pragma once
 #include "base/unit/Nanoseconds.h"
+#include "SoftwareIicHostPinDriver.h"
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -11,6 +12,8 @@ namespace base
 		class iic_host_handle;
 
 		std::shared_ptr<base::iic::iic_host_handle> open(uint32_t id);
+
+		std::shared_ptr<base::iic::iic_host_handle> open(std::shared_ptr<base::iic::ISoftwareIicHostPinDriver> const &pin_driver);
 
 		///
 		/// @brief 获取 IIC 主机接口的名称。
