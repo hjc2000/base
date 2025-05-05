@@ -4,6 +4,7 @@
 #include "base/task/Mutex.h"
 #include <cstdint>
 #include <memory>
+#include <vector>
 
 namespace base
 {
@@ -124,6 +125,12 @@ namespace base
 				return base::iic::receive_byte(*_host._handle, send_nack);
 			}
 		};
+
+		///
+		/// @brief IIC 主机接口插槽。
+		///
+		///
+		extern std::vector<std::shared_ptr<base::iic::IicHost>> iic_host_slot;
 
 	} // namespace iic
 } // namespace base
