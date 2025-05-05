@@ -75,7 +75,7 @@ namespace base
 
 			~PCF8574()
 			{
-				UnregisterInterruptCallback();
+				// UnregisterInterruptCallback();
 			}
 
 			///
