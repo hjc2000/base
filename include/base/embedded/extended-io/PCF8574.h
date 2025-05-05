@@ -83,7 +83,7 @@ namespace base
 			///
 			/// @param func
 			///
-			void RegisterInterruptCallback(std::function<void()> func)
+			void RegisterInterruptCallback(std::function<void()> const &func)
 			{
 				_interrupt_pin.RegisterInterruptCallback(func);
 			}
