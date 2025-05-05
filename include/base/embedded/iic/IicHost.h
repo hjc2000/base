@@ -1,11 +1,10 @@
 #pragma once
-#include "base/container/List.h"
 #include "base/define.h"
 #include "base/embedded/iic/iic_host_handle.h"
+#include "base/embedded/Slot.h"
 #include "base/task/Mutex.h"
 #include <cstdint>
 #include <memory>
-#include <vector>
 
 namespace base
 {
@@ -131,7 +130,7 @@ namespace base
 		/// @brief IIC 主机接口插槽。
 		///
 		///
-		extern base::List<std::shared_ptr<base::iic::IicHost>> iic_host_slot;
+		extern base::Slot<base::iic::IicHost> iic_host_slot;
 
 	} // namespace iic
 } // namespace base
