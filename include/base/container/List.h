@@ -48,16 +48,30 @@ namespace base
 
 		/* #endregion */
 
+		/* #region vector */
+
+		std::vector<ItemType> &Vector()
+		{
+			return _vector;
+		}
+
+		std::vector<ItemType> const &Vector() const
+		{
+			return _vector;
+		}
+
 		///
 		/// @brief 将本列表内的元素拷贝到向量中。
 		///
 		/// @return std::vector<ItemType>
 		///
-		operator std::vector<ItemType>() const
+		explicit operator std::vector<ItemType>() const
 		{
 			// 直接返回，利用 vector 的拷贝构造函数。
 			return _vector;
 		}
+
+		/* #endregion */
 
 		/* #region 添加元素 */
 
