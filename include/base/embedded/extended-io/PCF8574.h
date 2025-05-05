@@ -1,6 +1,7 @@
 #pragma once
 #include "base/embedded/gpio/GpioPin.h"
 #include "base/embedded/iic/IicHost.h"
+#include "base/embedded/Slot.h"
 #include "base/stream/Span.h"
 #include "base/task/delay.h"
 #include <bit>
@@ -290,6 +291,8 @@ namespace base
 				base::task::Delay(std::chrono::milliseconds{10});
 			}
 		};
+
+		extern base::Slot<base::extended_io::PCF8574> pcf8574_slot;
 
 	} // namespace extended_io
 } // namespace base
