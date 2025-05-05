@@ -14,6 +14,11 @@ namespace base
 		std::vector<std::shared_ptr<void>> _vector;
 
 	public:
+		int32_t Count() const
+		{
+			return static_cast<int32_t>(_vector.size());
+		}
+
 		void Add(std::shared_ptr<T> const &item)
 		{
 			_vector.push_back(item);
