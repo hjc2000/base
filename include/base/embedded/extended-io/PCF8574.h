@@ -98,6 +98,8 @@ namespace base
 				_pcf8574._interrupt_pin.UnregisterInterruptCallback();
 			}
 
+			/* #region 读写位 */
+
 			///
 			/// @brief 读取一个位。即读取指定索引的 IO 端子的电平。
 			///
@@ -146,6 +148,54 @@ namespace base
 				WriteBit(index, !bit);
 			}
 
+			/* #endregion */
+
+			/* #region 读写字节 */
+
+			///
+			/// @brief 读取一个字节。这是一个 8 位的 IO 扩展芯片，读取 1 个字节意味着读取
+			/// 所有 IO 端子的电平。
+			///
+			/// @param index 索引。要读取第几个字节。
+			///
+			/// @return
+			///
+			uint8_t ReadByte(int index)
+			{
+				base::iic::IicHostOperator op{*_pcf8574._iic_host};
+
+				op.Initialize(base::Nanoseconds{std::chrono::microseconds{4}},
+							  base::Nanoseconds{std::chrono::microseconds{4} * 20});
+
+				op.SendStartingSignal();
+				op.SendByte(_pcf8574._address_register | 0x01);
+				uint8_t data = op.ReceiveByte(true);
+				op.SendStoppingSignal();
+				return data;
+			}
+
+			///
+			/// @brief 写 1 个字节。这是 1 个 8 位的 IO 扩展芯片，写 1 个字节意味着设置所有
+			/// IO 端子的电平。
+			///
+			/// @param index 索引。要写入第几个字节。
+			///
+			/// @param value
+			///
+			void WriteByte(int index, uint8_t value)
+			{
+				base::iic::IicHostOperator op{*_pcf8574._iic_host};
+
+				op.Initialize(base::Nanoseconds{std::chrono::microseconds{4}},
+							  base::Nanoseconds{std::chrono::microseconds{4} * 20});
+
+				op.SendStartingSignal();
+				op.SendByte(_pcf8574._address_register | 0x00);
+				op.SendByte(value);
+				op.SendStoppingSignal();
+				base::task::Delay(std::chrono::milliseconds{10});
+			}
+
 			///
 			/// @brief 读取多个字节到 span 中。
 			///
@@ -160,6 +210,10 @@ namespace base
 					span[i] = ReadByte(addr + i);
 				}
 			}
+
+			/* #endregion */
+
+			/* #region 读写整型 */
 
 			///
 			/// @brief 读取 IO 端口中指定索引处的一个 uint16_t 数据。
@@ -248,49 +302,7 @@ namespace base
 				return data;
 			}
 
-			///
-			/// @brief 读取一个字节。这是一个 8 位的 IO 扩展芯片，读取 1 个字节意味着读取
-			/// 所有 IO 端子的电平。
-			///
-			/// @param index 索引。要读取第几个字节。
-			///
-			/// @return
-			///
-			uint8_t ReadByte(int index)
-			{
-				base::iic::IicHostOperator op{*_pcf8574._iic_host};
-
-				op.Initialize(base::Nanoseconds{std::chrono::microseconds{4}},
-							  base::Nanoseconds{std::chrono::microseconds{4} * 20});
-
-				op.SendStartingSignal();
-				op.SendByte(_pcf8574._address_register | 0x01);
-				uint8_t data = op.ReceiveByte(true);
-				op.SendStoppingSignal();
-				return data;
-			}
-
-			///
-			/// @brief 写 1 个字节。这是 1 个 8 位的 IO 扩展芯片，写 1 个字节意味着设置所有
-			/// IO 端子的电平。
-			///
-			/// @param index 索引。要写入第几个字节。
-			///
-			/// @param value
-			///
-			void WriteByte(int index, uint8_t value)
-			{
-				base::iic::IicHostOperator op{*_pcf8574._iic_host};
-
-				op.Initialize(base::Nanoseconds{std::chrono::microseconds{4}},
-							  base::Nanoseconds{std::chrono::microseconds{4} * 20});
-
-				op.SendStartingSignal();
-				op.SendByte(_pcf8574._address_register | 0x00);
-				op.SendByte(value);
-				op.SendStoppingSignal();
-				base::task::Delay(std::chrono::milliseconds{10});
-			}
+			/* #endregion */
 		};
 
 		extern base::Slot<base::extended_io::PCF8574> pcf8574_slot;
