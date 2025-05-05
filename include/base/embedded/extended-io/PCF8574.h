@@ -4,6 +4,7 @@
 #include "base/embedded/Slot.h"
 #include "base/stream/Span.h"
 #include "base/task/delay.h"
+#include "base/task/Mutex.h"
 #include <bit>
 #include <cstdint>
 #include <functional>
@@ -13,6 +14,8 @@ namespace base
 {
 	namespace extended_io
 	{
+		class PCF8574Operator;
+
 		///
 		/// @brief 这是一个使用 IIC 接口控制的扩展 IO 芯片。
 		///
@@ -31,6 +34,8 @@ namespace base
 		class PCF8574
 		{
 		private:
+			friend class PCF8574Operator;
+			base::task::Mutex _lock;
 			base::gpio::GpioPin _interrupt_pin;
 			std::shared_ptr<base::iic::IicHost> _iic_host;
 
@@ -54,29 +59,25 @@ namespace base
 			///
 			PCF8574(base::gpio::GpioPin interrupt_pin,
 					std::shared_ptr<base::iic::IicHost> const &iic_host,
-					uint8_t address)
-				: _interrupt_pin(interrupt_pin)
-			{
-				_iic_host = iic_host;
-
-				if (address > 0b111)
-				{
-					throw std::out_of_range{"地址超出范围。允许的地址范围为 [0, 7]"};
-				}
-
-				_address_register = 0b01000000 | (address << 1);
-
-				// 打开中断引脚
-				_interrupt_pin.InitializeAsInputMode(base::gpio::PullMode::PullUp,
-													 base::gpio::TriggerEdge::FallingEdge);
-
-				// 初始化后将所有引脚置为高电平。即让芯片内每个引脚的开关管关断。
-				WriteByte(0, 0xff);
-			}
+					uint8_t address);
 
 			~PCF8574()
 			{
 				// UnregisterInterruptCallback();
+			}
+		};
+
+		class PCF8574Operator
+		{
+		private:
+			PCF8574 &_pcf8574;
+			base::task::MutexGuard _guard;
+
+		public:
+			PCF8574Operator(PCF8574 &pcf8574)
+				: _pcf8574(pcf8574),
+				  _guard(pcf8574._lock)
+			{
 			}
 
 			///
@@ -86,7 +87,7 @@ namespace base
 			///
 			void RegisterInterruptCallback(std::function<void()> const &func)
 			{
-				_interrupt_pin.RegisterInterruptCallback(func);
+				_pcf8574._interrupt_pin.RegisterInterruptCallback(func);
 			}
 
 			///
@@ -94,7 +95,7 @@ namespace base
 			///
 			void UnregisterInterruptCallback()
 			{
-				_interrupt_pin.UnregisterInterruptCallback();
+				_pcf8574._interrupt_pin.UnregisterInterruptCallback();
 			}
 
 			///
@@ -257,13 +258,13 @@ namespace base
 			///
 			uint8_t ReadByte(int index)
 			{
-				base::iic::IicHostOperator op{*_iic_host};
+				base::iic::IicHostOperator op{*_pcf8574._iic_host};
 
 				op.Initialize(base::Nanoseconds{std::chrono::microseconds{4}},
 							  base::Nanoseconds{std::chrono::microseconds{4} * 20});
 
 				op.SendStartingSignal();
-				op.SendByte(_address_register | 0x01);
+				op.SendByte(_pcf8574._address_register | 0x01);
 				uint8_t data = op.ReceiveByte(true);
 				op.SendStoppingSignal();
 				return data;
@@ -279,13 +280,13 @@ namespace base
 			///
 			void WriteByte(int index, uint8_t value)
 			{
-				base::iic::IicHostOperator op{*_iic_host};
+				base::iic::IicHostOperator op{*_pcf8574._iic_host};
 
 				op.Initialize(base::Nanoseconds{std::chrono::microseconds{4}},
 							  base::Nanoseconds{std::chrono::microseconds{4} * 20});
 
 				op.SendStartingSignal();
-				op.SendByte(_address_register | 0x00);
+				op.SendByte(_pcf8574._address_register | 0x00);
 				op.SendByte(value);
 				op.SendStoppingSignal();
 				base::task::Delay(std::chrono::milliseconds{10});
