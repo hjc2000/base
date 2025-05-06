@@ -2,6 +2,7 @@
 #include "base/define.h"
 #include "base/unit/MHz.h"
 #include "base/unit/Nanoseconds.h"
+#include "base/unit/Seconds.h"
 #include <chrono>
 #include <cstdint>
 
@@ -76,6 +77,12 @@ namespace base
 
 		IMPLEMENTED
 		void delay(std::chrono::seconds value);
+
+		IMPLEMENTED
+		void delay(base::Nanoseconds const &value);
+
+		IMPLEMENTED
+		void delay(base::Seconds const &value);
 
 		/* #endregion */
 

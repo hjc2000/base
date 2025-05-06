@@ -1,6 +1,7 @@
 #include "systick.h" // IWYU pragma: keep
 #include "base/unit/MHz.h"
 #include "base/unit/Nanoseconds.h"
+#include <chrono>
 #include <cstdint>
 
 void base::systick::delay_for_ticks(uint64_t value)
@@ -66,4 +67,14 @@ void base::systick::delay(std::chrono::seconds value)
 	base::Nanoseconds tick_interval{base::systick::frequency()};
 	uint64_t tick_count = static_cast<uint64_t>(base::Nanoseconds{value} / tick_interval);
 	base::systick::delay_for_ticks(tick_count);
+}
+
+void base::systick::delay(base::Nanoseconds const &value)
+{
+	base::systick::delay(static_cast<std::chrono::nanoseconds>(value));
+}
+
+void base::systick::delay(base::Seconds const &value)
+{
+	base::systick::delay(static_cast<std::chrono::nanoseconds>(value));
 }
