@@ -26,6 +26,12 @@ void base::task::Delay(std::chrono::nanoseconds const &time)
 
 #endif
 
+void base::task::Delay(base::Nanoseconds const &time)
+{
+	std::chrono::nanoseconds ns = static_cast<std::chrono::nanoseconds>(time);
+	Delay(ns);
+}
+
 void base::task::Delay(base::Seconds const &time)
 {
 	std::chrono::nanoseconds ns = static_cast<std::chrono::nanoseconds>(time);
