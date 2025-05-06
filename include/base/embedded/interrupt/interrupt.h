@@ -40,13 +40,6 @@ namespace base
 		///
 		void enable_global_interrupt() noexcept;
 
-		///
-		/// @brief 全局中断是否被禁用了。
-		///
-		/// @return
-		///
-		bool is_global_interrupt_disabled() noexcept;
-
 		/* #region 递归禁用，使能全局中断 */
 
 		///
