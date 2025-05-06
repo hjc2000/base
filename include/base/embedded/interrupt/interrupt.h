@@ -47,6 +47,8 @@ namespace base
 		///
 		bool is_global_interrupt_disabled() noexcept;
 
+		/* #region 递归禁用，使能全局中断 */
+
 		///
 		/// @brief 递归地禁用全局中断。
 		///
@@ -77,6 +79,8 @@ namespace base
 				enable_global_interrupt_recursive();
 			}
 		};
+
+		/* #endregion */
 
 	} // namespace interrupt
 } // namespace base
