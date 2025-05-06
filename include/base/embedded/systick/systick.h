@@ -67,16 +67,16 @@ namespace base
 		void delay_for_ticks(uint64_t value);
 
 		IMPLEMENTED
-		void delay(std::chrono::nanoseconds value);
+		void delay(std::chrono::nanoseconds const &value);
 
 		IMPLEMENTED
-		void delay(std::chrono::microseconds value);
+		void delay(std::chrono::microseconds const &value);
 
 		IMPLEMENTED
-		void delay(std::chrono::milliseconds value);
+		void delay(std::chrono::milliseconds const &value);
 
 		IMPLEMENTED
-		void delay(std::chrono::seconds value);
+		void delay(std::chrono::seconds const &value);
 
 		IMPLEMENTED
 		void delay(base::Nanoseconds const &value);
