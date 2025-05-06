@@ -1,1 +1,1 @@
-#include "interrupt.h"
+#include "interrupt.h" // IWYU pragma: keep
