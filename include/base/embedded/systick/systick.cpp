@@ -4,6 +4,8 @@
 #include <chrono>
 #include <cstdint>
 
+/* #region 延时函数 */
+
 void base::systick::delay_for_ticks(uint64_t value)
 {
 	uint64_t last_tick = base::systick::current_value();
@@ -78,3 +80,5 @@ void base::systick::delay(base::Seconds const &value)
 {
 	base::systick::delay(static_cast<std::chrono::nanoseconds>(value));
 }
+
+/* #endregion */
