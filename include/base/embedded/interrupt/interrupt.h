@@ -1,4 +1,5 @@
 #pragma once
+#include "base/define.h"
 #include <cstdint>
 
 namespace base
@@ -50,12 +51,14 @@ namespace base
 		/// @brief 递归地禁用全局中断。
 		///
 		///
+		IMPLEMENTED
 		void disable_global_interrupt_recursive() noexcept;
 
 		///
 		/// @brief 递归地使能全局中断。
 		///
 		///
+		IMPLEMENTED
 		void enable_global_interrupt_recursive() noexcept;
 
 		///
