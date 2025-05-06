@@ -1,4 +1,5 @@
 #pragma once
+#include "base/define.h"
 #include "base/unit/Nanoseconds.h"
 #include "base/unit/Seconds.h"
 #include <chrono>
@@ -35,13 +36,12 @@ namespace base
 		///
 		void Delay(std::chrono::nanoseconds const &time);
 
-		/* #region 已经实现 */
-
 		///
 		/// @brief 延时。
 		///
 		/// @param time
 		///
+		IMPLEMENTED
 		void Delay(base::Nanoseconds const &time);
 
 		///
@@ -49,8 +49,8 @@ namespace base
 		///
 		/// @param time
 		///
+		IMPLEMENTED
 		void Delay(base::Seconds const &time);
 
-		/* #endregion */
 	} // namespace task
 } // namespace base
