@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 #include <functional>
 
 namespace base
@@ -13,7 +14,7 @@ namespace base
 		/// @param line_id 中断线的 id
 		/// @param callback 发生中断时的回调函数
 		///
-		void register_callback(int line_id, std::function<void()> const &callback);
+		void register_callback(int32_t line_id, std::function<void()> const &callback);
 
 		///
 		/// @brief 注销一条外部中断线的使用。
@@ -22,7 +23,7 @@ namespace base
 		///
 		/// @param line_id 中断线的 id
 		///
-		void unregister_callback(int line_id);
+		void unregister_callback(int32_t line_id);
 
 	} // namespace exti
 } // namespace base
