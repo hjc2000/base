@@ -35,7 +35,7 @@ namespace base
 				}
 			}
 
-			base::ReadOnlySpan Span() const
+			base::ReadOnlySpan const &Span() const
 			{
 				return _span;
 			}
