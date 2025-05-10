@@ -4,6 +4,10 @@ namespace base
 {
 	namespace profidrive
 	{
+		///
+		/// @brief PROFIDrive 参数数据类型枚举。
+		///
+		///
 		enum class ParameterDataTypeEnum
 		{
 			Bool = 1,
@@ -28,12 +32,12 @@ namespace base
 			TimeOfDay_WithDateIndication = 12,
 
 			///
-			/// @brief 已经启用。新设备不应该使用。为了兼容旧设备，控制器应该支持，设备可以不支持。
+			/// @brief 已经弃用。新设备不应该使用。为了兼容旧设备，控制器应该支持，设备可以不支持。
 			///
 			///
 			TimeDifference_Unused = 13,
 
-			Date = 50,
+			BinaryDate = 50,
 
 			///
 			/// @brief 不带日期指示的 TimeOfDay.
