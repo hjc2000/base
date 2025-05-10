@@ -1,5 +1,5 @@
 #pragma once
-#include "base/net/profidrive/data-type/DataTypeEnum.h"
+#include "base/net/profidrive/data-type/ParameterDataTypeEnum.h"
 #include <cstdint>
 #include <vector>
 
@@ -20,7 +20,10 @@ namespace base
 			///
 			/// @return std::vector<uint8_t>&
 			///
-			std::vector<uint8_t> &ParameterValuesBuffer();
+			std::vector<uint8_t> &ParameterValuesBuffer()
+			{
+				return _parameter_values_buffer;
+			}
 
 			/* #region 参数描述 */
 
@@ -29,11 +32,11 @@ namespace base
 			///
 			/// @note 标识符 bit0 到 bit7.
 			///
-			/// @return base::profidrive::DataTypeEnum
+			/// @return
 			///
-			base::profidrive::DataTypeEnum ValueType() const
+			base::profidrive::ParameterDataTypeEnum ValueType() const
 			{
-				return base::profidrive::DataTypeEnum::Bool;
+				return base::profidrive::ParameterDataTypeEnum::Bool;
 			}
 
 			///

@@ -4,7 +4,7 @@ namespace base
 {
 	namespace profidrive
 	{
-		enum class DataTypeEnum
+		enum class ParameterDataTypeEnum
 		{
 			Bool = 1,
 			Int8 = 2,
