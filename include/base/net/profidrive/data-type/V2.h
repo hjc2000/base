@@ -29,7 +29,7 @@ namespace base
 			///
 			/// @param span 将接收到的大端序的 16 位集缓冲区原封不动传进来。
 			///
-			V2(base::ReadOnlySpan const &span)
+			explicit V2(base::ReadOnlySpan const &span)
 			{
 				// 经过转换后，变成小端序了，第 1 个字节是 bit0 到 bit7，第 2 个字节是 bit8 到 bit15.
 				uint16_t data = _converter.FromBytes<uint16_t>(span);
@@ -44,7 +44,7 @@ namespace base
 			///
 			/// @param set
 			///
-			V2(std::bitset<16> const &set)
+			explicit V2(std::bitset<16> const &set)
 			{
 				_bitset = set;
 			}

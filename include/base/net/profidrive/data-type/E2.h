@@ -32,14 +32,14 @@ namespace base
 			///
 			/// @param span
 			///
-			E2(base::ReadOnlySpan const &span);
+			explicit E2(base::ReadOnlySpan const &span);
 
 			///
 			/// @brief 通过实际的分数值构造行规特定数据类型。
 			///
 			/// @param value
 			///
-			E2(base::Fraction const &value);
+			explicit E2(base::Fraction const &value);
 
 			explicit operator base::Fraction() const;
 			base::Array<uint8_t, 2> BufferForSending() const;

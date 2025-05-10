@@ -33,7 +33,7 @@ namespace base
 			///
 			/// @param span
 			///
-			N2(base::ReadOnlySpan const &span)
+			explicit N2(base::ReadOnlySpan const &span)
 			{
 				// 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
 				// 放大后截断为整型。
@@ -48,7 +48,7 @@ namespace base
 			///
 			/// @param value
 			///
-			N2(base::Fraction const &value)
+			explicit N2(base::Fraction const &value)
 			{
 				_value = value;
 			}

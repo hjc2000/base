@@ -28,7 +28,10 @@ namespace base
 			///
 			/// @return int32_t
 			///
-			int32_t Factor() const;
+			int32_t Factor() const
+			{
+				return static_cast<int64_t>(1 << 12);
+			}
 
 		public:
 			X2() = default;
@@ -38,14 +41,25 @@ namespace base
 			///
 			/// @param span
 			///
-			X2(base::ReadOnlySpan const &span);
+			explicit X2(base::ReadOnlySpan const &span)
+			{
+				// 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
+				// 放大后截断为整型。
+				//
+				// 想要获得分数的实际值，就将这个整型除以 Factor.
+				int16_t x2 = _converter.FromBytes<int16_t>(span);
+				_value = base::Fraction{x2, Factor()};
+			}
 
 			///
 			/// @brief 通过实际的分数值构造行规特定数据类型。
 			///
 			/// @param value
 			///
-			X2(base::Fraction const &value);
+			explicit X2(base::Fraction const &value)
+			{
+				_value = value;
+			}
 
 			explicit operator base::Fraction() const;
 			base::Array<uint8_t, 2> BufferForSending() const;

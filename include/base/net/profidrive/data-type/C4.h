@@ -28,14 +28,14 @@ namespace base
 			///
 			/// @param span
 			///
-			C4(base::ReadOnlySpan const &span);
+			explicit C4(base::ReadOnlySpan const &span);
 
 			///
 			/// @brief 通过实际的分数值构造行规特定数据类型。
 			///
 			/// @param value
 			///
-			C4(base::Fraction const &value);
+			explicit C4(base::Fraction const &value);
 
 			///
 			/// @brief 强制转换为分数类型。
