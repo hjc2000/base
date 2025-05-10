@@ -6,7 +6,7 @@ namespace base
 	namespace profidrive
 	{
 		///
-		/// @brief PROFIDrive 参数数据类型枚举。
+		/// @brief PROFIDrive 参数数据类型标识。
 		///
 		///
 		enum class ParameterDataTypeIdentifier : uint32_t
