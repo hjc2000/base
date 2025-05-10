@@ -34,6 +34,8 @@ namespace base
 			}
 
 		public:
+			/* #region 构造函数 */
+
 			X2() = default;
 
 			///
@@ -61,8 +63,23 @@ namespace base
 				_value = value;
 			}
 
-			explicit operator base::Fraction() const;
-			base::Array<uint8_t, 2> BufferForSending() const;
+			/* #endregion */
+
+			base::Fraction const &Value() const
+			{
+				return _value;
+			}
+
+			base::Array<uint8_t, 2> BufferForSending() const
+			{
+				// 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
+				// 放大后截断为整型。
+				int16_t x2 = static_cast<int16_t>(_value * Factor());
+
+				base::Array<uint8_t, 2> buffer;
+				_converter.GetBytes(x2, buffer.Span());
+				return buffer;
+			}
 
 			X2 operator+(X2 const &right_value) const
 			{
