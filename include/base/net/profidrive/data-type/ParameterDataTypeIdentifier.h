@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 namespace base
 {
@@ -8,7 +9,7 @@ namespace base
 		/// @brief PROFIDrive 参数数据类型枚举。
 		///
 		///
-		enum class ParameterDataTypeEnum
+		enum class ParameterDataTypeIdentifier : uint32_t
 		{
 			Bool = 1,
 			Int8 = 2,

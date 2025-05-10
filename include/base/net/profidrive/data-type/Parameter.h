@@ -1,5 +1,5 @@
 #pragma once
-#include "base/net/profidrive/data-type/ParameterDataTypeEnum.h"
+#include "base/net/profidrive/data-type/ParameterDataTypeIdentifier.h"
 #include <cstdint>
 #include <vector>
 
@@ -34,9 +34,9 @@ namespace base
 			///
 			/// @return
 			///
-			base::profidrive::ParameterDataTypeEnum ValueType() const
+			base::profidrive::ParameterDataTypeIdentifier ValueType() const
 			{
-				return base::profidrive::ParameterDataTypeEnum::Bool;
+				return base::profidrive::ParameterDataTypeIdentifier::Bool;
 			}
 
 			///
