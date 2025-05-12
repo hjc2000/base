@@ -1,5 +1,4 @@
 #pragma once
-
 #include <cstdint>
 
 namespace base
@@ -10,16 +9,19 @@ namespace base
 		int64_t _value{};
 
 	public:
-		RowCount() = default;
+		constexpr RowCount() = default;
 
-		explicit RowCount(int64_t value);
+		explicit constexpr RowCount(int64_t value)
+			: _value(value)
+		{
+		}
 
-		int64_t Value() const
+		constexpr int64_t Value() const
 		{
 			return _value;
 		}
 
-		void SetValue(int64_t value)
+		constexpr void SetValue(int64_t value)
 		{
 			_value = value;
 		}

@@ -16,16 +16,20 @@ namespace base
 		base::Position _end;
 
 	public:
-		PositionRange() = default;
+		constexpr PositionRange() = default;
 
-		PositionRange(base::Position const &start, base::Position const &end);
+		constexpr PositionRange(base::Position const &start, base::Position const &end)
+			: _start(start),
+			  _end(end)
+		{
+		}
 
-		base::Position Start() const
+		constexpr base::Position Start() const
 		{
 			return _start;
 		}
 
-		base::Position End() const
+		constexpr base::Position End() const
 		{
 			return _end;
 		}

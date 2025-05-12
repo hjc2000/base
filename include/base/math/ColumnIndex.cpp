@@ -1,6 +1,1 @@
-#include "ColumnIndex.h"
-
-base::ColumnIndex::ColumnIndex(int64_t value)
-	: _value(value)
-{
-}
+#include "ColumnIndex.h" // IWYU pragma: keep
