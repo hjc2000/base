@@ -3,11 +3,6 @@
 boost::multiprecision::cpp_int base::BigIntPow(boost::multiprecision::cpp_int x,
 											   boost::multiprecision::cpp_int y)
 {
-	if (x < 0)
-	{
-		throw std::invalid_argument{CODE_POS_STR + "x 不能 < 0."};
-	}
-
 	if (y < 0)
 	{
 		throw std::invalid_argument{CODE_POS_STR + "y 不能 < 0."};

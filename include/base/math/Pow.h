@@ -17,11 +17,6 @@ namespace base
 	///
 	constexpr int64_t IntPow(int64_t x, int64_t y)
 	{
-		if (x < 0)
-		{
-			throw std::invalid_argument{CODE_POS_STR + "x 不能 < 0."};
-		}
-
 		if (y < 0)
 		{
 			throw std::invalid_argument{CODE_POS_STR + "y 不能 < 0."};
