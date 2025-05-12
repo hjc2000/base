@@ -47,6 +47,8 @@ namespace base
 			ReleaseAll();
 		}
 
+		/* #region 释放信号量 */
+
 		///
 		/// @brief 释放信号量。
 		///
@@ -112,6 +114,10 @@ namespace base
 			}
 		}
 
+		/* #endregion */
+
+		/* #region 获取信号量 */
+
 		///
 		/// @brief 获取信号量。无限等待，永不超时。
 		///
@@ -174,6 +180,8 @@ namespace base
 
 			return result;
 		}
+
+		/* #endregion */
 
 		///
 		/// @brief 当前正在等待获取信号量的线程数。
