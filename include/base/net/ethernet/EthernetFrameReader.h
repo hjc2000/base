@@ -36,21 +36,35 @@ namespace base
 			///
 			/// @return base::Mac
 			///
-			base::Mac DestinationMac() const;
+			base::Mac DestinationMac() const
+			{
+				return base::Mac{std::endian::big, _span.Slice(base::Range{0, 6})};
+			}
 
 			///
 			/// @brief 源 MAC 地址。
 			///
 			/// @return base::Mac
 			///
-			base::Mac SourceMac() const;
+			base::Mac SourceMac() const
+			{
+				return base::Mac{std::endian::big, _span.Slice(base::Range{6, 12})};
+			}
 
 			///
 			/// @brief 802.1Q标签。大小：4 字节。
 			///
 			/// @return base::ReadOnlySpan
 			///
-			base::ReadOnlySpan VlanTag() const;
+			base::ReadOnlySpan VlanTag() const
+			{
+				if (HasVlanTag())
+				{
+					return base::ReadOnlySpan{_span.Slice(base::Range{12, 16})};
+				}
+
+				throw std::runtime_error{"本以太网帧不具备 VlanTag."};
+			}
 
 			///
 			/// @brief 是否具有 802.1Q标签。
@@ -58,7 +72,12 @@ namespace base
 			/// @return true
 			/// @return false
 			///
-			bool HasVlanTag() const;
+			bool HasVlanTag() const
+			{
+				uint16_t foo = _converter.FromBytes<uint16_t>(_span.Slice(base::Range{12, 14}));
+				base::ethernet::LengthOrTypeEnum type_or_length = static_cast<base::ethernet::LengthOrTypeEnum>(foo);
+				return type_or_length == base::ethernet::LengthOrTypeEnum::VlanTag;
+			}
 
 			///
 			/// @brief 类型或长度。
@@ -75,7 +94,19 @@ namespace base
 			///
 			/// @return base::ethernet::LengthOrTypeEnum
 			///
-			base::ethernet::LengthOrTypeEnum TypeOrLength() const;
+			base::ethernet::LengthOrTypeEnum TypeOrLength() const
+			{
+				if (HasVlanTag())
+				{
+					uint16_t type_or_length = _converter.FromBytes<uint16_t>(_span.Slice(base::Range{16, 18}));
+					return static_cast<base::ethernet::LengthOrTypeEnum>(type_or_length);
+				}
+				else
+				{
+					uint16_t type_or_length = _converter.FromBytes<uint16_t>(_span.Slice(base::Range{12, 14}));
+					return static_cast<base::ethernet::LengthOrTypeEnum>(type_or_length);
+				}
+			}
 
 			///
 			/// @brief 载荷数据。
@@ -94,14 +125,34 @@ namespace base
 			///
 			/// @return base::ReadOnlySpan
 			///
-			base::ReadOnlySpan Payload() const;
+			base::ReadOnlySpan Payload() const
+			{
+				if (HasVlanTag())
+				{
+					return _span.Slice(base::Range{18, _span.Size()});
+				}
+				else
+				{
+					return _span.Slice(base::Range{14, _span.Size()});
+				}
+			}
 
 			///
 			/// @brief 序列化为 json
 			///
 			/// @return base::Json
 			///
-			base::Json ToJson() const override;
+			base::Json ToJson() const override
+			{
+				base::Json root{
+					{"目的 MAC 地址", DestinationMac().ToString()},
+					{"源 MAC 地址", SourceMac().ToString()},
+					{"TypeOrLength", std::to_string(TypeOrLength())},
+					{"是否具有 VlangTag", HasVlanTag()},
+				};
+
+				return root;
+			}
 		};
 	} // namespace ethernet
 } // namespace base
