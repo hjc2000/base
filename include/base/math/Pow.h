@@ -13,18 +13,30 @@ namespace base
 	///
 	/// @param x 底数
 	/// @param y 指数
-	/// @return constexpr int64_t
+	/// @return
 	///
 	constexpr int64_t IntPow(int64_t x, int64_t y)
 	{
-		if (x == 0)
+		if (x < 0)
 		{
-			throw std::invalid_argument{CODE_POS_STR + "x 不能等于 0."};
+			throw std::invalid_argument{CODE_POS_STR + "x 不能 < 0."};
 		}
 
 		if (y < 0)
 		{
-			throw std::invalid_argument{CODE_POS_STR + "y 不能小于 0."};
+			throw std::invalid_argument{CODE_POS_STR + "y 不能 < 0."};
+		}
+
+		if (x == 0)
+		{
+			if (y == 0)
+			{
+				// 特殊情况，定义 0 ^ 0 = 1.
+				return 1;
+			}
+
+			// 其他情况，0 的正整数次幂都为 0.
+			return 0;
 		}
 
 		int64_t result = 1;
@@ -41,13 +53,20 @@ namespace base
 	///
 	/// @param x 底数
 	/// @param y 指数
-	/// @return constexpr int64_t
+	/// @return
 	///
 	constexpr uint64_t UIntPow(uint64_t x, uint64_t y)
 	{
 		if (x == 0)
 		{
-			throw std::invalid_argument{CODE_POS_STR + "x 不能等于 0."};
+			if (y == 0)
+			{
+				// 特殊情况，定义 0 ^ 0 = 1.
+				return 1;
+			}
+
+			// 其他情况，0 的正整数次幂都为 0.
+			return 0;
 		}
 
 		uint64_t result = 1;
@@ -66,7 +85,7 @@ namespace base
 	///
 	/// @param x 底数
 	/// @param y 指数
-	/// @return constexpr boost::multiprecision::cpp_int
+	/// @return
 	///
 	boost::multiprecision::cpp_int BigIntPow(boost::multiprecision::cpp_int x,
 											 boost::multiprecision::cpp_int y);
