@@ -34,6 +34,8 @@ namespace base
 				_span = span;
 			}
 
+			/* #region 目的 MAC 地址 */
+
 			///
 			/// @brief 目的 MAC 地址。
 			///
@@ -56,6 +58,10 @@ namespace base
 				span.Reverse();
 			}
 
+			/* #endregion */
+
+			/* #region 源 MAC 地址 */
+
 			///
 			/// @brief 源 MAC 地址。
 			///
@@ -77,6 +83,10 @@ namespace base
 				span.CopyFrom(value.Span());
 				span.Reverse();
 			}
+
+			/* #endregion */
+
+			/* #region VLAN TAG */
 
 			///
 			/// @brief 802.1Q标签。大小：4 字节。
@@ -133,6 +143,10 @@ namespace base
 				}
 			}
 
+			/* #endregion */
+
+			/* #region 类型或长度 */
+
 			///
 			/// @brief 类型或长度。
 			///
@@ -179,6 +193,10 @@ namespace base
 				}
 			}
 
+			/* #endregion */
+
+			/* #region 载荷 */
+
 			///
 			/// @brief 载荷数据。
 			///
@@ -211,7 +229,8 @@ namespace base
 			///
 			/// @brief 设置有效载荷的大小。
 			///
-			/// @param value 有效载荷的大小。如果小于 46，会在有效载荷后面填充值为 0 的字节，使载荷达到 46 字节。
+			/// @param value 有效载荷的大小。
+			/// 	@note 如果小于 46，会在有效载荷后面填充值为 0 的字节，使载荷达到 46 字节。
 			///
 			void SetValidPayloadSize(int32_t value)
 			{
@@ -244,6 +263,8 @@ namespace base
 					}
 				}
 			}
+
+			/* #endregion */
 
 			///
 			/// @brief 从整个 span 中切割出有效的可以发送到以太网中的 span.
