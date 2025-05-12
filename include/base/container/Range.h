@@ -20,7 +20,7 @@ namespace base
 		/// @param begin 区间左端点。是闭的。
 		/// @param end 区间右端点。是开的。
 		///
-		Range(int32_t begin, int32_t end)
+		constexpr Range(int32_t begin, int32_t end)
 			: _begin(begin),
 			  _end(end)
 		{
@@ -31,7 +31,7 @@ namespace base
 		///
 		/// @return int32_t
 		///
-		int32_t Begin() const
+		constexpr int32_t Begin() const
 		{
 			return _begin;
 		}
@@ -41,7 +41,7 @@ namespace base
 		///
 		/// @return int32_t
 		///
-		int32_t End() const
+		constexpr int32_t End() const
 		{
 			return _end;
 		}
@@ -51,7 +51,7 @@ namespace base
 		///
 		/// @return int32_t
 		///
-		int32_t Size() const
+		constexpr int32_t Size() const
 		{
 			return _end - _begin;
 		}

@@ -26,7 +26,10 @@ namespace base
 			///
 			/// @param span
 			///
-			EthernetFrameReader(base::ReadOnlySpan const &span);
+			EthernetFrameReader(base::ReadOnlySpan const &span)
+			{
+				_span = span;
+			}
 
 			///
 			/// @brief 目的 MAC 地址。

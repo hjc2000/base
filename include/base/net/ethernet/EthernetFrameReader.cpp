@@ -1,10 +1,5 @@
 #include "EthernetFrameReader.h"
 
-base::ethernet::EthernetFrameReader::EthernetFrameReader(base::ReadOnlySpan const &span)
-{
-	_span = span;
-}
-
 base::Mac base::ethernet::EthernetFrameReader::DestinationMac() const
 {
 	return base::Mac{std::endian::big, _span.Slice(base::Range{0, 6})};
