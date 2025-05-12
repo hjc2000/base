@@ -43,7 +43,10 @@ namespace base
 			///
 			base::Mac DestinationMac() const
 			{
-				return base::Mac{std::endian::big, _span.Slice(base::Range{0, 6})};
+				return base::Mac{
+					std::endian::big,
+					_span.Slice(base::Range{0, 6}),
+				};
 			}
 
 			///
@@ -69,7 +72,10 @@ namespace base
 			///
 			base::Mac SourceMac() const
 			{
-				return base::Mac{std::endian::big, _span.Slice(base::Range{6, 12})};
+				return base::Mac{
+					std::endian::big,
+					_span.Slice(base::Range{6, 12}),
+				};
 			}
 
 			///
@@ -185,11 +191,13 @@ namespace base
 			{
 				if (HasVlanTag())
 				{
-					_converter.GetBytes(static_cast<uint16_t>(value), _span.Slice(base::Range{16, 18}));
+					_converter.GetBytes(static_cast<uint16_t>(value),
+										_span.Slice(base::Range{16, 18}));
 				}
 				else
 				{
-					_converter.GetBytes(static_cast<uint16_t>(value), _span.Slice(base::Range{12, 14}));
+					_converter.GetBytes(static_cast<uint16_t>(value),
+										_span.Slice(base::Range{12, 14}));
 				}
 			}
 
