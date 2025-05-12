@@ -38,7 +38,10 @@ namespace base
 			///
 			base::Mac DestinationMac() const
 			{
-				return base::Mac{std::endian::big, _span.Slice(base::Range{0, 6})};
+				return base::Mac{
+					std::endian::big,
+					_span.Slice(base::Range{0, 6}),
+				};
 			}
 
 			///
@@ -48,7 +51,10 @@ namespace base
 			///
 			base::Mac SourceMac() const
 			{
-				return base::Mac{std::endian::big, _span.Slice(base::Range{6, 12})};
+				return base::Mac{
+					std::endian::big,
+					_span.Slice(base::Range{6, 12}),
+				};
 			}
 
 			///
