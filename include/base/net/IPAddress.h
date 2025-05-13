@@ -388,10 +388,13 @@ namespace base
 	};
 
 #if HAS_THREAD
+
 	///
 	/// @brief 测试 IPAddressType
 	///
 	///
 	void TestIpAddress();
+
 #endif
+
 } // namespace base

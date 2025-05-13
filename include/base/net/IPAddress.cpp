@@ -37,4 +37,5 @@ void base::TestIpAddress()
 		std::cout << ip << std::endl;
 	}
 }
+
 #endif // HAS_THREAD
