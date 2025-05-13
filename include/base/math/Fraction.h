@@ -166,31 +166,76 @@ namespace base
 		/// @brief 倒数
 		/// @return
 		///
-		Fraction Reciprocal() const;
+		Fraction Reciprocal() const
+		{
+			base::Fraction ret{_den, _num};
+			return ret.Simplify();
+		}
 
 		///
 		/// @brief 向下取整
 		/// @return
 		///
-		boost::multiprecision::cpp_int Floor() const;
+		boost::multiprecision::cpp_int Floor() const
+		{
+			boost::multiprecision::cpp_int ret = Div();
+			if (*this < 0)
+			{
+				if (Mod())
+				{
+					ret -= 1;
+				}
+			}
+			else
+			{
+				/* 因为 C++ 除法近 0 截断，所以如果 Div >0 ，本来就是向下取整了，
+				 * 不用再额外的操作了。
+				 *
+				 * Div = 0 就更不用说了，也不用什么额外的操作，直接返回 0 就完事了。
+				 */
+			}
+
+			return ret;
+		}
 
 		///
 		/// @brief 向上取整
 		/// @return
 		///
-		boost::multiprecision::cpp_int Ceil() const;
+		boost::multiprecision::cpp_int Ceil() const
+		{
+			boost::multiprecision::cpp_int ret = Div();
+			if (*this > 0)
+			{
+				if (Mod())
+				{
+					ret += 1;
+				}
+			}
+			else
+			{
+			}
+
+			return ret;
+		}
 
 		///
 		/// @brief 获取分子除以分母的值
 		/// @return
 		///
-		boost::multiprecision::cpp_int Div() const;
+		boost::multiprecision::cpp_int Div() const
+		{
+			return _num / _den;
+		}
 
 		///
 		/// @brief 获取分子除以分母的余数
 		/// @return
 		///
-		boost::multiprecision::cpp_int Mod() const;
+		boost::multiprecision::cpp_int Mod() const
+		{
+			return _num % _den;
+		}
 
 		/* #endregion */
 
