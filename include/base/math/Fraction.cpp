@@ -5,44 +5,6 @@ std::string base::Fraction::ToString() const
 	return std::to_string(_num) + " / " + std::to_string(_den);
 }
 
-/* #region 全局四则运算符 */
-
-base::Fraction operator+(boost::multiprecision::cpp_int left, base::Fraction const &right)
-{
-	return base::Fraction{left} + right;
-}
-
-base::Fraction operator-(boost::multiprecision::cpp_int left, base::Fraction const &right)
-{
-	return base::Fraction{left} - right;
-}
-
-base::Fraction operator*(boost::multiprecision::cpp_int left, base::Fraction const &right)
-{
-	return base::Fraction(left) * right;
-}
-
-base::Fraction operator/(boost::multiprecision::cpp_int left, base::Fraction const &right)
-{
-	return base::Fraction{left} / right;
-}
-
-/* #endregion */
-
-/* #region 全局计算函数 */
-
-boost::multiprecision::cpp_int std::floor(base::Fraction const &value)
-{
-	return value.Floor();
-}
-
-boost::multiprecision::cpp_int std::ceil(base::Fraction const &value)
-{
-	return value.Ceil();
-}
-
-/* #endregion */
-
 namespace
 {
 	base::Fraction _pi{

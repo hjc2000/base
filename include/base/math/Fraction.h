@@ -503,7 +503,10 @@ namespace base
 /// @param right
 /// @return base::Fraction
 ///
-base::Fraction operator+(boost::multiprecision::cpp_int left, base::Fraction const &right);
+inline base::Fraction operator+(boost::multiprecision::cpp_int left, base::Fraction const &right)
+{
+	return base::Fraction{left} + right;
+}
 
 ///
 /// @brief 减
@@ -512,7 +515,10 @@ base::Fraction operator+(boost::multiprecision::cpp_int left, base::Fraction con
 /// @param right
 /// @return base::Fraction
 ///
-base::Fraction operator-(boost::multiprecision::cpp_int left, base::Fraction const &right);
+inline base::Fraction operator-(boost::multiprecision::cpp_int left, base::Fraction const &right)
+{
+	return base::Fraction{left} - right;
+}
 
 ///
 /// @brief 乘
@@ -521,7 +527,10 @@ base::Fraction operator-(boost::multiprecision::cpp_int left, base::Fraction con
 /// @param right
 /// @return base::Fraction
 ///
-base::Fraction operator*(boost::multiprecision::cpp_int left, base::Fraction const &right);
+inline base::Fraction operator*(boost::multiprecision::cpp_int left, base::Fraction const &right)
+{
+	return base::Fraction(left) * right;
+}
 
 ///
 /// @brief 除
@@ -530,7 +539,10 @@ base::Fraction operator*(boost::multiprecision::cpp_int left, base::Fraction con
 /// @param right
 /// @return base::Fraction
 ///
-base::Fraction operator/(boost::multiprecision::cpp_int left, base::Fraction const &right);
+inline base::Fraction operator/(boost::multiprecision::cpp_int left, base::Fraction const &right)
+{
+	return base::Fraction{left} / right;
+}
 
 /* #endregion */
 
@@ -541,14 +553,20 @@ namespace std
 	/// @param value
 	/// @return
 	///
-	boost::multiprecision::cpp_int floor(base::Fraction const &value);
+	inline boost::multiprecision::cpp_int floor(base::Fraction const &value)
+	{
+		return value.Floor();
+	}
 
 	///
 	/// @brief 向上取整
 	/// @param value
 	/// @return
 	///
-	boost::multiprecision::cpp_int ceil(base::Fraction const &value);
+	inline boost::multiprecision::cpp_int ceil(base::Fraction const &value)
+	{
+		return value.Ceil();
+	}
 
 	std::string to_string(boost::multiprecision::cpp_int const &value);
 
