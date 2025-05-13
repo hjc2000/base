@@ -2,6 +2,8 @@
 // IWYU pragma: begin_keep
 // IWYU pragma: begin_exports
 
+#include "base/define.h"
+
 #ifdef __cplusplus
 
 	#include "boost/multiprecision/cpp_int.hpp"

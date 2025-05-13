@@ -43,6 +43,7 @@
 #define CONCAT(x, y) CONCAT_IMPL(x, y)
 
 #ifdef __cplusplus
+
 	#include <cstdint>   // IWYU pragma: keep
 	#include <memory>    // IWYU pragma: keep
 	#include <stdexcept> // IWYU pragma: keep
@@ -103,4 +104,4 @@ namespace base
 
 } // namespace base
 
-#endif
+#endif // __cplusplus
