@@ -1,8 +1,10 @@
 #pragma once
+#include "base/math/Pow.h"
 #include "base/string/ICanToString.h"
 #include "base/wrapper/number-wrapper.h"
 #include "boost/multiprecision/cpp_int.hpp" // IWYU pragma: keep
-#include <stdint.h>
+#include <cstdint>
+#include <stdexcept>
 #include <string>
 
 namespace base
@@ -42,21 +44,43 @@ namespace base
 		/// @brief 整型转化为分数，则分子等于整型，分母为 1.
 		/// @param num
 		///
-		Fraction(boost::multiprecision::cpp_int num);
+		Fraction(boost::multiprecision::cpp_int num)
+		{
+			SetNum(num);
+			SetDen(1);
+		}
 
 		///
 		/// @brief 通过分子，分母进行构造。
 		/// @param num 分子
 		/// @param den 分母
 		///
-		Fraction(boost::multiprecision::cpp_int num, boost::multiprecision::cpp_int den);
+		Fraction(boost::multiprecision::cpp_int num, boost::multiprecision::cpp_int den)
+		{
+			SetNum(num);
+			SetDen(den);
+		}
 
 		///
 		/// @brief 通过浮点数构造。
 		///
 		/// @param value
 		///
-		Fraction(base::Double const &value);
+		Fraction(base::Double const &value)
+		{
+			double db = value.Value();
+			int loop_times = 0;
+			uint64_t factor = base::UIntPow(2, 63);
+			while (db != 0)
+			{
+				boost::multiprecision::cpp_int int_part{db};
+				base::Fraction temp{int_part, base::BigIntPow(factor, loop_times)};
+				(*this) += temp;
+				db -= static_cast<double>(int_part);
+				db *= factor;
+				++loop_times;
+			}
+		}
 
 		/* #endregion */
 
@@ -67,28 +91,45 @@ namespace base
 		///
 		/// @return boost::multiprecision::cpp_int
 		///
-		boost::multiprecision::cpp_int Num() const;
+		boost::multiprecision::cpp_int Num() const
+		{
+			return _num;
+		}
 
 		///
 		/// @brief 设置分子。
 		///
 		/// @param value
 		///
-		void SetNum(boost::multiprecision::cpp_int value);
+		void SetNum(boost::multiprecision::cpp_int value)
+		{
+			_num = value;
+		}
 
 		///
 		/// @brief 获取分母。
 		///
-		/// @return boost::multiprecision::cpp_int
+		/// @return
 		///
-		boost::multiprecision::cpp_int Den() const;
+		boost::multiprecision::cpp_int Den() const
+		{
+			return _den;
+		}
 
 		///
 		/// @brief 设置分母。
 		///
 		/// @param value
 		///
-		void SetDen(boost::multiprecision::cpp_int value);
+		void SetDen(boost::multiprecision::cpp_int value)
+		{
+			if (value == 0)
+			{
+				throw std::invalid_argument{"分母不能为 0."};
+			}
+
+			_den = value;
+		}
 
 		/* #endregion */
 
@@ -98,7 +139,28 @@ namespace base
 		/// @brief 化简分数，返回化简后的值。
 		/// @return
 		///
-		Fraction Simplify() const;
+		Fraction Simplify() const
+		{
+			if (_den == 0)
+			{
+				throw std::invalid_argument{"分母不能为 0."};
+			}
+
+			// 分子分母同时除以最大公约数
+			boost::multiprecision::cpp_int gcd_value = boost::multiprecision::gcd(_num, _den);
+			boost::multiprecision::cpp_int scaled_num = _num / gcd_value;
+			boost::multiprecision::cpp_int scaled_den = _den / gcd_value;
+
+			if (scaled_den < 0)
+			{
+				// 如果分母小于 0，分子分母同时取相反数
+				scaled_num = -scaled_num;
+				scaled_den = -scaled_den;
+			}
+
+			Fraction ret{scaled_num, scaled_den};
+			return ret;
+		}
 
 		///
 		/// @brief 倒数
