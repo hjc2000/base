@@ -1,4 +1,5 @@
 #pragma once
+#include "base/exception/NotSupportedException.h"
 #include "base/stream/Stream.h"
 #include <cstdint>
 #include <cstring>
@@ -43,14 +44,20 @@ namespace base
 		///
 		/// @param value
 		///
-		void AddHead(int32_t value);
+		void AddHead(int32_t value)
+		{
+			_start = (_start + value) % _buffer_size;
+		}
 
 		///
 		/// @brief 递增尾指针。
 		///
 		/// @param value
 		///
-		void AddTail(int32_t value);
+		void AddTail(int32_t value)
+		{
+			_end = (_end + value) % _buffer_size;
+		}
 
 		///
 		/// @brief 以非环绕方式读取。
@@ -61,7 +68,15 @@ namespace base
 		///
 		/// @return
 		///
-		void ReadNonCircular(base::Span const &span);
+		void ReadNonCircular(base::Span const &span)
+		{
+			std::copy(_buffer.get() + _start,
+					  _buffer.get() + _start + span.Size(),
+					  span.Buffer());
+
+			AddHead(span.Size());
+			_is_full = false;
+		}
 
 		///
 		/// @brief 以非环绕方式写入。
@@ -70,7 +85,15 @@ namespace base
 		///
 		/// @param span
 		///
-		void WriteNonCircular(base::ReadOnlySpan const &span);
+		void WriteNonCircular(base::ReadOnlySpan const &span)
+		{
+			std::copy(span.Buffer(),
+					  span.Buffer() + span.Size(),
+					  _buffer.get() + _end);
+
+			AddTail(span.Size());
+			_is_full = _start == _end;
+		}
 
 		///
 		/// @brief 本流为空。
@@ -88,7 +111,14 @@ namespace base
 		///
 		/// @param buffer_size 循环缓冲区的大小。
 		///
-		CircleBufferMemoryStream(int32_t buffer_size);
+		CircleBufferMemoryStream(int32_t buffer_size)
+		{
+			_buffer_size = buffer_size;
+			_start = 0;
+			_end = 0;
+			_is_full = false;
+			_buffer = std::unique_ptr<uint8_t[]>{new uint8_t[buffer_size]};
+		}
 
 		///
 		/// @brief 返回内部循环缓冲区的大小，也是此流所能达到的最大长度。
@@ -105,12 +135,20 @@ namespace base
 		///
 		/// @return
 		///
-		int32_t AvailableToWrite() const;
+		int32_t AvailableToWrite() const
+		{
+			return _buffer_size - Length();
+		}
 
 		///
 		/// @brief 清空流
 		///
-		void Clear();
+		void Clear()
+		{
+			_start = 0;
+			_end = 0;
+			_is_full = false;
+		}
 
 		/* #region 流属性 */
 
@@ -120,7 +158,10 @@ namespace base
 		/// @return true 能读取。
 		/// @return false 不能读取。
 		///
-		virtual bool CanRead() const override;
+		virtual bool CanRead() const override
+		{
+			return true;
+		}
 
 		///
 		/// @brief 本流能否写入。
@@ -128,7 +169,10 @@ namespace base
 		/// @return true 能写入。
 		/// @return false 不能写入。
 		///
-		virtual bool CanWrite() const override;
+		virtual bool CanWrite() const override
+		{
+			return true;
+		}
 
 		///
 		/// @brief 本流能否定位。
@@ -136,35 +180,70 @@ namespace base
 		/// @return true 能定位。
 		/// @return false 不能定位。
 		///
-		virtual bool CanSeek() const override;
+		virtual bool CanSeek() const override
+		{
+			// 循环队列通常不支持随机访问
+			return false;
+		}
 
 		///
 		/// @brief 流的长度
 		///
 		/// @return int64_t
 		///
-		virtual int64_t Length() const override;
+		virtual int64_t Length() const override
+		{
+			if (_is_full)
+			{
+				return _buffer_size;
+			}
+
+			if (_end >= _start)
+			{
+				return _end - _start;
+			}
+
+			// _start 大于 _end。说明 _end 穿梭了。此时 _start 和 _end 之间是空白区。
+			//
+			// 举个例子，假如 _start = n, _end = n - 1，
+			// 则空白的区域大小为：
+			// 		_start - _end = n - (n - 1) = n - n + 1 = 1
+			// 则缓冲区内容长度为：
+			// 		_buffer_size - (_start - _end) = _buffer_size - 1。
+			// 上面我们用特殊性的例子得出了具有普遍性的公式：
+			// 		_buffer_size - (_start - _end)。
+			return _buffer_size - (_start - _end);
+		}
 
 		///
 		/// @brief 设置流的长度。
 		///
 		/// @param value
 		///
-		virtual void SetLength(int64_t value) override;
+		virtual void SetLength(int64_t value) override
+		{
+			throw base::exception::NotSupportedException{};
+		}
 
 		///
 		/// @brief 流当前的位置。
 		///
 		/// @return int64_t
 		///
-		virtual int64_t Position() const override;
+		virtual int64_t Position() const override
+		{
+			throw base::exception::NotSupportedException{};
+		}
 
 		///
 		/// @brief 设置流当前的位置。
 		///
 		/// @param value
 		///
-		virtual void SetPosition(int64_t value) override;
+		virtual void SetPosition(int64_t value) override
+		{
+			throw base::exception::NotSupportedException{};
+		}
 
 		/* #endregion */
 
@@ -176,14 +255,82 @@ namespace base
 		/// @param span
 		/// @return int32_t
 		///
-		virtual int32_t Read(base::Span const &span) override;
+		virtual int32_t Read(base::Span const &span) override
+		{
+			if (span.Buffer() == nullptr)
+			{
+				throw std::invalid_argument{"span 的缓冲区不能是空指针"};
+			}
+
+			if (span.Size() == 0)
+			{
+				throw std::invalid_argument{"span 的大小不能是 0 个字节。"};
+			}
+
+			if (Empty())
+			{
+				// 缓冲区为空
+				return 0;
+			}
+
+			/**
+			 * span 如果太大，本流的数据无法充满他，所以需要将 span 切片，最大只能到 Length.
+			 * 如果 span 的大小本来就小于 Length 了，则保持原大小。
+			 */
+			base::Span const should_read_span = span.Slice(base::Range{0, std::min<int32_t>(span.Size(), Length())});
+			if (_end > _start)
+			{
+				// 尾指针在头指针的后面，当前缓冲区内的数据没有环绕，所以读取时也不需要环绕
+				ReadNonCircular(should_read_span);
+				return should_read_span.Size();
+			}
+
+			// 执行到这里说明 _end <= _head，此时缓冲区内的数据发生了环绕，所以读取时有可能要环绕。
+			if (should_read_span.Size() <= _buffer_size - _start)
+			{
+				// 此时从 _start 到缓冲区末尾的数据刚好够本次读取，不用环绕
+				ReadNonCircular(should_read_span);
+				return should_read_span.Size();
+			}
+
+			// 执行到这里说明要环绕了。
+			// 先读取从 _start 开始到缓冲区末尾的数据。因为这部分可以先用非环绕的方式读出来。
+			base::Span span1 = should_read_span.Slice(base::Range{0, _buffer_size - _start});
+			ReadNonCircular(span1);
+
+			// 此时变成非环绕模式了，因为刚才的读取让 _start 发生环绕，已经变成 0 了。
+			base::Span span2 = should_read_span.Slice(base::Range{span1.Size(), should_read_span.Size()});
+			ReadNonCircular(span2);
+			return should_read_span.Size();
+		}
 
 		///
 		/// @brief 将 span 中的数据写入本流。
 		///
 		/// @param span
 		///
-		virtual void Write(base::ReadOnlySpan const &span) override;
+		virtual void Write(base::ReadOnlySpan const &span) override
+		{
+			if (AvailableToWrite() < span.Size())
+			{
+				throw std::overflow_error{"缓冲区剩余空间无法接受这么多数据"};
+			}
+
+			if (span.Size() <= _buffer_size - _end)
+			{
+				// _end 到缓冲区尾部的空间刚好够写入，此时不需要环绕
+				WriteNonCircular(span);
+				return;
+			}
+
+			// 需要环绕
+			base::ReadOnlySpan span1 = span.Slice(base::Range{0, _buffer_size - _end});
+			WriteNonCircular(span1);
+
+			// 此时 _end 已经变成 0 了，继续用 WriteNonCircular 写入剩余的字节
+			base::ReadOnlySpan span2 = span.Slice(base::Range{span1.Size(), span.Size()});
+			WriteNonCircular(span2);
+		}
 
 		///
 		/// @brief 冲洗流。
@@ -191,14 +338,18 @@ namespace base
 		/// @note 对于写入的数据，作用是将其从内部缓冲区转移到底层。
 		/// @note 对于内部的可以读取但尚未读取的数据，一般不会有什么作用。Flush 没见过对可读数据生效的。
 		///
-		virtual void Flush() override;
+		virtual void Flush() override
+		{
+		}
 
 		///
 		/// @brief 关闭流。
 		///
 		/// @note 关闭后对流的操作将会引发异常。
 		///
-		virtual void Close() override;
+		virtual void Close() override
+		{
+		}
 
 		/* #endregion */
 	};
