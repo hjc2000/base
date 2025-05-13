@@ -273,10 +273,8 @@ namespace base
 				return 0;
 			}
 
-			/**
-			 * span 如果太大，本流的数据无法充满他，所以需要将 span 切片，最大只能到 Length.
-			 * 如果 span 的大小本来就小于 Length 了，则保持原大小。
-			 */
+			// span 如果太大，本流的数据无法充满他，所以需要将 span 切片，最大只能到 Length.
+			// 如果 span 的大小本来就小于 Length 了，则保持原大小。
 			base::Span const should_read_span = span.Slice(base::Range{0, std::min<int32_t>(span.Size(), Length())});
 			if (_end > _start)
 			{
