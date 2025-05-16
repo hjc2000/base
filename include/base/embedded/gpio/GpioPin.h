@@ -190,6 +190,17 @@ namespace base
 			///
 			/// @brief 注册中断回调函数。
 			///
+			/// @param priority 中断优先级。
+			/// @param callback_func 回调函数。
+			///
+			void RegisterInterruptCallback(int32_t priority, std::function<void()> const &callback_func)
+			{
+				base::gpio::register_interrupt_callback(*_handle, priority, callback_func);
+			}
+
+			///
+			/// @brief 注册中断回调函数。
+			///
 			/// @param h
 			/// @param callback_func
 			///

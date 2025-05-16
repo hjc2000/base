@@ -164,6 +164,17 @@ namespace base
 		/// @brief 注册中断回调函数。
 		///
 		/// @param h
+		/// @param priority 中断优先级。
+		/// @param callback_func 回调函数。
+		///
+		void register_interrupt_callback(base::gpio::gpio_pin_handle &h,
+										 int32_t priority,
+										 std::function<void()> const &callback_func);
+
+		///
+		/// @brief 注册中断回调函数。
+		///
+		/// @param h
 		/// @param callback_func
 		///
 		void register_interrupt_callback(base::gpio::gpio_pin_handle &h,
