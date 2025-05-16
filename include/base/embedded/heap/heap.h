@@ -49,6 +49,9 @@ namespace base
 		/// 来确保 Heap4() 函数在 main 函数前面至少被调用过一次了。然后实现本函数，直接转发 Heap4()
 		/// 函数
 		///
+		/// @note 如果能够保证在启动调度器之前，主堆已经初始化好了，那么可以不使用 PREINIT。
+		/// 例如在添加新的堆和启动调度器之前，已经使用过动态内存分配了。
+		///
 		base::heap::IHeap &Heap();
 
 		/* #region AddHeap */
