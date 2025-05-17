@@ -55,7 +55,7 @@ namespace base
 		/// @param bit_index
 		/// @return
 		///
-		bool read(digital_output_module_handle &h, uint32_t group_index, uint32_t bit_index);
+		bool read_bit(digital_output_module_handle &h, uint32_t group_index, uint32_t bit_index);
 
 		///
 		/// @brief 写单个位。
@@ -64,7 +64,7 @@ namespace base
 		/// @param group_index
 		/// @param bit_index
 		///
-		void write(digital_output_module_handle &h, uint32_t group_index, uint32_t bit_index);
+		void write_bit(digital_output_module_handle &h, uint32_t group_index, uint32_t bit_index, bool value);
 
 		/* #endregion */
 

@@ -40,14 +40,14 @@ namespace base
 
 			/* #region 读写单个位 */
 
-			bool Read(int32_t group_index, int32_t bit_index) const
+			bool ReadBit(int32_t group_index, int32_t bit_index) const
 			{
-				return base::digital_output_module::read(*_handle, group_index, bit_index);
+				return base::digital_output_module::read_bit(*_handle, group_index, bit_index);
 			}
 
-			void Write(int32_t group_index, int32_t bit_index)
+			void WriteBit(int32_t group_index, int32_t bit_index, bool value)
 			{
-				base::digital_output_module::write(*_handle, group_index, bit_index);
+				base::digital_output_module::write_bit(*_handle, group_index, bit_index, value);
 			}
 
 			/* #endregion */
