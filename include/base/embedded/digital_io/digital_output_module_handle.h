@@ -1,6 +1,4 @@
 #pragma once
-
-#include "base/embedded/Slot.h"
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -91,12 +89,6 @@ namespace base
 		void write_group(digital_output_module_handle &h, uint32_t group_index, uint64_t value);
 
 		/* #endregion */
-
-		///
-		/// @brief 数字输出模块插槽。
-		///
-		///
-		extern base::Slot<digital_output_module_handle> digital_output_module_slot;
 
 	} // namespace digital_output_module
 } // namespace base
