@@ -68,7 +68,7 @@ namespace base
 		/// @brief 运行一个任务。
 		///
 		/// @param priority 任务优先级。
-		/// @param stack_size 任务栈大小。单位：直接。
+		/// @param stack_size 任务栈大小。单位：字节。
 		/// @param func 任务函数。
 		///
 		/// @return
@@ -82,7 +82,7 @@ namespace base
 		///
 		/// @param task_name 任务名。
 		/// @param priority 任务优先级。
-		/// @param stack_size 任务栈大小。单位：直接。
+		/// @param stack_size 任务栈大小。单位：字节。
 		/// @param func 任务函数。
 		///
 		/// @return
