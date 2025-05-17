@@ -50,6 +50,11 @@ namespace base
 				base::digital_output_module::write_bit(*_handle, group_index, bit_index, value);
 			}
 
+			void ToggleBit(int32_t group_index, int32_t bit_index)
+			{
+				base::digital_output_module::toggle_bit(*_handle, group_index, bit_index);
+			}
+
 			/* #endregion */
 
 			/* #region 读写一整个组 */

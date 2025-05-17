@@ -66,6 +66,15 @@ namespace base
 		///
 		void write_bit(digital_output_module_handle &h, uint32_t group_index, uint32_t bit_index, bool value);
 
+		///
+		/// @brief 翻转单个位。
+		///
+		/// @param h
+		/// @param group_index
+		/// @param bit_index
+		///
+		void toggle_bit(digital_output_module_handle &h, uint32_t group_index, uint32_t bit_index);
+
 		/* #endregion */
 
 		/* #region 读写一整个组 */
