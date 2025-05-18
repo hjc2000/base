@@ -145,21 +145,21 @@ namespace base
 		///
 		enum class AlternateFunction
 		{
-			UART1,
-			UART2,
-			UART3,
+			Uart1,
+			Uart2,
+			Uart3,
 
-			SPI1,
-			SPI2,
-			SPI3,
+			Spi1,
+			Spi2,
+			Spi3,
 
-			SDRAM1,
+			Sdram1,
 
-			NAND_FLASH1,
+			NandFlash1,
 
-			TIMER1,
-			TIMER2,
-			TIMER3,
+			Timer1,
+			Timer2,
+			Timer3,
 		};
 
 	} // namespace gpio
