@@ -8,7 +8,7 @@ namespace base
 {
 	namespace digital_input_module
 	{
-		class DiigitalInputModule
+		class DigitalInputModule
 		{
 		private:
 			std::shared_ptr<base::digital_input_module::digital_input_module_handle> _handle;
@@ -16,12 +16,12 @@ namespace base
 		public:
 			/* #region 构造函数 */
 
-			DiigitalInputModule(std::string const &name)
+			DigitalInputModule(std::string const &name)
 			{
 				_handle = base::digital_input_module::open(name);
 			}
 
-			DiigitalInputModule(uint32_t id)
+			DigitalInputModule(uint32_t id)
 			{
 				_handle = base::digital_input_module::open(id);
 			}
@@ -53,7 +53,7 @@ namespace base
 		/// @brief 数字输入模块插槽。
 		///
 		///
-		extern base::Slot<DiigitalInputModule> digital_input_module_slot;
+		extern base::Slot<DigitalInputModule> digital_input_module_slot;
 
 	} // namespace digital_input_module
 } // namespace base
