@@ -5,6 +5,7 @@
 #include "base/string/String.h"
 #include <cstdint>
 #include <stdexcept>
+#include <string>
 
 void base::Path::CorrectPath()
 {
@@ -189,24 +190,35 @@ base::Path base::Path::ParentPath() const
 	return base::Path{_path[base::Range{0, index}]};
 }
 
-#if HAS_THREAD
-
-void base::test::test_path()
+base::Path base::Path::LastName() const
 {
-	base::Path path{"C:/Users/huang/dev/cpp-lib-build-scripts/msys/.libs/base/bin/"};
-	std::cout << path << std::endl;
-	std::cout << "IsRootPath: " << path.IsRootPath() << std::endl;
-	std::cout << "IsAbsolutePath: " << path.IsAbsolutePath() << std::endl;
-	std::cout << "IsWindowsSytlePath: " << path.IsWindowsSytlePath() << std::endl;
+	if (_path.Length() == 0)
+	{
+		std::string message = CODE_POS_STR;
+		message += "本路径为空字符串，表示当前路径，无法获取最后一级路径的名称。";
+		throw std::runtime_error{message};
+	}
 
-	base::Path path1 = path;
-	path1.RemoveBasePath("C:/Users/huang/dev/cpp-lib-build-scripts/");
-	std::cout << path1 << std::endl;
-	std::cout << "IsRootPath: " << path1.IsRootPath() << std::endl;
-	std::cout << "IsAbsolutePath: " << path1.IsAbsolutePath() << std::endl;
-	std::cout << "IsWindowsSytlePath: " << path1.IsWindowsSytlePath() << std::endl;
+	int32_t index = _path.LastIndexOf('/');
+	if (index < 0)
+	{
+		// 不包含斜杠，说明是相对路径，并且只有一级，则直接返回自己，
+		// 自己已经是最后一级的名称了。
+		return base::Path{*this};
+	}
 
-	std::cout << "拼接结果：" << (path + path1) << std::endl;
+	return base::Path{_path[base::Range{index + 1, _path.Length()}]};
 }
 
-#endif // HAS_THREAD
+void base::Path::SetLastName(base::String const &value)
+{
+	base::Path base_path{};
+
+	int32_t index = _path.LastIndexOf('/');
+	if (index > 0)
+	{
+		base_path = base::Path{_path[base::Range{0, index}]};
+	}
+
+	*this = base_path + value;
+}

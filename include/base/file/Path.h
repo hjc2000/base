@@ -92,14 +92,21 @@ namespace base
 		/// @return
 		///
 		base::Path ParentPath() const;
+
+		///
+		/// @brief 获取路径中最后一级的名称。
+		///
+		/// @note 即最后一个斜杠后面的名称。这可能是个目录名，也可能是个文件名。
+		///
+		/// @return
+		///
+		base::Path LastName() const;
+
+		///
+		/// @brief 更改最后一级名称。
+		///
+		/// @param value
+		///
+		void SetLastName(base::String const &value);
 	};
-
-#if HAS_THREAD
-
-	namespace test
-	{
-		void test_path();
-	} // namespace test
-
-#endif // HAS_THREAD
 } // namespace base
