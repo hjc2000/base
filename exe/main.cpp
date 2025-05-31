@@ -1,3 +1,4 @@
+#include "base/file/filesystem.h"
 #include "base/file/Path.h"
 #include "base/math/Fraction.h"
 #include "base/wrapper/number-wrapper.h"
@@ -30,7 +31,12 @@ int main()
 	}
 
 	{
-		base::Path path{"D:/download"};
+		base::Path path{"C:/Users/huang/disk/ti600_2TB/.temp/mediacreationtool.exe"};
+
+		base::filesystem::Move(path,
+							   "C:/Users/huang/disk/ti600_2TB/.temp/a.exe",
+							   base::filesystem::OverwriteOption::Update);
+
 		std::cout << path.ParentPath() << std::endl;
 	}
 }

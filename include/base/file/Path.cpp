@@ -172,6 +172,22 @@ base::Path base::Path::RemoveBasePath(base::Path const &base_path) const
 	return base::Path{str};
 }
 
+base::Path base::Path::ParentPath() const
+{
+	if (IsRootPath())
+	{
+		throw std::runtime_error{CODE_POS_STR + "根路径没有父路径。"};
+	}
+
+	int32_t index = _path.LastIndexOf('/');
+	if (index < 0)
+	{
+		throw std::runtime_error{CODE_POS_STR + "没有斜杠了，已经无法提取出父路径名了。"};
+	}
+
+	return base::Path{_path[base::Range{0, index}]};
+}
+
 #if HAS_THREAD
 
 void base::test::test_path()
