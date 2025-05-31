@@ -401,7 +401,7 @@ void base::filesystem::Remove(base::Path const &path)
 
 	if (removed_count == 0)
 	{
-		std::string message = CODE_POS_STR + "删除失败，但是没有错误代码。";
+		std::string message = CODE_POS_STR + "删除失败，因为删除了 0 个项目，但是没有错误代码。";
 		throw std::runtime_error{message};
 	}
 }

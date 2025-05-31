@@ -1,5 +1,6 @@
 #pragma once
 #include "base/container/iterator/IEnumerable.h"
+#include "base/define.h"
 #include "base/file/Path.h"
 #include "DirectoryEntry.h"
 #include <memory>
@@ -147,6 +148,7 @@ namespace base
 		///
 		/// @exception runtime_error 如果目标路径已存在，但不是目录，会抛出异常。
 		///
+		IMPLEMENTED
 		void EnsureDirectory(base::Path const &path);
 
 		///
@@ -161,7 +163,7 @@ namespace base
 		///
 		/// @brief 将文件或目录从 source_path 复制到 destination_path.
 		///
-		/// @note 其中的符号链接本身会被赋值，不会进入到符号链接指向的实际位置去复制文件。
+		/// @note 其中的符号链接本身会被复制，不会进入到符号链接指向的实际位置去复制文件。
 		///
 		/// @param source_path
 		/// @param destination_path
