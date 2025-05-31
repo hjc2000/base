@@ -35,6 +35,7 @@ namespace
 		if (!base::filesystem::Exists(destination_path))
 		{
 			// 目标路径不存在，直接复制。
+			base::filesystem::EnsureDirectory(destination_path.ParentPath());
 			std::cout << "复制：" << source_path << " --> " << destination_path << std::endl;
 			std::filesystem::copy(source_path.ToString(), destination_path.ToString(), options);
 			return;
