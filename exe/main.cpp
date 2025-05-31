@@ -3,6 +3,7 @@
 #include "base/math/Fraction.h"
 #include "base/wrapper/number-wrapper.h"
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
 #include <iostream>
 #include <numbers>
@@ -31,12 +32,23 @@ int main()
 	}
 
 	{
-		base::Path path{"C:/Users/huang/disk/ti600_2TB/.temp/mediacreationtool.exe"};
+		base::Path input_path{"D:/software/网易云音乐数据/22"};
+		base::Path output_path{"D:/software/网易云音乐数据/out"};
 
-		base::filesystem::Move(path,
-							   "C:/Users/huang/disk/ti600_2TB/.temp/a.exe",
-							   base::filesystem::OverwriteOption::Update);
+		uint64_t count = 0;
+		for (base::DirectoryEntry const &entry : base::filesystem::RecursiveDirectoryEntryEnumerable{input_path})
+		{
+			base::Path dst_path = entry.Path();
+			dst_path.RemoveBasePath(input_path);
+			dst_path.SetLastName(std::to_string(count++) + '.' + dst_path.ExtensionName());
+			dst_path = output_path + dst_path;
+			std::cout << dst_path << std::endl;
 
-		std::cout << path.ParentPath() << std::endl;
+			base::filesystem::Move(entry.Path(),
+								   dst_path,
+								   base::filesystem::OverwriteOption::Skip);
+		}
+
+		std::cout << "count: " << count << std::endl;
 	}
 }
