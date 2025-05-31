@@ -313,6 +313,8 @@ base::Path base::filesystem::ReadSymlink(base::Path const &path)
 	return target_path.string();
 }
 
+/* #region 创建目录 */
+
 void base::filesystem::CreateDirectory(base::Path const &path)
 {
 	if (base::filesystem::Exists(path))
@@ -370,6 +372,8 @@ void base::filesystem::CreateDirectoryRecursively(base::Path const &path)
 		throw std::runtime_error{message};
 	}
 }
+
+/* #endregion */
 
 void base::filesystem::Remove(base::Path const &path)
 {
