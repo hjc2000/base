@@ -47,17 +47,6 @@ namespace
 			return;
 		}
 
-		if (base::filesystem::IsDirectory(destination_path))
-		{
-			// 不能用文件覆盖目标位置的同名目录，这很危险，有可能导致大量文件丢失。
-			std::string message = CODE_POS_STR;
-
-			message += std::format("目标路径 {} 存在且是一个目录，并且覆盖选项不是指定 Skip。",
-								   destination_path.ToString());
-
-			throw std::runtime_error{message};
-		}
-
 		if (overwrite_method == base::filesystem::OverwriteOption::Overwrite)
 		{
 			// 无条件覆盖。
