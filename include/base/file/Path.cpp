@@ -14,12 +14,13 @@ void base::Path::CorrectPath()
 		_path.Replace("//", "/");
 	}
 
-	// 去除相对路径的 ./
+	// 去除开头的相对路径的 ./
 	if (_path.StartWith("./"))
 	{
 		_path = _path[base::Range{2, _path.Length()}];
 	}
 
+	// 去除中间部分的冗余的 ./
 	while (_path.Contains("/./"))
 	{
 		_path.Replace("/./", "/");

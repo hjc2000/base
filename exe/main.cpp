@@ -1,10 +1,7 @@
-#include "base/bit/bit.h"
-#include "base/container/Dictionary.h"
-#include "base/container/Set.h"
+#include "base/file/Path.h"
 #include "base/math/Fraction.h"
 #include "base/wrapper/number-wrapper.h"
 #include <cmath>
-#include <cstdint>
 #include <cstdlib>
 #include <iostream>
 #include <numbers>
@@ -33,10 +30,7 @@ int main()
 	}
 
 	{
-		uint32_t reg = 5;
-		std::cout << base::bit::ReadBits(reg, 2, 3) << std::endl;
+		base::Path path{"D:/download"};
+		std::cout << path.ParentPath() << std::endl;
 	}
-
-	base::test::test_set();
-	base::test::TestDictionary();
 }
