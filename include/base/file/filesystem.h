@@ -127,16 +127,12 @@ namespace base
 		/// @param path 要创建的目录的路径。
 		/// @note 不支持通过多层路径直接创建深层目录。
 		///
-		/// @exception std::runtime_error 目标路径已存在会抛出异常。
-		///
 		void CreateDirectory(base::Path const &path);
 
 		///
 		/// @brief 递归地创建一个目录。
 		///
 		/// @param path 要创建的目录的路径。
-		///
-		/// @exception std::runtime_error 目标路径已存在会抛出异常。
 		///
 		void CreateDirectoryRecursively(base::Path const &path);
 
@@ -145,8 +141,6 @@ namespace base
 		///
 		/// @param path 要确保存在的目录路径。
 		/// @note 支持递归创建目录。
-		///
-		/// @exception runtime_error 如果目标路径已存在，但不是目录，会抛出异常。
 		///
 		IMPLEMENTED
 		void EnsureDirectory(base::Path const &path);
@@ -169,8 +163,6 @@ namespace base
 		/// @param destination_path
 		/// @param overwrite_method
 		///
-		/// @exception std::runtime_error 目标路径已存在会抛出异常。
-		///
 		void Copy(base::Path const &source_path,
 				  base::Path const &destination_path,
 				  base::filesystem::OverwriteOption overwrite_method);
@@ -180,8 +172,6 @@ namespace base
 		///
 		/// @param source_path
 		/// @param destination_path
-		///
-		/// @exception std::runtime_error 目标路径已存在会抛出异常。
 		///
 		void Move(base::Path const &source_path,
 				  base::Path const &destination_path);
