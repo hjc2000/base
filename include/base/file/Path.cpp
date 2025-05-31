@@ -3,6 +3,7 @@
 #include "base/string/character.h"
 #include "base/string/define.h"
 #include "base/string/String.h"
+#include <cstdint>
 #include <stdexcept>
 
 void base::Path::CorrectPath()
