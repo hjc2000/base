@@ -15,8 +15,6 @@
 
 namespace
 {
-	/* #region CopyFile */
-
 	///
 	/// @brief 拷贝单个文件。
 	///
@@ -73,9 +71,7 @@ namespace
 		return;
 	}
 
-	/* #endregion */
-
-	/* #region DirectoryEntryEnumerator */
+	/* #region 目录条目迭代器 */
 
 	///
 	/// @brief 目录条目迭代器。
@@ -131,10 +127,6 @@ namespace
 			++_current_it;
 		}
 	};
-
-	/* #endregion */
-
-	/* #region RecursiveDirectoryEntryEnumerator */
 
 	///
 	/// @brief 目录条目递归迭代器。
