@@ -108,5 +108,15 @@ namespace base
 		/// @param value
 		///
 		void SetLastName(base::String const &value);
+
+		///
+		/// @brief 获取文件的扩展名。
+		///
+		/// @note 解析字符串，获取 LastName 中的最后一个点后面的部分。
+		/// 如果没有扩展名，则返回空字符串。
+		///
+		/// @return
+		///
+		base::String ExtensionName() const;
 	};
 } // namespace base

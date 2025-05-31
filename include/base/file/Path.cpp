@@ -222,3 +222,21 @@ void base::Path::SetLastName(base::String const &value)
 
 	*this = base_path + value;
 }
+
+base::String base::Path::ExtensionName() const
+{
+	base::Path last_name = LastName();
+	int32_t index = last_name._path.LastIndexOf('.');
+	if (index < 0)
+	{
+		return base::String{};
+	}
+
+	if (index == last_name._path.Length() - 1)
+	{
+		// 路径以点结尾，没有扩展名
+		return base::String{};
+	}
+
+	return last_name._path[base::Range{index + 1, last_name._path.Length()}];
+}
