@@ -568,6 +568,8 @@ void base::test::TestRecursiveDirectoryEntryEnumerable()
 
 #endif // HAS_THREAD
 
+/* #region EnsureDirectory */
+
 void base::filesystem::EnsureDirectory(base::Path const &path)
 {
 	if (!base::filesystem::Exists(path))
@@ -588,3 +590,5 @@ void base::filesystem::EnsureDirectory(base::Path const &path)
 		throw std::runtime_error{message};
 	}
 }
+
+/* #endregion */
