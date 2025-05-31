@@ -62,6 +62,7 @@ namespace base
 		/// @return false
 		///
 		bool IsExcuteable() const;
+
 		/* #endregion */
 
 		/* #region 类型判断 */
@@ -106,6 +107,7 @@ namespace base
 		/// @return false
 		///
 		bool IsSymbolicLink() const;
+
 		/* #endregion */
 	};
 } // namespace base

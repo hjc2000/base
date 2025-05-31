@@ -49,6 +49,7 @@ namespace base
 		/// @return false
 		///
 		bool IsExcuteable(base::Path const &path);
+
 		/* #endregion */
 
 		/* #region 目标类型检查 */
@@ -97,6 +98,7 @@ namespace base
 		/// @return false
 		///
 		bool IsSymbolicLink(base::Path const &path);
+
 		/* #endregion */
 
 		///
@@ -188,7 +190,7 @@ namespace base
 		/// @brief 创建目录条目迭代器。
 		///
 		/// @param path
-		/// @return std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>>
+		/// @return
 		///
 		std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> CreateDirectoryEntryEnumerator(base::Path const &path);
 
@@ -196,7 +198,7 @@ namespace base
 		/// @brief 创建目录条目递归迭代器。
 		///
 		/// @param path
-		/// @return std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>>
+		/// @return
 		///
 		std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> CreateDirectoryEntryRecursiveEnumerator(base::Path const &path);
 
@@ -259,6 +261,7 @@ namespace base
 	} // namespace filesystem
 
 #if HAS_THREAD
+
 	namespace test
 	{
 		///
@@ -273,6 +276,7 @@ namespace base
 		///
 		void TestRecursiveDirectoryEntryEnumerable();
 	} // namespace test
+
 #endif // HAS_THREAD
 
 } // namespace base
