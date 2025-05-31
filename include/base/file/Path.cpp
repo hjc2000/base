@@ -152,7 +152,7 @@ base::Path &base::Path::operator+=(base::Path const &another)
 	return *this;
 }
 
-base::Path base::Path::RemoveBasePath(base::Path const &base_path) const
+void base::Path::RemoveBasePath(base::Path const &base_path)
 {
 	base::String base_path_str = base_path.ToString();
 	if (!base_path_str.EndWith('/'))
@@ -170,8 +170,7 @@ base::Path base::Path::RemoveBasePath(base::Path const &base_path) const
 			" 的相对路径。"};
 	}
 
-	base::String str = _path[base::Range{base_path_str.Length(), _path.Length()}];
-	return base::Path{str};
+	_path = _path[base::Range{base_path_str.Length(), _path.Length()}];
 }
 
 base::Path base::Path::ParentPath() const
