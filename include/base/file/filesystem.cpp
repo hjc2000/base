@@ -442,7 +442,8 @@ void base::filesystem::Copy(base::Path const &source_path,
 }
 
 void base::filesystem::Move(base::Path const &source_path,
-							base::Path const &destination_path)
+							base::Path const &destination_path,
+							base::filesystem::OverwriteOption overwrite_method)
 {
 	if (!base::filesystem::Exists(source_path))
 	{
@@ -451,13 +452,71 @@ void base::filesystem::Move(base::Path const &source_path,
 		throw std::runtime_error{message};
 	}
 
-	if (base::filesystem::Exists(destination_path))
+	if (!base::filesystem::Exists(destination_path))
 	{
-		std::string message = CODE_POS_STR;
-		message += std::format("目标路径 {} 已存在。", destination_path.ToString());
-		throw std::runtime_error{message};
+		// 目标路径不存在，直接移动
+
+		// 先确保父目录存在，否则会抛出异常
+		EnsureDirectory(destination_path.ParentPath());
+		std::error_code error_code{};
+
+		std::filesystem::rename(source_path.ToString(),
+								destination_path.ToString(),
+								error_code);
+
+		if (error_code.value() != 0)
+		{
+			std::string message = CODE_POS_STR;
+
+			message += std::format("移动失败。错误代码：{}，错误消息：{}",
+								   error_code.value(),
+								   error_code.message());
+
+			throw std::runtime_error{message};
+		}
 	}
 
+	// 目标路径存在
+	if (overwrite_method == base::filesystem::OverwriteOption::Skip)
+	{
+		return;
+	}
+
+	if (overwrite_method == base::filesystem::OverwriteOption::Overwrite)
+	{
+		// 直接覆盖目标文件
+		Remove(destination_path);
+		std::error_code error_code{};
+
+		std::filesystem::rename(source_path.ToString(),
+								destination_path.ToString(),
+								error_code);
+
+		if (error_code.value() != 0)
+		{
+			std::string message = CODE_POS_STR;
+
+			message += std::format("移动失败。错误代码：{}，错误消息：{}",
+								   error_code.value(),
+								   error_code.message());
+
+			throw std::runtime_error{message};
+		}
+
+		return;
+	}
+
+	// 如果更新则覆盖
+	std::filesystem::directory_entry src_entry{source_path.ToString()};
+	std::filesystem::directory_entry dst_entry{destination_path.ToString()};
+	if (src_entry.last_write_time() <= dst_entry.last_write_time())
+	{
+		std::cout << "不更新：" << source_path << " --> " << destination_path << std::endl;
+		return;
+	}
+
+	// 需要更新
+	Remove(destination_path);
 	std::error_code error_code{};
 
 	std::filesystem::rename(source_path.ToString(),
@@ -474,6 +533,9 @@ void base::filesystem::Move(base::Path const &source_path,
 
 		throw std::runtime_error{message};
 	}
+
+	std::cout << "更新：" << source_path << " --> " << destination_path << std::endl;
+	return;
 }
 
 std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> base::filesystem::CreateDirectoryEntryEnumerator(base::Path const &path)

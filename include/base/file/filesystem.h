@@ -172,9 +172,11 @@ namespace base
 		///
 		/// @param source_path
 		/// @param destination_path
+		/// @param overwrite_method
 		///
 		void Move(base::Path const &source_path,
-				  base::Path const &destination_path);
+				  base::Path const &destination_path,
+				  base::filesystem::OverwriteOption overwrite_method);
 
 		/* #region 迭代目录条目 */
 
