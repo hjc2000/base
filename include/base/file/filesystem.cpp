@@ -478,6 +478,8 @@ void base::filesystem::Move(base::Path const &source_path,
 
 			throw std::runtime_error{message};
 		}
+
+		return;
 	}
 
 	// 目标路径存在
