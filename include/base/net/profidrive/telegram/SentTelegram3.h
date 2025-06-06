@@ -166,6 +166,39 @@ namespace base
 			}
 
 			///
+			/// @brief STW1 的 “解冻斜坡函数发生器” 控制位。为 1 时表示解冻斜坡函数发生器，
+			/// 为 0 时表示冻结斜坡函数发生器。
+			///
+			/// @return
+			///
+			bool STW1_UnfreezeRampFunctionGenerator() const
+			{
+				return _stw1[5];
+			}
+
+			void Set_STW1_UnfreezeRampFunctionGenerator(bool value)
+			{
+				_stw1[5] = value;
+			}
+
+			///
+			/// @brief STW1 指示当前应该冻结斜坡函数发生器。
+			///
+			/// @note 转发 STW1_UnfreezeRampFunctionGenerator, 使得逻辑不那么绕。
+			///
+			/// @return
+			///
+			bool STW1_FreezeRampFunctionGenerator() const
+			{
+				return !STW1_UnfreezeRampFunctionGenerator();
+			}
+
+			void Set_STW1_FreezeRampFunctionGenerator(bool value)
+			{
+				Set_STW1_UnfreezeRampFunctionGenerator(!value);
+			}
+
+			///
 			/// @brief 给定转速。
 			///
 			/// @note 是个分数，表示是额定转速的多少倍。
