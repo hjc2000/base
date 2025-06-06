@@ -1,6 +1,5 @@
 #pragma once
 #include "base/bit/AutoBitConverter.h"
-#include "base/container/Array.h"
 #include "base/math/Fraction.h"
 #include "base/stream/ReadOnlySpan.h"
 
@@ -60,15 +59,22 @@ namespace base
 				return _value;
 			}
 
-			base::Array<uint8_t, 2> BufferForSending() const
+			///
+			/// @brief 将本对象序列化为字节序列，可以被发送到 profinet.
+			///
+			/// @param span
+			///
+			void GetBytes(base::Span const &span) const
 			{
+				if (span.Size() < 2)
+				{
+					throw std::invalid_argument{CODE_POS_STR + "传入的内存段过小。"};
+				}
+
 				// 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
 				// 放大后截断为整型。
-				int16_t n2 = static_cast<int16_t>(_value * Factor());
-
-				base::Array<uint8_t, 2> buffer;
-				_converter.GetBytes(n2, buffer.Span());
-				return buffer;
+				int16_t raw_value = static_cast<int16_t>(_value * Factor());
+				_converter.GetBytes(raw_value, span);
 			}
 		};
 	} // namespace profidrive
