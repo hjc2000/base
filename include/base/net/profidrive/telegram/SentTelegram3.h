@@ -199,6 +199,38 @@ namespace base
 			}
 
 			///
+			/// @brief STW1 的 “使能斜坡函数发生器跟随设定点” 控制位。为 1 时表示使能斜坡函数发生器跟随设定点，
+			/// 为 0 时表示禁止斜坡函数发生器跟随设定点。
+			///
+			/// @return
+			///
+			bool STW1_EnableRampFunctionGeneratorSetPoint() const
+			{
+				return _stw1[6];
+			}
+
+			void Set_STW1_EnableRampFunctionGeneratorSetPoint(bool value)
+			{
+				_stw1[6] = value;
+			}
+
+			///
+			/// @brief STW1 的 “故障确认” 控制位。为 1 时表示 PLC 想要进行故障确认，
+			/// 为 0 时表示 PLC 没有在进行故障确认。
+			///
+			/// @return
+			///
+			bool STW1_FaultAcknowledge() const
+			{
+				return _stw1[7];
+			}
+
+			void Set_STW1_FaultAcknowledge(bool value)
+			{
+				_stw1[7] = value;
+			}
+
+			///
 			/// @brief 给定转速。
 			///
 			/// @note 是个分数，表示是额定转速的多少倍。
