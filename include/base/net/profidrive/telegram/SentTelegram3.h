@@ -35,6 +35,137 @@ namespace base
 			}
 
 			///
+			/// @brief STW1 的 “不下电” 控制位。为 1 时表示不下电，
+			/// 为 0 时表示下电。
+			///
+			/// @return
+			///
+			bool STW1_NoPowerDown() const
+			{
+				return _stw1[0];
+			}
+
+			void Set_STW1_NoPowerDown(bool value)
+			{
+				_stw1[0] = value;
+			}
+
+			///
+			/// @brief STW1 指示当前应该上电。
+			///
+			/// @note 转发 STW1_NoPowerDown, 使得逻辑不那么绕。
+			///
+			/// @return
+			///
+			bool STW1_PowerOn() const
+			{
+				return STW1_NoPowerDown();
+			}
+
+			void Set_STW1_PowerOn(bool value)
+			{
+				Set_STW1_NoPowerDown(value);
+			}
+
+			///
+			/// @brief STW1 的 “不惯性停机” 控制位。为 1 时表示不惯性停机，
+			/// 为 0 时表示惯性停机。
+			///
+			/// @return
+			///
+			bool STW1_NoCoastStop() const
+			{
+				return _stw1[1];
+			}
+
+			void Set_STW1_NoCoastStop(bool value)
+			{
+				_stw1[1] = value;
+			}
+
+			///
+			/// @brief STW1 指示当前应该惯性停机。
+			///
+			/// @note 转发 STW1_NoCoastStop, 使得逻辑不那么绕。
+			///
+			/// @return
+			///
+			bool STW1_CoastStop() const
+			{
+				return !STW1_NoCoastStop();
+			}
+
+			void Set_STW1_CoastStop(bool value)
+			{
+				Set_STW1_NoCoastStop(!value);
+			}
+
+			///
+			/// @brief STW1 的 “不快速停机” 控制位。为 1 时表示不快速停机，
+			/// 为 0 时表示快速停机。
+			///
+			/// @return
+			///
+			bool STW1_NoQuickStop() const
+			{
+				return _stw1[2];
+			}
+
+			void Set_STW1_NoQuickStop(bool value)
+			{
+				_stw1[2] = value;
+			}
+
+			///
+			/// @brief STW1 指示当前应该快速停机。
+			///
+			/// @note 转发 STW1_NoQuickStop, 使得逻辑不那么绕。
+			///
+			/// @return
+			///
+			bool STW1_QuickStop() const
+			{
+				return !STW1_NoQuickStop();
+			}
+
+			void Set_STW1_QuickStop(bool value)
+			{
+				Set_STW1_NoQuickStop(!value);
+			}
+
+			///
+			/// @brief STW1 的 “允许操作” 控制位。为 1 时表示允许操作，
+			/// 为 0 时表示禁止操作。
+			///
+			/// @return
+			///
+			bool STW1_EnableOperation() const
+			{
+				return _stw1[3];
+			}
+
+			void Set_STW1_EnableOperation(bool value)
+			{
+				_stw1[3] = value;
+			}
+
+			///
+			/// @brief STW1 的 “使能斜坡函数发生器” 控制位。为 1 时表示使能斜坡函数发生器，
+			/// 为 0 时表示禁止斜坡函数发生器。
+			///
+			/// @return
+			///
+			bool STW1_EnableRampFunctionGenerator() const
+			{
+				return _stw1[4];
+			}
+
+			void Set_STW1_EnableRampFunctionGenerator(bool value)
+			{
+				_stw1[4] = value;
+			}
+
+			///
 			/// @brief 给定转速。
 			///
 			/// @note 是个分数，表示是额定转速的多少倍。
