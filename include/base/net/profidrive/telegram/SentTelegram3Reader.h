@@ -14,7 +14,7 @@ namespace base
 		/// @brief 控制器发送的标准报文 3.
 		///
 		///
-		class SendingTelegram3Reader
+		class SentTelegram3Reader
 		{
 		private:
 			base::ReadOnlySpan _span;
@@ -25,7 +25,7 @@ namespace base
 			///
 			/// @param span 将控制器发送的报文 3 传进来。
 			///
-			SendingTelegram3Reader(base::ReadOnlySpan const &span)
+			SentTelegram3Reader(base::ReadOnlySpan const &span)
 				: _span(span)
 			{
 				if (span.Size() < 10)
