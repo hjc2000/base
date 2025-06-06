@@ -11,7 +11,7 @@ namespace base
 	namespace profidrive
 	{
 		///
-		/// @brief 控制器接收的标准报文 3.
+		/// @brief 控制器接收的标准报文 3 的内存段阅读器。
 		///
 		///
 		class ReceivedTelegram3Reader
