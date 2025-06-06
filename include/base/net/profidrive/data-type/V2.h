@@ -86,6 +86,19 @@ namespace base
 				_converter.GetBytes(data, buffer.Span());
 				return buffer;
 			}
+
+			///
+			/// @brief 强制转换为 uint16_t.
+			///
+			/// @note 注意，里面的位是小端序。即 V2 的 bit0 在返回的 uint16_t
+			/// 中的 bit0, V2 的 bit8 在返回的 uint16_t 中的 bit8.
+			///
+			/// @return
+			///
+			explicit operator uint16_t() const
+			{
+				return _bitset.to_ulong();
+			}
 		};
 	} // namespace profidrive
 } // namespace base
