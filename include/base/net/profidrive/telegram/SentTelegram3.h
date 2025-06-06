@@ -204,12 +204,12 @@ namespace base
 			///
 			/// @return
 			///
-			bool STW1_EnableRampFunctionGeneratorSetPoint() const
+			bool STW1_EnableRampFunctionGeneratorSetpoint() const
 			{
 				return _stw1[6];
 			}
 
-			void Set_STW1_EnableRampFunctionGeneratorSetPoint(bool value)
+			void Set_STW1_EnableRampFunctionGeneratorSetpoint(bool value)
 			{
 				_stw1[6] = value;
 			}
@@ -228,6 +228,41 @@ namespace base
 			void Set_STW1_FaultAcknowledge(bool value)
 			{
 				_stw1[7] = value;
+			}
+
+			bool STW1_SetRampFunctionGeneratorSetpointToJoggingSetpoint1() const
+			{
+				return _stw1[8];
+			}
+
+			void Set_STW1_SetRampFunctionGeneratorSetpointToJoggingSetpoint1(bool value)
+			{
+				_stw1[8] = value;
+			}
+
+			bool STW1_SetRampFunctionGeneratorSetpointToJoggingSetpoint2() const
+			{
+				return _stw1[9];
+			}
+
+			void Set_STW1_SetRampFunctionGeneratorSetpointToJoggingSetpoint2(bool value)
+			{
+				_stw1[9] = value;
+			}
+
+			///
+			/// @brief 当前是被 PLC 控制。
+			///
+			/// @return
+			///
+			bool STW1_IsControlledByPlc() const
+			{
+				return _stw1[10];
+			}
+
+			void Set_STW1_IsControlledByPlc(bool value)
+			{
+				_stw1[10] = value;
 			}
 
 			///
