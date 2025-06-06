@@ -3,8 +3,7 @@
 #include "base/net/profidrive/data-type/N4.h"
 #include "base/net/profidrive/data-type/V2.h"
 #include "base/stream/ReadOnlySpan.h"
-#include "base/string/define.h"
-#include <stdexcept>
+#include "ReceivedTelegram3.h"
 
 namespace base
 {
@@ -25,14 +24,7 @@ namespace base
 			///
 			/// @param span 将控制器发送的报文 3 传进来。
 			///
-			ReceivedTelegram3Reader(base::ReadOnlySpan const &span)
-				: _span(span)
-			{
-				if (span.Size() < 18)
-				{
-					throw std::invalid_argument{CODE_POS_STR + "内存段过小。"};
-				}
-			}
+			ReceivedTelegram3Reader(base::ReadOnlySpan const &span);
 
 			base::ReadOnlySpan const &Span() const
 			{
@@ -108,6 +100,13 @@ namespace base
 			}
 
 			/* #endregion */
+
+			///
+			/// @brief 读出整个报文 3.
+			///
+			/// @return
+			///
+			base::profidrive::ReceivedTelegram3 Read() const;
 		};
 	} // namespace profidrive
 } // namespace base
