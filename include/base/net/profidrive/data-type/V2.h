@@ -1,7 +1,7 @@
 #pragma once
 #include "base/bit/AutoBitConverter.h"
-#include "base/container/Array.h"
 #include "base/stream/ReadOnlySpan.h"
+#include "base/stream/Span.h"
 #include <bitset>
 #include <cstdint>
 
@@ -79,12 +79,20 @@ namespace base
 				return _bitset[index];
 			}
 
-			base::Array<uint8_t, 2> BufferForSending() const
+			///
+			/// @brief 将本对象序列化为字节序列，可以被发送到 profinet.
+			///
+			/// @param span
+			///
+			void GetBytes(base::Span const &span) const
 			{
-				uint16_t data = _bitset.to_ulong();
-				base::Array<uint8_t, 2> buffer;
-				_converter.GetBytes(data, buffer.Span());
-				return buffer;
+				if (span.Size() < 2)
+				{
+					throw std::invalid_argument{CODE_POS_STR + "传入的内存段过小。"};
+				}
+
+				uint16_t raw_value = _bitset.to_ulong();
+				_converter.GetBytes(raw_value, span);
 			}
 
 			///

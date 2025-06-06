@@ -6,6 +6,10 @@ namespace base
 {
 	namespace profidrive
 	{
+		///
+		/// @brief PLC 发送的报文 3.
+		///
+		///
 		class SentTelegram3
 		{
 		private:
