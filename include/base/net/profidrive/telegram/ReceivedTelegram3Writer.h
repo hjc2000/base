@@ -82,15 +82,7 @@ namespace base
 			///
 			/// @param value
 			///
-			void Write(base::profidrive::ReceivedTelegram3 const &value)
-			{
-				Write_ZSW1(value.ZSW1());
-				Write_NIST_B(value.NIST_B());
-				Write_ZSW2(value.ZSW2());
-				Write_G1_ZSW(value.G1_ZSW());
-				Write_G1_XIST1(value.G1_XIST1());
-				Write_G1_XIST2(value.G1_XIST2());
-			}
+			void Write(base::profidrive::ReceivedTelegram3 const &value);
 		};
 
 	} // namespace profidrive
