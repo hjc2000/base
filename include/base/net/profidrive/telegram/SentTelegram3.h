@@ -1,11 +1,40 @@
 #pragma once
+#include "base/bit/bit.h"
 #include "base/net/profidrive/data-type/N4.h"
 #include "base/net/profidrive/data-type/V2.h"
+#include <cstdint>
 
 namespace base
 {
 	namespace profidrive
 	{
+		enum class EncoderCommand
+		{
+			///
+			/// @brief 不执行任何操作。
+			///
+			///
+			None,
+
+			///
+			/// @brief 激活已选择的功能。
+			///
+			///
+			ActivateSelectedFunction,
+
+			///
+			/// @brief 读取值。
+			///
+			///
+			ReadValue,
+
+			///
+			/// @brief 中断正在执行的功能。
+			///
+			///
+			InterruptFunction,
+		};
+
 		///
 		/// @brief PLC 发送的报文 3.
 		///
@@ -313,6 +342,85 @@ namespace base
 			void Set_G1_STW(base::profidrive::V2 const &g1_stw)
 			{
 				_g1_stw = g1_stw;
+			}
+
+			///
+			/// @brief 为 true 表示激活编码器 1 的功能 1.
+			///
+			/// @return
+			///
+			bool G1_STW_Function1() const
+			{
+				return _g1_stw[0];
+			}
+
+			void Set_G1_STW_Function1(bool value)
+			{
+				_g1_stw[0] = value;
+			}
+
+			///
+			/// @brief 为 true 表示激活编码器 1 的功能 2.
+			///
+			/// @return
+			///
+			bool G1_STW_Function2() const
+			{
+				return _g1_stw[1];
+			}
+
+			void Set_G1_STW_Function2(bool value)
+			{
+				_g1_stw[1] = value;
+			}
+
+			///
+			/// @brief 为 true 表示激活编码器 1 的功能 3.
+			///
+			/// @return
+			///
+			bool G1_STW_Function3() const
+			{
+				return _g1_stw[2];
+			}
+
+			void Set_G1_STW_Function3(bool value)
+			{
+				_g1_stw[2] = value;
+			}
+
+			///
+			/// @brief 为 true 表示激活编码器 1 的功能 4.
+			///
+			/// @return
+			///
+			bool G1_STW_Function4() const
+			{
+				return _g1_stw[3];
+			}
+
+			void Set_G1_STW_Function4(bool value)
+			{
+				_g1_stw[3] = value;
+			}
+
+			///
+			/// @brief 编码器控制命令。
+			///
+			/// @return
+			///
+			base::profidrive::EncoderCommand G1_STW_Command() const
+			{
+				uint16_t value = static_cast<uint16_t>(_g1_stw);
+				value = base::bit::ReadBits(value, 4, 7);
+				return static_cast<base::profidrive::EncoderCommand>(value);
+			}
+
+			void Set_G1_STW_Command(base::profidrive::EncoderCommand command)
+			{
+				uint16_t value = static_cast<uint16_t>(_g1_stw);
+				base::bit::WriteBits(value, 4, 7, static_cast<uint16_t>(command));
+				_g1_stw = base::profidrive::V2{value};
 			}
 		};
 
