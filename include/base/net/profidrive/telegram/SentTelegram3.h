@@ -51,6 +51,25 @@ namespace base
 		};
 
 		///
+		/// @brief 设置编码器的零点所使用的模式。
+		///
+		///
+		enum class SettingEncoderZeroPointMode
+		{
+			///
+			/// @brief 直接设定零点的位置。
+			///
+			///
+			Set,
+
+			///
+			/// @brief 将零点移动一段距离。
+			///
+			///
+			Move,
+		};
+
+		///
 		/// @brief PLC 发送的报文 3.
 		///
 		///
@@ -452,6 +471,40 @@ namespace base
 			void Set_G1_STW_MeasureFunction(base::profidrive::EncoderMeasureFunction value)
 			{
 				_g1_stw[7] = static_cast<bool>(value);
+			}
+
+			///
+			/// @brief 设置编码器零点位置时所使用的模式。
+			///
+			/// @return
+			///
+			base::profidrive::SettingEncoderZeroPointMode G1_STW_SettingZeroPointMode() const
+			{
+				bool value = _g1_stw[11];
+				return static_cast<base::profidrive::SettingEncoderZeroPointMode>(value);
+			}
+
+			void Set_G1_STW_SettingZeroPointMode(base::profidrive::SettingEncoderZeroPointMode value)
+			{
+				_g1_stw[11] = static_cast<bool>(value);
+			}
+
+			///
+			/// @brief 为 true 表示请求改变零点位置。
+			///
+			/// @note 改变零点位置有 “直接设置” 和 “移动” 这两种方式。
+			/// 详见 G1_STW_SettingZeroPointMode 属性。
+			///
+			/// @return
+			///
+			bool G1_STW_ChangeZeroPoint() const
+			{
+				return _g1_stw[12];
+			}
+
+			void Set_G1_STW_ChangeZeroPoint(bool value)
+			{
+				_g1_stw[12] = value;
 			}
 		};
 
