@@ -92,9 +92,9 @@ namespace base
 				return _stw1;
 			}
 
-			void Set_STW1(base::profidrive::V2 const &stw1)
+			void Set_STW1(base::profidrive::V2 const &value)
 			{
-				_stw1 = stw1;
+				_stw1 = value;
 			}
 
 			/* #region STW1 的各个位代表的属性 */
@@ -343,9 +343,9 @@ namespace base
 				return _nsoll_b;
 			}
 
-			void Set_NSOLL_B(base::profidrive::N4 const &nsoll_b)
+			void Set_NSOLL_B(base::profidrive::N4 const &value)
 			{
-				_nsoll_b = nsoll_b;
+				_nsoll_b = value;
 			}
 
 			///
@@ -358,9 +358,9 @@ namespace base
 				return _stw2;
 			}
 
-			void Set_STW2(base::profidrive::V2 const &stw2)
+			void Set_STW2(base::profidrive::V2 const &value)
 			{
-				_stw2 = stw2;
+				_stw2 = value;
 			}
 
 			///
@@ -373,9 +373,9 @@ namespace base
 				return _g1_stw;
 			}
 
-			void Set_G1_STW(base::profidrive::V2 const &g1_stw)
+			void Set_G1_STW(base::profidrive::V2 const &value)
 			{
-				_g1_stw = g1_stw;
+				_g1_stw = value;
 			}
 
 			/* #region G1_STW 的各个位代表的属性 */
