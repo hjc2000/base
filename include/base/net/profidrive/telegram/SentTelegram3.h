@@ -34,6 +34,8 @@ namespace base
 				_stw1 = stw1;
 			}
 
+			/* #region STW1 的各个位代表的属性 */
+
 			///
 			/// @brief STW1 的 “不下电” 控制位。为 1 时表示不下电，
 			/// 为 0 时表示下电。
@@ -263,6 +265,8 @@ namespace base
 			{
 				_stw1[10] = value;
 			}
+
+			/* #endregion */
 
 			///
 			/// @brief 给定转速。
