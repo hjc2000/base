@@ -438,6 +438,11 @@ namespace base
 				_g1_stw = base::profidrive::V2{raw_g1_stw};
 			}
 
+			///
+			/// @brief 选择编码器测量功能。
+			///
+			/// @return
+			///
 			base::profidrive::EncoderMeasureFunction G1_STW_MeasureFunction() const
 			{
 				bool value = _g1_stw[7];
