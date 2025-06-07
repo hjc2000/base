@@ -35,6 +35,21 @@ namespace base
 			InterruptFunction,
 		};
 
+		enum class EncoderMeasureFunction
+		{
+			///
+			/// @brief 搜索参考点挡块。
+			///
+			///
+			SearchForReferencePointBlock,
+
+			///
+			/// @brief 飞速测量。
+			///
+			///
+			RapidMeasurement,
+		};
+
 		///
 		/// @brief PLC 发送的报文 3.
 		///
@@ -416,11 +431,22 @@ namespace base
 				return static_cast<base::profidrive::EncoderCommand>(value);
 			}
 
-			void Set_G1_STW_Command(base::profidrive::EncoderCommand command)
+			void Set_G1_STW_Command(base::profidrive::EncoderCommand value)
 			{
-				uint16_t value = static_cast<uint16_t>(_g1_stw);
-				base::bit::WriteBits(value, 4, 7, static_cast<uint16_t>(command));
-				_g1_stw = base::profidrive::V2{value};
+				uint16_t raw_g1_stw = static_cast<uint16_t>(_g1_stw);
+				base::bit::WriteBits(raw_g1_stw, 4, 7, static_cast<uint16_t>(value));
+				_g1_stw = base::profidrive::V2{raw_g1_stw};
+			}
+
+			base::profidrive::EncoderMeasureFunction G1_STW_MeasureFunction() const
+			{
+				bool value = _g1_stw[7];
+				return static_cast<base::profidrive::EncoderMeasureFunction>(value);
+			}
+
+			void Set_G1_STW_MeasureFunction(base::profidrive::EncoderMeasureFunction value)
+			{
+				_g1_stw[7] = static_cast<bool>(value);
 			}
 		};
 
