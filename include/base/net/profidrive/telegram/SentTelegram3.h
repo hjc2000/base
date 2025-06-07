@@ -378,6 +378,8 @@ namespace base
 				_g1_stw = g1_stw;
 			}
 
+			/* #region G1_STW 的各个位代表的属性 */
+
 			///
 			/// @brief 为 true 表示激活编码器 1 的功能 1.
 			///
@@ -506,6 +508,55 @@ namespace base
 			{
 				_g1_stw[12] = value;
 			}
+
+			///
+			/// @brief 为 true 表示请求使用 G1_XIST2 来传输绝对位置。
+			///
+			/// @return
+			///
+			bool G1_STW_RequestAbsolutePosition() const
+			{
+				return _g1_stw[13];
+			}
+
+			void Set_G1_STW_RequestAbsolutePosition(bool value)
+			{
+				_g1_stw[13] = value;
+			}
+
+			///
+			/// @brief 为 true 表示请求让编码器停车。
+			///
+			/// @note 停车后，编码器可以物理上与驱动器断开连接。
+			///
+			/// @return
+			///
+			bool G1_STW_Park() const
+			{
+				return _g1_stw[14];
+			}
+
+			void Set_G1_STW_Park(bool value)
+			{
+				_g1_stw[14] = value;
+			}
+
+			///
+			/// @brief 请求进行编码器的错误确认。
+			///
+			/// @return
+			///
+			bool G1_STW_AcknowledgeError() const
+			{
+				return _g1_stw[15];
+			}
+
+			void Set_G1_STW_AcknowledgeError(bool value)
+			{
+				_g1_stw[15] = value;
+			}
+
+			/* #endregion */
 		};
 
 	} // namespace profidrive
