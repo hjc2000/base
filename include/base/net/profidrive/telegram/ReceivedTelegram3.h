@@ -1,6 +1,8 @@
 #pragma once
+#include "base/bit/bit.h"
 #include "base/net/profidrive/data-type/N4.h"
 #include "base/net/profidrive/data-type/V2.h"
+#include <cstdint>
 
 namespace base
 {
@@ -260,6 +262,33 @@ namespace base
 			{
 				_zsw2 = value;
 			}
+
+			/* #region ZSW2 的各个位代表的属性 */
+
+			///
+			/// @brief 从站（设备）生命符号。
+			///
+			/// @return
+			///
+			uint16_t ZSW2_DeviceSignOfLife() const
+			{
+				uint16_t raw_value = static_cast<uint16_t>(_zsw2);
+				return base::bit::ReadBits(raw_value, 12, 16);
+			}
+
+			///
+			/// @brief 设置从站（设备）生命符号。
+			///
+			/// @param value
+			///
+			void Set_ZSW2_DeviceSignOfLife(uint16_t value)
+			{
+				uint16_t raw_value = static_cast<uint16_t>(_zsw2);
+				base::bit::WriteBits(raw_value, 12, 16, value);
+				_zsw2 = base::profidrive::V2{raw_value};
+			}
+
+			/* #endregion */
 
 			///
 			/// @brief 编码器 1 状态字。
