@@ -363,6 +363,33 @@ namespace base
 				_stw2 = value;
 			}
 
+			/* #region STW2 的各个位代表的属性 */
+
+			///
+			/// @brief 主站（PLC）生命符号。
+			///
+			/// @return
+			///
+			uint16_t STW2_ControllerSignOfLife() const
+			{
+				uint16_t raw_value = static_cast<uint16_t>(_stw2);
+				return base::bit::ReadBits(raw_value, 12, 16);
+			}
+
+			///
+			/// @brief 设置主站（PLC）生命符号。
+			///
+			/// @param value
+			///
+			void Set_STW2_ControllerSignOfLife(uint16_t value)
+			{
+				uint16_t raw_value = static_cast<uint16_t>(_stw2);
+				base::bit::WriteBits(raw_value, 12, 16, value);
+				_stw2 = base::profidrive::V2{raw_value};
+			}
+
+			/* #endregion */
+
 			///
 			/// @brief 编码器 1 控制字。
 			///
