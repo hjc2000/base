@@ -288,6 +288,17 @@ namespace base
 				_zsw2 = base::profidrive::V2{raw_value};
 			}
 
+			///
+			/// @brief 递增从站（设备）生命符号。
+			///
+			///
+			void Increase_ZSW2_DeviceSignOfLife()
+			{
+				uint16_t value = ZSW2_DeviceSignOfLife();
+				value++;
+				Set_ZSW2_DeviceSignOfLife(value);
+			}
+
 			/* #endregion */
 
 			///
