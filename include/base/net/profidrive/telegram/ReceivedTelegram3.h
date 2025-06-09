@@ -276,6 +276,160 @@ namespace base
 				_g1_zsw = value;
 			}
 
+			/* #region G1_ZSW 的各个位代表的属性 */
+
+			bool G1_ZSW_Function1() const
+			{
+				return _g1_zsw[0];
+			}
+
+			void Set_G1_ZSW_Function1(bool value)
+			{
+				_g1_zsw[0] = value;
+			}
+
+			bool G1_ZSW_Function2() const
+			{
+				return _g1_zsw[1];
+			}
+
+			void Set_G1_ZSW_Function2(bool value)
+			{
+				_g1_zsw[1] = value;
+			}
+
+			bool G1_ZSW_Function3() const
+			{
+				return _g1_zsw[2];
+			}
+
+			void Set_G1_ZSW_Function3(bool value)
+			{
+				_g1_zsw[2] = value;
+			}
+
+			bool G1_ZSW_Function4() const
+			{
+				return _g1_zsw[3];
+			}
+
+			void Set_G1_ZSW_Function4(bool value)
+			{
+				_g1_zsw[3] = value;
+			}
+
+			bool G1_ZSW_Value1Available() const
+			{
+				return _g1_zsw[4];
+			}
+
+			void Set_G1_ZSW_Value1Available(bool value)
+			{
+				_g1_zsw[4] = value;
+			}
+
+			bool G1_ZSW_Value2Available() const
+			{
+				return _g1_zsw[5];
+			}
+
+			void Set_G1_ZSW_Value2Available(bool value)
+			{
+				_g1_zsw[5] = value;
+			}
+
+			bool G1_ZSW_Value3Available() const
+			{
+				return _g1_zsw[6];
+			}
+
+			void Set_G1_ZSW_Value3Available(bool value)
+			{
+				_g1_zsw[6] = value;
+			}
+
+			bool G1_ZSW_Value4Available() const
+			{
+				return _g1_zsw[7];
+			}
+
+			void Set_G1_ZSW_Value4Available(bool value)
+			{
+				_g1_zsw[7] = value;
+			}
+
+			bool G1_ZSW_Probe1Deflected() const
+			{
+				return _g1_zsw[8];
+			}
+
+			void Set_G1_ZSW_Probe1Deflected(bool value)
+			{
+				_g1_zsw[8] = value;
+			}
+
+			bool G1_ZSW_Probe2Deflected() const
+			{
+				return _g1_zsw[9];
+			}
+
+			void Set_G1_ZSW_Probe2Deflected(bool value)
+			{
+				_g1_zsw[9] = value;
+			}
+
+			bool G1_ZSW_ErrorAcknowledgement() const
+			{
+				return _g1_zsw[11];
+			}
+
+			void Set_G1_ZSW_ErrorAcknowledgement(bool value)
+			{
+				_g1_zsw[11] = value;
+			}
+
+			bool G1_ZSW_ZeroPointHasChanged() const
+			{
+				return _g1_zsw[12];
+			}
+
+			void Set_G1_ZSW_ZeroPointHasChanged(bool value)
+			{
+				_g1_zsw[12] = value;
+			}
+
+			bool G1_ZSW_TransmitAbsolutePosition() const
+			{
+				return _g1_zsw[13];
+			}
+
+			void Set_G1_ZSW_TransmitAbsolutePosition(bool value)
+			{
+				_g1_zsw[13] = value;
+			}
+
+			bool G1_ZSW_SensorHasBeenParked() const
+			{
+				return _g1_zsw[14];
+			}
+
+			void Set_G1_ZSW_SensorHasBeenParked(bool value)
+			{
+				_g1_zsw[14] = value;
+			}
+
+			bool G1_ZSW_SensorError() const
+			{
+				return _g1_zsw[15];
+			}
+
+			void Set_G1_ZSW_SensorError(bool value)
+			{
+				_g1_zsw[15] = value;
+			}
+
+			/* #endregion */
+
 			///
 			/// @brief 编码器实际位置 1.
 			///
