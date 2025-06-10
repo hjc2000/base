@@ -100,36 +100,18 @@ namespace base
 			/* #region STW1 的各个位代表的属性 */
 
 			///
-			/// @brief STW1 的 “不下电” 控制位。为 1 时表示不下电，
-			/// 为 0 时表示下电。
-			///
-			/// @return
-			///
-			bool STW1_NoPowerDown() const
-			{
-				return _stw1[0];
-			}
-
-			void Set_STW1_NoPowerDown(bool value)
-			{
-				_stw1[0] = value;
-			}
-
-			///
 			/// @brief STW1 指示当前应该上电。
-			///
-			/// @note 转发 STW1_NoPowerDown, 使得逻辑不那么绕。
 			///
 			/// @return
 			///
 			bool STW1_PowerOn() const
 			{
-				return STW1_NoPowerDown();
+				return _stw1[0];
 			}
 
 			void Set_STW1_PowerOn(bool value)
 			{
-				Set_STW1_NoPowerDown(value);
+				_stw1[0] = value;
 			}
 
 			///
