@@ -70,7 +70,7 @@ namespace base
 		{
 			double db = value.Value();
 			int loop_times = 0;
-			constexpr uint64_t factor = base::UIntPow(2, 60);
+			constexpr uint64_t factor = base::UIntPow(2, 63);
 			while (db != 0)
 			{
 				boost::multiprecision::cpp_int int_part{static_cast<int64_t>(db)};
