@@ -58,7 +58,14 @@ namespace base
 		Fraction(boost::multiprecision::cpp_int num, boost::multiprecision::cpp_int den)
 		{
 			SetNum(num);
-			SetDen(den);
+			if (num == 0)
+			{
+				SetDen(0);
+			}
+			else
+			{
+				SetDen(den);
+			}
 		}
 
 		///
@@ -68,6 +75,13 @@ namespace base
 		///
 		Fraction(base::Double const &value)
 		{
+			if (value.Value() == 0.0)
+			{
+				SetNum(0);
+				SetDen(1);
+				return;
+			}
+
 			double db = value.Value();
 			int loop_times = 0;
 			constexpr uint64_t factor = base::UIntPow(2, 63);
@@ -144,6 +158,11 @@ namespace base
 			if (_den == 0)
 			{
 				throw std::invalid_argument{"分母不能为 0."};
+			}
+
+			if (_num == 0)
+			{
+				return base::Fraction{0, 1};
 			}
 
 			// 分子分母同时除以最大公约数
