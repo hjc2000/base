@@ -24,6 +24,11 @@ std::string std::to_string(boost::multiprecision::cpp_int const &value)
 	boost::multiprecision::cpp_int temp = value;
 	bool is_negative = temp < 0;
 	std::string ret;
+	if (temp == 0)
+	{
+		return "0";
+	}
+
 	if (temp < 0)
 	{
 		temp = -temp;
