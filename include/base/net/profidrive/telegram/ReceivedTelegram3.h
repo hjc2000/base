@@ -207,6 +207,9 @@ namespace base
 			/// @note 设备准备好接受 PLC 的控制后，就始终置位此标志位。
 			/// PLC 不会在设备没有准备好接受控制时发送控制请求。
 			///
+			/// @note 控制器不应等到 PLC 将 STW1 的 “由 PLC 控制” 标志位置 1 后才将本标志位置 1,
+			/// 因为 PLC 会等待设备的本标志位置 1 后才开始控制，如果这么做，会造成死锁。
+			///
 			/// @return
 			///
 			bool ZSW1_HasControlRequest() const
