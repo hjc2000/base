@@ -60,7 +60,7 @@ namespace base
 			SetNum(num);
 			if (num == 0)
 			{
-				SetDen(0);
+				SetDen(1);
 			}
 			else
 			{
