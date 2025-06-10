@@ -204,6 +204,9 @@ namespace base
 			///
 			/// @brief 为 true 表示有控制请求，为 false 表示没有控制请求。
 			///
+			/// @note 设备准备好接受 PLC 的控制后，就始终置位此标志位。
+			/// PLC 不会在设备没有准备好接受控制时发送控制请求。
+			///
 			/// @return
 			///
 			bool ZSW1_HasControlRequest() const
