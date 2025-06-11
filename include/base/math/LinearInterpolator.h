@@ -109,6 +109,8 @@ namespace base
 			{
 				_current_value -= _step_length;
 			}
+
+			return _current_value;
 		}
 	};
 } // namespace base
