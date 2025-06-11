@@ -16,6 +16,8 @@ namespace base
 		T _step_length = 0;
 
 	public:
+		LinearInterpolator() = default;
+
 		LinearInterpolator(T current_value, T end_value, T step_length)
 		{
 			_current_value = current_value;
