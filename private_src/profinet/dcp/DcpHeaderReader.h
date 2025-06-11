@@ -1,5 +1,4 @@
 #pragma once
-#include "base/bit/AutoBitConverter.h"
 #include "base/net/profinet/dcp/DcpServiceIdEnum.h"
 #include "base/net/profinet/dcp/DcpServiceTypeEnum.h"
 #include "base/stream/ReadOnlySpan.h"
@@ -13,7 +12,6 @@ namespace base
 		{
 		private:
 			base::ReadOnlySpan _span;
-			base::AutoBitConverter _converter{std::endian::big};
 
 		public:
 			DcpHeaderReader(base::ReadOnlySpan const &span);

@@ -15,7 +15,6 @@ namespace base
 		{
 		private:
 			base::Fraction _value;
-			base::AutoBitConverter _converter{std::endian::big};
 
 			///
 			/// @brief 系数。
@@ -43,7 +42,7 @@ namespace base
 				// 放大后截断为整型。
 				//
 				// 想要获得分数的实际值，就将这个整型除以 Factor.
-				int32_t x4 = _converter.FromBytes<int32_t>(span);
+				int32_t x4 = base::big_endian_remote_converter.FromBytes<int32_t>(span);
 				_value = base::Fraction{x4, Factor()};
 			}
 
@@ -79,7 +78,7 @@ namespace base
 				// 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
 				// 放大后截断为整型。
 				int32_t raw_value = static_cast<int32_t>(_value * Factor());
-				_converter.GetBytes(raw_value, span);
+				base::big_endian_remote_converter.GetBytes(raw_value, span);
 			}
 
 			X4 operator+(X4 const &right_value) const

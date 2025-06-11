@@ -1,5 +1,4 @@
 #pragma once
-#include "base/bit/AutoBitConverter.h"
 #include "base/container/iterator/IEnumerator.h"
 #include "base/stream/ReadOnlySpan.h"
 
@@ -16,7 +15,6 @@ namespace base
 			base::ReadOnlySpan _remain_span;
 			base::ReadOnlySpan _current_value;
 			bool _is_end = false;
-			base::AutoBitConverter _converter{std::endian::big};
 
 		public:
 			/// @brief 构造函数。

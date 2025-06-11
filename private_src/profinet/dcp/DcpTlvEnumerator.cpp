@@ -1,4 +1,5 @@
 #include "DcpTlvEnumerator.h"
+#include "base/bit/AutoBitConverter.h"
 
 base::profinet::DcpTlvEnumerator::DcpTlvEnumerator(base::ReadOnlySpan const &span)
 {
@@ -27,7 +28,7 @@ void base::profinet::DcpTlvEnumerator::Add()
 		return;
 	}
 
-	uint16_t length = _converter.FromBytes<uint16_t>(_remain_span.Slice(base::Range{2, 4}));
+	uint16_t length = base::big_endian_remote_converter.FromBytes<uint16_t>(_remain_span.Slice(base::Range{2, 4}));
 
 	uint16_t padding_size = 0;
 	if (length % 2 != 0)

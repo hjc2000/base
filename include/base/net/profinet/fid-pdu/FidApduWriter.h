@@ -1,5 +1,4 @@
 #pragma once
-#include "base/bit/AutoBitConverter.h"
 #include "base/net/ethernet/EthernetFrameWriter.h"
 #include "base/net/profinet/fid-pdu/FrameIdEnum.h"
 #include "base/stream/ReadOnlySpan.h"
@@ -17,7 +16,6 @@ namespace base
 		private:
 			base::ethernet::EthernetFrameWriter _ethernet_frame;
 			base::Span _this_span;
-			base::AutoBitConverter _converter{std::endian::big};
 
 		public:
 			///

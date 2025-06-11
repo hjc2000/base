@@ -16,13 +16,6 @@ namespace base
 			base::Fraction _value;
 
 			///
-			/// @brief 自适应转换器。
-			///
-			/// @note 将远程字节序设置为大端序后，在转换时能够根据本机字节序决定是否翻转。
-			///
-			base::AutoBitConverter _converter{std::endian::big};
-
-			///
 			/// @brief 系数。
 			///
 			/// @return int32_t
@@ -48,7 +41,7 @@ namespace base
 				// 放大后截断为整型。
 				//
 				// 想要获得分数的实际值，就将这个整型除以 Factor.
-				int16_t x2 = _converter.FromBytes<int16_t>(span);
+				int16_t x2 = base::big_endian_remote_converter.FromBytes<int16_t>(span);
 				_value = base::Fraction{x2, Factor()};
 			}
 
@@ -84,7 +77,7 @@ namespace base
 				// 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
 				// 放大后截断为整型。
 				int16_t raw_value = static_cast<int16_t>(_value * Factor());
-				_converter.GetBytes(raw_value, span);
+				base::big_endian_remote_converter.GetBytes(raw_value, span);
 			}
 
 			X2 operator+(X2 const &right_value) const

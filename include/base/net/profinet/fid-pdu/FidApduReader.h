@@ -15,7 +15,6 @@ namespace base
 		private:
 			base::ethernet::EthernetFrameReader _ethernet_frame_reader;
 			base::ReadOnlySpan _this_span;
-			base::AutoBitConverter _converter{std::endian::big};
 
 		public:
 			///
