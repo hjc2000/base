@@ -1,4 +1,5 @@
 #include "DcpTlvStreamWriter.h"
+#include "base/bit/AutoBitConverter.h"
 #include "base/string/define.h"
 
 void base::profinet::DcpTlvStreamWriter::WriteBlockHeader(uint8_t option,
@@ -8,8 +9,8 @@ void base::profinet::DcpTlvStreamWriter::WriteBlockHeader(uint8_t option,
 {
 	_stream.Write(&option, 0, 1);
 	_stream.Write(&suboption, 0, 1);
-	_converter.GetBytes(block_length, _stream);
-	_converter.GetBytes(block_info, _stream);
+	base::big_endian_remote_converter.GetBytes(block_length, _stream);
+	base::big_endian_remote_converter.GetBytes(block_info, _stream);
 }
 
 base::profinet::DcpTlvStreamWriter::DcpTlvStreamWriter(base::Stream &stream)
@@ -104,8 +105,8 @@ void base::profinet::DcpTlvStreamWriter::WriteIdBlock(uint16_t vendor_id, uint16
 
 	// Block 载荷
 	{
-		_converter.GetBytes(vendor_id, _stream);
-		_converter.GetBytes(device_id, _stream);
+		base::big_endian_remote_converter.GetBytes(vendor_id, _stream);
+		base::big_endian_remote_converter.GetBytes(device_id, _stream);
 	}
 }
 
@@ -118,8 +119,8 @@ void base::profinet::DcpTlvStreamWriter::WriteOemIdBlock(uint16_t oem_vendor_id,
 
 	// Block 载荷
 	{
-		_converter.GetBytes(oem_vendor_id, _stream);
-		_converter.GetBytes(oem_device_id, _stream);
+		base::big_endian_remote_converter.GetBytes(oem_vendor_id, _stream);
+		base::big_endian_remote_converter.GetBytes(oem_device_id, _stream);
 	}
 }
 
@@ -133,6 +134,6 @@ void base::profinet::DcpTlvStreamWriter::WriteDeviceInitiativeBlock(bool hello)
 	// Block 载荷
 	{
 		uint16_t value = hello ? 1 : 0;
-		_converter.GetBytes(value, _stream);
+		base::big_endian_remote_converter.GetBytes(value, _stream);
 	}
 }

@@ -58,9 +58,7 @@ base::Mac::operator uint64_t() const
 	/* _mac_buffer 中的数据此时被当作远程字节序，也是小端序。转换成整型，需要根据本机字节序
 	 * 决定是否需要翻转。
 	 */
-	base::AutoBitConverter converter{std::endian::little};
-
-	uint64_t value = converter.FromBytes<uint64_t>(
+	uint64_t value = base::little_endian_remote_converter.FromBytes<uint64_t>(
 		base::ReadOnlySpan{
 			_mac_buffer.Buffer(),
 			_mac_buffer.Count(),

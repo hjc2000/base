@@ -21,7 +21,6 @@ namespace base
 		private:
 			base::Span _span;
 			int _valid_frame_size = 0;
-			base::AutoBitConverter _converter{std::endian::big};
 
 		public:
 			///
@@ -128,7 +127,7 @@ namespace base
 			///
 			bool HasVlanTag() const
 			{
-				uint16_t foo = _converter.FromBytes<uint16_t>(_span.Slice(base::Range{12, 14}));
+				uint16_t foo = base::big_endian_remote_converter.FromBytes<uint16_t>(_span.Slice(base::Range{12, 14}));
 				base::ethernet::LengthOrTypeEnum type_or_length = static_cast<base::ethernet::LengthOrTypeEnum>(foo);
 				return type_or_length == base::ethernet::LengthOrTypeEnum::VlanTag;
 			}
@@ -172,12 +171,12 @@ namespace base
 			{
 				if (HasVlanTag())
 				{
-					uint16_t type_or_length = _converter.FromBytes<uint16_t>(_span.Slice(base::Range{16, 18}));
+					uint16_t type_or_length = base::big_endian_remote_converter.FromBytes<uint16_t>(_span.Slice(base::Range{16, 18}));
 					return static_cast<base::ethernet::LengthOrTypeEnum>(type_or_length);
 				}
 				else
 				{
-					uint16_t type_or_length = _converter.FromBytes<uint16_t>(_span.Slice(base::Range{12, 14}));
+					uint16_t type_or_length = base::big_endian_remote_converter.FromBytes<uint16_t>(_span.Slice(base::Range{12, 14}));
 					return static_cast<base::ethernet::LengthOrTypeEnum>(type_or_length);
 				}
 			}
@@ -191,13 +190,13 @@ namespace base
 			{
 				if (HasVlanTag())
 				{
-					_converter.GetBytes(static_cast<uint16_t>(value),
-										_span.Slice(base::Range{16, 18}));
+					base::big_endian_remote_converter.GetBytes(static_cast<uint16_t>(value),
+															   _span.Slice(base::Range{16, 18}));
 				}
 				else
 				{
-					_converter.GetBytes(static_cast<uint16_t>(value),
-										_span.Slice(base::Range{12, 14}));
+					base::big_endian_remote_converter.GetBytes(static_cast<uint16_t>(value),
+															   _span.Slice(base::Range{12, 14}));
 				}
 			}
 

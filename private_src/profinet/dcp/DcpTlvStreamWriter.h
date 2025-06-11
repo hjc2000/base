@@ -1,6 +1,6 @@
 #pragma once
-#include "base/bit/AutoBitConverter.h"
 #include "base/net/IPAddress.h"
+#include "base/stream/Stream.h"
 
 namespace base
 {
@@ -10,7 +10,6 @@ namespace base
 		class DcpTlvStreamWriter
 		{
 		private:
-			base::AutoBitConverter _converter{std::endian::big};
 			base::Stream &_stream;
 
 			/// @brief 将块的头部写入 _stream.

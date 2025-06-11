@@ -17,7 +17,6 @@ namespace base
 		{
 		private:
 			std::bitset<16> _bitset;
-			base::AutoBitConverter _converter{std::endian::big};
 
 		public:
 			/* #region 构造函数 */
@@ -32,7 +31,7 @@ namespace base
 			explicit V2(base::ReadOnlySpan const &span)
 			{
 				// 经过转换后，变成小端序了，第 1 个字节是 bit0 到 bit7，第 2 个字节是 bit8 到 bit15.
-				uint16_t data = _converter.FromBytes<uint16_t>(span);
+				uint16_t data = base::big_endian_remote_converter.FromBytes<uint16_t>(span);
 				for (int i = 0; i < 16; i++)
 				{
 					_bitset[i] = data & (1 << i);
@@ -92,7 +91,7 @@ namespace base
 				}
 
 				uint16_t raw_value = _bitset.to_ulong();
-				_converter.GetBytes(raw_value, span);
+				base::big_endian_remote_converter.GetBytes(raw_value, span);
 			}
 
 			///

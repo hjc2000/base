@@ -1,5 +1,5 @@
 #pragma once
-#include "base/bit/AutoBitConverter.h"
+#include "base/stream/ReadOnlySpan.h"
 
 namespace base
 {
@@ -8,8 +8,6 @@ namespace base
 		class DcpTlvReader
 		{
 		private:
-			base::AutoBitConverter _converter{std::endian::big};
-
 			bool _has_name_of_station_block = false;
 			std::string _station_name;
 
