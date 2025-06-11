@@ -20,7 +20,10 @@ namespace base
 		///
 		/// @param remote_endian
 		///
-		AutoBitConverter(std::endian remote_endian);
+		constexpr AutoBitConverter(std::endian remote_endian)
+			: _remote_endian(remote_endian)
+		{
+		}
 
 		///
 		/// @brief 是否应该翻转。
@@ -28,7 +31,7 @@ namespace base
 		/// @return true 远程字节序和本机字节序不同，需要翻转。
 		/// @return false 远程字节序和本机字节序相同，不需要翻转。
 		///
-		bool ShouldReverse() const
+		constexpr bool ShouldReverse() const
 		{
 			return std::endian::native != _remote_endian;
 		}
