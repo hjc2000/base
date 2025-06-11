@@ -126,4 +126,17 @@ namespace base
 
 		/* #endregion */
 	};
+
+	///
+	/// @brief 远端是大端序的话使用本转换器。
+	///
+	///
+	constexpr base::AutoBitConverter big_endian_remote_converter{std::endian::big};
+
+	///
+	/// @brief 远端是小端序的话使用本转换器。
+	///
+	///
+	constexpr base::AutoBitConverter little_endian_remote_converter{std::endian::little};
+
 } // namespace base
