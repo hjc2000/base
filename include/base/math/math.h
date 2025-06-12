@@ -3,6 +3,11 @@
 
 namespace base
 {
+	constexpr int64_t floor(double value)
+	{
+		return static_cast<int64_t>(value);
+	}
+
 	constexpr int64_t ceil(double value)
 	{
 		int64_t int_part = static_cast<int64_t>(value);
