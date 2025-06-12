@@ -73,7 +73,7 @@ namespace base
 
 			double db = value.Value();
 			int loop_times = 0;
-			constexpr uint64_t factor = base::UIntPow(2, 63);
+			constexpr uint64_t factor = base::UIntPow(2, 50);
 			while (db != 0)
 			{
 				int64_t int_part{static_cast<int64_t>(db)};

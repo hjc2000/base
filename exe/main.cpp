@@ -1,4 +1,4 @@
-#include "base/math/Fraction.h"
+#include "base/math/Int64Fraction.h"
 #include "base/wrapper/number-wrapper.h"
 #include <cmath>
 #include <cstdlib>
@@ -9,7 +9,8 @@
 int main()
 {
 	{
-		base::Fraction f{base::Double{std::numbers::pi}};
+		constexpr base::Int64Fraction f{base::Double{std::numbers::pi}};
+
 		std::cout << "分数: " << f << std::endl;
 
 		std::cout << "std::numbers::pi: \t\t"
