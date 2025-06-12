@@ -11,6 +11,9 @@ int main()
 	{
 		constexpr base::Int64Fraction f{base::Double{std::numbers::pi}};
 
+		int arr[f.Div()]{};
+		std::cout << "sizeof(arr): " << sizeof(arr) << std::endl;
+
 		std::cout << "分数: " << f << std::endl;
 
 		std::cout << "std::numbers::pi: \t\t"
