@@ -180,20 +180,6 @@ bool base::Fraction::operator<=(Fraction const &another) const
 
 /* #endregion */
 
-namespace
-{
-	base::Fraction _pi{
-		static_cast<uint64_t>(884279719003555),
-		static_cast<uint64_t>(281474976710656),
-	};
-
-}
-
-base::Fraction base::constant::PI()
-{
-	return _pi;
-}
-
 std::string std::to_string(boost::multiprecision::cpp_int const &value)
 {
 	boost::multiprecision::cpp_int temp = value;

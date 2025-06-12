@@ -368,18 +368,6 @@ namespace base
 
 		/* #endregion */
 	};
-
-	namespace constant
-	{
-		///
-		/// @brief 圆周率 Π.
-		///
-		/// @return
-		///
-		base::Fraction PI();
-
-	} // namespace constant
-
 } // namespace base
 
 /* #region 全局四则运算符 */

@@ -500,6 +500,16 @@ namespace base
 		/* #endregion */
 	};
 
+	namespace constant
+	{
+		///
+		/// @brief 圆周率 Π.
+		///
+		/// @return
+		///
+		constexpr base::Int64Fraction pi{base::Double{std::numbers::pi}};
+
+	} // namespace constant
 } // namespace base
 
 /* #region 全局四则运算符 */
