@@ -509,6 +509,12 @@ namespace base
 		///
 		constexpr base::Int64Fraction pi{base::Double{std::numbers::pi}};
 
+		///
+		/// @brief 欧拉数 e.
+		///
+		///
+		constexpr base::Int64Fraction e{base::Double{std::numbers::e}};
+
 	} // namespace constant
 } // namespace base
 
