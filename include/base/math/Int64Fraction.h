@@ -72,17 +72,14 @@ namespace base
 			}
 
 			double db = value.Value();
-			int loop_times = 0;
-			constexpr uint64_t factor = base::UIntPow(2, 50);
-			while (db != 0)
-			{
-				int64_t int_part{static_cast<int64_t>(db)};
-				base::Int64Fraction temp{int_part, base::IntPow(factor, loop_times)};
-				(*this) += temp;
-				db -= static_cast<double>(int_part);
-				db *= factor;
-				++loop_times;
-			}
+			base::Int64Fraction int_part{static_cast<int64_t>(db)};
+
+			int64_t factor = base::IntPow(2, 62) / int_part.Ceil();
+			db -= static_cast<double>(int_part);
+			db *= factor;
+			base::Int64Fraction fractional_part{static_cast<int64_t>(db), factor};
+
+			*this += int_part + fractional_part;
 		}
 
 		/* #endregion */
