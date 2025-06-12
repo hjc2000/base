@@ -1,8 +1,9 @@
 #pragma once
-#include "base/math/Pow.h"
+#include "base/math/math.h"
 #include "base/string/ICanToString.h"
 #include "base/wrapper/number-wrapper.h"
 #include <cstdint>
+#include <numeric>
 #include <stdexcept>
 #include <string>
 
@@ -72,10 +73,13 @@ namespace base
 			}
 
 			double db = value.Value();
-			base::Int64Fraction int_part{static_cast<int64_t>(db)};
 
-			int64_t factor = base::IntPow(2, 62) / int_part.Ceil();
+			// 要保证分数计算过程不溢出，需要保证 factor * db <= INT64_MAX.
+			int64_t factor = INT64_MAX / base::ceil(db);
+
+			base::Int64Fraction int_part{static_cast<int64_t>(db)};
 			db -= static_cast<double>(int_part);
+
 			db *= factor;
 			base::Int64Fraction fractional_part{static_cast<int64_t>(db), factor};
 
