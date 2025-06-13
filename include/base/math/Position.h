@@ -38,6 +38,19 @@ namespace base
 		{
 		}
 
+		///
+		/// @brief 从其他类型的坐标构造。
+		///
+		/// @param another
+		/// @return
+		///
+		template <typename another_type>
+		explicit Position(Position<another_type> const &another)
+			: _x(T{another._x}),
+			  _y(T{another._y})
+		{
+		}
+
 		T X() const
 		{
 			return _x;
