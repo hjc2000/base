@@ -143,7 +143,7 @@ namespace base
 		/// @brief 化简分数，返回化简后的值。
 		/// @return
 		///
-		constexpr Int64Fraction Simplify() const
+		constexpr Int64Fraction SimplifiedForm() const
 		{
 			if (_den == 0)
 			{
@@ -178,7 +178,7 @@ namespace base
 		constexpr Int64Fraction Reciprocal() const
 		{
 			base::Int64Fraction ret{_den, _num};
-			return ret.Simplify();
+			return ret.SimplifiedForm();
 		}
 
 		///
@@ -263,7 +263,7 @@ namespace base
 		constexpr Int64Fraction operator-() const
 		{
 			Int64Fraction ret{-_num, _den};
-			return ret.Simplify();
+			return ret.SimplifiedForm();
 		}
 
 		/* #region 四则运算符 */
@@ -282,13 +282,13 @@ namespace base
 				scaled_den,
 			};
 
-			return ret.Simplify();
+			return ret.SimplifiedForm();
 		}
 
 		constexpr Int64Fraction operator-(Int64Fraction const &value) const
 		{
 			Int64Fraction ret = *this + (-value);
-			return ret.Simplify();
+			return ret.SimplifiedForm();
 		}
 
 		constexpr Int64Fraction operator*(Int64Fraction const &value) const
@@ -296,13 +296,13 @@ namespace base
 			base::Int64Fraction ret;
 			ret.SetNum(_num * value.Num());
 			ret.SetDen(_den * value.Den());
-			return ret.Simplify();
+			return ret.SimplifiedForm();
 		}
 
 		constexpr Int64Fraction operator/(Int64Fraction const &value) const
 		{
 			Int64Fraction ret{*this * value.Reciprocal()};
-			return ret.Simplify();
+			return ret.SimplifiedForm();
 		}
 
 		/* #endregion */
@@ -414,8 +414,8 @@ namespace base
 				return true;
 			}
 
-			Int64Fraction f1 = Simplify();
-			Int64Fraction f2 = another.Simplify();
+			Int64Fraction f1 = SimplifiedForm();
+			Int64Fraction f2 = another.SimplifiedForm();
 			return f1.Num() == f2.Num() && f1.Den() == f2.Den();
 		}
 
@@ -427,8 +427,8 @@ namespace base
 		constexpr bool operator>(Int64Fraction const &another) const
 		{
 			// 先化简，避免分母为负数，然后使用交叉乘法比大小。
-			Int64Fraction f1 = Simplify();
-			Int64Fraction f2 = another.Simplify();
+			Int64Fraction f1 = SimplifiedForm();
+			Int64Fraction f2 = another.SimplifiedForm();
 			int64_t num1{f1.Num()};
 			int64_t den1{f1.Den()};
 			int64_t num2{f2.Num()};
@@ -444,8 +444,8 @@ namespace base
 		constexpr bool operator<(Int64Fraction const &another) const
 		{
 			// 先化简，避免分母为负数，然后使用交叉乘法比大小。
-			Int64Fraction f1 = Simplify();
-			Int64Fraction f2 = another.Simplify();
+			Int64Fraction f1 = SimplifiedForm();
+			Int64Fraction f2 = another.SimplifiedForm();
 			int64_t num1{f1.Num()};
 			int64_t den1{f1.Den()};
 			int64_t num2{f2.Num()};

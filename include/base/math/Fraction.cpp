@@ -24,7 +24,7 @@ base::Fraction::Fraction(base::Double const &value)
 	}
 }
 
-base::Fraction base::Fraction::Simplify() const
+void base::Fraction::Simplify()
 {
 	if (_den == 0)
 	{
@@ -33,7 +33,8 @@ base::Fraction base::Fraction::Simplify() const
 
 	if (_num == 0)
 	{
-		return base::Fraction{0, 1};
+		_den = 1;
+		return;
 	}
 
 	// 分子分母同时除以最大公约数
@@ -48,8 +49,8 @@ base::Fraction base::Fraction::Simplify() const
 		scaled_den = -scaled_den;
 	}
 
-	Fraction ret{scaled_num, scaled_den};
-	return ret;
+	_num = scaled_num;
+	_den = scaled_den;
 }
 
 /* #region 四则运算符 */
@@ -68,13 +69,13 @@ base::Fraction base::Fraction::operator+(Fraction const &value) const
 		scaled_den,
 	};
 
-	return ret.Simplify();
+	return ret.SimplifiedForm();
 }
 
 base::Fraction base::Fraction::operator-(Fraction const &value) const
 {
 	Fraction ret = *this + (-value);
-	return ret.Simplify();
+	return ret.SimplifiedForm();
 }
 
 base::Fraction base::Fraction::operator*(Fraction const &value) const
@@ -82,13 +83,13 @@ base::Fraction base::Fraction::operator*(Fraction const &value) const
 	base::Fraction ret;
 	ret.SetNum(_num * value.Num());
 	ret.SetDen(_den * value.Den());
-	return ret.Simplify();
+	return ret.SimplifiedForm();
 }
 
 base::Fraction base::Fraction::operator/(Fraction const &value) const
 {
 	Fraction ret{*this * value.Reciprocal()};
-	return ret.Simplify();
+	return ret.SimplifiedForm();
 }
 
 /* #endregion */
@@ -119,16 +120,16 @@ bool base::Fraction::operator==(Fraction const &another) const
 		return true;
 	}
 
-	Fraction f1 = Simplify();
-	Fraction f2 = another.Simplify();
+	Fraction f1 = SimplifiedForm();
+	Fraction f2 = another.SimplifiedForm();
 	return f1.Num() == f2.Num() && f1.Den() == f2.Den();
 }
 
 bool base::Fraction::operator>(Fraction const &another) const
 {
 	// 先化简，避免分母为负数，然后使用交叉乘法比大小。
-	Fraction f1 = Simplify();
-	Fraction f2 = another.Simplify();
+	Fraction f1 = SimplifiedForm();
+	Fraction f2 = another.SimplifiedForm();
 	boost::multiprecision::cpp_int num1{f1.Num()};
 	boost::multiprecision::cpp_int den1{f1.Den()};
 	boost::multiprecision::cpp_int num2{f2.Num()};
@@ -139,8 +140,8 @@ bool base::Fraction::operator>(Fraction const &another) const
 bool base::Fraction::operator<(Fraction const &another) const
 {
 	// 先化简，避免分母为负数，然后使用交叉乘法比大小。
-	Fraction f1 = Simplify();
-	Fraction f2 = another.Simplify();
+	Fraction f1 = SimplifiedForm();
+	Fraction f2 = another.SimplifiedForm();
 	boost::multiprecision::cpp_int num1{f1.Num()};
 	boost::multiprecision::cpp_int den1{f1.Den()};
 	boost::multiprecision::cpp_int num2{f2.Num()};

@@ -128,10 +128,24 @@ namespace base
 		/* #region 计算函数 */
 
 		///
-		/// @brief 化简分数，返回化简后的值。
+		/// @brief 化简自身。
+		///
+		///
+		void Simplify();
+
+		///
+		/// @brief 化简后的形式。
+		///
+		/// @note 返回化简后的值，不改变自身。
+		///
 		/// @return
 		///
-		Fraction Simplify() const;
+		Fraction SimplifiedForm() const
+		{
+			base::Fraction ret{*this};
+			ret.Simplify();
+			return ret;
+		}
 
 		///
 		/// @brief 倒数
@@ -140,7 +154,7 @@ namespace base
 		Fraction Reciprocal() const
 		{
 			base::Fraction ret{_den, _num};
-			return ret.Simplify();
+			return ret.SimplifiedForm();
 		}
 
 		///
@@ -225,7 +239,7 @@ namespace base
 		Fraction operator-() const
 		{
 			Fraction ret{-_num, _den};
-			return ret.Simplify();
+			return ret.SimplifiedForm();
 		}
 
 		/* #region 四则运算符 */
