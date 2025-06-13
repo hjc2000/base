@@ -32,12 +32,12 @@ namespace base
 			///
 			/// @param value
 			///
-			explicit KError_t(T value)
+			constexpr explicit KError_t(T value)
 			{
 				_value = value;
 			}
 
-			T Value() const
+			constexpr T Value() const
 			{
 				return _value;
 			}
@@ -58,12 +58,12 @@ namespace base
 			///
 			/// @param value
 			///
-			explicit FeedbackDiv_t(T value)
+			constexpr explicit FeedbackDiv_t(T value)
 			{
 				_value = value;
 			}
 
-			T Value() const
+			constexpr T Value() const
 			{
 				return _value;
 			}
@@ -71,35 +71,35 @@ namespace base
 
 		/* #endregion */
 
-		FeedbackInertialElement(base::FeedbackInertialElement<T>::KError_t const &k_error,
-								base::FeedbackInertialElement<T>::FeedbackDiv_t const &feedback_div)
+		constexpr FeedbackInertialElement(base::FeedbackInertialElement<T>::KError_t const &k_error,
+										  base::FeedbackInertialElement<T>::FeedbackDiv_t const &feedback_div)
 		{
 			_k_error = k_error.Value();
 			_feedback_div = feedback_div.Value();
 		}
 
-		T KError() const
+		constexpr T KError() const
 		{
 			return _k_error;
 		}
 
-		void SetKError(T value)
+		constexpr void SetKError(T value)
 		{
 			_k_error = value;
 		}
 
-		T FeedbackDiv() const
+		constexpr T FeedbackDiv() const
 		{
 			return _feedback_div;
 		}
 
-		void SetFeedbackDiv(T value)
+		constexpr void SetFeedbackDiv(T value)
 		{
 			_feedback_div = value;
 		}
 
-		void ChangeParameter(base::FeedbackInertialElement<T>::KError_t const &k_error,
-							 base::FeedbackInertialElement<T>::FeedbackDiv_t const &feedback_div)
+		constexpr void ChangeParameter(base::FeedbackInertialElement<T>::KError_t const &k_error,
+									   base::FeedbackInertialElement<T>::FeedbackDiv_t const &feedback_div)
 		{
 			_k_error = k_error.Value();
 			_feedback_div = feedback_div.Value();
@@ -112,7 +112,7 @@ namespace base
 		///
 		/// @return
 		///
-		T Input(T x)
+		constexpr T Input(T x)
 		{
 			T error = x - Feedback();
 			_current_output += error * _k_error;
@@ -124,7 +124,7 @@ namespace base
 		///
 		/// @return
 		///
-		T Feedback() const
+		constexpr T Feedback() const
 		{
 			return _current_output / _feedback_div;
 		}
@@ -136,7 +136,7 @@ namespace base
 		///
 		/// @return
 		///
-		void SetFeedback(T value)
+		constexpr void SetFeedback(T value)
 		{
 			_current_output = value * _feedback_div;
 		}
@@ -148,7 +148,7 @@ namespace base
 		///
 		/// @return
 		///
-		T TimeConstant(T sample_interval)
+		constexpr T TimeConstant(T sample_interval)
 		{
 			//
 			// 		k_error = (sample_interval * k) / T1
