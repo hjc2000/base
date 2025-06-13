@@ -140,10 +140,10 @@ namespace base
 		/* #region 计算函数 */
 
 		///
-		/// @brief 化简分数，返回化简后的值。
-		/// @return
+		/// @brief 化简自身。
 		///
-		constexpr Int64Fraction SimplifiedForm() const
+		///
+		constexpr void Simplify()
 		{
 			if (_den == 0)
 			{
@@ -152,7 +152,8 @@ namespace base
 
 			if (_num == 0)
 			{
-				return base::Int64Fraction{0, 1};
+				_den = 1;
+				return;
 			}
 
 			// 分子分母同时除以最大公约数
@@ -167,7 +168,21 @@ namespace base
 				scaled_den = -scaled_den;
 			}
 
-			Int64Fraction ret{scaled_num, scaled_den};
+			_num = scaled_num;
+			_den = scaled_den;
+		}
+
+		///
+		/// @brief 化简后的形式。
+		///
+		/// @note 返回化简后的值，不改变自身。
+		///
+		/// @return
+		///
+		constexpr Int64Fraction SimplifiedForm() const
+		{
+			base::Int64Fraction ret{*this};
+			ret.Simplify();
 			return ret;
 		}
 
