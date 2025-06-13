@@ -17,6 +17,8 @@ namespace base
 		T _current_output{};
 
 	public:
+		/* #region 参数类 */
+
 		///
 		/// @brief 惯性时间常数
 		///
@@ -58,6 +60,8 @@ namespace base
 				return _value;
 			}
 		};
+
+		/* #endregion */
 
 		///
 		/// @brief 一阶惯性环节。
@@ -145,4 +149,5 @@ namespace base
 			_ky = _inertial_time_constant / (_inertial_time_constant + _sample_interval);
 		}
 	};
+
 } // namespace base
