@@ -24,7 +24,7 @@ namespace base
 		/// @brief 无参构造。构造出来的是坐标原点。
 		///
 		///
-		Position() = default;
+		constexpr Position() = default;
 
 		///
 		/// @brief 构造函数。
@@ -32,7 +32,7 @@ namespace base
 		/// @param x
 		/// @param y
 		///
-		Position(T x, T y)
+		constexpr Position(T x, T y)
 			: _x(x),
 			  _y(y)
 		{
@@ -45,61 +45,61 @@ namespace base
 		/// @return
 		///
 		template <typename another_type>
-		explicit Position(Position<another_type> const &another)
+		constexpr explicit Position(Position<another_type> const &another)
 			: _x(T{another._x}),
 			  _y(T{another._y})
 		{
 		}
 
-		T X() const
+		constexpr T X() const
 		{
 			return _x;
 		}
 
-		void SetX(T value)
+		constexpr void SetX(T value)
 		{
 			_x = value;
 		}
 
-		T Y() const
+		constexpr T Y() const
 		{
 			return _y;
 		}
 
-		void SetY(T value)
+		constexpr void SetY(T value)
 		{
 			_y = value;
 		}
 
-		bool operator==(base::Position<T> const &another) const
+		constexpr bool operator==(base::Position<T> const &another) const
 		{
 			std::array<T, 2> arr{_x, _y};
 			std::array<T, 2> another_arr{another._x, another._y};
 			return arr == another_arr;
 		}
 
-		bool operator<(base::Position<T> const &another) const
+		constexpr bool operator<(base::Position<T> const &another) const
 		{
 			std::array<T, 2> arr{_x, _y};
 			std::array<T, 2> another_arr{another._x, another._y};
 			return arr < another_arr;
 		}
 
-		bool operator>(base::Position<T> const &another) const
+		constexpr bool operator>(base::Position<T> const &another) const
 		{
 			std::array<T, 2> arr{_x, _y};
 			std::array<T, 2> another_arr{another._x, another._y};
 			return arr > another_arr;
 		}
 
-		bool operator<=(base::Position<T> const &another) const
+		constexpr bool operator<=(base::Position<T> const &another) const
 		{
 			std::array<T, 2> arr{_x, _y};
 			std::array<T, 2> another_arr{another._x, another._y};
 			return arr <= another_arr;
 		}
 
-		bool operator>=(base::Position<T> const &another) const
+		constexpr bool operator>=(base::Position<T> const &another) const
 		{
 			std::array<T, 2> arr{_x, _y};
 			std::array<T, 2> another_arr{another._x, another._y};
