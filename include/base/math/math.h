@@ -20,4 +20,21 @@ namespace base
 		return int_part + 1;
 	}
 
+	///
+	/// @brief 求绝对值。
+	///
+	/// @param value
+	/// @return
+	///
+	template <typename T>
+	constexpr T abs(T const &value)
+	{
+		if (value < T{0})
+		{
+			return -value;
+		}
+
+		return value;
+	}
+
 } // namespace base
