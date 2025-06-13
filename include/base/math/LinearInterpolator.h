@@ -1,4 +1,5 @@
 #pragma once
+#include "base/math/math.h"
 #include <cstdlib>
 
 namespace base
@@ -16,13 +17,13 @@ namespace base
 		T _step_length = 0;
 
 	public:
-		LinearInterpolator() = default;
+		constexpr LinearInterpolator() = default;
 
-		LinearInterpolator(T current_value, T end_value, T step_length)
+		constexpr LinearInterpolator(T current_value, T end_value, T step_length)
 		{
 			_current_value = current_value;
 			_end_value = end_value;
-			_step_length = std::abs(step_length);
+			_step_length = base::abs(step_length);
 		}
 
 		///
@@ -30,7 +31,7 @@ namespace base
 		///
 		/// @return
 		///
-		T CurrentValue() const
+		constexpr T CurrentValue() const
 		{
 			return _current_value;
 		}
@@ -40,7 +41,7 @@ namespace base
 		///
 		/// @param value
 		///
-		void SetCurrentValue(T value)
+		constexpr void SetCurrentValue(T value)
 		{
 			_current_value = value;
 		}
@@ -50,7 +51,7 @@ namespace base
 		///
 		/// @return
 		///
-		T EndValue() const
+		constexpr T EndValue() const
 		{
 			return _end_value;
 		}
@@ -60,7 +61,7 @@ namespace base
 		///
 		/// @param value
 		///
-		void SetEndValue(T value)
+		constexpr void SetEndValue(T value)
 		{
 			_end_value = value;
 		}
@@ -70,7 +71,7 @@ namespace base
 		///
 		/// @return
 		///
-		T StepLength() const
+		constexpr T StepLength() const
 		{
 			return _step_length;
 		}
@@ -80,7 +81,7 @@ namespace base
 		///
 		/// @param value
 		///
-		void SetStepLength(T value)
+		constexpr void SetStepLength(T value)
 		{
 			_step_length = value;
 		}
@@ -90,9 +91,9 @@ namespace base
 		///
 		/// @return 迈出一步后的当前值。
 		///
-		T Step()
+		constexpr T Step()
 		{
-			if (std::abs(_end_value - _current_value) < _step_length)
+			if (base::abs(_end_value - _current_value) < _step_length)
 			{
 				// 差距小于 1 个步长，直接赋值为结束值。
 				_current_value = _end_value;
