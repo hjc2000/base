@@ -1,6 +1,5 @@
 #pragma once
 #include <array>
-#include <cstdint>
 
 namespace base
 {
@@ -13,11 +12,12 @@ namespace base
 	/// 	@li 表格坐标系：最左上角的单元格为坐标原点，向右为 x 轴正方向，向下为 y 轴正方向。
 	///
 	///
+	template <typename T>
 	class Position
 	{
 	private:
-		int64_t _x{};
-		int64_t _y{};
+		T _x{};
+		T _y{};
 
 	public:
 		///
@@ -32,64 +32,64 @@ namespace base
 		/// @param x
 		/// @param y
 		///
-		Position(int64_t x, int64_t y)
+		Position(T x, T y)
 			: _x(x),
 			  _y(y)
 		{
 		}
 
-		int64_t X() const
+		T X() const
 		{
 			return _x;
 		}
 
-		void SetX(int64_t value)
+		void SetX(T value)
 		{
 			_x = value;
 		}
 
-		int64_t Y() const
+		T Y() const
 		{
 			return _y;
 		}
 
-		void SetY(int64_t value)
+		void SetY(T value)
 		{
 			_y = value;
 		}
 
-		bool operator==(base::Position const &another) const
+		bool operator==(base::Position<T> const &another) const
 		{
-			std::array<int64_t, 2> arr{_x, _y};
-			std::array<int64_t, 2> another_arr{another._x, another._y};
+			std::array<T, 2> arr{_x, _y};
+			std::array<T, 2> another_arr{another._x, another._y};
 			return arr == another_arr;
 		}
 
-		bool operator<(base::Position const &another) const
+		bool operator<(base::Position<T> const &another) const
 		{
-			std::array<int64_t, 2> arr{_x, _y};
-			std::array<int64_t, 2> another_arr{another._x, another._y};
+			std::array<T, 2> arr{_x, _y};
+			std::array<T, 2> another_arr{another._x, another._y};
 			return arr < another_arr;
 		}
 
-		bool operator>(base::Position const &another) const
+		bool operator>(base::Position<T> const &another) const
 		{
-			std::array<int64_t, 2> arr{_x, _y};
-			std::array<int64_t, 2> another_arr{another._x, another._y};
+			std::array<T, 2> arr{_x, _y};
+			std::array<T, 2> another_arr{another._x, another._y};
 			return arr > another_arr;
 		}
 
-		bool operator<=(base::Position const &another) const
+		bool operator<=(base::Position<T> const &another) const
 		{
-			std::array<int64_t, 2> arr{_x, _y};
-			std::array<int64_t, 2> another_arr{another._x, another._y};
+			std::array<T, 2> arr{_x, _y};
+			std::array<T, 2> another_arr{another._x, another._y};
 			return arr <= another_arr;
 		}
 
-		bool operator>=(base::Position const &another) const
+		bool operator>=(base::Position<T> const &another) const
 		{
-			std::array<int64_t, 2> arr{_x, _y};
-			std::array<int64_t, 2> another_arr{another._x, another._y};
+			std::array<T, 2> arr{_x, _y};
+			std::array<T, 2> another_arr{another._x, another._y};
 			return arr >= another_arr;
 		}
 	};

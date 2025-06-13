@@ -9,27 +9,28 @@ namespace base
 	///
 	/// (x1, y1) , (x2, y2) 这两个点也算在范围内。
 	///
+	template <typename T>
 	class PositionRange
 	{
 	private:
-		base::Position _start;
-		base::Position _end;
+		base::Position<T> _start;
+		base::Position<T> _end;
 
 	public:
 		constexpr PositionRange() = default;
 
-		constexpr PositionRange(base::Position const &start, base::Position const &end)
+		constexpr PositionRange(base::Position<T> const &start, base::Position<T> const &end)
 			: _start(start),
 			  _end(end)
 		{
 		}
 
-		constexpr base::Position Start() const
+		constexpr base::Position<T> Start() const
 		{
 			return _start;
 		}
 
-		constexpr base::Position End() const
+		constexpr base::Position<T> End() const
 		{
 			return _end;
 		}
