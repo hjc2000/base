@@ -29,7 +29,7 @@ namespace base
 	template <typename T>
 	constexpr T abs(T const &value)
 	{
-		if (value < T{0})
+		if (value < T{})
 		{
 			return -value;
 		}
