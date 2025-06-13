@@ -60,9 +60,9 @@ void base::Test_ChXFilter()
 
 	std::cout << "测试 InertialElement" << std::endl;
 
-	base::InertialElement inertial_filter{
-		base::InertialElement_TimeConstant{filter.TimeConstant(sapmle_interval)},
-		base::InertialElement_SampleInterval{sapmle_interval},
+	base::InertialElement<double> inertial_filter{
+		base::InertialElement<double>::TimeConstant{filter.TimeConstant(sapmle_interval)},
+		base::InertialElement<double>::SampleInterval{sapmle_interval},
 	};
 
 	for (int i = 0; i < 500; i++)
