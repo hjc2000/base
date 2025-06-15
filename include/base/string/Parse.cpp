@@ -1,7 +1,6 @@
 #include "Parse.h"
 #include "base/container/Range.h"
 #include "base/math/Fraction.h"
-#include "base/math/Pow.h"
 #include "base/stream/Span.h"
 #include "base/string/define.h"
 #include "base/string/String.h"
@@ -20,8 +19,8 @@ namespace
 		base::String _number_str = "0";
 
 	public:
-		BaseAndNumberStr(int32_t base, base::String const &number_str)
-			: _base(base),
+		BaseAndNumberStr(int32_t number_base, base::String const &number_str)
+			: _base(number_base),
 			  _number_str(number_str)
 		{
 		}
@@ -88,14 +87,14 @@ int32_t base::ParseInt32(base::String const &str)
 	return ParseInt32(info.NumberString(), info.Base());
 }
 
-int32_t base::ParseInt32(base::String const &str, int32_t base)
+int32_t base::ParseInt32(base::String const &str, int32_t number_base)
 {
 	/**
 	 * 解析时使用的子字符串的最后一个字符的下一个字符的索引。
 	 * 如果整个字符串都用来被解析，则应该等于字符串长度。
 	 */
 	size_t parse_end_index = 0;
-	int32_t result = std::stoi(str.StdString(), &parse_end_index, base);
+	int32_t result = std::stoi(str.StdString(), &parse_end_index, number_base);
 	if (static_cast<int32_t>(parse_end_index) != str.Length())
 	{
 		// 没有将整个字符串都用来解析。
@@ -111,14 +110,14 @@ int64_t base::ParseInt64(base::String const &str)
 	return ParseInt64(info.NumberString(), info.Base());
 }
 
-int64_t base::ParseInt64(base::String const &str, int32_t base)
+int64_t base::ParseInt64(base::String const &str, int32_t number_base)
 {
 	/**
 	 * 解析时使用的子字符串的最后一个字符的下一个字符的索引。
 	 * 如果整个字符串都用来被解析，则应该等于字符串长度。
 	 */
 	size_t parse_end_index = 0;
-	int64_t result = std::stoll(str.StdString(), &parse_end_index, base);
+	int64_t result = std::stoll(str.StdString(), &parse_end_index, number_base);
 	if (static_cast<int32_t>(parse_end_index) != str.Length())
 	{
 		// 没有将整个字符串都用来解析。
@@ -134,7 +133,7 @@ double base::ParseDouble(base::String const &str)
 	return ParseDouble(info.NumberString(), info.Base());
 }
 
-double base::ParseDouble(base::String const &str, int32_t base)
+double base::ParseDouble(base::String const &str, int32_t number_base)
 {
 	if (str.Length() == 0)
 	{
@@ -166,11 +165,11 @@ double base::ParseDouble(base::String const &str, int32_t base)
 		fractional_part_str = sub_strs[1];
 	}
 
-	base::Fraction integer_part{base::ParseInt64(integer_part_str, base)};
+	base::Fraction integer_part{base::ParseInt64(integer_part_str, number_base)};
 
 	base::Fraction fractional_part{
-		base::ParseInt64(fractional_part_str, base),
-		base::IntPow(base, fractional_part_str.Length()),
+		base::ParseInt64(fractional_part_str, number_base),
+		static_cast<int64_t>(std::pow(number_base, fractional_part_str.Length())),
 	};
 
 	base::Fraction sum = integer_part + fractional_part;
