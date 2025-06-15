@@ -525,7 +525,7 @@ namespace base
 		constexpr base::Int64Fraction pi{base::Double{std::numbers::pi}};
 
 		///
-		/// @brief 欧拉数 e.
+		/// @brief 自然对数 ln 的底。
 		///
 		///
 		constexpr base::Int64Fraction e{base::Double{std::numbers::e}};
