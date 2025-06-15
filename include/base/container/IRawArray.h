@@ -168,6 +168,11 @@ namespace base
 
 		/* #region 比较运算符 */
 
+		///
+		/// @brief 基于字典序比较。
+		///
+		/// @return
+		///
 		bool operator==(IRawArray<ItemType> const &o) const
 			requires(base::has_equal_operator<ItemType> &&
 					 base::has_less_than_operator<ItemType> &&
@@ -195,6 +200,11 @@ namespace base
 			return true;
 		}
 
+		///
+		/// @brief 基于字典序比较。
+		///
+		/// @return
+		///
 		bool operator<(IRawArray<ItemType> const &o) const
 			requires(base::has_equal_operator<ItemType> &&
 					 base::has_less_than_operator<ItemType> &&
@@ -225,6 +235,11 @@ namespace base
 			return Count() < o.Count();
 		}
 
+		///
+		/// @brief 基于字典序比较。
+		///
+		/// @return
+		///
 		bool operator>(IRawArray<ItemType> const &o) const
 			requires(base::has_equal_operator<ItemType> &&
 					 base::has_less_than_operator<ItemType> &&
@@ -255,6 +270,11 @@ namespace base
 			return Count() > o.Count();
 		}
 
+		///
+		/// @brief 基于字典序比较。
+		///
+		/// @return
+		///
 		bool operator<=(IRawArray<ItemType> const &o) const
 			requires(base::has_equal_operator<ItemType> &&
 					 base::has_less_than_operator<ItemType> &&
@@ -285,6 +305,11 @@ namespace base
 			return Count() <= o.Count();
 		}
 
+		///
+		/// @brief 基于字典序比较。
+		///
+		/// @return
+		///
 		bool operator>=(IRawArray<ItemType> const &o) const
 			requires(base::has_equal_operator<ItemType> &&
 					 base::has_less_than_operator<ItemType> &&
