@@ -1,6 +1,8 @@
 #include "base/math/Fraction.h"
+#include "base/math/Pow.h"
 #include "base/wrapper/number-wrapper.h"
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
 #include <iomanip>
 #include <iostream>
@@ -29,5 +31,14 @@ int main()
 				  << std::setprecision(precision)
 				  << static_cast<double>(f) - std::numbers::pi
 				  << std::endl;
+	}
+
+	{
+		int64_t result = base::pow<int64_t>(2, 10);
+		std::cout << result << std::endl;
+	}
+	{
+		uint64_t result = base::pow<uint64_t>(2, 10);
+		std::cout << result << std::endl;
 	}
 }
