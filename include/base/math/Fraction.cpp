@@ -1,5 +1,5 @@
 #include "Fraction.h"
-#include "base/math/Pow.h"
+#include "base/math/pow.h"
 
 base::Fraction::Fraction(base::Double const &value)
 {

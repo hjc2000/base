@@ -1,4 +1,4 @@
-#include "Pow.h"
+#include "pow.h"
 
 boost::multiprecision::cpp_int base::BigIntPow(boost::multiprecision::cpp_int x,
 											   boost::multiprecision::cpp_int y)

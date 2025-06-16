@@ -1,5 +1,5 @@
 #include "base/math/Fraction.h"
-#include "base/math/Pow.h"
+#include "base/math/pow.h"
 #include "base/wrapper/number-wrapper.h"
 #include <cmath>
 #include <cstdint>
