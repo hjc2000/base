@@ -12,11 +12,11 @@ base::Fraction::Fraction(base::Double const &value)
 
 	double db = value.Value();
 	int loop_times = 0;
-	constexpr uint64_t factor = base::UIntPow(2, 63);
+	constexpr uint64_t factor = base::pow<uint64_t>(2, 63);
 	while (db != 0.0)
 	{
 		boost::multiprecision::cpp_int int_part{static_cast<int64_t>(db)};
-		base::Fraction temp{int_part, base::BigIntPow(factor, loop_times)};
+		base::Fraction temp{int_part, base::pow<boost::multiprecision::cpp_int>(factor, loop_times)};
 		(*this) += temp;
 		db -= static_cast<double>(int_part);
 		db *= factor;

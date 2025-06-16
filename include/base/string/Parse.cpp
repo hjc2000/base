@@ -170,7 +170,7 @@ double base::ParseDouble(base::String const &str, int32_t base)
 
 	base::Fraction fractional_part{
 		base::ParseInt64(fractional_part_str, base),
-		base::IntPow(base, fractional_part_str.Length()),
+		base::pow<int64_t>(base, fractional_part_str.Length()),
 	};
 
 	base::Fraction sum = integer_part + fractional_part;
