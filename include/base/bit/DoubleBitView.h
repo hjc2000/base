@@ -60,6 +60,26 @@ namespace base
 			{
 				return base::bit::ReadBit(_value_union._uint64, 63);
 			}
+
+			///
+			/// @brief 是规格化数。
+			///
+			/// @return
+			///
+			constexpr bool Normalized() const
+			{
+				if (Exponent() == 0)
+				{
+					return false;
+				}
+
+				if (Exponent() == base::bit::ReadBits(UINT64_MAX, 52, 63))
+				{
+					return false;
+				}
+
+				return true;
+			}
 		};
 
 	} // namespace bit

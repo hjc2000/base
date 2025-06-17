@@ -112,7 +112,7 @@ namespace base
 		constexpr uint64_t Bit(int bit_index)
 		{
 			CheckBitIndex<uint64_t>(bit_index);
-			return 0b1 << bit_index;
+			return static_cast<uint64_t>(0b1) << bit_index;
 		}
 
 		///

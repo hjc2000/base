@@ -1,7 +1,10 @@
+#include "base/bit/bit.h"
 #include "base/math/Fraction.h"
 #include "base/string/Parse.h"
+#include "base/string/ToHexString.h"
 #include "base/wrapper/number-wrapper.h"
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
 #include <iomanip>
 #include <iostream>
@@ -33,4 +36,10 @@ int main()
 	}
 
 	base::test::test_parse_double();
+
+	{
+		uint64_t a = static_cast<uint64_t>(0x123) << 52;
+		a = base::bit::ReadBits(a, 52, 63);
+		std::cout << base::ToHexString(a) << std::endl;
+	}
 }
