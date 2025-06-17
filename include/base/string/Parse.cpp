@@ -1,6 +1,6 @@
 #include "Parse.h"
 #include "base/container/Range.h"
-#include "base/math/Fraction.h"
+#include "base/math/Int64Fraction.h"
 #include "base/math/pow.h"
 #include "base/stream/Span.h"
 #include "base/string/define.h"
@@ -166,14 +166,14 @@ double base::ParseDouble(base::String const &str, int32_t base)
 		fractional_part_str = sub_strs[1];
 	}
 
-	base::Fraction integer_part{base::ParseInt64(integer_part_str, base)};
+	base::Int64Fraction integer_part{base::ParseInt64(integer_part_str, base)};
 
-	base::Fraction fractional_part{
+	base::Int64Fraction fractional_part{
 		base::ParseInt64(fractional_part_str, base),
 		base::pow<int64_t>(base, fractional_part_str.Length()),
 	};
 
-	base::Fraction sum = integer_part + fractional_part;
+	base::Int64Fraction sum = integer_part + fractional_part;
 	if (is_negative)
 	{
 		sum = -sum;
