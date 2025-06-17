@@ -70,11 +70,13 @@ namespace base
 			{
 				if (Exponent() == 0)
 				{
+					// 指数位全 0.
 					return false;
 				}
 
 				if (Exponent() == base::bit::ReadBits(UINT64_MAX, 52, 63))
 				{
+					// 指数位全 1.
 					return false;
 				}
 
