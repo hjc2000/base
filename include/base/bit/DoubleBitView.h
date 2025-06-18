@@ -32,21 +32,21 @@ namespace base
 			}
 
 			///
-			/// @brief 尾数部分。
+			/// @brief 尾数部分的位。
 			///
 			/// @return
 			///
-			constexpr uint64_t Mantissa() const
+			constexpr uint64_t MantissaBits() const
 			{
 				return base::bit::ReadBits(_value_union._uint64, 0, 52);
 			}
 
 			///
-			/// @brief 指数部分。
+			/// @brief 指数部分的位。
 			///
 			/// @return
 			///
-			constexpr uint64_t Exponent() const
+			constexpr uint64_t ExponentBits() const
 			{
 				return base::bit::ReadBits(_value_union._uint64, 52, 63);
 			}
@@ -68,13 +68,13 @@ namespace base
 			///
 			constexpr bool Normalized() const
 			{
-				if (Exponent() == 0)
+				if (ExponentBits() == 0)
 				{
 					// 指数位全 0.
 					return false;
 				}
 
-				if (Exponent() == base::bit::ReadBits(UINT64_MAX, 52, 63))
+				if (ExponentBits() == base::bit::ReadBits(UINT64_MAX, 52, 63))
 				{
 					// 指数位全 1.
 					return false;
