@@ -38,8 +38,9 @@ int main()
 	base::test::test_parse_double();
 
 	{
-		uint64_t a = static_cast<uint64_t>(0x123) << 52;
-		a = base::bit::ReadBits(a, 52, 63);
+		constexpr uint64_t a = static_cast<uint64_t>(0x123) << 52;
+		constexpr uint64_t b = base::bit::ReadBits(a, 52, 63);
 		std::cout << base::ToHexString(a) << std::endl;
+		std::cout << base::ToHexString(b) << std::endl;
 	}
 }
