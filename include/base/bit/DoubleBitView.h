@@ -62,6 +62,28 @@ namespace base
 			}
 
 			///
+			/// @brief 是正数。
+			///
+			/// @return
+			///
+			constexpr bool Positive() const
+			{
+				// 符号位位 0 则是正数
+				return !SignBit();
+			}
+
+			///
+			/// @brief 是负数。
+			///
+			/// @return
+			///
+			constexpr bool Negative() const
+			{
+				// 符号位位 1 则是负数
+				return SignBit();
+			}
+
+			///
 			/// @brief 是规格化数。
 			///
 			/// @return
