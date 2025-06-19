@@ -1,45 +1,12 @@
 #pragma once
-
 #include "base/bit/bit.h"
+#include "base/bit/FloatNumberValueType.h"
 #include <cstdint>
 
 namespace base
 {
 	namespace bit
 	{
-		enum class DoubleValueType
-		{
-			///
-			/// @brief 规格化数。
-			///
-			///
-			Normalized,
-
-			///
-			/// @brief 非规格化数。
-			///
-			///
-			Denormalized,
-
-			///
-			/// @brief 不是一个数。
-			///
-			///
-			NaN,
-
-			///
-			/// @brief 正无穷。
-			///
-			///
-			PositiveInfinite,
-
-			///
-			/// @brief 负无穷。
-			///
-			///
-			NegativeInfinite,
-		};
-
 		///
 		/// @brief 软件浮点。
 		///
@@ -108,7 +75,7 @@ namespace base
 			///
 			/// @return
 			///
-			constexpr base::bit::DoubleValueType ValueType() const
+			constexpr base::bit::FloatNumberValueType ValueType() const
 			{
 				if (ExponentBits() == base::bit::ReadBits(UINT64_MAX, 52, 63))
 				{
@@ -117,7 +84,7 @@ namespace base
 					if (MantissaBits() != 0)
 					{
 						// 尾数位不全为 0,
-						return base::bit::DoubleValueType::NaN;
+						return base::bit::FloatNumberValueType::NaN;
 					}
 
 					// 尾数位全为 0
@@ -125,11 +92,11 @@ namespace base
 					if (!SignBit())
 					{
 						// 正无穷
-						return base::bit::DoubleValueType::PositiveInfinite;
+						return base::bit::FloatNumberValueType::PositiveInfinite;
 					}
 
 					// 负无穷
-					return base::bit::DoubleValueType::NegativeInfinite;
+					return base::bit::FloatNumberValueType::NegativeInfinite;
 				}
 
 				// 指数位不全为 1
@@ -137,10 +104,10 @@ namespace base
 				if (ExponentBits() == 0)
 				{
 					// 指数位全为 0
-					return base::bit::DoubleValueType::Denormalized;
+					return base::bit::FloatNumberValueType::Denormalized;
 				}
 
-				return base::bit::DoubleValueType::Normalized;
+				return base::bit::FloatNumberValueType::Normalized;
 			}
 
 			///
