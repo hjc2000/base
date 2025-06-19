@@ -84,6 +84,11 @@ namespace base
 				return base::bit::ReadBits(_value_union._uint64, 52, 63);
 			}
 
+			constexpr uint64_t ExponentValue() const
+			{
+				return ExponentBits() - 1023;
+			}
+
 			///
 			/// @brief 符号位。
 			///
@@ -92,6 +97,43 @@ namespace base
 			constexpr bool SignBit() const
 			{
 				return base::bit::ReadBit(_value_union._uint64, 63);
+			}
+
+			///
+			/// @brief 浮点值的类型。
+			///
+			/// @return
+			///
+			constexpr base::bit::DoubleValueType ValueType() const
+			{
+				if (ExponentBits() == base::bit::ReadBits(UINT64_MAX, 52, 63))
+				{
+					// 指数位全为 1
+					if (MantissaBits() != 0)
+					{
+						// 尾数位不全为 0,
+						return base::bit::DoubleValueType::NaN;
+					}
+
+					// 尾数位全为 0
+					if (!SignBit())
+					{
+						// 正无穷
+						return base::bit::DoubleValueType::PositiveInfinite;
+					}
+
+					// 负无穷
+					return base::bit::DoubleValueType::NegativeInfinite;
+				}
+
+				// 指数位不全为 1
+				if (ExponentBits() == 0)
+				{
+					// 指数位全为 0
+					return base::bit::DoubleValueType::Denormalized;
+				}
+
+				return base::bit::DoubleValueType::Normalized;
 			}
 
 			///
@@ -114,28 +156,6 @@ namespace base
 			{
 				// 符号位位 1 则是负数
 				return SignBit();
-			}
-
-			///
-			/// @brief 是规格化数。
-			///
-			/// @return
-			///
-			constexpr bool Normalized() const
-			{
-				if (ExponentBits() == 0)
-				{
-					// 指数位全 0.
-					return false;
-				}
-
-				if (ExponentBits() == base::bit::ReadBits(UINT64_MAX, 52, 63))
-				{
-					// 指数位全 1.
-					return false;
-				}
-
-				return true;
 			}
 		};
 
