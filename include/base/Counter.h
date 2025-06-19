@@ -1,4 +1,5 @@
 #pragma once
+#include <limits>
 #include <stdexcept>
 #include <type_traits>
 
@@ -12,7 +13,7 @@ namespace base
 	class Counter final
 	{
 	private:
-		T _max_value;
+		T _max_value = std::numeric_limits<T>::max();
 		T _count = 0;
 
 	public:
