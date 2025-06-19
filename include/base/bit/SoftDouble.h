@@ -40,7 +40,11 @@ namespace base
 			NegativeInfinite,
 		};
 
-		class DoubleBitView
+		///
+		/// @brief 软件浮点。
+		///
+		///
+		class SoftDouble
 		{
 		private:
 			union Union
@@ -52,9 +56,9 @@ namespace base
 			Union _value_union{};
 
 		public:
-			constexpr DoubleBitView() = default;
+			constexpr SoftDouble() = default;
 
-			constexpr DoubleBitView(double value)
+			constexpr SoftDouble(double value)
 			{
 				_value_union._double = value;
 			}
@@ -109,6 +113,7 @@ namespace base
 				if (ExponentBits() == base::bit::ReadBits(UINT64_MAX, 52, 63))
 				{
 					// 指数位全为 1
+
 					if (MantissaBits() != 0)
 					{
 						// 尾数位不全为 0,
@@ -116,6 +121,7 @@ namespace base
 					}
 
 					// 尾数位全为 0
+
 					if (!SignBit())
 					{
 						// 正无穷
@@ -127,6 +133,7 @@ namespace base
 				}
 
 				// 指数位不全为 1
+
 				if (ExponentBits() == 0)
 				{
 					// 指数位全为 0
