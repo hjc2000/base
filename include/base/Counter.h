@@ -15,34 +15,6 @@ namespace base
 		T _max_value;
 		T _count = 0;
 
-		///
-		/// @brief 递增计数。递增到最大之后，再次递增会归 0.
-		///
-		constexpr void IncCount()
-		{
-			if (_count == _max_value)
-			{
-				_count = 0;
-				return;
-			}
-
-			_count++;
-		}
-
-		///
-		/// @brief 递减计数。递减到 0 后再次递减会变成最大值。
-		///
-		constexpr void DecCount()
-		{
-			if (_count == 0)
-			{
-				_count = _max_value;
-				return;
-			}
-
-			_count--;
-		}
-
 	public:
 		///
 		/// @brief
@@ -65,7 +37,7 @@ namespace base
 		///
 		constexpr T operator++()
 		{
-			IncCount();
+			*this += 1;
 			return _count;
 		}
 
@@ -77,7 +49,7 @@ namespace base
 		constexpr T operator++(int)
 		{
 			T record = _count;
-			IncCount();
+			*this += 1;
 			return record;
 		}
 
@@ -88,7 +60,7 @@ namespace base
 		///
 		constexpr T operator--()
 		{
-			DecCount();
+			*this -= 1;
 			return _count;
 		}
 
@@ -100,7 +72,7 @@ namespace base
 		constexpr T operator--(int)
 		{
 			T record = _count;
-			DecCount();
+			*this -= 1;
 			return record;
 		}
 
@@ -111,8 +83,32 @@ namespace base
 		///
 		constexpr T operator+=(T value)
 		{
-			_count += value;
-			_count %= _max_value + 1;
+			// 将要加的值约束在一个最小正周期内。
+			value %= _max_value + 1;
+
+			// 剩余多少达到最大值
+			T remain = _max_value - _count;
+			if (value > remain)
+			{
+				// _count + value 会发生溢出
+
+				// value 减去 remain, 然后假设 _count 已经加到最大值了。
+				value -= remain;
+				// _count = _max_value;
+
+				// value 减去 1, 假设 _count 进一步加 1, 发生环绕，_count 变成 0.
+				value -= 1;
+				// _count = 0;
+
+				// value 还剩下一点点，让为 0 的 _count 加上 value,
+				// 相当于直接赋值。
+				_count = value;
+			}
+			else
+			{
+				_count += value;
+			}
+
 			return _count;
 		}
 
@@ -125,9 +121,25 @@ namespace base
 		///
 		constexpr T operator-=(T value)
 		{
+			// 将要减的值约束在一个最小正周期内。
 			value %= _max_value + 1;
-			_count += _max_value + 1 - value;
-			_count %= _max_value + 1;
+			if (value > _count)
+			{
+				// 假设将 _count 减到 0 后还剩下多少没减
+				T remain = value - _count;
+
+				// 前面已经假设 _count 减到 0 了，接着假设 _count 继续减 1,
+				// 环绕到最大值了，此时还剩下多少没减
+				remain -= 1;
+
+				// 最大值减去剩余的没减的值
+				_count = _max_value - remain;
+			}
+			else
+			{
+				_count -= value;
+			}
+
 			return _count;
 		}
 
