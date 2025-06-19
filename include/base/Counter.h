@@ -80,7 +80,9 @@ namespace base
 
 		///
 		/// @brief 将计数器的值增加指定的值
+		///
 		/// @param value
+		///
 		/// @return
 		///
 		constexpr T operator+=(T value)
@@ -155,6 +157,7 @@ namespace base
 
 		///
 		/// @brief 获取计数器的当前值。
+		///
 		/// @return
 		///
 		constexpr T CurrentValue() const
@@ -164,15 +167,15 @@ namespace base
 
 		///
 		/// @brief 设置计数器的当前值。
-		/// @note 会将 value 对 (_max_value + 1) 取模，也就是说如果 value 超过最大值，
-		/// 	  会发生回绕。
 		///
 		/// @param value
 		///
-		///
 		constexpr void SetCurrentValue(T value)
 		{
-			_count = value % (_max_value + 1);
+			_count = 0;
+
+			// 借助加法进行溢出回绕处理。
+			*this += value;
 		}
 	};
 } // namespace base
