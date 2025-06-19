@@ -177,5 +177,10 @@ namespace base
 			// 借助加法进行溢出回绕处理。
 			*this += value;
 		}
+
+		constexpr explicit operator T() const
+		{
+			return _count;
+		}
 	};
 } // namespace base
