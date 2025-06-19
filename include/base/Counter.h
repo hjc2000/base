@@ -6,7 +6,7 @@
 namespace base
 {
 	///
-	/// @brief 计数器。计数到最大值后会归 0.
+	/// @brief 任意进制的计数器。
 	///
 	template <typename T>
 		requires(std::is_unsigned_v<T>)
@@ -18,7 +18,8 @@ namespace base
 
 	public:
 		///
-		/// @brief
+		/// @brief 构造一个任意进制的计数器。
+		///
 		/// @param max_value 计数器的最大值
 		///
 		constexpr Counter(T max_value)
