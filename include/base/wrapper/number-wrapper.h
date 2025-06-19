@@ -165,9 +165,8 @@ namespace base
 		///
 		/// @return NumericWrapper
 		///
-		template <typename _number_type = NumberType,
-				  typename = std::enable_if_t<std::is_integral_v<_number_type>>>
 		constexpr NumericWrapper operator~() const
+			requires(std::is_integral_v<NumberType>)
 		{
 			return NumericWrapper{~_value};
 		}
@@ -178,9 +177,8 @@ namespace base
 		/// @param other
 		/// @return NumericWrapper
 		///
-		template <typename _number_type = NumberType,
-				  typename = std::enable_if_t<std::is_integral_v<_number_type>>>
 		constexpr NumericWrapper operator&(NumericWrapper const &other) const
+			requires(std::is_integral_v<NumberType>)
 		{
 			return NumericWrapper{_value & other._value};
 		}
@@ -191,9 +189,8 @@ namespace base
 		/// @param other
 		/// @return NumericWrapper
 		///
-		template <typename _number_type = NumberType,
-				  typename = std::enable_if_t<std::is_integral_v<_number_type>>>
 		constexpr NumericWrapper operator|(NumericWrapper const &other) const
+			requires(std::is_integral_v<NumberType>)
 		{
 			return NumericWrapper{_value | other._value};
 		}
@@ -204,9 +201,8 @@ namespace base
 		/// @param other
 		/// @return NumericWrapper
 		///
-		template <typename _number_type = NumberType,
-				  typename = std::enable_if_t<std::is_integral_v<_number_type>>>
 		constexpr NumericWrapper operator^(NumericWrapper const &other) const
+			requires(std::is_integral_v<NumberType>)
 		{
 			return NumericWrapper{_value ^ other._value};
 		}
@@ -217,9 +213,8 @@ namespace base
 		/// @param shift
 		/// @return NumericWrapper
 		///
-		template <typename _number_type = NumberType,
-				  typename = std::enable_if_t<std::is_integral_v<_number_type>>>
 		constexpr NumericWrapper operator<<(int shift) const
+			requires(std::is_integral_v<NumberType>)
 		{
 			return NumericWrapper{_value << shift};
 		}
@@ -230,9 +225,8 @@ namespace base
 		/// @param shift
 		/// @return NumericWrapper
 		///
-		template <typename _number_type = NumberType,
-				  typename = std::enable_if_t<std::is_integral_v<_number_type>>>
 		constexpr NumericWrapper operator>>(int shift) const
+			requires(std::is_integral_v<NumberType>)
 		{
 			return NumericWrapper{_value >> shift};
 		}
@@ -241,41 +235,36 @@ namespace base
 
 		/* #region 自改变位运算符 */
 
-		template <typename _number_type = NumberType,
-				  typename = std::enable_if_t<std::is_integral_v<_number_type>>>
 		constexpr NumericWrapper &operator&=(NumericWrapper const &other)
+			requires(std::is_integral_v<NumberType>)
 		{
 			_value &= other._value;
 			return *this;
 		}
 
-		template <typename _number_type = NumberType,
-				  typename = std::enable_if_t<std::is_integral_v<_number_type>>>
 		constexpr NumericWrapper &operator|=(NumericWrapper const &other)
+			requires(std::is_integral_v<NumberType>)
 		{
 			_value |= other._value;
 			return *this;
 		}
 
-		template <typename _number_type = NumberType,
-				  typename = std::enable_if_t<std::is_integral_v<_number_type>>>
 		constexpr NumericWrapper &operator^=(NumericWrapper const &other)
+			requires(std::is_integral_v<NumberType>)
 		{
 			_value ^= other._value;
 			return *this;
 		}
 
-		template <typename _number_type = NumberType,
-				  typename = std::enable_if_t<std::is_integral_v<_number_type>>>
 		constexpr NumericWrapper &operator<<=(int shift)
+			requires(std::is_integral_v<NumberType>)
 		{
 			_value <<= shift;
 			return *this;
 		}
 
-		template <typename _number_type = NumberType,
-				  typename = std::enable_if_t<std::is_integral_v<_number_type>>>
 		constexpr NumericWrapper &operator>>=(int shift)
+			requires(std::is_integral_v<NumberType>)
 		{
 			_value <<= shift;
 			return *this;
@@ -330,4 +319,5 @@ namespace base
 
 	using Float = NumericWrapper<float>;
 	using Double = NumericWrapper<double>;
+
 } // namespace base
