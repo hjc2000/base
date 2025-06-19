@@ -7,6 +7,39 @@ namespace base
 {
 	namespace bit
 	{
+		enum class DoubleValueType
+		{
+			///
+			/// @brief 规格化数。
+			///
+			///
+			Normalized,
+
+			///
+			/// @brief 非规格化数。
+			///
+			///
+			Denormalized,
+
+			///
+			/// @brief 不是一个数。
+			///
+			///
+			NaN,
+
+			///
+			/// @brief 正无穷。
+			///
+			///
+			PositiveInfinite,
+
+			///
+			/// @brief 负无穷。
+			///
+			///
+			NegativeInfinite,
+		};
+
 		class DoubleBitView
 		{
 		private:
