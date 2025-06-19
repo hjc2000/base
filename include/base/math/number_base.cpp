@@ -1,5 +1,5 @@
 #include "number_base.h"
-#include <math.h>
+#include <cmath>
 
 std::vector<uint8_t> base::number_base::ConvertBase(uint64_t num, uint8_t base)
 {
