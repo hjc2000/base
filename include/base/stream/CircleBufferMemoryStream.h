@@ -38,7 +38,7 @@ namespace base
 		///
 		/// 此字段用来区分这两种情况。
 		///
-		bool _is_full;
+		bool _is_full = false;
 
 		///
 		/// @brief 以非环绕方式读取。
