@@ -1,7 +1,9 @@
 #pragma once
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Stream.h"
+#include "base/string/define.h"
 #include "base/string/TextWriter.h"
+#include <stdexcept>
 
 namespace base
 {
@@ -19,6 +21,10 @@ namespace base
 		StreamWriter(std::shared_ptr<base::Stream> const &stream)
 			: _stream(stream)
 		{
+			if (_stream == nullptr)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "stream 不能传入空指针。"};
+			}
 		}
 
 		std::shared_ptr<base::Stream> Stream() const

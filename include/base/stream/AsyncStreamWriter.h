@@ -2,8 +2,10 @@
 #include "base/IDisposable.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Stream.h"
+#include "base/string/define.h"
 #include "base/string/TextWriter.h"
 #include "BlockingCircleBufferMemoryStream.h"
+#include <stdexcept>
 
 namespace base
 {
@@ -25,6 +27,10 @@ namespace base
 			: _buffer_stream(max_buffer_size),
 			  _stream(stream)
 		{
+			if (_stream == nullptr)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "stream 不能传入空指针。"};
+			}
 		}
 
 		~AsyncStreamWriter()
