@@ -57,10 +57,7 @@ namespace base
 			LLDP = 0x88CC,
 		};
 	} // namespace ethernet
-} // namespace base
 
-namespace std
-{
 	///
 	/// @brief 将 base::ethernet::LengthOrTypeEnum 转换为字符串。
 	///
@@ -68,7 +65,8 @@ namespace std
 	/// @return std::string
 	///
 	std::string to_string(base::ethernet::LengthOrTypeEnum value);
-} // namespace std
+
+} // namespace base
 
 ///
 /// @brief 将 base::ethernet::LengthOrTypeEnum 转换为字符串输出到输出流。

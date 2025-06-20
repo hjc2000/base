@@ -163,10 +163,7 @@ namespace base
 		};
 
 	} // namespace gpio
-} // namespace base
 
-namespace std
-{
 	/* #region to_string */
 
 	///
@@ -252,7 +249,7 @@ namespace std
 
 	/* #endregion */
 
-} // namespace std
+} // namespace base
 
 namespace base
 {
@@ -267,7 +264,7 @@ namespace base
 		///
 		inline std::string PinName(base::gpio::PortEnum port, uint32_t pin)
 		{
-			return std::to_string(port) + std::to_string(pin);
+			return base::to_string(port) + std::to_string(pin);
 		}
 
 	} // namespace gpio

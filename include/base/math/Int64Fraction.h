@@ -531,6 +531,42 @@ namespace base
 		constexpr base::Int64Fraction e{base::Double{std::numbers::e}};
 
 	} // namespace constant
+
+	///
+	/// @brief 取绝对值。
+	///
+	/// @param value
+	/// @return
+	///
+	inline base::Int64Fraction abs(base::Int64Fraction const &value)
+	{
+		return value.Abs();
+	}
+
+	///
+	/// @brief 向下取整
+	///
+	/// @param value
+	///
+	/// @return
+	///
+	inline int64_t floor(base::Int64Fraction const &value)
+	{
+		return value.Floor();
+	}
+
+	///
+	/// @brief 向上取整
+	///
+	/// @param value
+	///
+	/// @return
+	///
+	inline int64_t ceil(base::Int64Fraction const &value)
+	{
+		return value.Ceil();
+	}
+
 } // namespace base
 
 /* #region 全局四则运算符 */
@@ -584,42 +620,3 @@ inline base::Int64Fraction operator/(int64_t left, base::Int64Fraction const &ri
 }
 
 /* #endregion */
-
-namespace std
-{
-	///
-	/// @brief 取绝对值。
-	///
-	/// @param value
-	/// @return
-	///
-	inline base::Int64Fraction abs(base::Int64Fraction const &value)
-	{
-		return value.Abs();
-	}
-
-	///
-	/// @brief 向下取整
-	///
-	/// @param value
-	///
-	/// @return
-	///
-	inline int64_t floor(base::Int64Fraction const &value)
-	{
-		return value.Floor();
-	}
-
-	///
-	/// @brief 向上取整
-	///
-	/// @param value
-	///
-	/// @return
-	///
-	inline int64_t ceil(base::Int64Fraction const &value)
-	{
-		return value.Ceil();
-	}
-
-} // namespace std

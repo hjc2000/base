@@ -151,7 +151,7 @@ namespace base
 				base::Json root{
 					{"目的 MAC 地址", DestinationMac().ToString()},
 					{"源 MAC 地址", SourceMac().ToString()},
-					{"TypeOrLength", std::to_string(TypeOrLength())},
+					{"TypeOrLength", base::to_string(TypeOrLength())},
 					{"是否具有 VlangTag", HasVlanTag()},
 				};
 

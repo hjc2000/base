@@ -27,10 +27,7 @@ namespace base
 			return ToString();
 		}
 	};
-} // namespace base
 
-namespace std
-{
 	///
 	/// @brief 将 base::ICanToString 对象转为字符串。
 	///
@@ -39,7 +36,7 @@ namespace std
 	///
 	std::string to_string(base::ICanToString const &o);
 
-} // namespace std
+} // namespace base
 
 #if HAS_THREAD
 

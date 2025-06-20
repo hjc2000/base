@@ -322,6 +322,31 @@ namespace base
 
 		/* #endregion */
 	};
+
+	///
+	/// @brief 向下取整
+	///
+	/// @param value
+	/// @return TUnit
+	///
+	template <typename TUnit>
+	inline TUnit floor(base::IUnit<TUnit> const &value)
+	{
+		return value.Floor();
+	}
+
+	///
+	/// @brief 向上取整
+	///
+	/// @param value
+	/// @return TUnit
+	///
+	template <typename TUnit>
+	inline TUnit ceil(base::IUnit<TUnit> const &value)
+	{
+		return value.Ceil();
+	}
+
 } // namespace base
 
 /* #region 全局比较函数 */
@@ -372,30 +397,3 @@ inline TRight operator*(TLeft const &left, base::IUnit<TRight> const &right)
 {
 	return reinterpret_cast<TRight const &>(right) * left;
 }
-
-namespace std
-{
-	///
-	/// @brief 向下取整
-	///
-	/// @param value
-	/// @return TUnit
-	///
-	template <typename TUnit>
-	inline TUnit floor(base::IUnit<TUnit> const &value)
-	{
-		return value.Floor();
-	}
-
-	///
-	/// @brief 向上取整
-	///
-	/// @param value
-	/// @return TUnit
-	///
-	template <typename TUnit>
-	inline TUnit ceil(base::IUnit<TUnit> const &value)
-	{
-		return value.Ceil();
-	}
-} // namespace std

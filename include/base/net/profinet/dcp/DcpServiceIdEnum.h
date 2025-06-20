@@ -15,12 +15,10 @@ namespace base
 			Hello = 0x06,
 		};
 	} // namespace profinet
-} // namespace base
 
-namespace std
-{
 	/// @brief 将 DcpServiceIdEnum 转为字符串。
 	/// @param value
 	/// @return
 	std::string to_string(base::profinet::DcpServiceIdEnum value);
-} // namespace std
+
+} // namespace base
