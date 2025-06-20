@@ -1,4 +1,5 @@
 #pragma once
+#include "base/Counter.h"
 #include "base/exception/NotSupportedException.h"
 #include "base/stream/Stream.h"
 #include <cstdint>
@@ -20,7 +21,7 @@ namespace base
 		///
 		/// @brief 头部。读取的时候递增头部。头部指向的位置是有效元素。（前提是缓冲区不为空）
 		///
-		int32_t _start;
+		base::Counter<uint32_t> _start;
 
 		///
 		/// @brief 尾部
@@ -28,7 +29,7 @@ namespace base
 		/// @note 写入的时候递增尾部。尾部指向的位置是无效元素。
 		///	 	  尾部 - 1 才是指向有效元素。（前提是缓冲区不为空）
 		///
-		int32_t _end;
+		base::Counter<uint32_t> _end;
 
 		///
 		/// @brief 队列是否已满。当头指针和尾指针重叠时，有 2 种情况：
@@ -38,26 +39,6 @@ namespace base
 		/// 此字段用来区分这两种情况。
 		///
 		bool _is_full;
-
-		///
-		/// @brief 递增头指针。
-		///
-		/// @param value
-		///
-		void AddHead(int32_t value)
-		{
-			_start = (_start + value) % _buffer_size;
-		}
-
-		///
-		/// @brief 递增尾指针。
-		///
-		/// @param value
-		///
-		void AddTail(int32_t value)
-		{
-			_end = (_end + value) % _buffer_size;
-		}
 
 		///
 		/// @brief 以非环绕方式读取。
@@ -70,11 +51,11 @@ namespace base
 		///
 		void ReadNonCircular(base::Span const &span)
 		{
-			std::copy(_buffer.get() + _start,
-					  _buffer.get() + _start + span.Size(),
+			std::copy(_buffer.get() + _start.CurrentValue(),
+					  _buffer.get() + _start.CurrentValue() + span.Size(),
 					  span.Buffer());
 
-			AddHead(span.Size());
+			_start += span.Size();
 			_is_full = false;
 		}
 
@@ -89,9 +70,9 @@ namespace base
 		{
 			std::copy(span.Buffer(),
 					  span.Buffer() + span.Size(),
-					  _buffer.get() + _end);
+					  _buffer.get() + _end.CurrentValue());
 
-			AddTail(span.Size());
+			_end += span.Size();
 			_is_full = _start == _end;
 		}
 
@@ -112,10 +93,11 @@ namespace base
 		/// @param buffer_size 循环缓冲区的大小。
 		///
 		CircleBufferMemoryStream(int32_t buffer_size)
+			: _start(0, buffer_size),
+			  _end(0, buffer_size)
+
 		{
 			_buffer_size = buffer_size;
-			_start = 0;
-			_end = 0;
 			_is_full = false;
 			_buffer = std::unique_ptr<uint8_t[]>{new uint8_t[buffer_size]};
 		}
@@ -145,8 +127,8 @@ namespace base
 		///
 		void Clear()
 		{
-			_start = 0;
-			_end = 0;
+			_start.Reset();
+			_end.Reset();
 			_is_full = false;
 		}
 
@@ -284,7 +266,7 @@ namespace base
 			}
 
 			// 执行到这里说明 _end <= _head，此时缓冲区内的数据发生了环绕，所以读取时有可能要环绕。
-			if (should_read_span.Size() <= _buffer_size - _start)
+			if (should_read_span.Size() <= _buffer_size - static_cast<int32_t>(_start.CurrentValue()))
 			{
 				// 此时从 _start 到缓冲区末尾的数据刚好够本次读取，不用环绕
 				ReadNonCircular(should_read_span);
@@ -293,7 +275,7 @@ namespace base
 
 			// 执行到这里说明要环绕了。
 			// 先读取从 _start 开始到缓冲区末尾的数据。因为这部分可以先用非环绕的方式读出来。
-			base::Span span1 = should_read_span.Slice(base::Range{0, _buffer_size - _start});
+			base::Span span1 = should_read_span.Slice(base::Range{0, _buffer_size - static_cast<int32_t>(_start.CurrentValue())});
 			ReadNonCircular(span1);
 
 			// 此时变成非环绕模式了，因为刚才的读取让 _start 发生环绕，已经变成 0 了。
@@ -314,7 +296,7 @@ namespace base
 				throw std::overflow_error{"缓冲区剩余空间无法接受这么多数据"};
 			}
 
-			if (span.Size() <= _buffer_size - _end)
+			if (span.Size() <= _buffer_size - static_cast<int32_t>(_end.CurrentValue()))
 			{
 				// _end 到缓冲区尾部的空间刚好够写入，此时不需要环绕
 				WriteNonCircular(span);
@@ -322,7 +304,7 @@ namespace base
 			}
 
 			// 需要环绕
-			base::ReadOnlySpan span1 = span.Slice(base::Range{0, _buffer_size - _end});
+			base::ReadOnlySpan span1 = span.Slice(base::Range{0, _buffer_size - static_cast<int32_t>(_end.CurrentValue())});
 			WriteNonCircular(span1);
 
 			// 此时 _end 已经变成 0 了，继续用 WriteNonCircular 写入剩余的字节
