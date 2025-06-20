@@ -80,6 +80,20 @@ namespace base
 			return record;
 		}
 
+		constexpr T operator+(base::Counter<T> const &another) const
+		{
+			base::Counter<T> copy{*this};
+			copy += another._count;
+			return copy._count;
+		}
+
+		constexpr T operator-(base::Counter<T> const &another) const
+		{
+			base::Counter<T> copy{*this};
+			copy -= another._count;
+			return copy._count;
+		}
+
 		///
 		/// @brief 将计数器的值增加指定的值
 		///
@@ -185,6 +199,8 @@ namespace base
 			return _count;
 		}
 
+		/* #region 比较运算符 */
+
 		constexpr bool operator==(base::Counter<T> const &another) const
 		{
 			return _count == another._count;
@@ -209,5 +225,7 @@ namespace base
 		{
 			return _count >= another._count;
 		}
+
+		/* #endregion */
 	};
 } // namespace base
