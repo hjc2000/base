@@ -56,21 +56,22 @@ int main()
 
 		base::task::run([&]()
 						{
-							uint8_t buffer[9]{};
+							uint8_t buffer[256]{};
 							while (true)
 							{
-								mstream.Read(base::Span{buffer, sizeof(buffer)});
-								for (size_t i = 0; i < sizeof(buffer); i++)
+								int32_t have_read = mstream.Read(base::Span{buffer, sizeof(buffer)});
+								for (int32_t i = 0; i < have_read; i++)
 								{
 									std::cout << std::to_string(buffer[i]) << ", ";
 								}
 
 								std::cout << std::endl;
+								base::task::Delay(std::chrono::milliseconds{1000});
 							}
 						});
 
 		uint8_t count = 0;
-		uint8_t buffer[17]{};
+		uint8_t buffer[117]{};
 		while (true)
 		{
 			for (size_t i = 0; i < sizeof(buffer); i++)
@@ -79,7 +80,6 @@ int main()
 			}
 
 			mstream.Write(base::ReadOnlySpan{buffer, sizeof(buffer)});
-			base::task::Delay(std::chrono::milliseconds{1000});
 		}
 	}
 }
