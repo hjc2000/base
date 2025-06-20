@@ -1,5 +1,4 @@
 #include "base/bit/bit.h"
-#include "base/Counter.h"
 #include "base/math/Fraction.h"
 #include "base/string/Parse.h"
 #include "base/string/ToHexString.h"
@@ -43,12 +42,5 @@ int main()
 		constexpr uint64_t b = base::bit::ReadBits(a, 52, 63);
 		std::cout << base::ToHexString(a) << std::endl;
 		std::cout << base::ToHexString(b) << std::endl;
-	}
-
-	{
-		base::Counter<uint32_t> counter{10, 10};
-		base::Counter<uint32_t> counter1{5, 10};
-		auto value = counter1 - counter;
-		std::cout << value << std::endl;
 	}
 }
