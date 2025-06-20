@@ -14,8 +14,8 @@ namespace base
 		public base::Stream
 	{
 	private:
-		std::unique_ptr<uint8_t[]> _buffer;
-		int32_t _buffer_size;
+		std::unique_ptr<uint8_t[]> _buffer{};
+		int32_t _buffer_size = 0;
 
 		///
 		/// @brief 头部。读取的时候递增头部。头部指向的位置是有效元素。（前提是缓冲区不为空）
