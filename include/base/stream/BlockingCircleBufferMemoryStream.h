@@ -6,7 +6,9 @@
 
 namespace base
 {
+	///
 	/// @brief 带阻塞功能的环形缓冲区的内存流。
+	///
 	class BlockingCircleBufferMemoryStream final :
 		public base::Stream
 	{
@@ -15,10 +17,14 @@ namespace base
 		std::atomic_bool _stream_closed = false;
 		base::task::Mutex _lock{};
 
+		///
 		/// @brief 流中的数据被消费了，现在处于不是满的状态
+		///
 		base::Semaphore _buffer_consumed_signal{1};
 
+		///
 		/// @brief 流中有数据可用。
+		///
 		base::Semaphore _buffer_avaliable_signal{0};
 
 	public:
