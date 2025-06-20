@@ -17,6 +17,8 @@ namespace base
 		T _count = 0;
 
 	public:
+		constexpr Counter() = default;
+
 		///
 		/// @brief 构造一个任意进制的计数器。
 		///
@@ -181,6 +183,11 @@ namespace base
 		constexpr explicit operator T() const
 		{
 			return _count;
+		}
+
+		constexpr bool operator==(base::Counter<T> const &another) const
+		{
+			return _count == another._count;
 		}
 	};
 } // namespace base
