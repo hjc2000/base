@@ -97,6 +97,11 @@ namespace base
 			  _end(0, buffer_size)
 
 		{
+			if (buffer_size < 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "buffer_size 不能小于 0。"};
+			}
+
 			_buffer_size = buffer_size;
 			_is_full = false;
 			_buffer = std::unique_ptr<uint8_t[]>{new uint8_t[buffer_size]};
