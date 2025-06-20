@@ -1,9 +1,16 @@
 #include "base/bit/bit.h"
 #include "base/math/Fraction.h"
+#include "base/stream/BlockingCircleBufferMemoryStream.h"
+#include "base/stream/ReadOnlySpan.h"
+#include "base/stream/Span.h"
 #include "base/string/Parse.h"
 #include "base/string/ToHexString.h"
+#include "base/task/delay.h"
+#include "base/task/task.h"
 #include "base/wrapper/number-wrapper.h"
+#include <chrono>
 #include <cmath>
+#include <cstddef>
 #include <cstdint>
 #include <cstdlib>
 #include <iomanip>
@@ -42,5 +49,37 @@ int main()
 		constexpr uint64_t b = base::bit::ReadBits(a, 52, 63);
 		std::cout << base::ToHexString(a) << std::endl;
 		std::cout << base::ToHexString(b) << std::endl;
+	}
+
+	{
+		base::BlockingCircleBufferMemoryStream mstream{100};
+
+		base::task::run([&]()
+						{
+							uint8_t buffer[9]{};
+							while (true)
+							{
+								mstream.Read(base::Span{buffer, sizeof(buffer)});
+								for (size_t i = 0; i < sizeof(buffer); i++)
+								{
+									std::cout << std::to_string(buffer[i]) << ", ";
+								}
+
+								std::cout << std::endl;
+							}
+						});
+
+		uint8_t count = 0;
+		uint8_t buffer[17]{};
+		while (true)
+		{
+			for (size_t i = 0; i < sizeof(buffer); i++)
+			{
+				buffer[i] = count++;
+			}
+
+			mstream.Write(base::ReadOnlySpan{buffer, sizeof(buffer)});
+			base::task::Delay(std::chrono::milliseconds{1000});
+		}
 	}
 }
