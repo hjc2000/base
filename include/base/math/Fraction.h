@@ -382,6 +382,50 @@ namespace base
 
 		/* #endregion */
 	};
+
+	///
+	/// @brief 取绝对值。
+	///
+	/// @param value
+	/// @return
+	///
+	inline base::Fraction abs(base::Fraction const &value)
+	{
+		return value.Abs();
+	}
+
+	///
+	/// @brief 向下取整
+	///
+	/// @param value
+	///
+	/// @return
+	///
+	inline boost::multiprecision::cpp_int floor(base::Fraction const &value)
+	{
+		return value.Floor();
+	}
+
+	///
+	/// @brief 向上取整
+	///
+	/// @param value
+	///
+	/// @return
+	///
+	inline boost::multiprecision::cpp_int ceil(base::Fraction const &value)
+	{
+		return value.Ceil();
+	}
+
+	///
+	/// @brief 将大整型转换为字符串。
+	///
+	/// @param value
+	/// @return
+	///
+	std::string to_string(boost::multiprecision::cpp_int const &value);
+
 } // namespace base
 
 /* #region 全局四则运算符 */
@@ -435,50 +479,3 @@ inline base::Fraction operator/(boost::multiprecision::cpp_int left, base::Fract
 }
 
 /* #endregion */
-
-namespace std
-{
-	///
-	/// @brief 取绝对值。
-	///
-	/// @param value
-	/// @return
-	///
-	inline base::Fraction abs(base::Fraction const &value)
-	{
-		return value.Abs();
-	}
-
-	///
-	/// @brief 向下取整
-	///
-	/// @param value
-	///
-	/// @return
-	///
-	inline boost::multiprecision::cpp_int floor(base::Fraction const &value)
-	{
-		return value.Floor();
-	}
-
-	///
-	/// @brief 向上取整
-	///
-	/// @param value
-	///
-	/// @return
-	///
-	inline boost::multiprecision::cpp_int ceil(base::Fraction const &value)
-	{
-		return value.Ceil();
-	}
-
-	///
-	/// @brief 将大整型转换为字符串。
-	///
-	/// @param value
-	/// @return
-	///
-	std::string to_string(boost::multiprecision::cpp_int const &value);
-
-} // namespace std

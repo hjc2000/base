@@ -96,7 +96,7 @@ base::Fraction base::Fraction::operator/(Fraction const &value) const
 
 std::string base::Fraction::ToString() const
 {
-	return std::to_string(_num) + " / " + std::to_string(_den);
+	return base::to_string(_num) + " / " + base::to_string(_den);
 }
 
 base::Fraction::operator double() const
@@ -181,7 +181,7 @@ bool base::Fraction::operator<=(Fraction const &another) const
 
 /* #endregion */
 
-std::string std::to_string(boost::multiprecision::cpp_int const &value)
+std::string base::to_string(boost::multiprecision::cpp_int const &value)
 {
 	boost::multiprecision::cpp_int temp = value;
 	bool is_negative = temp < 0;
