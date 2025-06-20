@@ -189,5 +189,25 @@ namespace base
 		{
 			return _count == another._count;
 		}
+
+		constexpr bool operator<(base::Counter<T> const &another) const
+		{
+			return _count < another._count;
+		}
+
+		constexpr bool operator>(base::Counter<T> const &another) const
+		{
+			return _count > another._count;
+		}
+
+		constexpr bool operator<=(base::Counter<T> const &another) const
+		{
+			return _count <= another._count;
+		}
+
+		constexpr bool operator>=(base::Counter<T> const &another) const
+		{
+			return _count >= another._count;
+		}
 	};
 } // namespace base
