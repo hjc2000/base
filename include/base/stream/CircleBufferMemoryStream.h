@@ -93,8 +93,8 @@ namespace base
 		/// @param buffer_size 循环缓冲区的大小。
 		///
 		CircleBufferMemoryStream(int32_t buffer_size)
-			: _start(0, buffer_size),
-			  _end(0, buffer_size)
+			: _start(0, buffer_size - 1),
+			  _end(0, buffer_size - 1)
 
 		{
 			if (buffer_size < 0)
@@ -185,21 +185,7 @@ namespace base
 				return _buffer_size;
 			}
 
-			if (_end >= _start)
-			{
-				return _end - _start;
-			}
-
-			// _start 大于 _end。说明 _end 穿梭了。此时 _start 和 _end 之间是空白区。
-			//
-			// 举个例子，假如 _start = n, _end = n - 1，
-			// 则空白的区域大小为：
-			// 		_start - _end = n - (n - 1) = n - n + 1 = 1
-			// 则缓冲区内容长度为：
-			// 		_buffer_size - (_start - _end) = _buffer_size - 1。
-			// 上面我们用特殊性的例子得出了具有普遍性的公式：
-			// 		_buffer_size - (_start - _end)。
-			return _buffer_size - (_start - _end);
+			return _end - _start;
 		}
 
 		///

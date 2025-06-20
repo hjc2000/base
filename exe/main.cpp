@@ -46,12 +46,9 @@ int main()
 	}
 
 	{
-		base::Counter<uint8_t> counter{254};
-		for (int i = 0; i < 256; i++)
-		{
-			std::cout << std::to_string(counter.CurrentValue()) << std::endl;
-			// counter++;
-			counter--;
-		}
+		base::Counter<uint32_t> counter{10, 10};
+		base::Counter<uint32_t> counter1{5, 10};
+		auto value = counter1 - counter;
+		std::cout << value << std::endl;
 	}
 }
