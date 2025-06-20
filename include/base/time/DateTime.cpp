@@ -602,6 +602,7 @@ base::DateTime base::DateTime::EpochStart() const
 }
 
 #if HAS_THREAD
+
 void base::test::TestDateTime()
 {
 	base::TimePointSinceEpoch now_time_point = base::time::Now();
@@ -615,8 +616,9 @@ void base::test::TestDateTime()
 	dsb.SetYearMonthDaySeparator('/');
 
 	std::cout << dsb << std::endl;
-	std::cout << std::to_string(now_time_point) << std::endl;
+	std::cout << base::to_string(now_time_point) << std::endl;
 	std::cout << static_cast<std::chrono::nanoseconds>(now_time_point) << std::endl;
 	std::cout << static_cast<std::chrono::nanoseconds>(now.TimePointSinceEpoch()) << std::endl;
 }
+
 #endif // HAS_THREAD
