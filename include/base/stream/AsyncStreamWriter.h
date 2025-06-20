@@ -27,7 +27,7 @@ namespace base
 		std::shared_ptr<base::Stream> _stream;
 		std::shared_ptr<base::TaskCompletionSignal> _completion_signal;
 		std::atomic_bool _disposed = false;
-		uint8_t _copy_temp_buffer[128];
+		uint8_t _copy_temp_buffer[1024];
 
 		void ThreadFunc()
 		{
