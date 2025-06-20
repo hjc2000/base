@@ -26,8 +26,8 @@ namespace base
 		std::shared_ptr<base::BlockingCircleBufferMemoryStream> _buffer_stream;
 		std::shared_ptr<base::Stream> _stream;
 		std::shared_ptr<base::TaskCompletionSignal> _completion_signal;
-		uint8_t _copy_temp_buffer[128];
 		std::atomic_bool _disposed = false;
+		uint8_t _copy_temp_buffer[128];
 
 		void ThreadFunc()
 		{
@@ -38,8 +38,8 @@ namespace base
 					return;
 				}
 
-				_buffer_stream->Read(base::Span{_copy_temp_buffer, sizeof(_copy_temp_buffer)});
-				_stream->Write(base::ReadOnlySpan{_copy_temp_buffer, sizeof(_copy_temp_buffer)});
+				int32_t have_read = _buffer_stream->Read(base::Span{_copy_temp_buffer, sizeof(_copy_temp_buffer)});
+				_stream->Write(base::ReadOnlySpan{_copy_temp_buffer, have_read});
 			}
 		}
 
