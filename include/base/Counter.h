@@ -22,9 +22,10 @@ namespace base
 		///
 		/// @brief 构造一个任意进制的计数器。
 		///
-		/// @param max_value 计数器的最大值
+		/// @param current_value 计数器的当前值。
+		/// @param max_value 计数器的最大值。
 		///
-		constexpr Counter(T max_value)
+		constexpr Counter(T current_value, T max_value)
 		{
 			if (max_value == 0)
 			{
@@ -32,6 +33,7 @@ namespace base
 			}
 
 			_max_value = max_value;
+			*this += current_value;
 		}
 
 		///
