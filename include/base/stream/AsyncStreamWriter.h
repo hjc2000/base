@@ -1,10 +1,15 @@
 #pragma once
 #include "base/IDisposable.h"
 #include "base/stream/ReadOnlySpan.h"
+#include "base/stream/Span.h"
 #include "base/stream/Stream.h"
 #include "base/string/define.h"
 #include "base/string/TextWriter.h"
+#include "base/task/task.h"
 #include "BlockingCircleBufferMemoryStream.h"
+#include <atomic>
+#include <cstdint>
+#include <memory>
 #include <stdexcept>
 
 namespace base
@@ -18,19 +23,42 @@ namespace base
 		public base::IDisposable
 	{
 	private:
-		base::BlockingCircleBufferMemoryStream _buffer_stream{1024 * 4};
+		std::shared_ptr<base::BlockingCircleBufferMemoryStream> _buffer_stream;
 		std::shared_ptr<base::Stream> _stream;
+		std::shared_ptr<base::TaskCompletionSignal> _completion_signal;
+		uint8_t _copy_temp_buffer[128];
+		std::atomic_bool _disposed = false;
+
+		void ThreadFunc()
+		{
+			while (true)
+			{
+				if (_disposed)
+				{
+					return;
+				}
+
+				_buffer_stream->Read(base::Span{_copy_temp_buffer, sizeof(_copy_temp_buffer)});
+				_stream->Write(base::ReadOnlySpan{_copy_temp_buffer, sizeof(_copy_temp_buffer)});
+			}
+		}
 
 	public:
 		AsyncStreamWriter(int32_t max_buffer_size,
 						  std::shared_ptr<base::Stream> const &stream)
-			: _buffer_stream(max_buffer_size),
-			  _stream(stream)
+			: _stream(stream)
 		{
-			if (_stream == nullptr)
+			if (stream == nullptr)
 			{
 				throw std::invalid_argument{CODE_POS_STR + "stream 不能传入空指针。"};
 			}
+
+			_buffer_stream = std::shared_ptr<base::BlockingCircleBufferMemoryStream>{new base::BlockingCircleBufferMemoryStream{max_buffer_size}};
+
+			_completion_signal = base::task::run([this]()
+												 {
+													 ThreadFunc();
+												 });
 		}
 
 		~AsyncStreamWriter()
@@ -44,6 +72,13 @@ namespace base
 		///
 		virtual void Dispose() override
 		{
+			if (_disposed)
+			{
+				return;
+			}
+
+			_completion_signal->Wait();
+			_disposed = true;
 		}
 
 		std::shared_ptr<base::Stream> Stream() const
@@ -58,7 +93,7 @@ namespace base
 		///
 		virtual void Write(base::ReadOnlySpan const &span) override
 		{
-			_stream->Write(span);
+			_buffer_stream->Write(span);
 		}
 
 		using base::TextWriter::Write;
