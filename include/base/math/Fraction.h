@@ -1,7 +1,7 @@
 #pragma once
+#include "base/math/BigInteger.h"
 #include "base/string/ICanToString.h"
 #include "base/wrapper/number-wrapper.h"
-#include "BigInteger.h"
 #include <cstdint>
 #include <stdexcept>
 #include <string>
