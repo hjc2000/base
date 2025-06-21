@@ -1,8 +1,9 @@
 #include "Factorial.h"
+#include "base/math/BigInteger.h"
 #include "base/string/define.h"
 #include <stdexcept>
 
-boost::multiprecision::cpp_int base::Factorial(boost::multiprecision::cpp_int num)
+base::BigInteger base::Factorial(base::BigInteger num)
 {
 	if (num < 0)
 	{
@@ -19,8 +20,8 @@ boost::multiprecision::cpp_int base::Factorial(boost::multiprecision::cpp_int nu
 		return 1;
 	}
 
-	boost::multiprecision::cpp_int result = 1;
-	for (boost::multiprecision::cpp_int i = 1; i <= num; i++)
+	base::BigInteger result = 1;
+	for (base::BigInteger i = 1; i <= num; i++)
 	{
 		result *= i;
 	}

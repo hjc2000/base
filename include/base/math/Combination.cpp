@@ -1,4 +1,5 @@
 #include "Combination.h"
+#include "base/math/BigInteger.h"
 #include "base/math/Factorial.h"
 #include "base/string/define.h"
 #include <cstdint>
@@ -80,9 +81,9 @@ bool base::Combination::MoveToNext()
 
 int64_t base::Combination::Count() const
 {
-	boost::multiprecision::cpp_int result = base::Factorial(_n) /
-											base::Factorial(_n - _m) /
-											base::Factorial(_m);
+	base::BigInteger result = base::Factorial(_n) /
+							  base::Factorial(_n - _m) /
+							  base::Factorial(_m);
 
 	return static_cast<int64_t>(result);
 }

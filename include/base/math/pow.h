@@ -1,4 +1,5 @@
 #pragma once
+#include "base/math/BigInteger.h"
 #include "base/string/define.h"
 #include "boost/multiprecision/cpp_int.hpp" // IWYU pragma: keep
 #include <stdexcept>
@@ -106,11 +107,11 @@ namespace base
 	}
 
 	///
-	/// @brief 针对 boost::multiprecision::cpp_int 的幂函数模板。
+	/// @brief 针对 base::BigInteger 的幂函数模板。
 	///
 	///
 	template <typename T>
-		requires(std::is_same_v<T, boost::multiprecision::cpp_int>)
+		requires(std::is_same_v<T, base::BigInteger>)
 	constexpr T pow(T const &x, T const &y)
 	{
 		if (y < 0)

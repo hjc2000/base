@@ -1,5 +1,5 @@
 #pragma once
-#include "boost/multiprecision/cpp_int.hpp" // IWYU pragma: keep
+#include "base/math/BigInteger.h"
 
 namespace base
 {
@@ -7,7 +7,8 @@ namespace base
 	/// @brief 阶乘。
 	///
 	/// @param num
-	/// @return boost::multiprecision::cpp_int
+	/// @return base::BigInteger
 	///
-	boost::multiprecision::cpp_int Factorial(boost::multiprecision::cpp_int num);
+	base::BigInteger Factorial(base::BigInteger num);
+
 } // namespace base

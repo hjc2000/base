@@ -15,8 +15,8 @@ base::Fraction::Fraction(base::Double const &value)
 	constexpr uint64_t factor = base::pow<uint64_t>(2, 63);
 	while (db != 0.0)
 	{
-		boost::multiprecision::cpp_int int_part{static_cast<int64_t>(db)};
-		base::Fraction temp{int_part, base::pow<boost::multiprecision::cpp_int>(factor, loop_times)};
+		base::BigInteger int_part{static_cast<int64_t>(db)};
+		base::Fraction temp{int_part, base::pow<base::BigInteger>(factor, loop_times)};
 		(*this) += temp;
 		db -= static_cast<double>(int_part);
 		db *= factor;
@@ -38,9 +38,9 @@ void base::Fraction::Simplify()
 	}
 
 	// 分子分母同时除以最大公约数
-	boost::multiprecision::cpp_int gcd_value = boost::multiprecision::gcd(_num, _den);
-	boost::multiprecision::cpp_int scaled_num = _num / gcd_value;
-	boost::multiprecision::cpp_int scaled_den = _den / gcd_value;
+	base::BigInteger gcd_value = boost::multiprecision::gcd(_num, _den);
+	base::BigInteger scaled_num = _num / gcd_value;
+	base::BigInteger scaled_den = _den / gcd_value;
 
 	if (scaled_den < 0)
 	{
@@ -58,11 +58,11 @@ void base::Fraction::Simplify()
 base::Fraction base::Fraction::operator+(Fraction const &value) const
 {
 	// 通分后的分母为本对象的分母和 value 的分母的最小公倍数
-	boost::multiprecision::cpp_int scaled_den = boost::multiprecision::lcm(_den, value.Den());
+	base::BigInteger scaled_den = boost::multiprecision::lcm(_den, value.Den());
 
 	// 通分后的分子为本对象的分子乘上分母所乘的倍数
-	boost::multiprecision::cpp_int scaled_num = _num * (scaled_den / _den);
-	boost::multiprecision::cpp_int value_scaled_num = value.Num() * (scaled_den / value.Den());
+	base::BigInteger scaled_num = _num * (scaled_den / _den);
+	base::BigInteger value_scaled_num = value.Num() * (scaled_den / value.Den());
 
 	Fraction ret{
 		scaled_num + value_scaled_num,
@@ -130,10 +130,10 @@ bool base::Fraction::operator>(Fraction const &another) const
 	// 先化简，避免分母为负数，然后使用交叉乘法比大小。
 	Fraction f1 = SimplifiedForm();
 	Fraction f2 = another.SimplifiedForm();
-	boost::multiprecision::cpp_int num1{f1.Num()};
-	boost::multiprecision::cpp_int den1{f1.Den()};
-	boost::multiprecision::cpp_int num2{f2.Num()};
-	boost::multiprecision::cpp_int den2{f2.Den()};
+	base::BigInteger num1{f1.Num()};
+	base::BigInteger den1{f1.Den()};
+	base::BigInteger num2{f2.Num()};
+	base::BigInteger den2{f2.Den()};
 	return num1 * den2 > num2 * den1;
 }
 
@@ -142,10 +142,10 @@ bool base::Fraction::operator<(Fraction const &another) const
 	// 先化简，避免分母为负数，然后使用交叉乘法比大小。
 	Fraction f1 = SimplifiedForm();
 	Fraction f2 = another.SimplifiedForm();
-	boost::multiprecision::cpp_int num1{f1.Num()};
-	boost::multiprecision::cpp_int den1{f1.Den()};
-	boost::multiprecision::cpp_int num2{f2.Num()};
-	boost::multiprecision::cpp_int den2{f2.Den()};
+	base::BigInteger num1{f1.Num()};
+	base::BigInteger den1{f1.Den()};
+	base::BigInteger num2{f2.Num()};
+	base::BigInteger den2{f2.Den()};
 	return num1 * den2 < num2 * den1;
 }
 
@@ -181,9 +181,9 @@ bool base::Fraction::operator<=(Fraction const &another) const
 
 /* #endregion */
 
-std::string base::to_string(boost::multiprecision::cpp_int const &value)
+std::string base::to_string(base::BigInteger const &value)
 {
-	boost::multiprecision::cpp_int temp = value;
+	base::BigInteger temp = value;
 	bool is_negative = temp < 0;
 	std::string ret;
 	if (temp == 0)

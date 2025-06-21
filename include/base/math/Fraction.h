@@ -1,7 +1,7 @@
 #pragma once
 #include "base/string/ICanToString.h"
 #include "base/wrapper/number-wrapper.h"
-#include "boost/multiprecision/cpp_int.hpp" // IWYU pragma: keep
+#include "BigInteger.h"
 #include <cstdint>
 #include <stdexcept>
 #include <string>
@@ -15,8 +15,8 @@ namespace base
 		public base::ICanToString
 	{
 	private:
-		boost::multiprecision::cpp_int _num = 0;
-		boost::multiprecision::cpp_int _den = 1;
+		base::BigInteger _num = 0;
+		base::BigInteger _den = 1;
 
 	public:
 		/* #region 构造函数 */
@@ -43,7 +43,7 @@ namespace base
 		/// @brief 整型转化为分数，则分子等于整型，分母为 1.
 		/// @param num
 		///
-		Fraction(boost::multiprecision::cpp_int num)
+		Fraction(base::BigInteger num)
 		{
 			SetNum(num);
 			SetDen(1);
@@ -54,7 +54,7 @@ namespace base
 		/// @param num 分子
 		/// @param den 分母
 		///
-		Fraction(boost::multiprecision::cpp_int num, boost::multiprecision::cpp_int den)
+		Fraction(base::BigInteger num, base::BigInteger den)
 		{
 			SetNum(num);
 			if (num == 0)
@@ -81,9 +81,9 @@ namespace base
 		///
 		/// @brief 获取分子。
 		///
-		/// @return boost::multiprecision::cpp_int
+		/// @return base::BigInteger
 		///
-		boost::multiprecision::cpp_int Num() const
+		base::BigInteger Num() const
 		{
 			return _num;
 		}
@@ -93,7 +93,7 @@ namespace base
 		///
 		/// @param value
 		///
-		void SetNum(boost::multiprecision::cpp_int value)
+		void SetNum(base::BigInteger value)
 		{
 			_num = value;
 		}
@@ -103,7 +103,7 @@ namespace base
 		///
 		/// @return
 		///
-		boost::multiprecision::cpp_int Den() const
+		base::BigInteger Den() const
 		{
 			return _den;
 		}
@@ -113,7 +113,7 @@ namespace base
 		///
 		/// @param value
 		///
-		void SetDen(boost::multiprecision::cpp_int value)
+		void SetDen(base::BigInteger value)
 		{
 			if (value == 0)
 			{
@@ -176,9 +176,9 @@ namespace base
 		/// @brief 向下取整
 		/// @return
 		///
-		boost::multiprecision::cpp_int Floor() const
+		base::BigInteger Floor() const
 		{
-			boost::multiprecision::cpp_int ret = Div();
+			base::BigInteger ret = Div();
 			if (*this < 0)
 			{
 				if (Mod())
@@ -202,9 +202,9 @@ namespace base
 		/// @brief 向上取整
 		/// @return
 		///
-		boost::multiprecision::cpp_int Ceil() const
+		base::BigInteger Ceil() const
 		{
-			boost::multiprecision::cpp_int ret = Div();
+			base::BigInteger ret = Div();
 			if (*this > 0)
 			{
 				if (Mod())
@@ -220,7 +220,7 @@ namespace base
 		/// @brief 获取分子除以分母的值
 		/// @return
 		///
-		boost::multiprecision::cpp_int Div() const
+		base::BigInteger Div() const
 		{
 			return _num / _den;
 		}
@@ -229,7 +229,7 @@ namespace base
 		/// @brief 获取分子除以分母的余数
 		/// @return
 		///
-		boost::multiprecision::cpp_int Mod() const
+		base::BigInteger Mod() const
 		{
 			return _num % _den;
 		}
@@ -290,7 +290,7 @@ namespace base
 
 		/* #region 强制转换运算符 */
 
-		explicit operator boost::multiprecision::cpp_int() const
+		explicit operator base::BigInteger() const
 		{
 			return Div();
 		}
@@ -401,7 +401,7 @@ namespace base
 	///
 	/// @return
 	///
-	inline boost::multiprecision::cpp_int floor(base::Fraction const &value)
+	inline base::BigInteger floor(base::Fraction const &value)
 	{
 		return value.Floor();
 	}
@@ -413,7 +413,7 @@ namespace base
 	///
 	/// @return
 	///
-	inline boost::multiprecision::cpp_int ceil(base::Fraction const &value)
+	inline base::BigInteger ceil(base::Fraction const &value)
 	{
 		return value.Ceil();
 	}
@@ -424,7 +424,7 @@ namespace base
 	/// @param value
 	/// @return
 	///
-	std::string to_string(boost::multiprecision::cpp_int const &value);
+	std::string to_string(base::BigInteger const &value);
 
 } // namespace base
 
@@ -437,7 +437,7 @@ namespace base
 /// @param right
 /// @return base::Fraction
 ///
-inline base::Fraction operator+(boost::multiprecision::cpp_int left, base::Fraction const &right)
+inline base::Fraction operator+(base::BigInteger left, base::Fraction const &right)
 {
 	return base::Fraction{left} + right;
 }
@@ -449,7 +449,7 @@ inline base::Fraction operator+(boost::multiprecision::cpp_int left, base::Fract
 /// @param right
 /// @return base::Fraction
 ///
-inline base::Fraction operator-(boost::multiprecision::cpp_int left, base::Fraction const &right)
+inline base::Fraction operator-(base::BigInteger left, base::Fraction const &right)
 {
 	return base::Fraction{left} - right;
 }
@@ -461,7 +461,7 @@ inline base::Fraction operator-(boost::multiprecision::cpp_int left, base::Fract
 /// @param right
 /// @return base::Fraction
 ///
-inline base::Fraction operator*(boost::multiprecision::cpp_int left, base::Fraction const &right)
+inline base::Fraction operator*(base::BigInteger left, base::Fraction const &right)
 {
 	return base::Fraction(left) * right;
 }
@@ -473,7 +473,7 @@ inline base::Fraction operator*(boost::multiprecision::cpp_int left, base::Fract
 /// @param right
 /// @return base::Fraction
 ///
-inline base::Fraction operator/(boost::multiprecision::cpp_int left, base::Fraction const &right)
+inline base::Fraction operator/(base::BigInteger left, base::Fraction const &right)
 {
 	return base::Fraction{left} / right;
 }
