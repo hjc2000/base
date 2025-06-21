@@ -1,5 +1,8 @@
 #include "Fraction.h"
+#include "base/bit/DoubleBitView.h"
 #include "base/math/pow.h"
+#include "base/string/define.h"
+#include <stdexcept>
 
 base::Fraction::Fraction(base::Double const &value)
 {
@@ -8,6 +11,35 @@ base::Fraction::Fraction(base::Double const &value)
 		SetNum(0);
 		SetDen(1);
 		return;
+	}
+
+	base::bit::DoubleBitView view{value.Value()};
+	switch (view.ValueType())
+	{
+	case base::bit::FloatNumberValueType::Normalized:
+		{
+			break;
+		}
+	case base::bit::FloatNumberValueType::Denormalized:
+		{
+			break;
+		}
+	case base::bit::FloatNumberValueType::NaN:
+		{
+			throw std::invalid_argument{CODE_POS_STR + "此浮点数是 NaN."};
+		}
+	case base::bit::FloatNumberValueType::PositiveInfinite:
+		{
+			throw std::invalid_argument{CODE_POS_STR + "此浮点数是正无穷。"};
+		}
+	case base::bit::FloatNumberValueType::NegativeInfinite:
+		{
+			throw std::invalid_argument{CODE_POS_STR + "此浮点数是负无穷。"};
+		}
+	default:
+		{
+			throw std::runtime_error{CODE_POS_STR + "非法的枚举值。"};
+		}
 	}
 
 	double db = value.Value();
