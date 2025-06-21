@@ -7,11 +7,7 @@ namespace base
 {
 	namespace bit
 	{
-		///
-		/// @brief 软件浮点。
-		///
-		///
-		class SoftDouble
+		class DoubleBitView
 		{
 		private:
 			union Union
@@ -23,9 +19,9 @@ namespace base
 			Union _value_union{};
 
 		public:
-			constexpr SoftDouble() = default;
+			constexpr DoubleBitView() = default;
 
-			constexpr SoftDouble(double value)
+			constexpr DoubleBitView(double value)
 			{
 				_value_union._double = value;
 			}
