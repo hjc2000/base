@@ -57,22 +57,6 @@ namespace base
 			}
 
 			///
-			/// @brief 实际表示的指数值。
-			///
-			/// @return
-			///
-			constexpr uint64_t ExponentValue() const
-			{
-				if (ExponentBits() == 0)
-				{
-					// 指数位全为 0, 是非规格化数。
-					return -1022;
-				}
-
-				return ExponentBits() - 1023;
-			}
-
-			///
 			/// @brief 符号位。
 			///
 			/// @return

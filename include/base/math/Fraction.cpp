@@ -2,6 +2,7 @@
 #include "base/bit/DoubleBitView.h"
 #include "base/math/pow.h"
 #include "base/string/define.h"
+#include "BigInteger.h"
 #include <stdexcept>
 
 base::Fraction::Fraction(base::Double const &value)
@@ -14,14 +15,51 @@ base::Fraction::Fraction(base::Double const &value)
 	}
 
 	base::bit::DoubleBitView view{value.Value()};
+
 	switch (view.ValueType())
 	{
 	case base::bit::FloatNumberValueType::Normalized:
 		{
+			base::Fraction f1 = base::pow(base::BigInteger{2},
+										  base::BigInteger{view.ExponentBits() - 1023});
+
+			base::Fraction f2 = base::Fraction{
+				view.MantissaBits(),
+				base::pow(base::BigInteger{2}, base::BigInteger{52}),
+			};
+
+			base::Fraction value = f1 * (1 + f2);
+			if (view.Positive())
+			{
+				*this = value;
+			}
+			else
+			{
+				*this = -value;
+			}
+
 			break;
 		}
 	case base::bit::FloatNumberValueType::Denormalized:
 		{
+			base::Fraction f1 = base::pow(base::BigInteger{2},
+										  base::BigInteger{-1022});
+
+			base::Fraction f2 = base::Fraction{
+				view.MantissaBits(),
+				base::pow(base::BigInteger{2}, base::BigInteger{52}),
+			};
+
+			base::Fraction value = f1 * f2;
+			if (view.Positive())
+			{
+				*this = value;
+			}
+			else
+			{
+				*this = -value;
+			}
+
 			break;
 		}
 	case base::bit::FloatNumberValueType::NaN:
@@ -40,19 +78,6 @@ base::Fraction::Fraction(base::Double const &value)
 		{
 			throw std::runtime_error{CODE_POS_STR + "非法的枚举值。"};
 		}
-	}
-
-	double db = value.Value();
-	int loop_times = 0;
-	constexpr uint64_t factor = base::pow<uint64_t>(2, 63);
-	while (db != 0.0)
-	{
-		base::BigInteger int_part{static_cast<int64_t>(db)};
-		base::Fraction temp{int_part, base::pow<base::BigInteger>(factor, loop_times)};
-		(*this) += temp;
-		db -= static_cast<double>(int_part);
-		db *= factor;
-		++loop_times;
 	}
 }
 
