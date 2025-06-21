@@ -31,6 +31,11 @@ namespace base
 				return _value_union._double;
 			}
 
+			constexpr uint64_t AsUint64() const
+			{
+				return _value_union._uint64;
+			}
+
 			///
 			/// @brief 尾数部分的位。
 			///
