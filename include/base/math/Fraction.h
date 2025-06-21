@@ -418,14 +418,6 @@ namespace base
 		return value.Ceil();
 	}
 
-	///
-	/// @brief 将大整型转换为字符串。
-	///
-	/// @param value
-	/// @return
-	///
-	std::string to_string(base::BigInteger const &value);
-
 } // namespace base
 
 /* #region 全局四则运算符 */
