@@ -9,8 +9,8 @@ base::Fraction::Fraction(base::Double const &value)
 {
 	if (value.Value() == 0.0)
 	{
-		SetNum(0);
-		SetDen(1);
+		_num = 0;
+		_den = 1;
 		return;
 	}
 
