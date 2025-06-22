@@ -65,7 +65,10 @@ void base::TaskCompletionSignal::Wait()
 		{
 			base::task::MutexGuard g{_lock};
 
-			// 在持有互斥锁的情况下捕获
+			// 在持有互斥锁的情况下捕获。
+			//
+			// 智能指针本身不是原子的，如果另一个线程正在编辑 _semaphore 字段，
+			// 这里不持有互斥锁，直接同时拷贝，会发生竞态。
 			signal = _semaphore;
 		}
 
@@ -94,8 +97,8 @@ void base::TaskCompletionSignal::SetResult()
 
 	if (_semaphore == nullptr)
 	{
-		// 这里是读取智能指针，好像不用加锁。但是智能指针本身不是原子的，
-		// 一个线程写的同时另一个线程读不安全。
+		// 这里是读取智能指针，表面上看好像不用加锁，但是实际上智能指针本身不是原子的，
+		// 一个线程写的同时另一个线程读不安全。所以这里在持有互斥锁的情况下操作。
 		return;
 	}
 
