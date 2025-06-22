@@ -20,8 +20,10 @@ base::Fraction::Fraction(base::Double const &value)
 	{
 	case base::bit::FloatNumberValueType::Normalized:
 		{
-			base::Fraction f1 = base::pow(base::BigInteger{2},
-										  base::BigInteger{view.ExponentBits() - 1023});
+			base::Fraction f1{
+				base::pow(base::BigInteger{2}, base::BigInteger{view.ExponentBits()}),
+				base::pow(base::BigInteger{2}, base::BigInteger{1023}),
+			};
 
 			base::Fraction f2 = base::Fraction{
 				view.MantissaBits(),
@@ -42,8 +44,10 @@ base::Fraction::Fraction(base::Double const &value)
 		}
 	case base::bit::FloatNumberValueType::Denormalized:
 		{
-			base::Fraction f1 = base::pow(base::BigInteger{2},
-										  base::BigInteger{-1022});
+			base::Fraction f1{
+				base::BigInteger{2},
+				base::pow(base::BigInteger{2}, base::BigInteger{-1022}),
+			};
 
 			base::Fraction f2 = base::Fraction{
 				view.MantissaBits(),
