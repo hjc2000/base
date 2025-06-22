@@ -1,6 +1,5 @@
 #include "Fraction.h"
 #include "base/bit/DoubleBitView.h"
-#include "base/math/pow.h"
 #include "base/string/define.h"
 #include "BigInteger.h"
 #include <stdexcept>
@@ -21,13 +20,13 @@ base::Fraction::Fraction(base::Double const &value)
 	case base::bit::FloatNumberValueType::Normalized:
 		{
 			base::Fraction f1{
-				base::pow(base::BigInteger{2}, base::BigInteger{view.ExponentBits()}),
-				base::pow(base::BigInteger{2}, base::BigInteger{1023}),
+				base::BigInteger{1} << view.ExponentBits(),
+				base::BigInteger{1} << 1023,
 			};
 
 			base::Fraction f2 = base::Fraction{
 				view.MantissaBits(),
-				base::pow(base::BigInteger{2}, base::BigInteger{52}),
+				base::BigInteger{1} << 52,
 			};
 
 			base::Fraction value = f1 * (1 + f2);
@@ -46,12 +45,12 @@ base::Fraction::Fraction(base::Double const &value)
 		{
 			base::Fraction f1{
 				base::BigInteger{2},
-				base::pow(base::BigInteger{2}, base::BigInteger{1022}),
+				base::BigInteger{1} << 1022,
 			};
 
 			base::Fraction f2 = base::Fraction{
 				view.MantissaBits(),
-				base::pow(base::BigInteger{2}, base::BigInteger{52}),
+				base::BigInteger{1} << 52,
 			};
 
 			base::Fraction value = f1 * f2;
