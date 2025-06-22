@@ -81,4 +81,5 @@ namespace base
 		///
 		~TaskPauseSignalGuard();
 	};
+
 } // namespace base

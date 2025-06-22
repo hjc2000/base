@@ -72,4 +72,5 @@ namespace base
 		///
 		void Reset();
 	};
+
 } // namespace base
