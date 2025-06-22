@@ -46,7 +46,7 @@ base::Fraction::Fraction(base::Double const &value)
 		{
 			base::Fraction f1{
 				base::BigInteger{2},
-				base::pow(base::BigInteger{2}, base::BigInteger{-1022}),
+				base::pow(base::BigInteger{2}, base::BigInteger{1022}),
 			};
 
 			base::Fraction f2 = base::Fraction{
