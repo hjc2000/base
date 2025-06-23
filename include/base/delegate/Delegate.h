@@ -90,7 +90,7 @@ namespace base
 		///
 		/// @param func
 		///
-		/// @return base::SpIIdToken 用来取消订阅的 token.
+		/// @return 用来取消订阅的 token.
 		///
 		virtual base::SpIIdToken Subscribe(std::function<void(Args...)> const &func) override
 		{
@@ -179,4 +179,5 @@ namespace base
 			Invoke(args...);
 		}
 	};
+
 } // namespace base

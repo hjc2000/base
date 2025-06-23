@@ -13,7 +13,7 @@ namespace base
 		///
 		/// @param func
 		///
-		/// @return std::shared_ptr<typename base::IIdToken> 用来取消订阅的 token.
+		/// @return 用来取消订阅的 token.
 		///
 		virtual base::SpIIdToken Subscribe(std::function<void(Args...)> const &func) = 0;
 
@@ -29,7 +29,7 @@ namespace base
 		///
 		/// @param func
 		///
-		/// @return base::SpIIdToken
+		/// @return 用来取消订阅的 token.
 		///
 		base::SpIIdToken operator+=(std::function<void(Args...)> const &func)
 		{
@@ -39,7 +39,7 @@ namespace base
 		///
 		/// @brief 取消订阅事件。
 		///
-		/// @param token
+		/// @param token 传入由 Subscribe 方法返回的 token.
 		///
 		void operator-=(base::SpIIdToken const &token)
 		{
