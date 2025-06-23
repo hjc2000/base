@@ -114,7 +114,7 @@ namespace base
 		///
 		/// @param token 传入由 Subscribe 方法返回的 token.
 		///
-		virtual void Unsubscribe(std::shared_ptr<typename base::IIdToken> const &token) override
+		virtual void Unsubscribe(base::SpIIdToken const &token) override
 		{
 			if (token == nullptr)
 			{
