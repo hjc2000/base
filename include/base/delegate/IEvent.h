@@ -12,6 +12,7 @@ namespace base
 		/// @brief 订阅事件。
 		///
 		/// @param func
+		///
 		/// @return std::shared_ptr<typename base::IIdToken> 用来取消订阅的 token.
 		///
 		virtual base::SpIIdToken Subscribe(std::function<void(Args...)> const &func) = 0;
@@ -27,6 +28,7 @@ namespace base
 		/// @brief 订阅事件。
 		///
 		/// @param func
+		///
 		/// @return base::SpIIdToken
 		///
 		base::SpIIdToken operator+=(std::function<void(Args...)> const &func)
@@ -44,4 +46,5 @@ namespace base
 			Unsubscribe(token);
 		}
 	};
+
 } // namespace base
