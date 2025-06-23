@@ -13,9 +13,9 @@ namespace base
 	///
 	/// @brief 带有滞回特性的阻塞队列。
 	///
-	/// 	@note 队列满时，再往里送会阻塞，直到队列中的元素被消费到小于一定阈值才取消阻塞。
+	/// @note 队列满时，再往里送会阻塞，直到队列中的元素被消费到小于一定阈值才取消阻塞。
 	///
-	/// 	@note 队列空时，再往外拿会阻塞，直到队列中的元素大于一定阈值才取消阻塞。
+	/// @note 队列空时，再往外拿会阻塞，直到队列中的元素大于一定阈值才取消阻塞。
 	///
 	/// @tparam T
 	///
@@ -29,7 +29,9 @@ namespace base
 
 		///
 		/// @brief 为 true 表示被冲洗了。
+		///
 		/// @note 被冲洗后入队会抛出异常。
+		///
 		/// @note 被冲洗后出队不会再被阻塞。
 		///
 		std::atomic_bool _flushed = false;
@@ -50,12 +52,14 @@ namespace base
 
 		///
 		/// @brief 队列被消费了，需要入队了，就触发此信号。
+		///
 		/// @note 因为依赖 _max ，所以在构造函数中初始化。
 		///
 		base::Semaphore _queue_consumed_signal;
 
 		///
 		/// @brief 队列中有数据，可以退队时触发此信号。
+		///
 		/// @note 初始时队列为空，无法退队，所以初始计数为 0.
 		///
 		base::Semaphore _queue_avaliable_signal{0};
@@ -63,6 +67,7 @@ namespace base
 	public:
 		///
 		/// @brief 构造函数
+		///
 		/// @param max 队列能容纳的元素的最大数量。
 		///
 		HysteresisBlockingQueue(int32_t max)
@@ -86,6 +91,7 @@ namespace base
 		/// @brief 释放
 		///
 		/// @note 会清空队列。
+		///
 		/// @note 会取消所有阻塞，并且不再具有阻塞能力。
 		///
 		void Dispose() override
@@ -104,6 +110,7 @@ namespace base
 
 		///
 		/// @brief 队列中当前元素个数
+		///
 		/// @return
 		///
 		int32_t Count() const override
@@ -113,7 +120,9 @@ namespace base
 
 		///
 		/// @brief 退队。
+		///
 		/// @note 队列空了再次尝试退队会受到阻塞，直到队列里的元素数量大于阈值。
+		///
 		/// @note 在 Dispose 或 Flush 或析构函数执行后，本方法会被无条件取消阻塞，此时如果队列为空，
 		/// 会抛出异常。
 		///
@@ -164,7 +173,9 @@ namespace base
 
 		///
 		/// @brief 尝试退队
+		///
 		/// @param out
+		///
 		/// @return 退队成功返回 true，失败返回 false。
 		///
 		bool TryDequeue(T &out) override
@@ -210,7 +221,9 @@ namespace base
 
 		///
 		/// @brief 入队。
+		///
 		/// @note 如果队列满了会受到阻塞，直到队列元素被消费到小于阈值时才取消阻塞。
+		///
 		/// @note Dispose 和 Flush 会无条件取消阻塞。但是，Dispose 和 Flush 后，
 		/// 再次尝试入队会抛出异常。
 		///
@@ -272,7 +285,9 @@ namespace base
 
 		///
 		/// @brief 冲洗队列。
+		///
 		/// @note 冲洗后，再尝试入队会抛出异常。
+		///
 		/// @note 冲洗后，出队操作将不会被阻塞，即使队列中为空。
 		///
 		void Flush()
@@ -289,6 +304,7 @@ namespace base
 
 		///
 		/// @brief 检查队列是否已被冲洗。
+		///
 		/// @return
 		///
 		bool Flushed()
