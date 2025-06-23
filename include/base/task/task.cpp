@@ -7,9 +7,9 @@
 
 #if HAS_THREAD
 
-std::shared_ptr<base::TaskCompletionSignal> base::task::run(std::function<void()> const &func)
+std::shared_ptr<base::task::TaskCompletionSignal> base::task::run(std::function<void()> const &func)
 {
-	std::shared_ptr<base::TaskCompletionSignal> signal{new base::TaskCompletionSignal{false}};
+	std::shared_ptr<base::task::TaskCompletionSignal> signal{new base::task::TaskCompletionSignal{false}};
 
 	// 捕获所有异常，输出错误消息
 	auto safe_func = [func, signal]()

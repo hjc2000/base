@@ -5,7 +5,7 @@
 #include "Semaphore.h"
 #include <memory>
 
-base::TaskCompletionSignal::TaskCompletionSignal(bool completed)
+base::task::TaskCompletionSignal::TaskCompletionSignal(bool completed)
 {
 	if (!completed)
 	{
@@ -14,12 +14,12 @@ base::TaskCompletionSignal::TaskCompletionSignal(bool completed)
 	}
 }
 
-base::TaskCompletionSignal::~TaskCompletionSignal()
+base::task::TaskCompletionSignal::~TaskCompletionSignal()
 {
 	Dispose();
 }
 
-void base::TaskCompletionSignal::Dispose()
+void base::task::TaskCompletionSignal::Dispose()
 {
 	if (_disposed)
 	{
@@ -32,7 +32,7 @@ void base::TaskCompletionSignal::Dispose()
 	SetResult();
 }
 
-bool base::TaskCompletionSignal::IsCompleted() const
+bool base::task::TaskCompletionSignal::IsCompleted() const
 {
 	base::task::MutexGuard g{_lock};
 	if (_disposed)
@@ -48,7 +48,7 @@ bool base::TaskCompletionSignal::IsCompleted() const
 	return false;
 }
 
-void base::TaskCompletionSignal::Wait()
+void base::task::TaskCompletionSignal::Wait()
 {
 	// 如果调用了 Reset 方法，里面会调用信号量的 Dispose 方法，
 	// 但是没关系，这里是循环，下一个循环还会继续等待。这样就不会因为调用 Reset
@@ -87,7 +87,7 @@ void base::TaskCompletionSignal::Wait()
 	}
 }
 
-void base::TaskCompletionSignal::SetResult()
+void base::task::TaskCompletionSignal::SetResult()
 {
 	base::task::MutexGuard g{_lock};
 	if (_disposed)
@@ -106,7 +106,7 @@ void base::TaskCompletionSignal::SetResult()
 	_semaphore = nullptr;
 }
 
-void base::TaskCompletionSignal::Reset()
+void base::task::TaskCompletionSignal::Reset()
 {
 	base::task::MutexGuard g{_lock};
 	if (_semaphore != nullptr)

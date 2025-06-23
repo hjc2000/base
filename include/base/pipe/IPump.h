@@ -22,6 +22,7 @@ namespace base
 		/// @note 此调用不会阻塞，会立即返回。
 		/// @param cancellation_token
 		///
-		virtual std::shared_ptr<base::TaskCompletionSignal> PumpDataToConsumersAsync(std::shared_ptr<base::CancellationToken> cancellation_token);
+		virtual std::shared_ptr<base::task::TaskCompletionSignal> PumpDataToConsumersAsync(std::shared_ptr<base::CancellationToken> cancellation_token);
 	};
+
 } // namespace base

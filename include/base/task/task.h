@@ -49,7 +49,7 @@ namespace base
 		///
 		/// @return
 		///
-		std::shared_ptr<base::TaskCompletionSignal> run(std::function<void()> const &func);
+		std::shared_ptr<base::task::TaskCompletionSignal> run(std::function<void()> const &func);
 
 		///
 		/// @brief 运行一个任务。
@@ -61,8 +61,8 @@ namespace base
 		///
 		/// @return
 		///
-		std::shared_ptr<base::TaskCompletionSignal> run(size_t stack_size,
-														std::function<void()> const &func);
+		std::shared_ptr<base::task::TaskCompletionSignal> run(size_t stack_size,
+															  std::function<void()> const &func);
 
 		///
 		/// @brief 运行一个任务。
@@ -73,9 +73,9 @@ namespace base
 		///
 		/// @return
 		///
-		std::shared_ptr<base::TaskCompletionSignal> run(uint32_t priority,
-														size_t stack_size,
-														std::function<void()> const &func);
+		std::shared_ptr<base::task::TaskCompletionSignal> run(uint32_t priority,
+															  size_t stack_size,
+															  std::function<void()> const &func);
 
 		///
 		/// @brief 运行一个任务。
@@ -87,10 +87,10 @@ namespace base
 		///
 		/// @return
 		///
-		std::shared_ptr<base::TaskCompletionSignal> run(std::string const &task_name,
-														uint32_t priority,
-														size_t stack_size,
-														std::function<void()> const &func);
+		std::shared_ptr<base::task::TaskCompletionSignal> run(std::string const &task_name,
+															  uint32_t priority,
+															  size_t stack_size,
+															  std::function<void()> const &func);
 
 		/* #endregion */
 

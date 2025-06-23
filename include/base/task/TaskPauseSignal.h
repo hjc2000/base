@@ -23,13 +23,13 @@ namespace base
 		/// @brief 用来阻塞后台线程的信号。
 		///
 		///
-		base::TaskCompletionSignal _block_thread_signal{true};
+		base::task::TaskCompletionSignal _block_thread_signal{true};
 
 		///
 		/// @brief 发出暂停请求后重置此信号，然后等待。后台线程收到请求后会设置结果。
 		///
 		///
-		base::TaskCompletionSignal _response_signal{true};
+		base::task::TaskCompletionSignal _response_signal{true};
 
 	public:
 		///
