@@ -89,6 +89,7 @@ namespace base
 		/// @brief 订阅事件。
 		///
 		/// @param func
+		///
 		/// @return base::SpIIdToken 用来取消订阅的 token.
 		///
 		virtual base::SpIIdToken Subscribe(std::function<void(Args...)> const &func) override
@@ -146,6 +147,7 @@ namespace base
 
 		///
 		/// @brief 调用所有订阅的函数
+		///
 		/// @param ...args
 		///
 		void Invoke(Args... args)
@@ -169,6 +171,7 @@ namespace base
 
 		///
 		/// @brief 伪函数
+		///
 		/// @param ...args
 		///
 		void operator()(Args... args)
