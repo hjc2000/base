@@ -4,7 +4,7 @@
 #include <exception>
 #include <stdexcept>
 
-std::shared_ptr<base::task::TaskCompletionSignal> base::IPump::PumpDataToConsumersAsync(std::shared_ptr<base::CancellationToken> cancellation_token)
+std::shared_ptr<base::task::ITask> base::IPump::PumpDataToConsumersAsync(std::shared_ptr<base::CancellationToken> cancellation_token)
 {
 	auto thread_func = [this, cancellation_token]()
 	{

@@ -7,7 +7,7 @@
 
 #if HAS_THREAD
 
-std::shared_ptr<base::task::TaskCompletionSignal> base::task::run(std::function<void()> const &func)
+std::shared_ptr<base::task::ITask> base::task::run(std::function<void()> const &func)
 {
 	std::shared_ptr<base::task::TaskCompletionSignal> signal{new base::task::TaskCompletionSignal{false}};
 

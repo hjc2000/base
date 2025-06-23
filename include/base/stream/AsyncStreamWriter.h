@@ -25,7 +25,7 @@ namespace base
 	private:
 		std::shared_ptr<base::BlockingCircleBufferMemoryStream> _buffer_stream;
 		std::shared_ptr<base::Stream> _stream;
-		std::shared_ptr<base::task::TaskCompletionSignal> _completion_signal;
+		std::shared_ptr<base::task::ITask> _completion_signal;
 		std::atomic_bool _disposed = false;
 		uint8_t _copy_temp_buffer[1024];
 
