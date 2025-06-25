@@ -62,7 +62,8 @@ namespace base
 		/// @param max 队列能容纳的元素的最大数量。
 		///
 		BlockingQueue(int32_t max)
-			: _queue_consumed_signal(max) // 初始时队列为空，允许入队 _max 次，所以初始计数为 _max.
+			: // 初始时队列为空，允许入队 _max 次，所以初始计数为 _max.
+			  _queue_consumed_signal(max)
 		{
 			if (max <= 0)
 			{
@@ -110,8 +111,6 @@ namespace base
 
 		///
 		/// @brief 退队。
-		///
-		/// @note 队列空了再次尝试退队会受到阻塞，直到队列里的元素数量大于阈值。
 		///
 		/// @note 在 Dispose 或 Flush 或析构函数执行后，本方法会被无条件取消阻塞，此时如果队列为空，
 		/// 会抛出异常。
@@ -203,8 +202,6 @@ namespace base
 
 		///
 		/// @brief 入队。
-		///
-		/// @note 如果队列满了会受到阻塞，直到队列元素被消费到小于阈值时才取消阻塞。
 		///
 		/// @note Dispose 和 Flush 会无条件取消阻塞。但是，Dispose 和 Flush 后，
 		/// 再次尝试入队会抛出异常。
