@@ -20,7 +20,7 @@ namespace base
 	/// @tparam T
 	///
 	template <typename T>
-	class HysteresisBlockingQueue final :
+	class BlockingQueue final :
 		public base::IQueue<T>,
 		public base::IDisposable
 	{
@@ -70,7 +70,7 @@ namespace base
 		///
 		/// @param max 队列能容纳的元素的最大数量。
 		///
-		HysteresisBlockingQueue(int32_t max)
+		BlockingQueue(int32_t max)
 			: _queue_consumed_signal(max) // 初始时队列为空，允许入队 _max 次，所以初始计数为 _max.
 		{
 			if (max <= 0)
@@ -82,7 +82,7 @@ namespace base
 			_threshold = _max / 2;
 		}
 
-		~HysteresisBlockingQueue()
+		~BlockingQueue()
 		{
 			Dispose();
 		}

@@ -1,5 +1,5 @@
 #pragma once
-#include "base/container/HysteresisBlockingQueue.h"
+#include "base/container/BlockingQueue.h"
 #include "base/IDisposable.h"
 #include "base/string/define.h"
 #include "ITask.h"
@@ -25,7 +25,7 @@ namespace base
 				base::IDisposable
 			{
 			private:
-				base::HysteresisBlockingQueue<std::function<void()>> &_task_queue;
+				base::BlockingQueue<std::function<void()>> &_task_queue;
 				std::shared_ptr<base::task::ITask> _task{};
 				std::atomic_bool _disposed = false;
 
@@ -49,7 +49,7 @@ namespace base
 				}
 
 			public:
-				Worker(base::HysteresisBlockingQueue<std::function<void()>> &task_queue)
+				Worker(base::BlockingQueue<std::function<void()>> &task_queue)
 					: _task_queue(task_queue)
 				{
 					_task = base::task::run([this]()
@@ -84,7 +84,7 @@ namespace base
 
 			int32_t _thread_count = 1;
 			std::vector<std::shared_ptr<Worker>> _workers;
-			base::HysteresisBlockingQueue<std::function<void()>> _task_queue;
+			base::BlockingQueue<std::function<void()>> _task_queue;
 			std::atomic_bool _disposed = false;
 
 		public:

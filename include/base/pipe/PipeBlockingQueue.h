@@ -1,5 +1,5 @@
 #pragma once
-#include "base/container/HysteresisBlockingQueue.h"
+#include "base/container/BlockingQueue.h"
 #include "base/IDisposable.h"
 #include "base/pipe/IConsumer.h"
 #include "base/pipe/ISource.h"
@@ -16,7 +16,7 @@ namespace base
 		public base::IDisposable
 	{
 	private:
-		base::HysteresisBlockingQueue<T> _queue{10};
+		base::BlockingQueue<T> _queue{10};
 		std::atomic_bool _disposed = false;
 
 	public:
