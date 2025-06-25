@@ -121,12 +121,13 @@ namespace base
 
 				_disposed = true;
 
+				// 先释放队列，让其不再具有阻塞能力。
+				_task_queue.Dispose();
+
 				for (auto &worker : _workers)
 				{
 					worker->Dispose();
 				}
-
-				_task_queue.Dispose();
 			}
 
 			void Run(std::function<void()> const &task_func)
