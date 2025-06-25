@@ -77,8 +77,8 @@ namespace base
 				return;
 			}
 
-			_completion_signal->Wait();
 			_disposed = true;
+			_completion_signal->Wait();
 		}
 
 		std::shared_ptr<base::Stream> Stream() const
