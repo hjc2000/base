@@ -11,11 +11,7 @@
 namespace base
 {
 	///
-	/// @brief 带有滞回特性的阻塞队列。
-	///
-	/// @note 队列满时，再往里送会阻塞，直到队列中的元素被消费到小于一定阈值才取消阻塞。
-	///
-	/// @note 队列空时，再往外拿会阻塞，直到队列中的元素大于一定阈值才取消阻塞。
+	/// @brief 阻塞队列。
 	///
 	/// @tparam T
 	///
@@ -40,11 +36,6 @@ namespace base
 		/// @brief 队列容量的上限。
 		///
 		int32_t _max = 0;
-
-		///
-		/// @brief 队列元素数量小于此值时取消对入队的阻塞。
-		///
-		int32_t _threshold = 0;
 
 		base::SafeQueue<T> _queue;
 
@@ -79,7 +70,6 @@ namespace base
 			}
 
 			_max = max;
-			_threshold = _max / 2;
 		}
 
 		~BlockingQueue()
@@ -143,11 +133,7 @@ namespace base
 					if (_queue.Count() > 0)
 					{
 						T element = _queue.Dequeue();
-						if (_queue.Count() <= _threshold)
-						{
-							_queue_consumed_signal.ReleaseAll();
-						}
-
+						_queue_consumed_signal.ReleaseAll();
 						return element;
 					}
 
@@ -193,11 +179,7 @@ namespace base
 					if (_queue.Count() > 0)
 					{
 						bool result = _queue.TryDequeue(out);
-						if (_queue.Count() <= _threshold)
-						{
-							_queue_consumed_signal.ReleaseAll();
-						}
-
+						_queue_consumed_signal.ReleaseAll();
 						return result;
 					}
 
@@ -249,11 +231,7 @@ namespace base
 					if (_queue.Count() < _max)
 					{
 						_queue.Enqueue(obj);
-						if (_queue.Count() >= _threshold)
-						{
-							_queue_avaliable_signal.ReleaseAll();
-						}
-
+						_queue_avaliable_signal.ReleaseAll();
 						return;
 					}
 				}
