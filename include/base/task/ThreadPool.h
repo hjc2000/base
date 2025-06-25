@@ -130,6 +130,11 @@ namespace base
 				}
 			}
 
+			///
+			/// @brief 向线程池中添加任务，排队等待执行。
+			///
+			/// @param task_func
+			///
 			void Run(std::function<void()> const &task_func)
 			{
 				if (_disposed)
