@@ -95,5 +95,25 @@ namespace base
 		{
 			return _queue[index];
 		}
+
+		auto begin()
+		{
+			return _queue.begin();
+		}
+
+		auto end()
+		{
+			return _queue.end();
+		}
+
+		auto begin() const
+		{
+			return _queue.begin();
+		}
+
+		auto end() const
+		{
+			return _queue.end();
+		}
 	};
 } // namespace base
