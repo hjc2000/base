@@ -1,6 +1,6 @@
 #pragma once
 #include "base/container/IQueue.h"
-#include <queue>
+#include <deque>
 #include <stdexcept>
 
 namespace base
@@ -18,7 +18,7 @@ namespace base
 		public IQueue<T>
 	{
 	private:
-		std::queue<T> _queue;
+		std::deque<T> _queue;
 
 	public:
 		///
@@ -48,7 +48,7 @@ namespace base
 			}
 
 			T ret = _queue.front();
-			_queue.pop();
+			_queue.pop_front();
 			return ret;
 		}
 
@@ -65,7 +65,7 @@ namespace base
 			}
 
 			out = _queue.front();
-			_queue.pop();
+			_queue.pop_front();
 			return true;
 		}
 
@@ -75,7 +75,7 @@ namespace base
 		///
 		void Enqueue(T const &obj) override
 		{
-			_queue.push(obj);
+			_queue.push_back(obj);
 		}
 
 		///
@@ -83,7 +83,7 @@ namespace base
 		///
 		void Clear() override
 		{
-			_queue = std::queue<T>{};
+			_queue.clear();
 		}
 	};
 } // namespace base
