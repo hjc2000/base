@@ -96,6 +96,8 @@ namespace base
 			return _queue[index];
 		}
 
+		/* #region 迭代 */
+
 		auto begin()
 		{
 			return _queue.begin();
@@ -115,5 +117,7 @@ namespace base
 		{
 			return _queue.end();
 		}
+
+		/* #endregion */
 	};
 } // namespace base
