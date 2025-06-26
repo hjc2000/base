@@ -18,7 +18,7 @@ namespace base
 		public IQueue<T>
 	{
 	private:
-		std::deque<T> _queue;
+		std::deque<T> _queue{};
 
 	public:
 		///
@@ -84,6 +84,16 @@ namespace base
 		void Clear() override
 		{
 			_queue.clear();
+		}
+
+		T &operator[](int32_t index)
+		{
+			return _queue[index];
+		}
+
+		T const &operator[](int32_t index) const
+		{
+			return _queue[index];
 		}
 	};
 } // namespace base
