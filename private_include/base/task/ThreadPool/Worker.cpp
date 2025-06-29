@@ -1,4 +1,5 @@
 #include "Worker.h"
+#include "base/task/ThreadPool/Task.h"
 
 void base::task::ThreadPool::Worker::ThreadFunc()
 {
