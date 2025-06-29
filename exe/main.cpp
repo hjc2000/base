@@ -1,6 +1,9 @@
 #include "base/container/CircleDQueue.h"
 #include "base/math/Fraction.h"
+#include "base/task/delay.h"
+#include "base/task/ThreadPool.h"
 #include "base/wrapper/number-wrapper.h"
+#include <chrono>
 #include <cmath>
 #include <cstdlib>
 #include <iomanip>
@@ -44,5 +47,32 @@ int main()
 		{
 			std::cout << item << std::endl;
 		}
+	}
+
+	{
+		base::task::ThreadPool pool{10};
+
+		std::shared_ptr<base::task::ITask> task1 = pool.Run(
+			[&]()
+			{
+				for (int i = 0; i < 10; i++)
+				{
+					std::cout << "task1" << std::endl;
+					base::task::Delay(std::chrono::milliseconds{1000});
+				}
+			});
+
+		std::shared_ptr<base::task::ITask> task2 = pool.Run(
+			[&]()
+			{
+				for (int i = 0; i < 10; i++)
+				{
+					std::cout << "task2" << std::endl;
+					base::task::Delay(std::chrono::milliseconds{1000});
+				}
+			});
+
+		task1->Wait();
+		task2->Wait();
 	}
 }
