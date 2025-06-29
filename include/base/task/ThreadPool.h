@@ -131,6 +131,16 @@ namespace base
 			}
 
 			///
+			/// @brief 线程池是否已被释放。
+			///
+			/// @return
+			///
+			bool Disposed() const
+			{
+				return _disposed;
+			}
+
+			///
 			/// @brief 向线程池中添加任务，排队等待执行。
 			///
 			/// @param task_func
