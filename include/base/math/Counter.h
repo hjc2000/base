@@ -82,10 +82,24 @@ namespace base
 			return record;
 		}
 
+		constexpr T operator+(T value) const
+		{
+			base::Counter<T> copy{*this};
+			copy += value;
+			return copy._count;
+		}
+
 		constexpr T operator+(base::Counter<T> const &another) const
 		{
 			base::Counter<T> copy{*this};
 			copy += another._count;
+			return copy._count;
+		}
+
+		constexpr T operator-(T value) const
+		{
+			base::Counter<T> copy{*this};
+			copy -= value;
 			return copy._count;
 		}
 
