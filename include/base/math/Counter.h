@@ -91,9 +91,7 @@ namespace base
 
 		constexpr T operator+(base::Counter<T> const &another) const
 		{
-			base::Counter<T> copy{*this};
-			copy += another._count;
-			return copy._count;
+			return *this + another._count;
 		}
 
 		constexpr T operator-(T value) const
@@ -105,9 +103,7 @@ namespace base
 
 		constexpr T operator-(base::Counter<T> const &another) const
 		{
-			base::Counter<T> copy{*this};
-			copy -= another._count;
-			return copy._count;
+			return *this - another._count;
 		}
 
 		///
