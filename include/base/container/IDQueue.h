@@ -57,6 +57,12 @@ namespace base
 		/// @return
 		///
 		virtual bool TryPopFront(T &out) = 0;
+
+		///
+		/// @brief 清空队列。
+		///
+		///
+		virtual void Clear() = 0;
 	};
 
 } // namespace base

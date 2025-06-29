@@ -165,6 +165,44 @@ namespace base
 			_is_full = false;
 			return true;
 		}
+
+		///
+		/// @brief 清空队列。
+		///
+		///
+		virtual void Clear() override
+		{
+			for (int32_t i = 0; i < Count(); i++)
+			{
+				(*this)[i].~T();
+			}
+
+			_begin.Reset();
+			_end.Reset();
+			_is_full = false;
+		}
+
+		T &operator[](int32_t index)
+		{
+			if (index < 0 || index >= Count())
+			{
+				throw std::out_of_range{CODE_POS_STR + "索引越界。"};
+			}
+
+			int32_t real_index = _begin + index;
+			return Buffer()[real_index];
+		}
+
+		T const &operator[](int32_t index) const
+		{
+			if (index < 0 || index >= Count())
+			{
+				throw std::out_of_range{CODE_POS_STR + "索引越界。"};
+			}
+
+			int32_t real_index = _begin + index;
+			return Buffer()[real_index];
+		}
 	};
 
 } // namespace base
