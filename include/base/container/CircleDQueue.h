@@ -8,6 +8,10 @@
 
 namespace base
 {
+	///
+	/// @brief 循环缓冲区的双端队列。
+	///
+	///
 	template <typename T, int32_t Size>
 		requires(Size > 0)
 	class CircleDQueue :
@@ -54,6 +58,10 @@ namespace base
 
 			new (Buffer()[_end.CurrentValue()]) T{obj};
 			_end++;
+			if (_begin == _end)
+			{
+				_is_full = true;
+			}
 		}
 
 		///
@@ -72,6 +80,7 @@ namespace base
 			T ret{std::move(Buffer()[index])};
 			Buffer()[index].~T();
 			_end--;
+			_is_full = false;
 			return ret;
 		}
 
@@ -92,6 +101,7 @@ namespace base
 			out = std::move(Buffer()[index]);
 			Buffer()[index].~T();
 			_end--;
+			_is_full = false;
 			return true;
 		}
 
@@ -109,6 +119,10 @@ namespace base
 
 			_begin--;
 			new (Buffer()[_begin.CurrentValue()]) T{obj};
+			if (_begin == _end)
+			{
+				_is_full = true;
+			}
 		}
 
 		///
@@ -127,6 +141,7 @@ namespace base
 			T ret{std::move(Buffer()[index])};
 			Buffer()[index].~T();
 			_begin++;
+			_is_full = false;
 			return ret;
 		}
 
@@ -147,6 +162,7 @@ namespace base
 			out = std::move(Buffer()[index]);
 			Buffer()[index].~T();
 			_begin++;
+			_is_full = false;
 			return true;
 		}
 	};
