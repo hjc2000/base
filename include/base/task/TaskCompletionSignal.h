@@ -77,5 +77,22 @@ namespace base
 			void Reset();
 		};
 
+		class TaskCompletionSignalGuard
+		{
+		private:
+			base::task::TaskCompletionSignal &_signal;
+
+		public:
+			TaskCompletionSignalGuard(base::task::TaskCompletionSignal &signal)
+				: _signal(signal)
+			{
+			}
+
+			~TaskCompletionSignalGuard()
+			{
+				_signal.SetResult();
+			}
+		};
+
 	} // namespace task
 } // namespace base
