@@ -81,6 +81,11 @@ namespace base
 		}
 
 	public:
+		~CircleDQueue()
+		{
+			Clear();
+		}
+
 		///
 		/// @brief 队列中当前元素的数量。
 		///
