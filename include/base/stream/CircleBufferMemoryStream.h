@@ -1,6 +1,6 @@
 #pragma once
-#include "base/Counter.h"
 #include "base/exception/NotSupportedException.h"
+#include "base/math/Counter.h"
 #include "base/stream/Stream.h"
 #include <cstdint>
 #include <cstring>
