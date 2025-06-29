@@ -42,7 +42,7 @@ int main()
 		queue.PushFront(5);
 		while (queue.Count() > 0)
 		{
-			std::cout << queue.PopBack() << std::endl;
+			std::cout << queue.PopFront() << std::endl;
 		}
 	}
 }
