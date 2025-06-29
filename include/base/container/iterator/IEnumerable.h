@@ -94,7 +94,7 @@ namespace base
 			///
 			/// @brief 前缀递增
 			///
-			/// @return ForwardIterator<item_type>&
+			/// @return
 			///
 			ForwardIterator<item_type> &operator++()
 			{
@@ -105,7 +105,7 @@ namespace base
 			///
 			/// @brief 后缀递增。
 			///
-			/// @return ForwardIterator<item_type>
+			/// @return
 			///
 			ForwardIterator<item_type> operator++(int)
 			{
@@ -132,7 +132,7 @@ namespace base
 		///
 		/// @brief 获取非 const 迭代器
 		///
-		/// @return std::shared_ptr<base::IEnumerator<ItemType>>
+		/// @return
 		///
 		virtual std::shared_ptr<base::IEnumerator<ItemType>> GetEnumerator() = 0;
 
@@ -143,7 +143,7 @@ namespace base
 		///
 		/// @brief 获取 const 迭代器
 		///
-		/// @return std::shared_ptr<base::IEnumerator<ItemType const>>
+		/// @return
 		///
 		std::shared_ptr<base::IEnumerator<ItemType const>> GetEnumerator() const
 		{

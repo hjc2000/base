@@ -16,7 +16,7 @@ namespace base
 		///
 		/// @brief 获取当前值的引用。
 		///
-		/// @return ItemType&
+		/// @return
 		///
 		virtual ItemType &CurrentValue() = 0;
 

@@ -1,9 +1,12 @@
 #pragma once
+#include "base/container/iterator/IEnumerator.h"
 #include "base/math/Counter.h"
 #include "base/string/define.h"
 #include "IDQueue.h"
+#include "iterator/IEnumerable.h"
 #include <algorithm>
 #include <cstdint>
+#include <memory>
 #include <stdexcept>
 
 namespace base
@@ -15,9 +18,58 @@ namespace base
 	template <typename T, int32_t Size>
 		requires(Size > 0)
 	class CircleDQueue :
-		base::IDQueue<T>
+		public base::IDQueue<T>,
+		public base::IEnumerable<T>
 	{
 	private:
+		/* #region Enumerator */
+
+		class Enumerator final :
+			public base::IEnumerator<T>
+		{
+		private:
+			CircleDQueue<T, Size> &_queue;
+			int32_t _index = 0;
+
+		public:
+			Enumerator(CircleDQueue<T, Size> &queue)
+				: _queue(queue)
+			{
+			}
+
+			///
+			/// @brief 迭代器当前是否指向尾后元素。
+			///
+			/// @return
+			///
+			virtual bool IsEnd() const override
+			{
+				return _index >= _queue.Count();
+			}
+
+			///
+			/// @brief 获取当前值的引用。
+			///
+			/// @return
+			///
+			virtual T &CurrentValue() override
+			{
+				return _queue[_index];
+			}
+
+			///
+			/// @brief 递增迭代器的位置。
+			///
+			///
+			virtual void Add() override
+			{
+				_index++;
+			}
+
+		}; // class Enumerator
+
+		/* #endregion */
+
 		alignas(T) uint8_t _memory_block[sizeof(T) * Size]{};
 		base::Counter<uint32_t> _begin{0, Size - 1};
 		base::Counter<uint32_t> _end{0, Size - 1};
@@ -202,6 +254,16 @@ namespace base
 
 			int32_t real_index = _begin + index;
 			return Buffer()[real_index];
+		}
+
+		///
+		/// @brief 获取非 const 迭代器
+		///
+		/// @return
+		///
+		virtual std::shared_ptr<base::IEnumerator<T>> GetEnumerator() override
+		{
+			return std::shared_ptr<Enumerator>{new Enumerator{*this}};
 		}
 	};
 

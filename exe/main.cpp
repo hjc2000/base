@@ -40,9 +40,9 @@ int main()
 		queue.PushFront(3);
 		queue.PushFront(4);
 		queue.PushFront(5);
-		while (queue.Count() > 0)
+		for (auto &item : queue)
 		{
-			std::cout << queue.PopFront() << std::endl;
+			std::cout << item << std::endl;
 		}
 	}
 }
