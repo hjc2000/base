@@ -1,5 +1,6 @@
 #pragma once
 #include "base/math/Counter.h"
+#include "IDQueue.h"
 #include <array>
 #include <cstdint>
 
@@ -7,7 +8,8 @@ namespace base
 {
 	template <typename T, int32_t Size>
 		requires(Size > 0)
-	class CircleDQueue
+	class CircleDQueue :
+		base::IDQueue<T>
 	{
 	private:
 		std::array<T, Size> _buffer{};

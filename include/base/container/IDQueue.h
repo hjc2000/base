@@ -7,18 +7,55 @@ namespace base
 	class IDQueue
 	{
 	public:
+		///
+		/// @brief 队列中当前元素的数量。
+		///
+		/// @return
+		///
 		virtual int32_t Count() const = 0;
 
+		///
+		/// @brief 从队列末端入队。
+		///
+		/// @param obj
+		///
 		virtual void PushBack(T const &obj) = 0;
 
+		///
+		/// @brief 从队列末端退队。
+		///
+		/// @return
+		///
 		virtual T PopBack() = 0;
 
+		///
+		/// @brief 尝试从队列末端退队。
+		///
+		/// @param out
+		/// @return
+		///
 		virtual bool TryPopBack(T &out) = 0;
 
+		///
+		/// @brief 从队列前端入队。
+		///
+		/// @param obj
+		///
 		virtual void PushFront(T const &obj) = 0;
 
+		///
+		/// @brief 从队列前端退队。
+		///
+		/// @return
+		///
 		virtual T PopFront() = 0;
 
+		///
+		/// @brief 尝试从队列前端退队。
+		///
+		/// @param out
+		/// @return
+		///
 		virtual bool TryPopFront(T &out) = 0;
 	};
 
