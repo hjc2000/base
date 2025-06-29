@@ -41,7 +41,7 @@ namespace base
 				return Size;
 			}
 
-			return _end.CurrentValue() - _begin.CurrentValue();
+			return _end - _begin;
 		}
 
 		///
@@ -56,7 +56,7 @@ namespace base
 				throw std::runtime_error{CODE_POS_STR + "队列已满，无法入队。"};
 			}
 
-			new (Buffer()[_end.CurrentValue()]) T{obj};
+			new (&Buffer()[_end.CurrentValue()]) T{obj};
 			_end++;
 			if (_begin == _end)
 			{
@@ -76,7 +76,7 @@ namespace base
 				throw std::runtime_error{CODE_POS_STR + "队列为空，无法退队。"};
 			}
 
-			int32_t index = _end.CurrentValue() - 1;
+			int32_t index = _end - 1;
 			T ret{std::move(Buffer()[index])};
 			Buffer()[index].~T();
 			_end--;
@@ -97,7 +97,7 @@ namespace base
 				return false;
 			}
 
-			int32_t index = _end.CurrentValue() - 1;
+			int32_t index = _end - 1;
 			out = std::move(Buffer()[index]);
 			Buffer()[index].~T();
 			_end--;
@@ -118,7 +118,7 @@ namespace base
 			}
 
 			_begin--;
-			new (Buffer()[_begin.CurrentValue()]) T{obj};
+			new (&Buffer()[_begin.CurrentValue()]) T{obj};
 			if (_begin == _end)
 			{
 				_is_full = true;

@@ -1,3 +1,4 @@
+#include "base/container/CircleDQueue.h"
 #include "base/math/Fraction.h"
 #include "base/wrapper/number-wrapper.h"
 #include <cmath>
@@ -29,5 +30,19 @@ int main()
 				  << std::setprecision(precision)
 				  << static_cast<double>(f) - std::numbers::pi
 				  << std::endl;
+	}
+
+	{
+		base::CircleDQueue<int, 10> queue{};
+		queue.PushBack(0);
+		queue.PushBack(1);
+		queue.PushBack(2);
+		queue.PushFront(3);
+		queue.PushFront(4);
+		queue.PushFront(5);
+		while (queue.Count() > 0)
+		{
+			std::cout << queue.PopBack() << std::endl;
+		}
 	}
 }
