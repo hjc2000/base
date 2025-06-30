@@ -59,42 +59,40 @@ int main()
 	}
 
 	{
-		{
-			base::task::ThreadPool pool{10};
+		base::task::ThreadPool pool{10};
 
-			std::shared_ptr<base::task::ITask> task1 = pool.Run(
-				[&]()
+		std::shared_ptr<base::task::ITask> task1 = pool.Run(
+			[&]()
+			{
+				for (int i = 0; i < 10; i++)
 				{
-					for (int i = 0; i < 10; i++)
-					{
-						base::console.WriteLine("task1");
-						base::task::Delay(std::chrono::milliseconds{1000});
-					}
-				});
+					base::console.WriteLine("task1");
+					base::task::Delay(std::chrono::milliseconds{1000});
+				}
+			});
 
-			std::shared_ptr<base::task::ITask> task2 = pool.Run(
-				[&]()
+		std::shared_ptr<base::task::ITask> task2 = pool.Run(
+			[&]()
+			{
+				for (int i = 0; i < 10; i++)
 				{
-					for (int i = 0; i < 10; i++)
-					{
-						base::console.WriteLine("task2");
-						base::task::Delay(std::chrono::milliseconds{1000});
-					}
-				});
+					base::console.WriteLine("task2");
+					base::task::Delay(std::chrono::milliseconds{1000});
+				}
+			});
 
-			std::shared_ptr<base::task::ITask> task3 = pool.Run(
-				[&]()
+		std::shared_ptr<base::task::ITask> task3 = pool.Run(
+			[&]()
+			{
+				for (int i = 0; i < 10; i++)
 				{
-					for (int i = 0; i < 10; i++)
-					{
-						base::console.WriteLine("task3");
-						base::task::Delay(std::chrono::milliseconds{1000});
-					}
-				});
+					base::console.WriteLine("task3");
+					base::task::Delay(std::chrono::milliseconds{1000});
+				}
+			});
 
-			task1->Wait();
-			task2->Wait();
-			task3->Wait();
-		}
+		task1->Wait();
+		task2->Wait();
+		task3->Wait();
 	}
 }
