@@ -2,6 +2,8 @@
 #include "base/stream/Stream.h"
 #include <memory>
 
+#if HAS_THREAD
+
 namespace base
 {
 	///
@@ -12,3 +14,5 @@ namespace base
 	std::shared_ptr<base::Stream> std_out_stream();
 
 } // namespace base
+
+#endif // HAS_THREAD

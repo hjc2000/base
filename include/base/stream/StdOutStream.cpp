@@ -2,6 +2,8 @@
 #include "base/exception/NotSupportedException.h"
 #include "base/RentedPtrFactory.h"
 
+#if HAS_THREAD
+
 namespace
 {
 	class StdOutStream :
@@ -140,3 +142,5 @@ std::shared_ptr<base::Stream> base::std_out_stream()
 {
 	return base::RentedPtrFactory::Create(&_std_out_stream);
 }
+
+#endif // HAS_THREAD
