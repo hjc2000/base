@@ -78,6 +78,7 @@ namespace base
 			}
 
 			_disposed = true;
+			_buffer_stream->Close();
 			_completion_signal->Wait();
 		}
 

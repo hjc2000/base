@@ -4,6 +4,11 @@
 
 namespace base
 {
+	///
+	/// @brief 获取标准输出流示例。
+	///
+	/// @return
+	///
 	std::shared_ptr<base::Stream> std_out_stream();
 
 } // namespace base
