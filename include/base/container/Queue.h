@@ -1,5 +1,6 @@
 #pragma once
 #include "base/container/IQueue.h"
+#include "base/string/define.h"
 #include <deque>
 #include <stdexcept>
 
@@ -44,7 +45,7 @@ namespace base
 		{
 			if (_queue.empty())
 			{
-				throw std::underflow_error("队列当前为空，无法退队");
+				throw std::underflow_error{CODE_POS_STR + "队列当前为空，无法退队"};
 			}
 
 			T ret = _queue.front();
