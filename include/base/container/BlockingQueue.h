@@ -176,10 +176,9 @@ namespace base
 		///
 		/// @brief 入队。
 		///
-		/// @note Dispose 和 Flush 会无条件取消阻塞。但是，Dispose 和 Flush 后，
-		/// 再次尝试入队会抛出异常。
-		///
 		/// @param obj
+		///
+		/// @exception ObjectDisposedException 本对象被处置后，继续入队会引发异常。
 		///
 		void Enqueue(T const &obj) override
 		{

@@ -21,7 +21,7 @@ void base::task::ThreadPool::Worker::ThreadFunc()
 		}
 		catch (std::underflow_error const &e)
 		{
-			// _task_queue 是个阻塞队列，退队引发这个异常说明 _task_queue 已经被处决了，
+			// _task_queue 是个阻塞队列，退队引发这个异常说明 _task_queue 已经被处置了，
 			// 此时线程应该退出。
 			return;
 		}
