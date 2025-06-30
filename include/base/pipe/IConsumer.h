@@ -9,7 +9,9 @@ namespace base
 		///
 		/// @brief 向消费者送入数据
 		///
-		/// @param data
+		/// @param data 要送给消费者的数据。
+		/// 	@note 这里采用的是引用而不是 const 引用，是因为有些消费者是数据编辑器，
+		/// 	它们被串联在数据流管道中，对数据进行加工。
 		///
 		virtual void SendData(T &data) = 0;
 
