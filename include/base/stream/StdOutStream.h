@@ -7,7 +7,7 @@
 namespace base
 {
 	///
-	/// @brief 获取标准输出流示例。
+	/// @brief 获取标准输出流实例。
 	///
 	/// @return
 	///
