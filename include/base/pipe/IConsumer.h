@@ -16,6 +16,9 @@ namespace base
 		///
 		/// @brief 冲洗消费者
 		///
+		/// @note 通知消费者没有更多数据了，该清理缓冲区或其他地方的残留数据了。
+		///
 		virtual void Flush() = 0;
 	};
+
 } // namespace base
