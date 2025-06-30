@@ -133,7 +133,7 @@ namespace base
 			{
 				if (_stream_closed)
 				{
-					throw std::runtime_error{CODE_POS_STR + "流已关闭，无法写入。"};
+					throw base::ObjectDisposedException{CODE_POS_STR + "流已关闭，无法写入。"};
 				}
 
 				{
@@ -157,8 +157,17 @@ namespace base
 				{
 					_buffer_consumed_signal.Acquire();
 				}
+				catch (base::ObjectDisposedException const &e)
+				{
+					// 不处理，继续下一轮循环。
+				}
+				catch (std::exception const &e)
+				{
+					throw std::runtime_error{CODE_POS_STR + e.what()};
+				}
 				catch (...)
 				{
+					throw std::runtime_error{CODE_POS_STR + "未知的异常。"};
 				}
 			}
 		}
