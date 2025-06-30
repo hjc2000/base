@@ -187,7 +187,7 @@ namespace base
 			{
 				if (_disposed)
 				{
-					throw std::runtime_error{CODE_POS_STR + "队列已被释放，无法入队。"};
+					throw base::ObjectDisposedException{CODE_POS_STR + "队列已被释放，无法入队。"};
 				}
 
 				// 在持有互斥锁的条件下检查，避免误触，以及操作
@@ -205,9 +205,17 @@ namespace base
 				{
 					_queue_consumed_signal.Acquire();
 				}
+				catch (base::ObjectDisposedException const &e)
+				{
+					// 不处理，继续下一轮循环。
+				}
 				catch (std::exception const &e)
 				{
 					throw std::runtime_error{CODE_POS_STR + e.what()};
+				}
+				catch (...)
+				{
+					throw std::runtime_error{CODE_POS_STR + "未知的异常。"};
 				}
 			}
 		}
