@@ -100,6 +100,16 @@ namespace base
 		}
 
 		///
+		/// @brief 队列是否已经被释放。
+		///
+		/// @return
+		///
+		bool Disposed() const
+		{
+			return _disposed;
+		}
+
+		///
 		/// @brief 队列中当前元素个数
 		///
 		/// @return
