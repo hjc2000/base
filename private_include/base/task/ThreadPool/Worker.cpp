@@ -2,6 +2,7 @@
 #include "base/Console.h"
 #include "base/IDisposable.h"
 #include "base/task/ThreadPool/Task.h"
+#include <stdexcept>
 
 void base::task::ThreadPool::Worker::ThreadFunc()
 {
@@ -17,6 +18,12 @@ void base::task::ThreadPool::Worker::ThreadFunc()
 		try
 		{
 			task = _task_queue.Dequeue();
+		}
+		catch (std::underflow_error const &e)
+		{
+			// _task_queue 是个阻塞队列，退队引发这个异常说明 _task_queue 已经被处决了，
+			// 此时线程应该退出。
+			return;
 		}
 		catch (base::ObjectDisposedException const &e)
 		{
@@ -38,6 +45,7 @@ void base::task::ThreadPool::Worker::ThreadFunc()
 			continue;
 		}
 
+		// Task 的 () 运算符不会抛出异常。
 		(*task)();
 	}
 }
