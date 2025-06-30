@@ -82,8 +82,19 @@ int main()
 					}
 				});
 
+			std::shared_ptr<base::task::ITask> task3 = pool.Run(
+				[&]()
+				{
+					for (int i = 0; i < 10; i++)
+					{
+						base::console.WriteLine("task3");
+						base::task::Delay(std::chrono::milliseconds{1000});
+					}
+				});
+
 			task1->Wait();
 			task2->Wait();
+			task3->Wait();
 		}
 	}
 }
