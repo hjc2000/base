@@ -4,6 +4,7 @@
 #include "base/pipe/IConsumer.h"
 #include "base/pipe/ISource.h"
 #include <atomic>
+#include <stdexcept>
 
 namespace base
 {
@@ -77,16 +78,16 @@ namespace base
 		///
 		/// @return 读取成功返回 0，失败返回负数的错误代码。
 		///
-		virtual int ReadData(T &data) override
+		virtual bool TryReadData(T &data) override
 		{
 			try
 			{
 				data = _queue.Dequeue();
-				return 0;
+				return true;
 			}
-			catch (std::exception &e)
+			catch (std::underflow_error &e)
 			{
-				return -1;
+				return false;
 			}
 		}
 	};
