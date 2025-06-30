@@ -123,7 +123,7 @@ namespace base
 			{
 				if (_disposed)
 				{
-					throw std::runtime_error{CODE_POS_STR + "队列已被释放，无法退队。"};
+					throw base::ObjectDisposedException{};
 				}
 
 				// 在持有互斥锁的条件下检查，避免误触，以及操作
@@ -169,7 +169,7 @@ namespace base
 			{
 				if (_disposed)
 				{
-					throw std::runtime_error{CODE_POS_STR + "队列已被释放，无法退队。"};
+					return false;
 				}
 
 				// 在持有互斥锁的条件下检查，避免误触，以及操作
