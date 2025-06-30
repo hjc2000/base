@@ -11,6 +11,7 @@ namespace base
 {
 	///
 	/// @brief 实现一个普通的泵
+	///
 	/// @tparam T
 	///
 	template <typename T>
@@ -36,6 +37,7 @@ namespace base
 
 		///
 		/// @brief 消费者列表
+		///
 		/// @return
 		///
 		virtual base::IList<std::shared_ptr<base::IConsumer<T>>> &ConsumerList() override
@@ -45,7 +47,9 @@ namespace base
 
 		///
 		/// @brief 在每次将数据送给所有消费者时会触发此事件
+		///
 		/// @warning 没有线程的环境中，禁止在开始泵送数据后订阅和取消订阅事件。
+		///
 		/// @return
 		///
 		base::IEvent<T &> &BeforeSendingDataToConsumersEvent()
@@ -81,4 +85,5 @@ namespace base
 			}
 		}
 	};
+
 } // namespace base
