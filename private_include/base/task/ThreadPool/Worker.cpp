@@ -7,20 +7,16 @@ void base::task::ThreadPool::Worker::ThreadFunc()
 {
 	while (true)
 	{
+		if (_disposed)
+		{
+			return;
+		}
+
+		std::shared_ptr<Task> task;
+
 		try
 		{
-			if (_disposed)
-			{
-				return;
-			}
-
-			std::shared_ptr<Task> task = _task_queue.Dequeue();
-			if (task == nullptr)
-			{
-				continue;
-			}
-
-			(*task)();
+			task = _task_queue.Dequeue();
 		}
 		catch (base::ObjectDisposedException const &e)
 		{
@@ -28,13 +24,20 @@ void base::task::ThreadPool::Worker::ThreadFunc()
 		}
 		catch (std::exception const &e)
 		{
-			base::console.WriteError(CODE_POS_STR + e.what());
+			base::console.WriteErrorLine(CODE_POS_STR + e.what());
 			return;
 		}
 		catch (...)
 		{
-			base::console.WriteError(CODE_POS_STR + "未知异常。");
+			base::console.WriteErrorLine(CODE_POS_STR + "未知异常。");
 			return;
 		}
+
+		if (task == nullptr)
+		{
+			continue;
+		}
+
+		(*task)();
 	}
 }
