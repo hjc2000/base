@@ -70,6 +70,7 @@ namespace base
 			_queue.Dispose();
 		}
 
+		///
 		/// @brief 读取数据。
 		///
 		/// @param data
