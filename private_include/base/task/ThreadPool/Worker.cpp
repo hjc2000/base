@@ -1,5 +1,6 @@
 #include "Worker.h"
 #include "base/Console.h"
+#include "base/IDisposable.h"
 #include "base/task/ThreadPool/Task.h"
 
 void base::task::ThreadPool::Worker::ThreadFunc()
@@ -21,13 +22,19 @@ void base::task::ThreadPool::Worker::ThreadFunc()
 
 			(*task)();
 		}
+		catch (base::ObjectDisposedException const &e)
+		{
+			return;
+		}
 		catch (std::exception const &e)
 		{
 			base::console.WriteError(CODE_POS_STR + e.what());
+			return;
 		}
 		catch (...)
 		{
 			base::console.WriteError(CODE_POS_STR + "未知异常。");
+			return;
 		}
 	}
 }
