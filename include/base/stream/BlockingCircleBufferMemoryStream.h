@@ -1,5 +1,6 @@
 #pragma once
 #include "base/container/Range.h"
+#include "base/IDisposable.h"
 #include "base/stream/CircleBufferMemoryStream.h"
 #include "base/task/Mutex.h"
 #include "base/task/Semaphore.h"
@@ -105,8 +106,17 @@ namespace base
 				{
 					_buffer_avaliable_signal.Acquire();
 				}
+				catch (base::ObjectDisposedException const &e)
+				{
+					// 不处理，继续下一轮循环。
+				}
+				catch (std::exception const &e)
+				{
+					throw std::runtime_error{CODE_POS_STR + e.what()};
+				}
 				catch (...)
 				{
+					throw std::runtime_error{CODE_POS_STR + "未知的异常。"};
 				}
 			}
 		}
