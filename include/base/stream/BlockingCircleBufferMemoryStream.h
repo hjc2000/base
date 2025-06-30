@@ -87,15 +87,10 @@ namespace base
 		{
 			while (true)
 			{
-				if (_stream_closed)
-				{
-					throw std::runtime_error{CODE_POS_STR + "流已关闭，无法读取"};
-				}
-
 				// 在持有互斥锁的条件下检查，避免误触，以及操作
 				{
 					base::task::MutexGuard g{_lock};
-					if (_mstream.Length() > 0)
+					if (_stream_closed || _mstream.Length() > 0)
 					{
 						int64_t have_read = _mstream.Read(span);
 						_buffer_consumed_signal.ReleaseAll();
@@ -162,11 +157,11 @@ namespace base
 		}
 
 		///
-		/// @brief 结束流。
+		/// @brief 关闭流。
 		///
-		/// @note 结束后，写入的数据会被丢弃。Read 方法在读取完缓冲区的数据后，将永远返回 0.
+		/// @note 关闭后，写入会引发异常。Read 方法在读取完缓冲区的数据后，将永远返回 0.
 		///
-		/// @note 结束后，会取消所有阻塞，且不会再阻塞。
+		/// @note 关闭后，会取消所有阻塞，且不会再阻塞。
 		///
 		virtual void Close() override
 		{

@@ -39,6 +39,11 @@ namespace base
 				}
 
 				int32_t have_read = _buffer_stream->Read(base::Span{_copy_temp_buffer, sizeof(_copy_temp_buffer)});
+				if (have_read == 0)
+				{
+					return;
+				}
+
 				_stream->Write(base::ReadOnlySpan{_copy_temp_buffer, have_read});
 			}
 		}
