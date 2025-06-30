@@ -3,10 +3,7 @@
 #include "base/math/Fraction.h"
 #include "base/stream/AsyncStreamWriter.h"
 #include "base/stream/StdOutStream.h"
-#include "base/task/delay.h"
-#include "base/task/ThreadPool.h"
 #include "base/wrapper/number-wrapper.h"
-#include <chrono>
 #include <cmath>
 #include <cstdlib>
 #include <iomanip>
@@ -14,6 +11,7 @@
 #include <memory>
 #include <numbers>
 #include <stdlib.h>
+#include <string>
 
 int main()
 {
@@ -54,7 +52,7 @@ int main()
 		queue.PushFront(5);
 		for (auto &item : queue)
 		{
-			std::cout << item << std::endl;
+			base::console.WriteLine(std::to_string(item));
 		}
 	}
 }

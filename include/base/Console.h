@@ -18,6 +18,12 @@ namespace base
 		std::shared_ptr<base::TextWriter> _error_writer;
 
 	public:
+		~Console()
+		{
+			_output_writer.reset();
+			_error_writer.reset();
+		}
+
 		/* #region OutputWriter */
 
 		std::shared_ptr<base::TextWriter> OutputWriter() const
