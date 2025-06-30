@@ -69,7 +69,7 @@ namespace base
 			{
 				if (cancellation_token->IsCancellationRequested())
 				{
-					throw std::runtime_error{CODE_POS_STR + "将数据泵送给消费者的操作被取消。"};
+					cancellation_token->ThrowIfCancellationIsRequested();
 				}
 
 				int ret = _source->ReadData(data);
