@@ -127,7 +127,6 @@ namespace
 		virtual void Close() override
 		{
 			// 标准输出流不能关闭。
-			throw base::NotSupportedException{};
 		}
 
 		/* #endregion */
