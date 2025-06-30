@@ -67,10 +67,7 @@ namespace base
 			T data{};
 			while (true)
 			{
-				if (cancellation_token->IsCancellationRequested())
-				{
-					cancellation_token->ThrowIfCancellationIsRequested();
-				}
+				cancellation_token->ThrowIfCancellationIsRequested();
 
 				bool result = _source->ReadData(data);
 				if (!result)
