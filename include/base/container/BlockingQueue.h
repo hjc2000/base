@@ -115,9 +115,10 @@ namespace base
 		///
 		/// @brief 退队。
 		///
-		/// @note 在 Dispose 后，本方法会被无条件取消阻塞，此时如果队列为空，会抛出异常。
-		///
 		/// @return 退队的元素。
+		///
+		/// @exception underflow_error 本对象被处置后，本方法会无条件取消阻塞，并且不再具有阻塞能力，
+		/// 此时如果队列为空，会抛出异常。
 		///
 		T Dequeue() override
 		{
