@@ -6,6 +6,7 @@ namespace base
 {
 	///
 	/// @brief 泵接口
+	///
 	/// @tparam T 要被泵送的数据类型
 	///
 	class IPump
