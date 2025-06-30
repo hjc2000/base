@@ -195,7 +195,7 @@ namespace base
 		///
 		virtual void SetLength(int64_t value) override
 		{
-			throw base::exception::NotSupportedException{};
+			throw base::NotSupportedException{};
 		}
 
 		///
@@ -205,7 +205,7 @@ namespace base
 		///
 		virtual int64_t Position() const override
 		{
-			throw base::exception::NotSupportedException{};
+			throw base::NotSupportedException{};
 		}
 
 		///
@@ -215,7 +215,7 @@ namespace base
 		///
 		virtual void SetPosition(int64_t value) override
 		{
-			throw base::exception::NotSupportedException{};
+			throw base::NotSupportedException{};
 		}
 
 		/* #endregion */
