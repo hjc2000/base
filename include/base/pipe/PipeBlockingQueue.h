@@ -78,7 +78,7 @@ namespace base
 		///
 		/// @return 读取成功返回 0，失败返回负数的错误代码。
 		///
-		virtual bool TryReadData(T &data) override
+		virtual bool ReadData(T &data) override
 		{
 			try
 			{

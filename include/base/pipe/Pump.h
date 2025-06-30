@@ -72,7 +72,7 @@ namespace base
 					cancellation_token->ThrowIfCancellationIsRequested();
 				}
 
-				bool result = _source->TryReadData(data);
+				bool result = _source->ReadData(data);
 				if (!result)
 				{
 					base::IPipeSource<T>::FlushEachConsumer();

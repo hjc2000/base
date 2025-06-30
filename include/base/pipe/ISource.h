@@ -21,6 +21,6 @@ namespace base
 		///
 		/// 	@note 其他错误应该通过抛出异常的方式传递而不是隐藏起错误然后返回 false.
 		///
-		virtual bool TryReadData(T &data) = 0;
+		virtual bool ReadData(T &data) = 0;
 	};
 } // namespace base
