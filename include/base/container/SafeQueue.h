@@ -1,5 +1,6 @@
 #pragma once
 #include "base/container/IQueue.h"
+#include "base/string/define.h"
 #include "base/task/Mutex.h"
 #include <queue>
 #include <stdexcept>
@@ -93,7 +94,7 @@ namespace base
 			base::task::MutexGuard g{_lock};
 			if (_queue.empty())
 			{
-				throw std::runtime_error{"队列当前为空，无法退队"};
+				throw std::underflow_error{CODE_POS_STR + "队列当前为空，无法退队"};
 			}
 
 			T ret = _queue.front();
