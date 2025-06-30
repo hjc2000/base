@@ -24,15 +24,6 @@ namespace base
 		std::atomic_bool _disposed = false;
 
 		///
-		/// @brief 为 true 表示被冲洗了。
-		///
-		/// @note 被冲洗后入队会抛出异常。
-		///
-		/// @note 被冲洗后出队不会再被阻塞。
-		///
-		std::atomic_bool _flushed = false;
-
-		///
 		/// @brief 队列容量的上限。
 		///
 		int32_t _max = 0;
@@ -81,8 +72,6 @@ namespace base
 		///
 		/// @brief 释放
 		///
-		/// @note 会清空队列。
-		///
 		/// @note 会取消所有阻塞，并且不再具有阻塞能力。
 		///
 		void Dispose() override
@@ -94,7 +83,6 @@ namespace base
 
 			_disposed = true;
 
-			_queue.Clear();
 			_queue_consumed_signal.Dispose();
 			_queue_avaliable_signal.Dispose();
 		}
@@ -122,8 +110,7 @@ namespace base
 		///
 		/// @brief 退队。
 		///
-		/// @note 在 Dispose 或 Flush 或析构函数执行后，本方法会被无条件取消阻塞，此时如果队列为空，
-		/// 会抛出异常。
+		/// @note 在 Dispose 后，本方法会被无条件取消阻塞，此时如果队列为空，会抛出异常。
 		///
 		/// @return 退队的元素。
 		///
@@ -131,26 +118,13 @@ namespace base
 		{
 			while (true)
 			{
-				if (_disposed)
-				{
-					throw base::ObjectDisposedException{};
-				}
-
 				// 在持有互斥锁的条件下检查，避免误触，以及操作
 				{
 					base::task::MutexGuard g{_lock};
-					if (_queue.Count() > 0)
+					if (_disposed || _queue.Count() > 0)
 					{
 						T element = _queue.Dequeue();
 						_queue_consumed_signal.ReleaseAll();
-						return element;
-					}
-
-					// 执行到这里说明 Count == 0
-					if (_flushed)
-					{
-						// 冲洗后，要强行退队，即使队列为空，这是为了引发异常。
-						T element = _queue.Dequeue();
 						return element;
 					}
 				}
@@ -159,9 +133,17 @@ namespace base
 				{
 					_queue_avaliable_signal.Acquire();
 				}
+				catch (base::ObjectDisposedException const &e)
+				{
+					// 不处理，继续下一轮循环。
+				}
 				catch (std::exception const &e)
 				{
 					throw std::runtime_error{CODE_POS_STR + e.what()};
+				}
+				catch (...)
+				{
+					throw std::runtime_error{CODE_POS_STR + "未知异常。"};
 				}
 			}
 		}
@@ -175,39 +157,15 @@ namespace base
 		///
 		bool TryDequeue(T &out) override
 		{
-			while (true)
+			// 在持有互斥锁的条件下检查，避免误触，以及操作
+			base::task::MutexGuard g{_lock};
+			bool result = _queue.TryDequeue(out);
+			if (result)
 			{
-				if (_disposed)
-				{
-					return false;
-				}
-
-				// 在持有互斥锁的条件下检查，避免误触，以及操作
-				{
-					base::task::MutexGuard g{_lock};
-					if (_queue.Count() > 0)
-					{
-						bool result = _queue.TryDequeue(out);
-						_queue_consumed_signal.ReleaseAll();
-						return result;
-					}
-
-					// 执行到这里说明 Count == 0
-					if (_flushed)
-					{
-						return false;
-					}
-				}
-
-				try
-				{
-					_queue_avaliable_signal.Acquire();
-				}
-				catch (std::exception const &e)
-				{
-					throw std::runtime_error{CODE_POS_STR + e.what()};
-				}
+				_queue_consumed_signal.ReleaseAll();
 			}
+
+			return result;
 		}
 
 		///
@@ -225,11 +183,6 @@ namespace base
 				if (_disposed)
 				{
 					throw std::runtime_error{CODE_POS_STR + "队列已被释放，无法入队。"};
-				}
-
-				if (_flushed)
-				{
-					throw std::runtime_error{CODE_POS_STR + "队列已被冲洗，无法入队。"};
 				}
 
 				// 在持有互斥锁的条件下检查，避免误触，以及操作
@@ -259,42 +212,8 @@ namespace base
 		///
 		void Clear() override
 		{
-			if (_disposed)
-			{
-				throw std::runtime_error{CODE_POS_STR + "此对象已释放，不能再使用"};
-			}
-
 			_queue.Clear();
 			_queue_consumed_signal.ReleaseAll();
-		}
-
-		///
-		/// @brief 冲洗队列。
-		///
-		/// @note 冲洗后，再尝试入队会抛出异常。
-		///
-		/// @note 冲洗后，出队操作将不会被阻塞，即使队列中为空。
-		///
-		void Flush()
-		{
-			if (_disposed)
-			{
-				throw std::runtime_error{CODE_POS_STR + "此对象已释放，不能再使用"};
-			}
-
-			_flushed = true;
-			_queue_avaliable_signal.Dispose();
-			_queue_consumed_signal.Dispose();
-		}
-
-		///
-		/// @brief 检查队列是否已被冲洗。
-		///
-		/// @return
-		///
-		bool Flushed()
-		{
-			return _flushed;
 		}
 	};
 } // namespace base
