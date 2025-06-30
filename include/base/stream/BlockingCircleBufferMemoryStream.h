@@ -107,9 +107,8 @@ namespace base
 				{
 					_buffer_avaliable_signal.Acquire();
 				}
-				catch (std::exception const &e)
+				catch (...)
 				{
-					throw std::runtime_error{CODE_POS_STR + e.what()};
 				}
 			}
 		}
@@ -150,9 +149,8 @@ namespace base
 				{
 					_buffer_consumed_signal.Acquire();
 				}
-				catch (std::exception const &e)
+				catch (...)
 				{
-					throw std::runtime_error{CODE_POS_STR + e.what()};
 				}
 			}
 		}
