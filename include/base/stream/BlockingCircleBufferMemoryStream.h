@@ -92,6 +92,9 @@ namespace base
 					base::task::MutexGuard g{_lock};
 					if (_stream_closed || _mstream.Length() > 0)
 					{
+						// 流关闭后无条件允许读取，即使 _mstream 长度为 0, 此时本对象的 Read 方法
+						// 才允许返回 0, 并且由于写入已经禁止，_mstream 的长度将永远为 0, 于是
+						// 本方法将永远返回 0.
 						int64_t have_read = _mstream.Read(span);
 						_buffer_consumed_signal.ReleaseAll();
 						return have_read;
