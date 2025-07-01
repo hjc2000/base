@@ -3,124 +3,128 @@
 #include "base/math/Int64Fraction.h"
 #include "base/stream/ReadOnlySpan.h"
 
-namespace profidrive
+namespace base
 {
-	///
-	/// @brief profidrive 行规特定类型: X4.
-	///
-	///
-	class X4 final
+	namespace profidrive
 	{
-	private:
-		base::Int64Fraction _value;
-
 		///
-		/// @brief 系数。
+		/// @brief profidrive 行规特定类型: X4.
 		///
-		/// @return int32_t
 		///
-		int32_t Factor() const
+		class X4 final
 		{
-			return static_cast<int64_t>(1 << 28);
-		}
+		private:
+			base::Int64Fraction _value;
 
-	public:
-		/* #region 构造函数 */
-
-		X4() = default;
-
-		///
-		/// @brief 从 profinet 收到大端序的数据后原封不动地将字节序列传进来。
-		///
-		/// @param span
-		///
-		explicit X4(base::ReadOnlySpan const &span)
-		{
-			// 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
-			// 放大后截断为整型。
-			//
-			// 想要获得分数的实际值，就将这个整型除以 Factor.
-			int32_t x4 = base::big_endian_remote_converter.FromBytes<int32_t>(span);
-			_value = base::Int64Fraction{x4, Factor()};
-		}
-
-		///
-		/// @brief 通过实际的分数值构造行规特定数据类型。
-		///
-		/// @param value
-		///
-		explicit X4(base::Int64Fraction const &value)
-		{
-			_value = value;
-		}
-
-		/* #endregion */
-
-		base::Int64Fraction const &Value() const
-		{
-			return _value;
-		}
-
-		///
-		/// @brief 将本对象序列化为字节序列，可以被发送到 profinet.
-		///
-		/// @param span
-		///
-		void GetBytes(base::Span const &span) const
-		{
-			if (span.Size() < 4)
+			///
+			/// @brief 系数。
+			///
+			/// @return int32_t
+			///
+			int32_t Factor() const
 			{
-				throw std::invalid_argument{CODE_POS_STR + "传入的内存段过小。"};
+				return static_cast<int64_t>(1 << 28);
 			}
 
-			// 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
-			// 放大后截断为整型。
-			int32_t raw_value = static_cast<int32_t>(_value * Factor());
-			base::big_endian_remote_converter.GetBytes(raw_value, span);
-		}
+		public:
+			/* #region 构造函数 */
 
-		X4 operator+(X4 const &right_value) const
-		{
-			return profidrive::X4{_value + right_value._value};
-		}
+			X4() = default;
 
-		X4 operator-(X4 const &right_value) const
-		{
-			return profidrive::X4{_value - right_value._value};
-		}
+			///
+			/// @brief 从 profinet 收到大端序的数据后原封不动地将字节序列传进来。
+			///
+			/// @param span
+			///
+			explicit X4(base::ReadOnlySpan const &span)
+			{
+				// 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
+				// 放大后截断为整型。
+				//
+				// 想要获得分数的实际值，就将这个整型除以 Factor.
+				int32_t x4 = base::big_endian_remote_converter.FromBytes<int32_t>(span);
+				_value = base::Int64Fraction{x4, Factor()};
+			}
 
-		X4 operator*(X4 const &right_value) const
-		{
-			return profidrive::X4{_value * right_value._value};
-		}
+			///
+			/// @brief 通过实际的分数值构造行规特定数据类型。
+			///
+			/// @param value
+			///
+			explicit X4(base::Int64Fraction const &value)
+			{
+				_value = value;
+			}
 
-		X4 operator/(X4 const &right_value) const
-		{
-			return profidrive::X4{_value / right_value._value};
-		}
+			/* #endregion */
 
-		X4 &operator+=(X4 const &right_value)
-		{
-			_value += right_value._value;
-			return *this;
-		}
+			base::Int64Fraction const &Value() const
+			{
+				return _value;
+			}
 
-		X4 &operator-=(X4 const &right_value)
-		{
-			_value -= right_value._value;
-			return *this;
-		}
+			///
+			/// @brief 将本对象序列化为字节序列，可以被发送到 profinet.
+			///
+			/// @param span
+			///
+			void GetBytes(base::Span const &span) const
+			{
+				if (span.Size() < 4)
+				{
+					throw std::invalid_argument{CODE_POS_STR + "传入的内存段过小。"};
+				}
 
-		X4 &operator*=(X4 const &right_value)
-		{
-			_value *= right_value._value;
-			return *this;
-		}
+				// 行规特定数据类型用一个整型来储存它的值，这个整型值可以认为是将分数的实际值乘上 Factor
+				// 放大后截断为整型。
+				int32_t raw_value = static_cast<int32_t>(_value * Factor());
+				base::big_endian_remote_converter.GetBytes(raw_value, span);
+			}
 
-		X4 &operator/=(X4 const &right_value)
-		{
-			_value /= right_value._value;
-			return *this;
-		}
-	};
-} // namespace profidrive
+			X4 operator+(X4 const &right_value) const
+			{
+				return profidrive::X4{_value + right_value._value};
+			}
+
+			X4 operator-(X4 const &right_value) const
+			{
+				return profidrive::X4{_value - right_value._value};
+			}
+
+			X4 operator*(X4 const &right_value) const
+			{
+				return profidrive::X4{_value * right_value._value};
+			}
+
+			X4 operator/(X4 const &right_value) const
+			{
+				return profidrive::X4{_value / right_value._value};
+			}
+
+			X4 &operator+=(X4 const &right_value)
+			{
+				_value += right_value._value;
+				return *this;
+			}
+
+			X4 &operator-=(X4 const &right_value)
+			{
+				_value -= right_value._value;
+				return *this;
+			}
+
+			X4 &operator*=(X4 const &right_value)
+			{
+				_value *= right_value._value;
+				return *this;
+			}
+
+			X4 &operator/=(X4 const &right_value)
+			{
+				_value /= right_value._value;
+				return *this;
+			}
+		};
+
+	} // namespace profidrive
+} // namespace base
