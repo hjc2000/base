@@ -20,6 +20,11 @@ namespace base
 		public:
 			constexpr FaultSituation() = default;
 
+			///
+			/// @brief 最大的错误消息个数。由缓冲区大小决定。
+			///
+			/// @return
+			///
 			static constexpr int32_t MaxFaultMessageCount()
 			{
 				return _max_fault_message_count;
