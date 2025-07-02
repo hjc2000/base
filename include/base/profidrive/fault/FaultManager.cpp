@@ -6,7 +6,7 @@
 #include "base/profidrive/time.h"
 #include <cstdint>
 
-void prd::FaultManager::AddFaultMessage(uint16_t fault_number, uint16_t fault_value)
+void base::profidrive::FaultManager::AddFaultMessage(uint16_t fault_number, uint16_t fault_value)
 {
 	if (fault_number == 0)
 	{
@@ -50,7 +50,7 @@ void prd::FaultManager::AddFaultMessage(uint16_t fault_number, uint16_t fault_va
 									static_cast<uint32_t>(base::profidrive::fault_menu::get_fault_message(fault_number).FaultClass()));
 }
 
-void prd::FaultManager::AcknowledgeFaultSituation()
+void base::profidrive::FaultManager::AcknowledgeFaultSituation()
 {
 	/* overflow of current message counter? */
 	if (_fault_message_counter == 0xFFFFU)
@@ -77,4 +77,4 @@ void prd::FaultManager::AcknowledgeFaultSituation()
 	_fault_situation_queue.push_front(base::profidrive::FaultSituation{});
 }
 
-prd::FaultManager prd::fault_manager{};
+base::profidrive::FaultManager base::profidrive::fault_manager{};
