@@ -60,6 +60,28 @@ namespace base
 				return _fault_situation_queue.front();
 			}
 
+			void AddFaultSituationCounter()
+			{
+				if (_fault_situation_counter < UINT16_MAX)
+				{
+					_fault_situation_counter++;
+				}
+			}
+
+			void AddFaultMessageCounter()
+			{
+				if (_fault_message_counter == UINT16_MAX)
+				{
+					// 达到最大值了，再加 1 就要溢出变成 0 了，但是又不允许变成 0, 所以要
+					// 回绕到 1.
+					_fault_message_counter = 1;
+				}
+				else
+				{
+					_fault_message_counter++;
+				}
+			}
+
 		public:
 			FaultManager()
 			{

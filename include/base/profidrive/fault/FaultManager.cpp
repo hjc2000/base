@@ -18,7 +18,6 @@ void base::profidrive::FaultManager::AddFaultMessage(uint16_t fault_number, uint
 		return;
 	}
 
-	/* flag fault */
 	_fault_bit_set[fault_number - 1] = true;
 
 	{
@@ -29,22 +28,8 @@ void base::profidrive::FaultManager::AddFaultMessage(uint16_t fault_number, uint
 	}
 
 	base::profidrive::received_telegram3.Set_ZSW1_Fault(true);
-
-	/* no overflow for fault situation counter? */
-	if (_fault_situation_counter < 0xFFFFU)
-	{
-		_fault_situation_counter++;
-	}
-
-	/* overflow of current message counter? */
-	if (_fault_message_counter == 0xFFFFU)
-	{
-		/* set fault message counter to 1 (0 is incremented afterwards) */
-		_fault_message_counter = 0;
-	}
-
-	/* increment fault message counter */
-	_fault_message_counter++;
+	AddFaultSituationCounter();
+	AddFaultMessageCounter();
 
 	pn_diagnostic_channel_add_fault(fault_number,
 									static_cast<uint32_t>(base::profidrive::fault_menu::get_fault_message(fault_number).FaultClass()));
@@ -52,16 +37,7 @@ void base::profidrive::FaultManager::AddFaultMessage(uint16_t fault_number, uint
 
 void base::profidrive::FaultManager::AcknowledgeFaultSituation()
 {
-	/* overflow of current message counter? */
-	if (_fault_message_counter == 0xFFFFU)
-	{
-		/* set fault message counter to 1 (0 is incremented afterwards) */
-		_fault_message_counter = 0;
-	}
-
-	/* increment fault message counter */
-	_fault_message_counter++;
-
+	AddFaultMessageCounter();
 	_fault_bit_set.reset();
 	base::profidrive::received_telegram3.Set_ZSW1_Fault(false);
 
