@@ -28,7 +28,7 @@ namespace base
 			///
 			/// @brief 轴已使能，正在操作。
 			///
-			/// @note 博图中的 MC_Power 程序块的输入信号 Enable 输入 TRUE 时开始执行使能
+			/// @note 博图中的 MC_Power 程序块的 Enable 引脚输入 true 时开始执行使能
 			/// 轴的过程。
 			///
 			Operation,
