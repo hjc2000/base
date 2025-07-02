@@ -26,6 +26,11 @@ namespace base
 			///
 			std::deque<base::profidrive::FaultSituation> _fault_situation_queue{};
 
+			///
+			/// @brief 错误位集，每个位代表一个实际的错误，置为 1 表示该错误发生了，
+			/// 为 0 则表示还没发生。
+			///
+			///
 			std::bitset<128> _fault_bit_set{};
 
 			///
@@ -35,8 +40,6 @@ namespace base
 			/// 版本号。
 			///
 			/// @note 只能递增，不能递减。只能通过复位故障缓冲器来清 0.
-			///
-			/// @note fault message counter PNU944 (mandatory)
 			///
 			///
 			uint16_t _fault_message_counter = 0;
