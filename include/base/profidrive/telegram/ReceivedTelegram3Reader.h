@@ -112,5 +112,6 @@ namespace base
 			///
 			base::profidrive::ReceivedTelegram3 Read() const;
 		};
+
 	} // namespace profidrive
 } // namespace base
