@@ -71,5 +71,6 @@ namespace base
 			X2 = 123,
 			X4 = 124,
 		};
+
 	} // namespace profidrive
 } // namespace base
