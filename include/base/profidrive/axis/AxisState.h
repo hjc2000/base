@@ -49,6 +49,12 @@ namespace base
 
 namespace base
 {
+	///
+	/// @brief 将轴状态枚举转换为字符串。
+	///
+	/// @param state
+	/// @return
+	///
 	constexpr char const *to_string(base::profidrive::AxisState state) noexcept
 	{
 		switch (state)
