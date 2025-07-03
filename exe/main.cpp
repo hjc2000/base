@@ -2,6 +2,7 @@
 #include "base/container/CircleDQueue.h"
 #include "base/math/Fraction.h"
 #include "base/math/InertialElement.h"
+#include "base/math/Int64Fraction.h"
 #include "base/stream/AsyncStreamWriter.h"
 #include "base/stream/StdOutStream.h"
 #include "base/wrapper/number-wrapper.h"
@@ -58,10 +59,10 @@ int main()
 	}
 
 	{
-		base::InertialElement<base::Fraction> inertial_element{
-			base::Fraction{1},
-			base::Fraction{1, 100},
-			base::Fraction{1, 100000},
+		base::InertialElement<base::Int64Fraction> inertial_element{
+			base::Int64Fraction{1},
+			base::Int64Fraction{1, 100},
+			base::Int64Fraction{1, 100000},
 		};
 
 		std::cout << "Kx: " << inertial_element.Kx() << std::endl;
