@@ -42,9 +42,9 @@ int main()
 		std::cout << "Kx: " << inertial_element.Kx() << std::endl;
 		std::cout << "Ky: " << inertial_element.Ky() << std::endl;
 
-		for (int i = 0; i < 1000; i++)
+		for (int i = 0; i < 10000; i++)
 		{
-			std::cout << inertial_element.Input(100) << std::endl;
+			inertial_element.Input(100);
 		}
 
 		std::cout << base::floor(inertial_element.CurrentOutput()) << std::endl;
