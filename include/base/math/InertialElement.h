@@ -55,6 +55,8 @@ namespace base
 			_current_output = _ky * _current_output + _kx * x;
 
 			// 截断，保留整数倍的分辨率的部分，小于分辨率的丢弃。
+			//
+			// 注意，当 _resolution 很小时，_current_output / _resolution 很可能直接溢出。
 			_current_output = base::floor(_current_output / _resolution) * _resolution;
 			return _current_output;
 		}
