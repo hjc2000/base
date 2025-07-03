@@ -31,6 +31,7 @@ void base::Test_ChXFilter()
 	base::InertialElement<double> inertial_filter{
 		filter.TimeConstant(sapmle_interval),
 		sapmle_interval,
+		0.001,
 	};
 
 	for (int i = 0; i < 500; i++)

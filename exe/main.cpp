@@ -58,10 +58,14 @@ int main()
 	}
 
 	{
-		base::InertialElement<double> inertial_element{
-			100,
-			0.01,
+		base::InertialElement<base::Fraction> inertial_element{
+			base::Fraction{1},
+			base::Fraction{1, 100},
+			base::Fraction{1, 100000},
 		};
+
+		std::cout << "Kx: " << inertial_element.Kx() << std::endl;
+		std::cout << "Ky: " << inertial_element.Ky() << std::endl;
 
 		for (int i = 0; i < 1000; i++)
 		{

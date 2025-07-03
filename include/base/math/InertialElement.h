@@ -1,4 +1,5 @@
 #pragma once
+#include "base/math/math.h"
 
 namespace base
 {
@@ -15,63 +16,21 @@ namespace base
 		T _kx{};
 		T _ky{};
 		T _current_output{};
+		T _resolution{};
 
 	public:
-		/* #region 参数类 */
-
-		///
-		/// @brief 惯性时间常数
-		///
-		///
-		class TimeConstant
-		{
-		private:
-			T _value = 0;
-
-		public:
-			constexpr explicit TimeConstant(T value)
-			{
-				_value = value;
-			}
-
-			constexpr T Value() const
-			{
-				return _value;
-			}
-		};
-
-		///
-		/// @brief 采样周期
-		///
-		///
-		class SampleInterval
-		{
-		private:
-			T _value = 0;
-
-		public:
-			constexpr explicit SampleInterval(T value)
-			{
-				_value = value;
-			}
-
-			constexpr T Value() const
-			{
-				return _value;
-			}
-		};
-
-		/* #endregion */
-
 		///
 		/// @brief 一阶惯性环节。
 		///
 		/// @param inertial_time_constant 惯性时间常数。
 		/// @param sample_interval 采样周期。
+		/// @param resolution 计算的分辨率。
 		///
 		constexpr InertialElement(T inertial_time_constant,
-								  T sample_interval)
+								  T sample_interval,
+								  T resolution)
 		{
+			_resolution = resolution;
 			SetParameter(inertial_time_constant, sample_interval);
 		}
 
@@ -85,6 +44,9 @@ namespace base
 		constexpr T Input(T x)
 		{
 			_current_output = _ky * _current_output + _kx * x;
+
+			// 截断，保留整数倍的分辨率的部分，小于分辨率的丢弃。
+			_current_output = base::floor(_current_output / _resolution) * _resolution;
 			return _current_output;
 		}
 
@@ -167,6 +129,16 @@ namespace base
 			_sample_interval = sample_interval;
 			_kx = _sample_interval / (_inertial_time_constant + _sample_interval);
 			_ky = _inertial_time_constant / (_inertial_time_constant + _sample_interval);
+		}
+
+		T Kx() const
+		{
+			return _kx;
+		}
+
+		T Ky() const
+		{
+			return _ky;
 		}
 	};
 

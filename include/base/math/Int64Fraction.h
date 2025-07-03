@@ -538,7 +538,7 @@ namespace base
 	/// @param value
 	/// @return
 	///
-	inline base::Int64Fraction abs(base::Int64Fraction const &value)
+	constexpr base::Int64Fraction abs(base::Int64Fraction const &value)
 	{
 		return value.Abs();
 	}
@@ -550,7 +550,7 @@ namespace base
 	///
 	/// @return
 	///
-	inline int64_t floor(base::Int64Fraction const &value)
+	constexpr int64_t floor(base::Int64Fraction const &value)
 	{
 		return value.Floor();
 	}
@@ -562,7 +562,7 @@ namespace base
 	///
 	/// @return
 	///
-	inline int64_t ceil(base::Int64Fraction const &value)
+	constexpr int64_t ceil(base::Int64Fraction const &value)
 	{
 		return value.Ceil();
 	}
