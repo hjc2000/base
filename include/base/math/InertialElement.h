@@ -2,6 +2,8 @@
 #include "base/math/Fraction.h"
 #include "base/math/Int64Fraction.h"
 #include "base/math/math.h"
+#include "base/string/define.h"
+#include <stdexcept>
 
 namespace base
 {
@@ -32,6 +34,11 @@ namespace base
 								  T sample_interval,
 								  T resolution)
 		{
+			if (resolution == 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "分辨率不能是 0."};
+			}
+
 			_resolution = resolution;
 			SetParameter(inertial_time_constant, sample_interval);
 		}

@@ -1,27 +1,15 @@
-#include "base/Console.h"
-#include "base/container/CircleDQueue.h"
 #include "base/math/Fraction.h"
 #include "base/math/InertialElement.h"
-#include "base/math/Int64Fraction.h"
-#include "base/stream/AsyncStreamWriter.h"
-#include "base/stream/StdOutStream.h"
 #include "base/wrapper/number-wrapper.h"
 #include <cmath>
 #include <cstdlib>
 #include <iomanip>
 #include <iostream>
-#include <memory>
 #include <numbers>
 #include <stdlib.h>
-#include <string>
 
 int main()
 {
-	{
-		std::shared_ptr<base::AsyncStreamWriter> writer{new base::AsyncStreamWriter{1024, base::std_out_stream()}};
-		base::console.SetOutputWriter(writer);
-	}
-
 	{
 		base::Fraction f{base::Double{std::numbers::pi}};
 		constexpr int precision = 512;
@@ -45,24 +33,10 @@ int main()
 	}
 
 	{
-		base::CircleDQueue<int, 10> queue{};
-		queue.PushBack(0);
-		queue.PushBack(1);
-		queue.PushBack(2);
-		queue.PushFront(3);
-		queue.PushFront(4);
-		queue.PushFront(5);
-		for (auto &item : queue)
-		{
-			base::console.WriteLine(std::to_string(item));
-		}
-	}
-
-	{
-		base::InertialElement<base::Int64Fraction> inertial_element{
-			base::Int64Fraction{1},
-			base::Int64Fraction{1, 100},
-			base::Int64Fraction{1, 100000},
+		base::InertialElement<base::Fraction> inertial_element{
+			base::Fraction{1, static_cast<int64_t>(1e6)},
+			base::Fraction{1, static_cast<int64_t>(1e9)},
+			base::Fraction{1, static_cast<int64_t>(1e20)},
 		};
 
 		std::cout << "Kx: " << inertial_element.Kx() << std::endl;
@@ -72,5 +46,7 @@ int main()
 		{
 			std::cout << inertial_element.Input(100) << std::endl;
 		}
+
+		std::cout << base::floor(inertial_element.CurrentOutput()) << std::endl;
 	}
 }
