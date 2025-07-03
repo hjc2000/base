@@ -29,12 +29,12 @@ namespace base
 			T _value = 0;
 
 		public:
-			explicit TimeConstant(T value)
+			constexpr explicit TimeConstant(T value)
 			{
 				_value = value;
 			}
 
-			T Value() const
+			constexpr T Value() const
 			{
 				return _value;
 			}
@@ -50,12 +50,12 @@ namespace base
 			T _value = 0;
 
 		public:
-			explicit SampleInterval(T value)
+			constexpr explicit SampleInterval(T value)
 			{
 				_value = value;
 			}
 
-			T Value() const
+			constexpr T Value() const
 			{
 				return _value;
 			}
@@ -69,8 +69,8 @@ namespace base
 		/// @param inertial_time_constant 惯性时间常数。
 		/// @param sample_interval 采样周期。
 		///
-		InertialElement(base::InertialElement<T>::TimeConstant const &inertial_time_constant,
-						base::InertialElement<T>::SampleInterval const &sample_interval)
+		constexpr InertialElement(base::InertialElement<T>::TimeConstant const &inertial_time_constant,
+								  base::InertialElement<T>::SampleInterval const &sample_interval)
 		{
 			ChangeParameter(inertial_time_constant, sample_interval);
 		}
@@ -82,7 +82,7 @@ namespace base
 		///
 		/// @return
 		///
-		T Input(T x)
+		constexpr T Input(T x)
 		{
 			_current_output = _ky * _current_output + _kx * x;
 			return _current_output;
@@ -93,7 +93,7 @@ namespace base
 		///
 		/// @return
 		///
-		T CurrentOutput() const
+		constexpr T CurrentOutput() const
 		{
 			return _current_output;
 		}
@@ -105,7 +105,7 @@ namespace base
 		///
 		/// @param value
 		///
-		void SetCurrentOutput(T value)
+		constexpr void SetCurrentOutput(T value)
 		{
 			_current_output = value;
 		}
@@ -115,7 +115,7 @@ namespace base
 		///
 		/// @param inertial_time_constant
 		///
-		void ChangeParameter(base::InertialElement<T>::TimeConstant const &inertial_time_constant)
+		constexpr void ChangeParameter(base::InertialElement<T>::TimeConstant const &inertial_time_constant)
 		{
 			_inertial_time_constant = inertial_time_constant.Value();
 			_kx = _sample_interval / (_inertial_time_constant + _sample_interval);
@@ -127,7 +127,7 @@ namespace base
 		///
 		/// @param sample_interval
 		///
-		void ChangeParameter(base::InertialElement<T>::SampleInterval const &sample_interval)
+		constexpr void ChangeParameter(base::InertialElement<T>::SampleInterval const &sample_interval)
 		{
 			_sample_interval = sample_interval.Value();
 			_kx = _sample_interval / (_inertial_time_constant + _sample_interval);
@@ -140,8 +140,8 @@ namespace base
 		/// @param inertial_time_constant
 		/// @param sample_interval
 		///
-		void ChangeParameter(base::InertialElement<T>::TimeConstant const &inertial_time_constant,
-							 base::InertialElement<T>::SampleInterval const &sample_interval)
+		constexpr void ChangeParameter(base::InertialElement<T>::TimeConstant const &inertial_time_constant,
+									   base::InertialElement<T>::SampleInterval const &sample_interval)
 		{
 			_inertial_time_constant = inertial_time_constant.Value();
 			_sample_interval = sample_interval.Value();
