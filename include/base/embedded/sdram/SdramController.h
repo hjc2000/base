@@ -84,7 +84,7 @@ namespace base
 			///
 			/// @brief 控制器被打开后所使用的时序。
 			///
-			/// @return base::sdram::sdram_timing const&
+			/// @return
 			///
 			base::sdram::sdram_timing const &Timing() const
 			{
@@ -97,12 +97,13 @@ namespace base
 			/// @warning 注意，以实际的 SDRAM 芯片的大小为准。本控制器可能可以管理很大的区域，但是 SDRAM 芯片
 			/// 实际上没有这么大。
 			///
-			/// @return base::Span
+			/// @return
 			///
 			base::Span Span() const
 			{
 				return base::sdram::span(*_handle);
 			}
 		};
+
 	} // namespace sdram
 } // namespace base
