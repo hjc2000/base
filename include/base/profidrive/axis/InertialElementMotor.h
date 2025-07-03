@@ -6,6 +6,10 @@ namespace base
 {
 	namespace profidrive
 	{
+		///
+		/// @brief 通过惯性环节模拟的电机。
+		///
+		///
 		class InertialElementMotor
 		{
 		private:
@@ -15,8 +19,20 @@ namespace base
 				base::Int64Fraction{1, 100000},
 			};
 
+			base::Int64Fraction _input_speed{};
+
 		public:
 			constexpr InertialElementMotor() = default;
+
+			constexpr base::Int64Fraction InputSpeed() const
+			{
+				return _input_speed;
+			}
+
+			constexpr void SetInputSpeed(base::Int64Fraction const &value)
+			{
+				_input_speed = value;
+			}
 		};
 
 	} // namespace profidrive
