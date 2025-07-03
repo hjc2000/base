@@ -69,10 +69,10 @@ namespace base
 		/// @param inertial_time_constant 惯性时间常数。
 		/// @param sample_interval 采样周期。
 		///
-		constexpr InertialElement(base::InertialElement<T>::TimeConstant const &inertial_time_constant,
-								  base::InertialElement<T>::SampleInterval const &sample_interval)
+		constexpr InertialElement(T inertial_time_constant,
+								  T sample_interval)
 		{
-			ChangeParameter(inertial_time_constant, sample_interval);
+			SetParameter(inertial_time_constant, sample_interval);
 		}
 
 		///
@@ -111,25 +111,45 @@ namespace base
 		}
 
 		///
+		/// @brief 惯性时间常数。
+		///
+		/// @return
+		///
+		constexpr T InertialTimeConstant() const
+		{
+			return _inertial_time_constant;
+		}
+
+		///
 		/// @brief 更改惯性时间常数
 		///
-		/// @param inertial_time_constant
+		/// @param value
 		///
-		constexpr void ChangeParameter(base::InertialElement<T>::TimeConstant const &inertial_time_constant)
+		constexpr void SetInertialTimeConstant(T value)
 		{
-			_inertial_time_constant = inertial_time_constant.Value();
+			_inertial_time_constant = value;
 			_kx = _sample_interval / (_inertial_time_constant + _sample_interval);
 			_ky = _inertial_time_constant / (_inertial_time_constant + _sample_interval);
 		}
 
 		///
+		/// @brief 采样间隔。
+		///
+		/// @return
+		///
+		constexpr T SampleInterval() const
+		{
+			return _sample_interval;
+		}
+
+		///
 		/// @brief 更改采样周期
 		///
-		/// @param sample_interval
+		/// @param value
 		///
-		constexpr void ChangeParameter(base::InertialElement<T>::SampleInterval const &sample_interval)
+		constexpr void SetSampleInterval(T value)
 		{
-			_sample_interval = sample_interval.Value();
+			_sample_interval = value;
 			_kx = _sample_interval / (_inertial_time_constant + _sample_interval);
 			_ky = _inertial_time_constant / (_inertial_time_constant + _sample_interval);
 		}
@@ -140,11 +160,11 @@ namespace base
 		/// @param inertial_time_constant
 		/// @param sample_interval
 		///
-		constexpr void ChangeParameter(base::InertialElement<T>::TimeConstant const &inertial_time_constant,
-									   base::InertialElement<T>::SampleInterval const &sample_interval)
+		constexpr void SetParameter(T inertial_time_constant,
+									T sample_interval)
 		{
-			_inertial_time_constant = inertial_time_constant.Value();
-			_sample_interval = sample_interval.Value();
+			_inertial_time_constant = inertial_time_constant;
+			_sample_interval = sample_interval;
 			_kx = _sample_interval / (_inertial_time_constant + _sample_interval);
 			_ky = _inertial_time_constant / (_inertial_time_constant + _sample_interval);
 		}

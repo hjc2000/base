@@ -114,4 +114,5 @@ namespace base
 			return _current_value;
 		}
 	};
+
 } // namespace base

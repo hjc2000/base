@@ -1,10 +1,9 @@
 #include "base/Console.h"
 #include "base/container/CircleDQueue.h"
 #include "base/math/Fraction.h"
+#include "base/math/InertialElement.h"
 #include "base/stream/AsyncStreamWriter.h"
 #include "base/stream/StdOutStream.h"
-#include "base/task/delay.h"
-#include "base/task/ThreadPool.h"
 #include "base/wrapper/number-wrapper.h"
 #include <cmath>
 #include <cstdlib>
@@ -59,40 +58,14 @@ int main()
 	}
 
 	{
-		base::task::ThreadPool pool{10};
+		base::InertialElement<double> inertial_element{
+			100,
+			0.01,
+		};
 
-		std::shared_ptr<base::task::ITask> task1 = pool.Run(
-			[&]()
-			{
-				for (int i = 0; i < 10; i++)
-				{
-					base::console.WriteLine("task1");
-					base::task::Delay(std::chrono::milliseconds{1000});
-				}
-			});
-
-		std::shared_ptr<base::task::ITask> task2 = pool.Run(
-			[&]()
-			{
-				for (int i = 0; i < 10; i++)
-				{
-					base::console.WriteLine("task2");
-					base::task::Delay(std::chrono::milliseconds{1000});
-				}
-			});
-
-		std::shared_ptr<base::task::ITask> task3 = pool.Run(
-			[&]()
-			{
-				for (int i = 0; i < 10; i++)
-				{
-					base::console.WriteLine("task3");
-					base::task::Delay(std::chrono::milliseconds{1000});
-				}
-			});
-
-		task1->Wait();
-		task2->Wait();
-		task3->Wait();
+		for (int i = 0; i < 1000; i++)
+		{
+			std::cout << inertial_element.Input(100) << std::endl;
+		}
 	}
 }
