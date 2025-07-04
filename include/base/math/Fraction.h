@@ -260,13 +260,12 @@ namespace base
 				_num /= multiple;
 				_den /= multiple;
 				Simplify();
+				return;
 			}
-			else
-			{
-				*this /= resolution;
-				*this = Floor();
-				*this *= resolution;
-			}
+
+			*this /= resolution;
+			*this = Floor();
+			*this *= resolution;
 		}
 
 		/* #endregion */
