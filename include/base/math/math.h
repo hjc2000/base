@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <type_traits>
 
 namespace base
 {
@@ -35,6 +36,18 @@ namespace base
 		}
 
 		return value;
+	}
+
+	///
+	/// @brief 降低分辨率。
+	///
+	/// @return 降低分辨率后的值。
+	///
+	template <typename T>
+		requires(std::is_integral_v<T>)
+	constexpr T reduce_resolution(T value, T resolution)
+	{
+		return value / resolution * resolution;
 	}
 
 } // namespace base
