@@ -34,11 +34,10 @@ int main()
 	}
 
 	{
-		using T = base::Fraction;
-		base::InertialElement<T> inertial_element{
-			T{1, static_cast<int64_t>(1e6)},
-			T{1, static_cast<int64_t>(1e9)},
-			T{1, static_cast<int64_t>(1) << 32},
+		base::InertialElement<base::Int64Fraction> inertial_element{
+			base::Int64Fraction{1, static_cast<int64_t>(1e6)},
+			base::Int64Fraction{1, static_cast<int64_t>(1e9)},
+			base::Int64Fraction{1, static_cast<int64_t>(1) << 32},
 		};
 
 		std::cout << "Kx: " << inertial_element.Kx() << std::endl;

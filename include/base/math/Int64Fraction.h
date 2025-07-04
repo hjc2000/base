@@ -1,5 +1,6 @@
 #pragma once
 #include "base/math/math.h"
+#include "base/string/define.h"
 #include "base/string/ICanToString.h"
 #include "base/wrapper/number-wrapper.h"
 #include <cstdint>
@@ -271,6 +272,55 @@ namespace base
 		constexpr int64_t Mod() const
 		{
 			return _num % _den;
+		}
+
+		///
+		/// @brief 降低分辨率。
+		///
+		/// @param resolution
+		///
+		constexpr void ReduceResolution(base::Int64Fraction const &resolution)
+		{
+			if (resolution <= 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "分辨率不能 <= 0."};
+			}
+
+			Simplify();
+			if (_den >= resolution._den)
+			{
+				// 本分数的分母比 resolution 的分母大，说明本分数的分辨率大于 resolution.
+				//
+				// 首先需要减小本分数的分母，将分辨率降下来。分子分母同时除以一个系数进行截断，
+				// 从而降低分辨率。
+				int64_t multiple = _den / resolution._den;
+
+				// 首先将分辨率降低到 1 / resolution._den.
+				_num /= multiple;
+				_den /= multiple;
+
+				// 如果 resolution._num > 1, 则还不够，刚才的分辨率降低到 1 / resolution._den 了，
+				// 还要继续降低。
+				_num = _num / resolution._num * resolution._num;
+			}
+			else
+			{
+				// 本分数的分母比 resolution 的分母小。但这不能说明本分数的分辨率小于 resolution,
+				// 因为 resolution 的分子可能较大。
+				//
+				// 将 resolution 的分子分母同时除以一个系数，将 resolution 的分母调整到与本分数的分母
+				// 相等，然后看一下调整后的 resolution 的分子，如果不等于 0, 即没有被截断成 0, 说明原本的
+				// 分子确实较大，大到足以放大 resolution 的大分母所导致的小步长，导致步长很大，分辨率低。
+				// 这种情况下本分数的分辨率才是高于 resolution, 才需要降低分辨率。
+				int64_t multiple = resolution._den / _den;
+				int64_t div = resolution._num / multiple;
+				if (div != 0)
+				{
+					_num = _num / div * div;
+				}
+			}
+
+			Simplify();
 		}
 
 		/* #endregion */
@@ -565,6 +615,19 @@ namespace base
 	constexpr int64_t ceil(base::Int64Fraction const &value)
 	{
 		return value.Ceil();
+	}
+
+	///
+	/// @brief 降低分辨率。
+	///
+	/// @return 降低分辨率后的值。
+	///
+	constexpr base::Int64Fraction reduce_resolution(base::Int64Fraction const &value,
+													base::Int64Fraction const &resolution)
+	{
+		base::Int64Fraction copy = value;
+		copy.ReduceResolution(resolution);
+		return copy;
 	}
 
 } // namespace base
