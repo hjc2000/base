@@ -113,6 +113,35 @@ void base::Fraction::Simplify()
 	_den = scaled_den;
 }
 
+void base::Fraction::ReduceResolution(base::Fraction const &resolution)
+{
+	if (resolution <= 0)
+	{
+		throw std::invalid_argument{CODE_POS_STR + "分辨率不能 <= 0."};
+	}
+
+	Simplify();
+	if (resolution < 1)
+	{
+		if (_den <= resolution._den)
+		{
+			return;
+		}
+
+		base::BigInteger multiple = _den / resolution._den;
+		_num /= multiple;
+		_den /= multiple;
+
+		_num = _num / resolution._num * resolution._num;
+		Simplify();
+		return;
+	}
+
+	*this /= resolution;
+	*this = Floor();
+	*this *= resolution;
+}
+
 /* #region 四则运算符 */
 
 base::Fraction base::Fraction::operator+(Fraction const &value) const

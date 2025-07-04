@@ -1,6 +1,5 @@
 #pragma once
 #include "base/math/BigInteger.h"
-#include "base/string/define.h"
 #include "base/string/ICanToString.h"
 #include "base/wrapper/number-wrapper.h"
 #include <cstdint>
@@ -241,32 +240,7 @@ namespace base
 		///
 		/// @param resolution
 		///
-		void ReduceResolution(base::Fraction const &resolution)
-		{
-			if (resolution <= 0)
-			{
-				throw std::invalid_argument{CODE_POS_STR + "分辨率不能 <= 0."};
-			}
-
-			Simplify();
-			if (resolution < 1)
-			{
-				if (_den <= resolution._den)
-				{
-					return;
-				}
-
-				base::BigInteger multiple = _den / resolution._den;
-				_num /= multiple;
-				_den /= multiple;
-				Simplify();
-				return;
-			}
-
-			*this /= resolution;
-			*this = Floor();
-			*this *= resolution;
-		}
+		void ReduceResolution(base::Fraction const &resolution);
 
 		/* #endregion */
 
