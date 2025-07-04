@@ -248,15 +248,15 @@ namespace base
 				throw std::invalid_argument{CODE_POS_STR + "分辨率不能 <= 0."};
 			}
 
-			base::Fraction abs = Abs();
+			Simplify();
 			if (resolution < 1)
 			{
-				if (abs._den <= resolution._den)
+				if (_den <= resolution._den)
 				{
 					return;
 				}
 
-				base::BigInteger multiple = abs._den / resolution._den;
+				base::BigInteger multiple = _den / resolution._den;
 				_num /= multiple;
 				_den /= multiple;
 				Simplify();
