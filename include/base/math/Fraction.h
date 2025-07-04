@@ -251,6 +251,21 @@ namespace base
 			base::Fraction abs = Abs();
 			if (resolution < 1)
 			{
+				if (abs._den <= resolution._den)
+				{
+					return;
+				}
+
+				base::BigInteger multiple = abs._den / resolution._den;
+				_num /= multiple;
+				_den /= multiple;
+				Simplify();
+			}
+			else
+			{
+				*this /= resolution;
+				*this = Floor();
+				*this *= resolution;
 			}
 		}
 
@@ -436,6 +451,19 @@ namespace base
 	inline base::BigInteger ceil(base::Fraction const &value)
 	{
 		return value.Ceil();
+	}
+
+	///
+	/// @brief 降低分辨率。
+	///
+	/// @return 降低分辨率后的值。
+	///
+	inline base::Fraction reduce_resolution(base::Fraction const &value,
+											base::Fraction const &resolution)
+	{
+		base::Fraction copy = value;
+		copy.ReduceResolution(resolution);
+		return copy;
 	}
 
 } // namespace base

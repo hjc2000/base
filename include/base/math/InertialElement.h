@@ -53,18 +53,7 @@ namespace base
 		constexpr T Input(T x)
 		{
 			_current_output = _ky * _current_output + _kx * x;
-
-			if (_resolution < 1)
-			{
-				// 截断，保留整数倍的分辨率的部分，小于分辨率的丢弃。
-				_current_output = base::floor(_current_output / _resolution) * _resolution;
-			}
-			else
-			{
-				// 截断，保留整数倍的分辨率的部分，小于分辨率的丢弃。
-				_current_output = base::floor(_current_output / _resolution) * _resolution;
-			}
-
+			_current_output = base::reduce_resolution(_current_output, _resolution);
 			return _current_output;
 		}
 
