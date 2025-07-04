@@ -64,6 +64,7 @@ namespace base
 			else
 			{
 				SetDen(den);
+				Simplify();
 			}
 		}
 
