@@ -1,5 +1,6 @@
 #include "base/math/Fraction.h"
 #include "base/math/InertialElement.h"
+#include "base/math/Int64Fraction.h"
 #include "base/wrapper/number-wrapper.h"
 #include <cmath>
 #include <cstdlib>
@@ -33,10 +34,11 @@ int main()
 	}
 
 	{
-		base::InertialElement<base::Fraction> inertial_element{
-			base::Fraction{1, static_cast<int64_t>(1e6)},
-			base::Fraction{1, static_cast<int64_t>(1e9)},
-			base::Fraction{1, static_cast<int64_t>(1e20)},
+		using T = base::Fraction;
+		base::InertialElement<T> inertial_element{
+			T{1, static_cast<int64_t>(1e6)},
+			T{1, static_cast<int64_t>(1e9)},
+			T{1, static_cast<int64_t>(1) << 32},
 		};
 
 		std::cout << "Kx: " << inertial_element.Kx() << std::endl;
