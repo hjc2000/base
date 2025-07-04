@@ -52,12 +52,19 @@ namespace base
 		///
 		constexpr T Input(T x)
 		{
-			T next_output = _ky * _current_output + _kx * x;
-			T delta = next_output - _current_output;
+			_current_output = _ky * _current_output + _kx * x;
 
-			// 截断，保留整数倍的分辨率的部分，小于分辨率的丢弃。
-			delta = base::floor(delta / _resolution) * _resolution;
-			_current_output += delta;
+			if (_resolution < 1)
+			{
+				// 截断，保留整数倍的分辨率的部分，小于分辨率的丢弃。
+				_current_output = base::floor(_current_output / _resolution) * _resolution;
+			}
+			else
+			{
+				// 截断，保留整数倍的分辨率的部分，小于分辨率的丢弃。
+				_current_output = base::floor(_current_output / _resolution) * _resolution;
+			}
+
 			return _current_output;
 		}
 
