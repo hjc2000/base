@@ -50,4 +50,16 @@ namespace base
 		return value / resolution * resolution;
 	}
 
+	///
+	/// @brief 降低分辨率。
+	///
+	/// @return 降低分辨率后的值。
+	///
+	template <typename T>
+		requires(std::is_floating_point_v<T>)
+	constexpr T reduce_resolution(T value, T resolution)
+	{
+		return base::floor(value / resolution) * resolution;
+	}
+
 } // namespace base
