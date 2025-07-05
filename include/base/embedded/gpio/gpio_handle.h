@@ -83,12 +83,12 @@ namespace base
 		/// @brief 初始化为复用功能模式。
 		///
 		/// @param h
-		/// @param af
+		/// @param alternate_function_index 复用功能的索引。
 		/// @param pull_mode
 		/// @param drive_mode
 		///
 		void initialize_as_alternate_function_mode(base::gpio::gpio_pin_handle &h,
-												   base::gpio::AlternateFunction af,
+												   uint32_t alternate_function_index,
 												   base::gpio::PullMode pull_mode,
 												   base::gpio::DriveMode drive_mode);
 

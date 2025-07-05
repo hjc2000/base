@@ -139,29 +139,6 @@ namespace base
 			OpenDrain,
 		};
 
-		///
-		/// @brief 引脚复用功能枚举。
-		///
-		///
-		enum class AlternateFunction
-		{
-			Uart1,
-			Uart2,
-			Uart3,
-
-			Spi1,
-			Spi2,
-			Spi3,
-
-			Sdram1,
-
-			NandFlash1,
-
-			Timer1,
-			Timer2,
-			Timer3,
-		};
-
 	} // namespace gpio
 
 	/* #region to_string */

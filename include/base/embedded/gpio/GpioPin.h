@@ -91,16 +91,16 @@ namespace base
 			///
 			/// @brief 初始化为复用功能模式。
 			///
-			/// @param af
+			/// @param alternate_function_index
 			/// @param pull_mode
 			/// @param drive_mode
 			///
-			void InitializeAsAlternateFunctionMode(base::gpio::AlternateFunction af,
+			void InitializeAsAlternateFunctionMode(uint32_t alternate_function_index,
 												   base::gpio::PullMode pull_mode,
 												   base::gpio::DriveMode drive_mode)
 			{
 				base::gpio::initialize_as_alternate_function_mode(*_handle,
-																  af,
+																  alternate_function_index,
 																  pull_mode,
 																  drive_mode);
 			}
