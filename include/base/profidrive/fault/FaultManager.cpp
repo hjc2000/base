@@ -22,7 +22,7 @@ void base::profidrive::FaultManager::AddFaultMessage(uint16_t fault_number, uint
 
 	{
 		base::profidrive::FaultMessage fault_message{base::profidrive::fault_menu::get_fault_message(fault_number)};
-		fault_message.SetFaultTime(profidrive_time_in_seconds());
+		fault_message.SetFaultTime(base::profidrive::time_in_seconds());
 		fault_message.SetFaultValue(fault_value);
 		CurrentFaultSituation().AddFaultMessage(fault_message);
 	}
