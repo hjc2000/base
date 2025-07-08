@@ -1,4 +1,6 @@
 #pragma once
+#include "base/math/Fraction.h"
+#include "base/math/Int64Fraction.h"
 #include "base/math/math.h"
 #include <cstdlib>
 
