@@ -11,7 +11,7 @@ namespace base
 	{
 	public:
 		///
-		/// @brief 主动释放对象，让对象不再能够工作。
+		/// @brief 处置对象，让对象准备好结束生命周期。类似于进入 “准备后事” 的状态。
 		///
 		///
 		virtual void Dispose() = 0;
