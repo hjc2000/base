@@ -153,24 +153,6 @@ namespace base
 		IMPLEMENTED
 		uint32_t frames_baud_count(base::serial::serial_handle &h, uint32_t frame_count);
 
-		///
-		/// @brief 检查串口能否读。
-		///
-		/// @param h
-		/// @return true
-		/// @return false
-		///
-		bool can_read(base::serial::serial_handle &h);
-
-		///
-		/// @brief 检查串口能否写。
-		///
-		/// @param h
-		/// @return true
-		/// @return false
-		///
-		bool can_write(base::serial::serial_handle &h);
-
 		/* #endregion */
 
 		///

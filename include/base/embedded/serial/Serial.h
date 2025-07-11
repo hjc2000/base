@@ -2,6 +2,7 @@
 #include "base/stream/Stream.h"
 #include "base/string/define.h"
 #include "serial_handle.h"
+#include "serial_parameter.h"
 #include <stdexcept>
 #include <string>
 
@@ -170,7 +171,17 @@ namespace base
 			///
 			virtual bool CanRead() const override
 			{
-				return base::serial::can_read(*_handle);
+				if (Direction() == base::serial::Direction::RX)
+				{
+					return true;
+				}
+
+				if (Direction() == base::serial::Direction::RX_TX)
+				{
+					return true;
+				}
+
+				return false;
 			}
 
 			///
@@ -181,7 +192,17 @@ namespace base
 			///
 			virtual bool CanWrite() const override
 			{
-				return base::serial::can_write(*_handle);
+				if (Direction() == base::serial::Direction::TX)
+				{
+					return true;
+				}
+
+				if (Direction() == base::serial::Direction::RX_TX)
+				{
+					return true;
+				}
+
+				return false;
 			}
 
 			///
