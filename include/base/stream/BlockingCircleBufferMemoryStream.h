@@ -194,5 +194,28 @@ namespace base
 		}
 
 		/* #endregion */
+
+		///
+		/// @brief 返回内部循环缓冲区的大小，也是此流所能达到的最大长度。
+		///
+		/// @return
+		///
+		int32_t BufferSize() const
+		{
+			base::task::MutexGuard g{_lock};
+			return _mstream.BufferSize();
+		}
+
+		///
+		/// @brief 本流内部的缓冲区剩余空间。单位：字节。
+		///
+		/// @return
+		///
+		int32_t AvailableToWrite() const
+		{
+			base::task::MutexGuard g{_lock};
+			return _mstream.AvailableToWrite();
+		}
 	};
+
 } // namespace base
