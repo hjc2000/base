@@ -1,5 +1,6 @@
 #pragma once
 #include "base/define.h"
+#include "base/embedded/serial/SerialPortInfomation.h"
 #include "base/stream/Span.h"
 #include "serial_parameter.h"
 #include <cstdint>
@@ -19,6 +20,13 @@ namespace base
 		/// @return
 		///
 		std::vector<std::string> scan_serials();
+
+		///
+		/// @brief 扫描可用的串口，获取详细信息。
+		///
+		/// @return
+		///
+		std::vector<base::serial::SerialPortInfomation> scan_serial_ports_for_details();
 
 		/* #region open */
 
