@@ -26,7 +26,7 @@ namespace base
 		///
 		/// @return
 		///
-		std::vector<base::serial::SerialPortInfomation> scan_serial_ports_for_details();
+		std::vector<base::serial::SerialPortInfomation> scan_serials_for_details();
 
 		/* #region open */
 
