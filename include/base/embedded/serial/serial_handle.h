@@ -16,7 +16,7 @@ namespace base
 		///
 		/// @brief 扫描可用的串口。
 		///
-		/// @return std::vector<std::string>
+		/// @return
 		///
 		std::vector<std::string> scan_serials();
 
@@ -28,7 +28,7 @@ namespace base
 		/// @param name 串口名称。
 		///		@note 通用操作系统中使用这种方式。
 		///
-		/// @return std::shared_ptr<base::serial::serial_handle>
+		/// @return
 		///
 		std::shared_ptr<base::serial::serial_handle> open(std::string const &name);
 
@@ -38,7 +38,7 @@ namespace base
 		/// @param id 串口 ID.
 		/// 	@note 单片机中使用这种方式。例如想要打开 UART1 就传入 1.
 		///
-		/// @return std::shared_ptr<base::serial::serial_handle>
+		/// @return
 		///
 		std::shared_ptr<base::serial::serial_handle> open(uint32_t id);
 
@@ -91,7 +91,7 @@ namespace base
 		/// @brief 获取串口名称。
 		///
 		/// @param h
-		/// @return std::string
+		/// @return
 		///
 		std::string name(base::serial::serial_handle &h);
 
@@ -99,7 +99,7 @@ namespace base
 		/// @brief 数据传输方向。
 		///
 		/// @param h
-		/// @return base::serial::Direction
+		/// @return
 		///
 		base::serial::Direction direction(base::serial::serial_handle &h);
 
@@ -107,7 +107,7 @@ namespace base
 		/// @brief 波特率。
 		///
 		/// @param h
-		/// @return uint32_t
+		/// @return
 		///
 		uint32_t baud_rate(base::serial::serial_handle &h);
 
@@ -115,7 +115,7 @@ namespace base
 		/// @brief 数据位的个数。
 		///
 		/// @param h
-		/// @return uint8_t
+		/// @return
 		///
 		uint8_t data_bits(base::serial::serial_handle &h);
 
@@ -123,7 +123,7 @@ namespace base
 		/// @brief 校验位。
 		///
 		/// @param h
-		/// @return base::serial::Parity
+		/// @return
 		///
 		base::serial::Parity parity(base::serial::serial_handle &h);
 
@@ -131,7 +131,7 @@ namespace base
 		/// @brief 停止位个数。
 		///
 		/// @param h
-		/// @return base::serial::StopBits
+		/// @return
 		///
 		base::serial::StopBits stop_bits(base::serial::serial_handle &h);
 
@@ -139,7 +139,7 @@ namespace base
 		/// @brief 硬件流控。
 		///
 		/// @param h
-		/// @return base::serial::HardwareFlowControl
+		/// @return
 		///
 		base::serial::HardwareFlowControl hardware_flow_control(base::serial::serial_handle &h);
 
@@ -148,7 +148,7 @@ namespace base
 		///
 		/// @param h
 		/// @param frame_count
-		/// @return uint32_t
+		/// @return
 		///
 		IMPLEMENTED
 		uint32_t frames_baud_count(base::serial::serial_handle &h, uint32_t frame_count);
@@ -161,7 +161,7 @@ namespace base
 		/// @param h
 		/// @param span
 		///
-		/// @return int32_t 成功读取的字节数。永远不应该返回 0. 应该将本函数实现为等同 Stream
+		/// @return 成功读取的字节数。永远不应该返回 0. 应该将本函数实现为等同 Stream
 		/// 的 Read 方法。
 		///
 		int32_t read(base::serial::serial_handle &h, base::Span const &span);
