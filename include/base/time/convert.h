@@ -1,4 +1,6 @@
 #pragma once
+#include "base/time/TimePointSinceEpoch.h"
+#include "base/time/TimeSpan.h"
 #include "base/time/UtcHourOffset.h"
 #include <chrono>
 #include <filesystem>
@@ -8,8 +10,6 @@
 namespace base
 {
 	/* #region 类型别名 */
-	using local_days_duration_type = decltype(std::chrono::local_days{}.time_since_epoch());
-
 	using ns_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>;
 	using us_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds>;
 	using ms_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
@@ -21,8 +21,6 @@ namespace base
 	using ms_zoned_time = std::chrono::zoned_time<std::chrono::milliseconds>;
 	using s_zoned_time = std::chrono::zoned_time<std::chrono::seconds>;
 	/* #endregion */
-
-	class TimePointSinceEpoch;
 
 #if HAS_THREAD
 
@@ -50,7 +48,7 @@ namespace base
 	///
 	/// @param value
 	///
-	/// @return base::ns_zoned_time
+	/// @return
 	///
 	template <typename ReturnType>
 		requires(std::is_same_v<ReturnType, base::ns_zoned_time>)
@@ -66,10 +64,17 @@ namespace base
 	/// @param offset 你所在的区域的时间相对于 UTC 的偏移量。
 	/// @param value 被转换的时间点。
 	///
-	/// @return base::ns_zoned_time
+	/// @return
 	///
-	base::ns_zoned_time to_ns_zoned_time(base::UtcHourOffset const &offset,
-										 base::TimePointSinceEpoch const &value);
+	template <typename ReturnType>
+		requires(std::is_same_v<ReturnType, base::ns_zoned_time>)
+	constexpr ReturnType Convert(base::UtcHourOffset const &offset,
+								 base::TimePointSinceEpoch const &value)
+	{
+		base::TimePointSinceEpoch utc8 = value;
+		utc8 += offset.Value() * base::TimeSpan{std::chrono::seconds{60 * 60}};
+		return Convert<base::ns_zoned_time>(utc8);
+	}
 
 	///
 	/// @brief 将 value 转换为 UTC + 0 区域时间。
