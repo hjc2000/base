@@ -1,6 +1,5 @@
 #pragma once
 #include "base/string/define.h"
-#include <bit>
 #include <cstdint>
 #include <cstring>
 #include <stdexcept>
@@ -8,7 +7,8 @@
 
 namespace base
 {
-	constexpr int32_t memcmp(void const *a, void const *b, int32_t size)
+	template <typename T>
+	constexpr int32_t memcmp(T const *a, T const *b, int32_t size)
 	{
 		if (size < 0)
 		{
@@ -30,13 +30,10 @@ namespace base
 			return 0;
 		}
 
-		uint8_t const *bufffer_a = std::bit_cast<uint8_t const *>(a);
-		uint8_t const *bufffer_b = std::bit_cast<uint8_t const *>(b);
-
 		for (int32_t i = 0; i < size; i++)
 		{
-			int32_t value_a = bufffer_a[i];
-			int32_t value_b = bufffer_b[i];
+			int32_t value_a = a[i];
+			int32_t value_b = b[i];
 
 			if (value_a != value_b)
 			{

@@ -1,6 +1,7 @@
 #include "base/math/Fraction.h"
 #include "base/math/InertialElement.h"
 #include "base/math/Int64Fraction.h"
+#include "base/stream/memcmp.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/wrapper/number-wrapper.h"
 #include <cmath>
@@ -60,6 +61,8 @@ int main()
 		base::ReadOnlySpan span_a{buffer_a, sizeof(buffer_a)};
 		base::ReadOnlySpan span_b{buffer_b, sizeof(buffer_b)};
 		bool compare_result = span_a < span_b;
+		constexpr int32_t result = base::memcmp(buffer_a, buffer_b, 10);
 		std::cout << compare_result << std::endl;
+		std::cout << result << std::endl;
 	}
 }
