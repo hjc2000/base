@@ -24,7 +24,7 @@ namespace base
 		int32_t _size = 0;
 
 	public:
-		/* #region 生命周期 */
+		/* #region 构造函数 */
 
 		///
 		/// @brief 无参构造函数。引用一段空内存。
@@ -100,7 +100,16 @@ namespace base
 		///
 		/// @param span
 		///
-		ReadOnlySpan(base::ReadOnlyArraySpan<uint8_t> const &span);
+		ReadOnlySpan(base::ReadOnlyArraySpan<uint8_t> const &span)
+		{
+			_buffer = span.Buffer();
+			_size = span.Count();
+
+			if (_buffer == nullptr)
+			{
+				_size = 0;
+			}
+		}
 
 		///
 		/// @brief 通过一个可读可写的 Span 构造只读的 ReadOnlySpan.
@@ -159,14 +168,20 @@ namespace base
 		///
 		/// @return uint8_t const*
 		///
-		uint8_t const *Buffer() const;
+		uint8_t const *Buffer() const
+		{
+			return _buffer;
+		}
 
 		///
 		/// @brief 所引用的内存大小。
 		///
 		/// @return int32_t
 		///
-		int32_t Size() const;
+		int32_t Size() const
+		{
+			return _size;
+		}
 
 		///
 		/// @brief 获取非 const 迭代器。
@@ -216,7 +231,18 @@ namespace base
 		///
 		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t IndexOf(uint8_t match) const;
+		int32_t IndexOf(uint8_t match) const
+		{
+			for (int32_t i = 0; i < _size; i++)
+			{
+				if (_buffer[i] == match)
+				{
+					return i;
+				}
+			}
+
+			return -1;
+		}
 
 		///
 		/// @brief 从本内存段查找匹配项所在的索引。
@@ -226,7 +252,26 @@ namespace base
 		///
 		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t IndexOf(int32_t start, uint8_t match) const;
+		int32_t IndexOf(int32_t start, uint8_t match) const
+		{
+			if (start < 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "start 不能小于 0."};
+			}
+
+			if (start >= Size())
+			{
+				throw std::invalid_argument{CODE_POS_STR + "start 索引超出边界，大于 Size."};
+			}
+
+			int32_t result = Slice(base::Range{start, _size}).IndexOf(match);
+			if (result < 0)
+			{
+				return result;
+			}
+
+			return start + result;
+		}
 
 		///
 		/// @brief 从本内存段查找匹配项所在的索引。
@@ -235,7 +280,40 @@ namespace base
 		///
 		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t IndexOf(base::ReadOnlySpan const &match) const;
+		int32_t IndexOf(base::ReadOnlySpan const &match) const
+		{
+			if (match.Size() == 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "match 的长度不能是 0."};
+			}
+
+			if (Size() < match.Size())
+			{
+				// 本内存段的大小还没 match 的大，不可能匹配。
+				return -1;
+			}
+
+			uint8_t const first_byte_of_match = match[0];
+			for (int32_t i = 0; i < Size(); i++)
+			{
+				if (i + match.Size() > Size())
+				{
+					// 剩下的未匹配的部分已经没有 match 的长的，不可能匹配了。
+					return -1;
+				}
+
+				if (_buffer[i] == first_byte_of_match)
+				{
+					// 匹配到第 1 个字符了。
+					if (Slice(i, match.Size()) == match)
+					{
+						return i;
+					}
+				}
+			}
+
+			return -1;
+		}
 
 		///
 		/// @brief 从本内存段查找匹配项所在的索引。
@@ -245,7 +323,27 @@ namespace base
 		///
 		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t IndexOf(int32_t start, base::ReadOnlySpan const &match) const;
+		int32_t IndexOf(int32_t start, base::ReadOnlySpan const &match) const
+		{
+			if (start < 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "start 不能小于 0."};
+			}
+
+			if (start >= Size())
+			{
+				throw std::invalid_argument{CODE_POS_STR + "start 索引超出边界，大于 Size."};
+			}
+
+			int32_t result = Slice(base::Range{start, _size}).IndexOf(match);
+			if (result < 0)
+			{
+				return result;
+			}
+
+			return start + result;
+		}
+
 		/* #endregion */
 
 		/* #region LastIndexOf */
@@ -298,7 +396,15 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool StartWith(uint8_t match);
+		bool StartWith(uint8_t match)
+		{
+			if (Size() == 0)
+			{
+				return false;
+			}
+
+			return _buffer[0] == match;
+		}
 
 		///
 		/// @brief 检查本内存段是否以 match 开头。
@@ -307,7 +413,15 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool StartWith(base::ReadOnlySpan const &match);
+		bool StartWith(base::ReadOnlySpan const &match)
+		{
+			if (Size() < match.Size())
+			{
+				return false;
+			}
+
+			return Slice(base::Range{0, match.Size()}) == match;
+		}
 
 		///
 		/// @brief 检查本内存段是否以 match 结尾。
@@ -316,7 +430,15 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool EndWith(uint8_t match);
+		bool EndWith(uint8_t match)
+		{
+			if (Size() == 0)
+			{
+				return false;
+			}
+
+			return _buffer[_size - 1] == match;
+		}
 
 		///
 		/// @brief 检查本内存段是否以 match 结尾。
@@ -325,7 +447,15 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool EndWith(base::ReadOnlySpan const &match);
+		bool EndWith(base::ReadOnlySpan const &match)
+		{
+			if (Size() < match.Size())
+			{
+				return false;
+			}
+
+			return Slice(base::Range{_size - match.Size(), _size}) == match;
+		}
 
 		/* #endregion */
 
