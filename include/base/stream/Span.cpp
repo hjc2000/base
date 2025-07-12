@@ -4,64 +4,15 @@
 
 /* #region 生命周期 */
 
-base::Span::Span(uint8_t *buffer, int32_t size)
-{
-	_buffer = buffer;
-	_size = size;
-
-	if (_buffer == nullptr)
-	{
-		_size = 0;
-	}
-}
-
-base::Span::Span(char *str)
-{
-	int32_t white_char_index = 0;
-	while (true)
-	{
-		if (str[white_char_index] == '\0')
-		{
-			break;
-		}
-
-		white_char_index++;
-	}
-
-	_buffer = reinterpret_cast<uint8_t *>(str);
-	_size = white_char_index;
-}
-
 base::Span::Span(base::String &str)
 {
 	base::Span span = str.Span();
 	*this = span;
 }
 
-base::Span::Span(base::ArraySpan<uint8_t> const &span)
-{
-	_buffer = span.Buffer();
-	_size = span.Count();
-
-	if (_buffer == nullptr)
-	{
-		_size = 0;
-	}
-}
-
 /* #endregion */
 
 /* #region 索引器 */
-
-uint8_t &base::Span::operator[](int32_t index) const
-{
-	if (index < 0 || index >= _size)
-	{
-		throw std::out_of_range{CODE_POS_STR + "索引超出范围"};
-	}
-
-	return _buffer[index];
-}
 
 base::Span base::Span::operator[](base::Range const &range) const
 {
@@ -69,21 +20,6 @@ base::Span base::Span::operator[](base::Range const &range) const
 }
 
 /* #endregion */
-
-uint8_t *base::Span::Buffer() const
-{
-	return _buffer;
-}
-
-int32_t base::Span::Size() const
-{
-	return _size;
-}
-
-void base::Span::Reverse() const
-{
-	std::reverse(_buffer, _buffer + _size);
-}
 
 std::shared_ptr<base::IEnumerator<uint8_t>> base::Span::GetEnumerator()
 {
@@ -132,25 +68,6 @@ std::shared_ptr<base::IEnumerator<uint8_t>> base::Span::GetEnumerator()
 
 	return std::shared_ptr<IEnumerator<uint8_t>>{new Enumerator{this}};
 }
-
-/* #region Slice */
-
-base::Span base::Span::Slice(int32_t start, int32_t size) const
-{
-	if (start + size > _size)
-	{
-		throw std::out_of_range{CODE_POS_STR + "切片超出范围"};
-	}
-
-	return base::Span{_buffer + start, size};
-}
-
-base::Span base::Span::Slice(base::Range const &range) const
-{
-	return Slice(range.Begin(), range.Size());
-}
-
-/* #endregion */
 
 /* #region CopyFrom */
 

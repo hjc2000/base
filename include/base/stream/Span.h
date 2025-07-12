@@ -3,6 +3,7 @@
 #include "base/container/ArraySpan.h"
 #include "base/container/iterator/IEnumerable.h"
 #include "base/container/Range.h"
+#include <bit>
 #include <cstdint>
 
 namespace base
@@ -33,7 +34,7 @@ namespace base
 		///
 		/// @note 可以通过 Size 属性判断本对象是否引用到了有效的内存。
 		///
-		Span() = default;
+		constexpr Span() = default;
 
 		///
 		/// @brief 引用 buffer 指向的内存。在本对象的生命周期内，buffer 指向的内存必须始终存活。
@@ -41,14 +42,38 @@ namespace base
 		/// @param buffer 要引用的内存。
 		/// @param size buffer 的大小。
 		///
-		Span(uint8_t *buffer, int32_t size);
+		constexpr Span(uint8_t *buffer, int32_t size)
+		{
+			_buffer = buffer;
+			_size = size;
+
+			if (_buffer == nullptr)
+			{
+				_size = 0;
+			}
+		}
 
 		///
 		/// @brief 引用字符串的内存段。不包括结尾的空字符。
 		///
 		/// @param str
 		///
-		Span(char *str);
+		constexpr Span(char *str)
+		{
+			int32_t white_char_index = 0;
+			while (true)
+			{
+				if (str[white_char_index] == '\0')
+				{
+					break;
+				}
+
+				white_char_index++;
+			}
+
+			_buffer = std::bit_cast<uint8_t *>(str);
+			_size = white_char_index;
+		}
 
 		///
 		/// @brief 引用字符串的内存段。不包括结尾的空字符。
@@ -62,7 +87,16 @@ namespace base
 		///
 		/// @param span
 		///
-		Span(base::ArraySpan<uint8_t> const &span);
+		constexpr Span(base::ArraySpan<uint8_t> const &span)
+		{
+			_buffer = span.Buffer();
+			_size = span.Count();
+
+			if (_buffer == nullptr)
+			{
+				_size = 0;
+			}
+		}
 
 		///
 		/// @brief 从 base::Array<uint8_t, TCount> 构造，引用它所引用的内存。
@@ -71,12 +105,10 @@ namespace base
 		/// @param array
 		///
 		template <int32_t TCount>
-		Span(base::Array<uint8_t, TCount> &array)
+		constexpr Span(base::Array<uint8_t, TCount> &array)
 			: base::Span(array.Span())
 		{
 		}
-
-		virtual ~Span() = default;
 
 		/* #endregion */
 
@@ -88,7 +120,15 @@ namespace base
 		/// @param index
 		/// @return uint8_t&
 		///
-		uint8_t &operator[](int32_t index) const;
+		constexpr uint8_t &operator[](int32_t index) const
+		{
+			if (index < 0 || index >= _size)
+			{
+				throw std::out_of_range{CODE_POS_STR + "索引超出范围"};
+			}
+
+			return _buffer[index];
+		}
 
 		///
 		/// @brief 获得指定范围的切片。
@@ -97,6 +137,7 @@ namespace base
 		/// @return base::Span
 		///
 		base::Span operator[](base::Range const &range) const;
+
 		/* #endregion */
 
 		///
@@ -104,20 +145,29 @@ namespace base
 		///
 		/// @return uint8_t*
 		///
-		uint8_t *Buffer() const;
+		constexpr uint8_t *Buffer() const
+		{
+			return _buffer;
+		}
 
 		///
 		/// @brief 所引用的内存大小。
 		///
 		/// @return int32_t
 		///
-		int32_t Size() const;
+		constexpr int32_t Size() const
+		{
+			return _size;
+		}
 
 		///
 		/// @brief 翻转本 Span 所引用的内存段。
 		///
 		///
-		void Reverse() const;
+		constexpr void Reverse() const
+		{
+			std::reverse(_buffer, _buffer + _size);
+		}
 
 		/* #region GetEnumerator */
 
@@ -142,7 +192,15 @@ namespace base
 		///
 		/// @return base::Span
 		///
-		base::Span Slice(int32_t start, int32_t size) const;
+		constexpr base::Span Slice(int32_t start, int32_t size) const
+		{
+			if (start + size > _size)
+			{
+				throw std::out_of_range{CODE_POS_STR + "切片超出范围"};
+			}
+
+			return base::Span{_buffer + start, size};
+		}
 
 		///
 		/// @brief 获得指定范围的切片。
@@ -150,7 +208,11 @@ namespace base
 		/// @param range
 		/// @return base::Span
 		///
-		base::Span Slice(base::Range const &range) const;
+		constexpr base::Span Slice(base::Range const &range) const
+		{
+			return Slice(range.Begin(), range.Size());
+		}
+
 		/* #endregion */
 
 		/* #region CopyFrom */
@@ -175,6 +237,7 @@ namespace base
 		/// @param list
 		///
 		void CopyFrom(std::initializer_list<uint8_t> const &list) const;
+
 		/* #endregion */
 
 		/* #region 填充 */
