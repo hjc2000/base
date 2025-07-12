@@ -41,7 +41,7 @@ namespace base
 
 		/* #region 索引器 */
 
-		ItemType &operator[](int32_t const index)
+		constexpr ItemType &operator[](int32_t const index)
 		{
 			if (index < 0 || index >= Count())
 			{
@@ -51,7 +51,7 @@ namespace base
 			return Buffer()[index];
 		}
 
-		ItemType const &operator[](int32_t const index) const
+		constexpr ItemType const &operator[](int32_t const index) const
 		{
 			if (index < 0 || index >= static_cast<int32_t>(Count()))
 			{
@@ -72,7 +72,7 @@ namespace base
 		///
 		/// @param another
 		///
-		void CopyFrom(base::IRawArray<ItemType> const &another)
+		constexpr void CopyFrom(base::IRawArray<ItemType> const &another)
 		{
 			Span().CopyFrom(another.Span());
 		}
@@ -84,7 +84,7 @@ namespace base
 		///
 		/// @param another
 		///
-		void CopyFrom(base::ReadOnlyArraySpan<ItemType> const &another)
+		constexpr void CopyFrom(base::ReadOnlyArraySpan<ItemType> const &another)
 		{
 			Span().CopyFrom(another.Span());
 		}
@@ -95,7 +95,7 @@ namespace base
 		/// @brief 翻转
 		///
 		///
-		void Reverse()
+		constexpr void Reverse()
 		{
 			Span().Reverse();
 		}
@@ -138,12 +138,12 @@ namespace base
 
 		/* #region Span */
 
-		base::ArraySpan<ItemType> Span()
+		constexpr base::ArraySpan<ItemType> Span()
 		{
 			return base::ArraySpan<ItemType>{Buffer(), Count()};
 		}
 
-		base::ReadOnlyArraySpan<ItemType> Span() const
+		constexpr base::ReadOnlyArraySpan<ItemType> Span() const
 		{
 			return base::ReadOnlyArraySpan<ItemType>{Buffer(), Count()};
 		}
@@ -173,7 +173,7 @@ namespace base
 		///
 		/// @return
 		///
-		bool operator==(IRawArray<ItemType> const &o) const
+		constexpr bool operator==(IRawArray<ItemType> const &o) const
 			requires(base::has_equal_operator<ItemType> &&
 					 base::has_less_than_operator<ItemType> &&
 					 base::has_greater_than_operator<ItemType>)
@@ -205,7 +205,7 @@ namespace base
 		///
 		/// @return
 		///
-		bool operator<(IRawArray<ItemType> const &o) const
+		constexpr bool operator<(IRawArray<ItemType> const &o) const
 			requires(base::has_equal_operator<ItemType> &&
 					 base::has_less_than_operator<ItemType> &&
 					 base::has_greater_than_operator<ItemType>)
@@ -240,7 +240,7 @@ namespace base
 		///
 		/// @return
 		///
-		bool operator>(IRawArray<ItemType> const &o) const
+		constexpr bool operator>(IRawArray<ItemType> const &o) const
 			requires(base::has_equal_operator<ItemType> &&
 					 base::has_less_than_operator<ItemType> &&
 					 base::has_greater_than_operator<ItemType>)
@@ -275,7 +275,7 @@ namespace base
 		///
 		/// @return
 		///
-		bool operator<=(IRawArray<ItemType> const &o) const
+		constexpr bool operator<=(IRawArray<ItemType> const &o) const
 			requires(base::has_equal_operator<ItemType> &&
 					 base::has_less_than_operator<ItemType> &&
 					 base::has_greater_than_operator<ItemType>)
@@ -310,7 +310,7 @@ namespace base
 		///
 		/// @return
 		///
-		bool operator>=(IRawArray<ItemType> const &o) const
+		constexpr bool operator>=(IRawArray<ItemType> const &o) const
 			requires(base::has_equal_operator<ItemType> &&
 					 base::has_less_than_operator<ItemType> &&
 					 base::has_greater_than_operator<ItemType>)

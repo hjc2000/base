@@ -117,7 +117,11 @@ namespace base
 		///
 		/// @param o
 		///
-		ReadOnlySpan(base::Span const &o);
+		constexpr ReadOnlySpan(base::Span const &o)
+		{
+			_buffer = o.Buffer();
+			_size = o.Size();
+		}
 
 		///
 		/// @brief 从 base::Array<uint8_t, TCount> 构造，引用它所引用的内存。
@@ -126,7 +130,7 @@ namespace base
 		/// @param array
 		///
 		template <int32_t TCount>
-		ReadOnlySpan(base::Array<uint8_t, TCount> const &array)
+		constexpr ReadOnlySpan(base::Array<uint8_t, TCount> const &array)
 			: base::ReadOnlySpan(array.Span())
 		{
 		}
@@ -185,6 +189,8 @@ namespace base
 		{
 			return _size;
 		}
+
+		using base::IEnumerable<uint8_t const>::GetEnumerator;
 
 		///
 		/// @brief 获取非 const 迭代器。

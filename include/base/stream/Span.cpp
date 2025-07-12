@@ -12,15 +12,6 @@ base::Span::Span(base::String &str)
 
 /* #endregion */
 
-/* #region 索引器 */
-
-base::Span base::Span::operator[](base::Range const &range) const
-{
-	return Slice(range);
-}
-
-/* #endregion */
-
 std::shared_ptr<base::IEnumerator<uint8_t>> base::Span::GetEnumerator()
 {
 	class Enumerator :
@@ -101,21 +92,6 @@ void base::Span::CopyFrom(std::initializer_list<uint8_t> const &list) const
 		_buffer[i] = value;
 		i++;
 	}
-}
-
-/* #endregion */
-
-/* #region 填充 */
-
-void base::Span::FillWithZero()
-{
-	// std::fill(_buffer, _buffer + _size, 0);
-	FillWith(0);
-}
-
-void base::Span::FillWith(uint8_t value)
-{
-	std::fill(_buffer, _buffer + _size, value);
 }
 
 /* #endregion */

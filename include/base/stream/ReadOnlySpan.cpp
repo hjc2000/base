@@ -10,12 +10,6 @@ base::ReadOnlySpan::ReadOnlySpan(base::String const &str)
 	*this = span;
 }
 
-base::ReadOnlySpan::ReadOnlySpan(base::Span const &o)
-{
-	_buffer = o.Buffer();
-	_size = o.Size();
-}
-
 /* #endregion */
 
 std::shared_ptr<base::IEnumerator<uint8_t const>> base::ReadOnlySpan::GetEnumerator()

@@ -136,7 +136,10 @@ namespace base
 		/// @param range
 		/// @return base::Span
 		///
-		base::Span operator[](base::Range const &range) const;
+		constexpr base::Span operator[](base::Range const &range) const
+		{
+			return Slice(range);
+		}
 
 		/* #endregion */
 
@@ -246,14 +249,21 @@ namespace base
 		/// @brief 将本 Span 所引用的内存的每一个字节都填充为 0.
 		///
 		///
-		void FillWithZero();
+		constexpr void FillWithZero()
+		{
+			// std::fill(_buffer, _buffer + _size, 0);
+			FillWith(0);
+		}
 
 		///
 		/// @brief 将所有字节填充为 value.
 		///
 		/// @param value
 		///
-		void FillWith(uint8_t value);
+		constexpr void FillWith(uint8_t value)
+		{
+			std::fill(_buffer, _buffer + _size, value);
+		}
 
 		/* #endregion */
 
@@ -293,6 +303,7 @@ namespace base
 		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
 		int32_t IndexOf(int32_t start, base::ReadOnlySpan const &match) const;
+
 		/* #endregion */
 
 		/* #region LastIndexOf */
@@ -494,6 +505,7 @@ namespace base
 		/// @return false
 		///
 		bool operator>=(base::Span const &another) const;
+
 		/* #endregion */
 	};
 } // namespace base
