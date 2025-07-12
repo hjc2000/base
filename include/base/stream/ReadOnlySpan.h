@@ -550,7 +550,7 @@ namespace base
 		/// @param another
 		/// @return int32_t
 		///
-		int32_t Compare(base::ReadOnlySpan const &another) const
+		constexpr int32_t Compare(base::ReadOnlySpan const &another) const
 		{
 			if (Size() == 0 && another.Size() == 0)
 			{
@@ -579,7 +579,7 @@ namespace base
 		/// @param another
 		/// @return int32_t
 		///
-		int32_t Compare(base::Span const &another) const
+		constexpr int32_t Compare(base::Span const &another) const
 		{
 			return Compare(base::ReadOnlySpan{another});
 		}
@@ -591,7 +591,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator==(base::ReadOnlySpan const &another) const
+		constexpr bool operator==(base::ReadOnlySpan const &another) const
 		{
 			return Compare(another) == 0;
 		}
@@ -603,7 +603,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator==(base::Span const &another) const
+		constexpr bool operator==(base::Span const &another) const
 		{
 			return Compare(another) == 0;
 		}
@@ -615,7 +615,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator<(base::ReadOnlySpan const &another) const
+		constexpr bool operator<(base::ReadOnlySpan const &another) const
 		{
 			return Compare(another) < 0;
 		}
@@ -627,7 +627,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator<(base::Span const &another) const
+		constexpr bool operator<(base::Span const &another) const
 		{
 			return Compare(another) < 0;
 		}
@@ -639,7 +639,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator>(base::ReadOnlySpan const &another) const
+		constexpr bool operator>(base::ReadOnlySpan const &another) const
 		{
 			return Compare(another) > 0;
 		}
@@ -651,7 +651,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator>(base::Span const &another) const
+		constexpr bool operator>(base::Span const &another) const
 		{
 			return Compare(another) > 0;
 		}
@@ -663,7 +663,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator<=(base::ReadOnlySpan const &another) const
+		constexpr bool operator<=(base::ReadOnlySpan const &another) const
 		{
 			return Compare(another) <= 0;
 		}
@@ -675,7 +675,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator<=(base::Span const &another) const
+		constexpr bool operator<=(base::Span const &another) const
 		{
 			return Compare(another) <= 0;
 		}
@@ -687,7 +687,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator>=(base::ReadOnlySpan const &another) const
+		constexpr bool operator>=(base::ReadOnlySpan const &another) const
 		{
 			return Compare(another) >= 0;
 		}
@@ -699,7 +699,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator>=(base::Span const &another) const
+		constexpr bool operator>=(base::Span const &another) const
 		{
 			return Compare(another) >= 0;
 		}
