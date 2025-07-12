@@ -49,9 +49,31 @@ namespace base
 		return us_time_point{static_cast<std::chrono::microseconds>(value)};
 	}
 
-	base::ms_time_point to_ms_time_point(base::TimePointSinceEpoch const &value);
-	base::s_time_point to_s_time_point(base::TimePointSinceEpoch const &value);
-	base::file_clock_time_point to_file_clock_time_point(base::TimePointSinceEpoch const &value);
+	template <typename ReturnType>
+		requires(std::is_same_v<ReturnType, base::ms_time_point>)
+	constexpr ReturnType Convert(base::TimePointSinceEpoch const &value)
+	{
+		return ms_time_point{static_cast<std::chrono::milliseconds>(value)};
+	}
+
+	template <typename ReturnType>
+		requires(std::is_same_v<ReturnType, base::s_time_point>)
+	constexpr ReturnType Convert(base::TimePointSinceEpoch const &value)
+	{
+		return s_time_point{static_cast<std::chrono::seconds>(value)};
+	}
+
+	template <typename ReturnType>
+		requires(std::is_same_v<ReturnType, base::file_clock_time_point>)
+	constexpr ReturnType Convert(base::TimePointSinceEpoch const &value)
+	{
+		// 文件时钟不准，并不是当前的 epoch 时间，而是与 epoch 时间之间有一个固定的偏移量。
+		// 获取这个偏移量，然后将 _time_since_epoch 减去这个偏移量就得到了对应的文件时钟时间戳。
+		auto offset = std::chrono::system_clock::now().time_since_epoch() -
+					  std::filesystem::file_time_type::clock::now().time_since_epoch();
+
+		return file_clock_time_point{static_cast<std::chrono::nanoseconds>(value) - offset};
+	}
 
 	/* #endregion */
 
@@ -134,7 +156,7 @@ namespace base
 		requires(std::is_same_v<ReturnType, base::ms_zoned_time>)
 	constexpr ReturnType Convert(base::TimePointSinceEpoch const &value)
 	{
-		auto time_point = base::to_ms_time_point(value);
+		auto time_point = Convert<base::ms_time_point>(value);
 		return ms_zoned_time{"UTC", time_point};
 	}
 
@@ -167,7 +189,7 @@ namespace base
 		requires(std::is_same_v<ReturnType, base::s_zoned_time>)
 	constexpr ReturnType Convert(base::TimePointSinceEpoch const &value)
 	{
-		auto time_point = base::to_s_time_point(value);
+		auto time_point = Convert<base::s_time_point>(value);
 		return s_zoned_time{"UTC", time_point};
 	}
 
