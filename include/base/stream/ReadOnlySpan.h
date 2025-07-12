@@ -5,6 +5,7 @@
 #include "base/stream/Span.h"
 #include <algorithm>
 #include <bit>
+#include <cstring>
 
 namespace base
 {
