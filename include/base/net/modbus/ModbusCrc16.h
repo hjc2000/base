@@ -1,5 +1,6 @@
 #pragma once
 #include "base/container/iterator/IEnumerable.h"
+#include "base/stream/ReadOnlySpan.h"
 #include <array>
 #include <stdint.h>
 #include <vector>
@@ -40,24 +41,47 @@ namespace base
 		/// @brief 生成多项式使用 0xA001。
 		///
 		///
-		ModbusCrc16() = default;
+		constexpr ModbusCrc16() = default;
 
 		///
 		/// @brief 自定义生成多项式。
 		///
 		/// @param polynomial
 		///
-		ModbusCrc16(uint16_t polynomial);
+		constexpr ModbusCrc16(uint16_t polynomial)
+			: _polynomial(polynomial)
+		{
+		}
 
 		///
 		/// @brief 添加一个数进行计算。
 		///
 		/// @param data
 		///
-		void Add(uint8_t data);
+		constexpr void Add(uint8_t data)
+		{
+			_crc16_register ^= static_cast<uint16_t>(data);
+			for (int i = 0; i < 8; i++)
+			{
+				bool lsb = _crc16_register & 0x1;
+				_crc16_register >>= 1;
+				if (lsb)
+				{
+					_crc16_register ^= _polynomial;
+				}
+			}
+		}
+
+		void Add(base::ReadOnlySpan const &span)
+		{
+			for (int32_t i = 0; i < span.Size(); i++)
+			{
+				Add(span[i]);
+			}
+		}
 
 		template <size_t length>
-		void Add(std::array<uint8_t, length> const &datas)
+		constexpr void Add(std::array<uint8_t, length> const &datas)
 		{
 			for (uint8_t data : datas)
 			{
@@ -65,8 +89,21 @@ namespace base
 			}
 		}
 
-		void Add(std::vector<uint8_t> const &datas);
-		void Add(base::IEnumerable<uint8_t> const &datas);
+		void Add(std::vector<uint8_t> const &datas)
+		{
+			for (uint8_t data : datas)
+			{
+				Add(data);
+			}
+		}
+
+		void Add(base::IEnumerable<uint8_t> const &datas)
+		{
+			for (uint8_t data : datas)
+			{
+				Add(data);
+			}
+		}
 
 		///
 		/// @brief 重置 CRC16 寄存器。
@@ -76,27 +113,39 @@ namespace base
 		///
 		/// @note 如果每轮校验都重新构造一个新的本类对象，则无需调用本方法。
 		///
-		void ResetRegister();
+		constexpr void ResetRegister()
+		{
+			_crc16_register = UINT16_MAX;
+		}
 
 		///
 		/// @brief CRC16 寄存器的值。
 		///
 		/// @return uint16_t
 		///
-		uint16_t RegisterValue();
+		constexpr uint16_t RegisterValue()
+		{
+			return _crc16_register;
+		}
 
 		///
 		/// @brief CRC16 寄存器高字节。
 		///
 		/// @return uint8_t
 		///
-		uint8_t RegisterValueHighByte();
+		constexpr uint8_t RegisterValueHighByte()
+		{
+			return static_cast<uint8_t>(_crc16_register >> 8);
+		}
 
 		///
 		/// @brief CRC16 寄存器低字节。
 		///
 		/// @return uint8_t
 		///
-		uint8_t RegisterValueLowByte();
+		constexpr uint8_t RegisterValueLowByte()
+		{
+			return static_cast<uint8_t>(_crc16_register);
+		}
 	};
 } // namespace base

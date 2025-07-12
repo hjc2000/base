@@ -6,49 +6,10 @@
 
 /* #region 生命周期 */
 
-base::ReadOnlySpan::ReadOnlySpan(uint8_t const *buffer, int32_t size)
-{
-	_buffer = buffer;
-	_size = size;
-
-	if (_buffer == nullptr)
-	{
-		_size = 0;
-	}
-}
-
-base::ReadOnlySpan::ReadOnlySpan(char const *str)
-{
-	int32_t white_char_index = 0;
-	while (true)
-	{
-		if (str[white_char_index] == '\0')
-		{
-			break;
-		}
-
-		white_char_index++;
-	}
-
-	_buffer = reinterpret_cast<uint8_t const *>(str);
-	_size = white_char_index;
-}
-
 base::ReadOnlySpan::ReadOnlySpan(base::String const &str)
 {
 	base::ReadOnlySpan span = str.Span();
 	*this = span;
-}
-
-base::ReadOnlySpan::ReadOnlySpan(base::ArraySpan<uint8_t> const &span)
-{
-	_buffer = span.Buffer();
-	_size = span.Count();
-
-	if (_buffer == nullptr)
-	{
-		_size = 0;
-	}
 }
 
 base::ReadOnlySpan::ReadOnlySpan(base::ReadOnlyArraySpan<uint8_t> const &span)
@@ -66,25 +27,6 @@ base::ReadOnlySpan::ReadOnlySpan(base::Span const &o)
 {
 	_buffer = o.Buffer();
 	_size = o.Size();
-}
-
-/* #endregion */
-
-/* #region 索引器 */
-
-uint8_t const &base::ReadOnlySpan::operator[](int32_t index) const
-{
-	if (index < 0 || index >= _size)
-	{
-		throw std::out_of_range{CODE_POS_STR + "索引超出范围"};
-	}
-
-	return _buffer[index];
-}
-
-base::ReadOnlySpan base::ReadOnlySpan::operator[](base::Range const &range) const
-{
-	return Slice(range);
 }
 
 /* #endregion */

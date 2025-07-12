@@ -3,6 +3,7 @@
 #include "base/container/ArraySpan.h"
 #include "base/container/Range.h"
 #include "base/stream/Span.h"
+#include <bit>
 
 namespace base
 {
@@ -30,7 +31,7 @@ namespace base
 		///
 		/// @note 可以通过 Size 属性判断本对象是否引用到了有效的内存。
 		///
-		ReadOnlySpan() = default;
+		constexpr ReadOnlySpan() = default;
 
 		///
 		/// @brief 引用 buffer 指向的内存。在本对象的生命周期内，buffer 指向的内存必须始终存活。
@@ -38,14 +39,38 @@ namespace base
 		/// @param buffer 要引用的内存。
 		/// @param size buffer 的大小。
 		///
-		ReadOnlySpan(uint8_t const *buffer, int32_t size);
+		constexpr ReadOnlySpan(uint8_t const *buffer, int32_t size)
+		{
+			_buffer = buffer;
+			_size = size;
+
+			if (_buffer == nullptr)
+			{
+				_size = 0;
+			}
+		}
 
 		///
 		/// @brief 引用字符串的内存段。不包括结尾的空字符。
 		///
 		/// @param str
 		///
-		ReadOnlySpan(char const *str);
+		constexpr ReadOnlySpan(char const *str)
+		{
+			int32_t white_char_index = 0;
+			while (true)
+			{
+				if (str[white_char_index] == '\0')
+				{
+					break;
+				}
+
+				white_char_index++;
+			}
+
+			_buffer = std::bit_cast<uint8_t const *>(str);
+			_size = white_char_index;
+		}
 
 		///
 		/// @brief 引用字符串的内存段。不包括结尾的空字符。
@@ -59,7 +84,16 @@ namespace base
 		///
 		/// @param span
 		///
-		ReadOnlySpan(base::ArraySpan<uint8_t> const &span);
+		ReadOnlySpan(base::ArraySpan<uint8_t> const &span)
+		{
+			_buffer = span.Buffer();
+			_size = span.Count();
+
+			if (_buffer == nullptr)
+			{
+				_size = 0;
+			}
+		}
 
 		///
 		/// @brief 从 base::ReadOnlyArraySpan<uint8_t> 构造，引用它所引用的内存段。
@@ -87,8 +121,6 @@ namespace base
 		{
 		}
 
-		virtual ~ReadOnlySpan() = default;
-
 		/* #endregion */
 
 		/* #region 索引器 */
@@ -99,7 +131,15 @@ namespace base
 		/// @param index
 		/// @return uint8_t const&
 		///
-		uint8_t const &operator[](int32_t index) const;
+		uint8_t const &operator[](int32_t index) const
+		{
+			if (index < 0 || index >= _size)
+			{
+				throw std::out_of_range{CODE_POS_STR + "索引超出范围"};
+			}
+
+			return _buffer[index];
+		}
 
 		///
 		/// @brief 获得指定范围的切片。
@@ -107,7 +147,11 @@ namespace base
 		/// @param range
 		/// @return base::ReadOnlySpan
 		///
-		base::ReadOnlySpan operator[](base::Range const &range) const;
+		base::ReadOnlySpan operator[](base::Range const &range) const
+		{
+			return Slice(range);
+		}
+
 		/* #endregion */
 
 		///
