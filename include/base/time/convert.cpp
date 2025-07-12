@@ -73,28 +73,6 @@ base::file_clock_time_point base::to_file_clock_time_point(base::TimePointSinceE
 
 /* #region 转换为 std::chrono::zoned_time */
 
-base::us_zoned_time base::to_us_zoned_time(base::UtcHourOffset const &offset,
-										   base::TimePointSinceEpoch const &value)
-{
-	base::TimePointSinceEpoch utc8 = value;
-	utc8 += offset.Value() * base::TimeSpan{std::chrono::seconds{60 * 60}};
-	return Convert<base::us_zoned_time>(utc8);
-}
-
-base::ms_zoned_time base::to_ms_zoned_time(base::TimePointSinceEpoch const &value)
-{
-	auto time_point = base::to_ms_time_point(value);
-	return ms_zoned_time{"UTC", time_point};
-}
-
-base::ms_zoned_time base::to_ms_zoned_time(base::UtcHourOffset const &offset,
-										   base::TimePointSinceEpoch const &value)
-{
-	base::TimePointSinceEpoch utc8 = value;
-	utc8 += offset.Value() * base::TimeSpan{std::chrono::seconds{60 * 60}};
-	return to_ms_zoned_time(utc8);
-}
-
 base::s_zoned_time base::to_s_zoned_time(base::UtcHourOffset const &offset,
 										 base::TimePointSinceEpoch const &value)
 {

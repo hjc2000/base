@@ -97,19 +97,32 @@ namespace base
 	/// @param offset 你所在的区域的时间相对于 UTC 的偏移量。
 	/// @param value 被转换的时间点。
 	///
-	/// @return base::us_zoned_time
+	/// @return
 	///
-	base::us_zoned_time to_us_zoned_time(base::UtcHourOffset const &offset,
-										 base::TimePointSinceEpoch const &value);
+	template <typename ReturnType>
+		requires(std::is_same_v<ReturnType, base::us_zoned_time>)
+	constexpr ReturnType Convert(base::UtcHourOffset const &offset,
+								 base::TimePointSinceEpoch const &value)
+	{
+		base::TimePointSinceEpoch utc8 = value;
+		utc8 += offset.Value() * base::TimeSpan{std::chrono::seconds{60 * 60}};
+		return Convert<base::us_zoned_time>(utc8);
+	}
 
 	///
 	/// @brief 将 value 转换为 UTC + 0 区域时间。
 	///
 	/// @param value
 	///
-	/// @return base::ms_zoned_time
+	/// @return
 	///
-	base::ms_zoned_time to_ms_zoned_time(base::TimePointSinceEpoch const &value);
+	template <typename ReturnType>
+		requires(std::is_same_v<ReturnType, base::ms_zoned_time>)
+	constexpr ReturnType Convert(base::TimePointSinceEpoch const &value)
+	{
+		auto time_point = base::to_ms_time_point(value);
+		return ms_zoned_time{"UTC", time_point};
+	}
 
 	///
 	/// @brief 将 value 转换为 UTC + offset 区域时间。
@@ -117,10 +130,17 @@ namespace base
 	/// @param offset 你所在的区域的时间相对于 UTC 的偏移量。
 	/// @param value 被转换的时间点。
 	///
-	/// @return base::ms_zoned_time
+	/// @return
 	///
-	base::ms_zoned_time to_ms_zoned_time(base::UtcHourOffset const &offset,
-										 base::TimePointSinceEpoch const &value);
+	template <typename ReturnType>
+		requires(std::is_same_v<ReturnType, base::ms_zoned_time>)
+	constexpr ReturnType Convert(base::UtcHourOffset const &offset,
+								 base::TimePointSinceEpoch const &value)
+	{
+		base::TimePointSinceEpoch utc8 = value;
+		utc8 += offset.Value() * base::TimeSpan{std::chrono::seconds{60 * 60}};
+		return Convert<base::ms_zoned_time>(utc8);
+	}
 
 	///
 	/// @brief 将 value 转换为 UTC + 0 区域时间。
