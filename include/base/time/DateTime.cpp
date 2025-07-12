@@ -54,7 +54,7 @@ void base::DateTime::CheckSecond()
 
 void base::DateTime::CheckNanosecond()
 {
-	if (_nanosecond < 0 || _nanosecond >= 1000 * 1000 * 1000)
+	if (_nanosecond < 0 || _nanosecond >= static_cast<int64_t>(1000) * 1000 * 1000)
 	{
 		throw std::invalid_argument{CODE_POS_STR + "非法纳秒。"};
 	}
