@@ -3,6 +3,7 @@
 #include "base/string/String.h"
 #include "base/time/time.h"
 #include "base/time/TimePointSinceEpoch.h"
+#include <array>
 #include <bits/chrono.h>
 #include <chrono>
 #include <cstdint>
@@ -484,113 +485,132 @@ base::DateTimeStringBuilder base::DateTime::LocalDateTimeStringBuilder() const
 
 bool base::DateTime::operator==(DateTime const &another) const
 {
-	return _year == another._year &&
-		   _month == another._month &&
-		   _day == another._day &&
-		   _hour == another._hour &&
-		   _minute == another._minute &&
-		   _second == another._second &&
-		   _nanosecond == another._nanosecond;
+	std::array<int64_t, 7> date_time_array{
+		_year,
+		_month,
+		_day,
+		_hour,
+		_minute,
+		_second,
+		_nanosecond,
+	};
+
+	std::array<int64_t, 7> another_date_time_array{
+		another._year,
+		another._month,
+		another._day,
+		another._hour,
+		another._minute,
+		another._second,
+		another._nanosecond,
+	};
+
+	// 利用 std::array 的字典序比较。
+	return date_time_array == another_date_time_array;
 }
 
 bool base::DateTime::operator<(DateTime const &another) const
 {
-	if (_year < another._year)
-	{
-		return true;
-	}
+	std::array<int64_t, 7> date_time_array{
+		_year,
+		_month,
+		_day,
+		_hour,
+		_minute,
+		_second,
+		_nanosecond,
+	};
 
-	if (_year > another._year)
-	{
-		return false;
-	}
+	std::array<int64_t, 7> another_date_time_array{
+		another._year,
+		another._month,
+		another._day,
+		another._hour,
+		another._minute,
+		another._second,
+		another._nanosecond,
+	};
 
-	if (_month < another._month)
-	{
-		return true;
-	}
-
-	if (_month > another._month)
-	{
-		return false;
-	}
-
-	if (_day < another._day)
-	{
-		return true;
-	}
-
-	if (_day > another._day)
-	{
-		return false;
-	}
-
-	if (_hour < another._hour)
-	{
-		return true;
-	}
-
-	if (_hour > another._hour)
-	{
-		return false;
-	}
-
-	if (_minute < another._minute)
-	{
-		return true;
-	}
-
-	if (_minute > another._minute)
-	{
-		return false;
-	}
-
-	if (_second < another._second)
-	{
-		return true;
-	}
-
-	if (_second > another._second)
-	{
-		return false;
-	}
-
-	return _nanosecond < another._nanosecond;
+	// 利用 std::array 的字典序比较。
+	return date_time_array < another_date_time_array;
 }
 
 bool base::DateTime::operator>(DateTime const &another) const
 {
-	if (*this == another)
-	{
-		return false;
-	}
+	std::array<int64_t, 7> date_time_array{
+		_year,
+		_month,
+		_day,
+		_hour,
+		_minute,
+		_second,
+		_nanosecond,
+	};
 
-	if (*this < another)
-	{
-		return false;
-	}
+	std::array<int64_t, 7> another_date_time_array{
+		another._year,
+		another._month,
+		another._day,
+		another._hour,
+		another._minute,
+		another._second,
+		another._nanosecond,
+	};
 
-	return true;
+	// 利用 std::array 的字典序比较。
+	return date_time_array > another_date_time_array;
 }
 
 bool base::DateTime::operator<=(DateTime const &another) const
 {
-	if (*this == another)
-	{
-		return true;
-	}
+	std::array<int64_t, 7> date_time_array{
+		_year,
+		_month,
+		_day,
+		_hour,
+		_minute,
+		_second,
+		_nanosecond,
+	};
 
-	return *this < another;
+	std::array<int64_t, 7> another_date_time_array{
+		another._year,
+		another._month,
+		another._day,
+		another._hour,
+		another._minute,
+		another._second,
+		another._nanosecond,
+	};
+
+	// 利用 std::array 的字典序比较。
+	return date_time_array <= another_date_time_array;
 }
 
 bool base::DateTime::operator>=(DateTime const &another) const
 {
-	if (*this == another)
-	{
-		return true;
-	}
+	std::array<int64_t, 7> date_time_array{
+		_year,
+		_month,
+		_day,
+		_hour,
+		_minute,
+		_second,
+		_nanosecond,
+	};
 
-	return *this > another;
+	std::array<int64_t, 7> another_date_time_array{
+		another._year,
+		another._month,
+		another._day,
+		another._hour,
+		another._minute,
+		another._second,
+		another._nanosecond,
+	};
+
+	// 利用 std::array 的字典序比较。
+	return date_time_array >= another_date_time_array;
 }
 
 /* #endregion */
