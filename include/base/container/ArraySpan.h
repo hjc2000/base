@@ -87,7 +87,7 @@ namespace base
 		/// @brief 构造函数。构造出来的对象不会引用任何有效内存段，且大小为 0.
 		///
 		///
-		constexpr ReadOnlyArraySpan() = default;
+		ReadOnlyArraySpan() = default;
 
 		///
 		/// @brief 构造函数。
@@ -95,7 +95,7 @@ namespace base
 		/// @param buffer 要引用的内存段指针。
 		/// @param count 要引用的内存段大小。
 		///
-		constexpr ReadOnlyArraySpan(ItemType const *buffer, int32_t count)
+		ReadOnlyArraySpan(ItemType const *buffer, int32_t count)
 		{
 			_buffer = buffer;
 			_count = count;
@@ -106,7 +106,7 @@ namespace base
 			}
 		}
 
-		constexpr ReadOnlyArraySpan(base::ArraySpan<ItemType> const &span)
+		ReadOnlyArraySpan(base::ArraySpan<ItemType> const &span)
 		{
 			_buffer = span.Buffer();
 			_count = span.Count();
@@ -124,7 +124,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr ItemType const *Buffer() const
+		ItemType const *Buffer() const
 		{
 			return _buffer;
 		}
@@ -134,12 +134,12 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr int32_t Count() const
+		int32_t Count() const
 		{
 			return _count;
 		}
 
-		constexpr base::ReadOnlyArraySpan<ItemType> Slice(base::Range const &range) const
+		base::ReadOnlyArraySpan<ItemType> Slice(base::Range const &range) const
 		{
 			if (range.End() > Count())
 			{
@@ -235,7 +235,7 @@ namespace base
 		/// @brief 构造函数。构造出来的对象不会引用任何有效内存段，且大小为 0.
 		///
 		///
-		constexpr ArraySpan() = default;
+		ArraySpan() = default;
 
 		///
 		/// @brief 构造函数。
@@ -243,7 +243,7 @@ namespace base
 		/// @param buffer 要引用的内存段指针。
 		/// @param count 要引用的内存段大小。
 		///
-		constexpr ArraySpan(ItemType *buffer, int32_t count)
+		ArraySpan(ItemType *buffer, int32_t count)
 		{
 			_buffer = buffer;
 			_count = count;
@@ -261,7 +261,7 @@ namespace base
 		///
 		/// @return ItemType*
 		///
-		constexpr ItemType *Buffer() const
+		ItemType *Buffer() const
 		{
 			return _buffer;
 		}
@@ -271,7 +271,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr int32_t Count() const
+		int32_t Count() const
 		{
 			return _count;
 		}
@@ -280,7 +280,7 @@ namespace base
 		/// @brief 翻转本对象引用的内存段中的元素。
 		///
 		///
-		constexpr void Reverse() const
+		void Reverse() const
 		{
 			std::reverse(_buffer, _buffer + _count);
 		}
@@ -292,7 +292,7 @@ namespace base
 		///
 		/// @param another
 		///
-		constexpr void CopyFrom(base::ReadOnlyArraySpan<ItemType> const &another) const
+		void CopyFrom(base::ReadOnlyArraySpan<ItemType> const &another) const
 		{
 			if (another.Count() != Count())
 			{
@@ -309,14 +309,14 @@ namespace base
 		///
 		/// @param another
 		///
-		constexpr void CopyFrom(base::ArraySpan<ItemType> const &another) const
+		void CopyFrom(base::ArraySpan<ItemType> const &another) const
 		{
 			CopyFrom(base::ReadOnlyArraySpan<ItemType>{another});
 		}
 
 		/* #endregion */
 
-		constexpr base::ArraySpan<ItemType> Slice(base::Range const &range) const
+		base::ArraySpan<ItemType> Slice(base::Range const &range) const
 		{
 			if (range.End() > Count())
 			{

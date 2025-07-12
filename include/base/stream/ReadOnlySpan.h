@@ -37,7 +37,7 @@ namespace base
 		///
 		/// @note 可以通过 Size 属性判断本对象是否引用到了有效的内存。
 		///
-		constexpr ReadOnlySpan() = default;
+		ReadOnlySpan() = default;
 
 		///
 		/// @brief 引用 buffer 指向的内存。在本对象的生命周期内，buffer 指向的内存必须始终存活。
@@ -45,7 +45,7 @@ namespace base
 		/// @param buffer 要引用的内存。
 		/// @param size buffer 的大小。
 		///
-		constexpr ReadOnlySpan(uint8_t const *buffer, int32_t size)
+		ReadOnlySpan(uint8_t const *buffer, int32_t size)
 		{
 			_buffer = buffer;
 			_size = size;
@@ -61,7 +61,7 @@ namespace base
 		///
 		/// @param str
 		///
-		constexpr ReadOnlySpan(char const *str)
+		ReadOnlySpan(char const *str)
 		{
 			int32_t white_char_index = 0;
 			while (true)
@@ -90,7 +90,7 @@ namespace base
 		///
 		/// @param span
 		///
-		constexpr ReadOnlySpan(base::ArraySpan<uint8_t> const &span)
+		ReadOnlySpan(base::ArraySpan<uint8_t> const &span)
 		{
 			_buffer = span.Buffer();
 			_size = span.Count();
@@ -106,7 +106,7 @@ namespace base
 		///
 		/// @param span
 		///
-		constexpr ReadOnlySpan(base::ReadOnlyArraySpan<uint8_t> const &span)
+		ReadOnlySpan(base::ReadOnlyArraySpan<uint8_t> const &span)
 		{
 			_buffer = span.Buffer();
 			_size = span.Count();
@@ -122,7 +122,7 @@ namespace base
 		///
 		/// @param o
 		///
-		constexpr ReadOnlySpan(base::Span const &o)
+		ReadOnlySpan(base::Span const &o)
 		{
 			_buffer = o.Buffer();
 			_size = o.Size();
@@ -135,7 +135,7 @@ namespace base
 		/// @param array
 		///
 		template <int32_t TCount>
-		constexpr ReadOnlySpan(base::Array<uint8_t, TCount> const &array)
+		ReadOnlySpan(base::Array<uint8_t, TCount> const &array)
 			: base::ReadOnlySpan(array.Span())
 		{
 		}
@@ -151,7 +151,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr uint8_t const &operator[](int32_t index) const
+		uint8_t const &operator[](int32_t index) const
 		{
 			if (index < 0 || index >= _size)
 			{
@@ -168,7 +168,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr base::ReadOnlySpan operator[](base::Range const &range) const
+		base::ReadOnlySpan operator[](base::Range const &range) const
 		{
 			return Slice(range);
 		}
@@ -180,7 +180,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr uint8_t const *Buffer() const
+		uint8_t const *Buffer() const
 		{
 			return _buffer;
 		}
@@ -190,7 +190,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr int32_t Size() const
+		int32_t Size() const
 		{
 			return _size;
 		}
@@ -214,7 +214,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr base::ReadOnlySpan Slice(int32_t start, int32_t size) const
+		base::ReadOnlySpan Slice(int32_t start, int32_t size) const
 		{
 			if (start + size > _size)
 			{
@@ -231,7 +231,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr base::ReadOnlySpan Slice(base::Range const &range) const
+		base::ReadOnlySpan Slice(base::Range const &range) const
 		{
 			return Slice(range.Begin(), range.Size());
 		}
@@ -247,7 +247,7 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		constexpr int32_t IndexOf(uint8_t match) const
+		int32_t IndexOf(uint8_t match) const
 		{
 			for (int32_t i = 0; i < _size; i++)
 			{
@@ -268,7 +268,7 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		constexpr int32_t IndexOf(int32_t start, uint8_t match) const
+		int32_t IndexOf(int32_t start, uint8_t match) const
 		{
 			if (start < 0)
 			{
@@ -296,7 +296,7 @@ namespace base
 		///
 		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		constexpr int32_t IndexOf(base::ReadOnlySpan const &match) const
+		int32_t IndexOf(base::ReadOnlySpan const &match) const
 		{
 			if (match.Size() == 0)
 			{
@@ -339,7 +339,7 @@ namespace base
 		///
 		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		constexpr int32_t IndexOf(int32_t start, base::ReadOnlySpan const &match) const
+		int32_t IndexOf(int32_t start, base::ReadOnlySpan const &match) const
 		{
 			if (start < 0)
 			{
@@ -371,7 +371,7 @@ namespace base
 		///
 		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		constexpr int32_t LastIndexOf(uint8_t match) const
+		int32_t LastIndexOf(uint8_t match) const
 		{
 			for (int32_t i = _size - 1; i >= 0; i--)
 			{
@@ -392,7 +392,7 @@ namespace base
 		///
 		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		constexpr int32_t LastIndexOf(int32_t start, uint8_t match) const
+		int32_t LastIndexOf(int32_t start, uint8_t match) const
 		{
 			if (start < 0)
 			{
@@ -414,7 +414,7 @@ namespace base
 		/// @param match 匹配项。
 		/// @return int32_t
 		///
-		constexpr int32_t LastIndexOf(base::ReadOnlySpan const &match) const
+		int32_t LastIndexOf(base::ReadOnlySpan const &match) const
 		{
 			if (match.Size() == 0)
 			{
@@ -452,7 +452,7 @@ namespace base
 		///
 		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		constexpr int32_t LastIndexOf(int32_t start, base::ReadOnlySpan const &match) const
+		int32_t LastIndexOf(int32_t start, base::ReadOnlySpan const &match) const
 		{
 			if (start < 0)
 			{
@@ -479,7 +479,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		constexpr bool StartWith(uint8_t match)
+		bool StartWith(uint8_t match)
 		{
 			if (Size() == 0)
 			{
@@ -496,7 +496,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		constexpr bool StartWith(base::ReadOnlySpan const &match)
+		bool StartWith(base::ReadOnlySpan const &match)
 		{
 			if (Size() < match.Size())
 			{
@@ -513,7 +513,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		constexpr bool EndWith(uint8_t match)
+		bool EndWith(uint8_t match)
 		{
 			if (Size() == 0)
 			{
@@ -530,7 +530,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		constexpr bool EndWith(base::ReadOnlySpan const &match)
+		bool EndWith(base::ReadOnlySpan const &match)
 		{
 			if (Size() < match.Size())
 			{
@@ -550,7 +550,7 @@ namespace base
 		/// @param another
 		/// @return int32_t
 		///
-		constexpr int32_t Compare(base::ReadOnlySpan const &another) const
+		int32_t Compare(base::ReadOnlySpan const &another) const
 		{
 			if (Size() == 0 && another.Size() == 0)
 			{
@@ -579,7 +579,7 @@ namespace base
 		/// @param another
 		/// @return int32_t
 		///
-		constexpr int32_t Compare(base::Span const &another) const
+		int32_t Compare(base::Span const &another) const
 		{
 			return Compare(base::ReadOnlySpan{another});
 		}
@@ -591,7 +591,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		constexpr bool operator==(base::ReadOnlySpan const &another) const
+		bool operator==(base::ReadOnlySpan const &another) const
 		{
 			return Compare(another) == 0;
 		}
@@ -603,7 +603,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		constexpr bool operator==(base::Span const &another) const
+		bool operator==(base::Span const &another) const
 		{
 			return Compare(another) == 0;
 		}
@@ -615,7 +615,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		constexpr bool operator<(base::ReadOnlySpan const &another) const
+		bool operator<(base::ReadOnlySpan const &another) const
 		{
 			return Compare(another) < 0;
 		}
@@ -627,7 +627,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		constexpr bool operator<(base::Span const &another) const
+		bool operator<(base::Span const &another) const
 		{
 			return Compare(another) < 0;
 		}
@@ -639,7 +639,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		constexpr bool operator>(base::ReadOnlySpan const &another) const
+		bool operator>(base::ReadOnlySpan const &another) const
 		{
 			return Compare(another) > 0;
 		}
@@ -651,7 +651,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		constexpr bool operator>(base::Span const &another) const
+		bool operator>(base::Span const &another) const
 		{
 			return Compare(another) > 0;
 		}
@@ -663,7 +663,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		constexpr bool operator<=(base::ReadOnlySpan const &another) const
+		bool operator<=(base::ReadOnlySpan const &another) const
 		{
 			return Compare(another) <= 0;
 		}
@@ -675,7 +675,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		constexpr bool operator<=(base::Span const &another) const
+		bool operator<=(base::Span const &another) const
 		{
 			return Compare(another) <= 0;
 		}
@@ -687,7 +687,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		constexpr bool operator>=(base::ReadOnlySpan const &another) const
+		bool operator>=(base::ReadOnlySpan const &another) const
 		{
 			return Compare(another) >= 0;
 		}
@@ -699,7 +699,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		constexpr bool operator>=(base::Span const &another) const
+		bool operator>=(base::Span const &another) const
 		{
 			return Compare(another) >= 0;
 		}

@@ -34,7 +34,7 @@ namespace base
 		///
 		/// @note 可以通过 Size 属性判断本对象是否引用到了有效的内存。
 		///
-		constexpr Span() = default;
+		Span() = default;
 
 		///
 		/// @brief 引用 buffer 指向的内存。在本对象的生命周期内，buffer 指向的内存必须始终存活。
@@ -42,7 +42,7 @@ namespace base
 		/// @param buffer 要引用的内存。
 		/// @param size buffer 的大小。
 		///
-		constexpr Span(uint8_t *buffer, int32_t size)
+		Span(uint8_t *buffer, int32_t size)
 		{
 			_buffer = buffer;
 			_size = size;
@@ -58,7 +58,7 @@ namespace base
 		///
 		/// @param str
 		///
-		constexpr Span(char *str)
+		Span(char *str)
 		{
 			int32_t white_char_index = 0;
 			while (true)
@@ -87,7 +87,7 @@ namespace base
 		///
 		/// @param span
 		///
-		constexpr Span(base::ArraySpan<uint8_t> const &span)
+		Span(base::ArraySpan<uint8_t> const &span)
 		{
 			_buffer = span.Buffer();
 			_size = span.Count();
@@ -105,7 +105,7 @@ namespace base
 		/// @param array
 		///
 		template <int32_t TCount>
-		constexpr Span(base::Array<uint8_t, TCount> &array)
+		Span(base::Array<uint8_t, TCount> &array)
 			: base::Span(array.Span())
 		{
 		}
@@ -120,7 +120,7 @@ namespace base
 		/// @param index
 		/// @return uint8_t&
 		///
-		constexpr uint8_t &operator[](int32_t index) const
+		uint8_t &operator[](int32_t index) const
 		{
 			if (index < 0 || index >= _size)
 			{
@@ -136,7 +136,7 @@ namespace base
 		/// @param range
 		/// @return base::Span
 		///
-		constexpr base::Span operator[](base::Range const &range) const
+		base::Span operator[](base::Range const &range) const
 		{
 			return Slice(range);
 		}
@@ -148,7 +148,7 @@ namespace base
 		///
 		/// @return uint8_t*
 		///
-		constexpr uint8_t *Buffer() const
+		uint8_t *Buffer() const
 		{
 			return _buffer;
 		}
@@ -158,7 +158,7 @@ namespace base
 		///
 		/// @return int32_t
 		///
-		constexpr int32_t Size() const
+		int32_t Size() const
 		{
 			return _size;
 		}
@@ -167,7 +167,7 @@ namespace base
 		/// @brief 翻转本 Span 所引用的内存段。
 		///
 		///
-		constexpr void Reverse() const
+		void Reverse() const
 		{
 			std::reverse(_buffer, _buffer + _size);
 		}
@@ -195,7 +195,7 @@ namespace base
 		///
 		/// @return base::Span
 		///
-		constexpr base::Span Slice(int32_t start, int32_t size) const
+		base::Span Slice(int32_t start, int32_t size) const
 		{
 			if (start + size > _size)
 			{
@@ -211,7 +211,7 @@ namespace base
 		/// @param range
 		/// @return base::Span
 		///
-		constexpr base::Span Slice(base::Range const &range) const
+		base::Span Slice(base::Range const &range) const
 		{
 			return Slice(range.Begin(), range.Size());
 		}
@@ -249,7 +249,7 @@ namespace base
 		/// @brief 将本 Span 所引用的内存的每一个字节都填充为 0.
 		///
 		///
-		constexpr void FillWithZero()
+		void FillWithZero()
 		{
 			// std::fill(_buffer, _buffer + _size, 0);
 			FillWith(0);
@@ -260,7 +260,7 @@ namespace base
 		///
 		/// @param value
 		///
-		constexpr void FillWith(uint8_t value)
+		void FillWith(uint8_t value)
 		{
 			std::fill(_buffer, _buffer + _size, value);
 		}
