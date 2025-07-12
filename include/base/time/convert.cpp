@@ -73,18 +73,12 @@ base::file_clock_time_point base::to_file_clock_time_point(base::TimePointSinceE
 
 /* #region 转换为 std::chrono::zoned_time */
 
-base::ns_zoned_time base::to_ns_zoned_time(base::TimePointSinceEpoch const &value)
-{
-	auto time_point = base::to_ns_time_point(value);
-	return ns_zoned_time{"UTC", time_point};
-}
-
 base::ns_zoned_time base::to_ns_zoned_time(base::UtcHourOffset const &offset,
 										   base::TimePointSinceEpoch const &value)
 {
 	base::TimePointSinceEpoch utc8 = value;
 	utc8 += offset.Value() * base::TimeSpan{std::chrono::seconds{60 * 60}};
-	return to_ns_zoned_time(utc8);
+	return Convert<base::ns_zoned_time>(utc8);
 }
 
 base::us_zoned_time base::to_us_zoned_time(base::TimePointSinceEpoch const &value)
@@ -115,18 +109,12 @@ base::ms_zoned_time base::to_ms_zoned_time(base::UtcHourOffset const &offset,
 	return to_ms_zoned_time(utc8);
 }
 
-base::s_zoned_time base::to_s_zoned_time(base::TimePointSinceEpoch const &value)
-{
-	auto time_point = base::to_s_time_point(value);
-	return s_zoned_time{"UTC", time_point};
-}
-
 base::s_zoned_time base::to_s_zoned_time(base::UtcHourOffset const &offset,
 										 base::TimePointSinceEpoch const &value)
 {
 	base::TimePointSinceEpoch utc8 = value;
 	utc8 += offset.Value() * base::TimeSpan{std::chrono::seconds{60 * 60}};
-	return to_s_zoned_time(utc8);
+	return Convert<base::s_zoned_time>(utc8);
 }
 
 /* #endregion */

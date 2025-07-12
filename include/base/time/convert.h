@@ -3,6 +3,7 @@
 #include <chrono>
 #include <filesystem>
 #include <string>
+#include <type_traits>
 
 namespace base
 {
@@ -39,6 +40,7 @@ namespace base
 	base::ms_time_point to_ms_time_point(base::TimePointSinceEpoch const &value);
 	base::s_time_point to_s_time_point(base::TimePointSinceEpoch const &value);
 	base::file_clock_time_point to_file_clock_time_point(base::TimePointSinceEpoch const &value);
+
 	/* #endregion */
 
 	/* #region 转换为 std::chrono::zoned_time */
@@ -50,7 +52,13 @@ namespace base
 	///
 	/// @return base::ns_zoned_time
 	///
-	base::ns_zoned_time to_ns_zoned_time(base::TimePointSinceEpoch const &value);
+	template <typename ReturnType>
+		requires(std::is_same_v<ReturnType, base::ns_zoned_time>)
+	ReturnType Convert(base::TimePointSinceEpoch const &value)
+	{
+		auto time_point = base::to_ns_time_point(value);
+		return ns_zoned_time{"UTC", time_point};
+	}
 
 	///
 	/// @brief 将 value 转换为 UTC + offset 区域时间。
@@ -108,9 +116,15 @@ namespace base
 	///
 	/// @param value
 	///
-	/// @return base::s_zoned_time
+	/// @return
 	///
-	base::s_zoned_time to_s_zoned_time(base::TimePointSinceEpoch const &value);
+	template <typename ReturnType>
+		requires(std::is_same_v<ReturnType, base::s_zoned_time>)
+	ReturnType Convert(base::TimePointSinceEpoch const &value)
+	{
+		auto time_point = base::to_s_time_point(value);
+		return s_zoned_time{"UTC", time_point};
+	}
 
 	///
 	/// @brief 将 value 转换为 UTC + offset 区域时间。
