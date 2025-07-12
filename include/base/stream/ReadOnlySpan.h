@@ -3,6 +3,7 @@
 #include "base/container/ArraySpan.h"
 #include "base/container/Range.h"
 #include "base/stream/Span.h"
+#include <algorithm>
 #include <bit>
 
 namespace base
@@ -355,7 +356,18 @@ namespace base
 		///
 		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t LastIndexOf(uint8_t match) const;
+		int32_t LastIndexOf(uint8_t match) const
+		{
+			for (int32_t i = _size - 1; i >= 0; i--)
+			{
+				if (_buffer[i] == match)
+				{
+					return i;
+				}
+			}
+
+			return -1;
+		}
 
 		///
 		/// @brief 从 start 索引位置开始，从后往前查找匹配项。
@@ -365,7 +377,21 @@ namespace base
 		///
 		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t LastIndexOf(int32_t start, uint8_t match) const;
+		int32_t LastIndexOf(int32_t start, uint8_t match) const
+		{
+			if (start < 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "start 不能小于 0."};
+			}
+
+			if (start >= Size())
+			{
+				throw std::invalid_argument{CODE_POS_STR + "start 索引超出边界，大于 Size."};
+			}
+
+			int32_t result = Slice(base::Range{0, start + 1}).LastIndexOf(match);
+			return result;
+		}
 
 		///
 		/// @brief 从后往前查找最后一个匹配位置的索引。
@@ -373,7 +399,35 @@ namespace base
 		/// @param match 匹配项。
 		/// @return int32_t
 		///
-		int32_t LastIndexOf(base::ReadOnlySpan const &match) const;
+		int32_t LastIndexOf(base::ReadOnlySpan const &match) const
+		{
+			if (match.Size() == 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "match 的长度不能是 0."};
+			}
+
+			if (Size() < match.Size())
+			{
+				// 本内存段的大小还没 match 的大，不可能匹配。
+				return -1;
+			}
+
+			uint8_t const first_byte_of_match = match[0];
+
+			for (int32_t i = Size() - match.Size(); i >= 0; i--)
+			{
+				if (_buffer[i] == first_byte_of_match)
+				{
+					// 匹配到第 1 个字符了。
+					if (Slice(i, match.Size()) == match)
+					{
+						return i;
+					}
+				}
+			}
+
+			return -1;
+		}
 
 		///
 		/// @brief 从 start 索引位置开始，从后往前查找匹配项。
@@ -383,7 +437,21 @@ namespace base
 		///
 		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t LastIndexOf(int32_t start, base::ReadOnlySpan const &match) const;
+		int32_t LastIndexOf(int32_t start, base::ReadOnlySpan const &match) const
+		{
+			if (start < 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "start 不能小于 0."};
+			}
+
+			if (start >= Size())
+			{
+				throw std::invalid_argument{CODE_POS_STR + "start 索引超出边界，大于 Size."};
+			}
+
+			int32_t result = Slice(base::Range{0, start + 1}).LastIndexOf(match);
+			return result;
+		}
 
 		/* #endregion */
 
@@ -467,7 +535,28 @@ namespace base
 		/// @param another
 		/// @return int32_t
 		///
-		int32_t Compare(base::ReadOnlySpan const &another) const;
+		int32_t Compare(base::ReadOnlySpan const &another) const
+		{
+			if (Size() == 0 && another.Size() == 0)
+			{
+				// 两段内存的大小都为 0，也认为相等。
+				return 0;
+			}
+
+			int32_t result = memcmp(Buffer(),
+									another.Buffer(),
+									std::min<int32_t>(Size(), another.Size()));
+
+			if (result == 0)
+			{
+				// 如果比较结果 == 0, 说明说比较的直接都相等。接下来就是谁更长，谁的字典序更后面了。
+				// 如果本内存段更长，减法的结果是正数，表示本内存段应该排更后面。
+				// 如果本内存段更短，减法的结果是负数，表示本内存段应该排更后面。
+				return Size() - another.Size();
+			}
+
+			return result;
+		}
 
 		///
 		/// @brief 基于字典序的比较逻辑比较两段内存。
