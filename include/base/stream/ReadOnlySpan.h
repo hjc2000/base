@@ -3,9 +3,12 @@
 #include "base/container/ArraySpan.h"
 #include "base/container/Range.h"
 #include "base/stream/Span.h"
+#include "base/string/define.h"
 #include <algorithm>
 #include <bit>
+#include <cstdint>
 #include <cstring>
+#include <stdexcept>
 
 namespace base
 {
