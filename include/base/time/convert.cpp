@@ -71,24 +71,6 @@ base::file_clock_time_point base::to_file_clock_time_point(base::TimePointSinceE
 
 /* #endregion */
 
-/* #region 转换为 std::chrono::zoned_time */
-
-base::s_zoned_time base::to_s_zoned_time(base::UtcHourOffset const &offset,
-										 base::TimePointSinceEpoch const &value)
-{
-	base::TimePointSinceEpoch utc8 = value;
-	utc8 += offset.Value() * base::TimeSpan{std::chrono::seconds{60 * 60}};
-	return Convert<base::s_zoned_time>(utc8);
-}
-
-/* #endregion */
-
-std::chrono::year_month_day base::to_year_month_day(base::TimePointSinceEpoch const &value)
-{
-	std::chrono::year_month_day ret{static_cast<std::chrono::local_days>(value)};
-	return ret;
-}
-
 #endif // HAS_THREAD
 
 #if HAS_THREAD

@@ -163,14 +163,27 @@ namespace base
 	/// @param offset 你所在的区域的时间相对于 UTC 的偏移量。
 	/// @param value 被转换的时间点。
 	///
-	/// @return base::s_zoned_time
+	/// @return
 	///
-	base::s_zoned_time to_s_zoned_time(base::UtcHourOffset const &offset,
-									   base::TimePointSinceEpoch const &value);
+	template <typename ReturnType>
+		requires(std::is_same_v<ReturnType, base::s_zoned_time>)
+	constexpr ReturnType Convert(base::UtcHourOffset const &offset,
+								 base::TimePointSinceEpoch const &value)
+	{
+		base::TimePointSinceEpoch utc8 = value;
+		utc8 += offset.Value() * base::TimeSpan{std::chrono::seconds{60 * 60}};
+		return Convert<base::s_zoned_time>(utc8);
+	}
 
 	/* #endregion */
 
-	std::chrono::year_month_day to_year_month_day(base::TimePointSinceEpoch const &value);
+	template <typename ReturnType>
+		requires(std::is_same_v<ReturnType, std::chrono::year_month_day>)
+	constexpr ReturnType Convert(base::TimePointSinceEpoch const &value)
+	{
+		std::chrono::year_month_day ret{static_cast<std::chrono::local_days>(value)};
+		return ret;
+	}
 
 	std::string to_string(base::TimePointSinceEpoch const &value);
 	std::string to_string(base::ns_zoned_time const &value);
