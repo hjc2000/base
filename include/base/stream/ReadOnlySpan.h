@@ -131,7 +131,7 @@ namespace base
 		/// @param index
 		/// @return uint8_t const&
 		///
-		uint8_t const &operator[](int32_t index) const
+		constexpr uint8_t const &operator[](int32_t index) const
 		{
 			if (index < 0 || index >= _size)
 			{
@@ -147,7 +147,7 @@ namespace base
 		/// @param range
 		/// @return base::ReadOnlySpan
 		///
-		base::ReadOnlySpan operator[](base::Range const &range) const
+		constexpr base::ReadOnlySpan operator[](base::Range const &range) const
 		{
 			return Slice(range);
 		}
@@ -184,7 +184,15 @@ namespace base
 		/// @param size 切片大小。
 		/// @return base::ReadOnlySpan
 		///
-		base::ReadOnlySpan Slice(int32_t start, int32_t size) const;
+		constexpr base::ReadOnlySpan Slice(int32_t start, int32_t size) const
+		{
+			if (start + size > _size)
+			{
+				throw std::out_of_range{CODE_POS_STR + "切片超出范围"};
+			}
+
+			return base::ReadOnlySpan{_buffer + start, size};
+		}
 
 		///
 		/// @brief 获得指定范围的切片。
@@ -192,7 +200,11 @@ namespace base
 		/// @param range
 		/// @return base::ReadOnlySpan
 		///
-		base::ReadOnlySpan Slice(base::Range const &range) const;
+		constexpr base::ReadOnlySpan Slice(base::Range const &range) const
+		{
+			return Slice(range.Begin(), range.Size());
+		}
+
 		/* #endregion */
 
 		/* #region IndexOf */

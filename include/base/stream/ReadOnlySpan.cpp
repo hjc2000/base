@@ -89,25 +89,6 @@ std::shared_ptr<base::IEnumerator<uint8_t const>> base::ReadOnlySpan::GetEnumera
 	return std::shared_ptr<IEnumerator<uint8_t const>>{new Enumerator{this}};
 }
 
-/* #region Slice */
-
-base::ReadOnlySpan base::ReadOnlySpan::Slice(int32_t start, int32_t size) const
-{
-	if (start + size > _size)
-	{
-		throw std::out_of_range{CODE_POS_STR + "切片超出范围"};
-	}
-
-	return base::ReadOnlySpan{_buffer + start, size};
-}
-
-base::ReadOnlySpan base::ReadOnlySpan::Slice(base::Range const &range) const
-{
-	return Slice(range.Begin(), range.Size());
-}
-
-/* #endregion */
-
 /* #region IndexOf */
 
 int32_t base::ReadOnlySpan::IndexOf(uint8_t match) const
