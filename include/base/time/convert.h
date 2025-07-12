@@ -54,7 +54,7 @@ namespace base
 	///
 	template <typename ReturnType>
 		requires(std::is_same_v<ReturnType, base::ns_zoned_time>)
-	ReturnType Convert(base::TimePointSinceEpoch const &value)
+	constexpr ReturnType Convert(base::TimePointSinceEpoch const &value)
 	{
 		auto time_point = base::to_ns_time_point(value);
 		return ns_zoned_time{"UTC", time_point};
@@ -120,7 +120,7 @@ namespace base
 	///
 	template <typename ReturnType>
 		requires(std::is_same_v<ReturnType, base::s_zoned_time>)
-	ReturnType Convert(base::TimePointSinceEpoch const &value)
+	constexpr ReturnType Convert(base::TimePointSinceEpoch const &value)
 	{
 		auto time_point = base::to_s_time_point(value);
 		return s_zoned_time{"UTC", time_point};

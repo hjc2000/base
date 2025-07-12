@@ -1,5 +1,4 @@
 #pragma once
-#include "base/time/convert.h"
 #include "base/time/TimeSpan.h"
 #include <chrono>
 
@@ -102,7 +101,8 @@ namespace base
 		///
 		constexpr explicit operator std::chrono::local_days() const
 		{
-			local_days_duration_type duration = std::chrono::duration_cast<local_days_duration_type>(_time_since_epoch);
+			using duration_type = decltype(std::chrono::local_days{}.time_since_epoch());
+			duration_type duration = std::chrono::duration_cast<duration_type>(_time_since_epoch);
 			std::chrono::local_days ret{duration};
 			return ret;
 		}
