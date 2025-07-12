@@ -167,7 +167,7 @@ namespace base
 		///
 		/// @brief 所引用的内存。
 		///
-		/// @return uint8_t const*
+		/// @return
 		///
 		uint8_t const *Buffer() const
 		{
@@ -177,7 +177,7 @@ namespace base
 		///
 		/// @brief 所引用的内存大小。
 		///
-		/// @return int32_t
+		/// @return
 		///
 		int32_t Size() const
 		{
@@ -187,7 +187,7 @@ namespace base
 		///
 		/// @brief 获取非 const 迭代器。
 		///
-		/// @return std::shared_ptr<base::IEnumerator<uint8_t const>>
+		/// @return
 		///
 		std::shared_ptr<base::IEnumerator<uint8_t const>> GetEnumerator() override;
 
@@ -564,7 +564,10 @@ namespace base
 		/// @param another
 		/// @return int32_t
 		///
-		int32_t Compare(base::Span const &another) const;
+		int32_t Compare(base::Span const &another) const
+		{
+			return Compare(base::ReadOnlySpan{another});
+		}
 
 		///
 		/// @brief 基于 Compare 方法。
@@ -573,7 +576,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator==(base::ReadOnlySpan const &another) const;
+		bool operator==(base::ReadOnlySpan const &another) const
+		{
+			return Compare(another) == 0;
+		}
 
 		///
 		/// @brief 基于 Compare 方法。
@@ -582,7 +588,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator==(base::Span const &another) const;
+		bool operator==(base::Span const &another) const
+		{
+			return Compare(another) == 0;
+		}
 
 		///
 		/// @brief 基于 Compare 方法。
@@ -591,7 +600,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator<(base::ReadOnlySpan const &another) const;
+		bool operator<(base::ReadOnlySpan const &another) const
+		{
+			return Compare(another) < 0;
+		}
 
 		///
 		/// @brief 基于 Compare 方法。
@@ -600,7 +612,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator<(base::Span const &another) const;
+		bool operator<(base::Span const &another) const
+		{
+			return Compare(another) < 0;
+		}
 
 		///
 		/// @brief 基于 Compare 方法。
@@ -609,7 +624,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator>(base::ReadOnlySpan const &another) const;
+		bool operator>(base::ReadOnlySpan const &another) const
+		{
+			return Compare(another) > 0;
+		}
 
 		///
 		/// @brief 基于 Compare 方法。
@@ -618,7 +636,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator>(base::Span const &another) const;
+		bool operator>(base::Span const &another) const
+		{
+			return Compare(another) > 0;
+		}
 
 		///
 		/// @brief 基于 Compare 方法。
