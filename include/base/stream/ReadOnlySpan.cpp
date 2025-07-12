@@ -206,24 +206,4 @@ bool base::ReadOnlySpan::operator>(base::Span const &another) const
 	return Compare(another) > 0;
 }
 
-bool base::ReadOnlySpan::operator<=(base::ReadOnlySpan const &another) const
-{
-	return Compare(another) <= 0;
-}
-
-bool base::ReadOnlySpan::operator<=(base::Span const &another) const
-{
-	return Compare(another) <= 0;
-}
-
-bool base::ReadOnlySpan::operator>=(base::ReadOnlySpan const &another) const
-{
-	return Compare(another) >= 0;
-}
-
-bool base::ReadOnlySpan::operator>=(base::Span const &another) const
-{
-	return Compare(another) >= 0;
-}
-
 /* #endregion */

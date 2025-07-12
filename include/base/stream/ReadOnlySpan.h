@@ -538,7 +538,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator<=(base::ReadOnlySpan const &another) const;
+		bool operator<=(base::ReadOnlySpan const &another) const
+		{
+			return Compare(another) <= 0;
+		}
 
 		///
 		/// @brief 基于 Compare 方法。
@@ -547,7 +550,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator<=(base::Span const &another) const;
+		bool operator<=(base::Span const &another) const
+		{
+			return Compare(another) <= 0;
+		}
 
 		///
 		/// @brief 基于 Compare 方法。
@@ -556,7 +562,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator>=(base::ReadOnlySpan const &another) const;
+		bool operator>=(base::ReadOnlySpan const &another) const
+		{
+			return Compare(another) >= 0;
+		}
 
 		///
 		/// @brief 基于 Compare 方法。
@@ -565,7 +574,11 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator>=(base::Span const &another) const;
+		bool operator>=(base::Span const &another) const
+		{
+			return Compare(another) >= 0;
+		}
+
 		/* #endregion */
 	};
 } // namespace base
