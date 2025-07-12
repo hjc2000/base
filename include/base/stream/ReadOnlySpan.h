@@ -4,6 +4,7 @@
 #include "base/container/Range.h"
 #include "base/stream/Span.h"
 #include "base/string/define.h"
+#include "memcmp.h"
 #include <algorithm>
 #include <bit>
 #include <cstdint>
@@ -557,9 +558,9 @@ namespace base
 				return 0;
 			}
 
-			int32_t result = memcmp(Buffer(),
-									another.Buffer(),
-									std::min<int32_t>(Size(), another.Size()));
+			int32_t result = base::memcmp(Buffer(),
+										  another.Buffer(),
+										  std::min<int32_t>(Size(), another.Size()));
 
 			if (result == 0)
 			{
