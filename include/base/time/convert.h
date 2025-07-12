@@ -81,9 +81,15 @@ namespace base
 	///
 	/// @param value
 	///
-	/// @return base::us_zoned_time
+	/// @return
 	///
-	base::us_zoned_time to_us_zoned_time(base::TimePointSinceEpoch const &value);
+	template <typename ReturnType>
+		requires(std::is_same_v<ReturnType, base::us_zoned_time>)
+	constexpr ReturnType Convert(base::TimePointSinceEpoch const &value)
+	{
+		auto time_point = base::to_us_time_point(value);
+		return us_zoned_time{"UTC", time_point};
+	}
 
 	///
 	/// @brief 将 value 转换为 UTC + offset 区域时间。
