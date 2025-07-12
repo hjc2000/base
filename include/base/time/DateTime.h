@@ -312,4 +312,5 @@ namespace base
 		void TestDateTime();
 	} // namespace test
 #endif // HAS_THREAD
+
 } // namespace base
