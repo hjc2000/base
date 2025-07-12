@@ -39,11 +39,6 @@ base::TimePointSinceEpoch base::ToTimePointSinceEpoch(file_clock_time_point cons
 
 /* #region 转换为 std::chrono::time_point */
 
-base::us_time_point base::to_us_time_point(base::TimePointSinceEpoch const &value)
-{
-	return us_time_point{static_cast<std::chrono::microseconds>(value)};
-}
-
 base::ms_time_point base::to_ms_time_point(base::TimePointSinceEpoch const &value)
 {
 	return ms_time_point{static_cast<std::chrono::milliseconds>(value)};

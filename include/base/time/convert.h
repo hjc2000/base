@@ -42,7 +42,13 @@ namespace base
 		return ns_time_point{static_cast<std::chrono::nanoseconds>(value)};
 	}
 
-	base::us_time_point to_us_time_point(base::TimePointSinceEpoch const &value);
+	template <typename ReturnType>
+		requires(std::is_same_v<ReturnType, base::us_time_point>)
+	constexpr ReturnType Convert(base::TimePointSinceEpoch const &value)
+	{
+		return us_time_point{static_cast<std::chrono::microseconds>(value)};
+	}
+
 	base::ms_time_point to_ms_time_point(base::TimePointSinceEpoch const &value);
 	base::s_time_point to_s_time_point(base::TimePointSinceEpoch const &value);
 	base::file_clock_time_point to_file_clock_time_point(base::TimePointSinceEpoch const &value);
@@ -95,7 +101,7 @@ namespace base
 		requires(std::is_same_v<ReturnType, base::us_zoned_time>)
 	constexpr ReturnType Convert(base::TimePointSinceEpoch const &value)
 	{
-		auto time_point = base::to_us_time_point(value);
+		auto time_point = base::Convert<base::us_time_point>(value);
 		return us_zoned_time{"UTC", time_point};
 	}
 
