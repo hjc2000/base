@@ -151,16 +151,6 @@ namespace base
 		///
 		base::serial::HardwareFlowControl hardware_flow_control(base::serial::serial_handle &h);
 
-		///
-		/// @brief 计算 frame_count 个帧占用多少个波特。
-		///
-		/// @param h
-		/// @param frame_count
-		/// @return
-		///
-		IMPLEMENTED
-		uint32_t frames_baud_count(base::serial::serial_handle &h, uint32_t frame_count);
-
 		/* #endregion */
 
 		///

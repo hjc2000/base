@@ -1,4 +1,5 @@
 #pragma once
+#include "base/embedded/serial/serial_parameter.h"
 #include "base/stream/Stream.h"
 #include "base/string/define.h"
 #include "serial_handle.h"
@@ -81,7 +82,7 @@ namespace base
 			///
 			/// @brief 获取串口名称。
 			///
-			/// @return std::string
+			/// @return
 			///
 			std::string Name() const
 			{
@@ -91,7 +92,7 @@ namespace base
 			///
 			/// @brief 数据传输方向。
 			///
-			/// @return base::serial::Direction
+			/// @return
 			///
 			base::serial::Direction Direction() const
 			{
@@ -101,7 +102,7 @@ namespace base
 			///
 			/// @brief 波特率。
 			///
-			/// @return uint32_t
+			/// @return
 			///
 			uint32_t BaudRate() const
 			{
@@ -111,7 +112,7 @@ namespace base
 			///
 			/// @brief 数据位的个数。
 			///
-			/// @return uint8_t
+			/// @return
 			///
 			uint8_t DataBits() const
 			{
@@ -121,7 +122,7 @@ namespace base
 			///
 			/// @brief 校验位。
 			///
-			/// @return base::serial::Parity
+			/// @return
 			///
 			base::serial::Parity Parity() const
 			{
@@ -131,7 +132,7 @@ namespace base
 			///
 			/// @brief 停止位个数。
 			///
-			/// @return base::serial::StopBits
+			/// @return
 			///
 			base::serial::StopBits StopBits() const
 			{
@@ -141,7 +142,7 @@ namespace base
 			///
 			/// @brief 硬件流控。
 			///
-			/// @return base::serial::HardwareFlowControl
+			/// @return
 			///
 			base::serial::HardwareFlowControl HardwareFlowControl() const
 			{
@@ -152,11 +153,67 @@ namespace base
 			/// @brief 计算 frame_count 个帧占用多少个波特。
 			///
 			/// @param frame_count
-			/// @return uint32_t
+			/// @return
 			///
 			uint32_t FramesBaudCount(uint32_t frame_count) const
 			{
-				return base::serial::frames_baud_count(*_handle, frame_count);
+				uint32_t baud_count = 0;
+
+				// 1 位起始位
+				baud_count += 1 * frame_count;
+
+				// data_bits 位数据位
+				baud_count += DataBits() * frame_count;
+
+				if (Parity() != base::serial::Parity::None)
+				{
+					// 1 位校验位
+					baud_count += 1 * frame_count;
+				}
+
+				// 停止位
+				switch (StopBits())
+				{
+				case base::serial::StopBits::ZeroPointFive:
+					{
+						// 每 2 个帧占用 1 个位。
+						baud_count += frame_count / 2;
+
+						// 还剩余半个位，当成 1 位。
+						if (frame_count % 2 > 0)
+						{
+							baud_count += 1;
+						}
+
+						break;
+					}
+				default:
+				case base::serial::StopBits::One:
+					{
+						baud_count += 1 * frame_count;
+						break;
+					}
+				case base::serial::StopBits::OnePointFive:
+					{
+						// 每 2 个帧占用 3 个位。
+						baud_count += (frame_count / 2) * 3;
+
+						// 还剩余 1.5 个位，当成 2 位。
+						if (frame_count % 2 > 0)
+						{
+							baud_count += 2;
+						}
+
+						break;
+					}
+				case base::serial::StopBits::Two:
+					{
+						baud_count += 2 * frame_count;
+						break;
+					}
+				}
+
+				return baud_count;
 			}
 
 			/* #endregion */
@@ -266,7 +323,8 @@ namespace base
 			/// @brief 将本流的数据读取到 span 中。
 			///
 			/// @param span
-			/// @return int32_t
+			///
+			/// @return
 			///
 			virtual int32_t Read(base::Span const &span) override
 			{
