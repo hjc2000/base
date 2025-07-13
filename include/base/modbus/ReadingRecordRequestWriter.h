@@ -16,7 +16,6 @@ namespace base
 			ReadingRecordRequestWriter(base::Span const &span)
 				: _adu_writer(span)
 			{
-				_adu_writer.WriteFunctionCode(0x03);
 			}
 
 			///
@@ -37,6 +36,25 @@ namespace base
 			void WriteStationNumber(uint8_t value) const
 			{
 				_adu_writer.WriteStationNumber(value);
+			}
+
+			///
+			/// @brief 功能码。
+			///
+			/// @return
+			///
+			uint8_t FunctionCode() const
+			{
+				return 0x3;
+			}
+
+			///
+			/// @brief 写入功能码。
+			///
+			///
+			void WriteFunctionCode() const
+			{
+				_adu_writer.WriteFunctionCode(0x03);
 			}
 
 			///
