@@ -27,6 +27,11 @@ namespace base
 				_handle = base::serial::open(serial_name);
 			}
 
+			~Serial()
+			{
+				Close();
+			}
+
 			/* #region 启动串口 */
 
 			///
@@ -301,10 +306,9 @@ namespace base
 			///
 			/// @brief 关闭流。
 			///
-			/// @note 要关闭请析构本对象。本方法什么都不做。
-			///
 			virtual void Close() override
 			{
+				base::serial::close(*_handle);
 			}
 
 			/* #endregion */

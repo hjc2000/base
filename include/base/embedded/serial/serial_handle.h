@@ -189,5 +189,16 @@ namespace base
 		///
 		void flush(base::serial::serial_handle &h);
 
+		///
+		/// @brief 关闭串口。
+		///
+		/// @note 关闭后读写都不能再阻塞。
+		///
+		/// @note 关闭后 read 将永远返回 0, write 将永远抛出异常。
+		///
+		/// @param h
+		///
+		void close(base::serial::serial_handle &h);
+
 	} // namespace serial
 } // namespace base
