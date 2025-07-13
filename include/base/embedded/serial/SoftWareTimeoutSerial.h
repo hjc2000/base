@@ -25,25 +25,25 @@ namespace base
 		{
 		private:
 			std::shared_ptr<base::serial::Serial> _serial{};
-			base::BlockingCircleBufferMemoryStream _received_stream{1024};
-			std::shared_ptr<base::task::ITask> _read_thread_exit{};
+			base::BlockingCircleBufferMemoryStream _receiving_stream{1024};
+			std::shared_ptr<base::task::ITask> _receiving_thread_exit{};
 			std::chrono::nanoseconds _receiving_timeout{};
-			bool _disposed = false;
+			bool _closed = false;
 
-			void ReadThreadFunc()
+			void ReceivingThreadFunc()
 			{
 				uint8_t buffer[128];
 				base::Span span{buffer, sizeof(buffer)};
 
 				while (true)
 				{
-					if (_disposed)
+					if (_closed)
 					{
 						return;
 					}
 
 					int32_t have_read = _serial->Read(span);
-					_received_stream.Write(base::ReadOnlySpan{buffer, have_read});
+					_receiving_stream.Write(base::ReadOnlySpan{buffer, have_read});
 				}
 			}
 
@@ -71,10 +71,10 @@ namespace base
 					_receiving_timeout = static_cast<std::chrono::nanoseconds>(timeout_seconds);
 				}
 
-				_read_thread_exit = base::task::run(
+				_receiving_thread_exit = base::task::run(
 					[this]()
 					{
-						ReadThreadFunc();
+						ReceivingThreadFunc();
 					});
 			}
 
@@ -125,7 +125,7 @@ namespace base
 			///
 			virtual int64_t Length() const override
 			{
-				return _received_stream.Length();
+				return _receiving_stream.Length();
 			}
 
 			///
@@ -174,9 +174,9 @@ namespace base
 
 				while (true)
 				{
-					have_read += _received_stream.Read(span);
+					have_read += _receiving_stream.Read(span);
 					base::task::Delay(_receiving_timeout);
-					if (_received_stream.Length() == 0)
+					if (_receiving_stream.Length() == 0)
 					{
 						// 等待超时时间后没有新的数据到来，断帧。
 						return have_read;
@@ -215,14 +215,14 @@ namespace base
 			///
 			virtual void Close() override
 			{
-				if (_disposed)
+				if (_closed)
 				{
 					return;
 				}
 
-				_disposed = true;
-				_received_stream.Close();
-				_read_thread_exit->Wait();
+				_closed = true;
+				_receiving_stream.Close();
+				_receiving_thread_exit->Wait();
 				_serial->Close();
 			}
 
