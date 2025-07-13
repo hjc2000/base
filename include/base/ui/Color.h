@@ -10,5 +10,6 @@ namespace base
 			Green,
 			Blue,
 		};
+
 	} // namespace ui
 } // namespace base

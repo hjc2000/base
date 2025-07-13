@@ -1,7 +1,10 @@
 #pragma once
+#include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
 #include "base/stream/Stream.h"
 #include "base/string/define.h"
+#include <algorithm>
+#include <stdexcept>
 
 namespace base
 {
@@ -72,7 +75,10 @@ namespace base
 		///
 		/// @param max_size 内部缓冲区的最大尺寸。小于等于 0 会抛出异常。
 		///
-		MemoryStream(int32_t max_size);
+		MemoryStream(int32_t max_size)
+			: _buffer_context(max_size)
+		{
+		}
 
 		///
 		/// @brief 此构造函数会让本对象引用一段内存，但不持有它。这可以提供流式操作外部内存的途径。
@@ -84,13 +90,19 @@ namespace base
 		///
 		/// @param span
 		///
-		MemoryStream(base::Span const &span);
+		MemoryStream(base::Span const &span)
+			: _buffer_context(span)
+		{
+		}
 
 		///
 		/// @brief 获取本流的缓冲区。
 		/// @return
 		///
-		base::Span Span() const;
+		base::Span Span() const
+		{
+			return _buffer_context.Span();
+		}
 
 		/* #region 流属性 */
 
@@ -100,7 +112,10 @@ namespace base
 		/// @return true 能读取。
 		/// @return false 不能读取。
 		///
-		virtual bool CanRead() const override;
+		virtual bool CanRead() const override
+		{
+			return true;
+		}
 
 		///
 		/// @brief 本流能否写入。
@@ -108,7 +123,10 @@ namespace base
 		/// @return true 能写入。
 		/// @return false 不能写入。
 		///
-		virtual bool CanWrite() const override;
+		virtual bool CanWrite() const override
+		{
+			return true;
+		}
 
 		///
 		/// @brief 本流能否定位。
@@ -116,35 +134,64 @@ namespace base
 		/// @return true 能定位。
 		/// @return false 不能定位。
 		///
-		virtual bool CanSeek() const override;
+		virtual bool CanSeek() const override
+		{
+			return true;
+		}
 
 		///
 		/// @brief 流的长度
 		///
 		/// @return int64_t
 		///
-		virtual int64_t Length() const override;
+		virtual int64_t Length() const override
+		{
+			return _length;
+		}
 
 		///
 		/// @brief 设置流的长度。
 		///
 		/// @param value
 		///
-		virtual void SetLength(int64_t value) override;
+		virtual void SetLength(int64_t value) override
+		{
+			if (value > Span().Size())
+			{
+				throw std::invalid_argument{"value 不能大于缓冲区大小。"};
+			}
+
+			_length = value;
+			if (_position > _length)
+			{
+				_position = _length;
+			}
+		}
 
 		///
 		/// @brief 流当前的位置。
 		///
 		/// @return int64_t
 		///
-		virtual int64_t Position() const override;
+		virtual int64_t Position() const override
+		{
+			return _position;
+		}
 
 		///
 		/// @brief 设置流当前的位置。
 		///
 		/// @param value
 		///
-		virtual void SetPosition(int64_t value) override;
+		virtual void SetPosition(int64_t value) override
+		{
+			if (value > _length)
+			{
+				throw std::invalid_argument{"value 不能大于流的长度。"};
+			}
+
+			_position = value;
+		}
 
 		/* #endregion */
 
@@ -156,14 +203,56 @@ namespace base
 		/// @param span
 		/// @return int32_t
 		///
-		virtual int32_t Read(base::Span const &span) override;
+		virtual int32_t Read(base::Span const &span) override
+		{
+			if (span.Size() == 0)
+			{
+				throw std::invalid_argument{"不能读取 0 个字节，因为流读取 0 个字节表示流结束了。"};
+			}
+
+			if (Position() == Length())
+			{
+				return 0;
+			}
+
+			int32_t have_read = std::min<int32_t>(Length() - Position(), span.Size());
+
+			std::copy(Span().Buffer() + _position,
+					  Span().Buffer() + _position + have_read,
+					  span.Buffer());
+
+			_position += have_read;
+			return have_read;
+		}
 
 		///
 		/// @brief 将 span 中的数据写入本流。
 		///
 		/// @param span
 		///
-		virtual void Write(base::ReadOnlySpan const &span) override;
+		virtual void Write(base::ReadOnlySpan const &span) override
+		{
+			if (span.Buffer() == nullptr)
+			{
+				throw std::invalid_argument{"buffer 不能是空指针。"};
+			}
+
+			if (span.Size() > Span().Size() - Position())
+			{
+				throw std::overflow_error{"缓冲区剩余空间无法接受这么多数据"};
+			}
+
+			std::copy(span.Buffer(),
+					  span.Buffer() + span.Size(),
+					  Span().Buffer() + _position);
+
+			_position += span.Size();
+			if (_position > _length)
+			{
+				// 写完后当前位置超过流的长度，则将流的长度设为当前位置，使流的长度增大。
+				_length = _position;
+			}
+		}
 
 		///
 		/// @brief 冲洗流。
@@ -171,20 +260,28 @@ namespace base
 		/// @note 对于写入的数据，作用是将其从内部缓冲区转移到底层。
 		/// @note 对于内部的可以读取但尚未读取的数据，一般不会有什么作用。Flush 没见过对可读数据生效的。
 		///
-		virtual void Flush() override;
+		virtual void Flush() override
+		{
+		}
 
 		///
 		/// @brief 关闭流。
 		///
 		/// @note 关闭后对流的操作将会引发异常。
 		///
-		virtual void Close() override;
+		virtual void Close() override
+		{
+		}
 
 		/* #endregion */
 
 		///
 		/// @brief 清空流，将 长度和位置都恢复为 0.
 		///
-		void Clear();
+		void Clear()
+		{
+			_position = 0;
+			_length = 0;
+		}
 	};
 } // namespace base
