@@ -148,4 +148,5 @@ namespace base
 			return static_cast<uint8_t>(_crc16_register);
 		}
 	};
+
 } // namespace base
