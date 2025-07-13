@@ -4,6 +4,7 @@
 #include "base/stream/Stream.h"
 #include "base/string/define.h"
 #include <algorithm>
+#include <cstdint>
 #include <stdexcept>
 
 namespace base
