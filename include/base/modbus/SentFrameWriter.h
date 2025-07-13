@@ -69,6 +69,11 @@ namespace base
 				_span[1] = value;
 			}
 
+			///
+			/// @brief 写入数据。
+			///
+			/// @param span
+			///
 			void WriteData(base::ReadOnlySpan const &span)
 			{
 				int32_t write_pos = 2 + _data_length;
@@ -77,11 +82,19 @@ namespace base
 				_data_length += span.Size();
 			}
 
+			///
+			/// @brief 清空数据。
+			///
+			///
 			void ClearData()
 			{
 				_data_length = 0;
 			}
 
+			///
+			/// @brief 写入 CRC16.
+			///
+			///
 			void WriteCrc()
 			{
 				base::modbus::ModbusCrc16 crc{};
@@ -93,6 +106,12 @@ namespace base
 											 _span[base::Range{write_pos, write_pos + 2}]);
 			}
 
+			///
+			/// @brief 获取待发送的 span, 这里面包括了从站号到 CRC16 的所有数据，
+			/// 可以直接全部发送出去。
+			///
+			/// @return
+			///
 			base::ReadOnlySpan SpanForSending() const
 			{
 				// 1 个字节的站好 + 1 个字节的功能码 + 数据 + 2 个字节的 CRC16.
