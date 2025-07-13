@@ -1,5 +1,5 @@
 #pragma once
-#include "base/bit/bit_converte.h"
+#include "base/bit/AutoBitConverter.h"
 #include "base/container/Range.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
@@ -98,12 +98,12 @@ namespace base
 			void WriteCrc()
 			{
 				base::modbus::ModbusCrc16 crc{};
-				base::ReadOnlySpan to_check = _span[base::Range{0, 2 + _data_length}];
+				int32_t data_end_pos = 2 + _data_length;
+				base::ReadOnlySpan to_check = _span[base::Range{0, data_end_pos}];
 				crc.Add(to_check);
-				int32_t write_pos = 2 + _data_length;
 
-				base::bit_converte::GetBytes(crc.RegisterValue(),
-											 _span[base::Range{write_pos, write_pos + 2}]);
+				base::big_endian_remote_converter.GetBytes(crc.RegisterValue(),
+														   _span[base::Range{data_end_pos, data_end_pos + 2}]);
 			}
 
 			///

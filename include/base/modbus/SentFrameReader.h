@@ -1,0 +1,80 @@
+#pragma once
+#include "base/bit/AutoBitConverter.h"
+#include "base/container/Range.h"
+#include "base/stream/ReadOnlySpan.h"
+#include "base/stream/Span.h"
+#include "base/string/define.h"
+#include "ModbusCrc16.h"
+#include <cstdint>
+#include <stdexcept>
+
+namespace base
+{
+	namespace modbus
+	{
+		class SentFrameReader
+		{
+		private:
+			base::ReadOnlySpan _span{};
+
+		public:
+			SentFrameReader(base::ReadOnlySpan const &span)
+			{
+				if (span.Size() < 4)
+				{
+					throw std::invalid_argument{CODE_POS_STR + "传入的 span 过小，不可能装下 modbus 帧，无法读取。"};
+				}
+
+				_span = span;
+			}
+
+			///
+			/// @brief 站号。
+			///
+			/// @return
+			///
+			uint8_t StationNumber() const
+			{
+				return _span[0];
+			}
+
+			///
+			/// @brief 功能码。
+			///
+			/// @return
+			///
+			uint8_t FunctionCode() const
+			{
+				return _span[1];
+			}
+
+			base::ReadOnlySpan DataSpan() const
+			{
+				return _span[base::Range{2, _span.Size() - 2}];
+			}
+
+			base::ReadOnlySpan CrcSpan() const
+			{
+				return _span[base::Range{_span.Size() - 2, _span.Size()}];
+			}
+
+			uint16_t Crc() const
+			{
+				return base::big_endian_remote_converter.FromBytes<uint16_t>(CrcSpan());
+			}
+
+			///
+			/// @brief 进行 CRC 校验。
+			///
+			/// @return true 表示 CRC 校验通过，false 表示 CRC 校验不通过。
+			///
+			bool CheckCrc() const
+			{
+				base::modbus::ModbusCrc16 crc{};
+				crc.Add(_span[base::Range{0, _span.Size() - 2}]);
+				return crc.RegisterValue() == Crc();
+			}
+		};
+
+	} // namespace modbus
+} // namespace base
