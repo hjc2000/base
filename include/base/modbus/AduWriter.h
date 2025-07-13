@@ -12,14 +12,14 @@ namespace base
 {
 	namespace modbus
 	{
-		class SentFrameWriter
+		class AduWriter
 		{
 		private:
 			base::Span _span{};
 			int32_t _data_length = 0;
 
 		public:
-			SentFrameWriter(base::Span const &span)
+			AduWriter(base::Span const &span)
 			{
 				if (span.Size() <= 4)
 				{
