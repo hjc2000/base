@@ -16,7 +16,7 @@ namespace base
 		{
 		private:
 			base::Span _span{};
-			int32_t _data_length = 2;
+			int32_t _data_length = 0;
 
 		public:
 			SentFrameWriter(base::Span const &span)
@@ -71,7 +71,8 @@ namespace base
 
 			void WriteData(base::ReadOnlySpan const &span)
 			{
-				base::Span to_write = _span[base::Range{2 + _data_length, span.Size()}];
+				int32_t write_pos = 2 + _data_length;
+				base::Span to_write = _span[base::Range{write_pos, write_pos + span.Size()}];
 				to_write.CopyFrom(span);
 				_data_length += span.Size();
 			}
@@ -86,13 +87,15 @@ namespace base
 				base::modbus::ModbusCrc16 crc{};
 				base::ReadOnlySpan to_check = _span[base::Range{0, 2 + _data_length}];
 				crc.Add(to_check);
+				int32_t write_pos = 2 + _data_length;
 
 				base::bit_converte::GetBytes(crc.RegisterValue(),
-											 _span[base::Range{2 + _data_length, 2 + _data_length + 2}]);
+											 _span[base::Range{write_pos, write_pos + 2}]);
 			}
 
 			base::ReadOnlySpan SpanForSending() const
 			{
+				// 1 个字节的站好 + 1 个字节的功能码 + 数据 + 2 个字节的 CRC16.
 				return _span[base::Range{0, 2 + _data_length + 2}];
 			}
 		};
