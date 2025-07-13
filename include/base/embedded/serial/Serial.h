@@ -309,5 +309,6 @@ namespace base
 
 			/* #endregion */
 		};
+
 	} // namespace serial
 } // namespace base
