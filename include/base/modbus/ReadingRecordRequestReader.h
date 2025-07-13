@@ -3,7 +3,9 @@
 #include "base/bit/AutoBitConverter.h"
 #include "base/container/Range.h"
 #include "base/stream/ReadOnlySpan.h"
+#include "base/string/define.h"
 #include <cstdint>
+#include <stdexcept>
 
 namespace base
 {
@@ -18,6 +20,11 @@ namespace base
 			ReadingRecordRequestReader(base::ReadOnlySpan const &span)
 				: _adu_reader(span)
 			{
+				uint8_t function_code = _adu_reader.FunctionCode();
+				if (function_code != 0x3)
+				{
+					throw std::runtime_error{CODE_POS_STR + "传入的帧不是请求读取记录的帧。"};
+				}
 			}
 
 			///
@@ -28,16 +35,6 @@ namespace base
 			uint8_t StationNumber() const
 			{
 				return _adu_reader.StationNumber();
-			}
-
-			///
-			/// @brief 功能码。
-			///
-			/// @return
-			///
-			uint8_t FunctionCode() const
-			{
-				return _adu_reader.FunctionCode();
 			}
 
 			///
@@ -62,16 +59,6 @@ namespace base
 				base::ReadOnlySpan span = _adu_reader.DataSpan()[base::Range{2, 4}];
 				uint16_t ret = base::big_endian_remote_converter.FromBytes<uint16_t>(span);
 				return ret;
-			}
-
-			///
-			/// @brief 进行 CRC 校验。
-			///
-			/// @return true 表示 CRC 校验通过，false 表示 CRC 校验不通过。
-			///
-			bool CheckCrc() const
-			{
-				return _adu_reader.CheckCrc();
 			}
 		};
 
