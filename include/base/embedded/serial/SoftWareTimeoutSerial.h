@@ -12,6 +12,7 @@
 #include "base/task/task.h"
 #include "base/unit/Seconds.h"
 #include <chrono>
+#include <cstddef>
 #include <cstdint>
 #include <memory>
 #include <stdexcept>
@@ -25,10 +26,30 @@ namespace base
 		{
 		private:
 			std::shared_ptr<base::serial::Serial> _serial{};
-			base::BlockingCircleBufferMemoryStream _receiving_stream{1024};
+			std::shared_ptr<base::BlockingCircleBufferMemoryStream> _receiving_stream{};
 			std::shared_ptr<base::task::ITask> _receiving_thread_exit{};
 			std::chrono::nanoseconds _receiving_timeout{};
 			bool _closed = false;
+
+			void Initialize(std::shared_ptr<base::serial::Serial> const &serial,
+							int32_t receiving_buffer_size,
+							int32_t timeout_frame_count)
+			{
+				if (serial == nullptr)
+				{
+					throw std::invalid_argument{CODE_POS_STR + "不能传入空指针。"};
+				}
+
+				_serial = serial;
+				_receiving_stream = std::shared_ptr<base::BlockingCircleBufferMemoryStream>{new base::BlockingCircleBufferMemoryStream{receiving_buffer_size}};
+
+				{
+					uint32_t baud_rate = _serial->BaudRate();
+					uint32_t frames_baud_count = _serial->FramesBaudCount(timeout_frame_count);
+					base::Seconds timeout_seconds{base::Fraction{frames_baud_count, baud_rate}};
+					_receiving_timeout = static_cast<std::chrono::nanoseconds>(timeout_seconds);
+				}
+			}
 
 			void ReceivingThreadFunc()
 			{
@@ -43,7 +64,7 @@ namespace base
 					}
 
 					int32_t have_read = _serial->Read(span);
-					_receiving_stream.Write(base::ReadOnlySpan{buffer, have_read});
+					_receiving_stream->Write(base::ReadOnlySpan{buffer, have_read});
 				}
 			}
 
@@ -52,30 +73,42 @@ namespace base
 			/// @brief
 			///
 			/// @param serial 串口对象。
+			/// @param receiving_buffer_size 接收缓冲区大小。
 			/// @param timeout_frame_count 超时时间是几个串行帧的时间。
 			///
 			SoftWareTimeoutSerial(std::shared_ptr<base::serial::Serial> const &serial,
+								  int32_t receiving_buffer_size,
 								  int32_t timeout_frame_count)
 			{
-				if (serial == nullptr)
-				{
-					throw std::invalid_argument{CODE_POS_STR + "不能传入空指针。"};
-				}
-
-				_serial = serial;
-
-				{
-					uint32_t baud_rate = _serial->BaudRate();
-					uint32_t frames_baud_count = _serial->FramesBaudCount(timeout_frame_count);
-					base::Seconds timeout_seconds{base::Fraction{frames_baud_count, baud_rate}};
-					_receiving_timeout = static_cast<std::chrono::nanoseconds>(timeout_seconds);
-				}
+				Initialize(serial, receiving_buffer_size, timeout_frame_count);
 
 				_receiving_thread_exit = base::task::run(
 					[this]()
 					{
 						ReceivingThreadFunc();
 					});
+			}
+
+			///
+			/// @brief
+			///
+			/// @param serial 串口对象。
+			/// @param receiving_buffer_size 接收缓冲区大小。
+			/// @param timeout_frame_count 超时时间是几个串行帧的时间。
+			/// @param receiving_thread_stack_size 接收线程的堆栈大小。
+			///
+			SoftWareTimeoutSerial(std::shared_ptr<base::serial::Serial> const &serial,
+								  int32_t receiving_buffer_size,
+								  int32_t timeout_frame_count,
+								  size_t receiving_thread_stack_size)
+			{
+				Initialize(serial, receiving_buffer_size, timeout_frame_count);
+
+				_receiving_thread_exit = base::task::run(receiving_thread_stack_size,
+														 [this]()
+														 {
+															 ReceivingThreadFunc();
+														 });
 			}
 
 			~SoftWareTimeoutSerial()
@@ -125,7 +158,7 @@ namespace base
 			///
 			virtual int64_t Length() const override
 			{
-				return _receiving_stream.Length();
+				return _receiving_stream->Length();
 			}
 
 			///
@@ -174,9 +207,9 @@ namespace base
 
 				while (true)
 				{
-					have_read += _receiving_stream.Read(span);
+					have_read += _receiving_stream->Read(span);
 					base::task::Delay(_receiving_timeout);
-					if (_receiving_stream.Length() == 0)
+					if (_receiving_stream->Length() == 0)
 					{
 						// 等待超时时间后没有新的数据到来，断帧。
 						return have_read;
@@ -221,9 +254,10 @@ namespace base
 				}
 
 				_closed = true;
-				_receiving_stream.Close();
-				_receiving_thread_exit->Wait();
+
+				_receiving_stream->Close();
 				_serial->Close();
+				_receiving_thread_exit->Wait();
 			}
 
 			/* #endregion */
