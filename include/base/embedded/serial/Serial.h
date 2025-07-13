@@ -81,7 +81,7 @@ namespace base
 			///
 			/// @brief 获取串口名称。
 			///
-			/// @return std::string
+			/// @return
 			///
 			std::string Name() const
 			{
@@ -91,7 +91,7 @@ namespace base
 			///
 			/// @brief 数据传输方向。
 			///
-			/// @return base::serial::Direction
+			/// @return
 			///
 			base::serial::Direction Direction() const
 			{
@@ -101,7 +101,7 @@ namespace base
 			///
 			/// @brief 波特率。
 			///
-			/// @return uint32_t
+			/// @return
 			///
 			uint32_t BaudRate() const
 			{
@@ -111,7 +111,7 @@ namespace base
 			///
 			/// @brief 数据位的个数。
 			///
-			/// @return uint8_t
+			/// @return
 			///
 			uint8_t DataBits() const
 			{
@@ -121,7 +121,7 @@ namespace base
 			///
 			/// @brief 校验位。
 			///
-			/// @return base::serial::Parity
+			/// @return
 			///
 			base::serial::Parity Parity() const
 			{
@@ -131,7 +131,7 @@ namespace base
 			///
 			/// @brief 停止位个数。
 			///
-			/// @return base::serial::StopBits
+			/// @return
 			///
 			base::serial::StopBits StopBits() const
 			{
@@ -141,7 +141,7 @@ namespace base
 			///
 			/// @brief 硬件流控。
 			///
-			/// @return base::serial::HardwareFlowControl
+			/// @return
 			///
 			base::serial::HardwareFlowControl HardwareFlowControl() const
 			{
@@ -152,7 +152,8 @@ namespace base
 			/// @brief 计算 frame_count 个帧占用多少个波特。
 			///
 			/// @param frame_count
-			/// @return uint32_t
+			///
+			/// @return
 			///
 			uint32_t FramesBaudCount(uint32_t frame_count) const
 			{
@@ -219,7 +220,7 @@ namespace base
 			///
 			/// @brief 流的长度
 			///
-			/// @return int64_t
+			/// @return
 			///
 			virtual int64_t Length() const override
 			{
@@ -239,7 +240,7 @@ namespace base
 			///
 			/// @brief 流当前的位置。
 			///
-			/// @return int64_t
+			/// @return
 			///
 			virtual int64_t Position() const override
 			{
@@ -266,7 +267,8 @@ namespace base
 			/// @brief 将本流的数据读取到 span 中。
 			///
 			/// @param span
-			/// @return int32_t
+			///
+			/// @return
 			///
 			virtual int32_t Read(base::Span const &span) override
 			{
