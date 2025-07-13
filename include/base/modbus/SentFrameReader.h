@@ -18,6 +18,12 @@ namespace base
 			base::ReadOnlySpan _span{};
 
 		public:
+			///
+			/// @brief
+			///
+			/// @param span 传进来的内存段必须以站号开始，以 CRC16 结尾，不得在末尾含有
+			/// 无效字节。传进来的整个内存段都是有效数据。
+			///
 			SentFrameReader(base::ReadOnlySpan const &span)
 			{
 				if (span.Size() < 4)
