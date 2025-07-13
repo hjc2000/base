@@ -17,6 +17,26 @@ namespace base
 		private:
 			base::ReadOnlySpan _span{};
 
+			///
+			/// @brief CRC 校验数据的内存段。
+			///
+			/// @return
+			///
+			base::ReadOnlySpan CrcSpan() const
+			{
+				return _span[base::Range{_span.Size() - 2, _span.Size()}];
+			}
+
+			///
+			/// @brief CRC 校验值。
+			///
+			/// @return
+			///
+			uint16_t Crc() const
+			{
+				return base::big_endian_remote_converter.FromBytes<uint16_t>(CrcSpan());
+			}
+
 		public:
 			///
 			/// @brief
@@ -62,26 +82,6 @@ namespace base
 			base::ReadOnlySpan DataSpan() const
 			{
 				return _span[base::Range{2, _span.Size() - 2}];
-			}
-
-			///
-			/// @brief CRC 校验数据的内存段。
-			///
-			/// @return
-			///
-			base::ReadOnlySpan CrcSpan() const
-			{
-				return _span[base::Range{_span.Size() - 2, _span.Size()}];
-			}
-
-			///
-			/// @brief CRC 校验值。
-			///
-			/// @return
-			///
-			uint16_t Crc() const
-			{
-				return base::big_endian_remote_converter.FromBytes<uint16_t>(CrcSpan());
 			}
 
 			///
