@@ -1,0 +1,233 @@
+#pragma once
+#include "base/embedded/serial/Serial.h"
+#include "base/exception/NotSupportedException.h"
+#include "base/math/Fraction.h"
+#include "base/stream/BlockingCircleBufferMemoryStream.h"
+#include "base/stream/ReadOnlySpan.h"
+#include "base/stream/Span.h"
+#include "base/stream/Stream.h"
+#include "base/string/define.h"
+#include "base/task/delay.h"
+#include "base/task/ITask.h"
+#include "base/task/task.h"
+#include "base/unit/Seconds.h"
+#include <chrono>
+#include <cstdint>
+#include <memory>
+#include <stdexcept>
+
+namespace base
+{
+	namespace serial
+	{
+		class SoftWareTimeoutSerial :
+			public base::Stream
+		{
+		private:
+			std::shared_ptr<base::serial::Serial> _serial{};
+			base::BlockingCircleBufferMemoryStream _received_stream{1024};
+			std::shared_ptr<base::task::ITask> _read_thread_exit{};
+			std::chrono::nanoseconds _receiving_timeout{};
+			bool _disposed = false;
+
+			void ReadThreadFunc()
+			{
+				uint8_t buffer[128];
+				base::Span span{buffer, sizeof(buffer)};
+
+				while (true)
+				{
+					if (_disposed)
+					{
+						return;
+					}
+
+					int32_t have_read = _serial->Read(span);
+					_received_stream.Write(base::ReadOnlySpan{buffer, have_read});
+				}
+			}
+
+		public:
+			///
+			/// @brief
+			///
+			/// @param serial 串口对象。
+			/// @param timeout_frame_count 超时时间是几个串行帧的时间。
+			///
+			SoftWareTimeoutSerial(std::shared_ptr<base::serial::Serial> const &serial,
+								  int32_t timeout_frame_count)
+			{
+				if (serial == nullptr)
+				{
+					throw std::invalid_argument{CODE_POS_STR + "不能传入空指针。"};
+				}
+
+				_serial = serial;
+
+				{
+					uint32_t baud_rate = _serial->BaudRate();
+					uint32_t frames_baud_count = _serial->FramesBaudCount(timeout_frame_count);
+					base::Seconds timeout_seconds{base::Fraction{frames_baud_count, baud_rate}};
+					_receiving_timeout = static_cast<std::chrono::nanoseconds>(timeout_seconds);
+				}
+
+				_read_thread_exit = base::task::run(
+					[this]()
+					{
+						ReadThreadFunc();
+					});
+			}
+
+			~SoftWareTimeoutSerial()
+			{
+				Close();
+			}
+
+			/* #region 流属性 */
+
+			///
+			/// @brief 本流能否读取。
+			///
+			/// @return true 能读取。
+			/// @return false 不能读取。
+			///
+			virtual bool CanRead() const override
+			{
+				return true;
+			}
+
+			///
+			/// @brief 本流能否写入。
+			///
+			/// @return true 能写入。
+			/// @return false 不能写入。
+			///
+			virtual bool CanWrite() const override
+			{
+				return _serial->CanWrite();
+			}
+
+			///
+			/// @brief 本流能否定位。
+			///
+			/// @return true 能定位。
+			/// @return false 不能定位。
+			///
+			virtual bool CanSeek() const override
+			{
+				return false;
+			}
+
+			///
+			/// @brief 流的长度
+			///
+			/// @return int64_t
+			///
+			virtual int64_t Length() const override
+			{
+				return _received_stream.Length();
+			}
+
+			///
+			/// @brief 设置流的长度。
+			///
+			/// @param value
+			///
+			virtual void SetLength(int64_t value) override
+			{
+				throw base::NotSupportedException{};
+			}
+
+			///
+			/// @brief 流当前的位置。
+			///
+			/// @return int64_t
+			///
+			virtual int64_t Position() const override
+			{
+				throw base::NotSupportedException{};
+			}
+
+			///
+			/// @brief 设置流当前的位置。
+			///
+			/// @param value
+			///
+			virtual void SetPosition(int64_t value) override
+			{
+				throw base::NotSupportedException{};
+			}
+
+			/* #endregion */
+
+			/* #region 读写冲关 */
+
+			///
+			/// @brief 将本流的数据读取到 span 中。
+			///
+			/// @param span
+			/// @return int32_t
+			///
+			virtual int32_t Read(base::Span const &span) override
+			{
+				int32_t have_read = 0;
+
+				while (true)
+				{
+					have_read += _received_stream.Read(span);
+					base::task::Delay(_receiving_timeout);
+					if (_received_stream.Length() == 0)
+					{
+						// 等待超时时间后没有新的数据到来，断帧。
+						return have_read;
+					}
+				}
+			}
+
+			///
+			/// @brief 将 span 中的数据写入本流。
+			///
+			/// @param span
+			///
+			virtual void Write(base::ReadOnlySpan const &span) override
+			{
+				_serial->Write(span);
+			}
+
+			///
+			/// @brief 冲洗流。
+			///
+			/// @note 对于写入的数据，作用是将其从内部缓冲区转移到底层。
+			/// @note 对于内部的可以读取但尚未读取的数据，一般不会有什么作用。Flush 没见过对可读数据生效的。
+			///
+			virtual void Flush() override
+			{
+				_serial->Flush();
+			}
+
+			///
+			/// @brief 关闭流。
+			///
+			/// @note 关闭后流无法写入，写入会引发异常。
+			///
+			/// @note 关闭后流的读取不会引发异常，但是在读完内部残留的数据后，将不会再读到
+			/// 任何数据。
+			///
+			virtual void Close() override
+			{
+				if (_disposed)
+				{
+					return;
+				}
+
+				_disposed = true;
+				_received_stream.Close();
+				_read_thread_exit->Wait();
+				_serial->Close();
+			}
+
+			/* #endregion */
+		};
+
+	} // namespace serial
+} // namespace base
