@@ -1,4 +1,5 @@
 #pragma once
+#include "base/define.h"
 #include "base/embedded/serial/SerialPortInfomation.h"
 #include "base/stream/Span.h"
 #include "serial_parameter.h"
@@ -51,6 +52,8 @@ namespace base
 
 		/* #endregion */
 
+		/* #region 启动串口 */
+
 		///
 		/// @brief 启动串口。
 		///
@@ -69,6 +72,26 @@ namespace base
 				   base::serial::Parity parity,
 				   base::serial::StopBits stop_bits,
 				   base::serial::HardwareFlowControl hardware_flow_control);
+
+		///
+		/// @brief 启动串口。
+		///
+		/// @param h
+		///
+		IMPLEMENTED
+		void start(base::serial::serial_handle &h);
+
+		///
+		/// @brief 启动串口。
+		///
+		/// @param h
+		/// @param baud_rate
+		///
+		IMPLEMENTED
+		void start(base::serial::serial_handle &h,
+				   base::serial::BaudRate const &baud_rate);
+
+		/* #endregion */
 
 		/* #region 串口属性 */
 
