@@ -62,7 +62,12 @@ namespace base
 			///
 			void Start()
 			{
-				base::serial::start(*_handle);
+				Start(base::serial::Direction::RX_TX,
+					  base::serial::BaudRate{115200},
+					  base::serial::DataBits{8},
+					  base::serial::Parity::None,
+					  base::serial::StopBits::One,
+					  base::serial::HardwareFlowControl::None);
 			}
 
 			///
@@ -72,7 +77,12 @@ namespace base
 			///
 			void Start(base::serial::BaudRate const &baud_rate)
 			{
-				base::serial::start(*_handle, baud_rate);
+				Start(base::serial::Direction::RX_TX,
+					  baud_rate,
+					  base::serial::DataBits{8},
+					  base::serial::Parity::None,
+					  base::serial::StopBits::One,
+					  base::serial::HardwareFlowControl::None);
 			}
 
 			/* #endregion */
