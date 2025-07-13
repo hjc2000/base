@@ -21,7 +21,11 @@ namespace base
 {
 	namespace serial
 	{
-		class SoftWareTimeoutSerial :
+		///
+		/// @brief 通过软件超时支持读取超时的串口。
+		///
+		///
+		class SoftWareTimeoutSerial final :
 			public base::Stream
 		{
 		private:
