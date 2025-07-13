@@ -83,6 +83,20 @@ namespace base
 			}
 
 			///
+			/// @brief 写入数据。
+			///
+			/// @param value
+			///
+			template <typename ValueType>
+			void WriteData(ValueType value)
+			{
+				uint8_t buffer[sizeof(ValueType)];
+				base::Span span{buffer, static_cast<int32_t>(sizeof(ValueType))};
+				base::big_endian_remote_converter.GetBytes(value, span);
+				WriteData(span);
+			}
+
+			///
 			/// @brief 清空数据。
 			///
 			///
