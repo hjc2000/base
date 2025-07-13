@@ -21,7 +21,7 @@ namespace base
 		class BufferContext
 		{
 		private:
-			std::unique_ptr<uint8_t[]> _buffer;
+			std::unique_ptr<uint8_t[]> _buffer{};
 
 			/// @brief 引用 _buffer 字段的内存或引用从构造函数中传进来的外部内存。
 			/// @note 让本类对象具有引用外部内存的能力，避免拷贝整个缓冲区，可以提高性能。
@@ -285,4 +285,5 @@ namespace base
 			_length = 0;
 		}
 	};
+
 } // namespace base
