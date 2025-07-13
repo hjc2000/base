@@ -22,8 +22,7 @@ namespace base
 	///
 	/// @warning 要求本类对象的生命周期内，引用的外部内存始终存活。
 	///
-	class ReadOnlySpan :
-		public base::IEnumerable<uint8_t const>
+	class ReadOnlySpan
 	{
 	private:
 		uint8_t const *_buffer = nullptr;
@@ -194,15 +193,6 @@ namespace base
 		{
 			return _size;
 		}
-
-		using base::IEnumerable<uint8_t const>::GetEnumerator;
-
-		///
-		/// @brief 获取非 const 迭代器。
-		///
-		/// @return
-		///
-		std::shared_ptr<base::IEnumerator<uint8_t const>> GetEnumerator() override;
 
 		/* #region Slice */
 
@@ -705,5 +695,20 @@ namespace base
 		}
 
 		/* #endregion */
+
+		/* #region 迭代 */
+
+		uint8_t const *begin() const
+		{
+			return _buffer;
+		}
+
+		uint8_t const *end() const
+		{
+			return _buffer + _size;
+		}
+
+		/* #endregion */
 	};
+
 } // namespace base

@@ -1,7 +1,6 @@
 #pragma once
 #include "base/container/Array.h"
 #include "base/container/ArraySpan.h"
-#include "base/container/iterator/IEnumerable.h"
 #include "base/container/Range.h"
 #include <bit>
 #include <cstdint>
@@ -19,8 +18,7 @@ namespace base
 	/// @note 本类的很多方法都有 const 修饰符。这并不是说不会改变所引用的内存，
 	/// 而是不会改变本对象的字段，即不会变成引用别的内存，或者更改引用的内存段大小。
 	///
-	class Span :
-		public base::IEnumerable<uint8_t>
+	class Span
 	{
 	private:
 		uint8_t *_buffer = nullptr;
@@ -171,19 +169,6 @@ namespace base
 		{
 			std::reverse(_buffer, _buffer + _size);
 		}
-
-		/* #region GetEnumerator */
-
-		using base::IEnumerable<uint8_t>::GetEnumerator;
-
-		///
-		/// @brief 获取非 const 迭代器。
-		///
-		/// @return std::shared_ptr<base::IEnumerator<uint8_t>>
-		///
-		std::shared_ptr<base::IEnumerator<uint8_t>> GetEnumerator() override;
-
-		/* #endregion */
 
 		/* #region Slice */
 
@@ -507,5 +492,30 @@ namespace base
 		bool operator>=(base::Span const &another) const;
 
 		/* #endregion */
+
+		/* #region 迭代 */
+
+		uint8_t *begin()
+		{
+			return _buffer;
+		}
+
+		uint8_t *end()
+		{
+			return _buffer + _size;
+		}
+
+		uint8_t const *begin() const
+		{
+			return _buffer;
+		}
+
+		uint8_t const *end() const
+		{
+			return _buffer + _size;
+		}
+
+		/* #endregion */
 	};
+
 } // namespace base

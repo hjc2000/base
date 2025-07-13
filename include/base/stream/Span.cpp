@@ -2,62 +2,10 @@
 #include "base/stream/ReadOnlySpan.h"
 #include "base/string/String.h"
 
-/* #region 生命周期 */
-
 base::Span::Span(base::String &str)
 {
 	base::Span span = str.Span();
 	*this = span;
-}
-
-/* #endregion */
-
-std::shared_ptr<base::IEnumerator<uint8_t>> base::Span::GetEnumerator()
-{
-	class Enumerator :
-		public base::IEnumerator<uint8_t>
-	{
-	private:
-		Span *_span = nullptr;
-		int32_t _index = 0;
-
-	public:
-		Enumerator(Span *span)
-		{
-			_span = span;
-		}
-
-		///
-		/// @brief 迭代器当前是否指向尾后元素。
-		///
-		/// @return
-		///
-		virtual bool IsEnd() const override
-		{
-			return _index == _span->Size();
-		}
-
-		///
-		/// @brief 获取当前值的引用。
-		///
-		/// @return ItemType&
-		///
-		virtual uint8_t &CurrentValue() override
-		{
-			return (*_span)[_index];
-		}
-
-		///
-		/// @brief 递增迭代器的位置。
-		///
-		///
-		virtual void Add() override
-		{
-			++_index;
-		}
-	};
-
-	return std::shared_ptr<IEnumerator<uint8_t>>{new Enumerator{this}};
 }
 
 /* #region CopyFrom */
