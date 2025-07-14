@@ -121,6 +121,16 @@ namespace base
 				Close();
 			}
 
+			void Start(base::serial::Direction direction,
+					   base::serial::BaudRate const &baud_rate,
+					   base::serial::DataBits const &data_bits,
+					   base::serial::Parity parity,
+					   base::serial::StopBits stop_bits,
+					   base::serial::HardwareFlowControl hardware_flow_control)
+			{
+				_serial->Start(direction, baud_rate, data_bits, parity, stop_bits, hardware_flow_control);
+			}
+
 			/* #region 流属性 */
 
 			///
