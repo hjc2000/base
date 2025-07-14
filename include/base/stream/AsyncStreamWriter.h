@@ -86,8 +86,11 @@ namespace base
 			_disposed = true;
 
 			_buffer_stream->Close();
-			_stream->Close();
 			_thread_exit_signal->Wait();
+
+			// 先等待线程退出，保证 _buffer_stream 中残留的数据都被读出来写到 _stream
+			// 中了再关闭 _stream.
+			_stream->Close();
 		}
 
 		std::shared_ptr<base::Stream> Stream() const
