@@ -42,6 +42,16 @@ namespace base
 			_stream->Write(span);
 		}
 
+		///
+		/// @brief 处置对象。
+		///
+		/// @note 处置完后 Write 系列函数将不再可以调用，调用将抛出异常。
+		///
+		virtual void Dispose() override
+		{
+			_stream->Close();
+		}
+
 		using base::TextWriter::Write;
 		using base::TextWriter::WriteLine;
 	};

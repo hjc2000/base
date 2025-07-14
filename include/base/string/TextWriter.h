@@ -1,14 +1,23 @@
 #pragma once
+#include "base/IDisposable.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/string/ICanToString.h"
 #include "base/string/String.h"
 
 namespace base
 {
-	class TextWriter
+	class TextWriter :
+		public base::IDisposable
 	{
 	public:
 		virtual void Write(base::ReadOnlySpan const &span) = 0;
+
+		///
+		/// @brief 处置对象。
+		///
+		/// @note 处置完后 Write 系列函数将不再可以调用，调用将抛出异常。
+		///
+		virtual void Dispose() override = 0;
 
 		/* #region 写入 std::string */
 
@@ -165,4 +174,5 @@ namespace base
 			Write('\n');
 		}
 	};
+
 } // namespace base
