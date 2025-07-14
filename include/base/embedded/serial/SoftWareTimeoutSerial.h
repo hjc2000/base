@@ -1,4 +1,5 @@
 #pragma once
+#include "base/container/Range.h"
 #include "base/embedded/serial/Serial.h"
 #include "base/exception/NotSupportedException.h"
 #include "base/math/Fraction.h"
@@ -211,14 +212,21 @@ namespace base
 
 				while (true)
 				{
-					have_read += _receiving_stream->Read(span);
+					if (have_read >= span.Size())
+					{
+						break;
+					}
+
+					have_read += _receiving_stream->Read(span[base::Range{have_read, span.Size()}]);
 					base::task::Delay(_receiving_timeout);
 					if (_receiving_stream->Length() == 0)
 					{
 						// 等待超时时间后没有新的数据到来，断帧。
-						return have_read;
+						break;
 					}
 				}
+
+				return have_read;
 			}
 
 			///
