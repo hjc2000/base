@@ -121,6 +121,8 @@ namespace base
 				Close();
 			}
 
+			/* #region 启动串口 */
+
 			void Start(base::serial::Direction direction,
 					   base::serial::BaudRate const &baud_rate,
 					   base::serial::DataBits const &data_bits,
@@ -130,6 +132,27 @@ namespace base
 			{
 				_serial->Start(direction, baud_rate, data_bits, parity, stop_bits, hardware_flow_control);
 			}
+
+			///
+			/// @brief 启动串口。
+			///
+			///
+			void Start()
+			{
+				_serial->Start();
+			}
+
+			///
+			/// @brief 启动串口。
+			///
+			/// @param baud_rate
+			///
+			void Start(base::serial::BaudRate const &baud_rate)
+			{
+				_serial->Start(baud_rate);
+			}
+
+			/* #endregion */
 
 			/* #region 流属性 */
 
