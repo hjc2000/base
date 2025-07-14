@@ -300,8 +300,8 @@ namespace base
 
 				_closed = true;
 
-				_receiving_stream->Close();
 				_serial->Close();
+				_receiving_stream->Close();
 				_receiving_thread_exit->Wait();
 			}
 
