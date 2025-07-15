@@ -8,6 +8,10 @@ namespace base
 {
 	namespace modbus
 	{
+		///
+		/// @brief 写单个位的请求帧作者。
+		///
+		///
 		class WritingSingleBitRequestWriter
 		{
 		private:
@@ -57,11 +61,11 @@ namespace base
 			{
 				if (value)
 				{
-					_adu_writer.WriteData(0xFF00);
+					_adu_writer.WriteData(static_cast<uint16_t>(0xFF00));
 				}
 				else
 				{
-					_adu_writer.WriteData(0x0000);
+					_adu_writer.WriteData(static_cast<uint16_t>(0x0000));
 				}
 			}
 

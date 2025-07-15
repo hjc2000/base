@@ -10,25 +10,24 @@ namespace base
 {
 	namespace modbus
 	{
+		///
+		/// @brief 写单个位的请求帧读者。
+		///
+		///
 		class WritingSingleBitRequestReader
 		{
 		private:
 			base::modbus::AduReader _adu_reader;
 
-			void CheckFunctionCode() const
+		public:
+			WritingSingleBitRequestReader(base::ReadOnlySpan const &span)
+				: _adu_reader(span)
 			{
 				uint8_t function_code = _adu_reader.FunctionCode();
 				if (function_code != base::modbus::FunctionCode::WriteSingleBit)
 				{
 					throw std::runtime_error{CODE_POS_STR + "错误的功能码。"};
 				}
-			}
-
-		public:
-			WritingSingleBitRequestReader(base::ReadOnlySpan const &span)
-				: _adu_reader(span)
-			{
-				CheckFunctionCode();
 			}
 
 			///
