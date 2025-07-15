@@ -12,25 +12,24 @@ namespace base
 {
 	namespace modbus
 	{
+		///
+		/// @brief 读取多个位数据的请求帧读者。
+		///
+		///
 		class ReadingBitsRequestReader
 		{
 		private:
 			base::modbus::AduReader _adu_reader;
 
-			void CheckFunctionCode() const
+		public:
+			ReadingBitsRequestReader(base::ReadOnlySpan const &span)
+				: _adu_reader(span)
 			{
 				uint8_t function_code = _adu_reader.FunctionCode();
 				if (function_code != base::modbus::FunctionCode::ReadBits)
 				{
 					throw std::runtime_error{CODE_POS_STR + "错误的功能码。"};
 				}
-			}
-
-		public:
-			ReadingBitsRequestReader(base::ReadOnlySpan const &span)
-				: _adu_reader(span)
-			{
-				CheckFunctionCode();
 			}
 
 			///

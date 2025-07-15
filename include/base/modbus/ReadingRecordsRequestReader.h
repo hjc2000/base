@@ -13,7 +13,7 @@ namespace base
 	namespace modbus
 	{
 		///
-		/// @brief 读记录的请求帧的读者。
+		/// @brief 读多个记录的请求帧读者。
 		///
 		///
 		class ReadingRecordsRequestReader
@@ -21,20 +21,15 @@ namespace base
 		private:
 			base::modbus::AduReader _adu_reader;
 
-			void CheckFunctionCode() const
+		public:
+			ReadingRecordsRequestReader(base::ReadOnlySpan const &span)
+				: _adu_reader(span)
 			{
 				uint8_t function_code = _adu_reader.FunctionCode();
 				if (function_code != base::modbus::FunctionCode::ReadRecords)
 				{
 					throw std::runtime_error{CODE_POS_STR + "传入的帧不是请求读取记录的帧。"};
 				}
-			}
-
-		public:
-			ReadingRecordsRequestReader(base::ReadOnlySpan const &span)
-				: _adu_reader(span)
-			{
-				CheckFunctionCode();
 			}
 
 			///
