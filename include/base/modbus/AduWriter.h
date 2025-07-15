@@ -97,15 +97,6 @@ namespace base
 			}
 
 			///
-			/// @brief 清空数据。
-			///
-			///
-			void ClearData()
-			{
-				_data_length = 0;
-			}
-
-			///
 			/// @brief 写入 CRC16.
 			///
 			///
