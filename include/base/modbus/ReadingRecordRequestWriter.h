@@ -23,16 +23,6 @@ namespace base
 			}
 
 			///
-			/// @brief 站号。
-			///
-			/// @return
-			///
-			uint8_t StationNumber() const
-			{
-				return _adu_writer.StationNumber();
-			}
-
-			///
 			/// @brief 写入站号。
 			///
 			/// @param value
@@ -40,16 +30,6 @@ namespace base
 			void WriteStationNumber(uint8_t value) const
 			{
 				_adu_writer.WriteStationNumber(value);
-			}
-
-			///
-			/// @brief 功能码。
-			///
-			/// @return
-			///
-			uint8_t FunctionCode() const
-			{
-				return 0x3;
 			}
 
 			///
