@@ -8,7 +8,7 @@ namespace base
 	namespace modbus
 	{
 		///
-		/// @brief 写记录的请求帧作者。
+		/// @brief 写多个记录的请求帧作者。
 		///
 		///
 		class WritingRecordsRequestWriter
