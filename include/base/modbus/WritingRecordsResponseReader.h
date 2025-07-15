@@ -20,12 +20,10 @@ namespace base
 			void CheckFunctionCode() const
 			{
 				uint8_t function_code = _adu_reader.FunctionCode();
-				if (function_code == base::modbus::FunctionCode::WriteRecords)
+				if (function_code != base::modbus::FunctionCode::WriteRecords)
 				{
-					return;
+					throw std::runtime_error{CODE_POS_STR + "错误的功能码。"};
 				}
-
-				throw std::runtime_error{CODE_POS_STR + "错误的功能码。"};
 			}
 
 		public:

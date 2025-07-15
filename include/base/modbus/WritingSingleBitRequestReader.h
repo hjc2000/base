@@ -18,18 +18,17 @@ namespace base
 			void CheckFunctionCode() const
 			{
 				uint8_t function_code = _adu_reader.FunctionCode();
-				if (function_code == base::modbus::FunctionCode::WriteSingleBit)
+				if (function_code != base::modbus::FunctionCode::WriteSingleBit)
 				{
-					return;
+					throw std::runtime_error{CODE_POS_STR + "错误的功能码。"};
 				}
-
-				throw std::runtime_error{CODE_POS_STR + "错误的功能码。"};
 			}
 
 		public:
 			WritingSingleBitRequestReader(base::ReadOnlySpan const &span)
 				: _adu_reader(span)
 			{
+				CheckFunctionCode();
 			}
 
 			///

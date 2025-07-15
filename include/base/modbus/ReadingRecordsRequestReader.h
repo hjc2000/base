@@ -21,15 +21,20 @@ namespace base
 		private:
 			base::modbus::AduReader _adu_reader;
 
-		public:
-			ReadingRecordsRequestReader(base::ReadOnlySpan const &span)
-				: _adu_reader(span)
+			void CheckFunctionCode() const
 			{
 				uint8_t function_code = _adu_reader.FunctionCode();
 				if (function_code != base::modbus::FunctionCode::ReadRecords)
 				{
 					throw std::runtime_error{CODE_POS_STR + "传入的帧不是请求读取记录的帧。"};
 				}
+			}
+
+		public:
+			ReadingRecordsRequestReader(base::ReadOnlySpan const &span)
+				: _adu_reader(span)
+			{
+				CheckFunctionCode();
 			}
 
 			///
