@@ -15,6 +15,11 @@ namespace base
 		private:
 			base::modbus::AduWriter _adu_writer;
 
+			static constexpr uint8_t FunctionCode()
+			{
+				return 0x10;
+			}
+
 		public:
 			WritingRecordRequestWriter(base::Span const &span)
 				: _adu_writer(span)
@@ -37,7 +42,7 @@ namespace base
 			///
 			void WriteFunctionCode() const
 			{
-				_adu_writer.WriteFunctionCode(0x10);
+				_adu_writer.WriteFunctionCode(FunctionCode());
 			}
 
 			///
