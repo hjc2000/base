@@ -1,4 +1,5 @@
 #pragma once
+#include "base/bit/AutoBitConverter.h"
 #include "base/bit/bit.h"
 #include "base/container/Range.h"
 #include "base/modbus/AduReader.h"
@@ -11,18 +12,14 @@ namespace base
 {
 	namespace modbus
 	{
-		///
-		/// @brief 读记录的响应帧读者。
-		///
-		///
-		class ReadingRecordResponseReader
+		class WritingRecordRequestReader
 		{
 		private:
 			base::modbus::AduReader _adu_reader;
 
 			static constexpr uint8_t FunctionCode()
 			{
-				return 0x3;
+				return 0x10;
 			}
 
 			static constexpr uint8_t ExceptionFunctionCode()
@@ -49,7 +46,7 @@ namespace base
 			}
 
 		public:
-			ReadingRecordResponseReader(base::ReadOnlySpan const &span)
+			WritingRecordRequestReader(base::ReadOnlySpan const &span)
 				: _adu_reader(span)
 			{
 				CheckFunctionCode();
@@ -66,26 +63,48 @@ namespace base
 			}
 
 			///
-			/// @brief 数据字节数。
+			/// @brief 要写入的数据的起始地址。
+			///
+			/// @return
+			///
+			uint16_t DataStartAddress() const
+			{
+				base::ReadOnlySpan span = _adu_reader.DataSpan()[base::Range{0, 2}];
+				return base::big_endian_remote_converter.FromBytes<uint16_t>(span);
+			}
+
+			///
+			/// @brief 要写入的记录数。
+			///
+			/// @note 一个记录 2 个字节。
+			///
+			/// @return
+			///
+			uint16_t RecordCount() const
+			{
+				base::ReadOnlySpan span = _adu_reader.DataSpan()[base::Range{2, 4}];
+				return base::big_endian_remote_converter.FromBytes<uint16_t>(span);
+			}
+
+			///
+			/// @brief 要写入的数据的字节数。
 			///
 			/// @return
 			///
 			uint8_t DataByteCount() const
 			{
-				return _adu_reader.DataSpan()[0];
+				return _adu_reader.DataSpan()[4];
 			}
 
 			///
-			/// @brief 响应中发回来的数据。字节数为 DataByteCount().
-			///
-			/// @note 本读者类无法知道这里面的数据是什么含义和格式，所以只能是返回内存段。
+			/// @brief 要写入的数据所在的内存段。
 			///
 			/// @return
 			///
 			base::ReadOnlySpan DataSpan() const
 			{
 				base::ReadOnlySpan adu_data_span = _adu_reader.DataSpan();
-				return adu_data_span[base::Range{1, adu_data_span.Size()}];
+				return adu_data_span[base::Range{5, adu_data_span.Size()}];
 			}
 		};
 
