@@ -1,4 +1,5 @@
 #pragma once
+#include "base/bit/bit.h"
 #include "base/modbus/AduWriter.h"
 #include <cstdint>
 
@@ -14,6 +15,18 @@ namespace base
 		{
 		private:
 			base::modbus::AduWriter _adu_writer;
+
+			static constexpr uint8_t FunctionCode()
+			{
+				return 0x3;
+			}
+
+			static constexpr uint8_t ExceptionFunctionCode()
+			{
+				uint8_t ret = FunctionCode();
+				base::bit::WriteBit(ret, 7, 1);
+				return ret;
+			}
 
 		public:
 			ReadingRecordResponseWriter(base::Span const &span)
@@ -37,7 +50,16 @@ namespace base
 			///
 			void WriteFunctionCode() const
 			{
-				_adu_writer.WriteFunctionCode(0x03);
+				_adu_writer.WriteFunctionCode(FunctionCode());
+			}
+
+			///
+			/// @brief 写入异常响应的功能码。
+			///
+			///
+			void WriteExceptionFunctionCode()
+			{
+				_adu_writer.WriteFunctionCode(ExceptionFunctionCode());
 			}
 
 			///
