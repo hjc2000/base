@@ -46,7 +46,7 @@ namespace base
 			///
 			/// @param value
 			///
-			void WriteDataStartAddress(uint16_t value)
+			void WriteStartAddress(uint16_t value)
 			{
 				_adu_writer.WriteData(value);
 			}
