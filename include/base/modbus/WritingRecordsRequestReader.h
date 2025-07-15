@@ -1,8 +1,8 @@
 #pragma once
 #include "base/bit/AutoBitConverter.h"
-#include "base/bit/bit.h"
 #include "base/container/Range.h"
 #include "base/modbus/AduReader.h"
+#include "base/modbus/FunctionCode.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/string/define.h"
 #include <cstdint>
@@ -12,32 +12,15 @@ namespace base
 {
 	namespace modbus
 	{
-		class WritingRecordRequestReader
+		class WritingRecordsRequestReader
 		{
 		private:
 			base::modbus::AduReader _adu_reader;
 
-			static constexpr uint8_t FunctionCode()
-			{
-				return 0x10;
-			}
-
-			static constexpr uint8_t ExceptionFunctionCode()
-			{
-				uint8_t ret = FunctionCode();
-				base::bit::WriteBit(ret, 7, 1);
-				return ret;
-			}
-
 			void CheckFunctionCode() const
 			{
 				uint8_t function_code = _adu_reader.FunctionCode();
-				if (function_code == FunctionCode())
-				{
-					return;
-				}
-
-				if (function_code == ExceptionFunctionCode())
+				if (function_code == base::modbus::FunctionCode::WriteRecords)
 				{
 					return;
 				}
@@ -46,7 +29,7 @@ namespace base
 			}
 
 		public:
-			WritingRecordRequestReader(base::ReadOnlySpan const &span)
+			WritingRecordsRequestReader(base::ReadOnlySpan const &span)
 				: _adu_reader(span)
 			{
 				CheckFunctionCode();

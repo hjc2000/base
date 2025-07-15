@@ -4,6 +4,7 @@
 #include "base/container/Range.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/string/define.h"
+#include "FunctionCode.h"
 #include <cstdint>
 #include <stdexcept>
 
@@ -15,17 +16,17 @@ namespace base
 		/// @brief 读记录的请求帧的读者。
 		///
 		///
-		class ReadingRecordRequestReader
+		class ReadingRecordsRequestReader
 		{
 		private:
 			base::modbus::AduReader _adu_reader;
 
 		public:
-			ReadingRecordRequestReader(base::ReadOnlySpan const &span)
+			ReadingRecordsRequestReader(base::ReadOnlySpan const &span)
 				: _adu_reader(span)
 			{
 				uint8_t function_code = _adu_reader.FunctionCode();
-				if (function_code != 0x3)
+				if (function_code != base::modbus::FunctionCode::ReadRecords)
 				{
 					throw std::runtime_error{CODE_POS_STR + "传入的帧不是请求读取记录的帧。"};
 				}

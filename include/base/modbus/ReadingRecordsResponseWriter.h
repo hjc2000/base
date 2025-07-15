@@ -1,5 +1,6 @@
 #pragma once
 #include "base/modbus/AduWriter.h"
+#include "base/modbus/FunctionCode.h"
 #include <cstdint>
 
 namespace base
@@ -7,21 +8,16 @@ namespace base
 	namespace modbus
 	{
 		///
-		/// @brief 写记录的请求帧作者。
+		/// @brief 读记录的响应帧作者。
 		///
 		///
-		class WritingRecordRequestWriter
+		class ReadingRecordsResponseWriter
 		{
 		private:
 			base::modbus::AduWriter _adu_writer;
 
-			static constexpr uint8_t FunctionCode()
-			{
-				return 0x10;
-			}
-
 		public:
-			WritingRecordRequestWriter(base::Span const &span)
+			ReadingRecordsResponseWriter(base::Span const &span)
 				: _adu_writer(span)
 			{
 			}
@@ -42,39 +38,17 @@ namespace base
 			///
 			void WriteFunctionCode() const
 			{
-				_adu_writer.WriteFunctionCode(FunctionCode());
+				_adu_writer.WriteFunctionCode(static_cast<uint8_t>(base::modbus::FunctionCode::ReadRecords));
 			}
 
 			///
-			/// @brief 写入要写入的数据的起始地址。
-			///
-			/// @param value
-			///
-			void WriteDataStartAddress(uint16_t value)
-			{
-				_adu_writer.WriteData(value);
-			}
-
-			///
-			/// @brief 写入要写入的记录的个数。
-			///
-			/// @note 一个记录 2 个字节。
-			///
-			/// @param value
-			///
-			void WriteRecordCount(uint16_t value)
-			{
-				_adu_writer.WriteData(value);
-			}
-
-			///
-			/// @brief 写入要写入的数据的字节数。
+			/// @brief 写入数据字节数。
 			///
 			/// @param value
 			///
 			void WriteDataByteCount(uint8_t value)
 			{
-				_adu_writer.WriteData(value);
+				return _adu_writer.WriteData(value);
 			}
 
 			///

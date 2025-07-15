@@ -1,7 +1,7 @@
 #pragma once
-#include "base/bit/bit.h"
 #include "base/container/Range.h"
 #include "base/modbus/AduReader.h"
+#include "base/modbus/FunctionCode.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/string/define.h"
 #include <cstdint>
@@ -15,32 +15,15 @@ namespace base
 		/// @brief 读记录的响应帧读者。
 		///
 		///
-		class ReadingRecordResponseReader
+		class ReadingRecordsResponseReader
 		{
 		private:
 			base::modbus::AduReader _adu_reader;
 
-			static constexpr uint8_t FunctionCode()
-			{
-				return 0x3;
-			}
-
-			static constexpr uint8_t ExceptionFunctionCode()
-			{
-				uint8_t ret = FunctionCode();
-				base::bit::WriteBit(ret, 7, 1);
-				return ret;
-			}
-
 			void CheckFunctionCode() const
 			{
 				uint8_t function_code = _adu_reader.FunctionCode();
-				if (function_code == FunctionCode())
-				{
-					return;
-				}
-
-				if (function_code == ExceptionFunctionCode())
+				if (function_code == base::modbus::FunctionCode::ReadRecords)
 				{
 					return;
 				}
@@ -49,7 +32,7 @@ namespace base
 			}
 
 		public:
-			ReadingRecordResponseReader(base::ReadOnlySpan const &span)
+			ReadingRecordsResponseReader(base::ReadOnlySpan const &span)
 				: _adu_reader(span)
 			{
 				CheckFunctionCode();
