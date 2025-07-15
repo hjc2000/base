@@ -12,7 +12,7 @@ namespace base
 		class DcpTlvReader;
 
 		///
-		/// @brief DCP Identify 请求帧阅读器。
+		/// @brief DCP Identify 请求帧读者。
 		///
 		///
 		class DcpIdentifyRequestReader :

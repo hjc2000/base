@@ -7,7 +7,7 @@ namespace base
 {
 	namespace profinet
 	{
-		/// @brief DCP 头部阅读器。
+		/// @brief DCP 头部读者。
 		class DcpHeaderReader
 		{
 		private:

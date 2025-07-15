@@ -10,7 +10,7 @@ namespace base
 	namespace ethernet
 	{
 		///
-		/// @brief 以太网帧阅读器。
+		/// @brief 以太网帧读者。
 		///
 		///
 		class EthernetFrameReader :

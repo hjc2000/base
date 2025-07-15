@@ -12,7 +12,7 @@ namespace base
 	namespace modbus
 	{
 		///
-		/// @brief 读记录的请求帧的阅读器。
+		/// @brief 读记录的请求帧的读者。
 		///
 		///
 		class ReadingRecordRequestReader
