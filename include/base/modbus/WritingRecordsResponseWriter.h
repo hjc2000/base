@@ -7,6 +7,10 @@ namespace base
 {
 	namespace modbus
 	{
+		///
+		/// @brief 写多个记录的响应帧作者。
+		///
+		///
 		class WritingRecordsResponseWriter
 		{
 		private:

@@ -12,25 +12,24 @@ namespace base
 {
 	namespace modbus
 	{
+		///
+		/// @brief 写多个记录的响应帧读者。
+		///
+		///
 		class WritingRecordsResponseReader
 		{
 		private:
 			base::modbus::AduReader _adu_reader;
 
-			void CheckFunctionCode() const
+		public:
+			WritingRecordsResponseReader(base::ReadOnlySpan const &span)
+				: _adu_reader(span)
 			{
 				uint8_t function_code = _adu_reader.FunctionCode();
 				if (function_code != base::modbus::FunctionCode::WriteRecords)
 				{
 					throw std::runtime_error{CODE_POS_STR + "错误的功能码。"};
 				}
-			}
-
-		public:
-			WritingRecordsResponseReader(base::ReadOnlySpan const &span)
-				: _adu_reader(span)
-			{
-				CheckFunctionCode();
 			}
 
 			///
