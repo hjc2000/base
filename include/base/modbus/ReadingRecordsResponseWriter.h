@@ -8,7 +8,7 @@ namespace base
 	namespace modbus
 	{
 		///
-		/// @brief 读记录的响应帧作者。
+		/// @brief 读多个记录的响应帧作者。
 		///
 		///
 		class ReadingRecordsResponseWriter
