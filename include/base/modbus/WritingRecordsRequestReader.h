@@ -26,7 +26,7 @@ namespace base
 				: _adu_reader(span)
 			{
 				base::modbus::FunctionCode function_code = _adu_reader.FunctionCode();
-				if (function_code != base::modbus::FunctionCode::WriteRecords())
+				if (function_code != base::modbus::function_code::WriteRecords())
 				{
 					throw std::runtime_error{CODE_POS_STR + "错误的功能码。"};
 				}

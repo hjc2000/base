@@ -32,12 +32,15 @@ namespace base
 			{
 				return _value == other._value;
 			}
+		};
 
+		namespace function_code
+		{
 			///
 			/// @brief 读取多个位。
 			///
 			///
-			static constexpr base::modbus::FunctionCode ReadBits()
+			constexpr base::modbus::FunctionCode ReadBits()
 			{
 				return base::modbus::FunctionCode{0x1};
 			}
@@ -46,7 +49,7 @@ namespace base
 			/// @brief 读取多个记录。
 			///
 			///
-			static constexpr base::modbus::FunctionCode ReadRecords()
+			constexpr base::modbus::FunctionCode ReadRecords()
 			{
 				return base::modbus::FunctionCode{0x3};
 			}
@@ -55,7 +58,7 @@ namespace base
 			/// @brief 写入单个位。
 			///
 			///
-			static constexpr base::modbus::FunctionCode WriteSingleBit()
+			constexpr base::modbus::FunctionCode WriteSingleBit()
 			{
 				return base::modbus::FunctionCode{0x5};
 			}
@@ -64,7 +67,7 @@ namespace base
 			/// @brief 写入多个位。
 			///
 			///
-			static constexpr base::modbus::FunctionCode WriteBits()
+			constexpr base::modbus::FunctionCode WriteBits()
 			{
 				return base::modbus::FunctionCode{0xF};
 			}
@@ -73,11 +76,12 @@ namespace base
 			/// @brief 写入多个记录。
 			///
 			///
-			static constexpr base::modbus::FunctionCode WriteRecords()
+			constexpr base::modbus::FunctionCode WriteRecords()
 			{
 				return base::modbus::FunctionCode{0x10};
 			}
-		};
+
+		} // namespace function_code
 
 	} // namespace modbus
 } // namespace base
