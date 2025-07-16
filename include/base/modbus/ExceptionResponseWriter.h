@@ -35,9 +35,9 @@ namespace base
 			/// @param value 正常的功能码，不是异常响应功能码。在响应哪个功能码的请求时出错了，
 			/// 就直接写这个功能码就行了，本函数内部会自动写入异常响应功能码。
 			///
-			void WriteFunctionCode(uint8_t value) const
+			void WriteFunctionCode(base::modbus::FunctionCode const &value) const
 			{
-				uint8_t exception_function_code = value;
+				uint8_t exception_function_code = value.Value();
 				base::bit::WriteBit(exception_function_code, 7, 1);
 				_adu_writer.WriteFunctionCode(base::modbus::FunctionCode{exception_function_code});
 			}
