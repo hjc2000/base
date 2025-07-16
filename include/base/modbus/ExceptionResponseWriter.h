@@ -2,6 +2,7 @@
 #include "base/bit/bit.h"
 #include "base/modbus/AduWriter.h"
 #include "base/modbus/FunctionCode.h"
+#include "ExceptionCode.h"
 #include <cstdint>
 
 namespace base
@@ -42,9 +43,9 @@ namespace base
 				_adu_writer.WriteFunctionCode(base::modbus::FunctionCode{exception_function_code});
 			}
 
-			void WriteExceptionCode(uint8_t value)
+			void WriteExceptionCode(base::modbus::ExceptionCode const &value)
 			{
-				_adu_writer.WriteData(value);
+				_adu_writer.WriteData(value.Value());
 			}
 
 			void WriteCrc()
