@@ -39,7 +39,7 @@ namespace base
 			///
 			void WriteFunctionCode() const
 			{
-				_adu_writer.WriteFunctionCode(static_cast<uint8_t>(base::modbus::FunctionCode::ReadBits));
+				_adu_writer.WriteFunctionCode(base::modbus::function_code::ReadBits);
 			}
 
 			///

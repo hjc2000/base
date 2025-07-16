@@ -23,7 +23,7 @@ namespace base
 				: _adu_reader(span)
 			{
 				uint8_t function_code = _adu_reader.FunctionCode();
-				if (function_code != base::modbus::FunctionCode::ReadBits)
+				if (function_code != base::modbus::function_code::ReadBits)
 				{
 					throw std::runtime_error{CODE_POS_STR + "错误的功能码。"};
 				}
