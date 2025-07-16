@@ -1,6 +1,7 @@
 #pragma once
 #include "base/bit/AutoBitConverter.h"
 #include "base/container/Range.h"
+#include "base/modbus/FunctionCode.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
 #include "base/string/define.h"
@@ -50,23 +51,13 @@ namespace base
 			}
 
 			///
-			/// @brief 功能码。
-			///
-			/// @return
-			///
-			uint8_t FunctionCode() const
-			{
-				return _span[1];
-			}
-
-			///
 			/// @brief 写入功能码。
 			///
 			/// @param value
 			///
-			void WriteFunctionCode(uint8_t value) const
+			void WriteFunctionCode(base::modbus::FunctionCode const &value) const
 			{
-				_span[1] = value;
+				_span[1] = value.Value();
 			}
 
 			///

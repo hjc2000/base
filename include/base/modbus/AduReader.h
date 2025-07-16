@@ -1,6 +1,7 @@
 #pragma once
 #include "base/bit/AutoBitConverter.h"
 #include "base/container/Range.h"
+#include "base/modbus/FunctionCode.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
 #include "base/string/define.h"
@@ -69,9 +70,9 @@ namespace base
 			///
 			/// @return
 			///
-			uint8_t FunctionCode() const
+			base::modbus::FunctionCode FunctionCode() const
 			{
-				return _span[1];
+				return base::modbus::FunctionCode{_span[1]};
 			}
 
 			///

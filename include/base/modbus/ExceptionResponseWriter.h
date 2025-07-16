@@ -1,6 +1,7 @@
 #pragma once
 #include "base/bit/bit.h"
 #include "base/modbus/AduWriter.h"
+#include "base/modbus/FunctionCode.h"
 #include <cstdint>
 
 namespace base
@@ -38,7 +39,7 @@ namespace base
 			{
 				uint8_t exception_function_code = value;
 				base::bit::WriteBit(exception_function_code, 7, 1);
-				_adu_writer.WriteFunctionCode(exception_function_code);
+				_adu_writer.WriteFunctionCode(base::modbus::FunctionCode{exception_function_code});
 			}
 
 			void WriteExceptionCode(uint8_t value)

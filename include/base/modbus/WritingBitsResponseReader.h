@@ -17,8 +17,8 @@ namespace base
 			WritingBitsResponseReader(base::ReadOnlySpan const &span)
 				: _adu_reader(span)
 			{
-				uint8_t function_code = _adu_reader.FunctionCode();
-				if (function_code != base::modbus::function_code::WriteBits)
+				base::modbus::FunctionCode function_code = _adu_reader.FunctionCode();
+				if (function_code != base::modbus::FunctionCode::WriteBits())
 				{
 					throw std::runtime_error{CODE_POS_STR + "功能码错误。"};
 				}
