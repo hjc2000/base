@@ -24,17 +24,32 @@ namespace base
 				}
 			}
 
+			///
+			/// @brief 站号。
+			///
+			/// @return
+			///
 			uint8_t StationNumber() const
 			{
 				return _adu_reader.StationNumber();
 			}
 
+			///
+			/// @brief 要写入的位数据的起始地址。
+			///
+			/// @return
+			///
 			uint16_t StartAddress() const
 			{
 				base::ReadOnlySpan span = _adu_reader.DataSpan()[base::Range{0, 2}];
 				return base::big_endian_remote_converter.FromBytes<uint16_t>(span);
 			}
 
+			///
+			/// @brief 要写入的位数据的个数。
+			///
+			/// @return
+			///
 			uint16_t BitCount() const
 			{
 				base::ReadOnlySpan span = _adu_reader.DataSpan()[base::Range{2, 4}];
