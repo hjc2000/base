@@ -40,6 +40,21 @@ namespace base
 				base::bit::WriteBit(exception_function_code, 7, 1);
 				_adu_writer.WriteFunctionCode(exception_function_code);
 			}
+
+			void WriteExceptionCode(uint8_t value)
+			{
+				_adu_writer.WriteData(value);
+			}
+
+			void WriteCrc()
+			{
+				_adu_writer.WriteCrc();
+			}
+
+			base::ReadOnlySpan SpanForSending() const
+			{
+				return _adu_writer.SpanForSending();
+			}
 		};
 
 	} // namespace modbus
