@@ -43,16 +43,31 @@ namespace base
 				_adu_writer.WriteFunctionCode(base::modbus::FunctionCode{exception_function_code});
 			}
 
+			///
+			/// @brief 写入异常代码。
+			///
+			/// @param value
+			///
 			void WriteExceptionCode(base::modbus::ExceptionCode const &value)
 			{
 				_adu_writer.WriteData(value.Value());
 			}
 
+			///
+			/// @brief 写入 CRC.
+			///
+			///
 			void WriteCrc()
 			{
 				_adu_writer.WriteCrc();
 			}
 
+			///
+			/// @brief 获取待发送的 span, 这里面包括了从站号到 CRC16 的所有数据，
+			/// 可以直接全部发送出去。
+			///
+			/// @return
+			///
 			base::ReadOnlySpan SpanForSending() const
 			{
 				return _adu_writer.SpanForSending();
