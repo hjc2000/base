@@ -72,7 +72,7 @@ namespace base
 				white_char_index++;
 			}
 
-			_buffer = static_cast<uint8_t const *>(static_cast<void const *>(str));
+			_buffer = reinterpret_cast<uint8_t const *>(str);
 			_size = white_char_index;
 		}
 
