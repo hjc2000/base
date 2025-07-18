@@ -2,7 +2,6 @@
 #include "base/container/Array.h"
 #include "base/container/ArraySpan.h"
 #include "base/container/Range.h"
-#include <bit>
 #include <cstdint>
 
 namespace base
@@ -69,7 +68,7 @@ namespace base
 				white_char_index++;
 			}
 
-			_buffer = std::bit_cast<uint8_t *>(str);
+			_buffer = reinterpret_cast<uint8_t *>(str);
 			_size = white_char_index;
 		}
 
