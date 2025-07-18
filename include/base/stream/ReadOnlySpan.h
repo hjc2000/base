@@ -6,7 +6,6 @@
 #include "base/string/define.h"
 #include "memcmp.h"
 #include <algorithm>
-#include <bit>
 #include <cstdint>
 #include <cstring>
 #include <stdexcept>
@@ -73,7 +72,7 @@ namespace base
 				white_char_index++;
 			}
 
-			_buffer = std::bit_cast<uint8_t const *>(str);
+			_buffer = static_cast<uint8_t const *>(static_cast<void const *>(str));
 			_size = white_char_index;
 		}
 
