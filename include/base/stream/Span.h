@@ -68,7 +68,7 @@ namespace base
 				white_char_index++;
 			}
 
-			_buffer = reinterpret_cast<uint8_t *>(str);
+			_buffer = static_cast<uint8_t *>(static_cast<void *>(str));
 			_size = white_char_index;
 		}
 
