@@ -1,6 +1,7 @@
 #pragma once
 #include "base/bit/bit.h"
 #include "base/math/FloatNumberValueType.h"
+#include <bit>
 #include <cstdint>
 
 namespace base
@@ -10,30 +11,24 @@ namespace base
 		class DoubleBitView
 		{
 		private:
-			union Union
-			{
-				double _double;
-				uint64_t _uint64;
-			};
-
-			Union _value_union{};
+			uint64_t _value{};
 
 		public:
 			constexpr DoubleBitView() = default;
 
 			constexpr DoubleBitView(double value)
 			{
-				_value_union._double = value;
+				_value = std::bit_cast<uint64_t>(value);
 			}
 
 			constexpr double Value() const
 			{
-				return _value_union._double;
+				return std::bit_cast<double>(_value);
 			}
 
 			constexpr uint64_t AsUint64() const
 			{
-				return _value_union._uint64;
+				return _value;
 			}
 
 			///
@@ -43,7 +38,7 @@ namespace base
 			///
 			constexpr uint64_t MantissaBits() const
 			{
-				return base::bit::ReadBits(_value_union._uint64, 0, 52);
+				return base::bit::ReadBits(_value, 0, 52);
 			}
 
 			///
@@ -53,7 +48,7 @@ namespace base
 			///
 			constexpr uint64_t ExponentBits() const
 			{
-				return base::bit::ReadBits(_value_union._uint64, 52, 63);
+				return base::bit::ReadBits(_value, 52, 63);
 			}
 
 			///
@@ -63,7 +58,7 @@ namespace base
 			///
 			constexpr bool SignBit() const
 			{
-				return base::bit::ReadBit(_value_union._uint64, 63);
+				return base::bit::ReadBit(_value, 63);
 			}
 
 			///
