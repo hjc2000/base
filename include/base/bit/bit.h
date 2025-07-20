@@ -389,13 +389,11 @@ namespace base
 		constexpr T CircularLeftShift(T value, uint8_t count)
 		{
 			int32_t bit_count = sizeof(T) * 8;
-			for (int32_t i = 0; i < count; i++)
-			{
-				bool msb = base::bit::ReadBit(value, bit_count - 1);
-				value <<= 1;
-				base::bit::WriteBit(value, 0, msb);
-			}
+			count %= bit_count;
 
+			T bits = base::bit::ReadBits(value, bit_count - count, bit_count);
+			value <<= count;
+			base::bit::WriteBits(value, 0, count, bits);
 			return value;
 		}
 
@@ -408,13 +406,11 @@ namespace base
 		constexpr T CircularRightShift(T value, uint8_t count)
 		{
 			int32_t bit_count = sizeof(T) * 8;
-			for (int32_t i = 0; i < count; i++)
-			{
-				bool lsb = base::bit::ReadBit(value, 0);
-				value >>= 1;
-				base::bit::WriteBit(value, bit_count - 1, lsb);
-			}
+			count %= bit_count;
 
+			T bits = base::bit::ReadBits(value, 0, count);
+			value >>= count;
+			base::bit::WriteBits(value, bit_count - count, bit_count, bits);
 			return value;
 		}
 
