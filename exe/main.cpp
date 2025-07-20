@@ -82,4 +82,15 @@ int main()
 		num = base::bit::Reverse(num);
 		std::cout << base::ToHexString(num) << std::endl;
 	}
+
+	{
+		uint8_t num = 0b10100111;
+		num = base::bit::CircularLeftShift(num, 3);
+		std::cout << base::ToHexString(num) << std::endl;
+	}
+	{
+		uint8_t num = 0b10100111;
+		num = base::bit::CircularRightShift(num, 3);
+		std::cout << base::ToHexString(num) << std::endl;
+	}
 }

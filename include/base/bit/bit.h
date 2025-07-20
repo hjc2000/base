@@ -378,6 +378,48 @@ namespace base
 
 		/* #endregion */
 
+		/* #region 循环移位 */
+
+		///
+		/// @brief 循环左移。
+		///
+		///
+		template <typename T>
+			requires(std::is_integral_v<T>)
+		constexpr T CircularLeftShift(T value, uint8_t count)
+		{
+			int32_t bit_count = sizeof(T) * 8;
+			for (int32_t i = 0; i < count; i++)
+			{
+				bool msb = base::bit::ReadBit(value, bit_count - 1);
+				value <<= 1;
+				base::bit::WriteBit(value, 0, msb);
+			}
+
+			return value;
+		}
+
+		///
+		/// @brief 循环右移。
+		///
+		///
+		template <typename T>
+			requires(std::is_integral_v<T>)
+		constexpr T CircularRightShift(T value, uint8_t count)
+		{
+			int32_t bit_count = sizeof(T) * 8;
+			for (int32_t i = 0; i < count; i++)
+			{
+				bool lsb = base::bit::ReadBit(value, 0);
+				value >>= 1;
+				base::bit::WriteBit(value, bit_count - 1, lsb);
+			}
+
+			return value;
+		}
+
+		/* #endregion */
+
 		///
 		/// @brief 翻转位。
 		///
