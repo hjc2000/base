@@ -70,7 +70,7 @@ int main()
 	}
 
 	{
-		std::array<uint8_t, 6> arr{0x01, 0x03, 0x00, 0x00, 0x00, 0x01};
+		constexpr std::array<uint8_t, 6> arr{0x01, 0x03, 0x00, 0x00, 0x00, 0x01};
 		base::modbus::ModbusCrc16 crc{};
 		crc.Add(arr);
 		std::cout << base::ToHexString(crc.RegisterValue()) << std::endl;
