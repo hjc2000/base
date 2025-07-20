@@ -386,15 +386,9 @@ namespace base
 		///
 		template <typename T>
 			requires(std::is_integral_v<T>)
-		constexpr T CircularLeftShift(T value, uint8_t count)
+		constexpr T CircularLeftShift(T value, int32_t count) noexcept
 		{
-			int32_t bit_count = sizeof(T) * 8;
-			count %= bit_count;
-
-			T bits = base::bit::ReadBits(value, bit_count - count, bit_count);
-			value <<= count;
-			base::bit::WriteBits(value, 0, count, bits);
-			return value;
+			return std::rotl(value, count);
 		}
 
 		///
@@ -403,15 +397,9 @@ namespace base
 		///
 		template <typename T>
 			requires(std::is_integral_v<T>)
-		constexpr T CircularRightShift(T value, uint8_t count)
+		constexpr T CircularRightShift(T value, int32_t count) noexcept
 		{
-			int32_t bit_count = sizeof(T) * 8;
-			count %= bit_count;
-
-			T bits = base::bit::ReadBits(value, 0, count);
-			value >>= count;
-			base::bit::WriteBits(value, bit_count - count, bit_count, bits);
-			return value;
+			return std::rotr(value, count);
 		}
 
 		/* #endregion */
