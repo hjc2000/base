@@ -325,6 +325,8 @@ namespace base
 
 		/* #endregion */
 
+		/* #region 地址对齐 */
+
 		///
 		/// @brief 将 address 向上调整到 align_byte_count 字节对齐的地址。
 		///
@@ -373,6 +375,8 @@ namespace base
 		{
 			return base::bit::AlignUp(sizeof(T), AlignByteCount);
 		}
+
+		/* #endregion */
 
 		///
 		/// @brief 翻转位。
