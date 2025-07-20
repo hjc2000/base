@@ -472,9 +472,9 @@ namespace base
 					}
 				}
 
-				constexpr uint8_t operator[](uint8_t value) const
+				constexpr uint8_t operator[](uint8_t index) const
 				{
-					return _table[value];
+					return _table[index];
 				}
 			};
 
