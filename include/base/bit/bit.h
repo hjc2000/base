@@ -1,5 +1,7 @@
 #pragma once
 #include "base/string/define.h"
+#include <algorithm>
+#include <array>
 #include <bit>
 #include <cstddef>
 #include <cstdint>
@@ -411,7 +413,7 @@ namespace base
 		///
 		///
 		template <typename T>
-			requires(std::is_integral_v<T>)
+			requires(std::is_same_v<T, uint8_t>)
 		constexpr T Reverse(T value)
 		{
 			int32_t bit_count = sizeof(T) * 8;
@@ -425,6 +427,66 @@ namespace base
 				base::bit::WriteBit(value, right_index, left_bit);
 			}
 
+			return value;
+		}
+
+		///
+		/// @brief 翻转位。
+		///
+		/// @note 翻转后，最低位位将变为最高位，最高位将变为最低位。
+		///
+		///
+		template <typename T>
+			requires(std::is_integral_v<T> && !std::is_same_v<T, uint8_t>)
+		constexpr T Reverse(T value)
+		{
+			if (std::is_constant_evaluated())
+			{
+				// 编译时计算路径
+				int32_t bit_count = sizeof(T) * 8;
+				for (int32_t i = 0; i < bit_count / 2; i++)
+				{
+					int32_t left_index = bit_count - 1 - i;
+					int32_t right_index = i;
+					bool left_bit = base::bit::ReadBit(value, left_index);
+					bool right_bit = base::bit::ReadBit(value, right_index);
+					base::bit::WriteBit(value, left_index, right_bit);
+					base::bit::WriteBit(value, right_index, left_bit);
+				}
+
+				return value;
+			}
+
+			// 运行时计算路径
+			class Table
+			{
+			private:
+				std::array<uint8_t, 256> _table{};
+
+			public:
+				constexpr Table()
+				{
+					for (int32_t i = 0; i < 256; i++)
+					{
+						_table[i] = base::bit::Reverse(static_cast<uint8_t>(i));
+					}
+				}
+
+				constexpr uint8_t operator[](uint8_t value) const
+				{
+					return _table[value];
+				}
+			};
+
+			constexpr Table table{};
+			uint8_t *bytes = reinterpret_cast<uint8_t *>(&value);
+
+			for (size_t i = 0; i < sizeof(T); i++)
+			{
+				bytes[i] = table[bytes[i]];
+			}
+
+			std::reverse(bytes, bytes + sizeof(T));
 			return value;
 		}
 
