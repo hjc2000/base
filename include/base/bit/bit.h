@@ -374,5 +374,29 @@ namespace base
 			return base::bit::AlignUp(sizeof(T), AlignByteCount);
 		}
 
+		///
+		/// @brief 翻转位。
+		///
+		/// @note 翻转后，最低位位将变为最高位，最高位将变为最低位。
+		///
+		///
+		template <typename T>
+			requires(std::is_integral_v<T>)
+		constexpr T Reverse(T value)
+		{
+			int32_t bit_count = sizeof(T) * 8;
+			for (int32_t i = 0; i < bit_count / 2; i++)
+			{
+				int32_t left_index = bit_count - 1 - i;
+				int32_t right_index = i;
+				bool left_bit = base::bit::ReadBit(value, left_index);
+				bool right_bit = base::bit::ReadBit(value, right_index);
+				base::bit::WriteBit(value, left_index, right_bit);
+				base::bit::WriteBit(value, right_index, left_bit);
+			}
+
+			return value;
+		}
+
 	} // namespace bit
 } // namespace base

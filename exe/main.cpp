@@ -1,3 +1,4 @@
+#include "base/bit/bit.h"
 #include "base/math/Fraction.h"
 #include "base/math/InertialElement.h"
 #include "base/math/Int64Fraction.h"
@@ -74,5 +75,11 @@ int main()
 		base::modbus::ModbusCrc16 crc{};
 		crc.Add(arr);
 		std::cout << base::ToHexString(crc.RegisterValue()) << std::endl;
+	}
+
+	{
+		uint8_t num = 0b10100111;
+		num = base::bit::Reverse(num);
+		std::cout << base::ToHexString(num) << std::endl;
 	}
 }
