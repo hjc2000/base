@@ -406,6 +406,8 @@ namespace base
 
 		/* #endregion */
 
+		/* #region 位镜像翻转 */
+
 		///
 		/// @brief 翻转位。
 		///
@@ -489,6 +491,8 @@ namespace base
 			std::reverse(bytes, bytes + sizeof(T));
 			return value;
 		}
+
+		/* #endregion */
 
 	} // namespace bit
 } // namespace base
