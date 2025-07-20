@@ -6,6 +6,7 @@
 #include "base/stream/ReadOnlySpan.h"
 #include "base/string/ToHexString.h"
 #include "base/wrapper/number-wrapper.h"
+#include <array>
 #include <cmath>
 #include <cstdint>
 #include <cstdlib>
@@ -69,10 +70,9 @@ int main()
 	}
 
 	{
+		std::array<uint8_t, 6> arr{0x01, 0x03, 0x00, 0x00, 0x00, 0x01};
 		base::modbus::ModbusCrc16 crc{};
-		crc.Add(30);
-		crc.Add(32);
-		crc.Add(34);
+		crc.Add(arr);
 		std::cout << base::ToHexString(crc.RegisterValue()) << std::endl;
 	}
 }
