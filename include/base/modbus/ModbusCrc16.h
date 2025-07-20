@@ -1,4 +1,5 @@
 #pragma once
+#include "base/bit/bit.h"
 #include "base/container/iterator/IEnumerable.h"
 #include "base/stream/ReadOnlySpan.h"
 #include <array>
@@ -65,7 +66,7 @@ namespace base
 				_crc16_register ^= static_cast<uint16_t>(data);
 				for (int i = 0; i < 8; i++)
 				{
-					bool lsb = _crc16_register & 0x1;
+					bool lsb = base::bit::ReadBit(_crc16_register, 0);
 					_crc16_register >>= 1;
 					if (lsb)
 					{
