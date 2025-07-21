@@ -78,7 +78,9 @@ int main()
 	}
 
 	{
-		constexpr uint64_t num = base::bit::Reverse(static_cast<uint64_t>(0b10100111));
+		// 0b10100111 = 0xa7 重复 8 次。
+		// 0xa7a7a7a7a7a7a7a7
+		constexpr uint64_t num = base::bit::Reverse(static_cast<uint64_t>(0b1010011110100111101001111010011110100111101001111010011110100111));
 		std::cout << base::ToHexString(num) << std::endl;
 	}
 }
