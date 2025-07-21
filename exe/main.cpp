@@ -1,4 +1,3 @@
-#include "base/bit/bit.h"
 #include "base/math/Fraction.h"
 #include "base/math/InertialElement.h"
 #include "base/math/Int64Fraction.h"
@@ -75,12 +74,5 @@ int main()
 		base::modbus::ModbusCrc16 crc{};
 		crc.Add(arr);
 		std::cout << base::ToHexString(crc.RegisterValue()) << std::endl;
-	}
-
-	{
-		// 0b10100111 = 0xa7 重复 8 次。
-		// 0xa7a7a7a7a7a7a7a7
-		constexpr uint64_t num = base::bit::Reverse(static_cast<uint64_t>(0b1010011110100111101001111010011110100111101001111010011110100111));
-		std::cout << base::ToHexString(num) << std::endl;
 	}
 }
