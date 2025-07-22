@@ -327,7 +327,7 @@ namespace base
 		{
 			std::string ret;
 
-			base::ToHexStringOption option;
+			base::ToHexStringOptions option;
 			option.width = 2;
 			option.with_0x_prefix = false;
 

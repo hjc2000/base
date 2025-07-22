@@ -9,7 +9,7 @@ namespace base
 	/// @brief ToHexString 函数的选项。
 	///
 	///
-	struct ToHexStringOption
+	struct ToHexStringOptions
 	{
 		///
 		/// @brief 是否有 0x 前缀
@@ -31,7 +31,7 @@ namespace base
 	/// @param option
 	/// @return std::string
 	///
-	std::string ToHexString(int8_t number, ToHexStringOption const &option = ToHexStringOption{});
+	std::string ToHexString(int8_t number, ToHexStringOptions const &option = ToHexStringOptions{});
 
 	///
 	/// @brief 将数字转化为 16 进制的字符串。
@@ -40,7 +40,7 @@ namespace base
 	/// @param option
 	/// @return std::string
 	///
-	std::string ToHexString(uint8_t number, ToHexStringOption const &option = ToHexStringOption{});
+	std::string ToHexString(uint8_t number, ToHexStringOptions const &option = ToHexStringOptions{});
 
 	///
 	/// @brief 将数字转化为 16 进制的字符串。
@@ -49,7 +49,7 @@ namespace base
 	/// @param option
 	/// @return std::string
 	///
-	std::string ToHexString(int16_t number, ToHexStringOption const &option = ToHexStringOption{});
+	std::string ToHexString(int16_t number, ToHexStringOptions const &option = ToHexStringOptions{});
 
 	///
 	/// @brief 将数字转化为 16 进制的字符串。
@@ -58,7 +58,7 @@ namespace base
 	/// @param option
 	/// @return std::string
 	///
-	std::string ToHexString(uint16_t number, ToHexStringOption const &option = ToHexStringOption{});
+	std::string ToHexString(uint16_t number, ToHexStringOptions const &option = ToHexStringOptions{});
 
 	///
 	/// @brief 将数字转化为 16 进制的字符串。
@@ -67,7 +67,7 @@ namespace base
 	/// @param option
 	/// @return std::string
 	///
-	std::string ToHexString(int32_t number, ToHexStringOption const &option = ToHexStringOption{});
+	std::string ToHexString(int32_t number, ToHexStringOptions const &option = ToHexStringOptions{});
 
 	///
 	/// @brief 将数字转化为 16 进制的字符串。
@@ -76,7 +76,7 @@ namespace base
 	/// @param option
 	/// @return std::string
 	///
-	std::string ToHexString(uint32_t number, ToHexStringOption const &option = ToHexStringOption{});
+	std::string ToHexString(uint32_t number, ToHexStringOptions const &option = ToHexStringOptions{});
 
 	///
 	/// @brief 将数字转化为 16 进制的字符串。
@@ -85,7 +85,7 @@ namespace base
 	/// @param option
 	/// @return std::string
 	///
-	std::string ToHexString(int64_t number, ToHexStringOption const &option = ToHexStringOption{});
+	std::string ToHexString(int64_t number, ToHexStringOptions const &option = ToHexStringOptions{});
 
 	///
 	/// @brief 将数字转化为 16 进制的字符串。
@@ -94,7 +94,7 @@ namespace base
 	/// @param option
 	/// @return std::string
 	///
-	std::string ToHexString(uint64_t number, ToHexStringOption const &option = ToHexStringOption{});
+	std::string ToHexString(uint64_t number, ToHexStringOptions const &option = ToHexStringOptions{});
 
 	///
 	/// @brief 将指针转换为 16 进制字符串。
@@ -103,7 +103,7 @@ namespace base
 	/// @param option
 	/// @return std::string
 	///
-	std::string ToHexString(void const *p, ToHexStringOption const &option = ToHexStringOption{});
+	std::string ToHexString(void const *p, ToHexStringOptions const &option = ToHexStringOptions{});
 
 	///
 	/// @brief 将缓冲区中的每个字节变成 16 进制字符串，每个字节的字符串用逗号分隔，
@@ -116,7 +116,7 @@ namespace base
 	///
 	std::string ToHexString(uint8_t const *buffer,
 							int32_t size,
-							ToHexStringOption const &option = ToHexStringOption{});
+							ToHexStringOptions const &option = ToHexStringOptions{});
 
 	///
 	/// @brief 将缓冲区中的每个字节变成 16 进制字符串，每个字节的字符串用逗号分隔，
@@ -127,7 +127,7 @@ namespace base
 	/// @return std::string
 	///
 	std::string ToHexString(base::ReadOnlySpan const &span,
-							ToHexStringOption const &option = ToHexStringOption{});
+							ToHexStringOptions const &option = ToHexStringOptions{});
 
 	///
 	/// @brief 将缓冲区中的每个字节变成 16 进制字符串，每个字节的字符串用逗号分隔，
@@ -138,5 +138,5 @@ namespace base
 	/// @return std::string
 	///
 	std::string ToHexString(base::Span const &span,
-							ToHexStringOption const &option = ToHexStringOption{});
+							ToHexStringOptions const &option = ToHexStringOptions{});
 } // namespace base

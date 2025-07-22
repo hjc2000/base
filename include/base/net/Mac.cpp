@@ -72,7 +72,7 @@ std::string base::Mac::ToString() const
 	std::string ret{};
 	bool first_loop = true;
 
-	base::ToHexStringOption option{};
+	base::ToHexStringOptions option{};
 	option.with_0x_prefix = false;
 	option.width = 2;
 

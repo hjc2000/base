@@ -63,7 +63,7 @@ int main()
 		writer.WriteData<uint32_t>(10000);
 		writer.WriteCrc();
 
-		base::ToHexStringOption option{};
+		base::ToHexStringOptions option{};
 		option.with_0x_prefix = false;
 		option.width = 2;
 		for (uint8_t b : writer.SpanForSending())
