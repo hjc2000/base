@@ -1,6 +1,6 @@
 #pragma once
 #include "base/stream/ReadOnlySpan.h"
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 
 namespace base
