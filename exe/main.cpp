@@ -60,7 +60,7 @@ int main()
 		writer.WriteStartAddress(0x4050);
 		writer.WriteRecordCount(2);
 		writer.WriteDataByteCount(4);
-		writer.WriteData(static_cast<uint32_t>(10000));
+		writer.WriteData<uint32_t>(10000);
 		writer.WriteCrc();
 
 		base::ToHexStringOption option{};
