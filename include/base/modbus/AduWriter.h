@@ -8,6 +8,7 @@
 #include "ModbusCrc16.h"
 #include <cstdint>
 #include <stdexcept>
+#include <type_traits>
 
 namespace base
 {
@@ -79,12 +80,14 @@ namespace base
 			/// @param value
 			///
 			template <typename ValueType>
+				requires(!std::is_same_v<ValueType, base::ReadOnlySpan> &&
+						 !std::is_same_v<ValueType, base::Span>)
 			void WriteData(ValueType value)
 			{
 				uint8_t buffer[sizeof(ValueType)];
 				base::Span span{buffer, static_cast<int32_t>(sizeof(ValueType))};
 				base::big_endian_remote_converter.GetBytes(value, span);
-				WriteData(span);
+				WriteData(base::ReadOnlySpan{span});
 			}
 
 			///
