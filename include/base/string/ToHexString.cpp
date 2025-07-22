@@ -26,52 +26,52 @@ namespace
 	}
 } // namespace
 
-std::string base::ToHexString(int8_t number, ToHexStringOptions const &option)
+std::string base::ToHexString(int8_t number, ToHexStringOptions const &options)
 {
-	return ToHexString(static_cast<uint64_t>(number), option);
+	return ToHexString(static_cast<uint64_t>(number), options);
 }
 
-std::string base::ToHexString(uint8_t number, ToHexStringOptions const &option)
+std::string base::ToHexString(uint8_t number, ToHexStringOptions const &options)
 {
-	return ToHexString(static_cast<uint64_t>(number), option);
+	return ToHexString(static_cast<uint64_t>(number), options);
 }
 
-std::string base::ToHexString(int16_t number, ToHexStringOptions const &option)
+std::string base::ToHexString(int16_t number, ToHexStringOptions const &options)
 {
-	return ToHexString(static_cast<uint64_t>(number), option);
+	return ToHexString(static_cast<uint64_t>(number), options);
 }
 
-std::string base::ToHexString(uint16_t number, ToHexStringOptions const &option)
+std::string base::ToHexString(uint16_t number, ToHexStringOptions const &options)
 {
-	return ToHexString(static_cast<uint64_t>(number), option);
+	return ToHexString(static_cast<uint64_t>(number), options);
 }
 
-std::string base::ToHexString(int32_t number, ToHexStringOptions const &option)
+std::string base::ToHexString(int32_t number, ToHexStringOptions const &options)
 {
-	return ToHexString(static_cast<uint64_t>(number), option);
+	return ToHexString(static_cast<uint64_t>(number), options);
 }
 
-std::string base::ToHexString(uint32_t number, ToHexStringOptions const &option)
+std::string base::ToHexString(uint32_t number, ToHexStringOptions const &options)
 {
-	return ToHexString(static_cast<uint64_t>(number), option);
+	return ToHexString(static_cast<uint64_t>(number), options);
 }
 
-std::string base::ToHexString(int64_t number, ToHexStringOptions const &option)
+std::string base::ToHexString(int64_t number, ToHexStringOptions const &options)
 {
-	return ToHexString(static_cast<uint64_t>(number), option);
+	return ToHexString(static_cast<uint64_t>(number), options);
 }
 
-std::string base::ToHexString(uint64_t number, ToHexStringOptions const &option)
+std::string base::ToHexString(uint64_t number, ToHexStringOptions const &options)
 {
 	// 64 位数据，每 4 位需要一个 16 进制数来表示
 	int reserve = 64 / 4;
-	if (option.width > reserve)
+	if (options.width > reserve)
 	{
-		// 填充后宽度大于实际内容，保留的空间定为 option.width.
-		reserve = option.width;
+		// 填充后宽度大于实际内容，保留的空间定为 options.width.
+		reserve = options.width;
 	}
 
-	if (option.with_0x_prefix)
+	if (options.with_0x_prefix)
 	{
 		// 还需要额外为 0x 前缀保留 2 个字节的空间。
 		reserve += 2;
@@ -96,12 +96,12 @@ std::string base::ToHexString(uint64_t number, ToHexStringOptions const &option)
 		}
 	}
 
-	while (static_cast<int32_t>(ret.size()) < option.width)
+	while (static_cast<int32_t>(ret.size()) < options.width)
 	{
 		ret += '0';
 	}
 
-	if (option.with_0x_prefix)
+	if (options.with_0x_prefix)
 	{
 		ret += "x0";
 	}
@@ -110,15 +110,15 @@ std::string base::ToHexString(uint64_t number, ToHexStringOptions const &option)
 	return ret;
 }
 
-std::string base::ToHexString(void const *p, ToHexStringOptions const &option)
+std::string base::ToHexString(void const *p, ToHexStringOptions const &options)
 {
 	size_t address = reinterpret_cast<size_t>(p);
-	return ToHexString(static_cast<uint64_t>(address), option);
+	return ToHexString(static_cast<uint64_t>(address), options);
 }
 
 std::string base::ToHexString(uint8_t const *buffer,
 							  int32_t size,
-							  ToHexStringOptions const &option)
+							  ToHexStringOptions const &options)
 {
 	if (size <= 0)
 	{
@@ -145,7 +145,7 @@ std::string base::ToHexString(uint8_t const *buffer,
 			ret += '\n';
 		}
 
-		ret += base::ToHexString(buffer[i], option);
+		ret += base::ToHexString(buffer[i], options);
 		if (i < size - 1)
 		{
 			ret += ", ";
@@ -155,12 +155,12 @@ std::string base::ToHexString(uint8_t const *buffer,
 	return ret;
 }
 
-std::string base::ToHexString(base::ReadOnlySpan const &span, ToHexStringOptions const &option)
+std::string base::ToHexString(base::ReadOnlySpan const &span, ToHexStringOptions const &options)
 {
-	return ToHexString(span.Buffer(), span.Size(), option);
+	return ToHexString(span.Buffer(), span.Size(), options);
 }
 
-std::string base::ToHexString(base::Span const &span, ToHexStringOptions const &option)
+std::string base::ToHexString(base::Span const &span, ToHexStringOptions const &options)
 {
-	return ToHexString(base::ReadOnlySpan{span}, option);
+	return ToHexString(base::ReadOnlySpan{span}, options);
 }

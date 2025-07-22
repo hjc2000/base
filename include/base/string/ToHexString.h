@@ -28,82 +28,91 @@ namespace base
 	/// @brief 将数字转化为 16 进制的字符串。
 	///
 	/// @param number
-	/// @param option
-	/// @return std::string
+	/// @param options
 	///
-	std::string ToHexString(int8_t number, ToHexStringOptions const &option = ToHexStringOptions{});
+	/// @return
+	///
+	std::string ToHexString(int8_t number, ToHexStringOptions const &options = ToHexStringOptions{});
 
 	///
 	/// @brief 将数字转化为 16 进制的字符串。
 	///
 	/// @param number
-	/// @param option
-	/// @return std::string
+	/// @param options
 	///
-	std::string ToHexString(uint8_t number, ToHexStringOptions const &option = ToHexStringOptions{});
+	/// @return
+	///
+	std::string ToHexString(uint8_t number, ToHexStringOptions const &options = ToHexStringOptions{});
 
 	///
 	/// @brief 将数字转化为 16 进制的字符串。
 	///
 	/// @param number
-	/// @param option
-	/// @return std::string
+	/// @param options
 	///
-	std::string ToHexString(int16_t number, ToHexStringOptions const &option = ToHexStringOptions{});
+	/// @return
+	///
+	std::string ToHexString(int16_t number, ToHexStringOptions const &options = ToHexStringOptions{});
 
 	///
 	/// @brief 将数字转化为 16 进制的字符串。
 	///
 	/// @param number
-	/// @param option
-	/// @return std::string
+	/// @param options
 	///
-	std::string ToHexString(uint16_t number, ToHexStringOptions const &option = ToHexStringOptions{});
+	/// @return
+	///
+	std::string ToHexString(uint16_t number, ToHexStringOptions const &options = ToHexStringOptions{});
 
 	///
 	/// @brief 将数字转化为 16 进制的字符串。
 	///
 	/// @param number
-	/// @param option
-	/// @return std::string
+	/// @param options
 	///
-	std::string ToHexString(int32_t number, ToHexStringOptions const &option = ToHexStringOptions{});
+	/// @return
+	///
+	std::string ToHexString(int32_t number, ToHexStringOptions const &options = ToHexStringOptions{});
 
 	///
 	/// @brief 将数字转化为 16 进制的字符串。
 	///
 	/// @param number
-	/// @param option
-	/// @return std::string
+	/// @param options
 	///
-	std::string ToHexString(uint32_t number, ToHexStringOptions const &option = ToHexStringOptions{});
+	/// @return
+	///
+	std::string ToHexString(uint32_t number, ToHexStringOptions const &options = ToHexStringOptions{});
 
 	///
 	/// @brief 将数字转化为 16 进制的字符串。
 	///
 	/// @param number
-	/// @param option
-	/// @return std::string
+	/// @param options
 	///
-	std::string ToHexString(int64_t number, ToHexStringOptions const &option = ToHexStringOptions{});
+	/// @return
+	///
+	std::string ToHexString(int64_t number, ToHexStringOptions const &options = ToHexStringOptions{});
 
 	///
 	/// @brief 将数字转化为 16 进制的字符串。
 	///
 	/// @param number
-	/// @param option
-	/// @return std::string
+	/// @param options
 	///
-	std::string ToHexString(uint64_t number, ToHexStringOptions const &option = ToHexStringOptions{});
+	/// @return
+	///
+	std::string ToHexString(uint64_t number, ToHexStringOptions const &options = ToHexStringOptions{});
 
 	///
 	/// @brief 将指针转换为 16 进制字符串。
 	///
 	/// @param p
-	/// @param option
-	/// @return std::string
+	/// @param options
 	///
-	std::string ToHexString(void const *p, ToHexStringOptions const &option = ToHexStringOptions{});
+	/// @return
+	///
+	std::string ToHexString(void const *p, ToHexStringOptions const &options = ToHexStringOptions{});
 
 	///
 	/// @brief 将缓冲区中的每个字节变成 16 进制字符串，每个字节的字符串用逗号分隔，
@@ -111,32 +120,32 @@ namespace base
 	///
 	/// @param buffer
 	/// @param size
-	/// @param option
-	/// @return std::string
+	/// @param options
+	/// @return
 	///
 	std::string ToHexString(uint8_t const *buffer,
 							int32_t size,
-							ToHexStringOptions const &option = ToHexStringOptions{});
+							ToHexStringOptions const &options = ToHexStringOptions{});
 
 	///
 	/// @brief 将缓冲区中的每个字节变成 16 进制字符串，每个字节的字符串用逗号分隔，
 	/// 每 16 个字节一行。
 	///
 	/// @param span
-	/// @param option
-	/// @return std::string
+	/// @param options
+	/// @return
 	///
 	std::string ToHexString(base::ReadOnlySpan const &span,
-							ToHexStringOptions const &option = ToHexStringOptions{});
+							ToHexStringOptions const &options = ToHexStringOptions{});
 
 	///
 	/// @brief 将缓冲区中的每个字节变成 16 进制字符串，每个字节的字符串用逗号分隔，
 	/// 每 16 个字节一行。
 	///
 	/// @param span
-	/// @param option
-	/// @return std::string
+	/// @param options
+	/// @return
 	///
 	std::string ToHexString(base::Span const &span,
-							ToHexStringOptions const &option = ToHexStringOptions{});
+							ToHexStringOptions const &options = ToHexStringOptions{});
 } // namespace base
