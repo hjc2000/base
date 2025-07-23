@@ -88,6 +88,17 @@ namespace base
 			{
 				return _adu_writer.SpanForSending();
 			}
+
+			///
+			/// @brief 将 SpanForSending 的每个字节转成 hex 字符串。这个字符串可以复制粘贴
+			/// 到串口调试助手中发送出去。
+			///
+			/// @return
+			///
+			std::string SpanForSendingString() const
+			{
+				return _adu_writer.SpanForSendingString();
+			}
 		};
 
 	} // namespace modbus
