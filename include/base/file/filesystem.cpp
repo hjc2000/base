@@ -31,6 +31,11 @@ namespace
 				  base::Path const &destination_path,
 				  base::filesystem::OverwriteOption overwrite_method)
 	{
+		if (destination_path.IsRootPath())
+		{
+			throw std::runtime_error{CODE_POS_STR + "无法将源路径移动为根路径。"};
+		}
+
 		std::filesystem::copy_options options = std::filesystem::copy_options::copy_symlinks;
 
 		if (!base::filesystem::Exists(destination_path))
@@ -410,6 +415,11 @@ void base::filesystem::Copy(base::Path const &source_path,
 		throw std::runtime_error{message};
 	}
 
+	if (destination_path.IsRootPath())
+	{
+		throw std::runtime_error{CODE_POS_STR + "无法将源路径移动为根路径。"};
+	}
+
 	// 执行到这里说明源路径存在
 	if (IsFile(source_path))
 	{
@@ -451,6 +461,11 @@ void base::filesystem::Move(base::Path const &source_path,
 		std::string message = CODE_POS_STR;
 		message += std::format("源路径 {} 不存在。", source_path.ToString());
 		throw std::runtime_error{message};
+	}
+
+	if (destination_path.IsRootPath())
+	{
+		throw std::runtime_error{CODE_POS_STR + "无法将源路径移动为根路径。"};
 	}
 
 	if (!base::filesystem::Exists(destination_path))
