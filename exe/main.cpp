@@ -1,5 +1,3 @@
-#include "base/file/DirectoryEntry.h"
-#include "base/file/filesystem.h"
 #include "base/math/InertialElement.h"
 #include "base/math/Int64Fraction.h"
 #include "base/stream/memcmp.h"
@@ -40,12 +38,5 @@ int main()
 		constexpr int32_t result = base::memcmp(buffer_a, buffer_b, 10);
 		std::cout << compare_result << std::endl;
 		std::cout << result << std::endl;
-	}
-
-	{
-		for (base::DirectoryEntry const &entry : base::filesystem::DirectoryEntryEnumerable{"C:/Users/huang/dev/.temp/2025/05/29"})
-		{
-			std::cout << entry.Path() << std::endl;
-		}
 	}
 }
