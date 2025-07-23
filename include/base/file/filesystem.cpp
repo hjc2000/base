@@ -23,7 +23,7 @@ namespace
 	/// @param source_path
 	///
 	/// @param destination_path 目标路径
-	/// 	@note 复制后的文件将是这个路径。也就是复制可以顺便重命名。
+	/// 	@note source_path 指向的对象复制后将是这个路径。也就是复制可以顺便重命名。
 	///
 	/// @param overwrite_method
 	///
