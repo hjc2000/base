@@ -18,9 +18,8 @@ namespace
 	///
 	/// @brief 拷贝单个文件。
 	///
-	/// @warning 这里没有进行检查。必须确保源路径是一个文件。
-	///
 	/// @param source_path
+	/// 	@warning 这里没有进行检查。必须确保源路径是一个文件。
 	///
 	/// @param destination_path 目标路径
 	/// 	@note source_path 指向的对象复制后将是这个路径。也就是复制可以顺便重命名。
