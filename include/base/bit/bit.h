@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <stdexcept>
+#include <string>
 #include <type_traits>
 
 namespace base
@@ -22,9 +23,11 @@ namespace base
 				throw std::invalid_argument{CODE_POS_STR + "位索引不能 < 0."};
 			}
 
-			if (bit_index >= static_cast<int>(8 * sizeof(RegisterType)))
+			constexpr int bit_count = 8 * sizeof(RegisterType);
+
+			if (bit_index >= bit_count)
 			{
-				throw std::invalid_argument{CODE_POS_STR + "位索引不能 >= 64."};
+				throw std::invalid_argument{CODE_POS_STR + "位索引不能 >= " + std::to_string(bit_count) + "."};
 			}
 		}
 
@@ -36,9 +39,11 @@ namespace base
 				throw std::invalid_argument{CODE_POS_STR + "begin 不能 < 0."};
 			}
 
-			if (begin >= static_cast<int>(8 * sizeof(RegisterType)))
+			constexpr int bit_count = 8 * sizeof(RegisterType);
+
+			if (begin >= bit_count)
 			{
-				throw std::invalid_argument{CODE_POS_STR + "begin 不能 >= 64."};
+				throw std::invalid_argument{CODE_POS_STR + "begin 不能 >= " + std::to_string(bit_count) + "."};
 			}
 
 			if (end < 0)
@@ -46,9 +51,9 @@ namespace base
 				throw std::invalid_argument{CODE_POS_STR + "end 不能 < 0."};
 			}
 
-			if (end > static_cast<int>(8 * sizeof(RegisterType)))
+			if (end > bit_count)
 			{
-				throw std::invalid_argument{CODE_POS_STR + "end 不能 > 64."};
+				throw std::invalid_argument{CODE_POS_STR + "end 不能 > " + std::to_string(bit_count) + "."};
 			}
 
 			if (begin > end)
