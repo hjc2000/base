@@ -1,3 +1,5 @@
+#include "base/file/DirectoryEntry.h"
+#include "base/file/filesystem.h"
 #include "base/math/InertialElement.h"
 #include "base/math/Int64Fraction.h"
 #include "base/modbus/ModbusCrc16.h"
@@ -69,6 +71,13 @@ int main()
 		for (uint8_t b : writer.SpanForSending())
 		{
 			std::cout << base::ToHexString(b, option) << " ";
+		}
+	}
+
+	{
+		for (base::DirectoryEntry const &entry : base::filesystem::DirectoryEntryEnumerable{"C:/Users/huang/dev/.temp/2025/05/29"})
+		{
+			std::cout << entry.Path() << std::endl;
 		}
 	}
 }
