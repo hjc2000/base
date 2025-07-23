@@ -26,8 +26,8 @@ namespace base
 		/// @brief 检查文件或目录是否可读。
 		///
 		/// @param path
-		/// @return true
-		/// @return false
+		///
+		/// @return 可读返回 true, 否则返回 false.
 		///
 		bool IsReadable(base::Path const &path);
 
@@ -35,8 +35,8 @@ namespace base
 		/// @brief 检查文件或目录是否可写。
 		///
 		/// @param path
-		/// @return true
-		/// @return false
+		///
+		/// @return 可写返回 true, 否则返回 false.
 		///
 		bool IsWriteable(base::Path const &path);
 
@@ -46,8 +46,8 @@ namespace base
 		/// @note 对于目录，执行的意思是进入该目录。
 		///
 		/// @param path
-		/// @return true
-		/// @return false
+		///
+		/// @return 可执行返回 true, 否则返回 false.
 		///
 		bool IsExcuteable(base::Path const &path);
 
