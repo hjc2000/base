@@ -4,7 +4,6 @@
 #include <cstdint>
 #include <cstdlib>
 #include <iostream>
-#include <stdlib.h>
 
 int main()
 {
