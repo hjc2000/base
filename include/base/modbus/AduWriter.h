@@ -8,6 +8,7 @@
 #include "ModbusCrc16.h"
 #include <cstdint>
 #include <stdexcept>
+#include <string>
 #include <type_traits>
 
 namespace base
@@ -116,6 +117,14 @@ namespace base
 				// 1 个字节的站好 + 1 个字节的功能码 + 数据 + 2 个字节的 CRC16.
 				return _span[base::Range{0, 2 + _data_length + 2}];
 			}
+
+			///
+			/// @brief 将 SpanForSending 的每个字节转成 hex 字符串。这个字符串可以复制粘贴
+			/// 到串口调试助手中发送出去。
+			///
+			/// @return
+			///
+			std::string SpanForSendingString() const;
 		};
 
 	} // namespace modbus

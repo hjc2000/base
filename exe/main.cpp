@@ -3,7 +3,6 @@
 #include "base/math/InertialElement.h"
 #include "base/math/Int64Fraction.h"
 #include "base/modbus/ModbusCrc16.h"
-#include "base/modbus/WritingRecordsRequestWriter.h"
 #include "base/stream/memcmp.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/string/ToHexString.h"
@@ -51,27 +50,6 @@ int main()
 		base::modbus::ModbusCrc16 crc{};
 		crc.Add(arr);
 		std::cout << base::ToHexString(crc.RegisterValue()) << std::endl;
-	}
-
-	{
-		uint8_t buffer[1024]{};
-		base::Span span{buffer, sizeof(buffer)};
-		base::modbus::WritingRecordsRequestWriter writer{span};
-		writer.WriteStationNumber(1);
-		writer.WriteFunctionCode();
-		writer.WriteStartAddress(0x4050);
-		writer.WriteRecordCount(2);
-		writer.WriteDataByteCount(4);
-		writer.WriteData<uint32_t>(10000);
-		writer.WriteCrc();
-
-		base::ToHexStringOptions option{};
-		option.with_0x_prefix = false;
-		option.width = 2;
-		for (uint8_t b : writer.SpanForSending())
-		{
-			std::cout << base::ToHexString(b, option) << " ";
-		}
 	}
 
 	{
