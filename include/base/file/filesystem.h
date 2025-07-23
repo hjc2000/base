@@ -86,6 +86,7 @@ namespace base
 		///
 		/// @return 是广义的文件返回 true, 否则返回 false.
 		///
+		IMPLEMENTED
 		inline bool IsFile(base::Path const &path)
 		{
 			return !IsDirectory(path);
@@ -138,8 +139,9 @@ namespace base
 		///
 		/// @brief 确保目标路径是一个存在的目录。如果目标路径不存在，会创建空目录。
 		///
-		/// @param path 要确保存在的目录路径。
 		/// @note 支持递归创建目录。
+		///
+		/// @param path 要确保存在的目录路径。
 		///
 		IMPLEMENTED
 		void EnsureDirectory(base::Path const &path);
