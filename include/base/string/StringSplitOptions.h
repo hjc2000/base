@@ -35,4 +35,5 @@ namespace base
 		///
 		bool remove_empty_substring = true;
 	};
+
 } // namespace base
