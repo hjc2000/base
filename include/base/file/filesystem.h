@@ -159,7 +159,10 @@ namespace base
 		/// @note 其中的符号链接本身会被复制，不会进入到符号链接指向的实际位置去复制文件。
 		///
 		/// @param source_path
-		/// @param destination_path
+		///
+		/// @param destination_path 目标路径
+		/// 	@note 复制后的文件将是这个路径。也就是复制可以顺便重命名。
+		///
 		/// @param overwrite_method
 		///
 		void Copy(base::Path const &source_path,

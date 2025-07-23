@@ -21,7 +21,10 @@ namespace
 	/// @warning 这里没有进行检查。必须确保源路径是一个文件。
 	///
 	/// @param source_path
-	/// @param destination_path
+	///
+	/// @param destination_path 目标路径
+	/// 	@note 复制后的文件将是这个路径。也就是复制可以顺便重命名。
+	///
 	/// @param overwrite_method
 	///
 	void CopyFile(base::Path const &source_path,
