@@ -378,6 +378,8 @@ void base::filesystem::CreateDirectoryRecursively(base::Path const &path)
 
 /* #endregion */
 
+/* #region Remove */
+
 void base::filesystem::Remove(base::Path const &path)
 {
 	if (!Exists(path))
@@ -406,6 +408,10 @@ void base::filesystem::Remove(base::Path const &path)
 		throw std::runtime_error{message};
 	}
 }
+
+/* #endregion */
+
+/* #region Copy */
 
 void base::filesystem::Copy(base::Path const &source_path,
 							base::Path const &destination_path,
@@ -454,6 +460,10 @@ void base::filesystem::Copy(base::Path const &source_path,
 		}
 	}
 }
+
+/* #endregion */
+
+/* #region Move */
 
 void base::filesystem::Move(base::Path const &source_path,
 							base::Path const &destination_path,
@@ -559,6 +569,10 @@ void base::filesystem::Move(base::Path const &source_path,
 	return;
 }
 
+/* #endregion */
+
+/* #region 迭代目录条目 */
+
 std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> base::filesystem::CreateDirectoryEntryEnumerator(base::Path const &path)
 {
 	return std::shared_ptr<DirectoryEntryEnumerator>{new DirectoryEntryEnumerator{path}};
@@ -568,6 +582,8 @@ std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> base::filesystem:
 {
 	return std::shared_ptr<RecursiveDirectoryEntryEnumerator>{new RecursiveDirectoryEntryEnumerator{path}};
 }
+
+/* #endregion */
 
 #endif // HAS_THREAD
 
