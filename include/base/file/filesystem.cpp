@@ -15,6 +15,8 @@
 
 namespace
 {
+	/* #region CopyFile */
+
 	///
 	/// @brief 拷贝单个文件。
 	///
@@ -77,6 +79,8 @@ namespace
 		std::cout << "更新：" << source_path << " --> " << destination_path << std::endl;
 		return;
 	}
+
+	/* #endregion */
 
 	/* #region 目录条目迭代器 */
 
@@ -420,7 +424,7 @@ void base::filesystem::Copy(base::Path const &source_path,
 	}
 
 	// 执行到这里说明源路径存在
-	if (IsFile(source_path))
+	if (base::filesystem::IsFile(source_path))
 	{
 		CopyFile(source_path, destination_path, overwrite_method);
 		return;
@@ -472,7 +476,7 @@ void base::filesystem::Move(base::Path const &source_path,
 		// 目标路径不存在，直接移动
 
 		// 先确保父目录存在，否则会抛出异常
-		EnsureDirectory(destination_path.ParentPath());
+		base::filesystem::EnsureDirectory(destination_path.ParentPath());
 		std::error_code error_code{};
 
 		std::filesystem::rename(source_path.ToString(),
@@ -502,7 +506,7 @@ void base::filesystem::Move(base::Path const &source_path,
 	if (overwrite_method == base::filesystem::OverwriteOption::Overwrite)
 	{
 		// 直接覆盖目标文件
-		Remove(destination_path);
+		base::filesystem::Remove(destination_path);
 		std::error_code error_code{};
 
 		std::filesystem::rename(source_path.ToString(),
@@ -533,7 +537,7 @@ void base::filesystem::Move(base::Path const &source_path,
 	}
 
 	// 需要更新
-	Remove(destination_path);
+	base::filesystem::Remove(destination_path);
 	std::error_code error_code{};
 
 	std::filesystem::rename(source_path.ToString(),
