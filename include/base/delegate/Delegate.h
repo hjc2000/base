@@ -68,6 +68,9 @@ namespace base
 		///
 		/// @note 因为委托 map 被清空了，所以也不需要取消订阅了，取消订阅操作也会引发异常。
 		///
+		/// @note 与 Invoke 以及其他方法互斥。也就是说如果 Invoke 正在执行，本方法会等待
+		/// 互斥锁的释放，然后才清空委托 map.
+		///
 		virtual void Dispose() override
 		{
 			if (_disposed)
