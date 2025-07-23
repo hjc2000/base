@@ -2,11 +2,8 @@
 #include "base/file/filesystem.h"
 #include "base/math/InertialElement.h"
 #include "base/math/Int64Fraction.h"
-#include "base/modbus/ModbusCrc16.h"
 #include "base/stream/memcmp.h"
 #include "base/stream/ReadOnlySpan.h"
-#include "base/string/ToHexString.h"
-#include <array>
 #include <cmath>
 #include <cstdint>
 #include <cstdlib>
@@ -43,13 +40,6 @@ int main()
 		constexpr int32_t result = base::memcmp(buffer_a, buffer_b, 10);
 		std::cout << compare_result << std::endl;
 		std::cout << result << std::endl;
-	}
-
-	{
-		constexpr std::array<uint8_t, 6> arr{0x01, 0x03, 0x00, 0x00, 0x00, 0x01};
-		base::modbus::ModbusCrc16 crc{};
-		crc.Add(arr);
-		std::cout << base::ToHexString(crc.RegisterValue()) << std::endl;
 	}
 
 	{
