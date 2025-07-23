@@ -569,24 +569,6 @@ std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> base::filesystem:
 	return std::shared_ptr<RecursiveDirectoryEntryEnumerator>{new RecursiveDirectoryEntryEnumerator{path}};
 }
 
-void base::test::TestDirectoryEntryEnumerable()
-{
-	base::filesystem::DirectoryEntryEnumerable entries{"C:/Users/huang/dev/.temp"};
-	for (base::DirectoryEntry const &entry : entries)
-	{
-		std::cout << entry.Path() << std::endl;
-	}
-}
-
-void base::test::TestRecursiveDirectoryEntryEnumerable()
-{
-	base::filesystem::RecursiveDirectoryEntryEnumerable entries{"C:/Users/huang/dev/.temp"};
-	for (base::DirectoryEntry const &entry : entries)
-	{
-		std::cout << entry.Path() << std::endl;
-	}
-}
-
 #endif // HAS_THREAD
 
 /* #region EnsureDirectory */
