@@ -381,8 +381,8 @@ void base::filesystem::Remove(base::Path const &path)
 	auto removed_count = std::filesystem::remove_all(path.ToString(), error_code);
 	if (error_code.value() != 0)
 	{
-		std::string message = CODE_POS_STR +
-							  std::format("删除失败。错误代码：{}，错误消息：{}",
+		std::string message = std::format("{} 删除失败。错误代码：{}，错误消息：{}",
+										  CODE_POS_STR,
 										  error_code.value(),
 										  error_code.message());
 
