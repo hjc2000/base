@@ -175,7 +175,10 @@ namespace base
 		/// @brief 将文件或目录从 source_path 移动到 destination_path.
 		///
 		/// @param source_path
-		/// @param destination_path
+		///
+		/// @param destination_path 目标路径。
+		/// 	@note source_path 指向的对象移动后将是这个路径。也就是移动可以顺便重命名。
+		///
 		/// @param overwrite_method
 		///
 		void Move(base::Path const &source_path,
