@@ -59,8 +59,8 @@ namespace base
 		/// @brief 检查指定路径是否是一个目录。
 		///
 		/// @param path
-		/// @return true
-		/// @return false
+		///
+		/// @return 是目录返回 true, 否则返回 false.
 		///
 		bool IsDirectory(base::Path const &path);
 
@@ -71,8 +71,8 @@ namespace base
 		/// 映射到文件系统中的文件。
 		///
 		/// @param path
-		/// @return true
-		/// @return false
+		///
+		/// @return 是常规文件返回 true, 否则返回 false.
 		///
 		bool IsRegularFile(base::Path const &path);
 
@@ -83,8 +83,8 @@ namespace base
 		/// @note 只要不是目录，就是广义的文件。
 		///
 		/// @param path
-		/// @return true
-		/// @return false
+		///
+		/// @return 是广义的文件返回 true, 否则返回 false.
 		///
 		inline bool IsFile(base::Path const &path)
 		{
@@ -95,8 +95,8 @@ namespace base
 		/// @brief 检查指定路径是否是一个符号链接。
 		///
 		/// @param path
-		/// @return true
-		/// @return false
+		///
+		/// @return 是符号链接返回 true, 否则返回 false.
 		///
 		bool IsSymbolicLink(base::Path const &path);
 
@@ -105,11 +105,9 @@ namespace base
 		///
 		/// @brief 检查指定路径是否存在。
 		///
-		/// @note 不管它是目录还是文件，只要存在就返回 true.
-		///
 		/// @param path
-		/// @return true
-		/// @return false
+		///
+		/// @return 不管它是目录还是文件，只要存在就返回 true.
 		///
 		bool Exists(base::Path const &path);
 
@@ -117,7 +115,8 @@ namespace base
 		/// @brief 读取符号链接指向的路径。
 		///
 		/// @param path
-		/// @return base::Path
+		///
+		/// @return
 		///
 		base::Path ReadSymlink(base::Path const &path);
 

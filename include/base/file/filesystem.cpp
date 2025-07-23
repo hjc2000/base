@@ -284,7 +284,7 @@ bool base::filesystem::Exists(base::Path const &path)
 
 base::Path base::filesystem::ReadSymlink(base::Path const &path)
 {
-	if (!IsSymbolicLink(path))
+	if (!base::filesystem::IsSymbolicLink(path))
 	{
 		throw std::runtime_error{CODE_POS_STR + "传进来的路径必须是一个符号链接的路径。"};
 	}
