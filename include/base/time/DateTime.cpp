@@ -616,12 +616,6 @@ bool base::DateTime::operator>=(DateTime const &another) const
 
 /* #endregion */
 
-base::DateTime base::DateTime::EpochStart() const
-{
-	base::DateTime start{1970, 1, 1, 0, 0, 0, 0};
-	return start;
-}
-
 #if HAS_THREAD
 
 void base::test::TestDateTime()

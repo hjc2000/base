@@ -298,11 +298,15 @@ namespace base
 		/* #endregion */
 
 		///
-		/// @brief epoch 起点。
+		/// @brief epoch 起点日期。
 		///
-		/// @return base::DateTime
+		/// @return
 		///
-		base::DateTime EpochStart() const;
+		static base::DateTime EpochStart()
+		{
+			base::DateTime start{1970, 1, 1, 0, 0, 0, 0};
+			return start;
+		}
 	};
 
 #if HAS_THREAD
