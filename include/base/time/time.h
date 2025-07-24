@@ -9,14 +9,14 @@ namespace base
 		///
 		/// @brief 获取当前时刻。
 		///
-		/// @return base::TimePointSinceEpoch
+		/// @return
 		///
 		base::TimePointSinceEpoch Now();
 
 		///
 		/// @brief 获取当前的日期时间。
 		///
-		/// @return base::DateTime
+		/// @return
 		///
 		inline base::DateTime NowDateTime()
 		{
@@ -26,7 +26,7 @@ namespace base
 		///
 		/// @brief 获取稳定时钟的当前时刻。
 		///
-		/// @return base::TimePointSinceEpoch
+		/// @return
 		///
 		base::TimePointSinceEpoch SteadyClockNow();
 
@@ -39,5 +39,6 @@ namespace base
 		/// @param value
 		///
 		void SetRealTime(base::TimePointSinceEpoch const &value);
+
 	} // namespace time
 } // namespace base
