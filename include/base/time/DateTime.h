@@ -321,14 +321,14 @@ namespace base
 		base::String MillisecondString() const
 		{
 			base::String ret{std::to_string(_nanosecond / 1000 / 1000)};
-			ret.PadLeft('0', base::StringLength{9});
+			ret.PadLeft('0', base::StringLength{3});
 			return ret;
 		}
 
 		base::String MicrosecondString() const
 		{
 			base::String ret{std::to_string(_nanosecond / 1000)};
-			ret.PadLeft('0', base::StringLength{9});
+			ret.PadLeft('0', base::StringLength{6});
 			return ret;
 		}
 
