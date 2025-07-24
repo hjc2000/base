@@ -189,33 +189,34 @@ namespace base
 
 		/* #region 比较 */
 
-		bool operator==(base::TimeSpan const &another) const
+		constexpr bool operator==(base::TimeSpan const &another) const
 		{
 			return _span == another._span;
 		}
 
-		bool operator<(base::TimeSpan const &another) const
+		constexpr bool operator<(base::TimeSpan const &another) const
 		{
 			return _span < another._span;
 		}
 
-		bool operator>(base::TimeSpan const &another) const
+		constexpr bool operator>(base::TimeSpan const &another) const
 		{
 			return _span > another._span;
 		}
 
-		bool operator<=(base::TimeSpan const &another) const
+		constexpr bool operator<=(base::TimeSpan const &another) const
 		{
 			return _span <= another._span;
 		}
 
-		bool operator>=(base::TimeSpan const &another) const
+		constexpr bool operator>=(base::TimeSpan const &another) const
 		{
 			return _span >= another._span;
 		}
 
 		/* #endregion */
 	};
+
 } // namespace base
 
 template <typename LeftType>
