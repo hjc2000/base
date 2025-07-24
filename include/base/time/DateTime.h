@@ -275,13 +275,56 @@ namespace base
 		/* #endregion */
 
 		/* #region 不考虑时区转换为本地时区的日期时间字符串 */
-		base::String YearString() const;
-		base::String MonthString() const;
-		base::String DayString() const;
-		base::String HourString() const;
-		base::String MinuteString() const;
-		base::String SecondString() const;
-		base::String NanosecondString() const;
+
+		base::String YearString() const
+		{
+			base::String ret{std::to_string(_year)};
+			ret.PadLeft('0', base::StringLength{4});
+			return ret;
+		}
+
+		base::String MonthString() const
+		{
+			base::String ret{std::to_string(_month)};
+			ret.PadLeft('0', base::StringLength{2});
+			return ret;
+		}
+
+		base::String DayString() const
+		{
+			base::String ret{std::to_string(_day)};
+			ret.PadLeft('0', base::StringLength{2});
+			return ret;
+		}
+
+		base::String HourString() const
+		{
+			base::String ret{std::to_string(_hour)};
+			ret.PadLeft('0', base::StringLength{2});
+			return ret;
+		}
+
+		base::String MinuteString() const
+		{
+			base::String ret{std::to_string(_minute)};
+			ret.PadLeft('0', base::StringLength{2});
+			return ret;
+		}
+
+		base::String SecondString() const
+		{
+			base::String ret{std::to_string(_second)};
+			ret.PadLeft('0', base::StringLength{2});
+			return ret;
+		}
+
+		base::String NanosecondString() const
+		{
+			base::String ret{std::to_string(_nanosecond)};
+			ret.PadLeft('0', base::StringLength{9});
+			return ret;
+		}
+
 		/* #endregion */
 
 	public:
@@ -612,7 +655,18 @@ namespace base
 		///
 		/// @return
 		///
-		base::DateTimeStringBuilder DateTimeStringBuilder() const;
+		base::DateTimeStringBuilder DateTimeStringBuilder() const
+		{
+			return base::DateTimeStringBuilder{
+				YearString().StdString(),
+				MonthString().StdString(),
+				DayString().StdString(),
+				HourString().StdString(),
+				MinuteString().StdString(),
+				SecondString().StdString(),
+				NanosecondString().StdString(),
+			};
+		}
 
 		///
 		/// @brief 获取本地日期时间字符串构建器。
@@ -621,7 +675,12 @@ namespace base
 		///
 		/// @return
 		///
-		base::DateTimeStringBuilder LocalDateTimeStringBuilder() const;
+		base::DateTimeStringBuilder LocalDateTimeStringBuilder() const
+		{
+			DateTime copy{*this};
+			copy.AddHours(_utc_hour_offset);
+			return copy.DateTimeStringBuilder();
+		}
 
 		/* #region 比较 */
 
