@@ -13,22 +13,6 @@
 
 /* #region 检查 */
 
-void base::DateTime::CheckMonth()
-{
-	if (_month < 1 || _month > 12)
-	{
-		throw std::invalid_argument{CODE_POS_STR + "非法月份。"};
-	}
-}
-
-void base::DateTime::CheckDay()
-{
-	if (_day < 1 || _day > CurrentMonthDayCount())
-	{
-		throw std::invalid_argument{CODE_POS_STR + "非法日。"};
-	}
-}
-
 void base::DateTime::CheckHour()
 {
 	if (_hour < 0 || _hour > 23)

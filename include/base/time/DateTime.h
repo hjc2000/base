@@ -1,9 +1,16 @@
 #pragma once
+#include "base/string/define.h"
 #include "base/string/String.h"
+#include "base/time/convert.h"
+#include "base/time/TimePointSinceEpoch.h"
 #include "DateTimeStringBuilder.h"
 #include "UtcHourOffset.h"
+#include <array>
+#include <bits/chrono.h>
 #include <chrono>
 #include <cstdint>
+#include <cstdlib>
+#include <stdexcept>
 
 namespace base
 {
@@ -26,11 +33,26 @@ namespace base
 		int64_t _second{};
 		int64_t _nanosecond{};
 		int64_t _utc_hour_offset{};
+
 		/* #endregion */
 
 		/* #region 检查 */
-		void CheckMonth();
-		void CheckDay();
+		constexpr void CheckMonth()
+		{
+			if (_month < 1 || _month > 12)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "非法月份。"};
+			}
+		}
+
+		constexpr void CheckDay()
+		{
+			if (_day < 1 || _day > CurrentMonthDayCount())
+			{
+				throw std::invalid_argument{CODE_POS_STR + "非法日。"};
+			}
+		}
+
 		void CheckHour();
 		void CheckMinute();
 		void CheckSecond();
