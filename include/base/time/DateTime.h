@@ -129,28 +129,131 @@ namespace base
 		/// @param day_index 日索引。如果日索引不在一年的周期内，会增大或减小年，并消耗日索引，
 		/// 让日索引变到一年的周期内。
 		///
-		void AdjustDayIndexToOneYear(int64_t &day_index);
+		constexpr void AdjustDayIndexToOneYear(int64_t &day_index)
+		{
+			if (day_index >= 0 && day_index < CurrentYearDayCount())
+			{
+				// 以年为周期，已经处于最小正周期内了。
+				return;
+			}
+
+			if (day_index > 0)
+			{
+				while (true)
+				{
+					int64_t current_year_day_count = CurrentYearDayCount();
+					if (day_index < current_year_day_count)
+					{
+						return;
+					}
+
+					day_index -= current_year_day_count;
+					_year += 1;
+				}
+			}
+
+			// day_index < 0
+			while (true)
+			{
+				// 前往去年
+				_year -= 1;
+				day_index += CurrentYearDayCount();
+				if (day_index >= 0)
+				{
+					return;
+				}
+			}
+		}
 
 		///
 		/// @brief 将日索引调整到一个月的周期内。
 		///
 		/// @param day_index
 		///
-		void AdjustDayIndexToOneMonth(int64_t &day_index);
+		constexpr void AdjustDayIndexToOneMonth(int64_t &day_index)
+		{
+			AdjustDayIndexToOneYear(day_index);
+
+			if (day_index >= 0 && day_index < CurrentMonthDayCount())
+			{
+				return;
+			}
+
+			if (day_index > 0)
+			{
+				while (true)
+				{
+					// 对于本月，当前的日的索引是 day_index 的当前值，如果要将索引起点调整到下一个月
+					// 的 1 日，即坐标原点向右移动，则 day_index 躺枪，被平白无故变小了。
+					//
+					// 则 day_index 的值在新的坐标中要减去偏移量 day_index.
+					int64_t current_month_day_count = CurrentMonthDayCount();
+					if (day_index < current_month_day_count)
+					{
+						// 到不了下个月
+						return;
+					}
+
+					day_index -= current_month_day_count;
+					AddMonths(1);
+				}
+			}
+
+			// 到这里说明 day_index < 0
+			while (true)
+			{
+				// 前往上一个月
+				AddMonths(-1);
+				day_index += CurrentMonthDayCount();
+				if (day_index >= 0)
+				{
+					return;
+				}
+			}
+		}
 
 		///
 		/// @brief 以日为周期，将小时索引调整到最小正周期内。
 		///
 		/// @param hour_index
 		///
-		void AdjustHourIndexToOneDay(int64_t &hour_index);
+		constexpr void AdjustHourIndexToOneDay(int64_t &hour_index)
+		{
+			if (hour_index >= 0 && hour_index < 24)
+			{
+				return;
+			}
+
+			AddDays(hour_index / 24);
+			hour_index %= 24;
+
+			if (hour_index < 0)
+			{
+				AddDays(-1);
+				hour_index += 24;
+			}
+		}
 
 		///
 		/// @brief 以小时为周期，将分钟索引调整到最小正周期内。
 		///
 		/// @param minute_index
 		///
-		void AdjustMinuteIndexToOneHour(int64_t &minute_index);
+		constexpr void AdjustMinuteIndexToOneHour(int64_t &minute_index)
+		{
+			if (minute_index >= 0 && minute_index < 60)
+			{
+				return;
+			}
+
+			AddHours(minute_index / 60);
+			minute_index %= 60;
+			if (minute_index < 0)
+			{
+				AddHours(-1);
+				minute_index += 60;
+			}
+		}
 
 		///
 		/// @brief 以分钟为周期，将秒调整到最小正周期内。
