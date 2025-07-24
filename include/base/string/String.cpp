@@ -5,38 +5,6 @@
 #include <stdexcept>
 #include <string>
 
-/* #region 构造函数 */
-
-base::String::String(std::string const &str)
-{
-	_string = str;
-}
-
-base::String::String(char c)
-{
-	_string = c;
-}
-
-base::String::String(char const *str)
-{
-	_string = std::string{str};
-}
-
-base::String::String(base::ReadOnlySpan const &span)
-{
-	_string = std::string{
-		reinterpret_cast<char const *>(span.Buffer()),
-		static_cast<size_t>(span.Size()),
-	};
-}
-
-base::String::String(base::Span const &span)
-	: String(base::ReadOnlySpan{span})
-{
-}
-
-/* #endregion */
-
 std::string &base::String::StdString()
 {
 	return _string;

@@ -54,70 +54,88 @@ namespace base
 		///
 		/// @param str
 		///
-		String(std::string const &str);
+		String(std::string const &str)
+		{
+			_string = str;
+		}
 
 		///
 		/// @brief 从一个字符构造。
 		///
 		/// @param c
 		///
-		String(char c);
+		String(char c)
+		{
+			_string = c;
+		}
 
 		///
 		/// @brief 从 C 风格的字符串中构造。
 		///
 		/// @param str
 		///
-		String(char const *str);
+		String(char const *str)
+		{
+			_string = std::string{str};
+		}
 
 		///
 		/// @brief 从只读内存段中构造，将其内容拷贝过来作为字符串。
 		///
 		/// @param span
 		///
-		String(base::ReadOnlySpan const &span);
+		String(base::ReadOnlySpan const &span)
+		{
+			_string = std::string{
+				reinterpret_cast<char const *>(span.Buffer()),
+				static_cast<size_t>(span.Size()),
+			};
+		}
 
 		///
 		/// @brief 从内存段中构造，将其内容拷贝过来作为字符串。
 		///
 		/// @param span
 		///
-		String(base::Span const &span);
+		String(base::Span const &span)
+			: String(base::ReadOnlySpan{span})
+		{
+		}
 
 		/* #endregion */
 
 		///
 		/// @brief 获取被本类包装的 std::string 对象的引用。
 		///
-		/// @return std::string&
+		/// @return
 		///
 		std::string &StdString();
 
 		///
 		/// @brief 获取被本类包装的 std::string 对象的引用。
 		///
-		/// @return std::string const&
+		/// @return
 		///
 		std::string const &StdString() const;
 
 		///
 		/// @brief 获取本字符串的内存段。内存段中不包括结尾的空字符。
 		///
-		/// @return base::Span
+		/// @return
 		///
 		base::Span Span();
 
 		///
 		/// @brief 获取本字符串的内存段。内存段中不包括结尾的空字符。
 		///
-		/// @return base::ReadOnlySpan
+		/// @return
 		///
 		base::ReadOnlySpan Span() const;
 
 		///
 		/// @brief 字符串长度。不包括结尾的空字符。
 		///
-		/// @return int32_t
+		/// @return
 		///
 		int32_t Length() const;
 
@@ -127,7 +145,8 @@ namespace base
 		/// @brief 获取指定索引位置的字符的引用。
 		///
 		/// @param index
-		/// @return char&
+		///
+		/// @return
 		///
 		char &operator[](int32_t index);
 
@@ -135,7 +154,8 @@ namespace base
 		/// @brief 获取指定索引位置的字符的引用。
 		///
 		/// @param index
-		/// @return char const&
+		///
+		/// @return
 		///
 		char const &operator[](int32_t index) const;
 
@@ -145,7 +165,8 @@ namespace base
 		/// @note 子字符串是从父字符串拷贝而来而不是引用父字符串的内存。
 		///
 		/// @param range
-		/// @return base::String
+		///
+		/// @return
 		///
 		base::String operator[](base::Range const &range) const;
 
@@ -159,7 +180,8 @@ namespace base
 		///
 		/// @param separator
 		/// @param options
-		/// @return base::List<base::String>
+		///
+		/// @return
 		///
 		base::List<base::String> Split(char separator,
 									   base::StringSplitOptions const &options = StringSplitOptions{}) const;
@@ -170,7 +192,8 @@ namespace base
 		/// @note 子字符串是从父字符串拷贝而来而不是引用父字符串的内存。
 		///
 		/// @param range
-		/// @return base::String
+		///
+		/// @return
 		///
 		base::String Slice(base::Range const &range) const;
 
@@ -212,7 +235,7 @@ namespace base
 		///
 		/// @param match 匹配项。
 		///
-		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
 		int32_t IndexOf(char match) const;
 
@@ -222,7 +245,7 @@ namespace base
 		/// @param start 查找的起始索引。从此处往后开始查找。
 		/// @param match 匹配项。
 		///
-		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
 		int32_t IndexOf(int32_t start, char match) const;
 
@@ -231,7 +254,7 @@ namespace base
 		///
 		/// @param match 匹配项。
 		///
-		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
 		int32_t IndexOf(base::String const &match) const;
 
@@ -241,7 +264,7 @@ namespace base
 		/// @param start 查找的起始索引。从此处往后开始查找。
 		/// @param match 匹配项。
 		///
-		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
 		int32_t IndexOf(int32_t start, base::String const &match) const;
 
@@ -254,7 +277,7 @@ namespace base
 		///
 		/// @param match 匹配项。
 		///
-		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
 		int32_t LastIndexOf(uint8_t match) const;
 
@@ -264,7 +287,7 @@ namespace base
 		/// @param start 要从后往前查找的起始索引位置。
 		/// @param match 匹配项。
 		///
-		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
 		int32_t LastIndexOf(int32_t start, uint8_t match) const;
 
@@ -272,7 +295,8 @@ namespace base
 		/// @brief 从后往前查找最后一个匹配位置的索引。
 		///
 		/// @param match 匹配项。
-		/// @return int32_t
+		///
+		/// @return
 		///
 		int32_t LastIndexOf(base::String const &match) const;
 
@@ -282,7 +306,7 @@ namespace base
 		/// @param start 要从后往前查找的起始索引位置。
 		/// @param match 匹配项。
 		///
-		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
 		int32_t LastIndexOf(int32_t start, base::String const &match) const;
 
