@@ -2,8 +2,12 @@
 #include "base/container/List.h"
 #include "base/container/Range.h"
 #include "base/stream/ReadOnlySpan.h"
+#include "base/string/character.h"
 #include "base/string/StringSplitOptions.h"
 #include <cctype>
+#include <cstddef>
+#include <ostream>
+#include <stdexcept>
 #include <stdint.h>
 #include <string>
 
@@ -142,14 +146,23 @@ namespace base
 		///
 		/// @return
 		///
-		base::ReadOnlySpan Span() const;
+		base::ReadOnlySpan Span() const
+		{
+			return base::ReadOnlySpan{
+				reinterpret_cast<uint8_t const *>(_string.data()),
+				static_cast<int32_t>(_string.size()),
+			};
+		}
 
 		///
 		/// @brief 字符串长度。不包括结尾的空字符。
 		///
 		/// @return
 		///
-		int32_t Length() const;
+		int32_t Length() const
+		{
+			return _string.size();
+		}
 
 		/* #region 索引器 */
 
@@ -160,7 +173,20 @@ namespace base
 		///
 		/// @return
 		///
-		char &operator[](int32_t index);
+		char &operator[](int32_t index)
+		{
+			if (_string.size() > INT32_MAX)
+			{
+				throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
+			}
+
+			if (index > static_cast<int32_t>(_string.size()))
+			{
+				throw std::out_of_range{"索引超出范围。"};
+			}
+
+			return _string[index];
+		}
 
 		///
 		/// @brief 获取指定索引位置的字符的引用。
@@ -169,7 +195,10 @@ namespace base
 		///
 		/// @return
 		///
-		char const &operator[](int32_t index) const;
+		char const &operator[](int32_t index) const
+		{
+			return const_cast<base::String &>(*this)[index];
+		}
 
 		///
 		/// @brief 获取指定范围内的子字符串。
@@ -180,12 +209,26 @@ namespace base
 		///
 		/// @return
 		///
-		base::String operator[](base::Range const &range) const;
+		base::String operator[](base::Range const &range) const
+		{
+			return Slice(range);
+		}
 
 		/* #endregion */
 
-		base::String &operator+=(base::String const &o);
-		base::String operator+(base::String const &o) const;
+		base::String &operator+=(base::String const &o)
+		{
+			_string += o.StdString();
+			return *this;
+		}
+
+		base::String operator+(base::String const &o) const
+		{
+			std::string ret;
+			ret.reserve(_string.size() + o.StdString().size());
+			ret = _string + o.StdString();
+			return base::String{ret};
+		}
 
 		///
 		/// @brief 根据分隔符，将字符串拆分成多个子字符串，放到列表中返回。
@@ -211,11 +254,30 @@ namespace base
 
 		/* #region 比较 */
 
-		bool operator==(base::String const &o) const;
-		bool operator<(base::String const &o) const;
-		bool operator>(base::String const &o) const;
-		bool operator<=(base::String const &o) const;
-		bool operator>=(base::String const &o) const;
+		bool operator==(base::String const &o) const
+		{
+			return _string == o._string;
+		}
+
+		bool operator<(base::String const &o) const
+		{
+			return _string < o._string;
+		}
+
+		bool operator>(base::String const &o) const
+		{
+			return _string > o._string;
+		}
+
+		bool operator<=(base::String const &o) const
+		{
+			return _string <= o._string;
+		}
+
+		bool operator>=(base::String const &o) const
+		{
+			return _string <= o._string;
+		}
 
 		/* #endregion */
 
@@ -224,7 +286,27 @@ namespace base
 		///
 		/// @note 关于哪些是空白字符，见 IsWhiteChar 函数。
 		///
-		void TrimStart();
+		void TrimStart()
+		{
+			if (_string.size() > INT32_MAX)
+			{
+				throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
+			}
+
+			if (_string.size() == 0)
+			{
+				return;
+			}
+
+			for (int32_t i = 0; i < static_cast<int32_t>(_string.size()); i++)
+			{
+				if (!base::character::IsWhiteChar(_string[i]))
+				{
+					Remove(base::Range{0, i});
+					return;
+				}
+			}
+		}
 
 		///
 		/// @brief 裁剪掉字符串末尾处的空白字符。
@@ -238,7 +320,11 @@ namespace base
 		///
 		/// @note 关于哪些是空白字符，见 IsWhiteChar 函数。
 		///
-		void Trim();
+		void Trim()
+		{
+			TrimStart();
+			TrimEnd();
+		}
 
 		/* #region IndexOf */
 
@@ -501,8 +587,27 @@ namespace base
 
 } // namespace base
 
-base::String operator+(char left, base::String const &right);
-base::String operator+(char const *left, base::String const &right);
-base::String operator+(std::string const &left, base::String const &right);
+inline base::String operator+(char left, base::String const &right)
+{
+	return base::String{left + right.StdString()};
+}
 
-std::ostream &operator<<(std::ostream &os, base::String const &str);
+inline base::String operator+(char const *left, base::String const &right)
+{
+	return base::String{left + right.StdString()};
+}
+
+inline base::String operator+(std::string const &left, base::String const &right)
+{
+	return base::String{left + right.StdString()};
+}
+
+#if HAS_THREAD
+
+inline std::ostream &operator<<(std::ostream &os, base::String const &str)
+{
+	os << str.StdString();
+	return os;
+}
+
+#endif // HAS_THREAD

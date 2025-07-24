@@ -1,65 +1,4 @@
 #include "String.h"
-#include "base/container/Range.h"
-#include "base/string/character.h"
-#include <cstddef>
-#include <stdexcept>
-#include <string>
-
-base::ReadOnlySpan base::String::Span() const
-{
-	return base::ReadOnlySpan{
-		reinterpret_cast<uint8_t const *>(_string.data()),
-		static_cast<int32_t>(_string.size()),
-	};
-}
-
-int32_t base::String::Length() const
-{
-	return _string.size();
-}
-
-/* #region 索引器 */
-
-char &base::String::operator[](int32_t index)
-{
-	if (_string.size() > INT32_MAX)
-	{
-		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
-	}
-
-	if (index > static_cast<int32_t>(_string.size()))
-	{
-		throw std::out_of_range{"索引超出范围。"};
-	}
-
-	return _string[index];
-}
-
-char const &base::String::operator[](int32_t index) const
-{
-	return const_cast<base::String &>(*this)[index];
-}
-
-base::String base::String::operator[](base::Range const &range) const
-{
-	return Slice(range);
-}
-
-/* #endregion */
-
-base::String &base::String::operator+=(base::String const &o)
-{
-	_string += o.StdString();
-	return *this;
-}
-
-base::String base::String::operator+(base::String const &o) const
-{
-	std::string ret;
-	ret.reserve(_string.size() + o.StdString().size());
-	ret = _string + o.StdString();
-	return base::String{ret};
-}
 
 base::List<base::String> base::String::Split(char separator, base::StringSplitOptions const &options) const
 {
@@ -139,57 +78,6 @@ base::String base::String::Slice(base::Range const &range) const
 	return base::String{ret};
 }
 
-/* #region 比较运算符 */
-
-bool base::String::operator==(base::String const &o) const
-{
-	return _string == o._string;
-}
-
-bool base::String::operator<(base::String const &o) const
-{
-	return _string < o._string;
-}
-
-bool base::String::operator>(base::String const &o) const
-{
-	return _string > o._string;
-}
-
-bool base::String::operator<=(base::String const &o) const
-{
-	return _string <= o._string;
-}
-
-bool base::String::operator>=(base::String const &o) const
-{
-	return _string <= o._string;
-}
-
-/* #endregion */
-
-void base::String::TrimStart()
-{
-	if (_string.size() > INT32_MAX)
-	{
-		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
-	}
-
-	if (_string.size() == 0)
-	{
-		return;
-	}
-
-	for (int32_t i = 0; i < static_cast<int32_t>(_string.size()); i++)
-	{
-		if (!base::character::IsWhiteChar(_string[i]))
-		{
-			Remove(base::Range{0, i});
-			return;
-		}
-	}
-}
-
 void base::String::TrimEnd()
 {
 	if (_string.size() > INT32_MAX)
@@ -216,12 +104,6 @@ void base::String::TrimEnd()
 			return;
 		}
 	}
-}
-
-void base::String::Trim()
-{
-	TrimStart();
-	TrimEnd();
 }
 
 /* #region IndexOf */
@@ -390,29 +272,4 @@ void base::String::PadRight(char pad, base::StringLength const &length)
 	{
 		_string += pad;
 	}
-}
-
-/* #region 全局字符串拼接运算符 */
-
-base::String operator+(char left, base::String const &right)
-{
-	return base::String{left + right.StdString()};
-}
-
-base::String operator+(char const *left, base::String const &right)
-{
-	return base::String{left + right.StdString()};
-}
-
-base::String operator+(std::string const &left, base::String const &right)
-{
-	return base::String{left + right.StdString()};
-}
-
-/* #endregion */
-
-std::ostream &operator<<(std::ostream &os, base::String const &str)
-{
-	os << str.StdString();
-	return os;
 }
