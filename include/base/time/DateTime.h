@@ -25,6 +25,7 @@ namespace base
 	{
 	private:
 		/* #region 日期时间字段 */
+
 		int64_t _year{};
 		int64_t _month{};
 		int64_t _day{};
@@ -37,6 +38,7 @@ namespace base
 		/* #endregion */
 
 		/* #region 检查 */
+
 		constexpr void CheckMonth()
 		{
 			if (_month < 1 || _month > 12)
@@ -53,10 +55,38 @@ namespace base
 			}
 		}
 
-		void CheckHour();
-		void CheckMinute();
-		void CheckSecond();
-		void CheckNanosecond();
+		constexpr void CheckHour()
+		{
+			if (_hour < 0 || _hour > 23)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "非法小时。"};
+			}
+		}
+
+		constexpr void CheckMinute()
+		{
+			if (_minute < 0 || _minute > 59)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "非法分钟。"};
+			}
+		}
+
+		constexpr void CheckSecond()
+		{
+			if (_second < 0 || _second > 59)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "非法秒。"};
+			}
+		}
+
+		constexpr void CheckNanosecond()
+		{
+			if (_nanosecond < 0 || _nanosecond >= static_cast<int64_t>(1000) * 1000 * 1000)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "非法纳秒。"};
+			}
+		}
+
 		/* #endregion */
 
 		/* #region 私有时间调整方法 */

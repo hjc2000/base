@@ -11,42 +11,6 @@
 #include <cstdlib>
 #include <stdexcept>
 
-/* #region 检查 */
-
-void base::DateTime::CheckHour()
-{
-	if (_hour < 0 || _hour > 23)
-	{
-		throw std::invalid_argument{CODE_POS_STR + "非法小时。"};
-	}
-}
-
-void base::DateTime::CheckMinute()
-{
-	if (_minute < 0 || _minute > 59)
-	{
-		throw std::invalid_argument{CODE_POS_STR + "非法分钟。"};
-	}
-}
-
-void base::DateTime::CheckSecond()
-{
-	if (_second < 0 || _second > 59)
-	{
-		throw std::invalid_argument{CODE_POS_STR + "非法秒。"};
-	}
-}
-
-void base::DateTime::CheckNanosecond()
-{
-	if (_nanosecond < 0 || _nanosecond >= static_cast<int64_t>(1000) * 1000 * 1000)
-	{
-		throw std::invalid_argument{CODE_POS_STR + "非法纳秒。"};
-	}
-}
-
-/* #endregion */
-
 /* #region 私有时间调整方法 */
 
 void base::DateTime::AddMonths(int64_t value)
