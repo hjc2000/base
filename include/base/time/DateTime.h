@@ -12,8 +12,6 @@
 
 namespace base
 {
-	class TimePointSinceEpoch;
-
 	///
 	/// @brief 日期时间。
 	///
