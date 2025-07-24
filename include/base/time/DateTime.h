@@ -318,6 +318,20 @@ namespace base
 			return ret;
 		}
 
+		base::String MillisecondString() const
+		{
+			base::String ret{std::to_string(_nanosecond / 1000 / 1000)};
+			ret.PadLeft('0', base::StringLength{9});
+			return ret;
+		}
+
+		base::String MicrosecondString() const
+		{
+			base::String ret{std::to_string(_nanosecond / 1000)};
+			ret.PadLeft('0', base::StringLength{9});
+			return ret;
+		}
+
 		base::String NanosecondString() const
 		{
 			base::String ret{std::to_string(_nanosecond)};
