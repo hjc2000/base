@@ -5,24 +5,6 @@
 #include <stdexcept>
 #include <string>
 
-std::string &base::String::StdString()
-{
-	return _string;
-}
-
-std::string const &base::String::StdString() const
-{
-	return _string;
-}
-
-base::Span base::String::Span()
-{
-	return base::Span{
-		reinterpret_cast<uint8_t *>(_string.data()),
-		static_cast<int32_t>(_string.size()),
-	};
-}
-
 base::ReadOnlySpan base::String::Span() const
 {
 	return base::ReadOnlySpan{

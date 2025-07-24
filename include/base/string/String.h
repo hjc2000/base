@@ -109,21 +109,33 @@ namespace base
 		///
 		/// @return
 		///
-		std::string &StdString();
+		std::string &StdString()
+		{
+			return _string;
+		}
 
 		///
 		/// @brief 获取被本类包装的 std::string 对象的引用。
 		///
 		/// @return
 		///
-		std::string const &StdString() const;
+		std::string const &StdString() const
+		{
+			return _string;
+		}
 
 		///
 		/// @brief 获取本字符串的内存段。内存段中不包括结尾的空字符。
 		///
 		/// @return
 		///
-		base::Span Span();
+		base::Span Span()
+		{
+			return base::Span{
+				reinterpret_cast<uint8_t *>(_string.data()),
+				static_cast<int32_t>(_string.size()),
+			};
+		}
 
 		///
 		/// @brief 获取本字符串的内存段。内存段中不包括结尾的空字符。
