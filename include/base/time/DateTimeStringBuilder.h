@@ -11,6 +11,15 @@ namespace base
 	class DateTimeStringBuilder :
 		public base::ICanToString
 	{
+	public:
+		enum class ExDisplayOption
+		{
+			None,
+			DisplayNanosecond,
+			DisplayMicrosecond,
+			DisplayMillisecond,
+		};
+
 	private:
 		std::string _year;
 		std::string _month;
