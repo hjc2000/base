@@ -1,12 +1,10 @@
 #pragma once
 #include "base/string/define.h"
 #include "base/string/String.h"
-#include "base/time/convert.h"
 #include "base/time/TimePointSinceEpoch.h"
 #include "DateTimeStringBuilder.h"
 #include "UtcHourOffset.h"
 #include <array>
-#include <bits/chrono.h>
 #include <chrono>
 #include <cstdint>
 #include <cstdlib>
@@ -354,7 +352,12 @@ namespace base
 		///
 		/// @param time_point 时间点。epoch 时间戳，与时区无关。
 		///
-		DateTime(base::TimePointSinceEpoch const &time_point);
+		constexpr DateTime(base::TimePointSinceEpoch const &time_point)
+		{
+			base::DateTime start{EpochStart()};
+			start.AddNanoseconds(static_cast<std::chrono::nanoseconds>(time_point).count());
+			*this = start;
+		}
 
 		///
 		/// @brief 通过时间点构造一个 UTC 偏移的日期时间。
@@ -362,44 +365,48 @@ namespace base
 		/// @param utc_hour_offset 你所处的时区的 UTC 小时偏移量。
 		/// @param time_point 时间点。epoch 时间戳，与时区无关。
 		///
-		DateTime(base::UtcHourOffset utc_hour_offset,
-				 base::TimePointSinceEpoch const &time_point);
+		constexpr DateTime(base::UtcHourOffset utc_hour_offset,
+						   base::TimePointSinceEpoch const &time_point)
+			: DateTime(time_point)
+		{
+			_utc_hour_offset = utc_hour_offset.Value();
+		}
 
 		/* #endregion */
 
 		/* #region 日期时间属性 */
 
-		int64_t Year() const
+		constexpr int64_t Year() const
 		{
 			return _year;
 		}
 
-		int64_t Month() const
+		constexpr int64_t Month() const
 		{
 			return _month;
 		}
 
-		int64_t Day() const
+		constexpr int64_t Day() const
 		{
 			return _day;
 		}
 
-		int64_t Hour() const
+		constexpr int64_t Hour() const
 		{
 			return _hour;
 		}
 
-		int64_t Minute() const
+		constexpr int64_t Minute() const
 		{
 			return _minute;
 		}
 
-		int64_t Second() const
+		constexpr int64_t Second() const
 		{
 			return _second;
 		}
 
-		int64_t Nanosecond() const
+		constexpr int64_t Nanosecond() const
 		{
 			return _nanosecond;
 		}
@@ -540,14 +547,14 @@ namespace base
 			_nanosecond = ns_part.count();
 		}
 
-		base::DateTime operator+(std::chrono::seconds const &value) const
+		constexpr base::DateTime operator+(std::chrono::seconds const &value) const
 		{
 			base::DateTime ret{*this};
 			ret += value;
 			return ret;
 		}
 
-		base::DateTime &operator+=(std::chrono::seconds const &value)
+		constexpr base::DateTime &operator+=(std::chrono::seconds const &value)
 		{
 			AddSeconds(value.count());
 			return *this;
@@ -560,7 +567,45 @@ namespace base
 		///
 		/// @return
 		///
-		base::TimePointSinceEpoch TimePointSinceEpoch() const;
+		constexpr base::TimePointSinceEpoch TimePointSinceEpoch() const
+		{
+			std::chrono::nanoseconds total_ns{};
+			base::DateTime start{EpochStart()};
+
+			// 把 start 的年份调整到当前年份，累加经过的纳秒数。
+			while (true)
+			{
+				if (start._year == _year)
+				{
+					break;
+				}
+				else if (start._year > _year)
+				{
+					start._year--;
+					total_ns -= std::chrono::days{start.CurrentYearDayCount()};
+				}
+				else if (start._year < _year)
+				{
+					total_ns += std::chrono::days{start.CurrentYearDayCount()};
+					start._year++;
+				}
+			}
+
+			// 因为 start 是 1 月，所以一定满足 start._month <= _month
+			while (start._month < _month)
+			{
+				total_ns += std::chrono::days{start.CurrentMonthDayCount()};
+				start._month++;
+			}
+
+			// 因为 start 是 1 日，所以 _day - start._day >= 0
+			total_ns += std::chrono::days{_day - start._day};
+			total_ns += std::chrono::hours{_hour - 0};
+			total_ns += std::chrono::minutes{_minute - 0};
+			total_ns += std::chrono::seconds{_second - 0};
+			total_ns += std::chrono::nanoseconds{_nanosecond - 0};
+			return base::TimePointSinceEpoch{total_ns};
+		}
 
 		///
 		/// @brief 获取日期时间字符串构建器。
@@ -608,10 +653,109 @@ namespace base
 			return date_time_array == another_date_time_array;
 		}
 
-		bool operator<(DateTime const &another) const;
-		bool operator>(DateTime const &another) const;
-		bool operator<=(DateTime const &another) const;
-		bool operator>=(DateTime const &another) const;
+		constexpr bool operator<(DateTime const &another) const
+		{
+			std::array<int64_t, 7> date_time_array{
+				_year,
+				_month,
+				_day,
+				_hour,
+				_minute,
+				_second,
+				_nanosecond,
+			};
+
+			std::array<int64_t, 7> another_date_time_array{
+				another._year,
+				another._month,
+				another._day,
+				another._hour,
+				another._minute,
+				another._second,
+				another._nanosecond,
+			};
+
+			// 利用 std::array 的字典序比较。
+			return date_time_array < another_date_time_array;
+		}
+
+		constexpr bool operator>(DateTime const &another) const
+		{
+			std::array<int64_t, 7> date_time_array{
+				_year,
+				_month,
+				_day,
+				_hour,
+				_minute,
+				_second,
+				_nanosecond,
+			};
+
+			std::array<int64_t, 7> another_date_time_array{
+				another._year,
+				another._month,
+				another._day,
+				another._hour,
+				another._minute,
+				another._second,
+				another._nanosecond,
+			};
+
+			// 利用 std::array 的字典序比较。
+			return date_time_array > another_date_time_array;
+		}
+
+		constexpr bool operator<=(DateTime const &another) const
+		{
+			std::array<int64_t, 7> date_time_array{
+				_year,
+				_month,
+				_day,
+				_hour,
+				_minute,
+				_second,
+				_nanosecond,
+			};
+
+			std::array<int64_t, 7> another_date_time_array{
+				another._year,
+				another._month,
+				another._day,
+				another._hour,
+				another._minute,
+				another._second,
+				another._nanosecond,
+			};
+
+			// 利用 std::array 的字典序比较。
+			return date_time_array <= another_date_time_array;
+		}
+
+		constexpr bool operator>=(DateTime const &another) const
+		{
+			std::array<int64_t, 7> date_time_array{
+				_year,
+				_month,
+				_day,
+				_hour,
+				_minute,
+				_second,
+				_nanosecond,
+			};
+
+			std::array<int64_t, 7> another_date_time_array{
+				another._year,
+				another._month,
+				another._day,
+				another._hour,
+				another._minute,
+				another._second,
+				another._nanosecond,
+			};
+
+			// 利用 std::array 的字典序比较。
+			return date_time_array >= another_date_time_array;
+		}
 
 		/* #endregion */
 
@@ -620,7 +764,7 @@ namespace base
 		///
 		/// @return
 		///
-		static base::DateTime EpochStart()
+		constexpr static base::DateTime EpochStart()
 		{
 			base::DateTime start{1970, 1, 1, 0, 0, 0, 0};
 			return start;
