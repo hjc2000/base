@@ -678,6 +678,8 @@ namespace base
 				HourString().StdString(),
 				MinuteString().StdString(),
 				SecondString().StdString(),
+				MillisecondString().StdString(),
+				MicrosecondString().StdString(),
 				NanosecondString().StdString(),
 			};
 		}

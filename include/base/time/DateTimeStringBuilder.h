@@ -18,6 +18,8 @@ namespace base
 		std::string _hour;
 		std::string _minute;
 		std::string _second;
+		std::string _millisecond;
+		std::string _microsecond;
 		std::string _nanosecond;
 
 		char _year_month_day_separator = '-';
@@ -34,6 +36,8 @@ namespace base
 		/// @param hour 小时字符串。
 		/// @param minute 分钟字符串。
 		/// @param second 秒字符串。
+		/// @param millisecond 豪秒字符串。
+		/// @param microsecond 微秒字符串。
 		/// @param nanosecond 纳秒字符串。
 		///
 		DateTimeStringBuilder(std::string const &year,
@@ -42,6 +46,8 @@ namespace base
 							  std::string const &hour,
 							  std::string const &minute,
 							  std::string const &second,
+							  std::string const &millisecond,
+							  std::string const &microsecond,
 							  std::string const &nanosecond);
 
 		/* #region 日期时间的各部分字符串 */

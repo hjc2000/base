@@ -6,6 +6,8 @@ base::DateTimeStringBuilder::DateTimeStringBuilder(std::string const &year,
 												   std::string const &hour,
 												   std::string const &minute,
 												   std::string const &second,
+												   std::string const &millisecond,
+												   std::string const &microsecond,
 												   std::string const &nanosecond)
 	: _year(year),
 	  _month(month),
@@ -13,6 +15,8 @@ base::DateTimeStringBuilder::DateTimeStringBuilder(std::string const &year,
 	  _hour(hour),
 	  _minute(minute),
 	  _second(second),
+	  _millisecond(millisecond),
+	  _microsecond(microsecond),
 	  _nanosecond(nanosecond)
 {
 }
