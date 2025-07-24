@@ -96,7 +96,32 @@ namespace base
 		///
 		/// @param value
 		///
-		void AddMonths(int64_t value);
+		constexpr void AddMonths(int64_t value)
+		{
+			if (value == 0)
+			{
+				return;
+			}
+
+			int64_t month_index = _month - 1 + value;
+			if (month_index >= 0 && month_index < 12)
+			{
+				// 在最小正周期内
+				_month = month_index + 1;
+				return;
+			}
+
+			// 不在最小正周期内
+			_year += month_index / 12;
+			month_index %= 12;
+			if (month_index < 0)
+			{
+				_year -= 1;
+				month_index += 12;
+			}
+
+			_month = month_index + 1;
+		}
 
 		///
 		/// @brief 将日索引调整到一年的周期内。
@@ -149,7 +174,7 @@ namespace base
 	public:
 		/* #region 构造函数 */
 
-		DateTime() = default;
+		constexpr DateTime() = default;
 
 		///
 		/// @brief 通过 UTC + 0 的日期时间构造。
@@ -245,21 +270,67 @@ namespace base
 		///
 		/// @return
 		///
-		int64_t CurrentYearDayCount();
+		constexpr int64_t CurrentYearDayCount()
+		{
+			if (IsLeapYear())
+			{
+				return 366;
+			}
+
+			return 365;
+		}
 
 		///
 		/// @brief 本月份总共有多少天。
 		///
 		/// @return
 		///
-		int64_t CurrentMonthDayCount();
+		constexpr int64_t CurrentMonthDayCount()
+		{
+			switch (_month)
+			{
+			case 2:
+				{
+					if (IsLeapYear())
+					{
+						return 29;
+					}
+
+					return 28;
+				}
+			case 1:
+			case 3:
+			case 5:
+			case 7:
+			case 8:
+			case 10:
+			case 12:
+				{
+					return 31;
+				}
+			default:
+				{
+					return 30;
+				}
+			}
+		}
 
 		///
 		/// @brief 今年是否是闰年。
 		///
 		/// @return
 		///
-		bool IsLeapYear() const;
+		constexpr bool IsLeapYear() const
+		{
+			if (_year % 100 == 0)
+			{
+				// 整百年份必须被 400 整除才是闰年。
+				return _year % 400 == 0;
+			}
+
+			// 非整百年份只要能被 4 整除就是闰年。
+			return _year % 4 == 0;
+		}
 
 		/* #region 公共时间调整方法 */
 

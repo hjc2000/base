@@ -1,5 +1,4 @@
 #include "DateTime.h"
-#include "base/string/define.h"
 #include "base/string/String.h"
 #include "base/time/convert.h"
 #include "base/time/time.h"
@@ -9,36 +8,8 @@
 #include <chrono>
 #include <cstdint>
 #include <cstdlib>
-#include <stdexcept>
 
 /* #region 私有时间调整方法 */
-
-void base::DateTime::AddMonths(int64_t value)
-{
-	if (value == 0)
-	{
-		return;
-	}
-
-	int64_t month_index = _month - 1 + value;
-	if (month_index >= 0 && month_index < 12)
-	{
-		// 在最小正周期内
-		_month = month_index + 1;
-		return;
-	}
-
-	// 不在最小正周期内
-	_year += month_index / 12;
-	month_index %= 12;
-	if (month_index < 0)
-	{
-		_year -= 1;
-		month_index += 12;
-	}
-
-	_month = month_index + 1;
-}
 
 void base::DateTime::AdjustDayIndexToOneYear(int64_t &day_index)
 {
@@ -273,58 +244,6 @@ base::DateTime::DateTime(base::UtcHourOffset utc_hour_offset,
 }
 
 /* #endregion */
-
-int64_t base::DateTime::CurrentYearDayCount()
-{
-	if (IsLeapYear())
-	{
-		return 366;
-	}
-
-	return 365;
-}
-
-int64_t base::DateTime::CurrentMonthDayCount()
-{
-	switch (_month)
-	{
-	case 2:
-		{
-			if (IsLeapYear())
-			{
-				return 29;
-			}
-
-			return 28;
-		}
-	case 1:
-	case 3:
-	case 5:
-	case 7:
-	case 8:
-	case 10:
-	case 12:
-		{
-			return 31;
-		}
-	default:
-		{
-			return 30;
-		}
-	}
-}
-
-bool base::DateTime::IsLeapYear() const
-{
-	if (_year % 100 == 0)
-	{
-		// 整百年份必须被 400 整除才是闰年。
-		return _year % 400 == 0;
-	}
-
-	// 非整百年份只要能被 4 整除就是闰年。
-	return _year % 4 == 0;
-}
 
 /* #region 公共时间调整方法 */
 
