@@ -191,22 +191,21 @@ namespace base
 		///
 		/// @brief 本年总共有多少天。
 		///
-		/// @return int64_t
+		/// @return
 		///
 		int64_t CurrentYearDayCount();
 
 		///
 		/// @brief 本月份总共有多少天。
 		///
-		/// @return int64_t
+		/// @return
 		///
 		int64_t CurrentMonthDayCount();
 
 		///
 		/// @brief 今年是否是闰年。
 		///
-		/// @return true
-		/// @return false
+		/// @return
 		///
 		bool IsLeapYear() const;
 
@@ -265,7 +264,7 @@ namespace base
 		///
 		/// @brief 强制转换为时间点。
 		///
-		/// @return base::TimePointSinceEpoch
+		/// @return
 		///
 		base::TimePointSinceEpoch TimePointSinceEpoch() const;
 
@@ -274,7 +273,7 @@ namespace base
 		///
 		/// @note 不考虑时区。
 		///
-		/// @return base::DateTimeStringBuilder
+		/// @return
 		///
 		base::DateTimeStringBuilder DateTimeStringBuilder() const;
 
@@ -283,7 +282,7 @@ namespace base
 		///
 		/// @note 考虑时区。
 		///
-		/// @return base::DateTimeStringBuilder
+		/// @return
 		///
 		base::DateTimeStringBuilder LocalDateTimeStringBuilder() const;
 
