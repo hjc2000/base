@@ -12,6 +12,9 @@ namespace base
 		public base::ICanToString
 	{
 	public:
+		///
+		/// @brief 设置在秒后面是否再显示更细粒度的时间，以及显示什么精度的。
+		///
 		enum class ExDisplayOption
 		{
 			None,
