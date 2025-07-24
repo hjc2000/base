@@ -335,7 +335,10 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t IndexOf(char match) const;
+		int32_t IndexOf(char match) const
+		{
+			return Span().IndexOf(match);
+		}
 
 		///
 		/// @brief 从本字符串查找匹配项所在的索引。
@@ -345,7 +348,10 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t IndexOf(int32_t start, char match) const;
+		int32_t IndexOf(int32_t start, char match) const
+		{
+			return Span().IndexOf(start, match);
+		}
 
 		///
 		/// @brief 从本字符串查找匹配项所在的索引。
@@ -354,7 +360,10 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t IndexOf(base::String const &match) const;
+		int32_t IndexOf(base::String const &match) const
+		{
+			return Span().IndexOf(match.Span());
+		}
 
 		///
 		/// @brief 从本字符串查找匹配项所在的索引。
@@ -364,7 +373,10 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t IndexOf(int32_t start, base::String const &match) const;
+		int32_t IndexOf(int32_t start, base::String const &match) const
+		{
+			return Span().IndexOf(start, match.Span());
+		}
 
 		/* #endregion */
 
@@ -377,7 +389,10 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t LastIndexOf(uint8_t match) const;
+		int32_t LastIndexOf(uint8_t match) const
+		{
+			return Span().LastIndexOf(match);
+		}
 
 		///
 		/// @brief 从 start 索引位置开始，从后往前查找匹配项。
@@ -387,7 +402,10 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t LastIndexOf(int32_t start, uint8_t match) const;
+		int32_t LastIndexOf(int32_t start, uint8_t match) const
+		{
+			return Span().LastIndexOf(start, match);
+		}
 
 		///
 		/// @brief 从后往前查找最后一个匹配位置的索引。
@@ -396,7 +414,10 @@ namespace base
 		///
 		/// @return
 		///
-		int32_t LastIndexOf(base::String const &match) const;
+		int32_t LastIndexOf(base::String const &match) const
+		{
+			return Span().LastIndexOf(match.Span());
+		}
 
 		///
 		/// @brief 从 start 索引位置开始，从后往前查找匹配项。
@@ -406,7 +427,10 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t LastIndexOf(int32_t start, base::String const &match) const;
+		int32_t LastIndexOf(int32_t start, base::String const &match) const
+		{
+			return Span().LastIndexOf(start, match.Span());
+		}
 
 		/* #endregion */
 
@@ -414,21 +438,30 @@ namespace base
 		/// @brief 翻转字符串。
 		///
 		///
-		void Reverse();
+		void Reverse()
+		{
+			std::reverse(_string.data(), _string.data() + _string.size());
+		}
 
 		///
 		/// @brief 移除指定范围内的字符。
 		///
 		/// @param range
 		///
-		void Remove(base::Range const &range);
+		void Remove(base::Range const &range)
+		{
+			_string.erase(range.Begin(), range.Size());
+		}
 
 		///
 		/// @brief 移除指定索引处的字符。
 		///
 		/// @param index
 		///
-		void RemoveAt(int32_t index);
+		void RemoveAt(int32_t index)
+		{
+			_string.erase(index, 1);
+		}
 
 		///
 		/// @brief 将字符串的指定范围替换为 replacement.
@@ -436,7 +469,10 @@ namespace base
 		/// @param range 要被替换的范围。
 		/// @param replacement 替换后的内容。
 		///
-		void Replace(base::Range const &range, base::String const &replacement);
+		void Replace(base::Range const &range, base::String const &replacement)
+		{
+			_string.replace(range.Begin(), range.Size(), replacement.StdString());
+		}
 
 		///
 		/// @brief 将本字符串中所有与 match 相同的部分替换成 replacement.
@@ -444,19 +480,50 @@ namespace base
 		/// @param match 要被替换的内容。
 		/// @param replacement 替换后的内容。
 		///
-		void Replace(base::String const &match, base::String const &replacement);
+		void Replace(base::String const &match, base::String const &replacement)
+		{
+			int32_t start = 0;
+			while (true)
+			{
+				if (start >= Length())
+				{
+					return;
+				}
+
+				int32_t index = IndexOf(start, match);
+				if (index < 0)
+				{
+					return;
+				}
+
+				Replace(base::Range{index, index + match.Length()}, replacement);
+				start = index + replacement.Length();
+			}
+		}
 
 		///
 		/// @brief 将字符转换为小写。
 		///
 		///
-		void ToLower();
+		void ToLower()
+		{
+			std::transform(_string.begin(),
+						   _string.end(),
+						   _string.begin(),
+						   ::tolower);
+		}
 
 		///
 		/// @brief 将字符转换为大写。
 		///
 		///
-		void ToUpper();
+		void ToUpper()
+		{
+			std::transform(_string.begin(),
+						   _string.end(),
+						   _string.begin(),
+						   ::toupper);
+		}
 
 		///
 		/// @brief 检查本字符串中是否存在至少 1 个匹配项。
@@ -466,7 +533,10 @@ namespace base
 		/// @return true 如果存在，则返回 true.
 		/// @return false 如果不存在则返回 false.
 		///
-		bool Contains(char match) const;
+		bool Contains(char match) const
+		{
+			return IndexOf(match) >= 0;
+		}
 
 		///
 		/// @brief 检查本字符串中是否存在至少 1 个匹配项。
@@ -476,7 +546,10 @@ namespace base
 		/// @return true 如果有则返回 true.
 		/// @return false 没有则返回 false.
 		///
-		bool Contains(base::String const &match) const;
+		bool Contains(base::String const &match) const
+		{
+			return IndexOf(match) >= 0;
+		}
 
 		///
 		/// @brief 检查字符串是否以 match 开头。
@@ -485,7 +558,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool StartWith(char match) const;
+		bool StartWith(char match) const
+		{
+			return Span().StartWith(match);
+		}
 
 		///
 		/// @brief 检查字符串是否以 match 开头。
@@ -494,7 +570,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool StartWith(base::String const &match) const;
+		bool StartWith(base::String const &match) const
+		{
+			return Span().StartWith(match.Span());
+		}
 
 		///
 		/// @brief 检查字符串是否以 match 开头。
@@ -503,7 +582,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool EndWith(char match) const;
+		bool EndWith(char match) const
+		{
+			return Span().EndWith(match);
+		}
 
 		///
 		/// @brief 检查字符串是否以 match 开头。
@@ -512,7 +594,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool EndWith(base::String const &match) const;
+		bool EndWith(base::String const &match) const
+		{
+			return Span().EndWith(match.Span());
+		}
 
 		/* #region 填充 */
 
