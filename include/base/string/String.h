@@ -19,12 +19,12 @@ namespace base
 		int32_t _value{};
 
 	public:
-		explicit StringLength(int32_t value)
+		constexpr explicit StringLength(int32_t value)
 			: _value(value)
 		{
 		}
 
-		int32_t Value() const
+		constexpr int32_t Value() const
 		{
 			return _value;
 		}
@@ -462,6 +462,7 @@ namespace base
 
 		/* #endregion */
 	};
+
 } // namespace base
 
 base::String operator+(char left, base::String const &right);
