@@ -46,6 +46,7 @@ base::List<base::String> base::String::Split(char separator, base::StringSplitOp
 		// 找到分隔符
 		base::String temp_str{span[base::Range{0, index}]};
 		add_to_list_under_options(temp_str);
+
 		if (index + 1 >= span.Size())
 		{
 			// 已经到达末尾了，没有剩余字符了
@@ -60,81 +61,5 @@ base::List<base::String> base::String::Split(char separator, base::StringSplitOp
 		}
 
 		span = span[base::Range{index + 1, span.Size()}];
-	}
-}
-
-base::String base::String::Slice(base::Range const &range) const
-{
-	if (_string.size() > INT32_MAX)
-	{
-		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
-	}
-
-	std::string ret{
-		_string.data() + range.Begin(),
-		static_cast<size_t>(range.Size()),
-	};
-
-	return base::String{ret};
-}
-
-void base::String::TrimEnd()
-{
-	if (_string.size() > INT32_MAX)
-	{
-		throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
-	}
-
-	if (_string.size() == 0)
-	{
-		return;
-	}
-
-	for (int32_t i = Length() - 1; i >= 0; i--)
-	{
-		if (!base::character::IsWhiteChar(_string[i]))
-		{
-			if (i == Length() - 1)
-			{
-				// 最后一个字符就是非空白字符
-				return;
-			}
-
-			Remove(base::Range{i + 1, Length()});
-			return;
-		}
-	}
-}
-
-void base::String::PadLeft(char pad, base::StringLength const &length)
-{
-	int32_t padding = length.Value() - Length();
-	if (padding <= 0)
-	{
-		return;
-	}
-
-	std::string pad_str{};
-	pad_str.reserve(padding);
-	for (int32_t i = 0; i < padding; i++)
-	{
-		pad_str += pad;
-	}
-
-	_string = pad_str + _string;
-}
-
-void base::String::PadRight(char pad, base::StringLength const &length)
-{
-	int32_t padding = length.Value() - Length();
-	if (padding <= 0)
-	{
-		return;
-	}
-
-	_string.reserve(_string.size() + padding);
-	for (int32_t i = 0; i < padding; i++)
-	{
-		_string += pad;
 	}
 }
