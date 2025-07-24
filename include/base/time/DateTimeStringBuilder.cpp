@@ -45,9 +45,28 @@ std::string base::DateTimeStringBuilder::ToString() const
 					  _minute + ':' +
 					  _second;
 
-	if (_display_nanosecond)
+	switch (_display_option)
 	{
-		ret += '.' + _nanosecond;
+	default:
+	case base::DateTimeStringBuilder::HighResolutionDisplayOptionEnum::DisplayNone:
+		{
+			break;
+		}
+	case base::DateTimeStringBuilder::HighResolutionDisplayOptionEnum::DisplayMillisecond:
+		{
+			ret += '.' + _millisecond;
+			break;
+		}
+	case base::DateTimeStringBuilder::HighResolutionDisplayOptionEnum::DisplayMicrosecond:
+		{
+			ret += '.' + _microsecond;
+			break;
+		}
+	case base::DateTimeStringBuilder::HighResolutionDisplayOptionEnum::DisplayNanosecond:
+		{
+			ret += '.' + _nanosecond;
+			break;
+		}
 	}
 
 	return ret;

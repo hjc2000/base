@@ -13,14 +13,14 @@ namespace base
 	{
 	public:
 		///
-		/// @brief 设置在秒后面是否再显示更细粒度的时间，以及显示什么精度的。
+		/// @brief 位于秒后面的高分辨率时间的显示选项。
 		///
-		enum class ExDisplayOption
+		enum class HighResolutionDisplayOptionEnum
 		{
-			None,
-			DisplayNanosecond,
-			DisplayMicrosecond,
+			DisplayNone,
 			DisplayMillisecond,
+			DisplayMicrosecond,
+			DisplayNanosecond,
 		};
 
 	private:
@@ -36,7 +36,7 @@ namespace base
 
 		char _year_month_day_separator = '-';
 
-		bool _display_nanosecond = true;
+		base::DateTimeStringBuilder::HighResolutionDisplayOptionEnum _display_option = base::DateTimeStringBuilder::HighResolutionDisplayOptionEnum::DisplayNanosecond;
 
 	public:
 		///
@@ -143,13 +143,23 @@ namespace base
 		}
 
 		///
-		/// @brief 格式化输出的字符串是否显示纳秒。
+		/// @brief 高分辨率时间显示选项。
 		///
-		/// @param display
+		/// @return
 		///
-		void DisplayNanosecond(bool display)
+		base::DateTimeStringBuilder::HighResolutionDisplayOptionEnum HighResolutionDisplayOption() const
 		{
-			_display_nanosecond = display;
+			return _display_option;
+		}
+
+		///
+		/// @brief 设置高分辨率时间显示选项。
+		///
+		/// @param value
+		///
+		void SetHighResolutionDisplayOption(base::DateTimeStringBuilder::HighResolutionDisplayOptionEnum value)
+		{
+			_display_option = value;
 		}
 	};
 
