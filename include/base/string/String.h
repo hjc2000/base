@@ -530,8 +530,7 @@ namespace base
 		///
 		/// @param match 匹配项。
 		///
-		/// @return true 如果存在，则返回 true.
-		/// @return false 如果不存在则返回 false.
+		/// @return
 		///
 		bool Contains(char match) const
 		{
@@ -543,8 +542,7 @@ namespace base
 		///
 		/// @param match 匹配项。
 		///
-		/// @return true 如果有则返回 true.
-		/// @return false 没有则返回 false.
+		/// @return
 		///
 		bool Contains(base::String const &match) const
 		{
@@ -555,8 +553,8 @@ namespace base
 		/// @brief 检查字符串是否以 match 开头。
 		///
 		/// @param match
-		/// @return true
-		/// @return false
+		///
+		/// @return
 		///
 		bool StartWith(char match) const
 		{
@@ -567,8 +565,8 @@ namespace base
 		/// @brief 检查字符串是否以 match 开头。
 		///
 		/// @param match
-		/// @return true
-		/// @return false
+		///
+		/// @return
 		///
 		bool StartWith(base::String const &match) const
 		{
@@ -579,8 +577,8 @@ namespace base
 		/// @brief 检查字符串是否以 match 开头。
 		///
 		/// @param match
-		/// @return true
-		/// @return false
+		///
+		/// @return
 		///
 		bool EndWith(char match) const
 		{
@@ -591,8 +589,8 @@ namespace base
 		/// @brief 检查字符串是否以 match 开头。
 		///
 		/// @param match
-		/// @return true
-		/// @return false
+		///
+		/// @return
 		///
 		bool EndWith(base::String const &match) const
 		{
