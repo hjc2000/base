@@ -260,7 +260,21 @@ namespace base
 		///
 		/// @param second_index
 		///
-		void AdjustSecondsIndexToOneMinute(int64_t &second_index);
+		constexpr void AdjustSecondsIndexToOneMinute(int64_t &second_index)
+		{
+			if (second_index >= 0 && second_index < 60)
+			{
+				return;
+			}
+
+			AddMinutes(second_index / 60);
+			second_index %= 60;
+			if (second_index < 0)
+			{
+				AddMinutes(-1);
+				second_index += 60;
+			}
+		}
 
 		/* #endregion */
 
@@ -290,9 +304,25 @@ namespace base
 		/// @param second
 		/// @param nanosecond
 		///
-		DateTime(int64_t year, int64_t month, int64_t day,
-				 int64_t hour, int64_t minute, int64_t second,
-				 int64_t nanosecond);
+		constexpr DateTime(int64_t year, int64_t month, int64_t day,
+						   int64_t hour, int64_t minute, int64_t second,
+						   int64_t nanosecond)
+		{
+			_year = year;
+			_month = month;
+			_day = day;
+			_hour = hour;
+			_minute = minute;
+			_second = second;
+			_nanosecond = nanosecond;
+
+			CheckMonth();
+			CheckDay();
+			CheckHour();
+			CheckMinute();
+			CheckSecond();
+			CheckNanosecond();
+		}
 
 		///
 		/// @brief 构造 UTC 偏移日期时间。
@@ -306,10 +336,18 @@ namespace base
 		/// @param second
 		/// @param nanosecond
 		///
-		DateTime(base::UtcHourOffset utc_hour_offset,
-				 int64_t year, int64_t month, int64_t day,
-				 int64_t hour, int64_t minute, int64_t second,
-				 int64_t nanosecond);
+		constexpr DateTime(base::UtcHourOffset utc_hour_offset,
+						   int64_t year, int64_t month, int64_t day,
+						   int64_t hour, int64_t minute, int64_t second,
+						   int64_t nanosecond)
+			: DateTime(year, month, day, hour, minute, second, nanosecond)
+		{
+			_utc_hour_offset = utc_hour_offset.Value();
+
+			// 调整回 UTC + 0 时间。
+			// 因为本类的字段储存的始终是 UTC + 0 时间。
+			AddHours(-_utc_hour_offset);
+		}
 
 		///
 		/// @brief 通过时间点构造。
@@ -442,35 +480,65 @@ namespace base
 		///
 		/// @param value
 		///
-		void AddDays(int64_t value);
+		constexpr void AddDays(int64_t value)
+		{
+			if (value == 0)
+			{
+				return;
+			}
+
+			// 以本月 1 日为 0 索引，建立日的索引。
+			int64_t day_index = _day - 1 + value;
+			AdjustDayIndexToOneMonth(day_index);
+			_day = day_index + 1;
+		}
 
 		///
 		/// @brief 增加小时。
 		///
 		/// @param value
 		///
-		void AddHours(int64_t value);
+		constexpr void AddHours(int64_t value)
+		{
+			_hour += value;
+			AdjustHourIndexToOneDay(_hour);
+		}
 
 		///
 		/// @brief 增加分钟。
 		///
 		/// @param value
 		///
-		void AddMinutes(int64_t value);
+		constexpr void AddMinutes(int64_t value)
+		{
+			_minute += value;
+			AdjustMinuteIndexToOneHour(_minute);
+		}
 
 		///
 		/// @brief 增加秒。
 		///
 		/// @param value
 		///
-		void AddSeconds(int64_t value);
+		constexpr void AddSeconds(int64_t value)
+		{
+			_second += value;
+			AdjustSecondsIndexToOneMinute(_second);
+		}
 
 		///
 		/// @brief 增加纳秒。
 		///
 		/// @param value
 		///
-		void AddNanoseconds(int64_t value);
+		constexpr void AddNanoseconds(int64_t value)
+		{
+			std::chrono::nanoseconds total_ns{_nanosecond + value};
+			std::chrono::seconds second_part = std::chrono::duration_cast<std::chrono::seconds>(total_ns);
+			std::chrono::nanoseconds ns_part = total_ns - second_part;
+			AddSeconds(second_part.count());
+			_nanosecond = ns_part.count();
+		}
 
 		base::DateTime operator+(std::chrono::seconds const &value) const
 		{
@@ -514,7 +582,32 @@ namespace base
 
 		/* #region 比较 */
 
-		bool operator==(DateTime const &another) const;
+		constexpr bool operator==(DateTime const &another) const
+		{
+			std::array<int64_t, 7> date_time_array{
+				_year,
+				_month,
+				_day,
+				_hour,
+				_minute,
+				_second,
+				_nanosecond,
+			};
+
+			std::array<int64_t, 7> another_date_time_array{
+				another._year,
+				another._month,
+				another._day,
+				another._hour,
+				another._minute,
+				another._second,
+				another._nanosecond,
+			};
+
+			// 利用 std::array 的字典序比较。
+			return date_time_array == another_date_time_array;
+		}
+
 		bool operator<(DateTime const &another) const;
 		bool operator>(DateTime const &another) const;
 		bool operator<=(DateTime const &another) const;

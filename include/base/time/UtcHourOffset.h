@@ -38,4 +38,5 @@ namespace base
 			return _value;
 		}
 	};
+
 } // namespace base

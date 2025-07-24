@@ -9,26 +9,6 @@
 #include <cstdint>
 #include <cstdlib>
 
-/* #region 私有时间调整方法 */
-
-void base::DateTime::AdjustSecondsIndexToOneMinute(int64_t &second_index)
-{
-	if (second_index >= 0 && second_index < 60)
-	{
-		return;
-	}
-
-	AddMinutes(second_index / 60);
-	second_index %= 60;
-	if (second_index < 0)
-	{
-		AddMinutes(-1);
-		second_index += 60;
-	}
-}
-
-/* #endregion */
-
 /* #region 不考虑时区转换为本地时区的日期时间字符串 */
 
 base::String base::DateTime::YearString() const
@@ -84,40 +64,6 @@ base::String base::DateTime::NanosecondString() const
 
 /* #region 构造函数 */
 
-base::DateTime::DateTime(int64_t year, int64_t month, int64_t day,
-						 int64_t hour, int64_t minute, int64_t second,
-						 int64_t nanosecond)
-{
-	_year = year;
-	_month = month;
-	_day = day;
-	_hour = hour;
-	_minute = minute;
-	_second = second;
-	_nanosecond = nanosecond;
-
-	CheckMonth();
-	CheckDay();
-	CheckHour();
-	CheckMinute();
-	CheckSecond();
-	CheckNanosecond();
-}
-
-base::DateTime::DateTime(base::UtcHourOffset utc_hour_offset,
-						 int64_t year, int64_t month, int64_t day,
-						 int64_t hour, int64_t minute, int64_t second,
-						 int64_t nanosecond)
-	: DateTime(year, month, day,
-			   hour, minute, second, nanosecond)
-{
-	_utc_hour_offset = utc_hour_offset.Value();
-
-	// 调整回 UTC + 0 时间。
-	// 因为本类的字段储存的始终是 UTC + 0 时间。
-	AddHours(-_utc_hour_offset);
-}
-
 base::DateTime::DateTime(base::TimePointSinceEpoch const &time_point)
 {
 	base::DateTime start{EpochStart()};
@@ -130,50 +76,6 @@ base::DateTime::DateTime(base::UtcHourOffset utc_hour_offset,
 	: DateTime(time_point)
 {
 	_utc_hour_offset = utc_hour_offset.Value();
-}
-
-/* #endregion */
-
-/* #region 公共时间调整方法 */
-
-void base::DateTime::AddDays(int64_t value)
-{
-	if (value == 0)
-	{
-		return;
-	}
-
-	// 以本月 1 日为 0 索引，建立日的索引。
-	int64_t day_index = _day - 1 + value;
-	AdjustDayIndexToOneMonth(day_index);
-	_day = day_index + 1;
-}
-
-void base::DateTime::AddHours(int64_t value)
-{
-	_hour += value;
-	AdjustHourIndexToOneDay(_hour);
-}
-
-void base::DateTime::AddMinutes(int64_t value)
-{
-	_minute += value;
-	AdjustMinuteIndexToOneHour(_minute);
-}
-
-void base::DateTime::AddSeconds(int64_t value)
-{
-	_second += value;
-	AdjustSecondsIndexToOneMinute(_second);
-}
-
-void base::DateTime::AddNanoseconds(int64_t value)
-{
-	std::chrono::nanoseconds total_ns{_nanosecond + value};
-	std::chrono::seconds second_part = std::chrono::duration_cast<std::chrono::seconds>(total_ns);
-	std::chrono::nanoseconds ns_part = total_ns - second_part;
-	AddSeconds(second_part.count());
-	_nanosecond = ns_part.count();
 }
 
 /* #endregion */
@@ -239,32 +141,6 @@ base::DateTimeStringBuilder base::DateTime::LocalDateTimeStringBuilder() const
 }
 
 /* #region 比较 */
-
-bool base::DateTime::operator==(DateTime const &another) const
-{
-	std::array<int64_t, 7> date_time_array{
-		_year,
-		_month,
-		_day,
-		_hour,
-		_minute,
-		_second,
-		_nanosecond,
-	};
-
-	std::array<int64_t, 7> another_date_time_array{
-		another._year,
-		another._month,
-		another._day,
-		another._hour,
-		another._minute,
-		another._second,
-		another._nanosecond,
-	};
-
-	// 利用 std::array 的字典序比较。
-	return date_time_array == another_date_time_array;
-}
 
 bool base::DateTime::operator<(DateTime const &another) const
 {
