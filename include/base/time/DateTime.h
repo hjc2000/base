@@ -47,7 +47,7 @@ namespace base
 		void AddMonths(int64_t value);
 
 		///
-		/// @brief 以年为周期，将日索引调整到一年的周期内。
+		/// @brief 将日索引调整到一年的周期内。
 		///
 		/// @param day_index 日索引。如果日索引不在一年的周期内，会增大或减小年，并消耗日索引，
 		/// 让日索引变到一年的周期内。
@@ -55,9 +55,7 @@ namespace base
 		void AdjustDayIndexToOneYear(int64_t &day_index);
 
 		///
-		/// @brief 以月为周期，将日调整到最小正周期内。
-		///
-		/// @note 实际上月并不是狭义上的周期。按照广义上，可以理解为周期会变得周期函数。
+		/// @brief 将日索引调整到一个月的周期内。
 		///
 		/// @param day_index
 		///
