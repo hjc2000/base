@@ -12,6 +12,8 @@ namespace base
 		class IHeap
 		{
 		public:
+			virtual ~IHeap() = default;
+
 			///
 			/// @brief 分配内存。
 			///
