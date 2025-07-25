@@ -10,6 +10,8 @@ namespace base
 	class IDisposable
 	{
 	public:
+		virtual ~IDisposable() = default;
+
 		///
 		/// @brief 处置对象，让对象准备好结束生命周期。类似于进入 “准备后事” 的状态。
 		///

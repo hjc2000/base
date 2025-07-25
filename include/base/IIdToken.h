@@ -11,6 +11,8 @@ namespace base
 	class IIdToken
 	{
 	public:
+		virtual ~IIdToken() = default;
+
 		///
 		/// @brief 本令牌对象的提供者。
 		///
