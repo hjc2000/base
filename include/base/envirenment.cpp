@@ -10,7 +10,7 @@ namespace
 {
 	std::mutex _lock;
 
-	char **GetEnvArray()
+	char **EnvirenmentVariableBuffer()
 	{
 		return environ;
 	}
@@ -27,7 +27,7 @@ std::vector<base::KeyValueString> base::GetEnvirenmentVariableVector()
 {
 	std::lock_guard l{_lock};
 	std::vector<base::KeyValueString> ret;
-	for (char **begin = GetEnvArray(); *begin != nullptr; begin++)
+	for (char **begin = EnvirenmentVariableBuffer(); *begin != nullptr; begin++)
 	{
 		char const *str = *begin;
 		ret.push_back(base::KeyValueString{str});
@@ -40,7 +40,7 @@ base::Dictionary<base::String, base::String> base::GetEnvirenmentVariableDiction
 {
 	std::lock_guard l{_lock};
 	base::Dictionary<base::String, base::String> ret;
-	for (char **begin = GetEnvArray(); *begin != nullptr; begin++)
+	for (char **begin = EnvirenmentVariableBuffer(); *begin != nullptr; begin++)
 	{
 		base::KeyValueString key_value{*begin};
 		ret.Add(key_value.Key(), key_value.Value());
