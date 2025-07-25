@@ -3,7 +3,6 @@
 #include "base/math/Fraction.h"
 #include "base/string/define.h"
 #include "base/task/delay.h"
-#include "base/task/task.h"
 #include "base/unit/Seconds.h"
 #include <stdexcept>
 
@@ -42,33 +41,6 @@ void base::serial::SoftWareTimeoutSerial::ReceivingThreadFunc()
 		int32_t have_read = _serial->Read(span);
 		_receiving_stream->Write(base::ReadOnlySpan{buffer, have_read});
 	}
-}
-
-base::serial::SoftWareTimeoutSerial::SoftWareTimeoutSerial(std::shared_ptr<base::serial::Serial> const &serial,
-														   int32_t receiving_buffer_size,
-														   int32_t timeout_frame_count)
-{
-	Initialize(serial, receiving_buffer_size, timeout_frame_count);
-
-	_receiving_thread_exit = base::task::run(
-		[this]()
-		{
-			ReceivingThreadFunc();
-		});
-}
-
-base::serial::SoftWareTimeoutSerial::SoftWareTimeoutSerial(std::shared_ptr<base::serial::Serial> const &serial,
-														   int32_t receiving_buffer_size,
-														   int32_t timeout_frame_count,
-														   size_t receiving_thread_stack_size)
-{
-	Initialize(serial, receiving_buffer_size, timeout_frame_count);
-
-	_receiving_thread_exit = base::task::run(receiving_thread_stack_size,
-											 [this]()
-											 {
-												 ReceivingThreadFunc();
-											 });
 }
 
 int32_t base::serial::SoftWareTimeoutSerial::Read(base::Span const &span)

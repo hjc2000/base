@@ -6,6 +6,7 @@
 #include "base/stream/Span.h"
 #include "base/stream/Stream.h"
 #include "base/task/ITask.h"
+#include "base/task/task.h"
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
@@ -45,7 +46,16 @@ namespace base
 			///
 			SoftWareTimeoutSerial(std::shared_ptr<base::serial::Serial> const &serial,
 								  int32_t receiving_buffer_size,
-								  int32_t timeout_frame_count);
+								  int32_t timeout_frame_count)
+			{
+				Initialize(serial, receiving_buffer_size, timeout_frame_count);
+
+				_receiving_thread_exit = base::task::run(
+					[this]()
+					{
+						ReceivingThreadFunc();
+					});
+			}
 
 			///
 			/// @brief
@@ -58,7 +68,16 @@ namespace base
 			SoftWareTimeoutSerial(std::shared_ptr<base::serial::Serial> const &serial,
 								  int32_t receiving_buffer_size,
 								  int32_t timeout_frame_count,
-								  size_t receiving_thread_stack_size);
+								  size_t receiving_thread_stack_size)
+			{
+				Initialize(serial, receiving_buffer_size, timeout_frame_count);
+
+				_receiving_thread_exit = base::task::run(receiving_thread_stack_size,
+														 [this]()
+														 {
+															 ReceivingThreadFunc();
+														 });
+			}
 
 			~SoftWareTimeoutSerial()
 			{
