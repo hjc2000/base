@@ -12,6 +12,8 @@ namespace base
 	class Stream
 	{
 	public:
+		virtual ~Stream() = default;
+
 		/* #region 流属性 */
 
 		///
@@ -161,4 +163,5 @@ namespace base
 
 		/* #endregion */
 	};
+
 } // namespace base
