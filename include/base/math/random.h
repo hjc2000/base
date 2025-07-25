@@ -13,6 +13,8 @@ namespace base
 	class IRandomGenerator
 	{
 	public:
+		virtual ~IRandomGenerator() = default;
+
 		///
 		/// @brief 生成指定范围内的 int64_t 的随机数。
 		///
