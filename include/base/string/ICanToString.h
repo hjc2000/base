@@ -10,6 +10,8 @@ namespace base
 	class ICanToString
 	{
 	public:
+		virtual ~ICanToString() = default;
+
 		///
 		/// @brief 转化为字符串。
 		///
