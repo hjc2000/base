@@ -6,6 +6,8 @@ namespace base
 	class IEnumerator
 	{
 	public:
+		virtual ~IEnumerator() = default;
+
 		///
 		/// @brief 迭代器当前是否指向尾后元素。
 		///

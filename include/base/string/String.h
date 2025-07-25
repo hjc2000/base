@@ -38,8 +38,7 @@ namespace base
 	/// @brief 对 std::string 进行包装。
 	///
 	///
-	class String
-
+	class String final
 	{
 	private:
 		std::string _string{};

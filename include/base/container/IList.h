@@ -24,7 +24,7 @@ namespace base
 		///
 		///
 		template <typename item_type>
-		class Enumerator :
+		class Enumerator final :
 			public base::IEnumerator<item_type>
 		{
 		private:
