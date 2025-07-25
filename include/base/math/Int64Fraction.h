@@ -4,6 +4,7 @@
 #include "base/string/ICanToString.h"
 #include "base/wrapper/number-wrapper.h"
 #include <cstdint>
+#include <numbers>
 #include <numeric>
 #include <stdexcept>
 #include <string>
