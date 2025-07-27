@@ -64,6 +64,8 @@
 		Class &operator=(Class const &) = delete; \
 		Class &operator=(Class &&) = delete;
 
+/* #region 预先初始化 */
+
 extern bool volatile _preinit_error;
 
 	#define PREINIT(func)                              \
@@ -91,5 +93,7 @@ extern bool volatile _preinit_error;
                                                        \
 			} volatile CONCAT(_preinit_, __COUNTER__); \
 		}
+
+/* #endregion */
 
 #endif // __cplusplus
