@@ -1,8 +1,6 @@
 #include "base/math/InertialElement.h"
 #include "base/math/Int64Fraction.h"
-#include <cmath>
 #include <cstdint>
-#include <cstdlib>
 #include <iostream>
 
 int main()
