@@ -39,6 +39,12 @@
 ///
 #define static_field static
 
+///
+/// @brief 弱符号。
+///
+///
+#define __weak __attribute__((weak))
+
 #define CONCAT_IMPL(x, y) x##y
 #define CONCAT(x, y) CONCAT_IMPL(x, y)
 
@@ -85,23 +91,5 @@ extern bool volatile _preinit_error;
                                                        \
 			} volatile CONCAT(_preinit_, __COUNTER__); \
 		}
-
-namespace base
-{
-	///
-	/// @brief 自动指针。
-	///
-	/// @note 在有线程的平台上是共享指针，在无线程的平台上是裸指针。
-	///
-	///
-	#if HAS_THREAD
-	template <typename T>
-	using AutoPtr = std::shared_ptr<T>;
-	#else
-	template <typename T>
-	using AutoPtr = T *;
-	#endif
-
-} // namespace base
 
 #endif // __cplusplus
