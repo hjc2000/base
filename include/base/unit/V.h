@@ -9,7 +9,7 @@ namespace base
 	///
 	///
 	class V :
-		public base::IUnit<V>
+		public base::unit::IUnit<V>
 	{
 	private:
 		base::Fraction _value;
@@ -29,7 +29,7 @@ namespace base
 			_value = value;
 		}
 
-		using base::IUnit<V>::Value;
+		using base::unit::IUnit<V>::Value;
 
 		///
 		/// @brief 单位的值。

@@ -15,7 +15,7 @@ namespace base
 		///
 		///
 		class MHz :
-			public base::IUnit<MHz>
+			public base::unit::IUnit<MHz>
 		{
 		private:
 			base::Fraction _value{};
@@ -35,7 +35,7 @@ namespace base
 			explicit MHz(base::unit::Seconds const &value);
 			explicit MHz(base::unit::Nanoseconds const &value);
 
-			using base::IUnit<MHz>::Value;
+			using base::unit::IUnit<MHz>::Value;
 
 			///
 			/// @brief 单位的值。

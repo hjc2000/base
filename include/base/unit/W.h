@@ -14,7 +14,7 @@ namespace base
 		///
 		///
 		class W :
-			public base::IUnit<W>
+			public base::unit::IUnit<W>
 		{
 		private:
 			base::Fraction _value;
@@ -36,7 +36,7 @@ namespace base
 
 			W(base::unit::kW const &value);
 
-			using base::IUnit<W>::Value;
+			using base::unit::IUnit<W>::Value;
 
 			///
 			/// @brief 单位的值。

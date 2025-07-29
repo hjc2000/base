@@ -11,7 +11,7 @@ namespace base
 
 		/// @brief 频率单位：Hz.
 		class Hz :
-			public base::IUnit<Hz>
+			public base::unit::IUnit<Hz>
 		{
 		private:
 			base::Fraction _value{};

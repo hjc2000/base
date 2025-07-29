@@ -10,7 +10,7 @@ namespace base
 		/// @brief 比特率。每秒的比特数。这里是 Mbit / s.
 		/// @note 在通信领域，1 Mbit = 1000 * 1000 bit.
 		class Mbps :
-			public base::IUnit<Mbps>
+			public base::unit::IUnit<Mbps>
 		{
 		private:
 			base::Fraction _value{};

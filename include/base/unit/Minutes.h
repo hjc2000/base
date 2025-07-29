@@ -15,7 +15,7 @@ namespace base
 
 		/// @brief 分钟。
 		class Minutes :
-			public base::IUnit<Minutes>
+			public base::unit::IUnit<Minutes>
 		{
 		private:
 			base::Fraction _value{};

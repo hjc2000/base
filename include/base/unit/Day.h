@@ -15,7 +15,7 @@ namespace base
 		class Nanoseconds;
 
 		class Day :
-			public base::IUnit<Day>
+			public base::unit::IUnit<Day>
 		{
 		private:
 			base::Fraction _value{};

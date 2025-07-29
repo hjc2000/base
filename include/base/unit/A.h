@@ -11,7 +11,7 @@ namespace base
 		///
 		///
 		class A :
-			public base::IUnit<A>
+			public base::unit::IUnit<A>
 		{
 		private:
 			base::Fraction _value;
@@ -31,7 +31,7 @@ namespace base
 				_value = value;
 			}
 
-			using base::IUnit<A>::Value;
+			using base::unit::IUnit<A>::Value;
 
 			///
 			/// @brief 单位的值。

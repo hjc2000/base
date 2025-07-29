@@ -11,7 +11,7 @@ namespace base
 		///
 		///
 		class Celsius :
-			public base::IUnit<Celsius>
+			public base::unit::IUnit<Celsius>
 		{
 		private:
 			base::Fraction _value;
@@ -31,7 +31,7 @@ namespace base
 				_value = value;
 			}
 
-			using base::IUnit<Celsius>::Value;
+			using base::unit::IUnit<Celsius>::Value;
 
 			///
 			/// @brief 单位的值。

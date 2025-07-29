@@ -1,22 +1,22 @@
 #include "rpm.h"
 #include "rps.h"
 
-base::rpm::rpm(base::Fraction const &value)
+base::unit::rpm::rpm(base::Fraction const &value)
 {
 	_value = value;
 }
 
-base::rpm::rpm(base::rps const &value)
+base::unit::rpm::rpm(base::unit::rps const &value)
 {
 	_value = value.Value() * 60;
 }
 
-base::Fraction &base::rpm::Value()
+base::Fraction &base::unit::rpm::Value()
 {
 	return _value;
 }
 
-std::string base::rpm::UnitString() const
+std::string base::unit::rpm::UnitString() const
 {
 	return "rpm";
 }

@@ -4,42 +4,46 @@
 
 namespace base
 {
-	///
-	/// @brief 转矩单位。N·m.
-	///
-	///
-	class Nm :
-		public base::IUnit<Nm>
+	namespace unit
 	{
-	private:
-		base::Fraction _value;
-
-	public:
-		Nm() = default;
-
-		template <typename value_type>
-			requires(std::is_integral_v<value_type>)
-		explicit Nm(value_type value)
+		///
+		/// @brief 转矩单位。N·m.
+		///
+		///
+		class Nm :
+			public base::unit::IUnit<Nm>
 		{
-			_value = value;
-		}
+		private:
+			base::Fraction _value;
 
-		explicit Nm(base::Fraction const &value);
+		public:
+			Nm() = default;
 
-		using base::IUnit<Nm>::Value;
+			template <typename value_type>
+				requires(std::is_integral_v<value_type>)
+			explicit Nm(value_type value)
+			{
+				_value = value;
+			}
 
-		///
-		/// @brief 单位的值。
-		///
-		/// @return base::Fraction&
-		///
-		virtual base::Fraction &Value() override;
+			explicit Nm(base::Fraction const &value);
 
-		///
-		/// @brief 单位的字符串。
-		///
-		/// @return std::string
-		///
-		virtual std::string UnitString() const override;
-	};
+			using base::unit::IUnit<Nm>::Value;
+
+			///
+			/// @brief 单位的值。
+			///
+			/// @return base::Fraction&
+			///
+			virtual base::Fraction &Value() override;
+
+			///
+			/// @brief 单位的字符串。
+			///
+			/// @return std::string
+			///
+			virtual std::string UnitString() const override;
+		};
+
+	} // namespace unit
 } // namespace base

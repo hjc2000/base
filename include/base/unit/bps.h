@@ -12,7 +12,7 @@ namespace base
 		///
 		///
 		class bps :
-			public base::IUnit<bps>
+			public base::unit::IUnit<bps>
 		{
 		private:
 			base::Fraction _value{};

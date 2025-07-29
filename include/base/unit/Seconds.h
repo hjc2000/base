@@ -15,7 +15,7 @@ namespace base
 
 		/// @brief 秒
 		class Seconds :
-			public base::IUnit<Seconds>
+			public base::unit::IUnit<Seconds>
 		{
 		private:
 			base::Fraction _value{};

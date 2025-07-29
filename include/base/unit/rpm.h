@@ -5,46 +5,50 @@
 
 namespace base
 {
-	class rps;
-	class rpm;
-
-	///
-	/// @brief 转速。圈 / 分。
-	///
-	///
-	class rpm :
-		public base::IUnit<rpm>
+	namespace unit
 	{
-	private:
-		base::Fraction _value;
+		class rps;
+		class rpm;
 
-	public:
-		rpm() = default;
-
-		template <typename value_type>
-			requires(std::is_integral_v<value_type>)
-		explicit rpm(value_type value)
+		///
+		/// @brief 转速。圈 / 分。
+		///
+		///
+		class rpm :
+			public base::unit::IUnit<rpm>
 		{
-			_value = value;
-		}
+		private:
+			base::Fraction _value;
 
-		explicit rpm(base::Fraction const &value);
-		explicit rpm(base::rps const &value);
+		public:
+			rpm() = default;
 
-		using base::IUnit<rpm>::Value;
+			template <typename value_type>
+				requires(std::is_integral_v<value_type>)
+			explicit rpm(value_type value)
+			{
+				_value = value;
+			}
 
-		///
-		/// @brief 单位的值。
-		///
-		/// @return base::Fraction&
-		///
-		virtual base::Fraction &Value() override;
+			explicit rpm(base::Fraction const &value);
+			explicit rpm(base::unit::rps const &value);
 
-		///
-		/// @brief 单位的字符串。
-		///
-		/// @return std::string
-		///
-		virtual std::string UnitString() const override;
-	};
+			using base::unit::IUnit<rpm>::Value;
+
+			///
+			/// @brief 单位的值。
+			///
+			/// @return base::Fraction&
+			///
+			virtual base::Fraction &Value() override;
+
+			///
+			/// @brief 单位的字符串。
+			///
+			/// @return std::string
+			///
+			virtual std::string UnitString() const override;
+		};
+
+	} // namespace unit
 } // namespace base

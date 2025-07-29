@@ -2,19 +2,19 @@
 
 /* #region 构造函数 */
 
-base::Nm::Nm(base::Fraction const &value)
+base::unit::Nm::Nm(base::Fraction const &value)
 {
 	_value = value;
 }
 
 /* #endregion */
 
-base::Fraction &base::Nm::Value()
+base::Fraction &base::unit::Nm::Value()
 {
 	return _value;
 }
 
-std::string base::Nm::UnitString() const
+std::string base::unit::Nm::UnitString() const
 {
 	return "N·m";
 }

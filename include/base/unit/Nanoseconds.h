@@ -18,7 +18,7 @@ namespace base
 		///
 		///
 		class Nanoseconds :
-			public base::IUnit<Nanoseconds>
+			public base::unit::IUnit<Nanoseconds>
 		{
 		private:
 			base::Fraction _value{};

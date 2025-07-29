@@ -15,7 +15,7 @@ namespace base
 		class Nanoseconds;
 
 		class Hours :
-			public base::IUnit<Hours>
+			public base::unit::IUnit<Hours>
 		{
 		private:
 			base::Fraction _value{};
