@@ -7,6 +7,8 @@ namespace base
 		class ITask
 		{
 		public:
+			virtual ~ITask() = default;
+
 			///
 			/// @brief 任务已经完成。
 			///
