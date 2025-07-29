@@ -11,7 +11,7 @@ base::unit::Nanoseconds::Nanoseconds(base::Fraction const &value)
 	_value = value;
 }
 
-base::unit::Nanoseconds::Nanoseconds(base::unit::Hours const &value)
+base::unit::Nanoseconds::Nanoseconds(base::unit::Hour const &value)
 	: Nanoseconds{base::unit::Seconds{value}}
 {
 }

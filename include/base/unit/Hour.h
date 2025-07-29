@@ -9,38 +9,38 @@ namespace base
 		class Hz;
 		class MHz;
 		class Day;
-		class Hours;
+		class Hour;
 		class Minutes;
 		class Seconds;
 		class Nanoseconds;
 
-		class Hours :
-			public base::unit::IUnit<Hours>
+		class Hour :
+			public base::unit::IUnit<Hour>
 		{
 		private:
 			base::Fraction _value{};
 
 		public:
-			Hours() = default;
+			Hour() = default;
 
 			template <typename value_type>
 				requires(std::is_integral_v<value_type>)
-			explicit Hours(value_type value)
+			explicit Hour(value_type value)
 			{
 				_value = value;
 			}
 
-			explicit Hours(base::Fraction const &value);
-			explicit Hours(base::unit::Day const &value);
-			explicit Hours(base::unit::Minutes const &value);
-			explicit Hours(base::unit::Seconds const &value);
-			explicit Hours(base::unit::Nanoseconds const &value);
-			explicit Hours(base::unit::Hz const &value);
-			explicit Hours(base::unit::MHz const &value);
-			explicit Hours(std::chrono::seconds const &value);
-			explicit Hours(std::chrono::milliseconds const &value);
-			explicit Hours(std::chrono::microseconds const &value);
-			explicit Hours(std::chrono::nanoseconds const &value);
+			explicit Hour(base::Fraction const &value);
+			explicit Hour(base::unit::Day const &value);
+			explicit Hour(base::unit::Minutes const &value);
+			explicit Hour(base::unit::Seconds const &value);
+			explicit Hour(base::unit::Nanoseconds const &value);
+			explicit Hour(base::unit::Hz const &value);
+			explicit Hour(base::unit::MHz const &value);
+			explicit Hour(std::chrono::seconds const &value);
+			explicit Hour(std::chrono::milliseconds const &value);
+			explicit Hour(std::chrono::microseconds const &value);
+			explicit Hour(std::chrono::nanoseconds const &value);
 
 			///
 			/// @brief 单位的值。
