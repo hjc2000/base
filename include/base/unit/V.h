@@ -4,45 +4,55 @@
 
 namespace base
 {
-	///
-	/// @brief 电压单位：伏特。
-	///
-	///
-	class V :
-		public base::unit::IUnit<V>
+	namespace unit
 	{
-	private:
-		base::Fraction _value;
-
-	public:
-		V() = default;
-
-		template <typename value_type>
-			requires(std::is_integral_v<value_type>)
-		explicit V(value_type value)
+		///
+		/// @brief 电压单位：伏特。
+		///
+		///
+		class V :
+			public base::unit::IUnit<V>
 		{
-			_value = value;
-		}
+		private:
+			base::Fraction _value;
 
-		V(base::Fraction const &value)
-		{
-			_value = value;
-		}
+		public:
+			V() = default;
 
-		using base::unit::IUnit<V>::Value;
+			template <typename value_type>
+				requires(std::is_integral_v<value_type>)
+			explicit V(value_type value)
+			{
+				_value = value;
+			}
 
-		///
-		/// @brief 单位的值。
-		///
-		/// @return base::Fraction&
-		///
-		virtual base::Fraction &Value() override;
+			V(base::Fraction const &value)
+			{
+				_value = value;
+			}
 
-		///
-		/// @brief 单位的字符串。
-		///
-		/// @return std::string
-		///
-		virtual std::string UnitString() const override;
-	};
+			using base::unit::IUnit<V>::Value;
+
+			///
+			/// @brief 单位的值。
+			///
+			/// @return
+			///
+			virtual base::Fraction &Value() override
+			{
+				return _value;
+			}
+
+			///
+			/// @brief 单位的字符串。
+			///
+			/// @return
+			///
+			virtual std::string UnitString() const override
+			{
+				return "V";
+			}
+		};
+
+	} // namespace unit
 } // namespace base
