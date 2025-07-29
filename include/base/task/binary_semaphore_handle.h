@@ -1,5 +1,5 @@
 #pragma once
-#include "base/unit/Seconds.h"
+#include "base/unit/Second.h"
 #include <memory>
 
 namespace base
@@ -49,7 +49,7 @@ namespace base
 		/// @param h
 		/// @param timeout
 		///
-		bool try_acquire(base::task::binary_semaphore_handle &h, base::unit::Seconds const &timeout);
+		bool try_acquire(base::task::binary_semaphore_handle &h, base::unit::Second const &timeout);
 
 	} // namespace task
 } // namespace base

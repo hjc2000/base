@@ -5,7 +5,7 @@ namespace base
 {
 	namespace unit
 	{
-		class Seconds;
+		class Second;
 		class Nanosecond;
 		class MHz;
 
@@ -28,7 +28,7 @@ namespace base
 
 			explicit Hz(base::Fraction const &value);
 			explicit Hz(base::unit::MHz const &value);
-			explicit Hz(base::unit::Seconds const &value);
+			explicit Hz(base::unit::Second const &value);
 			explicit Hz(base::unit::Nanosecond const &value);
 
 			///

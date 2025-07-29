@@ -76,7 +76,7 @@ void base::systick::delay(base::unit::Nanosecond const &value)
 	base::systick::delay(static_cast<std::chrono::nanoseconds>(value));
 }
 
-void base::systick::delay(base::unit::Seconds const &value)
+void base::systick::delay(base::unit::Second const &value)
 {
 	base::systick::delay(static_cast<std::chrono::nanoseconds>(value));
 }

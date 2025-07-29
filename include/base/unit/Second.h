@@ -10,36 +10,36 @@ namespace base
 		class MHz;
 		class Hour;
 		class Minute;
-		class Seconds;
+		class Second;
 		class Nanosecond;
 
 		/// @brief 秒
-		class Seconds :
-			public base::unit::IUnit<Seconds>
+		class Second :
+			public base::unit::IUnit<Second>
 		{
 		private:
 			base::Fraction _value{};
 
 		public:
-			Seconds() = default;
+			Second() = default;
 
 			template <typename value_type>
 				requires(std::is_integral_v<value_type>)
-			explicit Seconds(value_type value)
+			explicit Second(value_type value)
 			{
 				_value = value;
 			}
 
-			explicit Seconds(base::Fraction const &value);
-			explicit Seconds(base::unit::Hour const &value);
-			explicit Seconds(base::unit::Minute const &value);
-			explicit Seconds(base::unit::Nanosecond const &value);
-			explicit Seconds(base::unit::Hz const &value);
-			explicit Seconds(base::unit::MHz const &value);
-			explicit Seconds(std::chrono::seconds const &value);
-			explicit Seconds(std::chrono::milliseconds const &value);
-			explicit Seconds(std::chrono::microseconds const &value);
-			explicit Seconds(std::chrono::nanoseconds const &value);
+			explicit Second(base::Fraction const &value);
+			explicit Second(base::unit::Hour const &value);
+			explicit Second(base::unit::Minute const &value);
+			explicit Second(base::unit::Nanosecond const &value);
+			explicit Second(base::unit::Hz const &value);
+			explicit Second(base::unit::MHz const &value);
+			explicit Second(std::chrono::seconds const &value);
+			explicit Second(std::chrono::milliseconds const &value);
+			explicit Second(std::chrono::microseconds const &value);
+			explicit Second(std::chrono::nanoseconds const &value);
 
 			///
 			/// @brief 单位的值。

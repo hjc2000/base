@@ -3,7 +3,7 @@
 #include "base/math/Fraction.h"
 #include "base/string/define.h"
 #include "base/task/delay.h"
-#include "base/unit/Seconds.h"
+#include "base/unit/Second.h"
 #include <stdexcept>
 
 void base::serial::SoftWareTimeoutSerial::Initialize(std::shared_ptr<base::serial::Serial> const &serial,
@@ -21,7 +21,7 @@ void base::serial::SoftWareTimeoutSerial::Initialize(std::shared_ptr<base::seria
 	{
 		uint32_t baud_rate = _serial->BaudRate();
 		uint32_t frames_baud_count = _serial->FramesBaudCount(timeout_frame_count);
-		base::unit::Seconds timeout_seconds{base::Fraction{frames_baud_count, baud_rate}};
+		base::unit::Second timeout_seconds{base::Fraction{frames_baud_count, baud_rate}};
 		_receiving_timeout = static_cast<std::chrono::nanoseconds>(timeout_seconds);
 	}
 }

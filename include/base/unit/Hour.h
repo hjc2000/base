@@ -11,7 +11,7 @@ namespace base
 		class Day;
 		class Hour;
 		class Minute;
-		class Seconds;
+		class Second;
 		class Nanosecond;
 
 		class Hour :
@@ -33,7 +33,7 @@ namespace base
 			explicit Hour(base::Fraction const &value);
 			explicit Hour(base::unit::Day const &value);
 			explicit Hour(base::unit::Minute const &value);
-			explicit Hour(base::unit::Seconds const &value);
+			explicit Hour(base::unit::Second const &value);
 			explicit Hour(base::unit::Nanosecond const &value);
 			explicit Hour(base::unit::Hz const &value);
 			explicit Hour(base::unit::MHz const &value);

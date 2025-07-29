@@ -1,6 +1,6 @@
 #include "MHz.h"
 #include "base/unit/Hz.h"
-#include "base/unit/Seconds.h"
+#include "base/unit/Second.h"
 
 /* #region 构造函数 */
 
@@ -14,13 +14,13 @@ base::unit::MHz::MHz(base::unit::Hz const &value)
 	_value = static_cast<base::Fraction>(value) / 1000 / 1000;
 }
 
-base::unit::MHz::MHz(base::unit::Seconds const &value)
+base::unit::MHz::MHz(base::unit::Second const &value)
 	: MHz(base::unit::Hz{value})
 {
 }
 
 base::unit::MHz::MHz(base::unit::Nanosecond const &value)
-	: MHz(base::unit::Seconds{value})
+	: MHz(base::unit::Second{value})
 {
 }
 

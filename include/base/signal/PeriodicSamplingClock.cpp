@@ -7,36 +7,36 @@ void base::PeriodicSamplingClock::AdjustTime()
 	_current_time -= _period * div;
 }
 
-base::PeriodicSamplingClock::PeriodicSamplingClock(base::unit::Seconds period)
+base::PeriodicSamplingClock::PeriodicSamplingClock(base::unit::Second period)
 	: _period(period)
 {
 }
 
-base::PeriodicSamplingClock &base::PeriodicSamplingClock::operator+=(base::unit::Seconds value)
+base::PeriodicSamplingClock &base::PeriodicSamplingClock::operator+=(base::unit::Second value)
 {
 	_current_time += value;
 	AdjustTime();
 	return *this;
 }
 
-base::PeriodicSamplingClock &base::PeriodicSamplingClock::operator-=(base::unit::Seconds value)
+base::PeriodicSamplingClock &base::PeriodicSamplingClock::operator-=(base::unit::Second value)
 {
 	_current_time -= value;
 	AdjustTime();
 	return *this;
 }
 
-base::unit::Seconds base::PeriodicSamplingClock::Period() const
+base::unit::Second base::PeriodicSamplingClock::Period() const
 {
 	return _period;
 }
 
-base::unit::Seconds base::PeriodicSamplingClock::CurrentTime() const
+base::unit::Second base::PeriodicSamplingClock::CurrentTime() const
 {
 	return _current_time;
 }
 
-base::PeriodicSamplingClock::operator base::unit::Seconds() const
+base::PeriodicSamplingClock::operator base::unit::Second() const
 {
 	return _current_time;
 }

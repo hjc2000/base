@@ -155,7 +155,7 @@ namespace base
 		/// @return true 获取信号量成功。
 		/// @return false 获取信号量失败。
 		///
-		bool TryAcquire(base::unit::Seconds const &timeout)
+		bool TryAcquire(base::unit::Second const &timeout)
 		{
 			{
 				base::task::MutexGuard g{_lock};

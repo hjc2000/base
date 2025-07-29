@@ -19,7 +19,7 @@ base::unit::Day::Day(base::unit::Minute const &value)
 {
 }
 
-base::unit::Day::Day(base::unit::Seconds const &value)
+base::unit::Day::Day(base::unit::Second const &value)
 	: Day(base::unit::Hour{value})
 {
 }

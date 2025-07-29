@@ -20,7 +20,7 @@ base::unit::Hour::Hour(base::unit::Minute const &value)
 	_value = static_cast<base::Fraction>(value) / 60;
 }
 
-base::unit::Hour::Hour(base::unit::Seconds const &value)
+base::unit::Hour::Hour(base::unit::Second const &value)
 	: Hour(base::unit::Minute{value})
 {
 }

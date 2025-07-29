@@ -55,7 +55,7 @@ namespace base
 			/// @param timeout 超时时间。
 			/// @return
 			///
-			bool TryAcquire(base::unit::Seconds const &timeout)
+			bool TryAcquire(base::unit::Second const &timeout)
 			{
 				return base::task::try_acquire(*_handle, timeout);
 			}

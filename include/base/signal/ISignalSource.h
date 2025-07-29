@@ -1,5 +1,5 @@
 #pragma once
-#include "base/unit/Seconds.h"
+#include "base/unit/Second.h"
 
 namespace base
 {
@@ -15,16 +15,16 @@ namespace base
 		///
 		/// @brief 采样间隔。
 		///
-		/// @return base::unit::Seconds
+		/// @return base::unit::Second
 		///
-		virtual base::unit::Seconds SampleInterval() const = 0;
+		virtual base::unit::Second SampleInterval() const = 0;
 
 		///
 		/// @brief 打开采样器。
 		///
 		/// @param sample_interval
 		///
-		virtual void Open(base::unit::Seconds const &sample_interval) = 0;
+		virtual void Open(base::unit::Second const &sample_interval) = 0;
 
 		///
 		/// @brief 采样一次。

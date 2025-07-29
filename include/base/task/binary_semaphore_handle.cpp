@@ -1,7 +1,7 @@
 #include "binary_semaphore_handle.h" // IWYU pragma: keep
 #include "base/string/define.h"
 #include "base/unit/Nanosecond.h"
-#include "base/unit/Seconds.h"
+#include "base/unit/Second.h"
 #include <chrono>
 #include <semaphore>
 
@@ -40,9 +40,9 @@ public:
 	/// @param timeout 超时时间。
 	/// @return
 	///
-	bool TryAcquire(base::unit::Seconds const &timeout)
+	bool TryAcquire(base::unit::Second const &timeout)
 	{
-		if (timeout < base::unit::Seconds{0})
+		if (timeout < base::unit::Second{0})
 		{
 			throw std::invalid_argument{CODE_POS_STR + "超时时间不能 <= 0."};
 		}
@@ -68,7 +68,7 @@ void base::task::acquire(base::task::binary_semaphore_handle &h)
 	h.Acquire();
 }
 
-bool base::task::try_acquire(base::task::binary_semaphore_handle &h, base::unit::Seconds const &timeout)
+bool base::task::try_acquire(base::task::binary_semaphore_handle &h, base::unit::Second const &timeout)
 {
 	return h.TryAcquire(timeout);
 }

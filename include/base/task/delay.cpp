@@ -32,7 +32,7 @@ void base::task::Delay(base::unit::Nanosecond const &time)
 	Delay(ns);
 }
 
-void base::task::Delay(base::unit::Seconds const &time)
+void base::task::Delay(base::unit::Second const &time)
 {
 	std::chrono::nanoseconds ns = static_cast<std::chrono::nanoseconds>(time);
 	Delay(ns);

@@ -10,7 +10,7 @@ namespace base
 		class MHz;
 		class Hour;
 		class Minute;
-		class Seconds;
+		class Second;
 		class Nanosecond;
 
 		/// @brief 分钟。
@@ -32,7 +32,7 @@ namespace base
 
 			explicit Minute(base::Fraction const &value);
 			explicit Minute(base::unit::Hour const &value);
-			explicit Minute(base::unit::Seconds const &value);
+			explicit Minute(base::unit::Second const &value);
 			explicit Minute(base::unit::Nanosecond const &value);
 			explicit Minute(base::unit::Hz const &value);
 			explicit Minute(base::unit::MHz const &value);
