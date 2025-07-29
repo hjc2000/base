@@ -6,39 +6,39 @@ namespace base
 {
 	class Hz;
 	class MHz;
-	class Days;
+	class Day;
 	class Hours;
 	class Minutes;
 	class Seconds;
 	class Nanoseconds;
 
-	class Days :
-		public base::IUnit<Days>
+	class Day :
+		public base::IUnit<Day>
 	{
 	private:
 		base::Fraction _value{};
 
 	public:
-		Days() = default;
+		Day() = default;
 
 		template <typename value_type>
 			requires(std::is_integral_v<value_type>)
-		explicit Days(value_type value)
+		explicit Day(value_type value)
 		{
 			_value = value;
 		}
 
-		explicit Days(base::Fraction const &value);
-		explicit Days(base::Hours const &value);
-		explicit Days(base::Minutes const &value);
-		explicit Days(base::Seconds const &value);
-		explicit Days(base::Nanoseconds const &value);
-		explicit Days(base::Hz const &value);
-		explicit Days(base::MHz const &value);
-		explicit Days(std::chrono::seconds const &value);
-		explicit Days(std::chrono::milliseconds const &value);
-		explicit Days(std::chrono::microseconds const &value);
-		explicit Days(std::chrono::nanoseconds const &value);
+		explicit Day(base::Fraction const &value);
+		explicit Day(base::Hours const &value);
+		explicit Day(base::Minutes const &value);
+		explicit Day(base::Seconds const &value);
+		explicit Day(base::Nanoseconds const &value);
+		explicit Day(base::Hz const &value);
+		explicit Day(base::MHz const &value);
+		explicit Day(std::chrono::seconds const &value);
+		explicit Day(std::chrono::milliseconds const &value);
+		explicit Day(std::chrono::microseconds const &value);
+		explicit Day(std::chrono::nanoseconds const &value);
 
 		///
 		/// @brief 单位的值。

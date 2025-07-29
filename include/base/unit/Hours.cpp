@@ -1,5 +1,5 @@
 #include "Hours.h"
-#include "base/unit/Days.h"
+#include "base/unit/Day.h"
 #include "base/unit/Minutes.h"
 #include "Nanoseconds.h"
 
@@ -10,7 +10,7 @@ base::Hours::Hours(base::Fraction const &value)
 	_value = value;
 }
 
-base::Hours::Hours(base::Days const &value)
+base::Hours::Hours(base::Day const &value)
 {
 	_value = static_cast<base::Fraction>(value) * 24;
 }
