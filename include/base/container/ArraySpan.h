@@ -24,7 +24,7 @@ namespace base
 	/// @note 引用一段内存，不会持有这段内存，不管理这段内存的生命周期。
 	///
 	template <typename ItemType>
-	class ReadOnlyArraySpan :
+	class ReadOnlyArraySpan final :
 		public base::IEnumerable<ItemType const>
 	{
 	private:
@@ -172,7 +172,7 @@ namespace base
 	/// @note 引用一段内存，不会持有这段内存，不管理这段内存的生命周期。
 	///
 	template <typename ItemType>
-	class ArraySpan :
+	class ArraySpan final :
 		public base::IEnumerable<ItemType>
 	{
 	private:
@@ -426,4 +426,5 @@ namespace base
 
 		/* #endregion */
 	};
+
 } // namespace base

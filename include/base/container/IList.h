@@ -70,6 +70,8 @@ namespace base
 		/* #endregion */
 
 	public:
+		virtual ~IList() = default;
+
 		/* #region 接口 */
 
 		///
@@ -438,4 +440,5 @@ namespace base
 
 		/* #endregion */
 	};
+
 } // namespace base

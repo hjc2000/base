@@ -10,7 +10,7 @@ namespace base
 	///
 	///
 	template <typename ItemType, int32_t TCount>
-	class Array :
+	class Array final :
 		public base::IRawArray<ItemType>
 	{
 	private:
@@ -92,4 +92,5 @@ namespace base
 			return _arr.data();
 		}
 	};
+
 } // namespace base

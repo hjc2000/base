@@ -14,6 +14,8 @@ namespace base
 		public virtual base::IEnumerable<ItemType>
 	{
 	public:
+		virtual ~IRawArray() = default;
+
 		/* #region 接口 */
 
 		///
@@ -342,4 +344,5 @@ namespace base
 
 		/* #endregion */
 	};
+
 } // namespace base

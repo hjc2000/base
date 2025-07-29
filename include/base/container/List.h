@@ -242,7 +242,7 @@ namespace base
 		///
 		/// @brief 列表中元素的数量。
 		///
-		/// @return int32_t
+		/// @return
 		///
 		virtual int32_t Count() const override
 		{
@@ -338,4 +338,5 @@ namespace base
 
 		/* #endregion */
 	};
+
 } // namespace base
