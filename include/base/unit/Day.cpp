@@ -14,7 +14,7 @@ base::unit::Day::Day(base::unit::Hour const &value)
 	_value = static_cast<base::Fraction>(value) / 24;
 }
 
-base::unit::Day::Day(base::unit::Minutes const &value)
+base::unit::Day::Day(base::unit::Minute const &value)
 	: Day(base::unit::Hour{value})
 {
 }

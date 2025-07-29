@@ -16,7 +16,7 @@ base::unit::Nanoseconds::Nanoseconds(base::unit::Hour const &value)
 {
 }
 
-base::unit::Nanoseconds::Nanoseconds(base::unit::Minutes const &value)
+base::unit::Nanoseconds::Nanoseconds(base::unit::Minute const &value)
 	: Nanoseconds{base::unit::Seconds{value}}
 {
 }

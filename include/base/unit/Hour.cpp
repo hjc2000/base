@@ -1,8 +1,7 @@
-#include "base/unit/Day.h"
-#include "base/unit/Minutes.h"
 #include "Hour.h"
+#include "base/unit/Day.h"
+#include "base/unit/Minute.h"
 #include "Nanoseconds.h"
-
 
 /* #region 构造函数 */
 
@@ -16,43 +15,43 @@ base::unit::Hour::Hour(base::unit::Day const &value)
 	_value = static_cast<base::Fraction>(value) * 24;
 }
 
-base::unit::Hour::Hour(base::unit::Minutes const &value)
+base::unit::Hour::Hour(base::unit::Minute const &value)
 {
 	_value = static_cast<base::Fraction>(value) / 60;
 }
 
 base::unit::Hour::Hour(base::unit::Seconds const &value)
-	: Hour(base::unit::Minutes{value})
+	: Hour(base::unit::Minute{value})
 {
 }
 
 base::unit::Hour::Hour(base::unit::Nanoseconds const &value)
-	: Hour(base::unit::Minutes{value})
+	: Hour(base::unit::Minute{value})
 {
 }
 
 base::unit::Hour::Hour(base::unit::Hz const &value)
-	: Hour(base::unit::Minutes{value})
+	: Hour(base::unit::Minute{value})
 {
 }
 
 base::unit::Hour::Hour(base::unit::MHz const &value)
-	: Hour(base::unit::Minutes{value})
+	: Hour(base::unit::Minute{value})
 {
 }
 
 base::unit::Hour::Hour(std::chrono::seconds const &value)
-	: Hour(base::unit::Minutes{value})
+	: Hour(base::unit::Minute{value})
 {
 }
 
 base::unit::Hour::Hour(std::chrono::milliseconds const &value)
-	: Hour(base::unit::Minutes{value})
+	: Hour(base::unit::Minute{value})
 {
 }
 
 base::unit::Hour::Hour(std::chrono::microseconds const &value)
-	: Hour(base::unit::Minutes{value})
+	: Hour(base::unit::Minute{value})
 {
 }
 
@@ -77,37 +76,37 @@ std::string base::unit::Hour::UnitString() const
 
 base::unit::Hour::operator std::chrono::days() const
 {
-	return std::chrono::days{base::unit::Minutes{*this}};
+	return std::chrono::days{base::unit::Minute{*this}};
 }
 
 base::unit::Hour::operator std::chrono::hours() const
 {
-	return std::chrono::hours{base::unit::Minutes{*this}};
+	return std::chrono::hours{base::unit::Minute{*this}};
 }
 
 base::unit::Hour::operator std::chrono::minutes() const
 {
-	return std::chrono::minutes{base::unit::Minutes{*this}};
+	return std::chrono::minutes{base::unit::Minute{*this}};
 }
 
 base::unit::Hour::operator std::chrono::seconds() const
 {
-	return std::chrono::seconds{base::unit::Minutes{*this}};
+	return std::chrono::seconds{base::unit::Minute{*this}};
 }
 
 base::unit::Hour::operator std::chrono::milliseconds() const
 {
-	return std::chrono::milliseconds{base::unit::Minutes{*this}};
+	return std::chrono::milliseconds{base::unit::Minute{*this}};
 }
 
 base::unit::Hour::operator std::chrono::microseconds() const
 {
-	return std::chrono::microseconds{base::unit::Minutes{*this}};
+	return std::chrono::microseconds{base::unit::Minute{*this}};
 }
 
 base::unit::Hour::operator std::chrono::nanoseconds() const
 {
-	return std::chrono::nanoseconds{base::unit::Minutes{*this}};
+	return std::chrono::nanoseconds{base::unit::Minute{*this}};
 }
 
 /* #endregion */

@@ -9,37 +9,37 @@ namespace base
 		class Hz;
 		class MHz;
 		class Hour;
-		class Minutes;
+		class Minute;
 		class Seconds;
 		class Nanoseconds;
 
 		/// @brief 分钟。
-		class Minutes :
-			public base::unit::IUnit<Minutes>
+		class Minute :
+			public base::unit::IUnit<Minute>
 		{
 		private:
 			base::Fraction _value{};
 
 		public:
-			Minutes() = default;
+			Minute() = default;
 
 			template <typename value_type>
 				requires(std::is_integral_v<value_type>)
-			explicit Minutes(value_type value)
+			explicit Minute(value_type value)
 			{
 				_value = value;
 			}
 
-			explicit Minutes(base::Fraction const &value);
-			explicit Minutes(base::unit::Hour const &value);
-			explicit Minutes(base::unit::Seconds const &value);
-			explicit Minutes(base::unit::Nanoseconds const &value);
-			explicit Minutes(base::unit::Hz const &value);
-			explicit Minutes(base::unit::MHz const &value);
-			explicit Minutes(std::chrono::seconds const &value);
-			explicit Minutes(std::chrono::milliseconds const &value);
-			explicit Minutes(std::chrono::microseconds const &value);
-			explicit Minutes(std::chrono::nanoseconds const &value);
+			explicit Minute(base::Fraction const &value);
+			explicit Minute(base::unit::Hour const &value);
+			explicit Minute(base::unit::Seconds const &value);
+			explicit Minute(base::unit::Nanoseconds const &value);
+			explicit Minute(base::unit::Hz const &value);
+			explicit Minute(base::unit::MHz const &value);
+			explicit Minute(std::chrono::seconds const &value);
+			explicit Minute(std::chrono::milliseconds const &value);
+			explicit Minute(std::chrono::microseconds const &value);
+			explicit Minute(std::chrono::nanoseconds const &value);
 
 			///
 			/// @brief 单位的值。
