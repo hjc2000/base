@@ -3,37 +3,41 @@
 
 namespace base
 {
-	class bps;
-
-	/// @brief 比特率。每秒的比特数。这里是 Mbit / s.
-	/// @note 在通信领域，1 Mbit = 1000 * 1000 bit.
-	class Mbps :
-		public base::IUnit<Mbps>
+	namespace unit
 	{
-	private:
-		base::Fraction _value{};
+		class bps;
 
-	public:
-		Mbps() = default;
-
-		template <typename value_type>
-			requires(std::is_integral_v<value_type>)
-		explicit Mbps(value_type value)
+		/// @brief 比特率。每秒的比特数。这里是 Mbit / s.
+		/// @note 在通信领域，1 Mbit = 1000 * 1000 bit.
+		class Mbps :
+			public base::IUnit<Mbps>
 		{
-			_value = value;
-		}
+		private:
+			base::Fraction _value{};
 
-		explicit Mbps(base::Fraction const &o);
-		explicit Mbps(base::bps const &o);
+		public:
+			Mbps() = default;
 
-	public:
-		virtual base::Fraction &Value() override
-		{
-			return _value;
-		}
+			template <typename value_type>
+				requires(std::is_integral_v<value_type>)
+			explicit Mbps(value_type value)
+			{
+				_value = value;
+			}
 
-		/// @brief 单位的字符串。
-		/// @return
-		virtual std::string UnitString() const override;
-	};
+			explicit Mbps(base::Fraction const &o);
+			explicit Mbps(base::unit::bps const &o);
+
+		public:
+			virtual base::Fraction &Value() override
+			{
+				return _value;
+			}
+
+			/// @brief 单位的字符串。
+			/// @return
+			virtual std::string UnitString() const override;
+		};
+
+	} // namespace unit
 } // namespace base

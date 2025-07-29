@@ -3,43 +3,47 @@
 
 namespace base
 {
-	class Mbps;
-
-	///
-	/// @brief 比特率。每秒的比特数。这里是 bit / s.
-	///
-	///
-	class bps :
-		public base::IUnit<bps>
+	namespace unit
 	{
-	private:
-		base::Fraction _value{};
+		class Mbps;
 
-	public:
-		bps() = default;
-
-		template <typename value_type>
-			requires(std::is_integral_v<value_type>)
-		explicit bps(value_type value)
+		///
+		/// @brief 比特率。每秒的比特数。这里是 bit / s.
+		///
+		///
+		class bps :
+			public base::IUnit<bps>
 		{
-			_value = value;
-		}
+		private:
+			base::Fraction _value{};
 
-		explicit bps(base::Fraction const &o);
-		explicit bps(Mbps const &o);
+		public:
+			bps() = default;
 
-		///
-		/// @brief 单位的值。
-		///
-		/// @return base::Fraction&
-		///
-		virtual base::Fraction &Value() override;
+			template <typename value_type>
+				requires(std::is_integral_v<value_type>)
+			explicit bps(value_type value)
+			{
+				_value = value;
+			}
 
-		///
-		/// @brief 单位的字符串。
-		///
-		/// @return std::string
-		///
-		virtual std::string UnitString() const override;
-	};
+			explicit bps(base::Fraction const &o);
+			explicit bps(base::unit::Mbps const &o);
+
+			///
+			/// @brief 单位的值。
+			///
+			/// @return
+			///
+			virtual base::Fraction &Value() override;
+
+			///
+			/// @brief 单位的字符串。
+			///
+			/// @return
+			///
+			virtual std::string UnitString() const override;
+		};
+
+	} // namespace unit
 } // namespace base

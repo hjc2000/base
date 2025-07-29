@@ -23,14 +23,14 @@ base::ethernet::DuplexMode base::ethernet::LAN8720APhyDriver::DuplexMode()
 	return base::ethernet::DuplexMode::HalfDuplex;
 }
 
-base::Mbps base::ethernet::LAN8720APhyDriver::Speed()
+base::unit::Mbps base::ethernet::LAN8720APhyDriver::Speed()
 {
 	uint32_t register_value = ReadRegister(0x1F);
 	uint32_t const mask = 0b01000;
 	if (register_value & mask)
 	{
-		return base::Mbps{100};
+		return base::unit::Mbps{100};
 	}
 
-	return base::Mbps{10};
+	return base::unit::Mbps{10};
 }

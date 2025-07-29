@@ -88,7 +88,7 @@ namespace base
 		///
 		void start(base::ethernet::ethernet_controller_handle &h,
 				   base::ethernet::DuplexMode duplex_mode,
-				   base::Mbps const &speed);
+				   base::unit::Mbps const &speed);
 
 		/* #region 收发数据 */
 

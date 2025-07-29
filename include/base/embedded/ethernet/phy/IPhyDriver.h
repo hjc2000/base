@@ -18,7 +18,7 @@ namespace base
 
 			/// @brief 获取此网口的速度。
 			/// @return
-			virtual base::Mbps Speed() = 0;
+			virtual base::unit::Mbps Speed() = 0;
 
 			/// @brief 软件复位 PHY.
 			void SoftwareReset();

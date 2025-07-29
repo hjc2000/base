@@ -1,46 +1,58 @@
 #pragma once
 #include "base/math/Fraction.h"
 #include "IUnit.h"
-#include <cstdint>
 
 namespace base
 {
-	///
-	/// @brief 电流单位：安培。
-	///
-	///
-	class A :
-		public base::IUnit<A>
+	namespace unit
 	{
-	private:
-		base::Fraction _value;
-
-	public:
-		A() = default;
-
-		template <typename value_type>
-			requires(std::is_integral_v<value_type>)
-		explicit A(value_type value)
+		///
+		/// @brief 电流单位：安培。
+		///
+		///
+		class A :
+			public base::IUnit<A>
 		{
-			_value = value;
-		}
+		private:
+			base::Fraction _value;
 
-		A(base::Fraction const &value);
+		public:
+			A() = default;
 
-		using base::IUnit<A>::Value;
+			template <typename value_type>
+				requires(std::is_integral_v<value_type>)
+			explicit A(value_type value)
+			{
+				_value = value;
+			}
 
-		///
-		/// @brief 单位的值。
-		///
-		/// @return base::Fraction&
-		///
-		virtual base::Fraction &Value() override;
+			A(base::Fraction const &value)
+			{
+				_value = value;
+			}
 
-		///
-		/// @brief 单位的字符串。
-		///
-		/// @return std::string
-		///
-		virtual std::string UnitString() const override;
-	};
+			using base::IUnit<A>::Value;
+
+			///
+			/// @brief 单位的值。
+			///
+			/// @return
+			///
+			virtual base::Fraction &Value() override
+			{
+				return _value;
+			}
+
+			///
+			/// @brief 单位的字符串。
+			///
+			/// @return
+			///
+			virtual std::string UnitString() const override
+			{
+				return "A";
+			}
+		};
+
+	} // namespace unit
 } // namespace base

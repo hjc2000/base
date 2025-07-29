@@ -96,7 +96,7 @@ namespace base
 			/// @param speed 连接速率。
 			///
 			void Start(base::ethernet::DuplexMode duplex_mode,
-					   base::Mbps const &speed) const
+					   base::unit::Mbps const &speed) const
 			{
 				base::ethernet::start(*_handle, duplex_mode, speed);
 			}

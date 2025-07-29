@@ -23,7 +23,7 @@ namespace base
 
 			/// @brief 获取此网口的速度。
 			/// @return
-			virtual base::Mbps Speed() override;
+			virtual base::unit::Mbps Speed() override;
 		};
 
 	} // namespace ethernet
