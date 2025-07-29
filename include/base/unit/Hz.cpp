@@ -4,34 +4,34 @@
 
 /* #region 构造函数 */
 
-base::Hz::Hz(base::Fraction const &value)
+base::unit::Hz::Hz(base::Fraction const &value)
 {
 	_value = value;
 }
 
-base::Hz::Hz(base::MHz const &value)
+base::unit::Hz::Hz(base::unit::MHz const &value)
 {
 	_value = static_cast<base::Fraction>(value) * 1000 * 1000;
 }
 
-base::Hz::Hz(base::Seconds const &value)
+base::unit::Hz::Hz(base::unit::Seconds const &value)
 {
 	_value = static_cast<base::Fraction>(value).Reciprocal();
 }
 
-base::Hz::Hz(base::Nanoseconds const &value)
-	: Hz(base::Seconds{value})
+base::unit::Hz::Hz(base::unit::Nanoseconds const &value)
+	: Hz(base::unit::Seconds{value})
 {
 }
 
 /* #endregion */
 
-base::Fraction &base::Hz::Value()
+base::Fraction &base::unit::Hz::Value()
 {
 	return _value;
 }
 
-std::string base::Hz::UnitString() const
+std::string base::unit::Hz::UnitString() const
 {
 	return "Hz";
 }

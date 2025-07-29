@@ -4,64 +4,68 @@
 
 namespace base
 {
-	class Hz;
-	class MHz;
-	class Hours;
-	class Minutes;
-	class Seconds;
-	class Nanoseconds;
-
-	///
-	/// @brief 纳秒
-	///
-	///
-	class Nanoseconds :
-		public base::IUnit<Nanoseconds>
+	namespace unit
 	{
-	private:
-		base::Fraction _value{};
+		class Hz;
+		class MHz;
+		class Hours;
+		class Minutes;
+		class Seconds;
+		class Nanoseconds;
 
-	public:
-		Nanoseconds() = default;
-
-		template <typename value_type>
-			requires(std::is_integral_v<value_type>)
-		explicit Nanoseconds(value_type value)
+		///
+		/// @brief 纳秒
+		///
+		///
+		class Nanoseconds :
+			public base::IUnit<Nanoseconds>
 		{
-			_value = value;
-		}
+		private:
+			base::Fraction _value{};
 
-		explicit Nanoseconds(base::Fraction const &value);
-		explicit Nanoseconds(base::Hours const &value);
-		explicit Nanoseconds(base::Minutes const &value);
-		explicit Nanoseconds(base::Seconds const &value);
-		explicit Nanoseconds(base::Hz const &value);
-		explicit Nanoseconds(base::MHz const &value);
-		explicit Nanoseconds(std::chrono::seconds const &value);
-		explicit Nanoseconds(std::chrono::milliseconds const &value);
-		explicit Nanoseconds(std::chrono::microseconds const &value);
-		explicit Nanoseconds(std::chrono::nanoseconds const &value);
+		public:
+			Nanoseconds() = default;
 
-		///
-		/// @brief 单位的值。
-		///
-		/// @return base::Fraction&
-		///
-		virtual base::Fraction &Value() override;
+			template <typename value_type>
+				requires(std::is_integral_v<value_type>)
+			explicit Nanoseconds(value_type value)
+			{
+				_value = value;
+			}
 
-		///
-		/// @brief 单位的字符串。
-		///
-		/// @return std::string
-		///
-		virtual std::string UnitString() const override;
+			explicit Nanoseconds(base::Fraction const &value);
+			explicit Nanoseconds(base::unit::Hours const &value);
+			explicit Nanoseconds(base::unit::Minutes const &value);
+			explicit Nanoseconds(base::unit::Seconds const &value);
+			explicit Nanoseconds(base::unit::Hz const &value);
+			explicit Nanoseconds(base::unit::MHz const &value);
+			explicit Nanoseconds(std::chrono::seconds const &value);
+			explicit Nanoseconds(std::chrono::milliseconds const &value);
+			explicit Nanoseconds(std::chrono::microseconds const &value);
+			explicit Nanoseconds(std::chrono::nanoseconds const &value);
 
-		explicit operator std::chrono::days() const;
-		explicit operator std::chrono::hours() const;
-		explicit operator std::chrono::minutes() const;
-		explicit operator std::chrono::seconds() const;
-		explicit operator std::chrono::milliseconds() const;
-		explicit operator std::chrono::microseconds() const;
-		explicit operator std::chrono::nanoseconds() const;
-	};
+			///
+			/// @brief 单位的值。
+			///
+			/// @return base::Fraction&
+			///
+			virtual base::Fraction &Value() override;
+
+			///
+			/// @brief 单位的字符串。
+			///
+			/// @return std::string
+			///
+			virtual std::string UnitString() const override;
+
+			explicit operator std::chrono::days() const;
+			explicit operator std::chrono::hours() const;
+			explicit operator std::chrono::minutes() const;
+			explicit operator std::chrono::seconds() const;
+			explicit operator std::chrono::milliseconds() const;
+			explicit operator std::chrono::microseconds() const;
+			explicit operator std::chrono::nanoseconds() const;
+		};
+
+	} // namespace unit
 } // namespace base

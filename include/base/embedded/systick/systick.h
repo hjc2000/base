@@ -15,7 +15,7 @@ namespace base
 		///
 		/// @return
 		///
-		base::MHz frequency();
+		base::unit::MHz frequency();
 
 		///
 		/// @brief 获取当前的计数值。
@@ -54,7 +54,7 @@ namespace base
 		///
 		/// @return
 		///
-		base::Nanoseconds system_time_stamp();
+		base::unit::Nanoseconds system_time_stamp();
 
 		/* #region 延时函数 */
 
@@ -79,10 +79,10 @@ namespace base
 		void delay(std::chrono::seconds const &value);
 
 		IMPLEMENTED
-		void delay(base::Nanoseconds const &value);
+		void delay(base::unit::Nanoseconds const &value);
 
 		IMPLEMENTED
-		void delay(base::Seconds const &value);
+		void delay(base::unit::Seconds const &value);
 
 		/* #endregion */
 

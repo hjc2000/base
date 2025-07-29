@@ -31,8 +31,8 @@ namespace base
 		/// @param waiting_for_ack_signal_timeout
 		///
 		void initialize(base::iic::iic_host_handle &h,
-						base::Nanoseconds const &scl_cycle,
-						base::Nanoseconds const &waiting_for_ack_signal_timeout);
+						base::unit::Nanoseconds const &scl_cycle,
+						base::unit::Nanoseconds const &waiting_for_ack_signal_timeout);
 
 		///
 		/// @brief 发送 IIC 启动信号。

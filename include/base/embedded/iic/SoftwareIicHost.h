@@ -13,8 +13,8 @@ namespace base
 		{
 		private:
 			std::shared_ptr<base::iic::ISoftwareIicHostPinDriver> _pin_driver;
-			base::Nanoseconds _scl_cycle;
-			base::Nanoseconds _waiting_for_ack_signal_timeout;
+			base::unit::Nanoseconds _scl_cycle;
+			base::unit::Nanoseconds _waiting_for_ack_signal_timeout;
 
 			/* #region 收发 IIC 控制信号 */
 
@@ -59,7 +59,7 @@ namespace base
 				_pin_driver->WriteSCL(true);
 				base::task::Delay(static_cast<std::chrono::nanoseconds>(_scl_cycle / 2));
 
-				base::Nanoseconds waiting_time{};
+				base::unit::Nanoseconds waiting_time{};
 				while (_pin_driver->ReadSDA())
 				{
 					if (waiting_time > _waiting_for_ack_signal_timeout)
@@ -121,8 +121,8 @@ namespace base
 				_pin_driver = pin_driver;
 			}
 
-			void Initialize(base::Nanoseconds const &scl_cycle,
-							base::Nanoseconds const &waiting_for_ack_signal_timeout)
+			void Initialize(base::unit::Nanoseconds const &scl_cycle,
+							base::unit::Nanoseconds const &waiting_for_ack_signal_timeout)
 			{
 				_scl_cycle = scl_cycle;
 				_waiting_for_ack_signal_timeout = waiting_for_ack_signal_timeout;

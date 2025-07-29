@@ -18,7 +18,7 @@ namespace base
 			///
 			/// @return
 			///
-			virtual base::MHz MaxClockFrequency() const = 0;
+			virtual base::unit::MHz MaxClockFrequency() const = 0;
 
 			///
 			/// @brief 获取指定 CLK 频率下的时序。
@@ -26,7 +26,7 @@ namespace base
 			/// @param clk_frequency
 			/// @return
 			///
-			virtual base::sdram::sdram_timing GetTiming(base::MHz const &clk_frequency) const = 0;
+			virtual base::sdram::sdram_timing GetTiming(base::unit::MHz const &clk_frequency) const = 0;
 		};
 
 	} // namespace sdram

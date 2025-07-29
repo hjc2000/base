@@ -15,16 +15,16 @@ namespace base
 		///
 		/// @brief 采样间隔。
 		///
-		/// @return base::Seconds
+		/// @return base::unit::Seconds
 		///
-		virtual base::Seconds SampleInterval() const = 0;
+		virtual base::unit::Seconds SampleInterval() const = 0;
 
 		///
 		/// @brief 打开采样器。
 		///
 		/// @param sample_interval
 		///
-		virtual void Open(base::Seconds const &sample_interval) = 0;
+		virtual void Open(base::unit::Seconds const &sample_interval) = 0;
 
 		///
 		/// @brief 采样一次。

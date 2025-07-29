@@ -26,7 +26,7 @@ namespace base
 			///
 			/// @return
 			///
-			base::MHz Frequency()
+			base::unit::MHz Frequency()
 			{
 				return base::clock::frequency(*_handle);
 			}
@@ -37,7 +37,7 @@ namespace base
 			/// @param output_channel_name
 			/// @return
 			///
-			base::MHz Frequency(std::string const &output_channel_name)
+			base::unit::MHz Frequency(std::string const &output_channel_name)
 			{
 				return base::clock::frequency(*_handle, output_channel_name);
 			}
@@ -100,7 +100,7 @@ namespace base
 			///
 			/// @param bypass_input_frequency 旁路的输入频率。
 			///
-			void ConfigureAsBypassMode(base::MHz const &bypass_input_frequency)
+			void ConfigureAsBypassMode(base::unit::MHz const &bypass_input_frequency)
 			{
 				base::clock::configure_as_bypass_mode(*_handle,
 													  bypass_input_frequency);

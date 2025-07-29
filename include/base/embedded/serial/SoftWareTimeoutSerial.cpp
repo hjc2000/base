@@ -21,7 +21,7 @@ void base::serial::SoftWareTimeoutSerial::Initialize(std::shared_ptr<base::seria
 	{
 		uint32_t baud_rate = _serial->BaudRate();
 		uint32_t frames_baud_count = _serial->FramesBaudCount(timeout_frame_count);
-		base::Seconds timeout_seconds{base::Fraction{frames_baud_count, baud_rate}};
+		base::unit::Seconds timeout_seconds{base::Fraction{frames_baud_count, baud_rate}};
 		_receiving_timeout = static_cast<std::chrono::nanoseconds>(timeout_seconds);
 	}
 }

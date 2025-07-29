@@ -4,62 +4,66 @@
 
 namespace base
 {
-	class Hz;
-	class MHz;
-	class Day;
-	class Hours;
-	class Minutes;
-	class Seconds;
-	class Nanoseconds;
-
-	class Day :
-		public base::IUnit<Day>
+	namespace unit
 	{
-	private:
-		base::Fraction _value{};
+		class Hz;
+		class MHz;
+		class Day;
+		class Hours;
+		class Minutes;
+		class Seconds;
+		class Nanoseconds;
 
-	public:
-		Day() = default;
-
-		template <typename value_type>
-			requires(std::is_integral_v<value_type>)
-		explicit Day(value_type value)
+		class Day :
+			public base::IUnit<Day>
 		{
-			_value = value;
-		}
+		private:
+			base::Fraction _value{};
 
-		explicit Day(base::Fraction const &value);
-		explicit Day(base::Hours const &value);
-		explicit Day(base::Minutes const &value);
-		explicit Day(base::Seconds const &value);
-		explicit Day(base::Nanoseconds const &value);
-		explicit Day(base::Hz const &value);
-		explicit Day(base::MHz const &value);
-		explicit Day(std::chrono::seconds const &value);
-		explicit Day(std::chrono::milliseconds const &value);
-		explicit Day(std::chrono::microseconds const &value);
-		explicit Day(std::chrono::nanoseconds const &value);
+		public:
+			Day() = default;
 
-		///
-		/// @brief 单位的值。
-		///
-		/// @return base::Fraction&
-		///
-		virtual base::Fraction &Value() override;
+			template <typename value_type>
+				requires(std::is_integral_v<value_type>)
+			explicit Day(value_type value)
+			{
+				_value = value;
+			}
 
-		///
-		/// @brief 单位的字符串。
-		///
-		/// @return std::string
-		///
-		virtual std::string UnitString() const override;
+			explicit Day(base::Fraction const &value);
+			explicit Day(base::unit::Hours const &value);
+			explicit Day(base::unit::Minutes const &value);
+			explicit Day(base::unit::Seconds const &value);
+			explicit Day(base::unit::Nanoseconds const &value);
+			explicit Day(base::unit::Hz const &value);
+			explicit Day(base::unit::MHz const &value);
+			explicit Day(std::chrono::seconds const &value);
+			explicit Day(std::chrono::milliseconds const &value);
+			explicit Day(std::chrono::microseconds const &value);
+			explicit Day(std::chrono::nanoseconds const &value);
 
-		explicit operator std::chrono::days() const;
-		explicit operator std::chrono::hours() const;
-		explicit operator std::chrono::minutes() const;
-		explicit operator std::chrono::seconds() const;
-		explicit operator std::chrono::milliseconds() const;
-		explicit operator std::chrono::microseconds() const;
-		explicit operator std::chrono::nanoseconds() const;
-	};
+			///
+			/// @brief 单位的值。
+			///
+			/// @return base::Fraction&
+			///
+			virtual base::Fraction &Value() override;
+
+			///
+			/// @brief 单位的字符串。
+			///
+			/// @return std::string
+			///
+			virtual std::string UnitString() const override;
+
+			explicit operator std::chrono::days() const;
+			explicit operator std::chrono::hours() const;
+			explicit operator std::chrono::minutes() const;
+			explicit operator std::chrono::seconds() const;
+			explicit operator std::chrono::milliseconds() const;
+			explicit operator std::chrono::microseconds() const;
+			explicit operator std::chrono::nanoseconds() const;
+		};
+
+	} // namespace unit
 } // namespace base

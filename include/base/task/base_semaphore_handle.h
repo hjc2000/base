@@ -46,7 +46,7 @@ namespace base
 		/// @param h
 		/// @param timeout
 		///
-		bool try_acquire(base::task::base_semaphore_handle &h, base::Seconds const &timeout);
+		bool try_acquire(base::task::base_semaphore_handle &h, base::unit::Seconds const &timeout);
 
 	} // namespace task
 } // namespace base

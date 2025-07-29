@@ -42,7 +42,7 @@ namespace base
 		/// @param time
 		///
 		IMPLEMENTED
-		void Delay(base::Nanoseconds const &time);
+		void Delay(base::unit::Nanoseconds const &time);
 
 		///
 		/// @brief 延时。
@@ -50,7 +50,7 @@ namespace base
 		/// @param time
 		///
 		IMPLEMENTED
-		void Delay(base::Seconds const &time);
+		void Delay(base::unit::Seconds const &time);
 
 	} // namespace task
 } // namespace base

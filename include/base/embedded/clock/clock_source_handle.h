@@ -21,7 +21,7 @@ namespace base
 		/// @param h
 		/// @return
 		///
-		base::MHz frequency(clock_source_handle &h);
+		base::unit::MHz frequency(clock_source_handle &h);
 
 		///
 		/// @brief 获取指定输出通道的频率。
@@ -30,7 +30,7 @@ namespace base
 		/// @param output_channel_name
 		/// @return
 		///
-		base::MHz frequency(clock_source_handle &h, std::string const &output_channel_name);
+		base::unit::MHz frequency(clock_source_handle &h, std::string const &output_channel_name);
 
 		/* #endregion */
 
@@ -86,7 +86,7 @@ namespace base
 		/// @param bypass_input_frequency 旁路的输入频率。
 		///
 		void configure_as_bypass_mode(clock_source_handle &h,
-									  base::MHz const &bypass_input_frequency);
+									  base::unit::MHz const &bypass_input_frequency);
 
 		///
 		/// @brief 关闭此时钟源。

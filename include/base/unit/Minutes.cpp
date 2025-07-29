@@ -5,103 +5,103 @@
 
 /* #region 构造函数 */
 
-base::Minutes::Minutes(base::Fraction const &value)
+base::unit::Minutes::Minutes(base::Fraction const &value)
 {
 	_value = value;
 }
 
-base::Minutes::Minutes(base::Hours const &value)
+base::unit::Minutes::Minutes(base::unit::Hours const &value)
 {
 	_value = static_cast<base::Fraction>(value) * 60;
 }
 
-base::Minutes::Minutes(base::Seconds const &value)
+base::unit::Minutes::Minutes(base::unit::Seconds const &value)
 {
 	_value = static_cast<base::Fraction>(value) / 60;
 }
 
-base::Minutes::Minutes(base::Nanoseconds const &value)
-	: Minutes(base::Seconds{value})
+base::unit::Minutes::Minutes(base::unit::Nanoseconds const &value)
+	: Minutes(base::unit::Seconds{value})
 {
 }
 
-base::Minutes::Minutes(base::Hz const &value)
-	: Minutes(base::Seconds{value})
+base::unit::Minutes::Minutes(base::unit::Hz const &value)
+	: Minutes(base::unit::Seconds{value})
 {
 }
 
-base::Minutes::Minutes(base::MHz const &value)
-	: Minutes(base::Seconds{value})
+base::unit::Minutes::Minutes(base::unit::MHz const &value)
+	: Minutes(base::unit::Seconds{value})
 {
 }
 
-base::Minutes::Minutes(std::chrono::seconds const &value)
-	: Minutes(base::Seconds{value})
+base::unit::Minutes::Minutes(std::chrono::seconds const &value)
+	: Minutes(base::unit::Seconds{value})
 {
 }
 
-base::Minutes::Minutes(std::chrono::milliseconds const &value)
-	: Minutes(base::Seconds{value})
+base::unit::Minutes::Minutes(std::chrono::milliseconds const &value)
+	: Minutes(base::unit::Seconds{value})
 {
 }
 
-base::Minutes::Minutes(std::chrono::microseconds const &value)
-	: Minutes(base::Seconds{value})
+base::unit::Minutes::Minutes(std::chrono::microseconds const &value)
+	: Minutes(base::unit::Seconds{value})
 {
 }
 
-base::Minutes::Minutes(std::chrono::nanoseconds const &value)
-	: base::Minutes(base::Nanoseconds{value})
+base::unit::Minutes::Minutes(std::chrono::nanoseconds const &value)
+	: base::unit::Minutes(base::unit::Nanoseconds{value})
 {
 }
 
 /* #endregion */
 
-base::Fraction &base::Minutes::Value()
+base::Fraction &base::unit::Minutes::Value()
 {
 	return _value;
 }
 
-std::string base::Minutes::UnitString() const
+std::string base::unit::Minutes::UnitString() const
 {
 	return "m";
 }
 
 /* #region 强制转换运算符 */
 
-base::Minutes::operator std::chrono::days() const
+base::unit::Minutes::operator std::chrono::days() const
 {
-	return std::chrono::days{base::Seconds{*this}};
+	return std::chrono::days{base::unit::Seconds{*this}};
 }
 
-base::Minutes::operator std::chrono::hours() const
+base::unit::Minutes::operator std::chrono::hours() const
 {
-	return std::chrono::hours{base::Seconds{*this}};
+	return std::chrono::hours{base::unit::Seconds{*this}};
 }
 
-base::Minutes::operator std::chrono::minutes() const
+base::unit::Minutes::operator std::chrono::minutes() const
 {
-	return std::chrono::minutes{base::Seconds{*this}};
+	return std::chrono::minutes{base::unit::Seconds{*this}};
 }
 
-base::Minutes::operator std::chrono::seconds() const
+base::unit::Minutes::operator std::chrono::seconds() const
 {
-	return std::chrono::seconds{base::Seconds{*this}};
+	return std::chrono::seconds{base::unit::Seconds{*this}};
 }
 
-base::Minutes::operator std::chrono::milliseconds() const
+base::unit::Minutes::operator std::chrono::milliseconds() const
 {
-	return std::chrono::milliseconds{base::Seconds{*this}};
+	return std::chrono::milliseconds{base::unit::Seconds{*this}};
 }
 
-base::Minutes::operator std::chrono::microseconds() const
+base::unit::Minutes::operator std::chrono::microseconds() const
 {
-	return std::chrono::microseconds{base::Seconds{*this}};
+	return std::chrono::microseconds{base::unit::Seconds{*this}};
 }
 
-base::Minutes::operator std::chrono::nanoseconds() const
+base::unit::Minutes::operator std::chrono::nanoseconds() const
 {
-	return std::chrono::nanoseconds{base::Seconds{*this}};
+	return std::chrono::nanoseconds{base::unit::Seconds{*this}};
 }
 
 /* #endregion */

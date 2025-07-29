@@ -17,7 +17,7 @@ namespace base
 		public base::ISignalSource<double>
 	{
 	private:
-		base::Seconds _sample_interval{base::Fraction{1, 10}};
+		base::unit::Seconds _sample_interval{base::Fraction{1, 10}};
 		PeriodicSamplingClock _sample_clock;
 		bool _opened = false;
 
@@ -27,21 +27,21 @@ namespace base
 		///
 		/// @param sin_periodic 正弦信号的最小正周期
 		///
-		SinSignalSource(base::Seconds sin_periodic);
+		SinSignalSource(base::unit::Seconds sin_periodic);
 
 		///
 		/// @brief 采样间隔。
 		///
-		/// @return base::Seconds
+		/// @return base::unit::Seconds
 		///
-		virtual base::Seconds SampleInterval() const override;
+		virtual base::unit::Seconds SampleInterval() const override;
 
 		///
 		/// @brief 打开采样器。
 		///
 		/// @param sample_interval
 		///
-		virtual void Open(base::Seconds const &sample_interval) override;
+		virtual void Open(base::unit::Seconds const &sample_interval) override;
 
 		///
 		/// @brief 采样一次。

@@ -4,49 +4,53 @@
 
 namespace base
 {
-	class Seconds;
-	class Nanoseconds;
-	class Hz;
-
-	///
-	/// @brief 频率单位：MHz.
-	///
-	///
-	class MHz :
-		public base::IUnit<MHz>
+	namespace unit
 	{
-	private:
-		base::Fraction _value{};
+		class Seconds;
+		class Nanoseconds;
+		class Hz;
 
-	public:
-		MHz() = default;
-
-		template <typename value_type>
-			requires(std::is_integral_v<value_type>)
-		explicit MHz(value_type value)
+		///
+		/// @brief 频率单位：MHz.
+		///
+		///
+		class MHz :
+			public base::IUnit<MHz>
 		{
-			_value = value;
-		}
+		private:
+			base::Fraction _value{};
 
-		explicit MHz(base::Fraction const &value);
-		explicit MHz(base::Hz const &value);
-		explicit MHz(base::Seconds const &value);
-		explicit MHz(base::Nanoseconds const &value);
+		public:
+			MHz() = default;
 
-		using base::IUnit<MHz>::Value;
+			template <typename value_type>
+				requires(std::is_integral_v<value_type>)
+			explicit MHz(value_type value)
+			{
+				_value = value;
+			}
 
-		///
-		/// @brief 单位的值。
-		///
-		/// @return base::Fraction&
-		///
-		virtual base::Fraction &Value() override;
+			explicit MHz(base::Fraction const &value);
+			explicit MHz(base::unit::Hz const &value);
+			explicit MHz(base::unit::Seconds const &value);
+			explicit MHz(base::unit::Nanoseconds const &value);
 
-		///
-		/// @brief 单位的字符串。
-		///
-		/// @return std::string
-		///
-		virtual std::string UnitString() const override;
-	};
+			using base::IUnit<MHz>::Value;
+
+			///
+			/// @brief 单位的值。
+			///
+			/// @return base::Fraction&
+			///
+			virtual base::Fraction &Value() override;
+
+			///
+			/// @brief 单位的字符串。
+			///
+			/// @return std::string
+			///
+			virtual std::string UnitString() const override;
+		};
+
+	} // namespace unit
 } // namespace base

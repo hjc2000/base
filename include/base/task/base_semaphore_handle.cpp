@@ -50,9 +50,9 @@ public:
 	///
 	/// @return 成功获取信号量则返回 true, 否则返回 false.
 	///
-	bool TryAcquire(base::Seconds const &timeout)
+	bool TryAcquire(base::unit::Seconds const &timeout)
 	{
-		if (timeout < base::Seconds{0})
+		if (timeout < base::unit::Seconds{0})
 		{
 			throw std::invalid_argument{CODE_POS_STR + "超时时间不能 <= 0."};
 		}
@@ -77,7 +77,7 @@ void base::task::acquire(base::task::base_semaphore_handle &h)
 	h.Acquire();
 }
 
-bool base::task::try_acquire(base::task::base_semaphore_handle &h, base::Seconds const &timeout)
+bool base::task::try_acquire(base::task::base_semaphore_handle &h, base::unit::Seconds const &timeout)
 {
 	return h.TryAcquire(timeout);
 }

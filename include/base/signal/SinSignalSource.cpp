@@ -3,17 +3,17 @@
 #include <math.h>
 #include <stdexcept>
 
-base::SinSignalSource::SinSignalSource(base::Seconds sin_periodic)
+base::SinSignalSource::SinSignalSource(base::unit::Seconds sin_periodic)
 	: _sample_clock(sin_periodic)
 {
 }
 
-base::Seconds base::SinSignalSource::SampleInterval() const
+base::unit::Seconds base::SinSignalSource::SampleInterval() const
 {
 	return _sample_interval;
 }
 
-void base::SinSignalSource::Open(base::Seconds const &sample_interval)
+void base::SinSignalSource::Open(base::unit::Seconds const &sample_interval)
 {
 	_opened = true;
 	_sample_interval = sample_interval;

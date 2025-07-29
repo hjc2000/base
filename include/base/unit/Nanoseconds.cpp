@@ -6,103 +6,103 @@
 
 /* #region 构造函数 */
 
-base::Nanoseconds::Nanoseconds(base::Fraction const &value)
+base::unit::Nanoseconds::Nanoseconds(base::Fraction const &value)
 {
 	_value = value;
 }
 
-base::Nanoseconds::Nanoseconds(base::Hours const &value)
-	: Nanoseconds{base::Seconds{value}}
+base::unit::Nanoseconds::Nanoseconds(base::unit::Hours const &value)
+	: Nanoseconds{base::unit::Seconds{value}}
 {
 }
 
-base::Nanoseconds::Nanoseconds(base::Minutes const &value)
-	: Nanoseconds{base::Seconds{value}}
+base::unit::Nanoseconds::Nanoseconds(base::unit::Minutes const &value)
+	: Nanoseconds{base::unit::Seconds{value}}
 {
 }
 
-base::Nanoseconds::Nanoseconds(base::Seconds const &value)
+base::unit::Nanoseconds::Nanoseconds(base::unit::Seconds const &value)
 {
 	_value = static_cast<base::Fraction>(value) * 1000 * 1000 * 1000;
 }
 
-base::Nanoseconds::Nanoseconds(base::Hz const &value)
-	: Nanoseconds{base::Seconds{value}}
+base::unit::Nanoseconds::Nanoseconds(base::unit::Hz const &value)
+	: Nanoseconds{base::unit::Seconds{value}}
 {
 }
 
-base::Nanoseconds::Nanoseconds(base::MHz const &value)
-	: Nanoseconds(base::Seconds{value})
+base::unit::Nanoseconds::Nanoseconds(base::unit::MHz const &value)
+	: Nanoseconds(base::unit::Seconds{value})
 {
 }
 
-base::Nanoseconds::Nanoseconds(std::chrono::seconds const &value)
-	: Nanoseconds(base::Seconds{value})
+base::unit::Nanoseconds::Nanoseconds(std::chrono::seconds const &value)
+	: Nanoseconds(base::unit::Seconds{value})
 {
 }
 
-base::Nanoseconds::Nanoseconds(std::chrono::milliseconds const &value)
-	: Nanoseconds(base::Seconds{value})
+base::unit::Nanoseconds::Nanoseconds(std::chrono::milliseconds const &value)
+	: Nanoseconds(base::unit::Seconds{value})
 {
 }
 
-base::Nanoseconds::Nanoseconds(std::chrono::microseconds const &value)
-	: Nanoseconds(base::Seconds{value})
+base::unit::Nanoseconds::Nanoseconds(std::chrono::microseconds const &value)
+	: Nanoseconds(base::unit::Seconds{value})
 {
 }
 
-base::Nanoseconds::Nanoseconds(std::chrono::nanoseconds const &value)
-	: Nanoseconds(base::Seconds{value})
+base::unit::Nanoseconds::Nanoseconds(std::chrono::nanoseconds const &value)
+	: Nanoseconds(base::unit::Seconds{value})
 {
 }
 
 /* #endregion */
 
-base::Fraction &base::Nanoseconds::Value()
+base::Fraction &base::unit::Nanoseconds::Value()
 {
 	return _value;
 }
 
-std::string base::Nanoseconds::UnitString() const
+std::string base::unit::Nanoseconds::UnitString() const
 {
 	return "ns";
 }
 
 /* #region 强制转换运算符 */
 
-base::Nanoseconds::operator std::chrono::days() const
+base::unit::Nanoseconds::operator std::chrono::days() const
 {
-	return std::chrono::days{base::Seconds{*this}};
+	return std::chrono::days{base::unit::Seconds{*this}};
 }
 
-base::Nanoseconds::operator std::chrono::hours() const
+base::unit::Nanoseconds::operator std::chrono::hours() const
 {
-	return std::chrono::hours{base::Seconds{*this}};
+	return std::chrono::hours{base::unit::Seconds{*this}};
 }
 
-base::Nanoseconds::operator std::chrono::minutes() const
+base::unit::Nanoseconds::operator std::chrono::minutes() const
 {
-	return std::chrono::minutes{base::Seconds{*this}};
+	return std::chrono::minutes{base::unit::Seconds{*this}};
 }
 
-base::Nanoseconds::operator std::chrono::seconds() const
+base::unit::Nanoseconds::operator std::chrono::seconds() const
 {
-	return std::chrono::seconds{base::Seconds{*this}};
+	return std::chrono::seconds{base::unit::Seconds{*this}};
 }
 
-base::Nanoseconds::operator std::chrono::milliseconds() const
+base::unit::Nanoseconds::operator std::chrono::milliseconds() const
 {
-	return std::chrono::milliseconds{base::Seconds{*this}};
+	return std::chrono::milliseconds{base::unit::Seconds{*this}};
 }
 
-base::Nanoseconds::operator std::chrono::microseconds() const
+base::unit::Nanoseconds::operator std::chrono::microseconds() const
 {
-	return std::chrono::microseconds{base::Seconds{*this}};
+	return std::chrono::microseconds{base::unit::Seconds{*this}};
 }
 
-base::Nanoseconds::operator std::chrono::nanoseconds() const
+base::unit::Nanoseconds::operator std::chrono::nanoseconds() const
 {
-	return std::chrono::nanoseconds{base::Seconds{*this}};
+	return std::chrono::nanoseconds{base::unit::Seconds{*this}};
 }
 
 /* #endregion */

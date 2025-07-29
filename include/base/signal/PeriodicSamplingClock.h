@@ -11,8 +11,8 @@ namespace base
 	class PeriodicSamplingClock final
 	{
 	private:
-		base::Seconds _period{};
-		base::Seconds _current_time{};
+		base::unit::Seconds _period{};
+		base::unit::Seconds _current_time{};
 
 		///
 		/// @brief 将 _time 调整到 1 个最小正周期以内。
@@ -26,30 +26,30 @@ namespace base
 		///
 		/// @param period
 		///
-		PeriodicSamplingClock(base::Seconds period);
+		PeriodicSamplingClock(base::unit::Seconds period);
 
-		PeriodicSamplingClock &operator+=(base::Seconds value);
-		PeriodicSamplingClock &operator-=(base::Seconds value);
+		PeriodicSamplingClock &operator+=(base::unit::Seconds value);
+		PeriodicSamplingClock &operator-=(base::unit::Seconds value);
 
 		///
 		/// @brief 本时钟的周期。
 		///
-		/// @return base::Seconds
+		/// @return base::unit::Seconds
 		///
-		base::Seconds Period() const;
+		base::unit::Seconds Period() const;
 
 		///
 		/// @brief 当前时间。
 		///
-		/// @return base::Seconds
+		/// @return base::unit::Seconds
 		///
-		base::Seconds CurrentTime() const;
+		base::unit::Seconds CurrentTime() const;
 
 		///
 		/// @brief 相当于调用 CurrentTime 方法。
 		///
-		/// @return base::Seconds
+		/// @return base::unit::Seconds
 		///
-		explicit operator base::Seconds() const;
+		explicit operator base::unit::Seconds() const;
 	};
 } // namespace base
