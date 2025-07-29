@@ -84,16 +84,22 @@ namespace base
 
 		/* #endregion */
 
+		///
 		/// @brief 获取元素个数。
+		///
 		/// @return
+		///
 		virtual int Count() const override
 		{
 			return _map.size();
 		}
 
+		///
 		/// @brief 查找元素。
 		/// @param key 键
+		///
 		/// @return 指针。找到了返回元素的指针，找不到返回空指针。
+		///
 		virtual ValueType *Find(KeyType const &key) override
 		{
 			auto it = _map.find(key);
@@ -105,9 +111,12 @@ namespace base
 			return &it->second;
 		}
 
+		///
 		/// @brief 移除一个元素。
+		///
 		/// @param key 键
 		/// @return 移除成功返回 true，元素不存在返回 false。
+		///
 		virtual bool Remove(KeyType const &key) override
 		{
 			auto it = _map.find(key);
@@ -129,9 +138,12 @@ namespace base
 			_map.clear();
 		}
 
+		///
 		/// @brief 设置一个元素。本来不存在，会添加；本来就存在了，会覆盖。
+		///
 		/// @param key
 		/// @param value
+		///
 		virtual void Set(KeyType const &key, ValueType const &value) override
 		{
 			_map[key] = value;
@@ -139,8 +151,11 @@ namespace base
 
 		using base::IEnumerable<std::pair<KeyType const, ValueType>>::GetEnumerator;
 
+		///
 		/// @brief 获取迭代器
+		///
 		/// @return
+		///
 		virtual std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>> GetEnumerator() override
 		{
 			return std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>>{new Enumerator{_map}};
