@@ -75,8 +75,8 @@ namespace base
 			/// @param scl_cycle
 			/// @param waiting_for_ack_signal_timeout
 			///
-			void Initialize(base::unit::Nanoseconds const &scl_cycle,
-							base::unit::Nanoseconds const &waiting_for_ack_signal_timeout)
+			void Initialize(base::unit::Nanosecond const &scl_cycle,
+							base::unit::Nanosecond const &waiting_for_ack_signal_timeout)
 			{
 				base::iic::initialize(*_host._handle,
 									  scl_cycle,

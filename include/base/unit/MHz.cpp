@@ -19,7 +19,7 @@ base::unit::MHz::MHz(base::unit::Seconds const &value)
 {
 }
 
-base::unit::MHz::MHz(base::unit::Nanoseconds const &value)
+base::unit::MHz::MHz(base::unit::Nanosecond const &value)
 	: MHz(base::unit::Seconds{value})
 {
 }

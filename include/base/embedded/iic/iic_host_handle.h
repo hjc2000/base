@@ -1,5 +1,5 @@
 #pragma once
-#include "base/unit/Nanoseconds.h"
+#include "base/unit/Nanosecond.h"
 #include "SoftwareIicHostPinDriver.h"
 #include <cstdint>
 #include <memory>
@@ -31,8 +31,8 @@ namespace base
 		/// @param waiting_for_ack_signal_timeout
 		///
 		void initialize(base::iic::iic_host_handle &h,
-						base::unit::Nanoseconds const &scl_cycle,
-						base::unit::Nanoseconds const &waiting_for_ack_signal_timeout);
+						base::unit::Nanosecond const &scl_cycle,
+						base::unit::Nanosecond const &waiting_for_ack_signal_timeout);
 
 		///
 		/// @brief 发送 IIC 启动信号。

@@ -19,7 +19,7 @@ base::unit::Hz::Hz(base::unit::Seconds const &value)
 	_value = static_cast<base::Fraction>(value).Reciprocal();
 }
 
-base::unit::Hz::Hz(base::unit::Nanoseconds const &value)
+base::unit::Hz::Hz(base::unit::Nanosecond const &value)
 	: Hz(base::unit::Seconds{value})
 {
 }

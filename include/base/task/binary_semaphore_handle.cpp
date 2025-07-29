@@ -1,6 +1,6 @@
 #include "binary_semaphore_handle.h" // IWYU pragma: keep
 #include "base/string/define.h"
-#include "base/unit/Nanoseconds.h"
+#include "base/unit/Nanosecond.h"
 #include "base/unit/Seconds.h"
 #include <chrono>
 #include <semaphore>

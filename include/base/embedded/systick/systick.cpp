@@ -1,6 +1,6 @@
 #include "systick.h" // IWYU pragma: keep
 #include "base/unit/MHz.h"
-#include "base/unit/Nanoseconds.h"
+#include "base/unit/Nanosecond.h"
 #include <chrono>
 #include <cstdint>
 
@@ -45,33 +45,33 @@ void base::systick::delay_for_ticks(uint64_t value)
 
 void base::systick::delay(std::chrono::nanoseconds const &value)
 {
-	base::unit::Nanoseconds tick_interval{base::systick::frequency()};
-	uint64_t tick_count = static_cast<uint64_t>(base::unit::Nanoseconds{value} / tick_interval);
+	base::unit::Nanosecond tick_interval{base::systick::frequency()};
+	uint64_t tick_count = static_cast<uint64_t>(base::unit::Nanosecond{value} / tick_interval);
 	base::systick::delay_for_ticks(tick_count);
 }
 
 void base::systick::delay(std::chrono::microseconds const &value)
 {
-	base::unit::Nanoseconds tick_interval{base::systick::frequency()};
-	uint64_t tick_count = static_cast<uint64_t>(base::unit::Nanoseconds{value} / tick_interval);
+	base::unit::Nanosecond tick_interval{base::systick::frequency()};
+	uint64_t tick_count = static_cast<uint64_t>(base::unit::Nanosecond{value} / tick_interval);
 	base::systick::delay_for_ticks(tick_count);
 }
 
 void base::systick::delay(std::chrono::milliseconds const &value)
 {
-	base::unit::Nanoseconds tick_interval{base::systick::frequency()};
-	uint64_t tick_count = static_cast<uint64_t>(base::unit::Nanoseconds{value} / tick_interval);
+	base::unit::Nanosecond tick_interval{base::systick::frequency()};
+	uint64_t tick_count = static_cast<uint64_t>(base::unit::Nanosecond{value} / tick_interval);
 	base::systick::delay_for_ticks(tick_count);
 }
 
 void base::systick::delay(std::chrono::seconds const &value)
 {
-	base::unit::Nanoseconds tick_interval{base::systick::frequency()};
-	uint64_t tick_count = static_cast<uint64_t>(base::unit::Nanoseconds{value} / tick_interval);
+	base::unit::Nanosecond tick_interval{base::systick::frequency()};
+	uint64_t tick_count = static_cast<uint64_t>(base::unit::Nanosecond{value} / tick_interval);
 	base::systick::delay_for_ticks(tick_count);
 }
 
-void base::systick::delay(base::unit::Nanoseconds const &value)
+void base::systick::delay(base::unit::Nanosecond const &value)
 {
 	base::systick::delay(static_cast<std::chrono::nanoseconds>(value));
 }

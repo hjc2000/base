@@ -6,7 +6,7 @@ namespace base
 	namespace unit
 	{
 		class Seconds;
-		class Nanoseconds;
+		class Nanosecond;
 		class MHz;
 
 		/// @brief 频率单位：Hz.
@@ -29,7 +29,7 @@ namespace base
 			explicit Hz(base::Fraction const &value);
 			explicit Hz(base::unit::MHz const &value);
 			explicit Hz(base::unit::Seconds const &value);
-			explicit Hz(base::unit::Nanoseconds const &value);
+			explicit Hz(base::unit::Nanosecond const &value);
 
 			///
 			/// @brief 单位的值。

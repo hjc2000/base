@@ -1,6 +1,6 @@
 #pragma once
 #include "base/define.h"
-#include "base/unit/Nanoseconds.h"
+#include "base/unit/Nanosecond.h"
 #include "base/unit/Seconds.h"
 #include <chrono>
 
@@ -42,7 +42,7 @@ namespace base
 		/// @param time
 		///
 		IMPLEMENTED
-		void Delay(base::unit::Nanoseconds const &time);
+		void Delay(base::unit::Nanosecond const &time);
 
 		///
 		/// @brief 延时。

@@ -1,8 +1,7 @@
+#include "Minute.h"
 #include "base/unit/Hour.h"
 #include "base/unit/Seconds.h"
-#include "Minute.h"
-#include "Nanoseconds.h"
-
+#include "Nanosecond.h"
 
 /* #region 构造函数 */
 
@@ -21,7 +20,7 @@ base::unit::Minute::Minute(base::unit::Seconds const &value)
 	_value = static_cast<base::Fraction>(value) / 60;
 }
 
-base::unit::Minute::Minute(base::unit::Nanoseconds const &value)
+base::unit::Minute::Minute(base::unit::Nanosecond const &value)
 	: Minute(base::unit::Seconds{value})
 {
 }
@@ -52,7 +51,7 @@ base::unit::Minute::Minute(std::chrono::microseconds const &value)
 }
 
 base::unit::Minute::Minute(std::chrono::nanoseconds const &value)
-	: base::unit::Minute(base::unit::Nanoseconds{value})
+	: base::unit::Minute(base::unit::Nanosecond{value})
 {
 }
 

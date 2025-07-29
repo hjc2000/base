@@ -164,8 +164,8 @@ namespace base
 			{
 				base::iic::IicHostOperator op{*_pcf8574._iic_host};
 
-				op.Initialize(base::unit::Nanoseconds{std::chrono::microseconds{4}},
-							  base::unit::Nanoseconds{std::chrono::microseconds{4} * 20});
+				op.Initialize(base::unit::Nanosecond{std::chrono::microseconds{4}},
+							  base::unit::Nanosecond{std::chrono::microseconds{4} * 20});
 
 				op.SendStartingSignal();
 				op.SendByte(_pcf8574._address_register | 0x01);
@@ -186,8 +186,8 @@ namespace base
 			{
 				base::iic::IicHostOperator op{*_pcf8574._iic_host};
 
-				op.Initialize(base::unit::Nanoseconds{std::chrono::microseconds{4}},
-							  base::unit::Nanoseconds{std::chrono::microseconds{4} * 20});
+				op.Initialize(base::unit::Nanosecond{std::chrono::microseconds{4}},
+							  base::unit::Nanosecond{std::chrono::microseconds{4} * 20});
 
 				op.SendStartingSignal();
 				op.SendByte(_pcf8574._address_register | 0x00);

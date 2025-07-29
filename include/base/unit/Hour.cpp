@@ -1,7 +1,7 @@
 #include "Hour.h"
 #include "base/unit/Day.h"
 #include "base/unit/Minute.h"
-#include "Nanoseconds.h"
+#include "Nanosecond.h"
 
 /* #region 构造函数 */
 
@@ -25,7 +25,7 @@ base::unit::Hour::Hour(base::unit::Seconds const &value)
 {
 }
 
-base::unit::Hour::Hour(base::unit::Nanoseconds const &value)
+base::unit::Hour::Hour(base::unit::Nanosecond const &value)
 	: Hour(base::unit::Minute{value})
 {
 }
@@ -56,7 +56,7 @@ base::unit::Hour::Hour(std::chrono::microseconds const &value)
 }
 
 base::unit::Hour::Hour(std::chrono::nanoseconds const &value)
-	: base::unit::Hour(base::unit::Nanoseconds{value})
+	: base::unit::Hour(base::unit::Nanosecond{value})
 {
 }
 

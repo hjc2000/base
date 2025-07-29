@@ -11,38 +11,38 @@ namespace base
 		class Hour;
 		class Minute;
 		class Seconds;
-		class Nanoseconds;
+		class Nanosecond;
 
 		///
 		/// @brief 纳秒
 		///
 		///
-		class Nanoseconds :
-			public base::unit::IUnit<Nanoseconds>
+		class Nanosecond :
+			public base::unit::IUnit<Nanosecond>
 		{
 		private:
 			base::Fraction _value{};
 
 		public:
-			Nanoseconds() = default;
+			Nanosecond() = default;
 
 			template <typename value_type>
 				requires(std::is_integral_v<value_type>)
-			explicit Nanoseconds(value_type value)
+			explicit Nanosecond(value_type value)
 			{
 				_value = value;
 			}
 
-			explicit Nanoseconds(base::Fraction const &value);
-			explicit Nanoseconds(base::unit::Hour const &value);
-			explicit Nanoseconds(base::unit::Minute const &value);
-			explicit Nanoseconds(base::unit::Seconds const &value);
-			explicit Nanoseconds(base::unit::Hz const &value);
-			explicit Nanoseconds(base::unit::MHz const &value);
-			explicit Nanoseconds(std::chrono::seconds const &value);
-			explicit Nanoseconds(std::chrono::milliseconds const &value);
-			explicit Nanoseconds(std::chrono::microseconds const &value);
-			explicit Nanoseconds(std::chrono::nanoseconds const &value);
+			explicit Nanosecond(base::Fraction const &value);
+			explicit Nanosecond(base::unit::Hour const &value);
+			explicit Nanosecond(base::unit::Minute const &value);
+			explicit Nanosecond(base::unit::Seconds const &value);
+			explicit Nanosecond(base::unit::Hz const &value);
+			explicit Nanosecond(base::unit::MHz const &value);
+			explicit Nanosecond(std::chrono::seconds const &value);
+			explicit Nanosecond(std::chrono::milliseconds const &value);
+			explicit Nanosecond(std::chrono::microseconds const &value);
+			explicit Nanosecond(std::chrono::nanoseconds const &value);
 
 			///
 			/// @brief 单位的值。

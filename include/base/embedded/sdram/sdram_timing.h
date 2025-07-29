@@ -1,7 +1,7 @@
 #pragma once
 #include "base/string/Json.h"
 #include "base/unit/MHz.h"
-#include "base/unit/Nanoseconds.h"
+#include "base/unit/Nanosecond.h"
 #include <cstdint>
 
 namespace base
@@ -18,14 +18,14 @@ namespace base
 		private:
 			int64_t _row_count = 0;
 			base::unit::MHz _clock_frequency{};
-			base::unit::Nanoseconds _t_rsc{};
-			base::unit::Nanoseconds _t_xsr{};
-			base::unit::Nanoseconds _t_ras{};
-			base::unit::Nanoseconds _t_rc{};
-			base::unit::Nanoseconds _t_wr{};
-			base::unit::Nanoseconds _t_rp{};
-			base::unit::Nanoseconds _t_rcd{};
-			base::unit::Nanoseconds _t_ref{};
+			base::unit::Nanosecond _t_rsc{};
+			base::unit::Nanosecond _t_xsr{};
+			base::unit::Nanosecond _t_ras{};
+			base::unit::Nanosecond _t_rc{};
+			base::unit::Nanosecond _t_wr{};
+			base::unit::Nanosecond _t_rp{};
+			base::unit::Nanosecond _t_rcd{};
+			base::unit::Nanosecond _t_ref{};
 			uint32_t _cas_latency = 2;
 
 		public:
@@ -62,14 +62,14 @@ namespace base
 			///
 			/// @brief 时钟信号周期。
 			///
-			/// @return base::unit::Nanoseconds
+			/// @return base::unit::Nanosecond
 			///
-			base::unit::Nanoseconds clock_period() const
+			base::unit::Nanosecond clock_period() const
 			{
-				return base::unit::Nanoseconds{_clock_frequency};
+				return base::unit::Nanosecond{_clock_frequency};
 			}
 
-			void set_clock_period(base::unit::Nanoseconds const &value)
+			void set_clock_period(base::unit::Nanosecond const &value)
 			{
 				_clock_frequency = base::unit::MHz{value};
 			}
@@ -84,12 +84,12 @@ namespace base
 			///
 			/// @return
 			///
-			base::unit::Nanoseconds t_rsc() const
+			base::unit::Nanosecond t_rsc() const
 			{
 				return _t_rsc;
 			}
 
-			void set_t_rsc(base::unit::Nanoseconds const &value)
+			void set_t_rsc(base::unit::Nanosecond const &value)
 			{
 				_t_rsc = value;
 			}
@@ -107,12 +107,12 @@ namespace base
 			///
 			/// @return
 			///
-			base::unit::Nanoseconds t_xsr() const
+			base::unit::Nanosecond t_xsr() const
 			{
 				return _t_xsr;
 			}
 
-			void set_t_xsr(base::unit::Nanoseconds const &value)
+			void set_t_xsr(base::unit::Nanosecond const &value)
 			{
 				_t_xsr = value;
 			}
@@ -131,12 +131,12 @@ namespace base
 			///
 			/// @return
 			///
-			base::unit::Nanoseconds t_ras() const
+			base::unit::Nanosecond t_ras() const
 			{
 				return _t_ras;
 			}
 
-			void set_t_ras(base::unit::Nanoseconds const &value)
+			void set_t_ras(base::unit::Nanosecond const &value)
 			{
 				_t_ras = value;
 			}
@@ -153,12 +153,12 @@ namespace base
 			///
 			/// @return
 			///
-			base::unit::Nanoseconds t_rc() const
+			base::unit::Nanosecond t_rc() const
 			{
 				return _t_rc;
 			}
 
-			void set_t_rc(base::unit::Nanoseconds const &value)
+			void set_t_rc(base::unit::Nanosecond const &value)
 			{
 				_t_rc = value;
 			}
@@ -177,12 +177,12 @@ namespace base
 			///
 			/// @return
 			///
-			base::unit::Nanoseconds t_wr() const
+			base::unit::Nanosecond t_wr() const
 			{
 				return _t_wr;
 			}
 
-			void set_t_wr(base::unit::Nanoseconds const &value)
+			void set_t_wr(base::unit::Nanosecond const &value)
 			{
 				_t_wr = value;
 			}
@@ -201,12 +201,12 @@ namespace base
 			///
 			/// @return
 			///
-			base::unit::Nanoseconds t_rp() const
+			base::unit::Nanosecond t_rp() const
 			{
 				return _t_rp;
 			}
 
-			void set_t_rp(base::unit::Nanoseconds const &value)
+			void set_t_rp(base::unit::Nanosecond const &value)
 			{
 				_t_rp = value;
 			}
@@ -225,12 +225,12 @@ namespace base
 			///
 			/// @return
 			///
-			base::unit::Nanoseconds t_rcd() const
+			base::unit::Nanosecond t_rcd() const
 			{
 				return _t_rcd;
 			}
 
-			void set_t_rcd(base::unit::Nanoseconds const &value)
+			void set_t_rcd(base::unit::Nanosecond const &value)
 			{
 				_t_rcd = value;
 			}
@@ -254,12 +254,12 @@ namespace base
 			///
 			/// @return
 			///
-			base::unit::Nanoseconds t_ref() const
+			base::unit::Nanosecond t_ref() const
 			{
 				return _t_ref;
 			}
 
-			void set_t_ref(base::unit::Nanoseconds const &value)
+			void set_t_ref(base::unit::Nanosecond const &value)
 			{
 				_t_ref = value;
 			}
@@ -274,7 +274,7 @@ namespace base
 			/// @brief 发送自动刷新命令的时间间隔。
 			/// @return
 			///
-			base::unit::Nanoseconds auto_refresh_command_period() const
+			base::unit::Nanosecond auto_refresh_command_period() const
 			{
 				return t_ref() / row_count();
 			}

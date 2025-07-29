@@ -2,7 +2,7 @@
 #include "base/unit/Hour.h"
 #include "base/unit/Hz.h"
 #include "base/unit/Minute.h"
-#include "base/unit/Nanoseconds.h"
+#include "base/unit/Nanosecond.h"
 #include <chrono>
 
 /* #region 构造函数 */
@@ -22,7 +22,7 @@ base::unit::Seconds::Seconds(base::unit::Minute const &value)
 	_value = static_cast<base::Fraction>(value) * 60;
 }
 
-base::unit::Seconds::Seconds(base::unit::Nanoseconds const &value)
+base::unit::Seconds::Seconds(base::unit::Nanosecond const &value)
 {
 	_value = static_cast<base::Fraction>(value) / 1000 / 1000 / 1000;
 }

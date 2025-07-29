@@ -12,7 +12,7 @@ namespace base
 		class Hour;
 		class Minute;
 		class Seconds;
-		class Nanoseconds;
+		class Nanosecond;
 
 		class Hour :
 			public base::unit::IUnit<Hour>
@@ -34,7 +34,7 @@ namespace base
 			explicit Hour(base::unit::Day const &value);
 			explicit Hour(base::unit::Minute const &value);
 			explicit Hour(base::unit::Seconds const &value);
-			explicit Hour(base::unit::Nanoseconds const &value);
+			explicit Hour(base::unit::Nanosecond const &value);
 			explicit Hour(base::unit::Hz const &value);
 			explicit Hour(base::unit::MHz const &value);
 			explicit Hour(std::chrono::seconds const &value);

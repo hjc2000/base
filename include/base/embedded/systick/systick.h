@@ -1,7 +1,7 @@
 #pragma once
 #include "base/define.h"
 #include "base/unit/MHz.h"
-#include "base/unit/Nanoseconds.h"
+#include "base/unit/Nanosecond.h"
 #include "base/unit/Seconds.h"
 #include <chrono>
 #include <cstdint>
@@ -54,7 +54,7 @@ namespace base
 		///
 		/// @return
 		///
-		base::unit::Nanoseconds system_time_stamp();
+		base::unit::Nanosecond system_time_stamp();
 
 		/* #region 延时函数 */
 
@@ -79,7 +79,7 @@ namespace base
 		void delay(std::chrono::seconds const &value);
 
 		IMPLEMENTED
-		void delay(base::unit::Nanoseconds const &value);
+		void delay(base::unit::Nanosecond const &value);
 
 		IMPLEMENTED
 		void delay(base::unit::Seconds const &value);
