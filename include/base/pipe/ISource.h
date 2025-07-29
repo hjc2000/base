@@ -12,6 +12,8 @@ namespace base
 	class ISource
 	{
 	public:
+		virtual ~ISource() = default;
+
 		///
 		/// @brief 从源中读取数据
 		///

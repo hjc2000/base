@@ -12,6 +12,8 @@ namespace base
 	class IPump
 	{
 	public:
+		virtual ~IPump() = default;
+
 		///
 		/// @brief 将数据从源中取出，泵送给所有消费者
 		///

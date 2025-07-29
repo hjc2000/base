@@ -16,6 +16,8 @@ namespace base
 	class IPipeSource
 	{
 	public:
+		virtual ~IPipeSource() = default;
+
 		///
 		/// @brief 消费者列表
 		///
