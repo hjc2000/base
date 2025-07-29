@@ -1,17 +1,17 @@
 #include "kW.h"
 #include "W.h"
 
-base::kW::kW(base::W const &value)
+base::unit::kW::kW(base::unit::W const &value)
 {
 	_value = value.Value() / 1000;
 }
 
-base::Fraction &base::kW::Value()
+base::Fraction &base::unit::kW::Value()
 {
 	return _value;
 }
 
-std::string base::kW::UnitString() const
+std::string base::unit::kW::UnitString() const
 {
 	return "kW";
 }

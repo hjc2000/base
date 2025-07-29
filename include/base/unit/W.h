@@ -4,50 +4,54 @@
 
 namespace base
 {
-	class W;
-	class kW;
-
-	///
-	/// @brief 功率单位：瓦。
-	///
-	///
-	class W :
-		public base::IUnit<W>
+	namespace unit
 	{
-	private:
-		base::Fraction _value;
+		class W;
+		class kW;
 
-	public:
-		W() = default;
-
-		template <typename value_type>
-			requires(std::is_integral_v<value_type>)
-		explicit W(value_type value)
+		///
+		/// @brief 功率单位：瓦。
+		///
+		///
+		class W :
+			public base::IUnit<W>
 		{
-			_value = value;
-		}
+		private:
+			base::Fraction _value;
 
-		W(base::Fraction const &value)
-		{
-			_value = value;
-		}
+		public:
+			W() = default;
 
-		W(base::kW const &value);
+			template <typename value_type>
+				requires(std::is_integral_v<value_type>)
+			explicit W(value_type value)
+			{
+				_value = value;
+			}
 
-		using base::IUnit<W>::Value;
+			W(base::Fraction const &value)
+			{
+				_value = value;
+			}
 
-		///
-		/// @brief 单位的值。
-		///
-		/// @return base::Fraction&
-		///
-		virtual base::Fraction &Value() override;
+			W(base::unit::kW const &value);
 
-		///
-		/// @brief 单位的字符串。
-		///
-		/// @return std::string
-		///
-		virtual std::string UnitString() const override;
-	};
+			using base::IUnit<W>::Value;
+
+			///
+			/// @brief 单位的值。
+			///
+			/// @return base::Fraction&
+			///
+			virtual base::Fraction &Value() override;
+
+			///
+			/// @brief 单位的字符串。
+			///
+			/// @return std::string
+			///
+			virtual std::string UnitString() const override;
+		};
+
+	} // namespace unit
 } // namespace base
