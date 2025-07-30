@@ -64,22 +64,7 @@ base::Path::Path(base::String const &path)
 	CorrectPath();
 }
 
-base::Path::Path(std::string const &path)
-	: base::Path(base::String{path})
-{
-}
-
-base::Path::Path(char const *path)
-	: base::Path(base::String{path})
-{
-}
-
 /* #endregion */
-
-std::string base::Path::ToString() const
-{
-	return _path.StdString();
-}
 
 bool base::Path::IsRootPath() const
 {
@@ -143,13 +128,6 @@ base::Path base::Path::operator+(base::Path const &another) const
 	}
 
 	return base::Path{_path + '/' + another._path};
-}
-
-base::Path &base::Path::operator+=(base::Path const &another)
-{
-	base::Path sum = *this + another;
-	*this = sum;
-	return *this;
 }
 
 void base::Path::RemoveBasePath(base::Path const &base_path)

@@ -24,40 +24,46 @@ namespace base
 
 		Path(base::String const &path);
 
-		Path(std::string const &path);
+		Path(std::string const &path)
+			: base::Path(base::String{path})
+		{
+		}
 
-		Path(char const *path);
+		Path(char const *path)
+			: base::Path(base::String{path})
+		{
+		}
 
 		/* #endregion */
 
 		///
 		/// @brief 转化为字符串。
 		///
-		/// @return std::string
+		/// @return
 		///
-		virtual std::string ToString() const override;
+		virtual std::string ToString() const override
+		{
+			return _path.StdString();
+		}
 
 		///
 		/// @brief 检查本路径是否是根路径。
 		///
-		/// @return true
-		/// @return false
+		/// @return
 		///
 		bool IsRootPath() const;
 
 		///
 		/// @brief 是绝对路径。
 		///
-		/// @return true
-		/// @return false
+		/// @return
 		///
 		bool IsAbsolutePath() const;
 
 		///
 		/// @brief 是 windows 风格的以盘符开头的路径。
 		///
-		/// @return true
-		/// @return false
+		/// @return
 		///
 		bool IsWindowsSytlePath() const;
 
@@ -65,7 +71,7 @@ namespace base
 		/// @brief 将一个相对路径拼接到本路径的后面。
 		///
 		/// @param another
-		/// @return base::Path
+		/// @return
 		///
 		base::Path operator+(base::Path const &another) const;
 
@@ -73,9 +79,14 @@ namespace base
 		/// @brief 将一个相对路径拼接到本路径的后面。
 		///
 		/// @param another
-		/// @return base::Path&
+		/// @return
 		///
-		base::Path &operator+=(base::Path const &another);
+		base::Path &operator+=(base::Path const &another)
+		{
+			base::Path sum = *this + another;
+			*this = sum;
+			return *this;
+		}
 
 		///
 		/// @brief 将本路径移除基础路径，留下后面的部分。这么做之后，本路径变成相对于 base_path
@@ -118,4 +129,5 @@ namespace base
 		///
 		base::String ExtensionName() const;
 	};
+
 } // namespace base
