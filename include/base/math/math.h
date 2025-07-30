@@ -9,11 +9,28 @@ namespace base
 		return static_cast<int64_t>(value);
 	}
 
+	constexpr int64_t floor(float value)
+	{
+		return static_cast<int64_t>(value);
+	}
+
 	constexpr int64_t ceil(double value)
 	{
 		int64_t int_part = static_cast<int64_t>(value);
 		double fractional_part = value - static_cast<double>(int_part);
 		if (fractional_part == 0.0)
+		{
+			return int_part;
+		}
+
+		return int_part + 1;
+	}
+
+	constexpr int64_t ceil(float value)
+	{
+		int64_t int_part = static_cast<int64_t>(value);
+		float fractional_part = value - static_cast<float>(int_part);
+		if (fractional_part == 0.0f)
 		{
 			return int_part;
 		}
