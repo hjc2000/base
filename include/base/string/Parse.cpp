@@ -34,55 +34,56 @@ namespace
 		{
 			return _number_str;
 		}
+
+		static BaseAndNumberString Parse(base::String const &str)
+		{
+			int32_t base = 10;
+			base::String number_str = str;
+			number_str.ToLower();
+			bool is_negative = false;
+
+			{
+				base::Span span = number_str.Span();
+				if (span.StartWith('-'))
+				{
+					is_negative = true;
+					span = span[base::Range{1, span.Size()}];
+				}
+
+				if (span.StartWith("0x"))
+				{
+					base = 16;
+					span = span[base::Range{2, span.Size()}];
+				}
+				else if (span.StartWith('0') && span.Size() > 1)
+				{
+					base = 8;
+					span = span[base::Range{1, span.Size()}];
+				}
+
+				if (span.StartWith('-'))
+				{
+					// 已经剥离了头部的 0x, 0 前缀了，此时如果出现负号，就是非法字符串。
+					throw std::invalid_argument{CODE_POS_STR + "负号应该放到前缀前面。"};
+				}
+
+				number_str = base::String{span};
+			}
+
+			if (is_negative)
+			{
+				number_str = '-' + number_str;
+			}
+
+			return BaseAndNumberString{base, number_str};
+		}
 	};
 
-	BaseAndNumberString ParseBase(base::String const &str)
-	{
-		int32_t base = 10;
-		base::String number_str = str;
-		number_str.ToLower();
-		bool is_negative = false;
-
-		{
-			base::Span span = number_str.Span();
-			if (span.StartWith('-'))
-			{
-				is_negative = true;
-				span = span[base::Range{1, span.Size()}];
-			}
-
-			if (span.StartWith("0x"))
-			{
-				base = 16;
-				span = span[base::Range{2, span.Size()}];
-			}
-			else if (span.StartWith('0') && span.Size() > 1)
-			{
-				base = 8;
-				span = span[base::Range{1, span.Size()}];
-			}
-
-			if (span.StartWith('-'))
-			{
-				// 已经剥离了头部的 0x, 0 前缀了，此时如果出现负号，就是非法字符串。
-				throw std::invalid_argument{CODE_POS_STR + "负号应该放到前缀前面。"};
-			}
-
-			number_str = base::String{span};
-		}
-
-		if (is_negative)
-		{
-			number_str = '-' + number_str;
-		}
-
-		return BaseAndNumberString{base, number_str};
-	}
 } // namespace
 
 int32_t base::ParseInt32(base::String const &str)
 {
-	auto info = ParseBase(str);
+	BaseAndNumberString info = BaseAndNumberString::Parse(str);
 	return ParseInt32(info.NumberString(), info.Base());
 }
 
@@ -105,7 +106,7 @@ int32_t base::ParseInt32(base::String const &str, int32_t base)
 
 int64_t base::ParseInt64(base::String const &str)
 {
-	auto info = ParseBase(str);
+	BaseAndNumberString info = BaseAndNumberString::Parse(str);
 	return ParseInt64(info.NumberString(), info.Base());
 }
 
@@ -128,7 +129,7 @@ int64_t base::ParseInt64(base::String const &str, int32_t base)
 
 double base::ParseDouble(base::String const &str)
 {
-	auto info = ParseBase(str);
+	BaseAndNumberString info = BaseAndNumberString::Parse(str);
 	return ParseDouble(info.NumberString(), info.Base());
 }
 
