@@ -8,6 +8,10 @@ namespace base
 {
 	namespace bit
 	{
+		///
+		/// @brief double 的位视图。
+		///
+		///
 		class DoubleBitView
 		{
 		private:
@@ -21,11 +25,22 @@ namespace base
 				_value = std::bit_cast<uint64_t>(value);
 			}
 
+			///
+			/// @brief 此视图中的浮点的值。
+			///
+			/// @return
+			///
 			constexpr double Value() const
 			{
 				return std::bit_cast<double>(_value);
 			}
 
+			///
+			/// @brief 将浮点的位视图视为 uint64_t 的位视图后得到的
+			/// uint64_t 类型的值。
+			///
+			/// @return
+			///
 			constexpr uint64_t AsUint64() const
 			{
 				return _value;
