@@ -55,17 +55,6 @@ void base::Path::CorrectPath()
 	}
 }
 
-/* #region 构造函数 */
-
-base::Path::Path(base::String const &path)
-{
-	_path = path;
-	_path.Trim();
-	CorrectPath();
-}
-
-/* #endregion */
-
 bool base::Path::IsRootPath() const
 {
 	if (_path.Length() == 3 &&

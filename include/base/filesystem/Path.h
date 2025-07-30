@@ -22,7 +22,12 @@ namespace base
 
 		Path() = default;
 
-		Path(base::String const &path);
+		Path(base::String const &path)
+		{
+			_path = path;
+			_path.Trim();
+			CorrectPath();
+		}
 
 		Path(std::string const &path)
 			: base::Path(base::String{path})
