@@ -1,6 +1,6 @@
 #pragma once
 #include "base/bit/bit.h"
-#include "base/math/FloatNumberValueType.h"
+#include "base/bit/FloatNumberValueType.h"
 #include <bit>
 #include <cstdint>
 
