@@ -6,27 +6,25 @@
 #include "base/string/define.h"
 #include "base/string/String.h"
 #include "base/string/StringSplitOptions.h"
-#include <cmath>
 #include <cstdint>
 #include <stdexcept>
 #include <string>
 
 namespace
 {
-	class BaseAndNumberStr
+	class BaseAndNumberString
 	{
 	private:
 		int32_t _base = 10;
 		base::String _number_str = "0";
 
 	public:
-		BaseAndNumberStr(int32_t base, base::String const &number_str)
+		BaseAndNumberString(int32_t base, base::String const &number_str)
 			: _base(base),
 			  _number_str(number_str)
 		{
 		}
 
-	public:
 		int32_t Base() const
 		{
 			return _base;
@@ -38,7 +36,7 @@ namespace
 		}
 	};
 
-	BaseAndNumberStr ParseBase(base::String const &str)
+	BaseAndNumberString ParseBase(base::String const &str)
 	{
 		int32_t base = 10;
 		base::String number_str = str;
@@ -78,7 +76,7 @@ namespace
 			number_str = '-' + number_str;
 		}
 
-		return BaseAndNumberStr{base, number_str};
+		return BaseAndNumberString{base, number_str};
 	}
 } // namespace
 
