@@ -1,6 +1,6 @@
 #pragma once
 #include "base/string/String.h"
-#include <stdint.h>
+#include <cstdint>
 
 namespace base
 {
