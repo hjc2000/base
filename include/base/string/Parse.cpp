@@ -12,6 +12,12 @@
 
 namespace
 {
+	///
+	/// @brief 包含 2 个字段，一个是数字的进制，另一个是数字字符串。
+	///
+	/// @note 把类似 0x100 这种字符串解析为进制和数字字符串。这里进制是 16,
+	/// 数字字符串是 "100".
+	///
 	class BaseAndNumberString
 	{
 	private:
@@ -42,6 +48,7 @@ namespace
 			number_str.ToLower();
 			bool is_negative = false;
 
+			// 解析进制，并将字符串切片，取出数字字符串。
 			{
 				base::Span span = number_str.Span();
 				if (span.StartWith('-'))
