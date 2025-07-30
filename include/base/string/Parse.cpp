@@ -90,16 +90,14 @@ namespace
 
 int32_t base::ParseInt32(base::String const &str)
 {
-	BaseAndNumberString info = BaseAndNumberString::Parse(str);
-	return ParseInt32(info.NumberString(), info.Base());
+	BaseAndNumberString pair = BaseAndNumberString::Parse(str);
+	return ParseInt32(pair.NumberString(), pair.Base());
 }
 
 int32_t base::ParseInt32(base::String const &str, int32_t base)
 {
-	/**
-	 * 解析时使用的子字符串的最后一个字符的下一个字符的索引。
-	 * 如果整个字符串都用来被解析，则应该等于字符串长度。
-	 */
+	// 解析时使用的子字符串的最后一个字符的下一个字符的索引。
+	// 如果整个字符串都用来被解析，则应该等于字符串长度。
 	size_t parse_end_index = 0;
 	int32_t result = std::stoi(str.StdString(), &parse_end_index, base);
 	if (static_cast<int32_t>(parse_end_index) != str.Length())
@@ -119,10 +117,8 @@ int64_t base::ParseInt64(base::String const &str)
 
 int64_t base::ParseInt64(base::String const &str, int32_t base)
 {
-	/**
-	 * 解析时使用的子字符串的最后一个字符的下一个字符的索引。
-	 * 如果整个字符串都用来被解析，则应该等于字符串长度。
-	 */
+	// 解析时使用的子字符串的最后一个字符的下一个字符的索引。
+	// 如果整个字符串都用来被解析，则应该等于字符串长度。
 	size_t parse_end_index = 0;
 	int64_t result = std::stoll(str.StdString(), &parse_end_index, base);
 	if (static_cast<int32_t>(parse_end_index) != str.Length())
