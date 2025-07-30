@@ -1,5 +1,5 @@
 #include "FileStream.h"
-#include "base/file/filesystem.h"
+#include "base/filesystem/filesystem.h"
 
 #if HAS_THREAD
 

@@ -1,6 +1,6 @@
 #pragma once
-#include "base/file/IFileStream.h"
-#include "base/file/Path.h"
+#include "base/filesystem/IFileStream.h"
+#include "base/filesystem/Path.h"
 
 #if HAS_THREAD
 
