@@ -75,6 +75,13 @@ namespace base
 		///
 		Fraction(base::Double const &value);
 
+		///
+		/// @brief 通过浮点数构造。
+		///
+		/// @param value
+		///
+		Fraction(base::Float const &value);
+
 		/* #endregion */
 
 		/* #region 分子分母 */
@@ -344,6 +351,8 @@ namespace base
 		}
 
 		explicit operator double() const;
+
+		explicit operator float() const;
 
 		/* #endregion */
 

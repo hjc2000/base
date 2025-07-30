@@ -1,5 +1,6 @@
 #include "Fraction.h"
 #include "base/bit/DoubleBitView.h"
+#include "base/bit/FloatBitView.h"
 #include "base/string/define.h"
 #include "BigInteger.h"
 #include <stdexcept>
@@ -51,6 +52,86 @@ base::Fraction::Fraction(base::Double const &value)
 			base::Fraction f2 = base::Fraction{
 				view.MantissaBits(),
 				base::BigInteger{1} << 52,
+			};
+
+			base::Fraction value = f1 * f2;
+			if (view.Positive())
+			{
+				*this = value;
+			}
+			else
+			{
+				*this = -value;
+			}
+
+			break;
+		}
+	case base::bit::FloatValueType::NaN:
+		{
+			throw std::invalid_argument{CODE_POS_STR + "此浮点数是 NaN."};
+		}
+	case base::bit::FloatValueType::PositiveInfinite:
+		{
+			throw std::invalid_argument{CODE_POS_STR + "此浮点数是正无穷。"};
+		}
+	case base::bit::FloatValueType::NegativeInfinite:
+		{
+			throw std::invalid_argument{CODE_POS_STR + "此浮点数是负无穷。"};
+		}
+	default:
+		{
+			throw std::runtime_error{CODE_POS_STR + "非法的枚举值。"};
+		}
+	}
+}
+
+base::Fraction::Fraction(base::Float const &value)
+{
+	if (value.Value() == 0.0f)
+	{
+		_num = 0;
+		_den = 1;
+		return;
+	}
+
+	base::bit::FloatBitView view{value.Value()};
+
+	switch (view.ValueType())
+	{
+	case base::bit::FloatValueType::Normalized:
+		{
+			base::Fraction f1{
+				base::BigInteger{1} << view.ExponentBits(),
+				base::BigInteger{1} << 127,
+			};
+
+			base::Fraction f2 = base::Fraction{
+				view.MantissaBits(),
+				base::BigInteger{1} << 23,
+			};
+
+			base::Fraction value = f1 * (1 + f2);
+			if (view.Positive())
+			{
+				*this = value;
+			}
+			else
+			{
+				*this = -value;
+			}
+
+			break;
+		}
+	case base::bit::FloatValueType::Denormalized:
+		{
+			base::Fraction f1{
+				base::BigInteger{2},
+				base::BigInteger{1} << 126,
+			};
+
+			base::Fraction f2 = base::Fraction{
+				view.MantissaBits(),
+				base::BigInteger{1} << 23,
 			};
 
 			base::Fraction value = f1 * f2;
@@ -209,6 +290,15 @@ base::Fraction::operator double() const
 	double int_part = static_cast<double>(copy.Div());
 	copy -= copy.Div();
 	double fraction_part = static_cast<double>(copy.Num()) / static_cast<double>(copy.Den());
+	return int_part + fraction_part;
+}
+
+base::Fraction::operator float() const
+{
+	base::Fraction copy{*this};
+	float int_part = static_cast<float>(copy.Div());
+	copy -= copy.Div();
+	float fraction_part = static_cast<float>(copy.Num()) / static_cast<float>(copy.Den());
 	return int_part + fraction_part;
 }
 

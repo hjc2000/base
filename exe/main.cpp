@@ -1,5 +1,6 @@
 #include "base/math/InertialElement.h"
 #include "base/math/Int64Fraction.h"
+#include "base/wrapper/number-wrapper.h"
 #include <cstdint>
 #include <iostream>
 
@@ -21,5 +22,28 @@ int main()
 		}
 
 		std::cout << base::floor(inertial_element.CurrentOutput()) << std::endl;
+	}
+
+	{
+		float f_pi = static_cast<float>(std::numbers::pi);
+		base::Fraction f{base::Float{f_pi}};
+		constexpr int precision = 512;
+
+		std::cout << "分数: " << f << std::endl;
+
+		std::cout << "f_pi: \t\t"
+				  << std::setprecision(precision)
+				  << f_pi
+				  << std::endl;
+
+		std::cout << "分数表示的 pi 转为 float: \t"
+				  << std::setprecision(precision)
+				  << static_cast<float>(f)
+				  << std::endl;
+
+		std::cout << "误差: "
+				  << std::setprecision(precision)
+				  << static_cast<float>(f) - f_pi
+				  << std::endl;
 	}
 }
