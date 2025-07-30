@@ -17,7 +17,7 @@ base::Fraction::Fraction(base::Double const &value)
 
 	switch (view.ValueType())
 	{
-	case base::bit::FloatNumberValueType::Normalized:
+	case base::bit::FloatValueType::Normalized:
 		{
 			base::Fraction f1{
 				base::BigInteger{1} << view.ExponentBits(),
@@ -41,7 +41,7 @@ base::Fraction::Fraction(base::Double const &value)
 
 			break;
 		}
-	case base::bit::FloatNumberValueType::Denormalized:
+	case base::bit::FloatValueType::Denormalized:
 		{
 			base::Fraction f1{
 				base::BigInteger{2},
@@ -65,15 +65,15 @@ base::Fraction::Fraction(base::Double const &value)
 
 			break;
 		}
-	case base::bit::FloatNumberValueType::NaN:
+	case base::bit::FloatValueType::NaN:
 		{
 			throw std::invalid_argument{CODE_POS_STR + "此浮点数是 NaN."};
 		}
-	case base::bit::FloatNumberValueType::PositiveInfinite:
+	case base::bit::FloatValueType::PositiveInfinite:
 		{
 			throw std::invalid_argument{CODE_POS_STR + "此浮点数是正无穷。"};
 		}
-	case base::bit::FloatNumberValueType::NegativeInfinite:
+	case base::bit::FloatValueType::NegativeInfinite:
 		{
 			throw std::invalid_argument{CODE_POS_STR + "此浮点数是负无穷。"};
 		}

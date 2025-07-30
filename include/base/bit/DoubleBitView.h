@@ -1,6 +1,6 @@
 #pragma once
 #include "base/bit/bit.h"
-#include "base/bit/FloatNumberValueType.h"
+#include "base/bit/FloatValueType.h"
 #include <bit>
 #include <cstdint>
 
@@ -66,7 +66,7 @@ namespace base
 			///
 			/// @return
 			///
-			constexpr base::bit::FloatNumberValueType ValueType() const
+			constexpr base::bit::FloatValueType ValueType() const
 			{
 				if (ExponentBits() == base::bit::ReadBits(UINT64_MAX, 52, 63))
 				{
@@ -75,7 +75,7 @@ namespace base
 					if (MantissaBits() != 0)
 					{
 						// 尾数位不全为 0,
-						return base::bit::FloatNumberValueType::NaN;
+						return base::bit::FloatValueType::NaN;
 					}
 
 					// 尾数位全为 0
@@ -83,11 +83,11 @@ namespace base
 					if (!SignBit())
 					{
 						// 正无穷
-						return base::bit::FloatNumberValueType::PositiveInfinite;
+						return base::bit::FloatValueType::PositiveInfinite;
 					}
 
 					// 负无穷
-					return base::bit::FloatNumberValueType::NegativeInfinite;
+					return base::bit::FloatValueType::NegativeInfinite;
 				}
 
 				// 指数位不全为 1
@@ -95,10 +95,10 @@ namespace base
 				if (ExponentBits() == 0)
 				{
 					// 指数位全为 0
-					return base::bit::FloatNumberValueType::Denormalized;
+					return base::bit::FloatValueType::Denormalized;
 				}
 
-				return base::bit::FloatNumberValueType::Normalized;
+				return base::bit::FloatValueType::Normalized;
 			}
 
 			///

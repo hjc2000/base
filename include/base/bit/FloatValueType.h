@@ -8,7 +8,7 @@ namespace base
 		/// @brief 浮点数值类型。
 		///
 		///
-		enum class FloatNumberValueType
+		enum class FloatValueType
 		{
 			///
 			/// @brief 规格化数。
