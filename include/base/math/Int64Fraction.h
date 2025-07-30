@@ -74,16 +74,44 @@ namespace base
 				return;
 			}
 
-			double db = value.Value();
+			double double_value = value.Value();
 
-			// 要保证分数计算过程不溢出，需要保证 factor * db <= INT64_MAX.
-			int64_t factor = INT64_MAX / base::ceil(db);
+			// 要保证分数计算过程不溢出，需要保证 factor * double_value <= INT64_MAX.
+			int64_t factor = INT64_MAX / base::ceil(double_value);
 
-			base::Int64Fraction int_part{static_cast<int64_t>(db)};
-			db -= static_cast<double>(int_part);
+			base::Int64Fraction int_part{static_cast<int64_t>(double_value)};
+			double_value -= static_cast<double>(int_part);
 
-			db *= factor;
-			base::Int64Fraction fractional_part{static_cast<int64_t>(db), factor};
+			double_value *= factor;
+			base::Int64Fraction fractional_part{static_cast<int64_t>(double_value), factor};
+
+			*this += int_part + fractional_part;
+		}
+
+		///
+		/// @brief 通过浮点数构造。
+		///
+		/// @param value
+		///
+		constexpr Int64Fraction(base::Float const &value)
+		{
+			if (value.Value() == 0.0f)
+			{
+				SetNum(0);
+				SetDen(1);
+				return;
+			}
+
+			float float_value = value.Value();
+
+			// 要保证分数计算过程不溢出，需要保证 factor * float_value <= INT64_MAX.
+			int64_t factor = INT64_MAX / base::ceil(float_value);
+
+			base::Int64Fraction int_part{static_cast<int64_t>(float_value)};
+			float_value -= static_cast<float>(int_part);
+
+			float_value *= factor;
+			base::Int64Fraction fractional_part{static_cast<int64_t>(float_value), factor};
 
 			*this += int_part + fractional_part;
 		}
@@ -458,6 +486,15 @@ namespace base
 			double int_part = static_cast<double>(copy.Div());
 			copy -= copy.Div();
 			double fraction_part = static_cast<double>(copy.Num()) / static_cast<double>(copy.Den());
+			return int_part + fraction_part;
+		}
+
+		constexpr explicit operator float() const
+		{
+			base::Int64Fraction copy{*this};
+			float int_part = static_cast<float>(copy.Div());
+			copy -= copy.Div();
+			float fraction_part = static_cast<float>(copy.Num()) / static_cast<float>(copy.Den());
 			return int_part + fraction_part;
 		}
 
