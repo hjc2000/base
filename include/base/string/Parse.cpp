@@ -161,18 +161,18 @@ double base::ParseDouble(base::String const &str, int32_t base)
 		throw std::invalid_argument{CODE_POS_STR + "非法字符串：" + copy.StdString()};
 	}
 
-	base::String integer_part_str = sub_strs[0];
-	base::String fractional_part_str = "0";
+	base::String integer_part_string = sub_strs[0];
+	base::String fractional_part_string = "0";
 	if (sub_strs.Count() == 2)
 	{
-		fractional_part_str = sub_strs[1];
+		fractional_part_string = sub_strs[1];
 	}
 
-	base::Int64Fraction integer_part{base::ParseInt64(integer_part_str, base)};
+	base::Int64Fraction integer_part{base::ParseInt64(integer_part_string, base)};
 
 	base::Int64Fraction fractional_part{
-		base::ParseInt64(fractional_part_str, base),
-		base::pow<int64_t>(base, fractional_part_str.Length()),
+		base::ParseInt64(fractional_part_string, base),
+		base::pow<int64_t>(base, fractional_part_string.Length()),
 	};
 
 	base::Int64Fraction sum = integer_part + fractional_part;
