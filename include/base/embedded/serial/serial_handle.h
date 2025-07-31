@@ -172,7 +172,7 @@ namespace base
 		/// @return 成功读取的字节数。永远不应该返回 0. 应该将本函数实现为等同 Stream
 		/// 的 Read 方法。
 		///
-		int32_t read(base::serial::serial_handle &h, base::Span const &span);
+		int64_t read(base::serial::serial_handle &h, base::Span const &span);
 
 		///
 		/// @brief 向串口写入数据。
