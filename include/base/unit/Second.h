@@ -11,7 +11,6 @@ namespace base
 		class Hour;
 		class Minute;
 		class Second;
-		class Nanosecond;
 
 		/// @brief 秒
 		class Second :
