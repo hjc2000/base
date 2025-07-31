@@ -50,13 +50,40 @@ namespace base
 			///
 			virtual std::string UnitString() const override;
 
-			explicit operator std::chrono::days() const;
-			explicit operator std::chrono::hours() const;
-			explicit operator std::chrono::minutes() const;
-			explicit operator std::chrono::seconds() const;
-			explicit operator std::chrono::milliseconds() const;
-			explicit operator std::chrono::microseconds() const;
-			explicit operator std::chrono::nanoseconds() const;
+			explicit operator std::chrono::days() const
+			{
+				return std::chrono::days{static_cast<int64_t>(_value / 60 / 60 / 24)};
+			}
+
+			explicit operator std::chrono::hours() const
+			{
+				return std::chrono::hours{static_cast<int64_t>(_value / 60 / 60)};
+			}
+
+			explicit operator std::chrono::minutes() const
+			{
+				return std::chrono::minutes{static_cast<int64_t>(_value / 60)};
+			}
+
+			explicit operator std::chrono::seconds() const
+			{
+				return std::chrono::seconds{static_cast<int64_t>(_value)};
+			}
+
+			explicit operator std::chrono::milliseconds() const
+			{
+				return std::chrono::milliseconds{static_cast<int64_t>(_value * 1000)};
+			}
+
+			explicit operator std::chrono::microseconds() const
+			{
+				return std::chrono::microseconds{static_cast<int64_t>(_value * 1000 * 1000)};
+			}
+
+			explicit operator std::chrono::nanoseconds() const
+			{
+				return std::chrono::nanoseconds{static_cast<int64_t>(_value * 1000 * 1000 * 1000)};
+			}
 		};
 
 	} // namespace unit
