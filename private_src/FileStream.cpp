@@ -166,38 +166,6 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenReadOnly(base::Path cons
 
 /* #region 流属性 */
 
-bool base::FileStream::CanRead() const
-{
-	return _can_read;
-}
-
-bool base::FileStream::CanWrite() const
-{
-	return _can_write;
-}
-
-bool base::FileStream::CanSeek() const
-{
-	return _can_seek;
-}
-
-int64_t base::FileStream::Length() const
-{
-	// 记录当前位置
-	int64_t current_pos = _fs->tellg();
-
-	// seek 到文件末尾
-	_fs->seekg(0, _fs->end);
-
-	// 记录文件末尾的位置（最后一个字节之后一个字节，所以 end_pos 等于文件长度）
-	int64_t end_pos = _fs->tellg();
-
-	// seek 回原来的位置
-	_fs->seekg(current_pos);
-
-	return end_pos;
-}
-
 void base::FileStream::SetLength(int64_t value)
 {
 	// 防止 Position 属性超出边界

@@ -55,6 +55,7 @@ namespace base
 		/// @return 成功打开则返回 FileStream 对象。失败会抛出异常，不会返回空指针。
 		///
 		static std::shared_ptr<base::FileStream> OpenReadOnly(base::Path const &path);
+
 		/* #endregion */
 
 		/* #region 流属性 */
@@ -64,28 +65,52 @@ namespace base
 		///
 		/// @return
 		///
-		virtual bool CanRead() const override;
+		virtual bool CanRead() const override
+		{
+			return _can_read;
+		}
 
 		///
 		/// @brief 本流能否写入。
 		///
 		/// @return
 		///
-		virtual bool CanWrite() const override;
+		virtual bool CanWrite() const override
+		{
+			return _can_write;
+		}
 
 		///
 		/// @brief 本流能否定位。
 		///
 		/// @return
 		///
-		virtual bool CanSeek() const override;
+		virtual bool CanSeek() const override
+		{
+			return _can_seek;
+		}
 
 		///
 		/// @brief 流的长度
 		///
 		/// @return
 		///
-		virtual int64_t Length() const override;
+		virtual int64_t Length() const override
+		{
+			// 记录当前位置
+			int64_t current_pos = _fs->tellg();
+
+			// seek 到文件末尾
+			_fs->seekg(0, _fs->end);
+
+			// 记录文件末尾的位置（最后一个字节之后一个字节，所以 end_pos 等于文件长度）
+			int64_t end_pos = _fs->tellg();
+
+			// seek 回原来的位置
+			_fs->seekg(current_pos);
+
+			return end_pos;
+		}
 
 		///
 		/// @brief 设置流的长度。
