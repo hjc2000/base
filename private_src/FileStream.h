@@ -1,4 +1,5 @@
 #pragma once
+#include "base/filesystem/filesystem.h"
 #include "base/filesystem/IFileStream.h"
 #include "base/filesystem/Path.h"
 
