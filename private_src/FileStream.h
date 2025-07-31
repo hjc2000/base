@@ -1,7 +1,8 @@
 #pragma once
-#include "base/filesystem/filesystem.h"
 #include "base/filesystem/IFileStream.h"
 #include "base/filesystem/Path.h"
+#include <filesystem>
+#include <fstream>
 
 #if HAS_THREAD
 
@@ -124,7 +125,16 @@ namespace base
 		///
 		/// @param value
 		///
-		virtual void SetLength(int64_t value) override;
+		virtual void SetLength(int64_t value) override
+		{
+			// 防止 Position 属性超出边界
+			int64_t current_pos = Position();
+			SetPosition(std::min(value, current_pos));
+
+			// 重设大小
+			std::filesystem::resize_file(_path.ToString().c_str(), value);
+			std::cout << "更改大小后文件大小=" << Length() << std::endl;
+		}
 
 		///
 		/// @brief 流当前的位置。
@@ -162,14 +172,24 @@ namespace base
 		///
 		/// @return
 		///
-		virtual int32_t Read(base::Span const &span) override;
+		virtual int32_t Read(base::Span const &span) override
+		{
+			_fs->read(reinterpret_cast<char *>(span.Buffer()), span.Size());
+			int32_t have_read = _fs->gcount();
+			SetPosition(_fs->tellg());
+			return have_read;
+		}
 
 		///
 		/// @brief 将 span 中的数据写入本流。
 		///
 		/// @param span
 		///
-		virtual void Write(base::ReadOnlySpan const &span) override;
+		virtual void Write(base::ReadOnlySpan const &span) override
+		{
+			_fs->write(reinterpret_cast<char const *>(span.Buffer()), span.Size());
+			SetPosition(_fs->tellp());
+		}
 
 		///
 		/// @brief 冲洗流。
@@ -177,14 +197,21 @@ namespace base
 		/// @note 对于写入的数据，作用是将其从内部缓冲区转移到底层。
 		/// @note 对于内部的可以读取但尚未读取的数据，一般不会有什么作用。Flush 没见过对可读数据生效的。
 		///
-		virtual void Flush() override;
+		virtual void Flush() override
+		{
+			_fs->flush();
+		}
 
 		///
 		/// @brief 关闭流。
 		///
 		/// @note 关闭后对流的操作将会引发异常。
 		///
-		virtual void Close() override;
+		virtual void Close() override
+		{
+			_fs->close();
+		}
+
 		/* #endregion */
 	};
 

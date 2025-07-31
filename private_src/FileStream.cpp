@@ -1,4 +1,5 @@
 #include "FileStream.h"
+#include "base/filesystem/filesystem.h"
 
 #if HAS_THREAD
 
@@ -145,49 +146,6 @@ std::shared_ptr<base::FileStream> base::FileStream::OpenReadOnly(base::Path cons
 	fs->_can_write = false;
 	fs->_can_seek = true;
 	return fs;
-}
-
-/* #endregion */
-
-/* #region 流属性 */
-
-void base::FileStream::SetLength(int64_t value)
-{
-	// 防止 Position 属性超出边界
-	int64_t current_pos = Position();
-	SetPosition(std::min(value, current_pos));
-
-	// 重设大小
-	std::filesystem::resize_file(_path.ToString().c_str(), value);
-	std::cout << "更改大小后文件大小=" << Length() << std::endl;
-}
-
-/* #endregion */
-
-/* #region 读写冲关 */
-
-int32_t base::FileStream::Read(base::Span const &span)
-{
-	_fs->read(reinterpret_cast<char *>(span.Buffer()), span.Size());
-	int32_t have_read = _fs->gcount();
-	SetPosition(_fs->tellg());
-	return have_read;
-}
-
-void base::FileStream::Write(base::ReadOnlySpan const &span)
-{
-	_fs->write(reinterpret_cast<char const *>(span.Buffer()), span.Size());
-	SetPosition(_fs->tellp());
-}
-
-void base::FileStream::Flush()
-{
-	_fs->flush();
-}
-
-void base::FileStream::Close()
-{
-	_fs->close();
 }
 
 /* #endregion */
