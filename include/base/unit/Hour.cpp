@@ -10,31 +10,6 @@ base::unit::Hour::Hour(base::unit::Day const &value)
 	_value = static_cast<base::Fraction>(value) * 24;
 }
 
-base::unit::Hour::Hour(base::unit::Nanosecond const &value)
-	: Hour(base::unit::Minute{value})
-{
-}
-
-base::unit::Hour::Hour(std::chrono::seconds const &value)
-	: Hour(base::unit::Minute{value})
-{
-}
-
-base::unit::Hour::Hour(std::chrono::milliseconds const &value)
-	: Hour(base::unit::Minute{value})
-{
-}
-
-base::unit::Hour::Hour(std::chrono::microseconds const &value)
-	: Hour(base::unit::Minute{value})
-{
-}
-
-base::unit::Hour::Hour(std::chrono::nanoseconds const &value)
-	: base::unit::Hour(base::unit::Nanosecond{value})
-{
-}
-
 /* #endregion */
 
 base::Fraction &base::unit::Hour::Value()

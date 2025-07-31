@@ -8,7 +8,6 @@ namespace base
 	namespace unit
 	{
 		class Day;
-		class Nanosecond;
 
 		class Hour :
 			public base::unit::IUnit<Hour>
@@ -48,12 +47,6 @@ namespace base
 			}
 
 			explicit Hour(base::unit::Day const &value);
-
-			explicit Hour(base::unit::Nanosecond const &value);
-			explicit Hour(std::chrono::seconds const &value);
-			explicit Hour(std::chrono::milliseconds const &value);
-			explicit Hour(std::chrono::microseconds const &value);
-			explicit Hour(std::chrono::nanoseconds const &value);
 
 			///
 			/// @brief 单位的值。
