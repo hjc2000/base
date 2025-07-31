@@ -3,6 +3,7 @@
 #include "base/container/IRawArray.h"
 #include "base/container/iterator/IEnumerable.h"
 #include "base/sfinae/Equal.h"
+#include "base/string/define.h"
 #include <algorithm>
 #include <cstdint>
 #include <stdexcept>
@@ -48,22 +49,10 @@ namespace base
 
 		/* #endregion */
 
-		/* #region vector */
-
-		std::vector<ItemType> &Vector()
-		{
-			return _vector;
-		}
-
-		std::vector<ItemType> const &Vector() const
-		{
-			return _vector;
-		}
-
 		///
 		/// @brief 将本列表内的元素拷贝到向量中。
 		///
-		/// @return std::vector<ItemType>
+		/// @return
 		///
 		explicit operator std::vector<ItemType>() const
 		{
@@ -71,7 +60,23 @@ namespace base
 			return _vector;
 		}
 
-		/* #endregion */
+		///
+		/// @brief 保留一定的空间。
+		///
+		/// @note 如果提前知道会有多少个数据，先保留空间后再插入数据可以避免不断动态扩容从而
+		/// 不断发生拷贝。
+		///
+		/// @param size
+		///
+		void Reserve(int32_t size)
+		{
+			if (size < 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "size 不能 < 0."};
+			}
+
+			_vector.reserve(size);
+		}
 
 		/* #region 添加元素 */
 
@@ -113,8 +118,8 @@ namespace base
 		/// @note 如果列表中有重复元素，调用一次本方法只会移除一个。
 		///
 		/// @param item
-		/// @return true
-		/// @return false
+		///
+		/// @return
 		///
 		virtual bool Remove(ItemType const &item) override
 		{
@@ -198,7 +203,8 @@ namespace base
 		/// @brief 查找指定元素的索引。
 		///
 		/// @param item
-		/// @return int32_t
+		///
+		/// @return
 		///
 		virtual int32_t IndexOf(ItemType const &item) const override
 		{
@@ -222,8 +228,8 @@ namespace base
 		/// @brief 检查列表中是否含有该元素。
 		///
 		/// @param item
-		/// @return true
-		/// @return false
+		///
+		/// @return
 		///
 		virtual bool Contains(ItemType const &item) const override
 		{
@@ -255,7 +261,8 @@ namespace base
 		/// @brief 获取指定索引位置的元素。
 		///
 		/// @param index
-		/// @return ItemType&
+		///
+		/// @return
 		///
 		virtual ItemType &operator[](int32_t const index) override
 		{
@@ -266,7 +273,8 @@ namespace base
 		/// @brief 获取指定索引位置的元素。
 		///
 		/// @param index
-		/// @return ItemType const&
+		///
+		/// @return
 		///
 		virtual ItemType const &operator[](int32_t const index) const override
 		{
@@ -280,7 +288,8 @@ namespace base
 		///
 		/// @brief 获取底层的缓冲区。
 		///
-		/// @return ItemType*
+		///
+		/// @return
 		///
 		virtual ItemType *Buffer() override
 		{
@@ -290,7 +299,8 @@ namespace base
 		///
 		/// @brief 获取底层的缓冲区
 		///
-		/// @return ItemType const*
+		///
+		/// @return
 		///
 		virtual ItemType const *Buffer() const override
 		{
@@ -307,8 +317,8 @@ namespace base
 		/// @brief 转发到 std::vector 的相等判断逻辑。
 		///
 		/// @param another
-		/// @return true
-		/// @return false
+		///
+		/// @return
 		///
 		bool operator==(List<ItemType> const &another) const
 		{
