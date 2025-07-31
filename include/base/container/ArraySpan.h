@@ -370,6 +370,10 @@ namespace base
 		/// @param compare 谓语。如果希望 left 排到 right 前面，则返回 true. 如果返回 false,
 		/// 则 left 和 right 会保持当前相对顺序，不会调整。
 		///
+		/// @note 可以实现升序、降序排列。
+		/// 	@li 如果 compare 在 left < right 时返回 true, 则实现的是升序排列。
+		/// 	@li 如果 compare 在 left > right 时返回 true, 则实现的是降序排列。
+		///
 		void Sort(std::function<bool(ItemType const &left, ItemType const &right)> const &compare)
 		{
 			try
