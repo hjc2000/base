@@ -222,7 +222,7 @@ namespace base
 			///
 			/// @brief 获取非 const 迭代器
 			///
-			/// @return std::shared_ptr<base::IEnumerator<ItemType>>
+			/// @return
 			///
 			virtual std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> GetEnumerator() override
 			{
@@ -249,7 +249,7 @@ namespace base
 			///
 			/// @brief 获取非 const 迭代器
 			///
-			/// @return std::shared_ptr<base::IEnumerator<ItemType>>
+			/// @return
 			///
 			virtual std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> GetEnumerator() override
 			{
