@@ -22,14 +22,14 @@ namespace base
 			///
 			/// @brief 单位的值。
 			///
-			/// @return base::Fraction&
+			/// @return
 			///
 			virtual base::Fraction &Value() = 0;
 
 			///
 			/// @brief 单位的字符串。
 			///
-			/// @return std::string
+			/// @return
 			///
 			virtual std::string UnitString() const = 0;
 
@@ -98,7 +98,7 @@ namespace base
 			///
 			/// @brief 转化为字符串
 			///
-			/// @return std::string
+			/// @return
 			///
 			virtual std::string ToString() const override
 			{
@@ -115,7 +115,7 @@ namespace base
 			///
 			/// @brief 单位的值。
 			///
-			/// @return base::Fraction const&
+			/// @return
 			///
 			base::Fraction const &Value() const
 			{
@@ -127,7 +127,7 @@ namespace base
 			///
 			/// @brief 向下取整
 			///
-			/// @return TSelf
+			/// @return
 			///
 			TSelf Floor() const
 			{
@@ -137,7 +137,7 @@ namespace base
 			///
 			/// @brief 向上取整
 			///
-			/// @return TSelf
+			/// @return
 			///
 			TSelf Ceil() const
 			{
@@ -151,7 +151,7 @@ namespace base
 			///
 			/// @brief 取相反数。
 			///
-			/// @return TSelf
+			/// @return
 			///
 			TSelf operator-() const
 			{
@@ -162,7 +162,8 @@ namespace base
 			/// @brief 加上本单位或能够转换为本单位的其他单位的值。
 			///
 			/// @param value
-			/// @return TSelf
+			///
+			/// @return
 			///
 			template <typename _type>
 				requires(!std::convertible_to<_type, int64_t> && !std::convertible_to<_type, base::Fraction>)
@@ -175,7 +176,8 @@ namespace base
 			/// @brief 减去本单位或能够转换为本单位的其他单位的值。
 			///
 			/// @param value
-			/// @return TSelf
+			///
+			/// @return
 			///
 			template <typename _type>
 				requires(!std::convertible_to<_type, int64_t> && !std::convertible_to<_type, base::Fraction>)
@@ -188,7 +190,8 @@ namespace base
 			/// @brief 乘上无量纲的系数。
 			///
 			/// @param value
-			/// @return TSelf
+			///
+			/// @return
 			///
 			template <typename _type>
 				requires(std::convertible_to<_type, int64_t> || std::convertible_to<_type, base::Fraction>)
@@ -201,7 +204,8 @@ namespace base
 			/// @brief 除以一个无量纲的系数。
 			///
 			/// @param value
-			/// @return TSelf
+			///
+			/// @return
 			///
 			template <typename _type>
 				requires(std::convertible_to<_type, int64_t> || std::convertible_to<_type, base::Fraction>)
@@ -214,7 +218,8 @@ namespace base
 			/// @brief 除以本单位或能够转换为本单位的其他单位，变成一个无量纲的常数。
 			///
 			/// @param value
-			/// @return base::Fraction
+			///
+			/// @return
 			///
 			template <typename _type>
 				requires(!std::convertible_to<_type, int64_t> && !std::convertible_to<_type, base::Fraction>)
@@ -231,7 +236,8 @@ namespace base
 			/// @brief 加上本单位或能够转换为本单位的其他单位的值。
 			///
 			/// @param value
-			/// @return TSelf &
+			///
+			/// @return
 			///
 			template <typename _type>
 				requires(!std::convertible_to<_type, int64_t> && !std::convertible_to<_type, base::Fraction>)
@@ -245,7 +251,8 @@ namespace base
 			/// @brief 减去本单位或能够转换为本单位的其他单位的值。
 			///
 			/// @param value
-			/// @return TSelf &
+			///
+			/// @return
 			///
 			template <typename _type>
 				requires(!std::convertible_to<_type, int64_t> && !std::convertible_to<_type, base::Fraction>)
@@ -259,7 +266,8 @@ namespace base
 			/// @brief 乘上无量纲的系数。
 			///
 			/// @param value
-			/// @return sTSelf &
+			///
+			/// @return
 			///
 			template <typename _type>
 				requires(std::convertible_to<_type, int64_t> || std::convertible_to<_type, base::Fraction>)
@@ -273,7 +281,8 @@ namespace base
 			/// @brief 除以一个无量纲的系数。
 			///
 			/// @param value
-			/// @return TSelf &
+			///
+			/// @return
 			///
 			template <typename _type>
 				requires(std::convertible_to<_type, int64_t> || std::convertible_to<_type, base::Fraction>)
@@ -331,7 +340,8 @@ namespace base
 	/// @brief 向下取整
 	///
 	/// @param value
-	/// @return TUnit
+	///
+	/// @return
 	///
 	template <typename TUnit>
 	inline TUnit floor(base::unit::IUnit<TUnit> const &value)
@@ -343,7 +353,8 @@ namespace base
 	/// @brief 向上取整
 	///
 	/// @param value
-	/// @return TUnit
+	///
+	/// @return
 	///
 	template <typename TUnit>
 	inline TUnit ceil(base::unit::IUnit<TUnit> const &value)
@@ -393,7 +404,7 @@ bool operator>=(base::unit::IUnit<TLeft> const &left, base::unit::IUnit<TRight> 
 /// @param left
 /// @param right
 ///
-/// @return TUnit
+/// @return
 ///
 template <typename TLeft, typename TRight>
 	requires(std::convertible_to<TLeft, int64_t> || std::convertible_to<TLeft, base::Fraction>)
