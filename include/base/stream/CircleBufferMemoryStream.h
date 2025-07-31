@@ -20,7 +20,7 @@ namespace base
 		///
 		/// @brief 头部。读取的时候递增头部。头部指向的位置是有效元素。（前提是缓冲区不为空）
 		///
-		base::Counter<uint32_t> _start;
+		base::Counter<uint64_t> _start;
 
 		///
 		/// @brief 尾部
@@ -28,7 +28,7 @@ namespace base
 		/// @note 写入的时候递增尾部。尾部指向的位置是无效元素。
 		///	 	  尾部 - 1 才是指向有效元素。（前提是缓冲区不为空）
 		///
-		base::Counter<uint32_t> _end;
+		base::Counter<uint64_t> _end;
 
 		///
 		/// @brief 队列是否已满。当头指针和尾指针重叠时，有 2 种情况：
