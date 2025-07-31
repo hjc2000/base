@@ -1,5 +1,6 @@
 #include "Minute.h"
 #include "base/unit/Hour.h"
+#include "base/unit/Hz.h"
 #include "base/unit/Second.h"
 #include "Nanosecond.h"
 

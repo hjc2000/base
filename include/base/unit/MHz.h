@@ -1,14 +1,14 @@
 #pragma once
+#include "base/unit/Hz.h"
 #include "base/unit/IUnit.h"
+#include "base/unit/Second.h"
 #include <type_traits>
 
 namespace base
 {
 	namespace unit
 	{
-		class Second;
 		class Nanosecond;
-		class Hz;
 
 		///
 		/// @brief 频率单位：MHz.
@@ -30,9 +30,17 @@ namespace base
 				_value = value;
 			}
 
-			explicit MHz(base::Fraction const &value);
+			explicit MHz(base::Fraction const &value)
+			{
+				_value = value;
+			}
+
+			MHz(base::unit::Second const &value)
+				: MHz(base::unit::Hz{value})
+			{
+			}
+
 			explicit MHz(base::unit::Hz const &value);
-			explicit MHz(base::unit::Second const &value);
 			explicit MHz(base::unit::Nanosecond const &value);
 
 			using base::unit::IUnit<MHz>::Value;
@@ -40,16 +48,28 @@ namespace base
 			///
 			/// @brief 单位的值。
 			///
-			/// @return base::Fraction&
+			/// @return
 			///
 			virtual base::Fraction &Value() override;
 
 			///
 			/// @brief 单位的字符串。
 			///
-			/// @return std::string
+			/// @return
 			///
 			virtual std::string UnitString() const override;
+
+			operator base::unit::Hz() const
+			{
+				base::unit::Hz ret{_value * 1000 * 1000};
+				return ret;
+			}
+
+			operator base::unit::Second() const
+			{
+				base::unit::Hz hz{*this};
+				return base::unit::Second{hz};
+			}
 		};
 
 	} // namespace unit

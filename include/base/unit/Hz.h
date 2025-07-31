@@ -8,7 +8,6 @@ namespace base
 	{
 		class Second;
 		class Nanosecond;
-		class MHz;
 
 		/// @brief 频率单位：Hz.
 		class Hz :
@@ -37,23 +36,33 @@ namespace base
 				_value = static_cast<base::Fraction>(value).Reciprocal();
 			}
 
-			explicit Hz(base::unit::MHz const &value);
-
 			explicit Hz(base::unit::Nanosecond const &value);
 
 			///
 			/// @brief 单位的值。
 			///
-			/// @return base::Fraction&
+			/// @return
 			///
-			virtual base::Fraction &Value() override;
+			virtual base::Fraction &Value() override
+			{
+				return _value;
+			}
 
 			///
 			/// @brief 单位的字符串。
 			///
-			/// @return std::string
+			/// @return
 			///
-			virtual std::string UnitString() const override;
+			virtual std::string UnitString() const override
+			{
+				return "Hz";
+			}
+
+			operator base::unit::Second() const
+			{
+				base::unit::Second ret{_value.Reciprocal()};
+				return ret;
+			}
 		};
 
 	} // namespace unit
