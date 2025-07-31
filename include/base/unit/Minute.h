@@ -29,21 +29,26 @@ namespace base
 				_value = value;
 			}
 
-			explicit Minute(base::Fraction const &value);
-			explicit Minute(base::unit::Hour const &value);
+			explicit Minute(base::Fraction const &value)
+			{
+				_value = value;
+			}
 
-			explicit Minute(base::unit::Second const &value)
+			Minute(base::unit::Second const &value)
 			{
 				_value = static_cast<base::Fraction>(value) / 60;
 			}
 
-			explicit Minute(base::unit::Nanosecond const &value);
-			explicit Minute(base::unit::Hz const &value);
-			explicit Minute(base::unit::MHz const &value);
-			explicit Minute(std::chrono::seconds const &value);
-			explicit Minute(std::chrono::milliseconds const &value);
-			explicit Minute(std::chrono::microseconds const &value);
-			explicit Minute(std::chrono::nanoseconds const &value);
+			///
+			/// @brief 能转换到 base::unit::Second 的对象都借助 base::unit::Second
+			/// 进行构造。
+			///
+			template <typename T>
+				requires(std::is_convertible_v<T, base::unit::Second>)
+			Minute(T const &value)
+				: Minute(base::unit::Second{value})
+			{
+			}
 
 			///
 			/// @brief 单位的值。
@@ -65,13 +70,40 @@ namespace base
 				return "m";
 			}
 
-			explicit operator std::chrono::days() const;
-			explicit operator std::chrono::hours() const;
-			explicit operator std::chrono::minutes() const;
-			explicit operator std::chrono::seconds() const;
-			explicit operator std::chrono::milliseconds() const;
-			explicit operator std::chrono::microseconds() const;
-			explicit operator std::chrono::nanoseconds() const;
+			explicit operator std::chrono::days() const
+			{
+				return std::chrono::days{base::unit::Second{*this}};
+			}
+
+			explicit operator std::chrono::hours() const
+			{
+				return std::chrono::hours{base::unit::Second{*this}};
+			}
+
+			explicit operator std::chrono::minutes() const
+			{
+				return std::chrono::minutes{base::unit::Second{*this}};
+			}
+
+			explicit operator std::chrono::seconds() const
+			{
+				return std::chrono::seconds{base::unit::Second{*this}};
+			}
+
+			explicit operator std::chrono::milliseconds() const
+			{
+				return std::chrono::milliseconds{base::unit::Second{*this}};
+			}
+
+			explicit operator std::chrono::microseconds() const
+			{
+				return std::chrono::microseconds{base::unit::Second{*this}};
+			}
+
+			explicit operator std::chrono::nanoseconds() const
+			{
+				return std::chrono::nanoseconds{base::unit::Second{*this}};
+			}
 
 			operator base::unit::Second() const
 			{
