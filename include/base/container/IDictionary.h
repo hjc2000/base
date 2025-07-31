@@ -17,7 +17,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual int Count() const = 0;
+		virtual int64_t Count() const = 0;
 
 		///
 		/// @brief 查找元素。

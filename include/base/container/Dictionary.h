@@ -1,5 +1,6 @@
 #pragma once
 #include "base/container/IDictionary.h"
+#include <cstdint>
 #include <map>
 
 namespace base
@@ -89,7 +90,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual int Count() const override
+		virtual int64_t Count() const override
 		{
 			return _map.size();
 		}
