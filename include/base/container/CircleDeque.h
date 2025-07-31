@@ -3,7 +3,7 @@
 #include "base/container/iterator/IEnumerator.h"
 #include "base/math/Counter.h"
 #include "base/string/define.h"
-#include "IDQueue.h"
+#include "IDeque.h"
 #include <algorithm>
 #include <cstdint>
 #include <memory>
@@ -17,8 +17,8 @@ namespace base
 	///
 	template <typename T, int32_t Size>
 		requires(Size > 0)
-	class CircleDQueue :
-		public base::IDQueue<T>,
+	class CircleDeque final :
+		public base::IDeque<T>,
 		public base::IEnumerable<T>
 	{
 	private:
@@ -28,11 +28,11 @@ namespace base
 			public base::IEnumerator<T>
 		{
 		private:
-			CircleDQueue<T, Size> &_queue;
+			CircleDeque<T, Size> &_queue;
 			int32_t _index = 0;
 
 		public:
-			Enumerator(CircleDQueue<T, Size> &queue)
+			Enumerator(CircleDeque<T, Size> &queue)
 				: _queue(queue)
 			{
 			}
@@ -81,7 +81,7 @@ namespace base
 		}
 
 	public:
-		~CircleDQueue()
+		~CircleDeque()
 		{
 			Clear();
 		}

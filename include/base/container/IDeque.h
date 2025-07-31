@@ -4,9 +4,11 @@
 namespace base
 {
 	template <typename T>
-	class IDQueue
+	class IDeque
 	{
 	public:
+		virtual ~IDeque() = default;
+
 		///
 		/// @brief 队列中当前元素的数量。
 		///
