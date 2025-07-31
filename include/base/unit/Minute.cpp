@@ -57,16 +57,6 @@ base::unit::Minute::Minute(std::chrono::nanoseconds const &value)
 
 /* #endregion */
 
-base::Fraction &base::unit::Minute::Value()
-{
-	return _value;
-}
-
-std::string base::unit::Minute::UnitString() const
-{
-	return "m";
-}
-
 /* #region 强制转换运算符 */
 
 base::unit::Minute::operator std::chrono::days() const

@@ -46,14 +46,20 @@ namespace base
 			///
 			/// @return
 			///
-			virtual base::Fraction &Value() override;
+			virtual base::Fraction &Value() override
+			{
+				return _value;
+			}
 
 			///
 			/// @brief 单位的字符串。
 			///
 			/// @return
 			///
-			virtual std::string UnitString() const override;
+			virtual std::string UnitString() const override
+			{
+				return "m";
+			}
 
 			explicit operator std::chrono::days() const;
 			explicit operator std::chrono::hours() const;
