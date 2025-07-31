@@ -27,28 +27,54 @@ namespace base
 				_value = value;
 			}
 
-			explicit Second(base::Fraction const &value);
+			explicit Second(base::Fraction const &value)
+			{
+				_value = value;
+			}
+
 			explicit Second(base::unit::Hour const &value);
 			explicit Second(base::unit::Hz const &value);
 			explicit Second(base::unit::MHz const &value);
-			explicit Second(std::chrono::seconds const &value);
-			explicit Second(std::chrono::milliseconds const &value);
-			explicit Second(std::chrono::microseconds const &value);
-			explicit Second(std::chrono::nanoseconds const &value);
+
+			explicit Second(std::chrono::seconds const &value)
+			{
+				_value = base::Fraction{value.count()};
+			}
+
+			explicit Second(std::chrono::milliseconds const &value)
+			{
+				_value = base::Fraction{value.count()} / 1000;
+			}
+
+			explicit Second(std::chrono::microseconds const &value)
+			{
+				_value = base::Fraction{value.count()} / 1000 / 1000;
+			}
+
+			explicit Second(std::chrono::nanoseconds const &value)
+			{
+				_value = base::Fraction{value.count()} / 1000 / 1000 / 1000;
+			}
 
 			///
 			/// @brief 单位的值。
 			///
 			/// @return
 			///
-			virtual base::Fraction &Value() override;
+			virtual base::Fraction &Value() override
+			{
+				return _value;
+			}
 
 			///
 			/// @brief 单位的字符串。
 			///
 			/// @return
 			///
-			virtual std::string UnitString() const override;
+			virtual std::string UnitString() const override
+			{
+				return "s";
+			}
 
 			explicit operator std::chrono::days() const
 			{
