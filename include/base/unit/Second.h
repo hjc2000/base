@@ -28,22 +28,22 @@ namespace base
 				_value = value;
 			}
 
-			explicit Second(std::chrono::seconds const &value)
+			Second(std::chrono::seconds const &value)
 			{
 				_value = base::Fraction{value.count()};
 			}
 
-			explicit Second(std::chrono::milliseconds const &value)
+			Second(std::chrono::milliseconds const &value)
 			{
 				_value = base::Fraction{value.count()} / 1000;
 			}
 
-			explicit Second(std::chrono::microseconds const &value)
+			Second(std::chrono::microseconds const &value)
 			{
 				_value = base::Fraction{value.count()} / 1000 / 1000;
 			}
 
-			explicit Second(std::chrono::nanoseconds const &value)
+			Second(std::chrono::nanoseconds const &value)
 			{
 				_value = base::Fraction{value.count()} / 1000 / 1000 / 1000;
 			}
