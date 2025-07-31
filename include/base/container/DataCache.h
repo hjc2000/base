@@ -22,7 +22,7 @@ namespace base
 		public IDisposable
 	{
 	private:
-		int32_t _max_count;
+		int64_t _max_count;
 		base::Queue<T> _queue;
 		std::atomic_bool _disposed = false;
 		base::task::Mutex _lock{};
@@ -35,7 +35,7 @@ namespace base
 		/// 所以会引发线程安全问题，所以本类不支持拷贝和移动。
 		/// @param max_count 能够缓存的最大的数据个数。
 		///
-		DataCache(int32_t max_count)
+		DataCache(int64_t max_count)
 		{
 			if (max_count < 1)
 			{

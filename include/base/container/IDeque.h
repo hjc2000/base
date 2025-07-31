@@ -14,7 +14,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual int32_t Count() const = 0;
+		virtual int64_t Count() const = 0;
 
 		///
 		/// @brief 从队列末端入队。

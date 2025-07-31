@@ -144,9 +144,9 @@ namespace base
 		///
 		/// @brief 元素个数。
 		///
-		/// @return int32_t
+		/// @return int64_t
 		///
-		virtual int32_t Count() const override
+		virtual int64_t Count() const override
 		{
 			return _set.size();
 		}

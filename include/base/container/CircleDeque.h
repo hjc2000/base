@@ -15,7 +15,7 @@ namespace base
 	/// @brief 循环缓冲区的双端队列。
 	///
 	///
-	template <typename T, int32_t Size>
+	template <typename T, int64_t Size>
 		requires(Size > 0)
 	class CircleDeque final :
 		public base::IDeque<T>,
@@ -29,7 +29,7 @@ namespace base
 		{
 		private:
 			CircleDeque<T, Size> &_queue;
-			int32_t _index = 0;
+			int64_t _index = 0;
 
 		public:
 			Enumerator(CircleDeque<T, Size> &queue)
@@ -71,8 +71,8 @@ namespace base
 		/* #endregion */
 
 		alignas(T) uint8_t _memory_block[sizeof(T) * Size]{};
-		base::Counter<uint32_t> _begin{0, Size - 1};
-		base::Counter<uint32_t> _end{0, Size - 1};
+		base::Counter<uint64_t> _begin{0, Size - 1};
+		base::Counter<uint64_t> _end{0, Size - 1};
 		bool _is_full = false;
 
 		T *Buffer()
@@ -91,7 +91,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual int32_t Count() const override
+		virtual int64_t Count() const override
 		{
 			if (_is_full)
 			{
@@ -133,7 +133,7 @@ namespace base
 				throw std::runtime_error{CODE_POS_STR + "队列为空，无法退队。"};
 			}
 
-			int32_t index = _end - 1;
+			int64_t index = _end - 1;
 			T ret{std::move(Buffer()[index])};
 			Buffer()[index].~T();
 			_end--;
@@ -154,7 +154,7 @@ namespace base
 				return false;
 			}
 
-			int32_t index = _end - 1;
+			int64_t index = _end - 1;
 			out = std::move(Buffer()[index]);
 			Buffer()[index].~T();
 			_end--;
@@ -194,7 +194,7 @@ namespace base
 				throw std::runtime_error{CODE_POS_STR + "队列为空，无法退队。"};
 			}
 
-			int32_t index = _begin.CurrentValue();
+			int64_t index = _begin.CurrentValue();
 			T ret{std::move(Buffer()[index])};
 			Buffer()[index].~T();
 			_begin++;
@@ -215,7 +215,7 @@ namespace base
 				return false;
 			}
 
-			int32_t index = _begin.CurrentValue();
+			int64_t index = _begin.CurrentValue();
 			out = std::move(Buffer()[index]);
 			Buffer()[index].~T();
 			_begin++;
@@ -229,7 +229,7 @@ namespace base
 		///
 		virtual void Clear() override
 		{
-			for (int32_t i = 0; i < Count(); i++)
+			for (int64_t i = 0; i < Count(); i++)
 			{
 				(*this)[i].~T();
 			}
@@ -239,25 +239,25 @@ namespace base
 			_is_full = false;
 		}
 
-		T &operator[](int32_t index)
+		T &operator[](int64_t index)
 		{
 			if (index < 0 || index >= Count())
 			{
 				throw std::out_of_range{CODE_POS_STR + "索引越界。"};
 			}
 
-			int32_t real_index = _begin + index;
+			int64_t real_index = _begin + index;
 			return Buffer()[real_index];
 		}
 
-		T const &operator[](int32_t index) const
+		T const &operator[](int64_t index) const
 		{
 			if (index < 0 || index >= Count())
 			{
 				throw std::out_of_range{CODE_POS_STR + "索引越界。"};
 			}
 
-			int32_t real_index = _begin + index;
+			int64_t real_index = _begin + index;
 			return Buffer()[real_index];
 		}
 
