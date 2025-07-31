@@ -278,6 +278,11 @@ namespace base
 
 		/* #endregion */
 
+		///
+		/// @brief 隐式转换为 base::ReadOnlyArraySpan.
+		///
+		/// @return
+		///
 		operator base::ReadOnlyArraySpan<ItemType>() const
 		{
 			base::ReadOnlyArraySpan ret{Buffer(), Count()};
