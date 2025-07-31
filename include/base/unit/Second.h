@@ -8,7 +8,6 @@ namespace base
 	{
 		class Hz;
 		class MHz;
-		class Hour;
 
 		/// @brief 秒
 		class Second :
@@ -32,7 +31,6 @@ namespace base
 				_value = value;
 			}
 
-			explicit Second(base::unit::Hour const &value);
 			explicit Second(base::unit::Hz const &value);
 			explicit Second(base::unit::MHz const &value);
 
@@ -55,6 +53,8 @@ namespace base
 			{
 				_value = base::Fraction{value.count()} / 1000 / 1000 / 1000;
 			}
+
+			using base::unit::IUnit<Second>::Value;
 
 			///
 			/// @brief 单位的值。

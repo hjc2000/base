@@ -5,11 +5,6 @@
 
 /* #region 构造函数 */
 
-base::unit::Second::Second(base::unit::Hour const &value)
-{
-	_value = static_cast<base::Fraction>(value) * 60 * 60;
-}
-
 base::unit::Second::Second(base::unit::Hz const &value)
 {
 	_value = static_cast<base::Fraction>(value).Reciprocal();

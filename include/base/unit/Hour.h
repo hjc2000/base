@@ -1,5 +1,6 @@
 #pragma once
 #include "base/unit/IUnit.h"
+#include "base/unit/Second.h"
 #include <chrono>
 
 namespace base
@@ -9,9 +10,7 @@ namespace base
 		class Hz;
 		class MHz;
 		class Day;
-		class Hour;
 		class Minute;
-		class Second;
 		class Nanosecond;
 
 		class Hour :
@@ -33,7 +32,12 @@ namespace base
 			explicit Hour(base::Fraction const &value);
 			explicit Hour(base::unit::Day const &value);
 			explicit Hour(base::unit::Minute const &value);
-			explicit Hour(base::unit::Second const &value);
+
+			explicit Hour(base::unit::Second const &value)
+			{
+				_value = value.Value() / 60 / 60;
+			}
+
 			explicit Hour(base::unit::Nanosecond const &value);
 			explicit Hour(base::unit::Hz const &value);
 			explicit Hour(base::unit::MHz const &value);
@@ -45,14 +49,14 @@ namespace base
 			///
 			/// @brief 单位的值。
 			///
-			/// @return base::Fraction&
+			/// @return
 			///
 			virtual base::Fraction &Value() override;
 
 			///
 			/// @brief 单位的字符串。
 			///
-			/// @return std::string
+			/// @return
 			///
 			virtual std::string UnitString() const override;
 
@@ -63,6 +67,12 @@ namespace base
 			explicit operator std::chrono::milliseconds() const;
 			explicit operator std::chrono::microseconds() const;
 			explicit operator std::chrono::nanoseconds() const;
+
+			operator base::unit::Second() const
+			{
+				base::unit::Second ret{_value * 60 * 60};
+				return ret;
+			}
 		};
 
 	} // namespace unit
