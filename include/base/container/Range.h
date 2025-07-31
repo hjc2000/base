@@ -29,7 +29,7 @@ namespace base
 		///
 		/// @brief 区间左端点。区间左边是闭的。
 		///
-		/// @return int64_t
+		/// @return
 		///
 		constexpr int64_t Begin() const
 		{
@@ -39,7 +39,7 @@ namespace base
 		///
 		/// @brief 区间右端点。区间右边是开的。
 		///
-		/// @return int64_t
+		/// @return
 		///
 		constexpr int64_t End() const
 		{
@@ -49,7 +49,7 @@ namespace base
 		///
 		/// @brief End - Begin，等于这个区间的大小。
 		///
-		/// @return int64_t
+		/// @return
 		///
 		constexpr int64_t Size() const
 		{
