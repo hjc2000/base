@@ -12,36 +12,35 @@ namespace base
 		public base::Stream
 	{
 	public:
+		virtual ~IFileStream() = default;
+
 		/* #region 流属性 */
 
 		///
 		/// @brief 本流能否读取。
 		///
-		/// @return true 能读取。
-		/// @return false 不能读取。
+		/// @return
 		///
 		virtual bool CanRead() const = 0;
 
 		///
 		/// @brief 本流能否写入。
 		///
-		/// @return true 能写入。
-		/// @return false 不能写入。
+		/// @return
 		///
 		virtual bool CanWrite() const = 0;
 
 		///
 		/// @brief 本流能否定位。
 		///
-		/// @return true 能定位。
-		/// @return false 不能定位。
+		/// @return
 		///
 		virtual bool CanSeek() const = 0;
 
 		///
 		/// @brief 流的长度
 		///
-		/// @return int64_t
+		/// @return
 		///
 		virtual int64_t Length() const = 0;
 
@@ -55,7 +54,7 @@ namespace base
 		///
 		/// @brief 流当前的位置。
 		///
-		/// @return int64_t
+		/// @return
 		///
 		virtual int64_t Position() const = 0;
 
@@ -73,7 +72,8 @@ namespace base
 		/// @brief 将本流的数据读取到 span 中。
 		///
 		/// @param span
-		/// @return int32_t
+		///
+		/// @return
 		///
 		virtual int32_t Read(base::Span const &span) = 0;
 
@@ -107,7 +107,8 @@ namespace base
 		/// @brief 先尝试打开文件。如果不存在会创建。
 		///
 		/// @param path
-		/// @return std::shared_ptr<base::IFileStream>
+		///
+		/// @return
 		///
 		std::shared_ptr<base::IFileStream> OpenOrCreate(base::Path const &path);
 
@@ -116,8 +117,7 @@ namespace base
 		///
 		/// @param path 文件的路径。
 		///
-		/// @return std::shared_ptr<base::IFileStream> 成功打开则返回 base::IFileStream 对象。
-		/// 失败会抛出异常，不会返回空指针。
+		/// @return 成功打开则返回 base::IFileStream 对象。失败会抛出异常，不会返回空指针。
 		///
 		std::shared_ptr<base::IFileStream> OpenReadOnly(base::Path const &path);
 
@@ -126,8 +126,8 @@ namespace base
 		///
 		/// @param path 文件路径
 		///
-		/// @return std::shared_ptr<base::IFileStream> 如果文件存在，且成功打开，
-		/// 则返回 base::IFileStream 对象。失败会抛出异常，不会返回空指针。
+		/// @return 如果文件存在，且成功打开，则返回 base::IFileStream 对象。
+		/// 失败会抛出异常，不会返回空指针。
 		///
 		std::shared_ptr<base::IFileStream> OpenExisting(base::Path const &path);
 
@@ -136,8 +136,7 @@ namespace base
 		///
 		/// @param path 文件路径。
 		///
-		/// @return std::shared_ptr<base::IFileStream> 创建文件成功则返回 base::IFileStream 对象。
-		/// 创建失败会抛出异常，不会返回空指针。
+		/// @return 创建文件成功则返回 base::IFileStream 对象。创建失败会抛出异常，不会返回空指针。
 		///
 		std::shared_ptr<base::IFileStream> CreateNewAnyway(base::Path const &path);
 
