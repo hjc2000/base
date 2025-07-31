@@ -10,7 +10,6 @@ namespace base
 		class Hz;
 		class MHz;
 		class Hour;
-		class Minute;
 		class Nanosecond;
 
 		/// @brief 分钟。
