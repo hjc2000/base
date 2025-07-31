@@ -200,21 +200,47 @@ namespace base
 		///
 		/// @param span
 		///
-		void CopyFrom(base::ReadOnlySpan const &span) const;
+		void CopyFrom(base::ReadOnlySpan const &span) const
+		{
+			if (span.Size() != _size)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "span 的大小和本对象不一致。"};
+			}
+
+			std::copy(span.Buffer(),
+					  span.Buffer() + span.Size(),
+					  _buffer);
+		}
 
 		///
 		/// @brief 将 span 所引用的内存的数据拷贝过来。
 		///
 		/// @param span
 		///
-		void CopyFrom(base::Span const &span) const;
+		void CopyFrom(base::Span const &span) const
+		{
+			CopyFrom(base::ReadOnlySpan{span});
+		}
 
 		///
 		/// @brief 将 list 的数据拷贝过来。
 		///
 		/// @param list
 		///
-		void CopyFrom(std::initializer_list<uint8_t> const &list) const;
+		void CopyFrom(std::initializer_list<uint8_t> const &list) const
+		{
+			if (static_cast<int64_t>(list.size()) != _size)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "list 的大小和本对象不一致。"};
+			}
+
+			int64_t i = 0;
+			for (uint8_t const &value : list)
+			{
+				_buffer[i] = value;
+				i++;
+			}
+		}
 
 		/* #endregion */
 
@@ -250,7 +276,10 @@ namespace base
 		/// @param match 匹配项。
 		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int64_t IndexOf(uint8_t match) const;
+		int64_t IndexOf(uint8_t match) const
+		{
+			return base::ReadOnlySpan{*this}.IndexOf(match);
+		}
 
 		///
 		/// @brief 从本内存段查找匹配项所在的索引。
@@ -260,7 +289,10 @@ namespace base
 		///
 		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int64_t IndexOf(int64_t start, uint8_t match) const;
+		int64_t IndexOf(int64_t start, uint8_t match) const
+		{
+			return base::ReadOnlySpan{*this}.IndexOf(match);
+		}
 
 		///
 		/// @brief 从本内存段查找匹配项所在的索引。
@@ -268,7 +300,10 @@ namespace base
 		/// @param match 匹配项。
 		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int64_t IndexOf(base::ReadOnlySpan const &match) const;
+		int64_t IndexOf(base::ReadOnlySpan const &match) const
+		{
+			return base::ReadOnlySpan{*this}.IndexOf(match);
+		}
 
 		///
 		/// @brief 从本内存段查找匹配项所在的索引。
@@ -277,7 +312,10 @@ namespace base
 		/// @param match 匹配项。
 		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int64_t IndexOf(int64_t start, base::ReadOnlySpan const &match) const;
+		int64_t IndexOf(int64_t start, base::ReadOnlySpan const &match) const
+		{
+			return base::ReadOnlySpan{*this}.IndexOf(match);
+		}
 
 		/* #endregion */
 
@@ -289,7 +327,10 @@ namespace base
 		/// @param match 匹配项。
 		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int64_t LastIndexOf(uint8_t match) const;
+		int64_t LastIndexOf(uint8_t match) const
+		{
+			return base::ReadOnlySpan{*this}.LastIndexOf(match);
+		}
 
 		///
 		/// @brief 从 start 索引位置开始，从后往前查找匹配项。
@@ -299,7 +340,10 @@ namespace base
 		///
 		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int64_t LastIndexOf(int64_t start, uint8_t match) const;
+		int64_t LastIndexOf(int64_t start, uint8_t match) const
+		{
+			return base::ReadOnlySpan{*this}.LastIndexOf(start, match);
+		}
 
 		///
 		/// @brief 从后往前查找最后一个匹配位置的索引。
@@ -307,7 +351,10 @@ namespace base
 		/// @param match 匹配项。
 		/// @return int64_t
 		///
-		int64_t LastIndexOf(base::ReadOnlySpan const &match) const;
+		int64_t LastIndexOf(base::ReadOnlySpan const &match) const
+		{
+			return base::ReadOnlySpan{*this}.LastIndexOf(match);
+		}
 
 		///
 		/// @brief 从 start 索引位置开始，从后往前查找匹配项。
@@ -317,7 +364,10 @@ namespace base
 		///
 		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int64_t LastIndexOf(int64_t start, base::ReadOnlySpan const &match) const;
+		int64_t LastIndexOf(int64_t start, base::ReadOnlySpan const &match) const
+		{
+			return base::ReadOnlySpan{*this}.LastIndexOf(start, match);
+		}
 
 		/* #endregion */
 
@@ -330,7 +380,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool StartWith(uint8_t match);
+		bool StartWith(uint8_t match) const
+		{
+			return base::ReadOnlySpan{*this}.StartWith(match);
+		}
 
 		///
 		/// @brief 检查本内存段是否以 match 开头。
@@ -339,7 +392,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool StartWith(base::ReadOnlySpan const &match);
+		bool StartWith(base::ReadOnlySpan const &match) const
+		{
+			return base::ReadOnlySpan{*this}.StartWith(match);
+		}
 
 		///
 		/// @brief 检查本内存段是否以 match 结尾。
@@ -348,7 +404,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool EndWith(uint8_t match);
+		bool EndWith(uint8_t match) const
+		{
+			return base::ReadOnlySpan{*this}.EndWith(match);
+		}
 
 		///
 		/// @brief 检查本内存段是否以 match 结尾。
@@ -357,7 +416,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool EndWith(base::ReadOnlySpan const &match);
+		bool EndWith(base::ReadOnlySpan const &match) const
+		{
+			return base::ReadOnlySpan{*this}.EndWith(match);
+		}
 
 		/* #endregion */
 
@@ -375,7 +437,10 @@ namespace base
 		/// @param another
 		/// @return int64_t
 		///
-		int64_t Compare(base::ReadOnlySpan const &another) const;
+		int64_t Compare(base::ReadOnlySpan const &another) const
+		{
+			return base::ReadOnlySpan{*this}.Compare(another);
+		}
 
 		///
 		/// @brief 比较两段内存。
@@ -389,7 +454,10 @@ namespace base
 		/// @param another
 		/// @return int64_t
 		///
-		int64_t Compare(base::Span const &another) const;
+		int64_t Compare(base::Span const &another) const
+		{
+			return base::ReadOnlySpan{*this}.Compare(another);
+		}
 
 		///
 		/// @brief 基于 Compare 方法。
@@ -398,7 +466,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator==(base::ReadOnlySpan const &another) const;
+		bool operator==(base::ReadOnlySpan const &another) const
+		{
+			return Compare(another) == 0;
+		}
 
 		///
 		/// @brief 基于 Compare 方法。
@@ -407,7 +478,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator==(base::Span const &another) const;
+		bool operator==(base::Span const &another) const
+		{
+			return Compare(another) == 0;
+		}
 
 		///
 		/// @brief 基于 Compare 方法。
@@ -416,7 +490,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator<(base::ReadOnlySpan const &another) const;
+		bool operator<(base::ReadOnlySpan const &another) const
+		{
+			return Compare(another) < 0;
+		}
 
 		///
 		/// @brief 基于 Compare 方法。
@@ -425,7 +502,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator<(base::Span const &another) const;
+		bool operator<(base::Span const &another) const
+		{
+			return Compare(another) < 0;
+		}
 
 		///
 		/// @brief 基于 Compare 方法。
@@ -434,7 +514,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator>(base::ReadOnlySpan const &another) const;
+		bool operator>(base::ReadOnlySpan const &another) const
+		{
+			return Compare(another) > 0;
+		}
 
 		///
 		/// @brief 基于 Compare 方法。
@@ -443,7 +526,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator>(base::Span const &another) const;
+		bool operator>(base::Span const &another) const
+		{
+			return Compare(another) > 0;
+		}
 
 		///
 		/// @brief 基于 Compare 方法。
@@ -452,7 +538,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator<=(base::ReadOnlySpan const &another) const;
+		bool operator<=(base::ReadOnlySpan const &another) const
+		{
+			return Compare(another) <= 0;
+		}
 
 		///
 		/// @brief 基于 Compare 方法。
@@ -461,7 +550,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator<=(base::Span const &another) const;
+		bool operator<=(base::Span const &another) const
+		{
+			return Compare(another) <= 0;
+		}
 
 		///
 		/// @brief 基于 Compare 方法。
@@ -470,7 +562,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator>=(base::ReadOnlySpan const &another) const;
+		bool operator>=(base::ReadOnlySpan const &another) const
+		{
+			return Compare(another) >= 0;
+		}
 
 		///
 		/// @brief 基于 Compare 方法。
@@ -479,7 +574,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator>=(base::Span const &another) const;
+		bool operator>=(base::Span const &another) const
+		{
+			return Compare(another) >= 0;
+		}
 
 		/* #endregion */
 
