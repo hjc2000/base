@@ -10,22 +10,7 @@ base::unit::Hour::Hour(base::unit::Day const &value)
 	_value = static_cast<base::Fraction>(value) * 24;
 }
 
-base::unit::Hour::Hour(base::unit::Minute const &value)
-{
-	_value = static_cast<base::Fraction>(value) / 60;
-}
-
 base::unit::Hour::Hour(base::unit::Nanosecond const &value)
-	: Hour(base::unit::Minute{value})
-{
-}
-
-base::unit::Hour::Hour(base::unit::Hz const &value)
-	: Hour(base::unit::Minute{value})
-{
-}
-
-base::unit::Hour::Hour(base::unit::MHz const &value)
 	: Hour(base::unit::Minute{value})
 {
 }

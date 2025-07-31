@@ -1,5 +1,8 @@
 #include "Day.h"
 #include "base/unit/Hour.h"
+#include "base/unit/Hz.h"
+#include "base/unit/MHz.h"
+#include "base/unit/Minute.h"
 #include "base/unit/Nanosecond.h"
 
 /* #region 构造函数 */

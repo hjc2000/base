@@ -7,10 +7,7 @@ namespace base
 {
 	namespace unit
 	{
-		class Hz;
-		class MHz;
 		class Day;
-		class Minute;
 		class Nanosecond;
 
 		class Hour :
@@ -39,12 +36,20 @@ namespace base
 				_value = value.Value() / 60 / 60;
 			}
 
+			///
+			/// @brief 能转换到 base::unit::Second 的对象都借助 base::unit::Second
+			/// 进行构造。
+			///
+			template <typename T>
+				requires(std::is_convertible_v<T, base::unit::Second>)
+			Hour(T const &value)
+				: Hour(base::unit::Second{value})
+			{
+			}
+
 			explicit Hour(base::unit::Day const &value);
-			explicit Hour(base::unit::Minute const &value);
 
 			explicit Hour(base::unit::Nanosecond const &value);
-			explicit Hour(base::unit::Hz const &value);
-			explicit Hour(base::unit::MHz const &value);
 			explicit Hour(std::chrono::seconds const &value);
 			explicit Hour(std::chrono::milliseconds const &value);
 			explicit Hour(std::chrono::microseconds const &value);

@@ -42,6 +42,10 @@ namespace base
 				_value = hz.Value() / 1000 / 1000;
 			}
 
+			///
+			/// @brief 能转换到 base::unit::Second 的对象都借助 base::unit::Second
+			/// 进行构造。
+			///
 			template <typename T>
 				requires(std::is_convertible_v<T, base::unit::Second>)
 			MHz(T const &value)
