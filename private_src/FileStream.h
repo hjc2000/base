@@ -11,7 +11,10 @@ namespace base
 		public base::IFileStream
 	{
 	private:
-		FileStream(base::Path const &path);
+		FileStream(base::Path const &path)
+		{
+			_path = path;
+		}
 
 		base::Path _path;
 		std::shared_ptr<std::fstream> _fs;
@@ -20,7 +23,10 @@ namespace base
 		bool _can_seek = false;
 
 	public:
-		~FileStream();
+		~FileStream()
+		{
+			Close();
+		}
 
 		/* #region 工厂函数 */
 

@@ -2,20 +2,6 @@
 
 #if HAS_THREAD
 
-/* #region 构造，析构 */
-
-base::FileStream::FileStream(base::Path const &path)
-{
-	_path = path;
-}
-
-base::FileStream::~FileStream()
-{
-	Close();
-}
-
-/* #endregion */
-
 /* #region 工厂函数 */
 
 std::shared_ptr<base::FileStream> base::FileStream::OpenOrCreate(base::Path const &path)
