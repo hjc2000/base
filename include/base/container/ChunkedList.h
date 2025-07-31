@@ -312,7 +312,7 @@ namespace base
 		///
 		virtual ItemType &operator[](int32_t const index) override
 		{
-			return IList<ItemType>::operator[](index);
+			return _deque[index];
 		}
 
 		///
@@ -324,7 +324,7 @@ namespace base
 		///
 		virtual ItemType const &operator[](int32_t const index) const override
 		{
-			return IList<ItemType>::operator[](index);
+			return _deque[index];
 		}
 
 		/* #endregion */
