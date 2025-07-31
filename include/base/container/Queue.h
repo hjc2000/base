@@ -1,6 +1,7 @@
 #pragma once
 #include "base/container/IQueue.h"
 #include "base/string/define.h"
+#include <cstdint>
 #include <deque>
 #include <stdexcept>
 
@@ -31,7 +32,7 @@ namespace base
 		/// @brief 当前队列中元素的数量。
 		/// @return
 		///
-		int32_t Count() const override
+		virtual int64_t Count() const override
 		{
 			return _queue.size();
 		}
@@ -41,7 +42,7 @@ namespace base
 		/// @return
 		/// @exception 如果队列为空，会抛出 underflow_error
 		///
-		T Dequeue() override
+		virtual T Dequeue() override
 		{
 			if (_queue.empty())
 			{
@@ -58,7 +59,7 @@ namespace base
 		/// @param out 从队列里拿出来的元素会被赋值给 out，这要求 out 的类要实现赋值运算符。
 		/// @return 退队成功返回 true，失败返回 false
 		///
-		bool TryDequeue(T &out) override
+		virtual bool TryDequeue(T &out) override
 		{
 			if (_queue.empty())
 			{
@@ -74,7 +75,7 @@ namespace base
 		/// @brief 入队
 		/// @param obj
 		///
-		void Enqueue(T const &obj) override
+		virtual void Enqueue(T const &obj) override
 		{
 			_queue.push_back(obj);
 		}
@@ -82,17 +83,17 @@ namespace base
 		///
 		/// @brief 清空队列。
 		///
-		void Clear() override
+		virtual void Clear() override
 		{
 			_queue.clear();
 		}
 
-		T &operator[](int32_t index)
+		T &operator[](int64_t index)
 		{
 			return _queue[index];
 		}
 
-		T const &operator[](int32_t index) const
+		T const &operator[](int64_t index) const
 		{
 			return _queue[index];
 		}
@@ -121,4 +122,5 @@ namespace base
 
 		/* #endregion */
 	};
+
 } // namespace base

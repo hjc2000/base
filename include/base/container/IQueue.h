@@ -16,7 +16,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual int32_t Count() const = 0;
+		virtual int64_t Count() const = 0;
 
 		///
 		/// @brief 退队。队列为空会抛出异常。
@@ -45,4 +45,5 @@ namespace base
 		///
 		virtual void Clear() = 0;
 	};
+
 } // namespace base

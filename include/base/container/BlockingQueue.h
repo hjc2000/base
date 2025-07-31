@@ -5,6 +5,7 @@
 #include "base/task/Mutex.h"
 #include "base/task/Semaphore.h"
 #include <atomic>
+#include <cstdint>
 #include <exception>
 #include <stdexcept>
 
@@ -26,7 +27,7 @@ namespace base
 		///
 		/// @brief 队列容量的上限。
 		///
-		int32_t _max = 0;
+		int64_t _max = 0;
 
 		base::SafeQueue<T> _queue;
 
@@ -52,7 +53,7 @@ namespace base
 		///
 		/// @param max 队列能容纳的元素的最大数量。
 		///
-		BlockingQueue(int32_t max)
+		BlockingQueue(int64_t max)
 			: // 初始时队列为空，允许入队 _max 次，所以初始计数为 _max.
 			  _queue_consumed_signal(max)
 		{
@@ -79,7 +80,7 @@ namespace base
 		/// @note 释放后可以继续退队，取出残留的数据，直到队列为空，此时继续退队会触发退队失败，
 		/// 和正常队列的效果一样。
 		///
-		void Dispose() override
+		virtual void Dispose() override
 		{
 			if (_disposed)
 			{
@@ -107,7 +108,7 @@ namespace base
 		///
 		/// @return
 		///
-		int32_t Count() const override
+		virtual int64_t Count() const override
 		{
 			return _queue.Count();
 		}
@@ -120,7 +121,7 @@ namespace base
 		/// @exception underflow_error 本对象被处置后，本方法会无条件取消阻塞，并且不再具有阻塞能力，
 		/// 此时如果队列为空，会抛出异常。
 		///
-		T Dequeue() override
+		virtual T Dequeue() override
 		{
 			while (true)
 			{
@@ -161,7 +162,7 @@ namespace base
 		///
 		/// @return 退队成功返回 true，失败返回 false。
 		///
-		bool TryDequeue(T &out) override
+		virtual bool TryDequeue(T &out) override
 		{
 			// 在持有互斥锁的条件下检查，避免误触，以及操作
 			base::task::MutexGuard g{_lock};
@@ -181,7 +182,7 @@ namespace base
 		///
 		/// @exception ObjectDisposedException 本对象被处置后，继续入队会引发异常。
 		///
-		void Enqueue(T const &obj) override
+		virtual void Enqueue(T const &obj) override
 		{
 			while (true)
 			{
@@ -223,10 +224,11 @@ namespace base
 		///
 		/// @brief 清空队列
 		///
-		void Clear() override
+		virtual void Clear() override
 		{
 			_queue.Clear();
 			_queue_consumed_signal.ReleaseAll();
 		}
 	};
+
 } // namespace base

@@ -2,6 +2,7 @@
 #include "base/container/IQueue.h"
 #include "base/string/define.h"
 #include "base/task/Mutex.h"
+#include <cstdint>
 #include <queue>
 #include <stdexcept>
 
@@ -79,7 +80,7 @@ namespace base
 		/// @brief 队列中元素的数量。
 		/// @return
 		///
-		int32_t Count() const override
+		virtual int64_t Count() const override
 		{
 			base::task::MutexGuard g{_lock};
 			return _queue.size();
@@ -89,7 +90,7 @@ namespace base
 		/// @brief 退队。
 		/// @return
 		///
-		T Dequeue() override
+		virtual T Dequeue() override
 		{
 			base::task::MutexGuard g{_lock};
 			if (_queue.empty())
@@ -107,7 +108,7 @@ namespace base
 		/// @param out 从队列里拿出来的元素会被赋值给 out，这要求 out 的类要实现赋值运算符。
 		/// @return 退队成功返回 true，失败返回 false
 		///
-		bool TryDequeue(T &out) override
+		virtual bool TryDequeue(T &out) override
 		{
 			base::task::MutexGuard g{_lock};
 			if (_queue.empty())
@@ -124,7 +125,7 @@ namespace base
 		/// @brief 入队
 		/// @param obj
 		///
-		void Enqueue(T const &obj) override
+		virtual void Enqueue(T const &obj) override
 		{
 			base::task::MutexGuard g{_lock};
 			_queue.push(obj);
@@ -133,7 +134,7 @@ namespace base
 		///
 		/// @brief 清空队列。
 		///
-		void Clear() override
+		virtual void Clear() override
 		{
 			base::task::MutexGuard g{_lock};
 			_queue = std::queue<T>{};
