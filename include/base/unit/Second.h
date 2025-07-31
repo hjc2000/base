@@ -9,7 +9,6 @@ namespace base
 		class Hz;
 		class MHz;
 		class Hour;
-		class Second;
 
 		/// @brief 秒
 		class Second :
