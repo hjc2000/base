@@ -177,21 +177,6 @@ void base::FileStream::SetLength(int64_t value)
 	std::cout << "更改大小后文件大小=" << Length() << std::endl;
 }
 
-int64_t base::FileStream::Position() const
-{
-	return _fs->tellg();
-}
-
-void base::FileStream::SetPosition(int64_t value)
-{
-	/* 必须先清除标志。因为如果不清除，上次读写如果触发了 eof 了，即使在这里 seek 到非尾部
-	 * 下次读写流时仍会因为 eof 已经被设置了而无法读写。
-	 */
-	_fs->clear();
-	_fs->seekg(value);
-	_fs->seekp(value);
-}
-
 /* #endregion */
 
 /* #region 读写冲关 */

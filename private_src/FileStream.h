@@ -124,14 +124,26 @@ namespace base
 		///
 		/// @return
 		///
-		virtual int64_t Position() const override;
+		virtual int64_t Position() const override
+		{
+			return _fs->tellg();
+		}
 
 		///
 		/// @brief 设置流当前的位置。
 		///
 		/// @param value
 		///
-		virtual void SetPosition(int64_t value) override;
+		virtual void SetPosition(int64_t value) override
+		{
+			/* 必须先清除标志。因为如果不清除，上次读写如果触发了 eof 了，即使在这里 seek 到非尾部
+			 * 下次读写流时仍会因为 eof 已经被设置了而无法读写。
+			 */
+			_fs->clear();
+			_fs->seekg(value);
+			_fs->seekp(value);
+		}
+
 		/* #endregion */
 
 		/* #region 读写冲关 */
