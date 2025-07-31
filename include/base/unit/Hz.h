@@ -31,12 +31,17 @@ namespace base
 				_value = value;
 			}
 
-			explicit Hz(base::unit::Second const &value)
+			Hz(base::unit::Second const &value)
 			{
 				_value = static_cast<base::Fraction>(value).Reciprocal();
 			}
 
-			explicit Hz(base::unit::Nanosecond const &value);
+			template <typename T>
+				requires(std::is_convertible_v<T, base::unit::Second>)
+			Hz(T const &value)
+				: Hz(base::unit::Second{value})
+			{
+			}
 
 			///
 			/// @brief 单位的值。

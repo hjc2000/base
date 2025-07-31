@@ -1,4 +1,5 @@
 #pragma once
+#include "base/math/Fraction.h"
 #include "base/unit/Hz.h"
 #include "base/unit/IUnit.h"
 #include "base/unit/Second.h"
@@ -36,12 +37,17 @@ namespace base
 			}
 
 			MHz(base::unit::Second const &value)
-				: MHz(base::unit::Hz{value})
 			{
+				base::unit::Hz hz{value};
+				_value = hz.Value() / 1000 / 1000;
 			}
 
-			explicit MHz(base::unit::Hz const &value);
-			explicit MHz(base::unit::Nanosecond const &value);
+			template <typename T>
+				requires(std::is_convertible_v<T, base::unit::Second>)
+			MHz(T const &value)
+				: MHz(base::unit::Second{value})
+			{
+			}
 
 			using base::unit::IUnit<MHz>::Value;
 
@@ -50,24 +56,24 @@ namespace base
 			///
 			/// @return
 			///
-			virtual base::Fraction &Value() override;
+			virtual base::Fraction &Value() override
+			{
+				return _value;
+			}
 
 			///
 			/// @brief 单位的字符串。
 			///
 			/// @return
 			///
-			virtual std::string UnitString() const override;
-
-			operator base::unit::Hz() const
+			virtual std::string UnitString() const override
 			{
-				base::unit::Hz ret{_value * 1000 * 1000};
-				return ret;
+				return "MHz";
 			}
 
 			operator base::unit::Second() const
 			{
-				base::unit::Hz hz{*this};
+				base::unit::Hz hz{_value * 1000 * 1000};
 				return base::unit::Second{hz};
 			}
 		};
