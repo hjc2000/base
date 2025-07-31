@@ -1,5 +1,6 @@
 #pragma once
 #include "base/stream/ReadOnlySpan.h"
+#include "base/stream/Span.h"
 #include <cstdint>
 #include <string>
 
@@ -148,4 +149,5 @@ namespace base
 	///
 	std::string ToHexString(base::Span const &span,
 							ToHexStringOptions const &options = ToHexStringOptions{});
+
 } // namespace base

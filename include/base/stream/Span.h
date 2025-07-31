@@ -2,11 +2,11 @@
 #include "base/container/Array.h"
 #include "base/container/ArraySpan.h"
 #include "base/container/Range.h"
+#include "base/stream/ReadOnlySpan.h"
 #include <cstdint>
 
 namespace base
 {
-	class ReadOnlySpan;
 	class String;
 
 	///
@@ -515,6 +515,16 @@ namespace base
 		}
 
 		/* #endregion */
+
+		operator base::ReadOnlySpan() const
+		{
+			base::ReadOnlySpan ret{
+				_buffer,
+				_size,
+			};
+
+			return ret;
+		}
 	};
 
 } // namespace base

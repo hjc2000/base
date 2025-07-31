@@ -2,7 +2,6 @@
 #include "base/container/Array.h"
 #include "base/container/ArraySpan.h"
 #include "base/container/Range.h"
-#include "base/stream/Span.h"
 #include "base/string/define.h"
 #include <algorithm>
 #include <cstdint>
@@ -103,17 +102,6 @@ namespace base
 			{
 				_size = 0;
 			}
-		}
-
-		///
-		/// @brief 通过一个可读可写的 Span 构造只读的 ReadOnlySpan.
-		///
-		/// @param o
-		///
-		ReadOnlySpan(base::Span const &o)
-		{
-			_buffer = o.Buffer();
-			_size = o.Size();
 		}
 
 		///
@@ -553,17 +541,6 @@ namespace base
 		}
 
 		///
-		/// @brief 基于字典序的比较逻辑比较两段内存。
-		///
-		/// @param another
-		/// @return int64_t
-		///
-		int64_t Compare(base::Span const &another) const
-		{
-			return Compare(base::ReadOnlySpan{another});
-		}
-
-		///
 		/// @brief 基于 Compare 方法。
 		///
 		/// @param another
@@ -571,18 +548,6 @@ namespace base
 		/// @return false
 		///
 		bool operator==(base::ReadOnlySpan const &another) const
-		{
-			return Compare(another) == 0;
-		}
-
-		///
-		/// @brief 基于 Compare 方法。
-		///
-		/// @param another
-		/// @return true
-		/// @return false
-		///
-		bool operator==(base::Span const &another) const
 		{
 			return Compare(another) == 0;
 		}
@@ -606,31 +571,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator<(base::Span const &another) const
-		{
-			return Compare(another) < 0;
-		}
-
-		///
-		/// @brief 基于 Compare 方法。
-		///
-		/// @param another
-		/// @return true
-		/// @return false
-		///
 		bool operator>(base::ReadOnlySpan const &another) const
-		{
-			return Compare(another) > 0;
-		}
-
-		///
-		/// @brief 基于 Compare 方法。
-		///
-		/// @param another
-		/// @return true
-		/// @return false
-		///
-		bool operator>(base::Span const &another) const
 		{
 			return Compare(another) > 0;
 		}
@@ -654,31 +595,7 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator<=(base::Span const &another) const
-		{
-			return Compare(another) <= 0;
-		}
-
-		///
-		/// @brief 基于 Compare 方法。
-		///
-		/// @param another
-		/// @return true
-		/// @return false
-		///
 		bool operator>=(base::ReadOnlySpan const &another) const
-		{
-			return Compare(another) >= 0;
-		}
-
-		///
-		/// @brief 基于 Compare 方法。
-		///
-		/// @param another
-		/// @return true
-		/// @return false
-		///
-		bool operator>=(base::Span const &another) const
 		{
 			return Compare(another) >= 0;
 		}
