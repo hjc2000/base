@@ -50,7 +50,7 @@ namespace base
 			///
 			/// @brief 获取当前值的引用。
 			///
-			/// @return ItemType&
+			/// @return
 			///
 			virtual item_type &CurrentValue() override
 			{
@@ -95,8 +95,8 @@ namespace base
 		/// @note 如果列表中有重复元素，调用一次本方法只会移除一个。
 		///
 		/// @param item
-		/// @return true
-		/// @return false
+		///
+		/// @return
 		///
 		virtual bool Remove(ItemType const &item) = 0;
 
@@ -118,7 +118,8 @@ namespace base
 		/// @brief 查找指定元素的索引。
 		///
 		/// @param item
-		/// @return int32_t
+		///
+		/// @return
 		///
 		virtual int32_t IndexOf(ItemType const &item) const = 0;
 
@@ -126,8 +127,8 @@ namespace base
 		/// @brief 检查列表中是否含有该元素。
 		///
 		/// @param item
-		/// @return true
-		/// @return false
+		///
+		/// @return
 		///
 		virtual bool Contains(ItemType const &item) const = 0;
 
@@ -153,7 +154,7 @@ namespace base
 		/// 	@li 使用 int32_t, 是有符号整型，比较大小比较方便。如果使用 size_t,
 		/// 		要额外处理和有符号整型的大小比较。
 		///
-		/// @return int32_t
+		/// @return
 		///
 		virtual int32_t Count() const = 0;
 
@@ -161,7 +162,8 @@ namespace base
 		/// @brief 获取指定索引位置的元素。
 		///
 		/// @param index
-		/// @return ItemType&
+		///
+		/// @return
 		///
 		virtual ItemType &operator[](int32_t index) = 0;
 
@@ -169,7 +171,8 @@ namespace base
 		/// @brief 获取指定索引位置的元素。
 		///
 		/// @param index
-		/// @return ItemType const&
+		///
+		/// @return
 		///
 		virtual ItemType const &operator[](int32_t index) const = 0;
 
@@ -260,6 +263,7 @@ namespace base
 		/// @brief 将数组的元素添加到本列表。
 		///
 		/// @param list
+		///
 		/// @return
 		///
 		template <int32_t Count>
@@ -280,7 +284,7 @@ namespace base
 		///
 		/// @brief 获取迭代器
 		///
-		/// @return std::shared_ptr<IEnumerator<ItemType>>
+		/// @return
 		///
 		virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() override
 		{

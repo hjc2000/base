@@ -65,7 +65,7 @@ namespace base
 		///
 		/// @brief 数组的大小。
 		///
-		/// @return int32_t
+		/// @return
 		///
 		virtual int32_t Count() const override
 		{
@@ -75,7 +75,7 @@ namespace base
 		///
 		/// @brief 获取底层的缓冲区。
 		///
-		/// @return ItemType*
+		/// @return
 		///
 		virtual ItemType *Buffer() override
 		{
@@ -85,7 +85,7 @@ namespace base
 		///
 		/// @brief 获取底层的缓冲区。
 		///
-		/// @return ItemType const*
+		/// @return
 		///
 		virtual ItemType const *Buffer() const override
 		{
