@@ -55,4 +55,5 @@ namespace base
 		using base::TextWriter::Write;
 		using base::TextWriter::WriteLine;
 	};
+
 } // namespace base

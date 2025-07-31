@@ -1,66 +1,4 @@
-#include "JoinedStream.h"
-#include "base/string/define.h"
-
-std::shared_ptr<base::Stream> base::JoinedStream::TryGetStream()
-{
-	if (_stream_queue.Count() == 0)
-	{
-		_current_stream_end_event();
-	}
-
-	try
-	{
-		return _stream_queue.Dequeue();
-	}
-	catch (...)
-	{
-		return nullptr;
-	}
-}
-
-void base::JoinedStream::AppendStream(std::shared_ptr<base::Stream> stream)
-{
-	_stream_queue.Enqueue(stream);
-}
-
-/* #region 流属性 */
-
-bool base::JoinedStream::CanRead() const
-{
-	return true;
-}
-
-bool base::JoinedStream::CanWrite() const
-{
-	return false;
-}
-
-bool base::JoinedStream::CanSeek() const
-{
-	return false;
-}
-
-int64_t base::JoinedStream::Length() const
-{
-	throw std::runtime_error{CODE_POS_STR + "不支持的操作"};
-}
-
-void base::JoinedStream::SetLength(int64_t value)
-{
-	throw std::runtime_error{CODE_POS_STR + "不支持的操作"};
-}
-
-int64_t base::JoinedStream::Position() const
-{
-	return _position;
-}
-
-void base::JoinedStream::SetPosition(int64_t value)
-{
-	throw std::runtime_error{CODE_POS_STR + "不支持的操作"};
-}
-
-/* #endregion */
+#include "JoinedStream.h" // IWYU pragma: keep
 
 int64_t base::JoinedStream::Read(base::Span const &span)
 {
@@ -88,18 +26,4 @@ int64_t base::JoinedStream::Read(base::Span const &span)
 		_position += have_read;
 		return have_read;
 	}
-}
-
-void base::JoinedStream::Write(base::ReadOnlySpan const &span)
-{
-	throw std::runtime_error{CODE_POS_STR + "不支持的操作"};
-}
-
-void base::JoinedStream::Flush()
-{
-	throw std::runtime_error{CODE_POS_STR + "不支持的操作"};
-}
-
-void base::JoinedStream::Close()
-{
 }
