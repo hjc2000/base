@@ -7,8 +7,6 @@ namespace base
 {
 	namespace unit
 	{
-		class Day;
-
 		class Hour :
 			public base::unit::IUnit<Hour>
 		{
@@ -46,21 +44,25 @@ namespace base
 			{
 			}
 
-			explicit Hour(base::unit::Day const &value);
-
 			///
 			/// @brief 单位的值。
 			///
 			/// @return
 			///
-			virtual base::Fraction &Value() override;
+			virtual base::Fraction &Value() override
+			{
+				return _value;
+			}
 
 			///
 			/// @brief 单位的字符串。
 			///
 			/// @return
 			///
-			virtual std::string UnitString() const override;
+			virtual std::string UnitString() const override
+			{
+				return "h";
+			}
 
 			explicit operator std::chrono::days() const;
 			explicit operator std::chrono::hours() const;

@@ -1,5 +1,7 @@
 #pragma once
+#include "base/unit/Hour.h"
 #include "base/unit/IUnit.h"
+#include "base/unit/Second.h"
 #include <chrono>
 
 namespace base
@@ -11,7 +13,6 @@ namespace base
 		class Day;
 		class Hour;
 		class Minute;
-		class Second;
 		class Nanosecond;
 
 		class Day :
@@ -30,31 +31,47 @@ namespace base
 				_value = value;
 			}
 
-			explicit Day(base::Fraction const &value);
-			explicit Day(base::unit::Hour const &value);
-			explicit Day(base::unit::Minute const &value);
-			explicit Day(base::unit::Second const &value);
-			explicit Day(base::unit::Nanosecond const &value);
-			explicit Day(base::unit::Hz const &value);
-			explicit Day(base::unit::MHz const &value);
-			explicit Day(std::chrono::seconds const &value);
-			explicit Day(std::chrono::milliseconds const &value);
-			explicit Day(std::chrono::microseconds const &value);
-			explicit Day(std::chrono::nanoseconds const &value);
+			explicit Day(base::Fraction const &value)
+			{
+				_value = value;
+			}
+
+			Day(base::unit::Second const &value)
+			{
+				base::unit::Hour hour{value};
+				_value = hour.Value() / 24;
+			}
+
+			///
+			/// @brief 能转换到 base::unit::Second 的对象都借助 base::unit::Second
+			/// 进行构造。
+			///
+			template <typename T>
+				requires(std::is_convertible_v<T, base::unit::Second>)
+			Day(T const &value)
+				: Day(base::unit::Second{value})
+			{
+			}
 
 			///
 			/// @brief 单位的值。
 			///
-			/// @return base::Fraction&
+			/// @return
 			///
-			virtual base::Fraction &Value() override;
+			virtual base::Fraction &Value() override
+			{
+				return _value;
+			}
 
 			///
 			/// @brief 单位的字符串。
 			///
-			/// @return std::string
+			/// @return
 			///
-			virtual std::string UnitString() const override;
+			virtual std::string UnitString() const override
+			{
+				return "d";
+			}
 
 			explicit operator std::chrono::days() const;
 			explicit operator std::chrono::hours() const;
@@ -63,6 +80,12 @@ namespace base
 			explicit operator std::chrono::milliseconds() const;
 			explicit operator std::chrono::microseconds() const;
 			explicit operator std::chrono::nanoseconds() const;
+
+			operator base::unit::Second() const
+			{
+				base::unit::Hour hour{_value * 24};
+				return base::unit::Second{hour};
+			}
 		};
 
 	} // namespace unit
