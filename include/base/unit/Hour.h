@@ -1,5 +1,6 @@
 #pragma once
 #include "base/unit/IUnit.h"
+#include "base/unit/Minute.h"
 #include "base/unit/Second.h"
 #include <chrono>
 
@@ -30,7 +31,8 @@ namespace base
 
 			Hour(base::unit::Second const &value)
 			{
-				_value = value.Value() / 60 / 60;
+				base::unit::Minute minute{value};
+				_value = minute.Value() / 60;
 			}
 
 			///
@@ -64,18 +66,45 @@ namespace base
 				return "h";
 			}
 
-			explicit operator std::chrono::days() const;
-			explicit operator std::chrono::hours() const;
-			explicit operator std::chrono::minutes() const;
-			explicit operator std::chrono::seconds() const;
-			explicit operator std::chrono::milliseconds() const;
-			explicit operator std::chrono::microseconds() const;
-			explicit operator std::chrono::nanoseconds() const;
+			explicit operator std::chrono::days() const
+			{
+				return std::chrono::days{base::unit::Second{*this}};
+			}
+
+			explicit operator std::chrono::hours() const
+			{
+				return std::chrono::hours{base::unit::Second{*this}};
+			}
+
+			explicit operator std::chrono::minutes() const
+			{
+				return std::chrono::minutes{base::unit::Second{*this}};
+			}
+
+			explicit operator std::chrono::seconds() const
+			{
+				return std::chrono::seconds{base::unit::Second{*this}};
+			}
+
+			explicit operator std::chrono::milliseconds() const
+			{
+				return std::chrono::milliseconds{base::unit::Second{*this}};
+			}
+
+			explicit operator std::chrono::microseconds() const
+			{
+				return std::chrono::microseconds{base::unit::Second{*this}};
+			}
+
+			explicit operator std::chrono::nanoseconds() const
+			{
+				return std::chrono::nanoseconds{base::unit::Second{*this}};
+			}
 
 			operator base::unit::Second() const
 			{
-				base::unit::Second ret{_value * 60 * 60};
-				return ret;
+				base::unit::Minute minute{_value * 60};
+				return base::unit::Second{minute};
 			}
 		};
 
