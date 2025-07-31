@@ -141,8 +141,7 @@ namespace base
 		///
 		/// @brief 本流能否读取。
 		///
-		/// @return true 能读取。
-		/// @return false 不能读取。
+		/// @return
 		///
 		virtual bool CanRead() const override
 		{
@@ -152,8 +151,7 @@ namespace base
 		///
 		/// @brief 本流能否写入。
 		///
-		/// @return true 能写入。
-		/// @return false 不能写入。
+		/// @return
 		///
 		virtual bool CanWrite() const override
 		{
@@ -163,8 +161,7 @@ namespace base
 		///
 		/// @brief 本流能否定位。
 		///
-		/// @return true 能定位。
-		/// @return false 不能定位。
+		/// @return
 		///
 		virtual bool CanSeek() const override
 		{
@@ -175,7 +172,7 @@ namespace base
 		///
 		/// @brief 流的长度
 		///
-		/// @return int64_t
+		/// @return
 		///
 		virtual int64_t Length() const override
 		{
@@ -200,7 +197,7 @@ namespace base
 		///
 		/// @brief 流当前的位置。
 		///
-		/// @return int64_t
+		/// @return
 		///
 		virtual int64_t Position() const override
 		{
@@ -225,7 +222,8 @@ namespace base
 		/// @brief 将本流的数据读取到 span 中。
 		///
 		/// @param span
-		/// @return int64_t
+		///
+		/// @return
 		///
 		virtual int64_t Read(base::Span const &span) override
 		{
@@ -323,4 +321,5 @@ namespace base
 
 		/* #endregion */
 	};
+
 } // namespace base
