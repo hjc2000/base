@@ -29,14 +29,18 @@ namespace base
 				_value = value;
 			}
 
-			explicit Hour(base::Fraction const &value);
-			explicit Hour(base::unit::Day const &value);
-			explicit Hour(base::unit::Minute const &value);
+			explicit Hour(base::Fraction const &value)
+			{
+				_value = value;
+			}
 
-			explicit Hour(base::unit::Second const &value)
+			Hour(base::unit::Second const &value)
 			{
 				_value = value.Value() / 60 / 60;
 			}
+
+			explicit Hour(base::unit::Day const &value);
+			explicit Hour(base::unit::Minute const &value);
 
 			explicit Hour(base::unit::Nanosecond const &value);
 			explicit Hour(base::unit::Hz const &value);

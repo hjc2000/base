@@ -5,19 +5,9 @@
 
 /* #region 构造函数 */
 
-base::unit::Hz::Hz(base::Fraction const &value)
-{
-	_value = value;
-}
-
 base::unit::Hz::Hz(base::unit::MHz const &value)
 {
 	_value = static_cast<base::Fraction>(value) * 1000 * 1000;
-}
-
-base::unit::Hz::Hz(base::unit::Second const &value)
-{
-	_value = static_cast<base::Fraction>(value).Reciprocal();
 }
 
 base::unit::Hz::Hz(base::unit::Nanosecond const &value)

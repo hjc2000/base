@@ -1,5 +1,6 @@
 #pragma once
 #include "base/unit/IUnit.h"
+#include "base/unit/Second.h"
 
 namespace base
 {
@@ -26,9 +27,18 @@ namespace base
 				_value = value;
 			}
 
-			explicit Hz(base::Fraction const &value);
+			explicit Hz(base::Fraction const &value)
+			{
+				_value = value;
+			}
+
+			explicit Hz(base::unit::Second const &value)
+			{
+				_value = static_cast<base::Fraction>(value).Reciprocal();
+			}
+
 			explicit Hz(base::unit::MHz const &value);
-			explicit Hz(base::unit::Second const &value);
+
 			explicit Hz(base::unit::Nanosecond const &value);
 
 			///

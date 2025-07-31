@@ -5,11 +5,6 @@
 
 /* #region 构造函数 */
 
-base::unit::Hour::Hour(base::Fraction const &value)
-{
-	_value = value;
-}
-
 base::unit::Hour::Hour(base::unit::Day const &value)
 {
 	_value = static_cast<base::Fraction>(value) * 24;
