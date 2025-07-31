@@ -29,7 +29,7 @@ namespace base
 		base::Semaphore _buffer_avaliable_signal{0};
 
 	public:
-		BlockingCircleBufferMemoryStream(int32_t max_size)
+		BlockingCircleBufferMemoryStream(int64_t max_size)
 			: _mstream(max_size)
 		{
 		}
@@ -84,7 +84,7 @@ namespace base
 
 		/* #region 读写冲关 */
 
-		virtual int32_t Read(base::Span const &span) override
+		virtual int64_t Read(base::Span const &span) override
 		{
 			while (true)
 			{
@@ -140,7 +140,7 @@ namespace base
 					base::task::MutexGuard g{_lock};
 					if (_mstream.AvailableToWrite() > 0)
 					{
-						int32_t should_write = std::min(_mstream.AvailableToWrite(), remain_span.Size());
+						int64_t should_write = std::min(_mstream.AvailableToWrite(), remain_span.Size());
 						_mstream.Write(remain_span[base::Range{0, should_write}]);
 						remain_span = remain_span[base::Range{should_write, remain_span.Size()}];
 						_buffer_avaliable_signal.ReleaseAll();
@@ -200,7 +200,7 @@ namespace base
 		///
 		/// @return
 		///
-		int32_t BufferSize() const
+		int64_t BufferSize() const
 		{
 			base::task::MutexGuard g{_lock};
 			return _mstream.BufferSize();
@@ -211,7 +211,7 @@ namespace base
 		///
 		/// @return
 		///
-		int32_t AvailableToWrite() const
+		int64_t AvailableToWrite() const
 		{
 			base::task::MutexGuard g{_lock};
 			return _mstream.AvailableToWrite();

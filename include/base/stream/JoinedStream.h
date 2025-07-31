@@ -111,9 +111,9 @@ namespace base
 		/// @brief 将本流的数据读取到 span 中。
 		///
 		/// @param span
-		/// @return int32_t
+		/// @return int64_t
 		///
-		virtual int32_t Read(base::Span const &span) override;
+		virtual int64_t Read(base::Span const &span) override;
 
 		///
 		/// @brief 将 span 中的数据写入本流。

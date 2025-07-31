@@ -28,7 +28,7 @@ namespace base
 			base::Span _span{};
 
 		public:
-			BufferContext(int32_t max_size)
+			BufferContext(int64_t max_size)
 			{
 				if (max_size <= 0)
 				{
@@ -57,7 +57,7 @@ namespace base
 		///
 		/// @brief 指向当前要读或写的位置。Read 和 Write 会操作的第一个字节就是 _position 指向的字节。
 		///
-		int32_t _position = 0;
+		int64_t _position = 0;
 
 		///
 		/// @brief 流的长度。
@@ -68,7 +68,7 @@ namespace base
 		/// 	@li 当 _length = 0 时，_buffer[0] 是无效数据，流中没有数据。
 		/// 	@li _length 不为 0 时，[0 , _length - 1] 闭区间上是有效数据。
 		///
-		int32_t _length = 0;
+		int64_t _length = 0;
 
 	public:
 		///
@@ -76,7 +76,7 @@ namespace base
 		///
 		/// @param max_size 内部缓冲区的最大尺寸。小于等于 0 会抛出异常。
 		///
-		MemoryStream(int32_t max_size)
+		MemoryStream(int64_t max_size)
 			: _buffer_context(max_size)
 		{
 		}
@@ -202,9 +202,9 @@ namespace base
 		/// @brief 将本流的数据读取到 span 中。
 		///
 		/// @param span
-		/// @return int32_t
+		/// @return int64_t
 		///
-		virtual int32_t Read(base::Span const &span) override
+		virtual int64_t Read(base::Span const &span) override
 		{
 			if (span.Size() == 0)
 			{
@@ -216,7 +216,7 @@ namespace base
 				return 0;
 			}
 
-			int32_t have_read = std::min<int32_t>(Length() - Position(), span.Size());
+			int64_t have_read = std::min<int64_t>(Length() - Position(), span.Size());
 
 			std::copy(Span().Buffer() + _position,
 					  Span().Buffer() + _position + have_read,

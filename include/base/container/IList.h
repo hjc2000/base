@@ -29,7 +29,7 @@ namespace base
 		{
 		private:
 			IList<item_type> *_list;
-			int32_t _index = 0;
+			int64_t _index = 0;
 
 		public:
 			Enumerator(IList<item_type> *list)
@@ -87,7 +87,7 @@ namespace base
 		/// @param index
 		/// @param item
 		///
-		virtual void Insert(int32_t index, ItemType const &item) = 0;
+		virtual void Insert(int64_t index, ItemType const &item) = 0;
 
 		///
 		/// @brief 从列表移除指定元素。
@@ -105,7 +105,7 @@ namespace base
 		///
 		/// @param index
 		///
-		virtual void RemoveAt(int32_t index) = 0;
+		virtual void RemoveAt(int64_t index) = 0;
 
 		///
 		/// @brief 移除符合条件的数据。
@@ -121,7 +121,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual int32_t IndexOf(ItemType const &item) const = 0;
+		virtual int64_t IndexOf(ItemType const &item) const = 0;
 
 		///
 		/// @brief 检查列表中是否含有该元素。
@@ -141,22 +141,9 @@ namespace base
 		///
 		/// @brief 列表中元素的数量。
 		///
-		/// @note 这里没有必要使用 size_t 来支持超过 2147483647 个元素，因为 qt 的表格数据模型
-		/// 本身索引行列和计算元素数量都是使用 int, 不支持很庞大的数量级。如果真的很多的话需要分页
-		/// 处理。
-		///
-		/// @note 使用 int32_t 的好处：
-		/// 	@li 现在嵌入式系统普遍是 32 位的，直接使用 int32_t 可以在各个平台一致，不用考虑
-		/// 		size_t 在不同平台上的差异。
-		///
-		/// 	@li 嵌入式平台使用 int32_t 性能更高。
-		///
-		/// 	@li 使用 int32_t, 是有符号整型，比较大小比较方便。如果使用 size_t,
-		/// 		要额外处理和有符号整型的大小比较。
-		///
 		/// @return
 		///
-		virtual int32_t Count() const = 0;
+		virtual int64_t Count() const = 0;
 
 		///
 		/// @brief 获取指定索引位置的元素。
@@ -165,7 +152,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual ItemType &operator[](int32_t index) = 0;
+		virtual ItemType &operator[](int64_t index) = 0;
 
 		///
 		/// @brief 获取指定索引位置的元素。
@@ -174,7 +161,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual ItemType const &operator[](int32_t index) const = 0;
+		virtual ItemType const &operator[](int64_t index) const = 0;
 
 		/* #endregion */
 
@@ -266,7 +253,7 @@ namespace base
 		///
 		/// @return
 		///
-		template <int32_t Count>
+		template <int64_t Count>
 		void Add(std::array<ItemType, Count> const &list)
 		{
 			for (ItemType const &item : list)
@@ -311,7 +298,7 @@ namespace base
 			}
 
 			// 执行到这里说明 Count 相等。
-			for (int32_t i = 0; i < Count(); i++)
+			for (int64_t i = 0; i < Count(); i++)
 			{
 				if ((*this)[i] != o[i])
 				{
@@ -332,8 +319,8 @@ namespace base
 				return false;
 			}
 
-			int32_t count = std::min(Count(), o.Count());
-			for (int32_t i = 0; i < count; i++)
+			int64_t count = std::min(Count(), o.Count());
+			for (int64_t i = 0; i < count; i++)
 			{
 				if ((*this)[i] < o[i])
 				{
@@ -362,8 +349,8 @@ namespace base
 				return false;
 			}
 
-			int32_t count = std::min(Count(), o.Count());
-			for (int32_t i = 0; i < count; i++)
+			int64_t count = std::min(Count(), o.Count());
+			for (int64_t i = 0; i < count; i++)
 			{
 				if ((*this)[i] > o[i])
 				{
@@ -392,8 +379,8 @@ namespace base
 				return false;
 			}
 
-			int32_t count = std::min(Count(), o.Count());
-			for (int32_t i = 0; i < count; i++)
+			int64_t count = std::min(Count(), o.Count());
+			for (int64_t i = 0; i < count; i++)
 			{
 				if ((*this)[i] < o[i])
 				{
@@ -422,8 +409,8 @@ namespace base
 				return false;
 			}
 
-			int32_t count = std::min(Count(), o.Count());
-			for (int32_t i = 0; i < count; i++)
+			int64_t count = std::min(Count(), o.Count());
+			for (int64_t i = 0; i < count; i++)
 			{
 				if ((*this)[i] > o[i])
 				{

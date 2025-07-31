@@ -21,9 +21,9 @@ namespace base
 		///
 		/// @brief 数组的大小。
 		///
-		/// @return int32_t
+		/// @return int64_t
 		///
-		virtual int32_t Count() const = 0;
+		virtual int64_t Count() const = 0;
 
 		///
 		/// @brief 获取底层的缓冲区。
@@ -43,7 +43,7 @@ namespace base
 
 		/* #region 索引器 */
 
-		ItemType &operator[](int32_t const index)
+		ItemType &operator[](int64_t const index)
 		{
 			if (index < 0 || index >= Count())
 			{
@@ -53,9 +53,9 @@ namespace base
 			return Buffer()[index];
 		}
 
-		ItemType const &operator[](int32_t const index) const
+		ItemType const &operator[](int64_t const index) const
 		{
-			if (index < 0 || index >= static_cast<int32_t>(Count()))
+			if (index < 0 || index >= static_cast<int64_t>(Count()))
 			{
 				throw std::out_of_range{CODE_POS_STR + "索引超出范围"};
 			}
@@ -191,7 +191,7 @@ namespace base
 			}
 
 			// 执行到这里说明 Count 相等。
-			for (int32_t i = 0; i < Count(); i++)
+			for (int64_t i = 0; i < Count(); i++)
 			{
 				if ((*this)[i] != o[i])
 				{
@@ -217,8 +217,8 @@ namespace base
 				return false;
 			}
 
-			int32_t count = std::min(Count(), o.Count());
-			for (int32_t i = 0; i < count; i++)
+			int64_t count = std::min(Count(), o.Count());
+			for (int64_t i = 0; i < count; i++)
 			{
 				if ((*this)[i] < o[i])
 				{
@@ -252,8 +252,8 @@ namespace base
 				return false;
 			}
 
-			int32_t count = std::min(Count(), o.Count());
-			for (int32_t i = 0; i < count; i++)
+			int64_t count = std::min(Count(), o.Count());
+			for (int64_t i = 0; i < count; i++)
 			{
 				if ((*this)[i] > o[i])
 				{
@@ -287,8 +287,8 @@ namespace base
 				return false;
 			}
 
-			int32_t count = std::min(Count(), o.Count());
-			for (int32_t i = 0; i < count; i++)
+			int64_t count = std::min(Count(), o.Count());
+			for (int64_t i = 0; i < count; i++)
 			{
 				if ((*this)[i] < o[i])
 				{
@@ -322,8 +322,8 @@ namespace base
 				return false;
 			}
 
-			int32_t count = std::min(Count(), o.Count());
-			for (int32_t i = 0; i < count; i++)
+			int64_t count = std::min(Count(), o.Count());
+			for (int64_t i = 0; i < count; i++)
 			{
 				if ((*this)[i] > o[i])
 				{

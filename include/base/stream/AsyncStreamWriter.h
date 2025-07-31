@@ -28,7 +28,7 @@ namespace base
 		std::atomic_bool _disposed = false;
 		uint8_t _copy_temp_buffer[1024];
 
-		void Initialize(int32_t max_buffer_size,
+		void Initialize(int64_t max_buffer_size,
 						std::shared_ptr<base::Stream> const &stream)
 		{
 			if (stream == nullptr)
@@ -43,7 +43,7 @@ namespace base
 		void ThreadFunc();
 
 	public:
-		AsyncStreamWriter(int32_t max_buffer_size,
+		AsyncStreamWriter(int64_t max_buffer_size,
 						  std::shared_ptr<base::Stream> const &stream)
 		{
 			Initialize(max_buffer_size, stream);
@@ -54,7 +54,7 @@ namespace base
 												  });
 		}
 
-		AsyncStreamWriter(int32_t max_buffer_size,
+		AsyncStreamWriter(int64_t max_buffer_size,
 						  std::shared_ptr<base::Stream> const &stream,
 						  size_t thread_stack_size)
 		{

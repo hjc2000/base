@@ -62,7 +62,7 @@ void base::JoinedStream::SetPosition(int64_t value)
 
 /* #endregion */
 
-int32_t base::JoinedStream::Read(base::Span const &span)
+int64_t base::JoinedStream::Read(base::Span const &span)
 {
 	while (true)
 	{
@@ -77,7 +77,7 @@ int32_t base::JoinedStream::Read(base::Span const &span)
 		}
 
 		// 执行到这里说明 _current_stream 不为空
-		int32_t have_read = _current_stream->Read(span);
+		int64_t have_read = _current_stream->Read(span);
 		if (have_read == 0)
 		{
 			// 此流结束了，应该尝试获取下一个流继续读取

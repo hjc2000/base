@@ -9,7 +9,7 @@ void base::AsyncStreamWriter::ThreadFunc()
 		// 此时就可以退出线程了。
 		//
 		// 如果检查 _buffer_stream 为 true 直接退出，会导致残留数据没被读取。
-		int32_t have_read = _buffer_stream->Read(base::Span{_copy_temp_buffer, sizeof(_copy_temp_buffer)});
+		int64_t have_read = _buffer_stream->Read(base::Span{_copy_temp_buffer, sizeof(_copy_temp_buffer)});
 		if (have_read == 0)
 		{
 			return;

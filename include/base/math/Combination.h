@@ -14,10 +14,10 @@ namespace base
 		public base::ICanToString
 	{
 	private:
-		int _n = 0;
-		int _m = 0;
+		int64_t _n = 0;
+		int64_t _m = 0;
 		bool _move_to_next_for_the_first_time = true;
-		std::vector<int> _current_combination;
+		std::vector<int64_t> _current_combination;
 
 	public:
 		///
@@ -26,22 +26,22 @@ namespace base
 		/// @param n
 		/// @param m
 		///
-		Combination(int n, int m);
+		Combination(int64_t n, int64_t m);
 
 		///
 		/// @brief 当前组合。
 		///
-		/// @return std::vector<int> const&
+		/// @return
 		///
-		std::vector<int> const &Current() const;
+		std::vector<int64_t> const &Current() const;
 
 		///
 		/// @brief 直接访问 Current() 属性返回的向量的指定索引位置的值。
 		///
 		/// @param index
-		/// @return int
+		/// @return
 		///
-		int operator[](int index) const;
+		int64_t operator[](int64_t index) const;
 
 		///
 		/// @brief 移动到下一个组合。
@@ -65,6 +65,7 @@ namespace base
 		///
 		virtual std::string ToString() const override;
 	};
+
 } // namespace base
 
 #if HAS_THREAD

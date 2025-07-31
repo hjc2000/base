@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <stdexcept>
 
-base::Combination::Combination(int n, int m)
+base::Combination::Combination(int64_t n, int64_t m)
 	: _n(n),
 	  _m(m)
 {
@@ -14,18 +14,18 @@ base::Combination::Combination(int n, int m)
 		throw std::invalid_argument{CODE_POS_STR + "m 不能比 n 大。"};
 	}
 
-	for (int i = 0; i < _m; i++)
+	for (int64_t i = 0; i < _m; i++)
 	{
 		_current_combination.push_back(i);
 	}
 }
 
-std::vector<int> const &base::Combination::Current() const
+std::vector<int64_t> const &base::Combination::Current() const
 {
 	return _current_combination;
 }
 
-int base::Combination::operator[](int index) const
+int64_t base::Combination::operator[](int64_t index) const
 {
 	if (index < 0 || index >= _m)
 	{
@@ -54,9 +54,9 @@ bool base::Combination::MoveToNext()
 	}
 
 	bool last_loop_has_broken = false;
-	for (int i = 0; i < _m; i++)
+	for (int64_t i = 0; i < _m; i++)
 	{
-		int current_index = _m - 1 - i;
+		int64_t current_index = _m - 1 - i;
 		_current_combination[current_index]++;
 		if (_current_combination[current_index] > _n - 1 - i)
 		{
@@ -67,7 +67,7 @@ bool base::Combination::MoveToNext()
 		if (last_loop_has_broken)
 		{
 			last_loop_has_broken = false;
-			for (int j = current_index; j + 1 < static_cast<int>(_current_combination.size()); j++)
+			for (int64_t j = current_index; j + 1 < static_cast<int64_t>(_current_combination.size()); j++)
 			{
 				_current_combination[j + 1] = _current_combination[j] + 1;
 			}
@@ -91,8 +91,8 @@ int64_t base::Combination::Count() const
 std::string base::Combination::ToString() const
 {
 	std::string result;
-	int count = static_cast<int>(_current_combination.size());
-	for (int i = 0; i < count; i++)
+	int64_t count = static_cast<int64_t>(_current_combination.size());
+	for (int64_t i = 0; i < count; i++)
 	{
 		result += std::to_string(_current_combination[i]);
 		if (i < count - 1)
@@ -108,7 +108,7 @@ std::string base::Combination::ToString() const
 
 void base::test::test_combination()
 {
-	int i = 0;
+	int64_t i = 0;
 	base::Combination c{10, 3};
 	while (c.MoveToNext())
 	{

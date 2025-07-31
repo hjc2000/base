@@ -35,7 +35,7 @@ namespace base
 			 * @param index
 			 * @param item
 			 */
-			virtual void Insert(int32_t index, base::math::Path const &item) override;
+			virtual void Insert(int64_t index, base::math::Path const &item) override;
 
 			using base::IList<base::math::Path>::Remove;
 
@@ -55,7 +55,7 @@ namespace base
 			 *
 			 * @param index
 			 */
-			virtual void RemoveAt(int32_t index) override;
+			virtual void RemoveAt(int64_t index) override;
 
 			/**
 			 * @brief 移除符合条件的数据。
@@ -68,9 +68,9 @@ namespace base
 			 * @brief 查找指定元素的索引。
 			 *
 			 * @param item
-			 * @return int32_t
+			 * @return int64_t
 			 */
-			virtual int32_t IndexOf(base::math::Path const &item) const override;
+			virtual int64_t IndexOf(base::math::Path const &item) const override;
 
 			/**
 			 * @brief 检查列表中是否含有该元素。
@@ -90,9 +90,9 @@ namespace base
 			/**
 			 * @brief 列表中元素的数量。
 			 *
-			 * @return int32_t
+			 * @return int64_t
 			 */
-			virtual int32_t Count() const override;
+			virtual int64_t Count() const override;
 
 			/**
 			 * @brief 获取指定索引位置的元素。
@@ -100,7 +100,7 @@ namespace base
 			 * @param index
 			 * @return base::math::Path&
 			 */
-			virtual base::math::Path &operator[](int32_t index) override;
+			virtual base::math::Path &operator[](int64_t index) override;
 
 			/**
 			 * @brief 获取指定索引位置的元素。
@@ -108,7 +108,7 @@ namespace base
 			 * @param index
 			 * @return base::math::Path const&
 			 */
-			virtual base::math::Path const &operator[](int32_t index) const override;
+			virtual base::math::Path const &operator[](int64_t index) const override;
 
 		public:
 			/**

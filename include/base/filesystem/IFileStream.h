@@ -75,7 +75,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual int32_t Read(base::Span const &span) = 0;
+		virtual int64_t Read(base::Span const &span) = 0;
 
 		///
 		/// @brief 将 span 中的数据写入本流。

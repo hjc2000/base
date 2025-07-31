@@ -29,7 +29,7 @@ namespace base
 	{
 	private:
 		ItemType const *_buffer = nullptr;
-		int32_t _count = 0;
+		int64_t _count = 0;
 
 		/* #region 迭代器 */
 
@@ -37,12 +37,12 @@ namespace base
 			public base::IEnumerator<ItemType const>
 		{
 		private:
-			int _index = 0;
+			int64_t _index = 0;
 			ItemType const *_buffer{};
-			int32_t _count = 0;
+			int64_t _count = 0;
 
 		public:
-			Enumerator(ItemType const *buffer, int32_t count)
+			Enumerator(ItemType const *buffer, int64_t count)
 			{
 				_buffer = buffer;
 				_count = count;
@@ -95,7 +95,7 @@ namespace base
 		/// @param buffer 要引用的内存段指针。
 		/// @param count 要引用的内存段大小。
 		///
-		ReadOnlyArraySpan(ItemType const *buffer, int32_t count)
+		ReadOnlyArraySpan(ItemType const *buffer, int64_t count)
 		{
 			_buffer = buffer;
 			_count = count;
@@ -134,7 +134,7 @@ namespace base
 		///
 		/// @return
 		///
-		int32_t Count() const
+		int64_t Count() const
 		{
 			return _count;
 		}
@@ -177,7 +177,7 @@ namespace base
 	{
 	private:
 		ItemType *_buffer = nullptr;
-		int32_t _count = 0;
+		int64_t _count = 0;
 
 		/* #region 迭代器 */
 
@@ -185,12 +185,12 @@ namespace base
 			public base::IEnumerator<ItemType>
 		{
 		private:
-			int _index = 0;
+			int64_t _index = 0;
 			ItemType *_buffer{};
-			int32_t _count = 0;
+			int64_t _count = 0;
 
 		public:
-			Enumerator(ItemType *buffer, int32_t count)
+			Enumerator(ItemType *buffer, int64_t count)
 			{
 				_buffer = buffer;
 				_count = count;
@@ -243,7 +243,7 @@ namespace base
 		/// @param buffer 要引用的内存段指针。
 		/// @param count 要引用的内存段大小。
 		///
-		ArraySpan(ItemType *buffer, int32_t count)
+		ArraySpan(ItemType *buffer, int64_t count)
 		{
 			_buffer = buffer;
 			_count = count;
@@ -271,7 +271,7 @@ namespace base
 		///
 		/// @return
 		///
-		int32_t Count() const
+		int64_t Count() const
 		{
 			return _count;
 		}
@@ -400,15 +400,15 @@ namespace base
 		void Shuffle()
 		{
 			std::vector<ItemType> temp_vec{};
-			std::vector<int32_t> index_vec = base::ShuffleIndex(Count());
-			for (int32_t index : index_vec)
+			std::vector<int64_t> index_vec = base::ShuffleIndex(Count());
+			for (int64_t index : index_vec)
 			{
 				temp_vec.push_back(Buffer()[index]);
 			}
 
 			base::ReadOnlyArraySpan<ItemType> temp_vec_span{
 				temp_vec.data(),
-				static_cast<int32_t>(temp_vec.size()),
+				static_cast<int64_t>(temp_vec.size()),
 			};
 
 			CopyFrom(temp_vec_span);

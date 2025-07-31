@@ -11,7 +11,7 @@ void base::math::PathCollection::Add(base::math::Path const &item)
 	_paths.Add(item);
 }
 
-void base::math::PathCollection::Insert(int32_t index, base::math::Path const &item)
+void base::math::PathCollection::Insert(int64_t index, base::math::Path const &item)
 {
 	_paths.Insert(index, item);
 }
@@ -21,7 +21,7 @@ bool base::math::PathCollection::Remove(base::math::Path const &item)
 	return _paths.Remove(item);
 }
 
-void base::math::PathCollection::RemoveAt(int32_t index)
+void base::math::PathCollection::RemoveAt(int64_t index)
 {
 	_paths.RemoveAt(index);
 }
@@ -31,7 +31,7 @@ void base::math::PathCollection::RemoveIf(std::function<bool(base::math::Path co
 	_paths.RemoveIf(should_remove);
 }
 
-int32_t base::math::PathCollection::IndexOf(base::math::Path const &item) const
+int64_t base::math::PathCollection::IndexOf(base::math::Path const &item) const
 {
 	return _paths.IndexOf(item);
 }
@@ -46,17 +46,17 @@ void base::math::PathCollection::Clear()
 	_paths.Clear();
 }
 
-int32_t base::math::PathCollection::Count() const
+int64_t base::math::PathCollection::Count() const
 {
 	return _paths.Count();
 }
 
-base::math::Path &base::math::PathCollection::operator[](int32_t index)
+base::math::Path &base::math::PathCollection::operator[](int64_t index)
 {
 	return _paths[index];
 }
 
-base::math::Path const &base::math::PathCollection::operator[](int32_t index) const
+base::math::Path const &base::math::PathCollection::operator[](int64_t index) const
 {
 	return _paths[index];
 }

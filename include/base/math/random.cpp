@@ -56,10 +56,10 @@ std::shared_ptr<base::IRandomGenerator> base::CreateRandomGenerator()
 	return std::shared_ptr<base::IRandomGenerator>{new RandomGenerator{}};
 }
 
-std::vector<int32_t> base::ShuffleIndex(int32_t count)
+std::vector<int64_t> base::ShuffleIndex(int64_t count)
 {
-	std::vector<int32_t> ret;
-	for (int32_t i = 0; i < count; i++)
+	std::vector<int64_t> ret;
+	for (int64_t i = 0; i < count; i++)
 	{
 		ret.push_back(i);
 	}

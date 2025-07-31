@@ -3,7 +3,6 @@
 #include "base/math/Counter.h"
 #include "base/stream/Stream.h"
 #include <cstdint>
-#include <cstring>
 #include <memory>
 
 namespace base
@@ -16,7 +15,7 @@ namespace base
 	{
 	private:
 		std::unique_ptr<uint8_t[]> _buffer{};
-		int32_t _buffer_size = 0;
+		int64_t _buffer_size = 0;
 
 		///
 		/// @brief 头部。读取的时候递增头部。头部指向的位置是有效元素。（前提是缓冲区不为空）
@@ -92,7 +91,7 @@ namespace base
 		///
 		/// @param buffer_size 循环缓冲区的大小。
 		///
-		CircleBufferMemoryStream(int32_t buffer_size)
+		CircleBufferMemoryStream(int64_t buffer_size)
 			: _start(0, buffer_size - 1),
 			  _end(0, buffer_size - 1)
 
@@ -112,7 +111,7 @@ namespace base
 		///
 		/// @return
 		///
-		int32_t BufferSize() const
+		int64_t BufferSize() const
 		{
 			return _buffer_size;
 		}
@@ -122,7 +121,7 @@ namespace base
 		///
 		/// @return
 		///
-		int32_t AvailableToWrite() const
+		int64_t AvailableToWrite() const
 		{
 			return _buffer_size - Length();
 		}
@@ -226,9 +225,9 @@ namespace base
 		/// @brief 将本流的数据读取到 span 中。
 		///
 		/// @param span
-		/// @return int32_t
+		/// @return int64_t
 		///
-		virtual int32_t Read(base::Span const &span) override
+		virtual int64_t Read(base::Span const &span) override
 		{
 			if (span.Buffer() == nullptr)
 			{
@@ -248,7 +247,7 @@ namespace base
 
 			// span 如果太大，本流的数据无法充满他，所以需要将 span 切片，最大只能到 Length.
 			// 如果 span 的大小本来就小于 Length 了，则保持原大小。
-			base::Span const should_read_span = span.Slice(base::Range{0, std::min<int32_t>(span.Size(), Length())});
+			base::Span const should_read_span = span.Slice(base::Range{0, std::min<int64_t>(span.Size(), Length())});
 			if (_end > _start)
 			{
 				// 尾指针在头指针的后面，当前缓冲区内的数据没有环绕，所以读取时也不需要环绕
@@ -257,7 +256,7 @@ namespace base
 			}
 
 			// 执行到这里说明 _end <= _head，此时缓冲区内的数据发生了环绕，所以读取时有可能要环绕。
-			if (should_read_span.Size() <= _buffer_size - static_cast<int32_t>(_start.CurrentValue()))
+			if (should_read_span.Size() <= _buffer_size - static_cast<int64_t>(_start.CurrentValue()))
 			{
 				// 此时从 _start 到缓冲区末尾的数据刚好够本次读取，不用环绕
 				ReadNonCircular(should_read_span);
@@ -266,7 +265,7 @@ namespace base
 
 			// 执行到这里说明要环绕了。
 			// 先读取从 _start 开始到缓冲区末尾的数据。因为这部分可以先用非环绕的方式读出来。
-			base::Span span1 = should_read_span.Slice(base::Range{0, _buffer_size - static_cast<int32_t>(_start.CurrentValue())});
+			base::Span span1 = should_read_span.Slice(base::Range{0, _buffer_size - static_cast<int64_t>(_start.CurrentValue())});
 			ReadNonCircular(span1);
 
 			// 此时变成非环绕模式了，因为刚才的读取让 _start 发生环绕，已经变成 0 了。
@@ -287,7 +286,7 @@ namespace base
 				throw std::overflow_error{"缓冲区剩余空间无法接受这么多数据"};
 			}
 
-			if (span.Size() <= _buffer_size - static_cast<int32_t>(_end.CurrentValue()))
+			if (span.Size() <= _buffer_size - static_cast<int64_t>(_end.CurrentValue()))
 			{
 				// _end 到缓冲区尾部的空间刚好够写入，此时不需要环绕
 				WriteNonCircular(span);
@@ -295,7 +294,7 @@ namespace base
 			}
 
 			// 需要环绕
-			base::ReadOnlySpan span1 = span.Slice(base::Range{0, _buffer_size - static_cast<int32_t>(_end.CurrentValue())});
+			base::ReadOnlySpan span1 = span.Slice(base::Range{0, _buffer_size - static_cast<int64_t>(_end.CurrentValue())});
 			WriteNonCircular(span1);
 
 			// 此时 _end 已经变成 0 了，继续用 WriteNonCircular 写入剩余的字节

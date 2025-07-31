@@ -31,8 +31,8 @@ namespace base
 			bool _closed = false;
 
 			void Initialize(std::shared_ptr<base::serial::Serial> const &serial,
-							int32_t receiving_buffer_size,
-							int32_t timeout_frame_count);
+							int64_t receiving_buffer_size,
+							int64_t timeout_frame_count);
 
 			void ReceivingThreadFunc();
 
@@ -45,8 +45,8 @@ namespace base
 			/// @param timeout_frame_count 超时时间是几个串行帧的时间。
 			///
 			SoftWareTimeoutSerial(std::shared_ptr<base::serial::Serial> const &serial,
-								  int32_t receiving_buffer_size,
-								  int32_t timeout_frame_count)
+								  int64_t receiving_buffer_size,
+								  int64_t timeout_frame_count)
 			{
 				Initialize(serial, receiving_buffer_size, timeout_frame_count);
 
@@ -66,8 +66,8 @@ namespace base
 			/// @param receiving_thread_stack_size 接收线程的堆栈大小。
 			///
 			SoftWareTimeoutSerial(std::shared_ptr<base::serial::Serial> const &serial,
-								  int32_t receiving_buffer_size,
-								  int32_t timeout_frame_count,
+								  int64_t receiving_buffer_size,
+								  int64_t timeout_frame_count,
 								  size_t receiving_thread_stack_size)
 			{
 				Initialize(serial, receiving_buffer_size, timeout_frame_count);
@@ -200,9 +200,9 @@ namespace base
 			/// @brief 将本流的数据读取到 span 中。
 			///
 			/// @param span
-			/// @return int32_t
+			/// @return int64_t
 			///
-			virtual int32_t Read(base::Span const &span) override;
+			virtual int64_t Read(base::Span const &span) override;
 
 			///
 			/// @brief 将 span 中的数据写入本流。

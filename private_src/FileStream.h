@@ -172,10 +172,10 @@ namespace base
 		///
 		/// @return
 		///
-		virtual int32_t Read(base::Span const &span) override
+		virtual int64_t Read(base::Span const &span) override
 		{
 			_fs->read(reinterpret_cast<char *>(span.Buffer()), span.Size());
-			int32_t have_read = _fs->gcount();
+			int64_t have_read = _fs->gcount();
 			SetPosition(_fs->tellg());
 			return have_read;
 		}

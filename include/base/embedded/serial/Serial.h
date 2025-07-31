@@ -275,7 +275,7 @@ namespace base
 			///
 			/// @return
 			///
-			virtual int32_t Read(base::Span const &span) override
+			virtual int64_t Read(base::Span const &span) override
 			{
 				return base::serial::read(*_handle, span);
 			}

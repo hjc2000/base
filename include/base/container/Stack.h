@@ -65,7 +65,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual int32_t Count() const override
+		virtual int64_t Count() const override
 		{
 			return _vector.size();
 		}

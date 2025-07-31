@@ -29,12 +29,12 @@ void base::Span::CopyFrom(base::Span const &span) const
 
 void base::Span::CopyFrom(std::initializer_list<uint8_t> const &list) const
 {
-	if (static_cast<int32_t>(list.size()) != _size)
+	if (static_cast<int64_t>(list.size()) != _size)
 	{
 		throw std::invalid_argument{CODE_POS_STR + "list 的大小和本对象不一致。"};
 	}
 
-	int32_t i = 0;
+	int64_t i = 0;
 	for (uint8_t const &value : list)
 	{
 		_buffer[i] = value;
@@ -46,22 +46,22 @@ void base::Span::CopyFrom(std::initializer_list<uint8_t> const &list) const
 
 /* #region IndexOf */
 
-int32_t base::Span::IndexOf(uint8_t match) const
+int64_t base::Span::IndexOf(uint8_t match) const
 {
 	return base::ReadOnlySpan{*this}.IndexOf(match);
 }
 
-int32_t base::Span::IndexOf(int32_t start, uint8_t match) const
+int64_t base::Span::IndexOf(int64_t start, uint8_t match) const
 {
 	return base::ReadOnlySpan{*this}.IndexOf(match);
 }
 
-int32_t base::Span::IndexOf(base::ReadOnlySpan const &match) const
+int64_t base::Span::IndexOf(base::ReadOnlySpan const &match) const
 {
 	return base::ReadOnlySpan{*this}.IndexOf(match);
 }
 
-int32_t base::Span::IndexOf(int32_t start, base::ReadOnlySpan const &match) const
+int64_t base::Span::IndexOf(int64_t start, base::ReadOnlySpan const &match) const
 {
 	return base::ReadOnlySpan{*this}.IndexOf(match);
 }
@@ -70,22 +70,22 @@ int32_t base::Span::IndexOf(int32_t start, base::ReadOnlySpan const &match) cons
 
 /* #region LastIndexOf */
 
-int32_t base::Span::LastIndexOf(uint8_t match) const
+int64_t base::Span::LastIndexOf(uint8_t match) const
 {
 	return base::ReadOnlySpan{*this}.LastIndexOf(match);
 }
 
-int32_t base::Span::LastIndexOf(int32_t start, uint8_t match) const
+int64_t base::Span::LastIndexOf(int64_t start, uint8_t match) const
 {
 	return base::ReadOnlySpan{*this}.LastIndexOf(start, match);
 }
 
-int32_t base::Span::LastIndexOf(base::ReadOnlySpan const &match) const
+int64_t base::Span::LastIndexOf(base::ReadOnlySpan const &match) const
 {
 	return base::ReadOnlySpan{*this}.LastIndexOf(match);
 }
 
-int32_t base::Span::LastIndexOf(int32_t start, base::ReadOnlySpan const &match) const
+int64_t base::Span::LastIndexOf(int64_t start, base::ReadOnlySpan const &match) const
 {
 	return base::ReadOnlySpan{*this}.LastIndexOf(start, match);
 }
@@ -118,12 +118,12 @@ bool base::Span::EndWith(base::ReadOnlySpan const &match)
 
 /* #region 比较 */
 
-int32_t base::Span::Compare(base::ReadOnlySpan const &another) const
+int64_t base::Span::Compare(base::ReadOnlySpan const &another) const
 {
 	return base::ReadOnlySpan{*this}.Compare(another);
 }
 
-int32_t base::Span::Compare(base::Span const &another) const
+int64_t base::Span::Compare(base::Span const &another) const
 {
 	return base::ReadOnlySpan{*this}.Compare(another);
 }

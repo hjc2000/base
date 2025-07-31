@@ -21,7 +21,7 @@ namespace base
 	{
 	private:
 		uint8_t *_buffer = nullptr;
-		int32_t _size = 0;
+		int64_t _size = 0;
 
 	public:
 		/* #region 生命周期 */
@@ -39,7 +39,7 @@ namespace base
 		/// @param buffer 要引用的内存。
 		/// @param size buffer 的大小。
 		///
-		Span(uint8_t *buffer, int32_t size)
+		Span(uint8_t *buffer, int64_t size)
 		{
 			_buffer = buffer;
 			_size = size;
@@ -57,7 +57,7 @@ namespace base
 		///
 		Span(char *str)
 		{
-			int32_t white_char_index = 0;
+			int64_t white_char_index = 0;
 			while (true)
 			{
 				if (str[white_char_index] == '\0')
@@ -101,7 +101,7 @@ namespace base
 		/// @tparam TCount
 		/// @param array
 		///
-		template <int32_t TCount>
+		template <int64_t TCount>
 		Span(base::Array<uint8_t, TCount> &array)
 			: base::Span(array.Span())
 		{
@@ -117,7 +117,7 @@ namespace base
 		/// @param index
 		/// @return uint8_t&
 		///
-		uint8_t &operator[](int32_t index) const
+		uint8_t &operator[](int64_t index) const
 		{
 			if (index < 0 || index >= _size)
 			{
@@ -153,9 +153,9 @@ namespace base
 		///
 		/// @brief 所引用的内存大小。
 		///
-		/// @return int32_t
+		/// @return int64_t
 		///
-		int32_t Size() const
+		int64_t Size() const
 		{
 			return _size;
 		}
@@ -179,7 +179,7 @@ namespace base
 		///
 		/// @return base::Span
 		///
-		base::Span Slice(int32_t start, int32_t size) const
+		base::Span Slice(int64_t start, int64_t size) const
 		{
 			if (start + size > _size)
 			{
@@ -257,9 +257,9 @@ namespace base
 		/// @brief 从本内存段查找匹配项所在的索引。
 		///
 		/// @param match 匹配项。
-		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t IndexOf(uint8_t match) const;
+		int64_t IndexOf(uint8_t match) const;
 
 		///
 		/// @brief 从本内存段查找匹配项所在的索引。
@@ -267,26 +267,26 @@ namespace base
 		/// @param start 查找的起始索引。从此处往后开始查找。
 		/// @param match 匹配项。
 		///
-		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t IndexOf(int32_t start, uint8_t match) const;
+		int64_t IndexOf(int64_t start, uint8_t match) const;
 
 		///
 		/// @brief 从本内存段查找匹配项所在的索引。
 		///
 		/// @param match 匹配项。
-		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t IndexOf(base::ReadOnlySpan const &match) const;
+		int64_t IndexOf(base::ReadOnlySpan const &match) const;
 
 		///
 		/// @brief 从本内存段查找匹配项所在的索引。
 		///
 		/// @param start 查找的起始索引。从此处往后开始查找。
 		/// @param match 匹配项。
-		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t IndexOf(int32_t start, base::ReadOnlySpan const &match) const;
+		int64_t IndexOf(int64_t start, base::ReadOnlySpan const &match) const;
 
 		/* #endregion */
 
@@ -296,9 +296,9 @@ namespace base
 		/// @brief 从后往前查找最后一个匹配项所在的索引。
 		///
 		/// @param match 匹配项。
-		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t LastIndexOf(uint8_t match) const;
+		int64_t LastIndexOf(uint8_t match) const;
 
 		///
 		/// @brief 从 start 索引位置开始，从后往前查找匹配项。
@@ -306,17 +306,17 @@ namespace base
 		/// @param start 要从后往前查找的起始索引位置。
 		/// @param match 匹配项。
 		///
-		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t LastIndexOf(int32_t start, uint8_t match) const;
+		int64_t LastIndexOf(int64_t start, uint8_t match) const;
 
 		///
 		/// @brief 从后往前查找最后一个匹配位置的索引。
 		///
 		/// @param match 匹配项。
-		/// @return int32_t
+		/// @return int64_t
 		///
-		int32_t LastIndexOf(base::ReadOnlySpan const &match) const;
+		int64_t LastIndexOf(base::ReadOnlySpan const &match) const;
 
 		///
 		/// @brief 从 start 索引位置开始，从后往前查找匹配项。
@@ -324,9 +324,9 @@ namespace base
 		/// @param start 要从后往前查找的起始索引位置。
 		/// @param match 匹配项。
 		///
-		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t LastIndexOf(int32_t start, base::ReadOnlySpan const &match) const;
+		int64_t LastIndexOf(int64_t start, base::ReadOnlySpan const &match) const;
 
 		/* #endregion */
 
@@ -382,9 +382,9 @@ namespace base
 		/// 1 个字节小于 another 的第 1 个字节，则认为本内存段小于 another.
 		///
 		/// @param another
-		/// @return int32_t
+		/// @return int64_t
 		///
-		int32_t Compare(base::ReadOnlySpan const &another) const;
+		int64_t Compare(base::ReadOnlySpan const &another) const;
 
 		///
 		/// @brief 比较两段内存。
@@ -396,9 +396,9 @@ namespace base
 		/// 1 个字节小于 another 的第 1 个字节，则认为本内存段小于 another.
 		///
 		/// @param another
-		/// @return int32_t
+		/// @return int64_t
 		///
-		int32_t Compare(base::Span const &another) const;
+		int64_t Compare(base::Span const &another) const;
 
 		///
 		/// @brief 基于 Compare 方法。

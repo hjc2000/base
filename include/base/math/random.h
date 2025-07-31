@@ -128,10 +128,11 @@ namespace base
 	std::shared_ptr<base::IRandomGenerator> CreateRandomGenerator();
 
 	///
-	/// @brief 获取一个装着打乱的索引的 std::vector<int32_t>.
+	/// @brief 获取一个装着打乱的索引的 std::vector<int64_t>.
 	///
 	/// @param count 索引的数量。
-	/// @return std::vector<int32_t>
+	/// @return std::vector<int64_t>
 	///
-	std::vector<int32_t> ShuffleIndex(int32_t count);
+	std::vector<int64_t> ShuffleIndex(int64_t count);
+
 } // namespace base

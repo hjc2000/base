@@ -9,7 +9,7 @@ void base::usage::CountTriangle(base::math::PathCollection const &paths)
 	base::List<base::math::Point> all_points = paths.AllPoints();
 	base::Combination combination{all_points.Count(), 3};
 
-	int count = 0;
+	int64_t count = 0;
 	while (combination.MoveToNext())
 	{
 		base::math::Point point1 = all_points[combination[0]];

@@ -7,8 +7,8 @@
 #include <stdexcept>
 
 void base::serial::SoftWareTimeoutSerial::Initialize(std::shared_ptr<base::serial::Serial> const &serial,
-													 int32_t receiving_buffer_size,
-													 int32_t timeout_frame_count)
+													 int64_t receiving_buffer_size,
+													 int64_t timeout_frame_count)
 {
 	if (serial == nullptr)
 	{
@@ -38,14 +38,14 @@ void base::serial::SoftWareTimeoutSerial::ReceivingThreadFunc()
 			return;
 		}
 
-		int32_t have_read = _serial->Read(span);
+		int64_t have_read = _serial->Read(span);
 		_receiving_stream->Write(base::ReadOnlySpan{buffer, have_read});
 	}
 }
 
-int32_t base::serial::SoftWareTimeoutSerial::Read(base::Span const &span)
+int64_t base::serial::SoftWareTimeoutSerial::Read(base::Span const &span)
 {
-	int32_t have_read = 0;
+	int64_t have_read = 0;
 
 	while (true)
 	{

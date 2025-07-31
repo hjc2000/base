@@ -24,7 +24,7 @@ namespace base
 	{
 	private:
 		uint8_t const *_buffer = nullptr;
-		int32_t _size = 0;
+		int64_t _size = 0;
 
 	public:
 		/* #region 构造函数 */
@@ -42,7 +42,7 @@ namespace base
 		/// @param buffer 要引用的内存。
 		/// @param size buffer 的大小。
 		///
-		ReadOnlySpan(uint8_t const *buffer, int32_t size)
+		ReadOnlySpan(uint8_t const *buffer, int64_t size)
 		{
 			_buffer = buffer;
 			_size = size;
@@ -60,7 +60,7 @@ namespace base
 		///
 		ReadOnlySpan(char const *str)
 		{
-			int32_t white_char_index = 0;
+			int64_t white_char_index = 0;
 			while (true)
 			{
 				if (str[white_char_index] == '\0')
@@ -131,7 +131,7 @@ namespace base
 		/// @tparam TCount
 		/// @param array
 		///
-		template <int32_t TCount>
+		template <int64_t TCount>
 		ReadOnlySpan(base::Array<uint8_t, TCount> const &array)
 			: base::ReadOnlySpan(array.Span())
 		{
@@ -148,7 +148,7 @@ namespace base
 		///
 		/// @return
 		///
-		uint8_t const &operator[](int32_t index) const
+		uint8_t const &operator[](int64_t index) const
 		{
 			if (index < 0 || index >= _size)
 			{
@@ -187,7 +187,7 @@ namespace base
 		///
 		/// @return
 		///
-		int32_t Size() const
+		int64_t Size() const
 		{
 			return _size;
 		}
@@ -202,7 +202,7 @@ namespace base
 		///
 		/// @return
 		///
-		base::ReadOnlySpan Slice(int32_t start, int32_t size) const
+		base::ReadOnlySpan Slice(int64_t start, int64_t size) const
 		{
 			if (start + size > _size)
 			{
@@ -235,9 +235,9 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t IndexOf(uint8_t match) const
+		int64_t IndexOf(uint8_t match) const
 		{
-			for (int32_t i = 0; i < _size; i++)
+			for (int64_t i = 0; i < _size; i++)
 			{
 				if (_buffer[i] == match)
 				{
@@ -256,7 +256,7 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t IndexOf(int32_t start, uint8_t match) const
+		int64_t IndexOf(int64_t start, uint8_t match) const
 		{
 			if (start < 0)
 			{
@@ -268,7 +268,7 @@ namespace base
 				throw std::invalid_argument{CODE_POS_STR + "start 索引超出边界，大于 Size."};
 			}
 
-			int32_t result = Slice(base::Range{start, _size}).IndexOf(match);
+			int64_t result = Slice(base::Range{start, _size}).IndexOf(match);
 			if (result < 0)
 			{
 				return result;
@@ -282,9 +282,9 @@ namespace base
 		///
 		/// @param match 匹配项。
 		///
-		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t IndexOf(base::ReadOnlySpan const &match) const
+		int64_t IndexOf(base::ReadOnlySpan const &match) const
 		{
 			if (match.Size() == 0)
 			{
@@ -298,7 +298,7 @@ namespace base
 			}
 
 			uint8_t const first_byte_of_match = match[0];
-			for (int32_t i = 0; i < Size(); i++)
+			for (int64_t i = 0; i < Size(); i++)
 			{
 				if (i + match.Size() > Size())
 				{
@@ -325,9 +325,9 @@ namespace base
 		/// @param start 查找的起始索引。从此处往后开始查找。
 		/// @param match 匹配项。
 		///
-		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t IndexOf(int32_t start, base::ReadOnlySpan const &match) const
+		int64_t IndexOf(int64_t start, base::ReadOnlySpan const &match) const
 		{
 			if (start < 0)
 			{
@@ -339,7 +339,7 @@ namespace base
 				throw std::invalid_argument{CODE_POS_STR + "start 索引超出边界，大于 Size."};
 			}
 
-			int32_t result = Slice(base::Range{start, _size}).IndexOf(match);
+			int64_t result = Slice(base::Range{start, _size}).IndexOf(match);
 			if (result < 0)
 			{
 				return result;
@@ -357,11 +357,11 @@ namespace base
 		///
 		/// @param match 匹配项。
 		///
-		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t LastIndexOf(uint8_t match) const
+		int64_t LastIndexOf(uint8_t match) const
 		{
-			for (int32_t i = _size - 1; i >= 0; i--)
+			for (int64_t i = _size - 1; i >= 0; i--)
 			{
 				if (_buffer[i] == match)
 				{
@@ -378,9 +378,9 @@ namespace base
 		/// @param start 要从后往前查找的起始索引位置。
 		/// @param match 匹配项。
 		///
-		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t LastIndexOf(int32_t start, uint8_t match) const
+		int64_t LastIndexOf(int64_t start, uint8_t match) const
 		{
 			if (start < 0)
 			{
@@ -392,7 +392,7 @@ namespace base
 				throw std::invalid_argument{CODE_POS_STR + "start 索引超出边界，大于 Size."};
 			}
 
-			int32_t result = Slice(base::Range{0, start + 1}).LastIndexOf(match);
+			int64_t result = Slice(base::Range{0, start + 1}).LastIndexOf(match);
 			return result;
 		}
 
@@ -400,9 +400,9 @@ namespace base
 		/// @brief 从后往前查找最后一个匹配位置的索引。
 		///
 		/// @param match 匹配项。
-		/// @return int32_t
+		/// @return int64_t
 		///
-		int32_t LastIndexOf(base::ReadOnlySpan const &match) const
+		int64_t LastIndexOf(base::ReadOnlySpan const &match) const
 		{
 			if (match.Size() == 0)
 			{
@@ -417,7 +417,7 @@ namespace base
 
 			uint8_t const first_byte_of_match = match[0];
 
-			for (int32_t i = Size() - match.Size(); i >= 0; i--)
+			for (int64_t i = Size() - match.Size(); i >= 0; i--)
 			{
 				if (_buffer[i] == first_byte_of_match)
 				{
@@ -438,9 +438,9 @@ namespace base
 		/// @param start 要从后往前查找的起始索引位置。
 		/// @param match 匹配项。
 		///
-		/// @return int32_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t LastIndexOf(int32_t start, base::ReadOnlySpan const &match) const
+		int64_t LastIndexOf(int64_t start, base::ReadOnlySpan const &match) const
 		{
 			if (start < 0)
 			{
@@ -452,7 +452,7 @@ namespace base
 				throw std::invalid_argument{CODE_POS_STR + "start 索引超出边界，大于 Size."};
 			}
 
-			int32_t result = Slice(base::Range{0, start + 1}).LastIndexOf(match);
+			int64_t result = Slice(base::Range{0, start + 1}).LastIndexOf(match);
 			return result;
 		}
 
@@ -536,9 +536,9 @@ namespace base
 		/// @brief 基于字典序的比较逻辑比较两段内存。
 		///
 		/// @param another
-		/// @return int32_t
+		/// @return int64_t
 		///
-		int32_t Compare(base::ReadOnlySpan const &another) const
+		int64_t Compare(base::ReadOnlySpan const &another) const
 		{
 			if (Size() == 0 && another.Size() == 0)
 			{
@@ -546,9 +546,9 @@ namespace base
 				return 0;
 			}
 
-			int32_t result = std::memcmp(Buffer(),
+			int64_t result = std::memcmp(Buffer(),
 										 another.Buffer(),
-										 std::min<int32_t>(Size(), another.Size()));
+										 std::min<int64_t>(Size(), another.Size()));
 
 			if (result == 0)
 			{
@@ -565,9 +565,9 @@ namespace base
 		/// @brief 基于字典序的比较逻辑比较两段内存。
 		///
 		/// @param another
-		/// @return int32_t
+		/// @return int64_t
 		///
-		int32_t Compare(base::Span const &another) const
+		int64_t Compare(base::Span const &another) const
 		{
 			return Compare(base::ReadOnlySpan{another});
 		}

@@ -68,7 +68,7 @@ namespace base
 		///
 		/// @param size
 		///
-		void Reserve(int32_t size)
+		void Reserve(int64_t size)
 		{
 			if (size < 0)
 			{
@@ -98,9 +98,9 @@ namespace base
 		/// @param index
 		/// @param item
 		///
-		virtual void Insert(int32_t const index, ItemType const &item) override
+		virtual void Insert(int64_t const index, ItemType const &item) override
 		{
-			if (index < 0 || index > static_cast<int32_t>(_vector.size()))
+			if (index < 0 || index > static_cast<int64_t>(_vector.size()))
 			{
 				throw std::out_of_range{"索引超出范围"};
 			}
@@ -145,9 +145,9 @@ namespace base
 		///
 		/// @param index
 		///
-		virtual void RemoveAt(int32_t const index) override
+		virtual void RemoveAt(int64_t const index) override
 		{
-			if (index < 0 || index >= static_cast<int32_t>(_vector.size()))
+			if (index < 0 || index >= static_cast<int64_t>(_vector.size()))
 			{
 				throw std::out_of_range{"索引超出范围"};
 			}
@@ -206,7 +206,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual int32_t IndexOf(ItemType const &item) const override
+		virtual int64_t IndexOf(ItemType const &item) const override
 		{
 			auto it = std::find_if(_vector.begin(),
 								   _vector.end(),
@@ -217,7 +217,7 @@ namespace base
 
 			if (it != _vector.end())
 			{
-				return static_cast<int32_t>(std::distance(_vector.begin(), it)); // 返回元素的索引
+				return static_cast<int64_t>(std::distance(_vector.begin(), it)); // 返回元素的索引
 			}
 
 			// 如果没有找到元素，返回 -1
@@ -250,9 +250,9 @@ namespace base
 		///
 		/// @return
 		///
-		virtual int32_t Count() const override
+		virtual int64_t Count() const override
 		{
-			return static_cast<int32_t>(_vector.size());
+			return static_cast<int64_t>(_vector.size());
 		}
 
 		/* #region 索引器 */
@@ -264,7 +264,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual ItemType &operator[](int32_t const index) override
+		virtual ItemType &operator[](int64_t const index) override
 		{
 			return IRawArray<ItemType>::operator[](index);
 		}
@@ -276,7 +276,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual ItemType const &operator[](int32_t const index) const override
+		virtual ItemType const &operator[](int64_t const index) const override
 		{
 			return IRawArray<ItemType>::operator[](index);
 		}

@@ -9,7 +9,7 @@ namespace base
 	/// @brief 数组
 	///
 	///
-	template <typename ItemType, int32_t TCount>
+	template <typename ItemType, int64_t TCount>
 	class Array final :
 		public base::IRawArray<ItemType>
 	{
@@ -43,7 +43,7 @@ namespace base
 		///
 		Array(std::initializer_list<ItemType> const &list)
 		{
-			int32_t i = 0;
+			int64_t i = 0;
 			for (auto &item : list)
 			{
 				_arr[i++] = item;
@@ -67,7 +67,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual int32_t Count() const override
+		virtual int64_t Count() const override
 		{
 			return TCount;
 		}
