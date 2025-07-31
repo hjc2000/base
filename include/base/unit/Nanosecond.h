@@ -13,7 +13,6 @@ namespace base
 		class Hour;
 		class Minute;
 		class Second;
-		class Nanosecond;
 
 		///
 		/// @brief 纳秒
@@ -49,14 +48,14 @@ namespace base
 			///
 			/// @brief 单位的值。
 			///
-			/// @return base::Fraction&
+			/// @return
 			///
 			virtual base::Fraction &Value() override;
 
 			///
 			/// @brief 单位的字符串。
 			///
-			/// @return std::string
+			/// @return
 			///
 			virtual std::string UnitString() const override;
 
