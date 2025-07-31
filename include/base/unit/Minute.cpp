@@ -15,11 +15,6 @@ base::unit::Minute::Minute(base::unit::Hour const &value)
 	_value = static_cast<base::Fraction>(value) * 60;
 }
 
-base::unit::Minute::Minute(base::unit::Second const &value)
-{
-	_value = static_cast<base::Fraction>(value) / 60;
-}
-
 base::unit::Minute::Minute(base::unit::Nanosecond const &value)
 	: Minute(base::unit::Second{value})
 {

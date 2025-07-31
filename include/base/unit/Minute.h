@@ -32,7 +32,12 @@ namespace base
 
 			explicit Minute(base::Fraction const &value);
 			explicit Minute(base::unit::Hour const &value);
-			explicit Minute(base::unit::Second const &value);
+
+			explicit Minute(base::unit::Second const &value)
+			{
+				_value = static_cast<base::Fraction>(value) / 60;
+			}
+
 			explicit Minute(base::unit::Nanosecond const &value);
 			explicit Minute(base::unit::Hz const &value);
 			explicit Minute(base::unit::MHz const &value);
