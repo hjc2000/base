@@ -20,17 +20,8 @@ namespace base
 	public:
 		/* #region 构造函数 */
 
-		///
-		/// @brief 构造一个空列表。
-		///
-		///
 		ChunkedList() = default;
 
-		///
-		/// @brief 从向量中构造。将向量的元素拷贝过来。
-		///
-		/// @param o
-		///
 		ChunkedList(std::deque<ItemType> const &o)
 		{
 			_deque = o;
@@ -43,11 +34,6 @@ namespace base
 
 		/* #endregion */
 
-		///
-		/// @brief 将本列表内的元素拷贝到向量中。
-		///
-		/// @return
-		///
 		explicit operator std::deque<ItemType>() const
 		{
 			return _deque;
