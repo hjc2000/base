@@ -28,4 +28,5 @@ namespace base
 		///
 		virtual void Add() = 0;
 	};
+
 } // namespace base

@@ -21,7 +21,7 @@ namespace base
 		/// @tparam item_type
 		///
 		template <typename item_type>
-		class ConstEnumerator :
+		class ConstEnumerator final :
 			public IEnumerator<item_type const>
 		{
 		private:
@@ -61,6 +61,8 @@ namespace base
 		/* #endregion */
 
 	public:
+		virtual ~IEnumerable() = default;
+
 		/* #region ForwardIterator */
 
 		///
