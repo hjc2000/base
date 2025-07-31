@@ -309,24 +309,6 @@ namespace base
 
 		/* #endregion */
 
-		/* #region 相等比较 */
-
-		using IList<ItemType>::operator==;
-
-		///
-		/// @brief 转发到 std::vector 的相等判断逻辑。
-		///
-		/// @param another
-		///
-		/// @return
-		///
-		bool operator==(List<ItemType> const &another) const
-		{
-			return _vector == another._vector;
-		}
-
-		/* #endregion */
-
 		/* #region GetEnumerator */
 
 		using IEnumerable<ItemType>::GetEnumerator;
@@ -345,6 +327,20 @@ namespace base
 		using base::IRawArray<ItemType>::operator>;
 		using base::IRawArray<ItemType>::operator<=;
 		using base::IRawArray<ItemType>::operator>=;
+
+		using IList<ItemType>::operator==;
+
+		///
+		/// @brief 转发到 std::vector 的相等判断逻辑。
+		///
+		/// @param another
+		///
+		/// @return
+		///
+		bool operator==(List<ItemType> const &another) const
+		{
+			return _vector == another._vector;
+		}
 
 		/* #endregion */
 	};
