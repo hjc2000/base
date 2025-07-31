@@ -234,6 +234,69 @@ namespace base
 			return static_cast<int32_t>(_deque.size());
 		}
 
+		/* #region Sort */
+
+		///
+		/// @brief 排序。
+		///
+		/// @param ascending 是否按升序排序，即从小到大排序。传入 true 则按升序排序，传入 false 则按降序排序。
+		///
+		/// @warning 需要 ItemType 实现了比较运算符，否则会引发异常。
+		///
+		void Sort(bool ascending = true)
+		{
+			try
+			{
+				std::stable_sort(_deque.begin(),
+								 _deque.end(),
+								 [ascending](ItemType const &left, ItemType const &right) -> bool
+								 {
+									 if (ascending)
+									 {
+										 // std::stable_sort 函数的机制是如果谓语返回 true, 则将 left 排到 right
+										 // 的前面，否则就不调整 left 和 right 的顺序。
+										 //
+										 // 如果返回的是 base::LessThan, 则小于的时候谓语返回 true, left 排到
+										 // right 前面，那这就是升序排列，即从小到大排列。
+										 return base::LessThan(left, right);
+									 }
+									 else
+									 {
+										 return base::GreaterThan(left, right);
+									 }
+								 });
+			}
+			catch (std::exception const &e)
+			{
+				throw std::runtime_error{CODE_POS_STR + e.what()};
+			}
+		}
+
+		///
+		/// @brief 排序。
+		///
+		/// @param compare 谓语。如果希望 left 排到 right 前面，则返回 true. 如果返回 false,
+		/// 则 left 和 right 会保持当前相对顺序，不会调整。
+		///
+		void Sort(std::function<bool(ItemType const &left, ItemType const &right)> const &compare)
+		{
+			try
+			{
+				std::stable_sort(_deque.begin(),
+								 _deque.end(),
+								 [&](ItemType const &left, ItemType const &right) -> bool
+								 {
+									 return compare(left, right);
+								 });
+			}
+			catch (std::exception const &e)
+			{
+				throw std::runtime_error{CODE_POS_STR + e.what()};
+			}
+		}
+
+		/* #endregion */
+
 		/* #region 索引器 */
 
 		///
