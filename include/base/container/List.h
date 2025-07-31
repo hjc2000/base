@@ -102,7 +102,7 @@ namespace base
 		{
 			if (index < 0 || index > static_cast<int64_t>(_vector.size()))
 			{
-				throw std::out_of_range{"索引超出范围"};
+				throw std::out_of_range{CODE_POS_STR + "索引超出范围"};
 			}
 
 			_vector.insert(_vector.begin() + index, item);
