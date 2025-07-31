@@ -28,9 +28,6 @@ namespace base
 		public base::IEnumerable<ItemType const>
 	{
 	private:
-		ItemType const *_buffer = nullptr;
-		int64_t _count = 0;
-
 		/* #region 迭代器 */
 
 		class Enumerator :
@@ -79,6 +76,10 @@ namespace base
 		};
 
 		/* #endregion */
+
+	private:
+		ItemType const *_buffer = nullptr;
+		int64_t _count = 0;
 
 	public:
 		/* #region 构造函数 */
@@ -176,9 +177,6 @@ namespace base
 		public base::IEnumerable<ItemType>
 	{
 	private:
-		ItemType *_buffer = nullptr;
-		int64_t _count = 0;
-
 		/* #region 迭代器 */
 
 		class Enumerator :
@@ -227,6 +225,10 @@ namespace base
 		};
 
 		/* #endregion */
+
+	private:
+		ItemType *_buffer = nullptr;
+		int64_t _count = 0;
 
 	public:
 		/* #region 构造函数 */
