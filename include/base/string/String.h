@@ -2,6 +2,7 @@
 #include "base/container/List.h"
 #include "base/container/Range.h"
 #include "base/stream/ReadOnlySpan.h"
+#include "base/stream/Span.h"
 #include "base/string/character.h"
 #include "base/string/StringSplitOptions.h"
 #include <cctype>
@@ -146,6 +147,32 @@ namespace base
 		/// @return
 		///
 		base::ReadOnlySpan Span() const
+		{
+			return base::ReadOnlySpan{
+				reinterpret_cast<uint8_t const *>(_string.data()),
+				static_cast<int64_t>(_string.size()),
+			};
+		}
+
+		///
+		/// @brief 隐式转换为 base::Span.
+		///
+		/// @return
+		///
+		operator base::Span()
+		{
+			return base::Span{
+				reinterpret_cast<uint8_t *>(_string.data()),
+				static_cast<int64_t>(_string.size()),
+			};
+		}
+
+		///
+		/// @brief 隐式转换为 base::ReadOnlySpan.
+		///
+		/// @return
+		///
+		operator base::ReadOnlySpan() const
 		{
 			return base::ReadOnlySpan{
 				reinterpret_cast<uint8_t const *>(_string.data()),

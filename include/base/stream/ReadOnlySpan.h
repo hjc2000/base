@@ -11,8 +11,6 @@
 
 namespace base
 {
-	class String;
-
 	///
 	/// @brief 只读内存段。
 	///
@@ -74,13 +72,6 @@ namespace base
 			_buffer = reinterpret_cast<uint8_t const *>(str);
 			_size = white_char_index;
 		}
-
-		///
-		/// @brief 引用字符串的内存段。不包括结尾的空字符。
-		///
-		/// @param str
-		///
-		ReadOnlySpan(base::String const &str);
 
 		///
 		/// @brief 从 base::ArraySpan<uint8_t> 构造，引用它所引用的内存。
