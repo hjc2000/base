@@ -88,7 +88,7 @@ namespace base
 					{
 						return base::Span{
 							_controller.Span().Buffer(),
-							std::min<int32_t>(32 * 1024 * 1024, _controller.Span().Size()),
+							std::min<int64_t>(32 * 1024 * 1024, _controller.Span().Size()),
 						};
 					}
 				};
