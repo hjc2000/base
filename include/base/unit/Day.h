@@ -8,13 +8,6 @@ namespace base
 {
 	namespace unit
 	{
-		class Hz;
-		class MHz;
-		class Day;
-		class Hour;
-		class Minute;
-		class Nanosecond;
-
 		class Day :
 			public base::unit::IUnit<Day>
 		{

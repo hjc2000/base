@@ -7,11 +7,6 @@ namespace base
 {
 	namespace unit
 	{
-		class Hz;
-		class MHz;
-		class Hour;
-		class Nanosecond;
-
 		/// @brief 分钟。
 		class Minute :
 			public base::unit::IUnit<Minute>

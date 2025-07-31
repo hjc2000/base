@@ -8,12 +8,6 @@ namespace base
 {
 	namespace unit
 	{
-		class Hz;
-		class MHz;
-		class Hour;
-		class Minute;
-		class Second;
-
 		///
 		/// @brief 纳秒
 		///
@@ -34,38 +28,81 @@ namespace base
 				_value = value;
 			}
 
-			explicit Nanosecond(base::Fraction const &value);
-			explicit Nanosecond(base::unit::Hour const &value);
-			explicit Nanosecond(base::unit::Minute const &value);
-			explicit Nanosecond(base::unit::Second const &value);
-			explicit Nanosecond(base::unit::Hz const &value);
-			explicit Nanosecond(base::unit::MHz const &value);
-			explicit Nanosecond(std::chrono::seconds const &value);
-			explicit Nanosecond(std::chrono::milliseconds const &value);
-			explicit Nanosecond(std::chrono::microseconds const &value);
-			explicit Nanosecond(std::chrono::nanoseconds const &value);
+			explicit Nanosecond(base::Fraction const &value)
+			{
+				_value = value;
+			}
+
+			Nanosecond(base::unit::Second const &value)
+			{
+				_value = static_cast<base::Fraction>(value) * 1000 * 1000 * 1000;
+			}
+
+			///
+			/// @brief 能转换到 base::unit::Second 的对象都借助 base::unit::Second
+			/// 进行构造。
+			///
+			template <typename T>
+				requires(std::is_convertible_v<T, base::unit::Second>)
+			Nanosecond(T const &value)
+				: Nanosecond(base::unit::Second{value})
+			{
+			}
 
 			///
 			/// @brief 单位的值。
 			///
 			/// @return
 			///
-			virtual base::Fraction &Value() override;
+			virtual base::Fraction &Value() override
+			{
+				return _value;
+			}
 
 			///
 			/// @brief 单位的字符串。
 			///
 			/// @return
 			///
-			virtual std::string UnitString() const override;
+			virtual std::string UnitString() const override
+			{
+				return "ns";
+			}
 
-			explicit operator std::chrono::days() const;
-			explicit operator std::chrono::hours() const;
-			explicit operator std::chrono::minutes() const;
-			explicit operator std::chrono::seconds() const;
-			explicit operator std::chrono::milliseconds() const;
-			explicit operator std::chrono::microseconds() const;
-			explicit operator std::chrono::nanoseconds() const;
+			explicit operator std::chrono::days() const
+			{
+				return std::chrono::days{base::unit::Second{*this}};
+			}
+
+			explicit operator std::chrono::hours() const
+			{
+				return std::chrono::hours{base::unit::Second{*this}};
+			}
+
+			explicit operator std::chrono::minutes() const
+			{
+				return std::chrono::minutes{base::unit::Second{*this}};
+			}
+
+			explicit operator std::chrono::seconds() const
+			{
+				return std::chrono::seconds{base::unit::Second{*this}};
+			}
+
+			explicit operator std::chrono::milliseconds() const
+			{
+				return std::chrono::milliseconds{base::unit::Second{*this}};
+			}
+
+			explicit operator std::chrono::microseconds() const
+			{
+				return std::chrono::microseconds{base::unit::Second{*this}};
+			}
+
+			explicit operator std::chrono::nanoseconds() const
+			{
+				return std::chrono::nanoseconds{base::unit::Second{*this}};
+			}
 
 			operator base::unit::Second() const
 			{

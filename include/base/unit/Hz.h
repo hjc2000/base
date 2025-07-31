@@ -6,9 +6,6 @@ namespace base
 {
 	namespace unit
 	{
-		class Second;
-		class Nanosecond;
-
 		/// @brief 频率单位：Hz.
 		class Hz :
 			public base::unit::IUnit<Hz>

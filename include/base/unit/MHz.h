@@ -9,8 +9,6 @@ namespace base
 {
 	namespace unit
 	{
-		class Nanosecond;
-
 		///
 		/// @brief 频率单位：MHz.
 		///
