@@ -124,7 +124,7 @@ namespace base
 	/// @return
 	///
 	std::string ToHexString(uint8_t const *buffer,
-							int32_t size,
+							int64_t size,
 							ToHexStringOptions const &options = ToHexStringOptions{});
 
 	///

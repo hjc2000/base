@@ -90,13 +90,13 @@ std::string base::ToHexString(uint64_t number, ToHexStringOptions const &options
 			break;
 		}
 
-		if (static_cast<int32_t>(ret.size()) > reserve)
+		if (static_cast<int64_t>(ret.size()) > reserve)
 		{
 			throw std::runtime_error{"ToHexString 在拼接数字时结果特别长"};
 		}
 	}
 
-	while (static_cast<int32_t>(ret.size()) < options.width)
+	while (static_cast<int64_t>(ret.size()) < options.width)
 	{
 		ret += '0';
 	}
@@ -117,7 +117,7 @@ std::string base::ToHexString(void const *p, ToHexStringOptions const &options)
 }
 
 std::string base::ToHexString(uint8_t const *buffer,
-							  int32_t size,
+							  int64_t size,
 							  ToHexStringOptions const &options)
 {
 	if (size <= 0)

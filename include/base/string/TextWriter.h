@@ -25,7 +25,7 @@ namespace base
 		{
 			base::ReadOnlySpan span{
 				reinterpret_cast<uint8_t const *>(str.data()),
-				static_cast<int32_t>(str.size()),
+				static_cast<int64_t>(str.size()),
 			};
 
 			Write(span);
@@ -82,7 +82,7 @@ namespace base
 		///
 		void Write(char const *str)
 		{
-			int32_t end_index = 0;
+			int64_t end_index = 0;
 			while (true)
 			{
 				if (str[end_index] == '\0')
@@ -122,7 +122,7 @@ namespace base
 			WriteLine();
 		}
 
-		void Write(char const *str, int32_t length)
+		void Write(char const *str, int64_t length)
 		{
 			if (length <= 0)
 			{
@@ -137,7 +137,7 @@ namespace base
 			Write(span);
 		}
 
-		void WriteLine(char const *str, int32_t length)
+		void WriteLine(char const *str, int64_t length)
 		{
 			Write(str, length);
 			WriteLine();

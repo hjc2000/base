@@ -20,15 +20,15 @@ namespace base
 	class StringLength
 	{
 	private:
-		int32_t _value{};
+		int64_t _value{};
 
 	public:
-		constexpr explicit StringLength(int32_t value)
+		constexpr explicit StringLength(int64_t value)
 			: _value(value)
 		{
 		}
 
-		constexpr int32_t Value() const
+		constexpr int64_t Value() const
 		{
 			return _value;
 		}
@@ -136,7 +136,7 @@ namespace base
 		{
 			return base::Span{
 				reinterpret_cast<uint8_t *>(_string.data()),
-				static_cast<int32_t>(_string.size()),
+				static_cast<int64_t>(_string.size()),
 			};
 		}
 
@@ -149,7 +149,7 @@ namespace base
 		{
 			return base::ReadOnlySpan{
 				reinterpret_cast<uint8_t const *>(_string.data()),
-				static_cast<int32_t>(_string.size()),
+				static_cast<int64_t>(_string.size()),
 			};
 		}
 
@@ -158,7 +158,7 @@ namespace base
 		///
 		/// @return
 		///
-		int32_t Length() const
+		int64_t Length() const
 		{
 			return _string.size();
 		}
@@ -172,14 +172,9 @@ namespace base
 		///
 		/// @return
 		///
-		char &operator[](int32_t index)
+		char &operator[](int64_t index)
 		{
-			if (_string.size() > INT32_MAX)
-			{
-				throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
-			}
-
-			if (index > static_cast<int32_t>(_string.size()))
+			if (index > static_cast<int64_t>(_string.size()))
 			{
 				throw std::out_of_range{"索引超出范围。"};
 			}
@@ -194,7 +189,7 @@ namespace base
 		///
 		/// @return
 		///
-		char const &operator[](int32_t index) const
+		char const &operator[](int64_t index) const
 		{
 			return const_cast<base::String &>(*this)[index];
 		}
@@ -240,11 +235,6 @@ namespace base
 		base::List<base::String> Split(char separator,
 									   base::StringSplitOptions const &options = StringSplitOptions{}) const
 		{
-			if (_string.size() > INT32_MAX)
-			{
-				throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
-			}
-
 			base::List<base::String> ret;
 
 			/// @brief 在设定的选项下将字符串添加到列表中
@@ -267,12 +257,12 @@ namespace base
 
 			base::ReadOnlySpan span{
 				reinterpret_cast<uint8_t const *>(_string.data()),
-				static_cast<int32_t>(_string.size()),
+				static_cast<int64_t>(_string.size()),
 			};
 
 			while (true)
 			{
-				int32_t index = span.IndexOf(separator);
+				int64_t index = span.IndexOf(separator);
 				if (index < 0)
 				{
 					// 找不到分隔符，将剩余的整个 span 作为一个字符串。
@@ -313,11 +303,6 @@ namespace base
 		///
 		base::String Slice(base::Range const &range) const
 		{
-			if (_string.size() > INT32_MAX)
-			{
-				throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
-			}
-
 			std::string ret{
 				_string.data() + range.Begin(),
 				static_cast<size_t>(range.Size()),
@@ -362,17 +347,12 @@ namespace base
 		///
 		void TrimStart()
 		{
-			if (_string.size() > INT32_MAX)
-			{
-				throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
-			}
-
 			if (_string.size() == 0)
 			{
 				return;
 			}
 
-			for (int32_t i = 0; i < static_cast<int32_t>(_string.size()); i++)
+			for (int64_t i = 0; i < static_cast<int64_t>(_string.size()); i++)
 			{
 				if (!base::character::IsWhiteChar(_string[i]))
 				{
@@ -389,17 +369,12 @@ namespace base
 		///
 		void TrimEnd()
 		{
-			if (_string.size() > INT32_MAX)
-			{
-				throw std::out_of_range{"字符串过大，请优化设计，不要直接占用 2GiB 内存。"};
-			}
-
 			if (_string.size() == 0)
 			{
 				return;
 			}
 
-			for (int32_t i = Length() - 1; i >= 0; i--)
+			for (int64_t i = Length() - 1; i >= 0; i--)
 			{
 				if (!base::character::IsWhiteChar(_string[i]))
 				{
@@ -435,7 +410,7 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t IndexOf(char match) const
+		int64_t IndexOf(char match) const
 		{
 			return Span().IndexOf(match);
 		}
@@ -448,7 +423,7 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t IndexOf(int32_t start, char match) const
+		int64_t IndexOf(int64_t start, char match) const
 		{
 			return Span().IndexOf(start, match);
 		}
@@ -460,7 +435,7 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t IndexOf(base::String const &match) const
+		int64_t IndexOf(base::String const &match) const
 		{
 			return Span().IndexOf(match.Span());
 		}
@@ -473,7 +448,7 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t IndexOf(int32_t start, base::String const &match) const
+		int64_t IndexOf(int64_t start, base::String const &match) const
 		{
 			return Span().IndexOf(start, match.Span());
 		}
@@ -489,7 +464,7 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t LastIndexOf(uint8_t match) const
+		int64_t LastIndexOf(uint8_t match) const
 		{
 			return Span().LastIndexOf(match);
 		}
@@ -502,7 +477,7 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t LastIndexOf(int32_t start, uint8_t match) const
+		int64_t LastIndexOf(int64_t start, uint8_t match) const
 		{
 			return Span().LastIndexOf(start, match);
 		}
@@ -514,7 +489,7 @@ namespace base
 		///
 		/// @return
 		///
-		int32_t LastIndexOf(base::String const &match) const
+		int64_t LastIndexOf(base::String const &match) const
 		{
 			return Span().LastIndexOf(match.Span());
 		}
@@ -527,7 +502,7 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		int32_t LastIndexOf(int32_t start, base::String const &match) const
+		int64_t LastIndexOf(int64_t start, base::String const &match) const
 		{
 			return Span().LastIndexOf(start, match.Span());
 		}
@@ -558,7 +533,7 @@ namespace base
 		///
 		/// @param index
 		///
-		void RemoveAt(int32_t index)
+		void RemoveAt(int64_t index)
 		{
 			_string.erase(index, 1);
 		}
@@ -582,7 +557,7 @@ namespace base
 		///
 		void Replace(base::String const &match, base::String const &replacement)
 		{
-			int32_t start = 0;
+			int64_t start = 0;
 			while (true)
 			{
 				if (start >= Length())
@@ -590,7 +565,7 @@ namespace base
 					return;
 				}
 
-				int32_t index = IndexOf(start, match);
+				int64_t index = IndexOf(start, match);
 				if (index < 0)
 				{
 					return;
@@ -707,7 +682,7 @@ namespace base
 		///
 		void PadLeft(char pad, base::StringLength const &length)
 		{
-			int32_t padding = length.Value() - Length();
+			int64_t padding = length.Value() - Length();
 			if (padding <= 0)
 			{
 				return;
@@ -715,7 +690,7 @@ namespace base
 
 			std::string pad_str{};
 			pad_str.reserve(padding);
-			for (int32_t i = 0; i < padding; i++)
+			for (int64_t i = 0; i < padding; i++)
 			{
 				pad_str += pad;
 			}
@@ -742,14 +717,14 @@ namespace base
 		///
 		void PadRight(char pad, base::StringLength const &length)
 		{
-			int32_t padding = length.Value() - Length();
+			int64_t padding = length.Value() - Length();
 			if (padding <= 0)
 			{
 				return;
 			}
 
 			_string.reserve(_string.size() + padding);
-			for (int32_t i = 0; i < padding; i++)
+			for (int64_t i = 0; i < padding; i++)
 			{
 				_string += pad;
 			}
