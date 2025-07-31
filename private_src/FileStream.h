@@ -27,30 +27,34 @@ namespace base
 		/// @brief 先尝试打开文件。如果不存在会创建。
 		///
 		/// @param path
-		/// @return static_function
 		///
-		static_function std::shared_ptr<base::FileStream> OpenOrCreate(base::Path const &path);
+		/// @return
+		///
+		static std::shared_ptr<base::FileStream> OpenOrCreate(base::Path const &path);
 
 		///
 		/// @brief 用创建模式打开文件流，无论如何都会创建一个新的空白文件。会覆盖旧的。
 		/// @param path 文件路径
+		///
 		/// @return 创建文件成功则返回 FileStream 对象。创建失败会抛出异常，不会返回空指针。
 		///
-		static_function std::shared_ptr<base::FileStream> CreateNewAnyway(base::Path const &path);
+		static std::shared_ptr<base::FileStream> CreateNewAnyway(base::Path const &path);
 
 		///
 		/// @brief 用打开模式打开一个存在的文件。如果文件不存在，此函数不会创建文件。
 		/// @param path 文件路径
+		///
 		/// @return 如果文件存在，且成功打开，则返回 FileStream 对象。失败会抛出异常，不会返回空指针。
 		///
-		static_function std::shared_ptr<base::FileStream> OpenExisting(base::Path const &path);
+		static std::shared_ptr<base::FileStream> OpenExisting(base::Path const &path);
 
 		///
 		/// @brief 以只读方式打开文件。
 		/// @param path 文件的路径。
+		///
 		/// @return 成功打开则返回 FileStream 对象。失败会抛出异常，不会返回空指针。
 		///
-		static_function std::shared_ptr<base::FileStream> OpenReadOnly(base::Path const &path);
+		static std::shared_ptr<base::FileStream> OpenReadOnly(base::Path const &path);
 		/* #endregion */
 
 		/* #region 流属性 */
@@ -58,31 +62,28 @@ namespace base
 		///
 		/// @brief 本流能否读取。
 		///
-		/// @return true 能读取。
-		/// @return false 不能读取。
+		/// @return
 		///
 		virtual bool CanRead() const override;
 
 		///
 		/// @brief 本流能否写入。
 		///
-		/// @return true 能写入。
-		/// @return false 不能写入。
+		/// @return
 		///
 		virtual bool CanWrite() const override;
 
 		///
 		/// @brief 本流能否定位。
 		///
-		/// @return true 能定位。
-		/// @return false 不能定位。
+		/// @return
 		///
 		virtual bool CanSeek() const override;
 
 		///
 		/// @brief 流的长度
 		///
-		/// @return int64_t
+		/// @return
 		///
 		virtual int64_t Length() const override;
 
@@ -96,7 +97,7 @@ namespace base
 		///
 		/// @brief 流当前的位置。
 		///
-		/// @return int64_t
+		/// @return
 		///
 		virtual int64_t Position() const override;
 
@@ -114,7 +115,8 @@ namespace base
 		/// @brief 将本流的数据读取到 span 中。
 		///
 		/// @param span
-		/// @return int32_t
+		///
+		/// @return
 		///
 		virtual int32_t Read(base::Span const &span) override;
 
@@ -141,6 +143,7 @@ namespace base
 		virtual void Close() override;
 		/* #endregion */
 	};
+
 } // namespace base
 
 #endif // HAS_THREAD
