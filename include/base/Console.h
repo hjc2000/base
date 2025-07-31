@@ -310,7 +310,7 @@ namespace base
 			}
 		}
 
-		void Write(char const *str, int32_t length)
+		void Write(char const *str, int64_t length)
 		{
 			base::task::MutexGuard g{_lock};
 			if (_output_writer == nullptr)
@@ -321,7 +321,7 @@ namespace base
 			_output_writer->Write(str, length);
 		}
 
-		void WriteLine(char const *str, int32_t length)
+		void WriteLine(char const *str, int64_t length)
 		{
 			base::task::MutexGuard g{_lock};
 			if (_output_writer == nullptr)
@@ -332,7 +332,7 @@ namespace base
 			_output_writer->WriteLine(str, length);
 		}
 
-		void WriteError(char const *str, int32_t length) noexcept
+		void WriteError(char const *str, int64_t length) noexcept
 		{
 			base::task::MutexGuard g{_lock};
 			if (_error_writer == nullptr)
@@ -349,7 +349,7 @@ namespace base
 			}
 		}
 
-		void WriteErrorLine(char const *str, int32_t length) noexcept
+		void WriteErrorLine(char const *str, int64_t length) noexcept
 		{
 			base::task::MutexGuard g{_lock};
 			if (_error_writer == nullptr)
