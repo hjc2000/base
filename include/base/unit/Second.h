@@ -6,8 +6,6 @@ namespace base
 {
 	namespace unit
 	{
-		class MHz;
-
 		/// @brief 秒
 		class Second :
 			public base::unit::IUnit<Second>
@@ -29,8 +27,6 @@ namespace base
 			{
 				_value = value;
 			}
-
-			explicit Second(base::unit::MHz const &value);
 
 			explicit Second(std::chrono::seconds const &value)
 			{
