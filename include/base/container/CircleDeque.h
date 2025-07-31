@@ -261,6 +261,8 @@ namespace base
 			return Buffer()[real_index];
 		}
 
+		using base::IEnumerator<T>::GetEnumerator;
+
 		///
 		/// @brief 获取非 const 迭代器
 		///
