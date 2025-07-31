@@ -10,6 +10,9 @@
 
 namespace base
 {
+	///
+	/// @brief 封装 std::deque 的列表。
+	///
 	template <typename ItemType>
 	class ChunkedList final :
 		public base::IList<ItemType>
@@ -305,6 +308,15 @@ namespace base
 
 		///
 		/// @brief 获取指定索引位置的元素。
+		///
+		/// @note 底层是多个内存块，扩容时会再申请一个内存块。这些内存块有一个索引表，当随机访问时，
+		/// 传入 index, 计算
+		/// 	size_t block_index = index / block_size;
+		/// 	size_t element_index_within_block = index % block_size;
+		/// block_index 用于在索引表中取出内存块的指针，element_index_within_block 用于在取出
+		/// 内存块后在这个内存块内索引元素。
+		///
+		/// 所以随机访问的时间复杂度是 O(1).
 		///
 		/// @param index
 		///
