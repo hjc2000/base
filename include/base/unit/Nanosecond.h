@@ -1,5 +1,7 @@
 #pragma once
+#include "base/math/Fraction.h"
 #include "base/unit/IUnit.h"
+#include "base/unit/Second.h"
 #include <chrono>
 
 namespace base
@@ -65,6 +67,12 @@ namespace base
 			explicit operator std::chrono::milliseconds() const;
 			explicit operator std::chrono::microseconds() const;
 			explicit operator std::chrono::nanoseconds() const;
+
+			operator base::unit::Second() const
+			{
+				base::unit::Second ret{_value / 1000 / 1000 / 1000};
+				return ret;
+			}
 		};
 
 	} // namespace unit

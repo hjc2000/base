@@ -33,7 +33,6 @@ namespace base
 			explicit Second(base::Fraction const &value);
 			explicit Second(base::unit::Hour const &value);
 			explicit Second(base::unit::Minute const &value);
-			explicit Second(base::unit::Nanosecond const &value);
 			explicit Second(base::unit::Hz const &value);
 			explicit Second(base::unit::MHz const &value);
 			explicit Second(std::chrono::seconds const &value);
@@ -44,14 +43,14 @@ namespace base
 			///
 			/// @brief 单位的值。
 			///
-			/// @return base::Fraction&
+			/// @return
 			///
 			virtual base::Fraction &Value() override;
 
 			///
 			/// @brief 单位的字符串。
 			///
-			/// @return std::string
+			/// @return
 			///
 			virtual std::string UnitString() const override;
 
