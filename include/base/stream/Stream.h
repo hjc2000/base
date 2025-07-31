@@ -19,31 +19,28 @@ namespace base
 		///
 		/// @brief 本流能否读取。
 		///
-		/// @return true 能读取。
-		/// @return false 不能读取。
+		/// @return
 		///
 		virtual bool CanRead() const = 0;
 
 		///
 		/// @brief 本流能否写入。
 		///
-		/// @return true 能写入。
-		/// @return false 不能写入。
+		/// @return
 		///
 		virtual bool CanWrite() const = 0;
 
 		///
 		/// @brief 本流能否定位。
 		///
-		/// @return true 能定位。
-		/// @return false 不能定位。
+		/// @return
 		///
 		virtual bool CanSeek() const = 0;
 
 		///
 		/// @brief 流的长度
 		///
-		/// @return int64_t
+		/// @return
 		///
 		virtual int64_t Length() const = 0;
 
@@ -57,7 +54,7 @@ namespace base
 		///
 		/// @brief 流当前的位置。
 		///
-		/// @return int64_t
+		/// @return
 		///
 		virtual int64_t Position() const = 0;
 
@@ -76,7 +73,8 @@ namespace base
 		/// @brief 将本流的数据读取到 span 中。
 		///
 		/// @param span
-		/// @return int64_t
+		///
+		/// @return
 		///
 		virtual int64_t Read(base::Span const &span) = 0;
 
@@ -115,6 +113,7 @@ namespace base
 		/// @param buffer 要将读取到的数据写入的缓冲区。
 		/// @param offset 将读取到的数据写入 dst_buf 时的起始位置。
 		/// @param count 要读取的字节数。
+		///
 		/// @return 实际读取的字节数。如果返回 0，说明此流结束。
 		///
 		int64_t Read(uint8_t *buffer, int64_t offset, int64_t count)
@@ -128,7 +127,8 @@ namespace base
 		/// @note 如果遇到流末尾，无法满足要求，则读取到的字节数会小于 span 的长度。
 		///
 		/// @param span
-		/// @return int64_t 读取了多少字节。
+		///
+		/// @return 读取了多少字节。
 		///
 		int64_t ReadExactly(base::Span const &span)
 		{
@@ -157,8 +157,9 @@ namespace base
 		/// @param offset
 		/// @param count
 		///
-		/// @return int64_t int64_t 读取到的字节数。
-		/// @note 一般等于 count，除非到达流末尾，无法满足要求了。调用者应该检查返回值，判断是否满足要求。
+		/// @return 读取到的字节数。
+		/// 	@note 一般等于 count，除非到达流末尾，无法满足要求了。调用者应该检查返回值，
+		/// 	判断是否满足要求。
 		///
 		int64_t ReadExactly(uint8_t *buffer, int64_t offset, int64_t count)
 		{
