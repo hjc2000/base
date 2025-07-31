@@ -7,8 +7,6 @@
 
 namespace base
 {
-	class String;
-
 	///
 	/// @brief 引用一段连续内存，不持有这段内存。
 	///
@@ -71,13 +69,6 @@ namespace base
 			_buffer = reinterpret_cast<uint8_t *>(str);
 			_size = white_char_index;
 		}
-
-		///
-		/// @brief 引用字符串的内存段。不包括结尾的空字符。
-		///
-		/// @param str
-		///
-		Span(base::String &str);
 
 		///
 		/// @brief 从 base::ArraySpan<uint8_t> 构造，引用它所引用的内存。

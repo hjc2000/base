@@ -1,12 +1,5 @@
 #include "Span.h"
 #include "base/stream/ReadOnlySpan.h"
-#include "base/string/String.h"
-
-base::Span::Span(base::String &str)
-{
-	base::Span span = str.Span();
-	*this = span;
-}
 
 /* #region CopyFrom */
 
