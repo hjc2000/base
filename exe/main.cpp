@@ -1,7 +1,7 @@
+#include "base/math/Fraction.Test.h"
 #include "base/math/InertialElement.h"
 #include "base/math/Int64Fraction.h"
 #include "base/string/define.h"
-#include "base/test/TestFraction.h"
 #include <cstdint>
 #include <iostream>
 
