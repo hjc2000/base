@@ -53,8 +53,8 @@ namespace base
 		{
 			if (value == 0.0)
 			{
-				SetNum(0);
-				SetDen(1);
+				_num = 0;
+				_den = 1;
 				return;
 			}
 
@@ -83,8 +83,8 @@ namespace base
 		{
 			if (value == 0.0f)
 			{
-				SetNum(0);
-				SetDen(1);
+				_num = 0;
+				_den = 1;
 				return;
 			}
 
@@ -109,14 +109,14 @@ namespace base
 		///
 		constexpr Int64Fraction(int64_t num, int64_t den)
 		{
-			SetNum(num);
+			_num = num;
 			if (num == 0)
 			{
-				SetDen(1);
+				_den = 1;
 			}
 			else
 			{
-				SetDen(den);
+				_den = den;
 			}
 		}
 
