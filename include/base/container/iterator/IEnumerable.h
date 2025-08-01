@@ -61,8 +61,6 @@ namespace base
 		/* #endregion */
 
 	public:
-		virtual ~IEnumerable() = default;
-
 		/* #region ForwardIterator */
 
 		///
@@ -128,6 +126,9 @@ namespace base
 		};
 
 		/* #endregion */
+
+	public:
+		virtual ~IEnumerable() = default;
 
 		/* #region 接口 */
 

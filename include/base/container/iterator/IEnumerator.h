@@ -18,6 +18,8 @@ namespace base
 		///
 		/// @brief 获取当前值的引用。
 		///
+		/// @note 迭代器构造后，如果被迭代的集合不为空，要立即让 CurrentValue 指向第一个有效元素。
+		///
 		/// @return
 		///
 		virtual ItemType &CurrentValue() = 0;
