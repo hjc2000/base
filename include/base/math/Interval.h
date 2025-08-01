@@ -20,7 +20,7 @@ namespace base
 		///
 		/// @note 构造出来的区间左右端点是 T 类型的默认值。
 		///
-		constexpr ClosedInterval() = default;
+		ClosedInterval() = default;
 
 		///
 		/// @brief 构造函数。
@@ -28,7 +28,7 @@ namespace base
 		/// @param left 区间左端点。
 		/// @param right 区间右端点。
 		///
-		constexpr ClosedInterval(T const &left, T const &right)
+		ClosedInterval(T const &left, T const &right)
 		{
 			if (left > right)
 			{
@@ -44,7 +44,7 @@ namespace base
 		///
 		/// @return T
 		///
-		constexpr T Left() const
+		T Left() const
 		{
 			return _left;
 		}
@@ -54,7 +54,7 @@ namespace base
 		///
 		/// @return T
 		///
-		constexpr T Right() const
+		T Right() const
 		{
 			return _right;
 		}
@@ -65,7 +65,7 @@ namespace base
 		/// @param value
 		/// @return
 		///
-		constexpr bool IsInRange(T const &value) const
+		bool IsInRange(T const &value) const
 		{
 			return value >= _left && value <= _right;
 		}
@@ -76,7 +76,7 @@ namespace base
 		/// @param value
 		/// @return
 		///
-		constexpr bool IsOutOfRange(T const &value) const
+		bool IsOutOfRange(T const &value) const
 		{
 			return !IsInRange(value);
 		}
