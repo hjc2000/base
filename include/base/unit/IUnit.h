@@ -165,11 +165,9 @@ namespace base
 			///
 			/// @return
 			///
-			template <typename _type>
-				requires(!std::convertible_to<_type, int64_t> && !std::convertible_to<_type, base::Fraction>)
-			TSelf operator+(_type const &value) const
+			TSelf operator+(TSelf const &value) const
 			{
-				return TSelf{Value() + TSelf{value}.Value()};
+				return TSelf{Value() + value.Value()};
 			}
 
 			///
@@ -179,11 +177,9 @@ namespace base
 			///
 			/// @return
 			///
-			template <typename _type>
-				requires(!std::convertible_to<_type, int64_t> && !std::convertible_to<_type, base::Fraction>)
-			TSelf operator-(_type const &value) const
+			TSelf operator-(TSelf const &value) const
 			{
-				return TSelf{Value() - TSelf{value}.Value()};
+				return TSelf{Value() - value.Value()};
 			}
 
 			///
@@ -215,17 +211,15 @@ namespace base
 			}
 
 			///
-			/// @brief 除以本单位或能够转换为本单位的其他单位，变成一个无量纲的常数。
+			/// @brief 除以本单位，变成一个无量纲的常数。
 			///
 			/// @param value
 			///
 			/// @return
 			///
-			template <typename _type>
-				requires(!std::convertible_to<_type, int64_t> && !std::convertible_to<_type, base::Fraction>)
-			base::Fraction operator/(_type const &value) const
+			base::Fraction operator/(TSelf const &value) const
 			{
-				return Value() / TSelf{value}.Value();
+				return Value() / value.Value();
 			}
 
 			/* #endregion */
@@ -233,32 +227,28 @@ namespace base
 			/* #region 自改变算术运算符 */
 
 			///
-			/// @brief 加上本单位或能够转换为本单位的其他单位的值。
+			/// @brief 加上本单位。
 			///
 			/// @param value
 			///
 			/// @return
 			///
-			template <typename _type>
-				requires(!std::convertible_to<_type, int64_t> && !std::convertible_to<_type, base::Fraction>)
-			TSelf &operator+=(_type const &value)
+			TSelf &operator+=(TSelf const &value)
 			{
-				Value() += TSelf{value}.Value();
+				Value() += value.Value();
 				return *reinterpret_cast<TSelf *>(this);
 			}
 
 			///
-			/// @brief 减去本单位或能够转换为本单位的其他单位的值。
+			/// @brief 减去本单位。
 			///
 			/// @param value
 			///
 			/// @return
 			///
-			template <typename _type>
-				requires(!std::convertible_to<_type, int64_t> && !std::convertible_to<_type, base::Fraction>)
-			TSelf &operator-=(_type const &value)
+			TSelf &operator-=(TSelf const &value)
 			{
-				Value() -= TSelf{value}.Value();
+				Value() -= value.Value();
 				return *reinterpret_cast<TSelf *>(this);
 			}
 
@@ -334,6 +324,7 @@ namespace base
 	/// @return
 	///
 	template <typename TUnit>
+		requires(std::is_base_of_v<base::unit::IUnit<TUnit>, TUnit>)
 	inline TUnit floor(base::unit::IUnit<TUnit> const &value)
 	{
 		return value.Floor();
@@ -347,6 +338,7 @@ namespace base
 	/// @return
 	///
 	template <typename TUnit>
+		requires(std::is_base_of_v<base::unit::IUnit<TUnit>, TUnit>)
 	inline TUnit ceil(base::unit::IUnit<TUnit> const &value)
 	{
 		return value.Ceil();
@@ -363,7 +355,8 @@ namespace base
 /// @return
 ///
 template <typename TLeft, typename TRight>
-	requires(std::convertible_to<TLeft, int64_t> || std::convertible_to<TLeft, base::Fraction>)
+	requires((std::convertible_to<TLeft, int64_t> || std::convertible_to<TLeft, base::Fraction>) &&
+			 std::is_base_of_v<base::unit::IUnit<TRight>, TRight>)
 inline TRight operator*(TLeft const &left, base::unit::IUnit<TRight> const &right)
 {
 	return reinterpret_cast<TRight const &>(right) * left;
