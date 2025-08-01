@@ -43,24 +43,6 @@ namespace base
 		}
 
 		///
-		/// @brief 通过分子，分母进行构造。
-		/// @param num 分子
-		/// @param den 分母
-		///
-		constexpr Int64Fraction(int64_t num, int64_t den)
-		{
-			SetNum(num);
-			if (num == 0)
-			{
-				SetDen(1);
-			}
-			else
-			{
-				SetDen(den);
-			}
-		}
-
-		///
 		/// @brief 通过浮点数构造。
 		///
 		/// @param value
@@ -118,6 +100,24 @@ namespace base
 			base::Int64Fraction fractional_part{static_cast<int64_t>(float_value), factor};
 
 			*this += int_part + fractional_part;
+		}
+
+		///
+		/// @brief 通过分子，分母进行构造。
+		/// @param num 分子
+		/// @param den 分母
+		///
+		constexpr Int64Fraction(int64_t num, int64_t den)
+		{
+			SetNum(num);
+			if (num == 0)
+			{
+				SetDen(1);
+			}
+			else
+			{
+				SetDen(den);
+			}
 		}
 
 		/* #endregion */
