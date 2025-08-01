@@ -4,8 +4,10 @@
 #include "base/filesystem/DirectoryEntry.h"
 #include "base/filesystem/Path.h"
 #include "base/math/Interval.h"
+#include "base/string/define.h"
 #include "base/time/DateTime.h"
 #include "filesystem.h"
+#include <stdexcept>
 
 namespace base
 {
@@ -38,8 +40,7 @@ namespace base
 				{
 					if (_year_dir_iterator == nullptr)
 					{
-						base::filesystem::DirectoryEntryEnumerable enumerable{_enumerable._base_path};
-						_year_dir_iterator = enumerable.GetEnumerator();
+						_year_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(_enumerable._base_path);
 						return;
 					}
 
@@ -64,8 +65,7 @@ namespace base
 
 						base::DirectoryEntry entry = _year_dir_iterator->CurrentValue();
 						base::Path year_dir_path = entry.Path();
-						base::filesystem::DirectoryEntryEnumerable enumerable{year_dir_path};
-						_month_dir_iterator = enumerable.GetEnumerator();
+						_month_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(year_dir_path);
 						return;
 					}
 
@@ -84,8 +84,7 @@ namespace base
 
 						base::DirectoryEntry entry = _month_dir_iterator->CurrentValue();
 						base::Path month_dir_path = entry.Path();
-						base::filesystem::DirectoryEntryEnumerable enumerable{month_dir_path};
-						_day_dir_iterator = enumerable.GetEnumerator();
+						_day_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(month_dir_path);
 						return;
 					}
 
@@ -105,8 +104,7 @@ namespace base
 
 						base::DirectoryEntry entry = _day_dir_iterator->CurrentValue();
 						base::Path day_dir_path = entry.Path();
-						base::filesystem::DirectoryEntryEnumerable enumerable{day_dir_path};
-						_file_iterator = enumerable.GetEnumerator();
+						_file_iterator = base::filesystem::CreateDirectoryEntryEnumerator(day_dir_path);
 						return;
 					}
 
@@ -127,6 +125,11 @@ namespace base
 				///
 				virtual bool IsEnd() const override
 				{
+					if (_file_iterator == nullptr)
+					{
+						return true;
+					}
+
 					return _file_iterator->IsEnd();
 				}
 
@@ -137,6 +140,11 @@ namespace base
 				///
 				virtual base::DirectoryEntry const &CurrentValue() override
 				{
+					if (_file_iterator == nullptr)
+					{
+						throw std::runtime_error{CODE_POS_STR + "没有当前值可用。"};
+					}
+
 					return _file_iterator->CurrentValue();
 				}
 
