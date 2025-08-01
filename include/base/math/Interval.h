@@ -726,6 +726,86 @@ namespace base
 				}
 			}
 		}
+
+		explicit operator base::ClosedInterval<T>()
+		{
+			if (_type != base::IntervalType::Closed)
+			{
+				throw std::runtime_error{CODE_POS_STR + "无法转换。"};
+			}
+
+			return base::ClosedInterval<T>(_left, _right);
+		}
+
+		explicit operator base::OpenInterval<T>()
+		{
+			if (_type != base::IntervalType::Open)
+			{
+				throw std::runtime_error{CODE_POS_STR + "无法转换。"};
+			}
+
+			return base::OpenInterval<T>(_left, _right);
+		}
+
+		explicit operator base::LeftOpenRightClosedInterval<T>()
+		{
+			if (_type != base::IntervalType::LeftOpenRightClosed)
+			{
+				throw std::runtime_error{CODE_POS_STR + "无法转换。"};
+			}
+
+			return base::LeftOpenRightClosedInterval<T>(_left, _right);
+		}
+
+		explicit operator base::LeftClosedRightOpenInterval<T>()
+		{
+			if (_type != base::IntervalType::LeftClosedRightOpen)
+			{
+				throw std::runtime_error{CODE_POS_STR + "无法转换。"};
+			}
+
+			return base::LeftClosedRightOpenInterval<T>(_left, _right);
+		}
+
+		explicit operator base::LeftInfiniteRightOpenInterval<T>()
+		{
+			if (_type != base::IntervalType::LeftInfiniteRightOpen)
+			{
+				throw std::runtime_error{CODE_POS_STR + "无法转换。"};
+			}
+
+			return base::LeftInfiniteRightOpenInterval<T>(_right);
+		}
+
+		explicit operator base::LeftInfiniteRightClosedInterval<T>()
+		{
+			if (_type != base::IntervalType::LeftInfiniteRightClosed)
+			{
+				throw std::runtime_error{CODE_POS_STR + "无法转换。"};
+			}
+
+			return base::LeftInfiniteRightClosedInterval<T>(_right);
+		}
+
+		explicit operator base::LeftOpenRightInfiniteInterval<T>()
+		{
+			if (_type != base::IntervalType::LeftOpenRightInfinite)
+			{
+				throw std::runtime_error{CODE_POS_STR + "无法转换。"};
+			}
+
+			return base::LeftOpenRightInfiniteInterval<T>(_left);
+		}
+
+		explicit operator base::LeftClosedRightInfiniteInterval<T>()
+		{
+			if (_type != base::IntervalType::LeftClosedRightInfinite)
+			{
+				throw std::runtime_error{CODE_POS_STR + "无法转换。"};
+			}
+
+			return base::LeftClosedRightInfiniteInterval<T>(_left);
+		}
 	};
 
 } // namespace base
