@@ -1,15 +1,11 @@
 #pragma once
 #include "base/math/Fraction.h"
 #include "base/unit/IUnit.h"
-#include <cstdint>
 
 namespace base
 {
 	namespace unit
 	{
-		class rps;
-		class rpm;
-
 		///
 		/// @brief 转速。圈 / 分。
 		///
@@ -30,24 +26,32 @@ namespace base
 				_value = value;
 			}
 
-			explicit rpm(base::Fraction const &value);
-			explicit rpm(base::unit::rps const &value);
+			explicit rpm(base::Fraction const &value)
+			{
+				_value = value;
+			}
 
 			using base::unit::IUnit<rpm>::Value;
 
 			///
 			/// @brief 单位的值。
 			///
-			/// @return base::Fraction&
+			/// @return
 			///
-			virtual base::Fraction &Value() override;
+			virtual base::Fraction &Value() override
+			{
+				return _value;
+			}
 
 			///
 			/// @brief 单位的字符串。
 			///
-			/// @return std::string
+			/// @return
 			///
-			virtual std::string UnitString() const override;
+			virtual std::string UnitString() const override
+			{
+				return "rpm";
+			}
 		};
 
 	} // namespace unit
