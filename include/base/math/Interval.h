@@ -622,18 +622,56 @@ namespace base
 	public:
 		constexpr Interval() = default;
 
-		constexpr Interval(base::ClosedInterval<T> const &closed_interval)
+		constexpr Interval(base::ClosedInterval<T> const &interval)
 		{
 			_type = base::IntervalType::Closed;
-			_left = closed_interval.Left();
-			_right = closed_interval.Right();
+			_left = interval.Left();
+			_right = interval.Right();
 		}
 
-		constexpr Interval(base::OpenInterval<T> const &open_interval)
+		constexpr Interval(base::OpenInterval<T> const &interval)
 		{
 			_type = base::IntervalType::Open;
-			_left = open_interval.Left();
-			_right = open_interval.Right();
+			_left = interval.Left();
+			_right = interval.Right();
+		}
+
+		constexpr Interval(base::LeftOpenRightClosedInterval<T> const &interval)
+		{
+			_type = base::IntervalType::LeftOpenRightClosed;
+			_left = interval.Left();
+			_right = interval.Right();
+		}
+
+		constexpr Interval(base::LeftClosedRightOpenInterval<T> const &interval)
+		{
+			_type = base::IntervalType::LeftClosedRightOpen;
+			_left = interval.Left();
+			_right = interval.Right();
+		}
+
+		constexpr Interval(base::LeftInfiniteRightOpenInterval<T> const &interval)
+		{
+			_type = base::IntervalType::LeftInfiniteRightOpen;
+			_right = interval.Right();
+		}
+
+		constexpr Interval(base::LeftInfiniteRightClosedInterval<T> const &interval)
+		{
+			_type = base::IntervalType::LeftInfiniteRightClosed;
+			_right = interval.Right();
+		}
+
+		constexpr Interval(base::LeftOpenRightInfiniteInterval<T> const &interval)
+		{
+			_type = base::IntervalType::LeftOpenRightInfinite;
+			_left = interval.Left();
+		}
+
+		constexpr Interval(base::LeftClosedRightInfiniteInterval<T> const &interval)
+		{
+			_type = base::IntervalType::LeftClosedRightInfinite;
+			_left = interval.Left();
 		}
 
 		constexpr base::IntervalType Type() const
