@@ -19,6 +19,8 @@ namespace base
 		base::BigInteger _num = 0;
 		base::BigInteger _den = 1;
 
+		void FromDouble(double value);
+
 	public:
 		/* #region 构造函数 */
 

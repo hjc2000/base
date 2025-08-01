@@ -5,16 +5,16 @@
 #include "BigInteger.h"
 #include <stdexcept>
 
-base::Fraction::Fraction(base::Double const &value)
+void base::Fraction::FromDouble(double value)
 {
-	if (value.Value() == 0.0)
+	if (value == 0.0)
 	{
 		_num = 0;
 		_den = 1;
 		return;
 	}
 
-	base::bit::DoubleBitView view{value.Value()};
+	base::bit::DoubleBitView view{value};
 
 	switch (view.ValueType())
 	{
@@ -83,6 +83,11 @@ base::Fraction::Fraction(base::Double const &value)
 			throw std::runtime_error{CODE_POS_STR + "非法的枚举值。"};
 		}
 	}
+}
+
+base::Fraction::Fraction(base::Double const &value)
+{
+	FromDouble(value.Value());
 }
 
 base::Fraction::Fraction(base::Float const &value)
