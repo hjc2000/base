@@ -30,9 +30,9 @@ namespace base
 		Fraction() = default;
 
 		///
-		/// @brief 从整型值构造。分子为 num, 分母为 1.
+		/// @brief 从整型值构造。分子为 int_num, 分母为 1.
 		///
-		/// @param num 分子。
+		/// @param int_num 分子。
 		///
 		template <typename T>
 			requires(std::is_integral_v<T>)
@@ -43,34 +43,9 @@ namespace base
 		}
 
 		///
-		/// @brief 整型转化为分数，则分子等于整型，分母为 1.
-		/// @param num
-		///
-		template <typename T>
-			requires(std::is_same_v<T, base::BigInteger>)
-		Fraction(T const &big_int_num)
-		{
-			SetNum(big_int_num);
-			SetDen(1);
-		}
-
-		///
-		/// @brief 通过 base::Int64Fraction 类型构造。
-		///
-		/// @param value
-		///
-		template <typename T>
-			requires(std::is_same_v<T, base::Int64Fraction>)
-		Fraction(T const &int64_frac)
-		{
-			_num = int64_frac.Num();
-			_den = int64_frac.Den();
-		}
-
-		///
 		/// @brief 通过浮点数构造。
 		///
-		/// @param value
+		/// @param double_value
 		///
 		template <typename T>
 			requires(std::is_same_v<T, double>)
@@ -82,7 +57,7 @@ namespace base
 		///
 		/// @brief 通过浮点数构造。
 		///
-		/// @param value
+		/// @param float_value
 		///
 		template <typename T>
 			requires(std::is_same_v<T, float>)
@@ -92,20 +67,46 @@ namespace base
 		}
 
 		///
+		/// @brief 从大整型构造，则分子为 big_int_num, 分母为 1.
+		///
+		/// @param big_int_num
+		///
+		template <typename T>
+			requires(std::is_same_v<T, base::BigInteger>)
+		Fraction(T const &big_int_num)
+		{
+			_num = big_int_num;
+			_den = 1;
+		}
+
+		///
+		/// @brief 从 base::Int64Fraction 类型构造。
+		///
+		/// @param int64_frac
+		///
+		template <typename T>
+			requires(std::is_same_v<T, base::Int64Fraction>)
+		Fraction(T const &int64_frac)
+		{
+			_num = int64_frac.Num();
+			_den = int64_frac.Den();
+		}
+
+		///
 		/// @brief 通过分子，分母进行构造。
 		/// @param num 分子
 		/// @param den 分母
 		///
 		Fraction(base::BigInteger const &num, base::BigInteger const &den)
 		{
-			SetNum(num);
+			_num = num;
 			if (num == 0)
 			{
-				SetDen(1);
+				_den = 1;
 			}
 			else
 			{
-				SetDen(den);
+				_den = den;
 				Simplify();
 			}
 		}
