@@ -824,6 +824,66 @@ namespace base
 		}
 
 		/* #endregion */
+
+		///
+		/// @brief 检查一个值是否在区间内。
+		///
+		/// @param value
+		/// @return
+		///
+		constexpr bool IsInRange(T const &value) const
+		{
+			switch (_type)
+			{
+			case base::IntervalType::Closed:
+				{
+					return base::ClosedInterval<T>{*this}.IsInRange(value);
+				}
+			case base::IntervalType::Open:
+				{
+					return base::OpenInterval<T>{*this}.IsInRange(value);
+				}
+			case base::IntervalType::LeftOpenRightClosed:
+				{
+					return base::LeftOpenRightClosedInterval<T>{*this}.IsInRange(value);
+				}
+			case base::IntervalType::LeftClosedRightOpen:
+				{
+					return base::LeftClosedRightOpenInterval<T>{*this}.IsInRange(value);
+				}
+			case base::IntervalType::LeftInfiniteRightOpen:
+				{
+					return base::LeftInfiniteRightOpenInterval<T>{*this}.IsInRange(value);
+				}
+			case base::IntervalType::LeftInfiniteRightClosed:
+				{
+					return base::LeftInfiniteRightClosedInterval<T>{*this}.IsInRange(value);
+				}
+			case base::IntervalType::LeftOpenRightInfinite:
+				{
+					return base::LeftOpenRightInfiniteInterval<T>{*this}.IsInRange(value);
+				}
+			case base::IntervalType::LeftClosedRightInfinite:
+				{
+					return base::LeftClosedRightInfiniteInterval<T>{*this}.IsInRange(value);
+				}
+			default:
+				{
+					throw std::runtime_error{CODE_POS_STR + "无法判断该区间是否包含元素。"};
+				}
+			}
+		}
+
+		///
+		/// @brief 检查一个值是否在区间外。
+		///
+		/// @param value
+		/// @return
+		///
+		constexpr bool IsOutOfRange(T const &value) const
+		{
+			return !IsInRange(value);
+		}
 	};
 
 } // namespace base
