@@ -41,4 +41,5 @@ namespace base
 	{
 		return &lhs == &rhs;
 	}
+
 } // namespace base

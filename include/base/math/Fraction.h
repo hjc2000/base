@@ -1,5 +1,6 @@
 #pragma once
 #include "base/math/BigInteger.h"
+#include "base/math/Int64Fraction.h"
 #include "base/string/ICanToString.h"
 #include "base/wrapper/number-wrapper.h"
 #include <cstdint>
@@ -47,6 +48,17 @@ namespace base
 		{
 			SetNum(num);
 			SetDen(1);
+		}
+
+		///
+		/// @brief 通过 base::Int64Fraction 类型构造。
+		///
+		/// @param value
+		///
+		Fraction(base::Int64Fraction const &value)
+		{
+			_num = value.Num();
+			_den = value.Den();
 		}
 
 		///

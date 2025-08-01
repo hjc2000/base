@@ -1,5 +1,6 @@
 #pragma once
 #include "base/math/Fraction.h"
+#include "base/sfinae/is_coefficient.h"
 #include "base/string/ICanToString.h"
 #include <cstdint>
 #include <type_traits>
@@ -355,7 +356,7 @@ namespace base
 /// @return
 ///
 template <typename TLeft, typename TRight>
-	requires((std::convertible_to<TLeft, int64_t> || std::convertible_to<TLeft, base::Fraction>) &&
+	requires(base::is_coefficient<TLeft> &&
 			 std::is_base_of_v<base::unit::IUnit<TRight>, TRight>)
 inline TRight operator*(TLeft const &left, base::unit::IUnit<TRight> const &right)
 {
