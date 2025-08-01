@@ -2,7 +2,6 @@
 #include "base/math/BigInteger.h"
 #include "base/math/Int64Fraction.h"
 #include "base/string/ICanToString.h"
-#include "base/wrapper/number-wrapper.h"
 #include <cstdint>
 #include <stdexcept>
 #include <string>
@@ -20,6 +19,7 @@ namespace base
 		base::BigInteger _den = 1;
 
 		void FromDouble(double value);
+		void FromFloat(float value);
 
 	public:
 		/* #region 构造函数 */
@@ -87,14 +87,24 @@ namespace base
 		///
 		/// @param value
 		///
-		Fraction(base::Double const &value);
+		template <typename T>
+			requires(std::is_same_v<T, double>)
+		Fraction(T value)
+		{
+			FromDouble(value);
+		}
 
 		///
 		/// @brief 通过浮点数构造。
 		///
 		/// @param value
 		///
-		Fraction(base::Float const &value);
+		template <typename T>
+			requires(std::is_same_v<T, float>)
+		Fraction(T value)
+		{
+			FromFloat(value);
+		}
 
 		/* #endregion */
 

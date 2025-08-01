@@ -85,21 +85,16 @@ void base::Fraction::FromDouble(double value)
 	}
 }
 
-base::Fraction::Fraction(base::Double const &value)
+void base::Fraction::FromFloat(float value)
 {
-	FromDouble(value.Value());
-}
-
-base::Fraction::Fraction(base::Float const &value)
-{
-	if (value.Value() == 0.0f)
+	if (value == 0.0f)
 	{
 		_num = 0;
 		_den = 1;
 		return;
 	}
 
-	base::bit::FloatBitView view{value.Value()};
+	base::bit::FloatBitView view{value};
 
 	switch (view.ValueType())
 	{
