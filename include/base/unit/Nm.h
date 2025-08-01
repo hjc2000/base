@@ -26,23 +26,32 @@ namespace base
 				_value = value;
 			}
 
-			explicit Nm(base::Fraction const &value);
+			explicit Nm(base::Fraction const &value)
+			{
+				_value = value;
+			}
 
 			using base::unit::IUnit<Nm>::Value;
 
 			///
 			/// @brief 单位的值。
 			///
-			/// @return base::Fraction&
+			/// @return
 			///
-			virtual base::Fraction &Value() override;
+			virtual base::Fraction &Value() override
+			{
+				return _value;
+			}
 
 			///
 			/// @brief 单位的字符串。
 			///
-			/// @return std::string
+			/// @return
 			///
-			virtual std::string UnitString() const override;
+			virtual std::string UnitString() const override
+			{
+				return "N·m";
+			}
 		};
 
 	} // namespace unit
