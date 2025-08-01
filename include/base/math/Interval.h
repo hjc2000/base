@@ -727,7 +727,7 @@ namespace base
 			}
 		}
 
-		explicit operator base::ClosedInterval<T>()
+		constexpr explicit operator base::ClosedInterval<T>()
 		{
 			if (_type != base::IntervalType::Closed)
 			{
@@ -737,7 +737,7 @@ namespace base
 			return base::ClosedInterval<T>(_left, _right);
 		}
 
-		explicit operator base::OpenInterval<T>()
+		constexpr explicit operator base::OpenInterval<T>()
 		{
 			if (_type != base::IntervalType::Open)
 			{
@@ -747,7 +747,7 @@ namespace base
 			return base::OpenInterval<T>(_left, _right);
 		}
 
-		explicit operator base::LeftOpenRightClosedInterval<T>()
+		constexpr explicit operator base::LeftOpenRightClosedInterval<T>()
 		{
 			if (_type != base::IntervalType::LeftOpenRightClosed)
 			{
@@ -757,7 +757,7 @@ namespace base
 			return base::LeftOpenRightClosedInterval<T>(_left, _right);
 		}
 
-		explicit operator base::LeftClosedRightOpenInterval<T>()
+		constexpr explicit operator base::LeftClosedRightOpenInterval<T>()
 		{
 			if (_type != base::IntervalType::LeftClosedRightOpen)
 			{
@@ -767,7 +767,7 @@ namespace base
 			return base::LeftClosedRightOpenInterval<T>(_left, _right);
 		}
 
-		explicit operator base::LeftInfiniteRightOpenInterval<T>()
+		constexpr explicit operator base::LeftInfiniteRightOpenInterval<T>()
 		{
 			if (_type != base::IntervalType::LeftInfiniteRightOpen)
 			{
@@ -777,7 +777,7 @@ namespace base
 			return base::LeftInfiniteRightOpenInterval<T>(_right);
 		}
 
-		explicit operator base::LeftInfiniteRightClosedInterval<T>()
+		constexpr explicit operator base::LeftInfiniteRightClosedInterval<T>()
 		{
 			if (_type != base::IntervalType::LeftInfiniteRightClosed)
 			{
@@ -787,7 +787,7 @@ namespace base
 			return base::LeftInfiniteRightClosedInterval<T>(_right);
 		}
 
-		explicit operator base::LeftOpenRightInfiniteInterval<T>()
+		constexpr explicit operator base::LeftOpenRightInfiniteInterval<T>()
 		{
 			if (_type != base::IntervalType::LeftOpenRightInfinite)
 			{
@@ -797,7 +797,7 @@ namespace base
 			return base::LeftOpenRightInfiniteInterval<T>(_left);
 		}
 
-		explicit operator base::LeftClosedRightInfiniteInterval<T>()
+		constexpr explicit operator base::LeftClosedRightInfiniteInterval<T>()
 		{
 			if (_type != base::IntervalType::LeftClosedRightInfinite)
 			{
