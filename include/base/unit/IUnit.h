@@ -296,37 +296,29 @@ namespace base
 
 			/* #region 比较 */
 
-			bool operator==(TSelf const &other)
+			bool operator==(TSelf const &other) const
 			{
 				return Value() == other.Value();
 			}
 
-			template <typename T>
-				requires(!std::convertible_to<T, int64_t> && !std::convertible_to<T, base::Fraction>)
-			bool LessThan(T const &another) const
+			bool operator<(TSelf const &other) const
 			{
-				return Value() < TSelf{another}.Value();
+				return Value() < other.Value();
 			}
 
-			template <typename T>
-				requires(!std::convertible_to<T, int64_t> && !std::convertible_to<T, base::Fraction>)
-			bool GreaterThan(T const &another) const
+			bool operator>(TSelf const &other) const
 			{
-				return Value() > TSelf{another}.Value();
+				return Value() > other.Value();
 			}
 
-			template <typename T>
-				requires(!std::convertible_to<T, int64_t> && !std::convertible_to<T, base::Fraction>)
-			bool LessThanOrEqual(T const &another) const
+			bool operator<=(TSelf const &other) const
 			{
-				return Value() <= TSelf{another}.Value();
+				return Value() <= other.Value();
 			}
 
-			template <typename T>
-				requires(!std::convertible_to<T, int64_t> && !std::convertible_to<T, base::Fraction>)
-			bool GreaterThanOrEqual(T const &another) const
+			bool operator>=(TSelf const &other) const
 			{
-				return Value() >= TSelf{another}.Value();
+				return Value() >= other.Value();
 			}
 
 			/* #endregion */
@@ -361,34 +353,6 @@ namespace base
 	}
 
 } // namespace base
-
-/* #region 全局比较函数 */
-
-template <typename TLeft, typename TRight>
-bool operator<(base::unit::IUnit<TLeft> const &left, base::unit::IUnit<TRight> const &right)
-{
-	return left.LessThan(reinterpret_cast<TRight const &>(right));
-}
-
-template <typename TLeft, typename TRight>
-bool operator>(base::unit::IUnit<TLeft> const &left, base::unit::IUnit<TRight> const &right)
-{
-	return left.GreaterThan(reinterpret_cast<TRight const &>(right));
-}
-
-template <typename TLeft, typename TRight>
-bool operator<=(base::unit::IUnit<TLeft> const &left, base::unit::IUnit<TRight> const &right)
-{
-	return left.LessThanOrEqual(reinterpret_cast<TRight const &>(right));
-}
-
-template <typename TLeft, typename TRight>
-bool operator>=(base::unit::IUnit<TLeft> const &left, base::unit::IUnit<TRight> const &right)
-{
-	return left.GreaterThanOrEqual(reinterpret_cast<TRight const &>(right));
-}
-
-/* #endregion */
 
 ///
 /// @brief 单位乘上一个无量纲的系数。

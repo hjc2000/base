@@ -49,6 +49,8 @@ namespace base
 			{
 			}
 
+			using base::unit::IUnit<Nanosecond>::Value;
+
 			///
 			/// @brief 单位的值。
 			///
