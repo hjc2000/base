@@ -6,9 +6,6 @@ namespace base
 {
 	namespace unit
 	{
-		class W;
-		class kW;
-
 		///
 		/// @brief 功率单位：瓦。
 		///
@@ -29,28 +26,32 @@ namespace base
 				_value = value;
 			}
 
-			W(base::Fraction const &value)
+			explicit W(base::Fraction const &value)
 			{
 				_value = value;
 			}
-
-			W(base::unit::kW const &value);
 
 			using base::unit::IUnit<W>::Value;
 
 			///
 			/// @brief 单位的值。
 			///
-			/// @return base::Fraction&
+			/// @return
 			///
-			virtual base::Fraction &Value() override;
+			virtual base::Fraction &Value() override
+			{
+				return _value;
+			}
 
 			///
 			/// @brief 单位的字符串。
 			///
-			/// @return std::string
+			/// @return
 			///
-			virtual std::string UnitString() const override;
+			virtual std::string UnitString() const override
+			{
+				return "W";
+			}
 		};
 
 	} // namespace unit

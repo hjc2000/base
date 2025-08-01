@@ -5,8 +5,6 @@ namespace base
 {
 	namespace unit
 	{
-		class Mbps;
-
 		///
 		/// @brief 比特率。每秒的比特数。这里是 bit / s.
 		///
@@ -27,22 +25,32 @@ namespace base
 				_value = value;
 			}
 
-			explicit bps(base::Fraction const &o);
-			explicit bps(base::unit::Mbps const &o);
+			explicit bps(base::Fraction const &o)
+			{
+				_value = o;
+			}
+
+			using base::unit::IUnit<bps>::Value;
 
 			///
 			/// @brief 单位的值。
 			///
 			/// @return
 			///
-			virtual base::Fraction &Value() override;
+			virtual base::Fraction &Value() override
+			{
+				return _value;
+			}
 
 			///
 			/// @brief 单位的字符串。
 			///
 			/// @return
 			///
-			virtual std::string UnitString() const override;
+			virtual std::string UnitString() const override
+			{
+				return "bps";
+			}
 		};
 
 	} // namespace unit
