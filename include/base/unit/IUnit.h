@@ -1,6 +1,7 @@
 #pragma once
 #include "base/math/Fraction.h"
 #include "base/sfinae/is_coefficient.h"
+#include "base/sfinae/is_unit.h"
 #include "base/string/ICanToString.h"
 #include <cstdint>
 #include <type_traits>
@@ -191,7 +192,7 @@ namespace base
 			/// @return
 			///
 			template <typename _type>
-				requires(std::convertible_to<_type, int64_t> || std::convertible_to<_type, base::Fraction>)
+				requires(base::is_coefficient<_type>)
 			TSelf operator*(_type const &value) const
 			{
 				return TSelf{Value() * value};
@@ -205,7 +206,7 @@ namespace base
 			/// @return
 			///
 			template <typename _type>
-				requires(std::convertible_to<_type, int64_t> || std::convertible_to<_type, base::Fraction>)
+				requires(base::is_coefficient<_type>)
 			TSelf operator/(_type const &value) const
 			{
 				return TSelf{Value() / value};
@@ -261,7 +262,7 @@ namespace base
 			/// @return
 			///
 			template <typename _type>
-				requires(std::convertible_to<_type, int64_t> || std::convertible_to<_type, base::Fraction>)
+				requires(base::is_coefficient<_type>)
 			TSelf &operator*=(_type const &value)
 			{
 				Value() *= value;
@@ -276,7 +277,7 @@ namespace base
 			/// @return
 			///
 			template <typename _type>
-				requires(std::convertible_to<_type, int64_t> || std::convertible_to<_type, base::Fraction>)
+				requires(base::is_coefficient<_type>)
 			TSelf &operator/=(_type const &value)
 			{
 				Value() /= value;
@@ -325,7 +326,7 @@ namespace base
 	/// @return
 	///
 	template <typename TUnit>
-		requires(std::is_base_of_v<base::unit::IUnit<TUnit>, TUnit>)
+		requires(base::is_unit<TUnit>)
 	inline TUnit floor(base::unit::IUnit<TUnit> const &value)
 	{
 		return value.Floor();
@@ -339,7 +340,7 @@ namespace base
 	/// @return
 	///
 	template <typename TUnit>
-		requires(std::is_base_of_v<base::unit::IUnit<TUnit>, TUnit>)
+		requires(base::is_unit<TUnit>)
 	inline TUnit ceil(base::unit::IUnit<TUnit> const &value)
 	{
 		return value.Ceil();
@@ -356,8 +357,7 @@ namespace base
 /// @return
 ///
 template <typename TLeft, typename TRight>
-	requires(base::is_coefficient<TLeft> &&
-			 std::is_base_of_v<base::unit::IUnit<TRight>, TRight>)
+	requires(base::is_coefficient<TLeft> && base::is_unit<TRight>)
 inline TRight operator*(TLeft const &left, base::unit::IUnit<TRight> const &right)
 {
 	return reinterpret_cast<TRight const &>(right) * left;
