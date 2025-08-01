@@ -1,5 +1,4 @@
 #pragma once
-#include "base/math/IInterval.h"
 #include "base/string/define.h"
 #include <stdexcept>
 
@@ -9,8 +8,7 @@ namespace base
 	/// @brief 闭区间。[Left, Right].
 	///
 	template <typename T>
-	class ClosedInterval :
-		public base::IInterval<T>
+	class ClosedInterval
 	{
 	private:
 		T _left{};
@@ -22,7 +20,7 @@ namespace base
 		///
 		/// @note 构造出来的区间左右端点是 T 类型的默认值。
 		///
-		ClosedInterval() = default;
+		constexpr ClosedInterval() = default;
 
 		///
 		/// @brief 构造函数。
@@ -30,7 +28,7 @@ namespace base
 		/// @param left 区间左端点。
 		/// @param right 区间右端点。
 		///
-		ClosedInterval(T const &left, T const &right)
+		constexpr ClosedInterval(T const &left, T const &right)
 		{
 			if (left > right)
 			{
@@ -46,7 +44,7 @@ namespace base
 		///
 		/// @return T
 		///
-		T Left() const
+		constexpr T Left() const
 		{
 			return _left;
 		}
@@ -56,7 +54,7 @@ namespace base
 		///
 		/// @return T
 		///
-		T Right() const
+		constexpr T Right() const
 		{
 			return _right;
 		}
@@ -67,9 +65,20 @@ namespace base
 		/// @param value
 		/// @return
 		///
-		bool IsInRange(T const &value) const
+		constexpr bool IsInRange(T const &value) const
 		{
 			return value >= _left && value <= _right;
+		}
+
+		///
+		/// @brief 检查一个值是否在区间外。
+		///
+		/// @param value
+		/// @return
+		///
+		constexpr bool IsOutOfRange(T const &value) const
+		{
+			return !IsInRange(value);
 		}
 	};
 
