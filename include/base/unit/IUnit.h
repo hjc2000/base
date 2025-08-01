@@ -296,11 +296,9 @@ namespace base
 
 			/* #region 比较 */
 
-			template <typename T>
-				requires(!std::convertible_to<T, int64_t> && !std::convertible_to<T, base::Fraction>)
-			bool Equal(T const &another) const
+			bool operator==(TSelf const &other)
 			{
-				return Value() == TSelf{another}.Value();
+				return Value() == other.Value();
 			}
 
 			template <typename T>
@@ -365,12 +363,6 @@ namespace base
 } // namespace base
 
 /* #region 全局比较函数 */
-
-template <typename TLeft, typename TRight>
-bool operator==(base::unit::IUnit<TLeft> const &left, base::unit::IUnit<TRight> const &right)
-{
-	return left.Equal(reinterpret_cast<TRight const &>(right));
-}
 
 template <typename TLeft, typename TRight>
 bool operator<(base::unit::IUnit<TLeft> const &left, base::unit::IUnit<TRight> const &right)
