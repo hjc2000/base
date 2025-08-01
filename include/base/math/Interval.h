@@ -608,7 +608,7 @@ namespace base
 	};
 
 	///
-	/// @brief 通用集合。
+	/// @brief 通用区间。
 	///
 	///
 	template <typename T>
