@@ -620,6 +620,8 @@ namespace base
 		T _right{};
 
 	public:
+		/* #region 构造函数 */
+
 		constexpr Interval() = default;
 
 		constexpr Interval(base::ClosedInterval<T> const &interval)
@@ -673,6 +675,8 @@ namespace base
 			_type = base::IntervalType::LeftClosedRightInfinite;
 			_left = interval.Left();
 		}
+
+		/* #endregion */
 
 		constexpr base::IntervalType Type() const
 		{
@@ -736,6 +740,8 @@ namespace base
 				}
 			}
 		}
+
+		/* #region 强制转换为特定区间 */
 
 		constexpr explicit operator base::ClosedInterval<T>()
 		{
@@ -816,6 +822,8 @@ namespace base
 
 			return base::LeftClosedRightInfiniteInterval<T>(_left);
 		}
+
+		/* #endregion */
 	};
 
 } // namespace base
