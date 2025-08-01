@@ -1,4 +1,5 @@
 #pragma once
+#include "base/math/IInterval.h"
 #include "base/string/define.h"
 #include <stdexcept>
 
@@ -8,7 +9,8 @@ namespace base
 	/// @brief 闭区间。[Left, Right].
 	///
 	template <typename T>
-	class ClosedInterval
+	class ClosedInterval :
+		public base::IInterval<T>
 	{
 	private:
 		T _left{};
@@ -68,17 +70,6 @@ namespace base
 		bool IsInRange(T const &value) const
 		{
 			return value >= _left && value <= _right;
-		}
-
-		///
-		/// @brief 检查一个值是否在区间外。
-		///
-		/// @param value
-		/// @return
-		///
-		bool IsOutOfRange(T const &value) const
-		{
-			return !IsInRange(value);
 		}
 	};
 
