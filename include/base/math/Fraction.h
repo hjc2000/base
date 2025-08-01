@@ -530,16 +530,3 @@ inline base::Fraction operator/(base::BigInteger left, base::Fraction const &rig
 }
 
 /* #endregion */
-
-#if HAS_THREAD
-
-namespace base
-{
-	namespace test
-	{
-		void TestFraction();
-
-	} // namespace test
-} // namespace base
-
-#endif // HAS_THREAD

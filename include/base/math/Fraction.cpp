@@ -374,11 +374,3 @@ bool base::Fraction::operator<=(Fraction const &another) const
 }
 
 /* #endregion */
-
-#if HAS_THREAD
-
-void base::test::TestFraction()
-{
-}
-
-#endif // HAS_THREAD
