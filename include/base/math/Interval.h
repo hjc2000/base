@@ -681,11 +681,21 @@ namespace base
 
 		constexpr T const &Left() const
 		{
+			if (LeftIsInfinite())
+			{
+				throw std::runtime_error{CODE_POS_STR + "区间左端是负无穷，本属性无效，无法返回有效值。"};
+			}
+
 			return _left;
 		}
 
 		constexpr T const &Right() const
 		{
+			if (RightIsInfinite())
+			{
+				throw std::runtime_error{CODE_POS_STR + "区间右端是正无穷，本属性无效，无法返回有效值。"};
+			}
+
 			return _right;
 		}
 
