@@ -29,71 +29,42 @@ namespace base
 				/// @brief 用来迭代基路径的迭代器。
 				///
 				///
-				std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _base_dir_iterator;
 				std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _year_dir_iterator;
 				std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _month_dir_iterator;
 				std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _day_dir_iterator;
 				std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _file_iterator;
 
-				///
-				/// @brief 移动到下一年。
-				///
-				/// @warning 只能被 MoveToNextMonth 调用。
-				///
-				///
 				void MoveToNextYear()
 				{
-					if (_base_dir_iterator == nullptr)
+					if (_year_dir_iterator == nullptr)
 					{
 						base::filesystem::DirectoryEntryEnumerable enumerable{_enumerable._base_path};
-						_base_dir_iterator = enumerable.GetEnumerator();
+						_year_dir_iterator = enumerable.GetEnumerator();
 						return;
 					}
 
-					if (_base_dir_iterator->IsEnd())
+					if (_year_dir_iterator->IsEnd())
 					{
 						// 没有下一个年份了
-						return;
-					}
-
-					_base_dir_iterator->Add();
-				}
-
-				void MoveToNextMonth()
-				{
-					if (_year_dir_iterator == nullptr || _year_dir_iterator->IsEnd())
-					{
-						// _year_dir_iterator 为空，还没有迭代过年份，或者 _year_dir_iterator 已经迭代
-						// 完了，需要切换到下一个年份目录然后重新构造 _year_dir_iterator.
-						MoveToNextYear();
-						if (_base_dir_iterator->IsEnd())
-						{
-							return;
-						}
-
-						base::DirectoryEntry entry = _base_dir_iterator->CurrentValue();
-						base::Path year_dir_path = entry.Path();
-						base::filesystem::DirectoryEntryEnumerable enumerable{year_dir_path};
-						_year_dir_iterator = enumerable.GetEnumerator();
 						return;
 					}
 
 					_year_dir_iterator->Add();
 				}
 
-				void MoveToNextDay()
+				void MoveToNextMonth()
 				{
 					if (_month_dir_iterator == nullptr || _month_dir_iterator->IsEnd())
 					{
-						MoveToNextMonth();
+						MoveToNextYear();
 						if (_year_dir_iterator->IsEnd())
 						{
 							return;
 						}
 
 						base::DirectoryEntry entry = _year_dir_iterator->CurrentValue();
-						base::Path month_dir_path = entry.Path();
-						base::filesystem::DirectoryEntryEnumerable enumerable{month_dir_path};
+						base::Path year_dir_path = entry.Path();
+						base::filesystem::DirectoryEntryEnumerable enumerable{year_dir_path};
 						_month_dir_iterator = enumerable.GetEnumerator();
 						return;
 					}
@@ -101,10 +72,52 @@ namespace base
 					_month_dir_iterator->Add();
 				}
 
+				void MoveToNextDay()
+				{
+					if (_day_dir_iterator == nullptr || _day_dir_iterator->IsEnd())
+					{
+						MoveToNextMonth();
+						if (_month_dir_iterator->IsEnd())
+						{
+							return;
+						}
+
+						base::DirectoryEntry entry = _month_dir_iterator->CurrentValue();
+						base::Path month_dir_path = entry.Path();
+						base::filesystem::DirectoryEntryEnumerable enumerable{month_dir_path};
+						_day_dir_iterator = enumerable.GetEnumerator();
+						return;
+					}
+
+					_day_dir_iterator->Add();
+				}
+
+				void MoveToNextFile()
+				{
+					if (_file_iterator == nullptr || _file_iterator->IsEnd())
+					{
+						MoveToNextDay();
+						if (_day_dir_iterator->IsEnd())
+						{
+							// 移动到下一天后 _day_dir_iterator 仍然结束，说明没有下一天了。
+							return;
+						}
+
+						base::DirectoryEntry entry = _day_dir_iterator->CurrentValue();
+						base::Path day_dir_path = entry.Path();
+						base::filesystem::DirectoryEntryEnumerable enumerable{day_dir_path};
+						_file_iterator = enumerable.GetEnumerator();
+						return;
+					}
+
+					_file_iterator->Add();
+				}
+
 			public:
 				Enumerator(YearMonthDayDirectoryEntryEnumerable &enumerable)
 					: _enumerable(enumerable)
 				{
+					MoveToNextFile();
 				}
 
 				///
@@ -114,7 +127,7 @@ namespace base
 				///
 				virtual bool IsEnd() const override
 				{
-					return _year_dir_iterator->IsEnd();
+					return _file_iterator->IsEnd();
 				}
 
 				///
@@ -124,7 +137,7 @@ namespace base
 				///
 				virtual base::DirectoryEntry const &CurrentValue() override
 				{
-					return _year_dir_iterator->CurrentValue();
+					return _file_iterator->CurrentValue();
 				}
 
 				///
@@ -133,6 +146,7 @@ namespace base
 				///
 				virtual void Add() override
 				{
+					MoveToNextFile();
 				}
 			};
 
