@@ -169,11 +169,11 @@ namespace base
 			/// @brief 过滤的日期时间范围。迭代时范围外的文件将不会获取到。
 			///
 			///
-			base::ClosedInterval<base::DateTime> _date_time_range;
+			base::Interval<base::DateTime> _date_time_range;
 
 		public:
 			YearMonthDayDirectoryEntryEnumerable(base::Path const &base_path,
-												 base::ClosedInterval<base::DateTime> const &date_time_range)
+												 base::Interval<base::DateTime> const &date_time_range)
 			{
 				_base_path = base_path;
 				_date_time_range = date_time_range;
