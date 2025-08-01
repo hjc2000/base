@@ -26,7 +26,7 @@ namespace base
 				_value = value;
 			}
 
-			A(base::Fraction const &value)
+			explicit A(base::Fraction const &value)
 			{
 				_value = value;
 			}

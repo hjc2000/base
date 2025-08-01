@@ -26,7 +26,7 @@ namespace base
 				_value = value;
 			}
 
-			Celsius(base::Fraction const &value)
+			explicit Celsius(base::Fraction const &value)
 			{
 				_value = value;
 			}
