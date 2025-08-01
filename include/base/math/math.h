@@ -4,17 +4,23 @@
 
 namespace base
 {
-	constexpr int64_t floor(double value)
+	template <typename T>
+		requires(std::is_same_v<T, double>)
+	constexpr int64_t floor(T value)
 	{
 		return static_cast<int64_t>(value);
 	}
 
-	constexpr int64_t floor(float value)
+	template <typename T>
+		requires(std::is_same_v<T, float>)
+	constexpr int64_t floor(T value)
 	{
 		return static_cast<int64_t>(value);
 	}
 
-	constexpr int64_t ceil(double value)
+	template <typename T>
+		requires(std::is_same_v<T, double>)
+	constexpr int64_t ceil(T value)
 	{
 		int64_t int_part = static_cast<int64_t>(value);
 		double fractional_part = value - static_cast<double>(int_part);
@@ -26,7 +32,9 @@ namespace base
 		return int_part + 1;
 	}
 
-	constexpr int64_t ceil(float value)
+	template <typename T>
+		requires(std::is_same_v<T, float>)
+	constexpr int64_t ceil(T value)
 	{
 		int64_t int_part = static_cast<int64_t>(value);
 		float fractional_part = value - static_cast<float>(int_part);
