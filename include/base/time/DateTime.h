@@ -7,7 +7,6 @@
 #include <array>
 #include <chrono>
 #include <cstdint>
-#include <cstdlib>
 #include <stdexcept>
 
 namespace base
@@ -843,12 +842,5 @@ namespace base
 			return start;
 		}
 	};
-
-#if HAS_THREAD
-	namespace test
-	{
-		void TestDateTime();
-	} // namespace test
-#endif // HAS_THREAD
 
 } // namespace base
