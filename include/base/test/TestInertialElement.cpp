@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <iostream>
 
+#if HAS_THREAD
+
 void base::test::TestInertialElement()
 {
 	std::cout << std::endl
@@ -26,3 +28,5 @@ void base::test::TestInertialElement()
 
 	std::cout << base::floor(inertial_element.CurrentOutput()) << std::endl;
 }
+
+#endif // HAS_THREAD
