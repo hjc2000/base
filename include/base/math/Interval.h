@@ -4,57 +4,6 @@
 
 namespace base
 {
-	enum class IntervalType
-	{
-		///
-		/// @brief 闭区间。
-		///
-		///
-		Closed,
-
-		///
-		/// @brief 开区间。
-		///
-		///
-		Open,
-
-		///
-		/// @brief 左开右闭区间。
-		///
-		///
-		LeftOpenRightClosed,
-
-		///
-		/// @brief 左闭右开区间。
-		///
-		///
-		LeftClosedRightOpen,
-
-		///
-		/// @brief 左边负无穷，右边开的区间。
-		///
-		///
-		LeftInfiniteRightOpen,
-
-		///
-		/// @brief 左边负无穷，右边闭的区间。
-		///
-		///
-		LeftInfiniteRightClosed,
-
-		///
-		/// @brief 左边开，右边正无穷的区间。
-		///
-		///
-		LeftOpenRightInfinite,
-
-		///
-		/// @brief 左边闭，右边正无穷的区间。
-		///
-		///
-		LeftClosedRightInfinite
-	};
-
 	///
 	/// @brief 闭区间。[Left, Right].
 	///
@@ -607,10 +556,128 @@ namespace base
 		}
 	};
 
+	enum class IntervalType
+	{
+		///
+		/// @brief 闭区间。
+		///
+		///
+		Closed,
+
+		///
+		/// @brief 开区间。
+		///
+		///
+		Open,
+
+		///
+		/// @brief 左开右闭区间。
+		///
+		///
+		LeftOpenRightClosed,
+
+		///
+		/// @brief 左闭右开区间。
+		///
+		///
+		LeftClosedRightOpen,
+
+		///
+		/// @brief 左边负无穷，右边开的区间。
+		///
+		///
+		LeftInfiniteRightOpen,
+
+		///
+		/// @brief 左边负无穷，右边闭的区间。
+		///
+		///
+		LeftInfiniteRightClosed,
+
+		///
+		/// @brief 左边开，右边正无穷的区间。
+		///
+		///
+		LeftOpenRightInfinite,
+
+		///
+		/// @brief 左边闭，右边正无穷的区间。
+		///
+		///
+		LeftClosedRightInfinite
+	};
+
+	///
+	/// @brief 通用集合。
+	///
+	///
+	template <typename T>
 	class Interval
 	{
+	private:
+		base::IntervalType _type{};
+		T _left{};
+		T _right{};
+
 	public:
 		constexpr Interval() = default;
+
+		constexpr Interval(base::ClosedInterval<T> const &closed_interval)
+		{
+			_type = base::IntervalType::Closed;
+			_left = closed_interval.Left();
+			_right = closed_interval.Right();
+		}
+
+		constexpr Interval(base::OpenInterval<T> const &open_interval)
+		{
+			_type = base::IntervalType::Open;
+			_left = open_interval.Left();
+			_right = open_interval.Right();
+		}
+
+		constexpr base::IntervalType Type() const
+		{
+			return _type;
+		}
+
+		constexpr bool LeftIsInfinite() const
+		{
+			switch (_type)
+			{
+			case base::IntervalType::LeftInfiniteRightOpen:
+				{
+					return true;
+				}
+			case base::IntervalType::LeftInfiniteRightClosed:
+				{
+					return true;
+				}
+			default:
+				{
+					return false;
+				}
+			}
+		}
+
+		constexpr bool RightIsInfinite() const
+		{
+			switch (_type)
+			{
+			case base::IntervalType::LeftOpenRightInfinite:
+				{
+					return true;
+				}
+			case base::IntervalType::LeftClosedRightInfinite:
+				{
+					return true;
+				}
+			default:
+				{
+					return false;
+				}
+			}
+		}
 	};
 
 } // namespace base
