@@ -36,9 +36,9 @@ namespace base
 		///
 		template <typename T>
 			requires(std::is_integral_v<T>)
-		constexpr Int64Fraction(T num)
+		constexpr Int64Fraction(T int_num)
 		{
-			_num = num;
+			_num = int_num;
 			_den = 1;
 		}
 
@@ -49,16 +49,14 @@ namespace base
 		///
 		template <typename T>
 			requires(std::is_same_v<T, double>)
-		constexpr Int64Fraction(T value)
+		constexpr Int64Fraction(T double_value)
 		{
-			if (value == 0.0)
+			if (double_value == 0.0)
 			{
 				_num = 0;
 				_den = 1;
 				return;
 			}
-
-			double double_value = value;
 
 			// 要保证分数计算过程不溢出，需要保证 factor * double_value <= INT64_MAX.
 			int64_t factor = INT64_MAX / base::ceil(double_value);
@@ -79,16 +77,14 @@ namespace base
 		///
 		template <typename T>
 			requires(std::is_same_v<T, float>)
-		constexpr Int64Fraction(T value)
+		constexpr Int64Fraction(T float_value)
 		{
-			if (value == 0.0f)
+			if (float_value == 0.0f)
 			{
 				_num = 0;
 				_den = 1;
 				return;
 			}
-
-			float float_value = value;
 
 			// 要保证分数计算过程不溢出，需要保证 factor * float_value <= INT64_MAX.
 			int64_t factor = INT64_MAX / base::ceil(float_value);
