@@ -679,6 +679,16 @@ namespace base
 			return _type;
 		}
 
+		constexpr T const &Left() const
+		{
+			return _left;
+		}
+
+		constexpr T const &Right() const
+		{
+			return _right;
+		}
+
 		constexpr bool LeftIsInfinite() const
 		{
 			switch (_type)
