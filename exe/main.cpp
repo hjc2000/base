@@ -1,7 +1,6 @@
 #include "base/math/InertialElement.h"
 #include "base/math/Int64Fraction.h"
 #include "base/string/define.h"
-#include "base/wrapper/number-wrapper.h"
 #include <cstdint>
 #include <iostream>
 
@@ -32,7 +31,7 @@ int main()
 		std::cout << std::endl
 				  << CODE_POS_STR;
 
-		base::Fraction f{base::Double{std::numbers::pi}};
+		base::Fraction f{std::numbers::pi};
 		constexpr int precision = 512;
 
 		std::cout << "分数: " << f << std::endl;
@@ -57,7 +56,7 @@ int main()
 		std::cout << std::endl
 				  << CODE_POS_STR;
 
-		base::Int64Fraction f{base::Double{std::numbers::pi}};
+		base::Int64Fraction f{std::numbers::pi};
 		constexpr int precision = 512;
 
 		std::cout << "分数: " << f << std::endl;
@@ -83,7 +82,7 @@ int main()
 				  << CODE_POS_STR;
 
 		float f_pi = static_cast<float>(std::numbers::pi);
-		base::Int64Fraction f{base::Float{f_pi}};
+		base::Int64Fraction f{f_pi};
 		constexpr int precision = 512;
 
 		std::cout << "分数: " << f << std::endl;

@@ -36,9 +36,9 @@ namespace base
 		///
 		template <typename T>
 			requires(std::is_integral_v<T>)
-		Fraction(T num)
+		Fraction(T int_num)
 		{
-			_num = num;
+			_num = int_num;
 			_den = 1;
 		}
 
@@ -46,9 +46,11 @@ namespace base
 		/// @brief 整型转化为分数，则分子等于整型，分母为 1.
 		/// @param num
 		///
-		Fraction(base::BigInteger num)
+		template <typename T>
+			requires(std::is_same_v<T, base::BigInteger>)
+		Fraction(T const &big_int_num)
 		{
-			SetNum(num);
+			SetNum(big_int_num);
 			SetDen(1);
 		}
 
@@ -57,10 +59,36 @@ namespace base
 		///
 		/// @param value
 		///
-		Fraction(base::Int64Fraction const &value)
+		template <typename T>
+			requires(std::is_same_v<T, base::Int64Fraction>)
+		Fraction(T const &int64_frac)
 		{
-			_num = value.Num();
-			_den = value.Den();
+			_num = int64_frac.Num();
+			_den = int64_frac.Den();
+		}
+
+		///
+		/// @brief 通过浮点数构造。
+		///
+		/// @param value
+		///
+		template <typename T>
+			requires(std::is_same_v<T, double>)
+		Fraction(T double_value)
+		{
+			FromDouble(double_value);
+		}
+
+		///
+		/// @brief 通过浮点数构造。
+		///
+		/// @param value
+		///
+		template <typename T>
+			requires(std::is_same_v<T, float>)
+		Fraction(T float_value)
+		{
+			FromFloat(float_value);
 		}
 
 		///
@@ -68,7 +96,7 @@ namespace base
 		/// @param num 分子
 		/// @param den 分母
 		///
-		Fraction(base::BigInteger num, base::BigInteger den)
+		Fraction(base::BigInteger const &num, base::BigInteger const &den)
 		{
 			SetNum(num);
 			if (num == 0)
@@ -80,30 +108,6 @@ namespace base
 				SetDen(den);
 				Simplify();
 			}
-		}
-
-		///
-		/// @brief 通过浮点数构造。
-		///
-		/// @param value
-		///
-		template <typename T>
-			requires(std::is_same_v<T, double>)
-		Fraction(T value)
-		{
-			FromDouble(value);
-		}
-
-		///
-		/// @brief 通过浮点数构造。
-		///
-		/// @param value
-		///
-		template <typename T>
-			requires(std::is_same_v<T, float>)
-		Fraction(T value)
-		{
-			FromFloat(value);
 		}
 
 		/* #endregion */

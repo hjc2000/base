@@ -2,12 +2,12 @@
 #include "base/math/math.h"
 #include "base/string/define.h"
 #include "base/string/ICanToString.h"
-#include "base/wrapper/number-wrapper.h"
 #include <cstdint>
 #include <numbers>
 #include <numeric>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
 
 namespace base
 {
@@ -65,16 +65,18 @@ namespace base
 		///
 		/// @param value
 		///
-		constexpr Int64Fraction(base::Double const &value)
+		template <typename T>
+			requires(std::is_same_v<T, double>)
+		constexpr Int64Fraction(T value)
 		{
-			if (value.Value() == 0.0)
+			if (value == 0.0)
 			{
 				SetNum(0);
 				SetDen(1);
 				return;
 			}
 
-			double double_value = value.Value();
+			double double_value = value;
 
 			// 要保证分数计算过程不溢出，需要保证 factor * double_value <= INT64_MAX.
 			int64_t factor = INT64_MAX / base::ceil(double_value);
@@ -93,16 +95,18 @@ namespace base
 		///
 		/// @param value
 		///
-		constexpr Int64Fraction(base::Float const &value)
+		template <typename T>
+			requires(std::is_same_v<T, float>)
+		constexpr Int64Fraction(T value)
 		{
-			if (value.Value() == 0.0f)
+			if (value == 0.0f)
 			{
 				SetNum(0);
 				SetDen(1);
 				return;
 			}
 
-			float float_value = value.Value();
+			float float_value = value;
 
 			// 要保证分数计算过程不溢出，需要保证 factor * float_value <= INT64_MAX.
 			int64_t factor = INT64_MAX / base::ceil(float_value);
@@ -610,13 +614,13 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr base::Int64Fraction pi{base::Double{std::numbers::pi}};
+		constexpr base::Int64Fraction pi{std::numbers::pi};
 
 		///
 		/// @brief 自然对数 ln 的底。
 		///
 		///
-		constexpr base::Int64Fraction e{base::Double{std::numbers::e}};
+		constexpr base::Int64Fraction e{std::numbers::e};
 
 	} // namespace constant
 
