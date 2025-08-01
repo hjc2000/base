@@ -44,7 +44,7 @@ namespace base
 		///
 		/// @return T
 		///
-		constexpr T Left() const
+		constexpr T const &Left() const
 		{
 			return _left;
 		}
@@ -54,7 +54,7 @@ namespace base
 		///
 		/// @return T
 		///
-		constexpr T Right() const
+		constexpr T const &Right() const
 		{
 			return _right;
 		}
@@ -122,7 +122,7 @@ namespace base
 		///
 		/// @return T
 		///
-		constexpr T Left() const
+		constexpr T const &Left() const
 		{
 			return _left;
 		}
@@ -132,7 +132,7 @@ namespace base
 		///
 		/// @return T
 		///
-		constexpr T Right() const
+		constexpr T const &Right() const
 		{
 			return _right;
 		}
@@ -200,7 +200,7 @@ namespace base
 		///
 		/// @return T
 		///
-		constexpr T Left() const
+		constexpr T const &Left() const
 		{
 			return _left;
 		}
@@ -210,7 +210,7 @@ namespace base
 		///
 		/// @return T
 		///
-		constexpr T Right() const
+		constexpr T const &Right() const
 		{
 			return _right;
 		}
@@ -278,7 +278,7 @@ namespace base
 		///
 		/// @return T
 		///
-		constexpr T Left() const
+		constexpr T const &Left() const
 		{
 			return _left;
 		}
@@ -288,7 +288,7 @@ namespace base
 		///
 		/// @return T
 		///
-		constexpr T Right() const
+		constexpr T const &Right() const
 		{
 			return _right;
 		}
@@ -348,7 +348,7 @@ namespace base
 		///
 		/// @return T
 		///
-		constexpr T Right() const
+		constexpr T const &Right() const
 		{
 			return _right;
 		}
@@ -408,7 +408,7 @@ namespace base
 		///
 		/// @return T
 		///
-		constexpr T Right() const
+		constexpr T const &Right() const
 		{
 			return _right;
 		}
@@ -468,7 +468,7 @@ namespace base
 		///
 		/// @return T
 		///
-		constexpr T Left() const
+		constexpr T const &Left() const
 		{
 			return _left;
 		}
@@ -528,7 +528,7 @@ namespace base
 		///
 		/// @return T
 		///
-		constexpr T Left() const
+		constexpr T const &Left() const
 		{
 			return _left;
 		}
