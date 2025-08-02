@@ -25,7 +25,7 @@ private:
 	int64_t _month{};
 	int64_t _day{};
 
-	bool CheckYearIterator()
+	bool CheckYearEntry()
 	{
 		base::DirectoryEntry entry = _year_dir_iterator->CurrentValue();
 		if (!entry.IsDirectory())
@@ -53,7 +53,7 @@ private:
 		return true;
 	}
 
-	bool CheckMonthIterator()
+	bool CheckMonthEntry()
 	{
 		base::DirectoryEntry entry = _month_dir_iterator->CurrentValue();
 		if (!entry.IsDirectory())
@@ -80,7 +80,7 @@ private:
 		return true;
 	}
 
-	bool CheckDayIterator()
+	bool CheckDayEntry()
 	{
 		base::DirectoryEntry entry = _day_dir_iterator->CurrentValue();
 		if (!entry.IsDirectory())
@@ -134,7 +134,7 @@ private:
 			}
 
 			// 已经成功让年目录迭代器指向下一个有效项目了，接下来需要进行一些过滤，确保它是有效的年目录。
-			if (CheckYearIterator())
+			if (CheckYearEntry())
 			{
 				return true;
 			}
@@ -173,7 +173,7 @@ private:
 				continue;
 			}
 
-			if (CheckMonthIterator())
+			if (CheckMonthEntry())
 			{
 				return true;
 			}
@@ -205,7 +205,7 @@ private:
 				continue;
 			}
 
-			if (CheckDayIterator())
+			if (CheckDayEntry())
 			{
 				return true;
 			}
