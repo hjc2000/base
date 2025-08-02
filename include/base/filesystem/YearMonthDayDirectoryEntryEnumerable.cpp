@@ -19,7 +19,7 @@ private:
 	std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _file_iterator;
 
 	///
-	/// @brief 移动到下一个年份。
+	/// @brief 移动到下一个年目录。
 	///
 	/// @return 移动完之后如果 _year_dir_iterator 指向有效元素，则返回 true, 否则返回 false.
 	///
@@ -41,6 +41,11 @@ private:
 		return _year_dir_iterator->IsNotEnd();
 	}
 
+	///
+	/// @brief 移动到下一个月目录。
+	///
+	/// @return 移动完之后如果 _month_dir_iterator 指向有效元素，则返回 true, 否则返回 false.
+	///
 	bool MoveToNextMonth()
 	{
 		while (true)
