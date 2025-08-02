@@ -25,14 +25,19 @@ private:
 	int64_t _month{};
 	int64_t _day{};
 
-	bool TryParseYear()
+	bool CheckYearIterator()
 	{
+		base::DirectoryEntry entry = _year_dir_iterator->CurrentValue();
+		if (!entry.IsDirectory())
+		{
+			return false;
+		}
+
+		// 当前迭代器指向的项目是目录，但还要检查目录名称是不是合法的年份数字。
 		try
 		{
-			base::DirectoryEntry entry = _year_dir_iterator->CurrentValue();
 			base::Path year_dir_path = entry.Path();
 			_year = base::ParseInt64(year_dir_path.LastName().ToString());
-			return true;
 		}
 		catch (std::exception const &e)
 		{
@@ -44,6 +49,62 @@ private:
 			base::console.WriteError(CODE_POS_STR + "未知异常。");
 			return false;
 		}
+
+		return true;
+	}
+
+	bool CheckMonthIterator()
+	{
+		base::DirectoryEntry entry = _month_dir_iterator->CurrentValue();
+		if (!entry.IsDirectory())
+		{
+			return false;
+		}
+
+		try
+		{
+			base::Path month_dir_path = entry.Path();
+			_month = base::ParseInt64(month_dir_path.LastName().ToString());
+		}
+		catch (std::exception const &e)
+		{
+			base::console.WriteError(CODE_POS_STR + e.what());
+			return false;
+		}
+		catch (...)
+		{
+			base::console.WriteError(CODE_POS_STR + "未知异常。");
+			return false;
+		}
+
+		return true;
+	}
+
+	bool CheckDayIterator()
+	{
+		base::DirectoryEntry entry = _day_dir_iterator->CurrentValue();
+		if (!entry.IsDirectory())
+		{
+			return false;
+		}
+
+		try
+		{
+			base::Path day_dir_path = entry.Path();
+			_day = base::ParseInt64(day_dir_path.LastName().ToString());
+		}
+		catch (std::exception const &e)
+		{
+			base::console.WriteError(CODE_POS_STR + e.what());
+			return false;
+		}
+		catch (...)
+		{
+			base::console.WriteError(CODE_POS_STR + "未知异常。");
+			return false;
+		}
+
+		return true;
 	}
 
 	///
@@ -53,20 +114,31 @@ private:
 	///
 	bool MoveToNextYear()
 	{
-		if (_year_dir_iterator == nullptr)
+		while (true)
 		{
-			_year_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(_enumerable._base_path);
-			return _year_dir_iterator->IsNotEnd();
-		}
+			// 先完成 _year_dir_iterator 的初始化或递增操作
+			if (_year_dir_iterator == nullptr)
+			{
+				_year_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(_enumerable._base_path);
+			}
+			else if (_year_dir_iterator->IsNotEnd())
+			{
+				// 只有迭代器还没结束时才能递增，否则其结果是未定义的。
+				_year_dir_iterator->Add();
+			}
 
-		if (_year_dir_iterator->IsEnd())
-		{
-			// 没有下一个年份了
-			return false;
-		}
+			// 初始化或递增 _year_dir_iterator 完成。
+			if (_year_dir_iterator->IsEnd())
+			{
+				return false;
+			}
 
-		_year_dir_iterator->Add();
-		return _year_dir_iterator->IsNotEnd();
+			// 已经成功让年目录迭代器指向下一个有效项目了，接下来需要进行一些过滤，确保它是有效的年目录。
+			if (CheckYearIterator())
+			{
+				return true;
+			}
+		}
 	}
 
 	///
@@ -78,6 +150,7 @@ private:
 	{
 		while (true)
 		{
+			// 先完成 _month_dir_iterator 的初始化或递增操作。
 			if (_month_dir_iterator == nullptr || _month_dir_iterator->IsEnd())
 			{
 				if (!MoveToNextYear())
@@ -94,12 +167,16 @@ private:
 				_month_dir_iterator->Add();
 			}
 
-			if (_month_dir_iterator->IsNotEnd())
+			// 初始化或递增 _month_dir_iterator 完成。
+			if (_month_dir_iterator->IsEnd())
+			{
+				continue;
+			}
+
+			if (CheckMonthIterator())
 			{
 				return true;
 			}
-
-			// 没获取到有效的月目录迭代器，继续下一轮循环，继续前往下一个年目录。
 		}
 	}
 
@@ -123,12 +200,15 @@ private:
 				_day_dir_iterator->Add();
 			}
 
-			if (_day_dir_iterator->IsNotEnd())
+			if (_day_dir_iterator->IsEnd())
+			{
+				continue;
+			}
+
+			if (CheckDayIterator())
 			{
 				return true;
 			}
-
-			// 没有获取到有效的日目录迭代器，继续下一轮循环，继续前往下一个月目录。
 		}
 	}
 
