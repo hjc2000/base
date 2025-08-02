@@ -2,6 +2,7 @@
 #include "base/Console.h"
 #include "base/string/define.h"
 #include "base/string/Parse.h"
+#include "base/time/DateTime.h"
 #include "filesystem.h"
 #include <cstdint>
 #include <stdexcept>
@@ -239,6 +240,22 @@ private:
 			}
 
 			if (_file_iterator->IsEnd())
+			{
+				continue;
+			}
+
+			base::DateTime file_day_date_time{
+				_enumerable._utc_hour_offset,
+				_year,
+				_month,
+				_day,
+				0,
+				0,
+				0,
+				0,
+			};
+
+			if (_enumerable._date_time_range.IsOutOfRange(file_day_date_time))
 			{
 				continue;
 			}

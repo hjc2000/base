@@ -5,6 +5,7 @@
 #include "base/filesystem/Path.h"
 #include "base/math/Interval.h"
 #include "base/time/DateTime.h"
+#include "base/time/UtcHourOffset.h"
 
 namespace base
 {
@@ -33,12 +34,23 @@ namespace base
 			///
 			base::Interval<base::DateTime> _date_time_range;
 
+			base::UtcHourOffset _utc_hour_offset;
+
 		public:
+			///
+			/// @brief
+			///
+			/// @param base_path
+			/// @param date_time_range
+			/// @param utc_hour_offset 文件系统中的 年/月/日 目录代表的时间是什么时区的。
+			///
 			YearMonthDayDirectoryEntryEnumerable(base::Path const &base_path,
-												 base::Interval<base::DateTime> const &date_time_range)
+												 base::Interval<base::DateTime> const &date_time_range,
+												 base::UtcHourOffset const &utc_hour_offset)
 			{
 				_base_path = base_path;
 				_date_time_range = date_time_range;
+				_utc_hour_offset = utc_hour_offset;
 			}
 
 			using base::IEnumerable<base::DirectoryEntry const>::GetEnumerator;
