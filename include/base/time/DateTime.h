@@ -832,6 +832,16 @@ namespace base
 		/* #endregion */
 
 		///
+		/// @brief 本日期时间的 UTC 偏移量。
+		///
+		/// @return
+		///
+		base::UtcHourOffset UtcHourOffset() const
+		{
+			return base::UtcHourOffset{_utc_hour_offset};
+		}
+
+		///
 		/// @brief epoch 起点日期。
 		///
 		/// @return
