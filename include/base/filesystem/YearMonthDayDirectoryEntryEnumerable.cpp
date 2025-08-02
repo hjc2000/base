@@ -1,6 +1,9 @@
 #include "YearMonthDayDirectoryEntryEnumerable.h" // IWYU pragma: keep
+#include "base/Console.h"
 #include "base/string/define.h"
+#include "base/string/Parse.h"
 #include "filesystem.h"
+#include <cstdint>
 #include <stdexcept>
 
 class base::filesystem::YearMonthDayDirectoryEntryEnumerable::Enumerator final :
@@ -17,6 +20,28 @@ private:
 	std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _month_dir_iterator;
 	std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _day_dir_iterator;
 	std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _file_iterator;
+
+	int64_t _year{};
+	int64_t _month{};
+	int64_t _day{};
+
+	void ParseYear()
+	{
+		try
+		{
+			base::DirectoryEntry entry = _year_dir_iterator->CurrentValue();
+			base::Path year_dir_path = entry.Path();
+			_year = base::ParseInt64(year_dir_path.LastName().ToString());
+		}
+		catch (std::exception const &e)
+		{
+			base::console.WriteError(CODE_POS_STR + e.what());
+		}
+		catch (...)
+		{
+			base::console.WriteError(CODE_POS_STR + "未知异常。");
+		}
+	}
 
 	///
 	/// @brief 移动到下一个年目录。
