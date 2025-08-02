@@ -107,10 +107,31 @@ private:
 			return false;
 		}
 
+		// 检查日期时间
+		{
+			base::DateTime file_day_date_time{
+				_enumerable._utc_hour_offset,
+				_year,
+				_month,
+				_day,
+				0,
+				0,
+				0,
+				0,
+			};
+
+			if (_enumerable._date_time_range.IsOutOfRange(file_day_date_time))
+			{
+				return false;
+			}
+		}
+
 		return true;
 	}
 
 	/* #endregion */
+
+	/* #region 递增迭代器 */
 
 	///
 	/// @brief 移动到下一个年目录。
@@ -223,6 +244,7 @@ private:
 	{
 		while (true)
 		{
+			// 先完成 _file_iterator 的初始化或递增操作。
 			if (_file_iterator == nullptr || _file_iterator->IsEnd())
 			{
 				if (!MoveToNextDay())
@@ -239,23 +261,8 @@ private:
 				_file_iterator->Add();
 			}
 
+			// 初始化或递增 _file_iterator 完成。
 			if (_file_iterator->IsEnd())
-			{
-				continue;
-			}
-
-			base::DateTime file_day_date_time{
-				_enumerable._utc_hour_offset,
-				_year,
-				_month,
-				_day,
-				0,
-				0,
-				0,
-				0,
-			};
-
-			if (_enumerable._date_time_range.IsOutOfRange(file_day_date_time))
 			{
 				continue;
 			}
@@ -263,6 +270,8 @@ private:
 			return true;
 		}
 	}
+
+	/* #endregion */
 
 public:
 	Enumerator(YearMonthDayDirectoryEntryEnumerable &enumerable)
