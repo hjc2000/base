@@ -35,7 +35,7 @@ void base::test::TestYearMonthDayDirectoryEntryEnumerable()
 	};
 
 	base::filesystem::YearMonthDayDirectoryEntryEnumerable enumerable{
-		base::Path{"C:/Users/huang/disk/ti600_2TB/.temp"},
+		base::Path{"C:/Users/huang/disk/ti600_2TB/.temp/TestYearMonthDayDirectoryEntryEnumerable"},
 		interval,
 		base::UtcHourOffset{8},
 	};
