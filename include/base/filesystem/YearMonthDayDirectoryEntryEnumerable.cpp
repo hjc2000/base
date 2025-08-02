@@ -43,9 +43,9 @@ private:
 
 	bool MoveToNextMonth()
 	{
-		if (_month_dir_iterator == nullptr || _month_dir_iterator->IsEnd())
+		while (true)
 		{
-			while (true)
+			if (_month_dir_iterator == nullptr || _month_dir_iterator->IsEnd())
 			{
 				if (!MoveToNextYear())
 				{
@@ -55,22 +55,26 @@ private:
 				base::DirectoryEntry entry = _year_dir_iterator->CurrentValue();
 				base::Path year_dir_path = entry.Path();
 				_month_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(year_dir_path);
-				if (_month_dir_iterator->IsNotEnd())
-				{
-					return true;
-				}
 			}
-		}
+			else
+			{
+				_month_dir_iterator->Add();
+			}
 
-		_month_dir_iterator->Add();
-		return _month_dir_iterator->IsNotEnd();
+			if (_month_dir_iterator->IsNotEnd())
+			{
+				return true;
+			}
+
+			// 没获取到有效的月目录迭代器，继续下一轮循环，继续前往下一个年目录。
+		}
 	}
 
 	bool MoveToNextDay()
 	{
-		if (_day_dir_iterator == nullptr || _day_dir_iterator->IsEnd())
+		while (true)
 		{
-			while (true)
+			if (_day_dir_iterator == nullptr || _day_dir_iterator->IsEnd())
 			{
 				if (!MoveToNextMonth())
 				{
@@ -80,22 +84,24 @@ private:
 				base::DirectoryEntry entry = _month_dir_iterator->CurrentValue();
 				base::Path month_dir_path = entry.Path();
 				_day_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(month_dir_path);
-				if (_day_dir_iterator->IsNotEnd())
-				{
-					return true;
-				}
+			}
+			else
+			{
+				_day_dir_iterator->Add();
+			}
+
+			if (_day_dir_iterator->IsNotEnd())
+			{
+				return true;
 			}
 		}
-
-		_day_dir_iterator->Add();
-		return _day_dir_iterator->IsNotEnd();
 	}
 
 	bool MoveToNextFile()
 	{
-		if (_file_iterator == nullptr || _file_iterator->IsEnd())
+		while (true)
 		{
-			while (true)
+			if (_file_iterator == nullptr || _file_iterator->IsEnd())
 			{
 				if (!MoveToNextDay())
 				{
@@ -105,15 +111,17 @@ private:
 				base::DirectoryEntry entry = _day_dir_iterator->CurrentValue();
 				base::Path day_dir_path = entry.Path();
 				_file_iterator = base::filesystem::CreateDirectoryEntryEnumerator(day_dir_path);
-				if (_file_iterator->IsNotEnd())
-				{
-					return true;
-				}
+			}
+			else
+			{
+				_file_iterator->Add();
+			}
+
+			if (_file_iterator->IsNotEnd())
+			{
+				return true;
 			}
 		}
-
-		_file_iterator->Add();
-		return _file_iterator->IsNotEnd();
 	}
 
 public:
