@@ -1,5 +1,6 @@
 #include "YearMonthDayDirectoryEntryEnumerable.h" // IWYU pragma: keep
 #include "base/Console.h"
+#include "base/math/Interval.h"
 #include "base/string/define.h"
 #include "base/string/Parse.h"
 #include "base/time/DateTime.h"
@@ -51,6 +52,106 @@ private:
 		{
 			base::console.WriteError(CODE_POS_STR + "未知异常。");
 			return false;
+		}
+
+		// 日期时间检查
+		// 先一步去除年份不符合的
+		{
+			switch (_enumerable._date_time_range.Type())
+			{
+			case IntervalType::Closed:
+				{
+					base::ClosedInterval<base::DateTime> interval{_enumerable._date_time_range};
+					base::DateTime left = interval.Left();
+					base::DateTime right = interval.Right();
+					if (!(_year >= left.Year() || _year <= right.Year()))
+					{
+						return false;
+					}
+
+					break;
+				}
+			case IntervalType::Open:
+				{
+					base::OpenInterval<base::DateTime> interval{_enumerable._date_time_range};
+					base::DateTime left = interval.Left();
+					base::DateTime right = interval.Right();
+					if (!(_year > left.Year() || _year < right.Year()))
+					{
+						return false;
+					}
+
+					break;
+				}
+			case IntervalType::LeftOpenRightClosed:
+				{
+					base::LeftOpenRightClosedInterval<base::DateTime> interval{_enumerable._date_time_range};
+					base::DateTime left = interval.Left();
+					base::DateTime right = interval.Right();
+					if (!(_year > left.Year() || _year <= right.Year()))
+					{
+						return false;
+					}
+
+					break;
+				}
+			case IntervalType::LeftClosedRightOpen:
+				{
+					base::LeftClosedRightOpenInterval<base::DateTime> interval{_enumerable._date_time_range};
+					base::DateTime left = interval.Left();
+					base::DateTime right = interval.Right();
+					if (!(_year >= left.Year() || _year < right.Year()))
+					{
+						return false;
+					}
+
+					break;
+				}
+			case IntervalType::LeftInfiniteRightOpen:
+				{
+					base::LeftInfiniteRightOpenInterval<base::DateTime> interval{_enumerable._date_time_range};
+					base::DateTime right = interval.Right();
+					if (!(_year < right.Year()))
+					{
+						return false;
+					}
+
+					break;
+				}
+			case IntervalType::LeftInfiniteRightClosed:
+				{
+					base::LeftInfiniteRightClosedInterval<base::DateTime> interval{_enumerable._date_time_range};
+					base::DateTime right = interval.Right();
+					if (!(_year <= right.Year()))
+					{
+						return false;
+					}
+
+					break;
+				}
+			case IntervalType::LeftOpenRightInfinite:
+				{
+					base::LeftOpenRightInfiniteInterval<base::DateTime> interval{_enumerable._date_time_range};
+					base::DateTime left = interval.Left();
+					if (!(_year > left.Year()))
+					{
+						return false;
+					}
+
+					break;
+				}
+			case IntervalType::LeftClosedRightInfinite:
+				{
+					base::LeftClosedRightInfiniteInterval<base::DateTime> interval{_enumerable._date_time_range};
+					base::DateTime left = interval.Left();
+					if (!(_year >= left.Year()))
+					{
+						return false;
+					}
+
+					break;
+				}
+			}
 		}
 
 		return true;
