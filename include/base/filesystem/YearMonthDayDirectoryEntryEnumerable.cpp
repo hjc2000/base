@@ -25,21 +25,24 @@ private:
 	int64_t _month{};
 	int64_t _day{};
 
-	void ParseYear()
+	bool TryParseYear()
 	{
 		try
 		{
 			base::DirectoryEntry entry = _year_dir_iterator->CurrentValue();
 			base::Path year_dir_path = entry.Path();
 			_year = base::ParseInt64(year_dir_path.LastName().ToString());
+			return true;
 		}
 		catch (std::exception const &e)
 		{
 			base::console.WriteError(CODE_POS_STR + e.what());
+			return false;
 		}
 		catch (...)
 		{
 			base::console.WriteError(CODE_POS_STR + "未知异常。");
+			return false;
 		}
 	}
 
