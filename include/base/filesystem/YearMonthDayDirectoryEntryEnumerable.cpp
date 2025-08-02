@@ -25,6 +25,8 @@ private:
 	int64_t _month{};
 	int64_t _day{};
 
+	/* #region 检查年、月、日条目 */
+
 	bool CheckYearEntry()
 	{
 		base::DirectoryEntry entry = _year_dir_iterator->CurrentValue();
@@ -106,6 +108,8 @@ private:
 
 		return true;
 	}
+
+	/* #endregion */
 
 	///
 	/// @brief 移动到下一个年目录。
