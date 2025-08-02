@@ -743,84 +743,84 @@ namespace base
 
 		/* #region 强制转换为特定区间 */
 
-		constexpr explicit operator base::ClosedInterval<T>()
+		constexpr explicit operator base::ClosedInterval<T>() const
 		{
 			if (_type != base::IntervalType::Closed)
 			{
 				throw std::runtime_error{CODE_POS_STR + "无法转换。"};
 			}
 
-			return base::ClosedInterval<T>(_left, _right);
+			return base::ClosedInterval<T>{_left, _right};
 		}
 
-		constexpr explicit operator base::OpenInterval<T>()
+		constexpr explicit operator base::OpenInterval<T>() const
 		{
 			if (_type != base::IntervalType::Open)
 			{
 				throw std::runtime_error{CODE_POS_STR + "无法转换。"};
 			}
 
-			return base::OpenInterval<T>(_left, _right);
+			return base::OpenInterval<T>{_left, _right};
 		}
 
-		constexpr explicit operator base::LeftOpenRightClosedInterval<T>()
+		constexpr explicit operator base::LeftOpenRightClosedInterval<T>() const
 		{
 			if (_type != base::IntervalType::LeftOpenRightClosed)
 			{
 				throw std::runtime_error{CODE_POS_STR + "无法转换。"};
 			}
 
-			return base::LeftOpenRightClosedInterval<T>(_left, _right);
+			return base::LeftOpenRightClosedInterval<T>{_left, _right};
 		}
 
-		constexpr explicit operator base::LeftClosedRightOpenInterval<T>()
+		constexpr explicit operator base::LeftClosedRightOpenInterval<T>() const
 		{
 			if (_type != base::IntervalType::LeftClosedRightOpen)
 			{
 				throw std::runtime_error{CODE_POS_STR + "无法转换。"};
 			}
 
-			return base::LeftClosedRightOpenInterval<T>(_left, _right);
+			return base::LeftClosedRightOpenInterval<T>{_left, _right};
 		}
 
-		constexpr explicit operator base::LeftInfiniteRightOpenInterval<T>()
+		constexpr explicit operator base::LeftInfiniteRightOpenInterval<T>() const
 		{
 			if (_type != base::IntervalType::LeftInfiniteRightOpen)
 			{
 				throw std::runtime_error{CODE_POS_STR + "无法转换。"};
 			}
 
-			return base::LeftInfiniteRightOpenInterval<T>(_right);
+			return base::LeftInfiniteRightOpenInterval<T>{_right};
 		}
 
-		constexpr explicit operator base::LeftInfiniteRightClosedInterval<T>()
+		constexpr explicit operator base::LeftInfiniteRightClosedInterval<T>() const
 		{
 			if (_type != base::IntervalType::LeftInfiniteRightClosed)
 			{
 				throw std::runtime_error{CODE_POS_STR + "无法转换。"};
 			}
 
-			return base::LeftInfiniteRightClosedInterval<T>(_right);
+			return base::LeftInfiniteRightClosedInterval<T>{_right};
 		}
 
-		constexpr explicit operator base::LeftOpenRightInfiniteInterval<T>()
+		constexpr explicit operator base::LeftOpenRightInfiniteInterval<T>() const
 		{
 			if (_type != base::IntervalType::LeftOpenRightInfinite)
 			{
 				throw std::runtime_error{CODE_POS_STR + "无法转换。"};
 			}
 
-			return base::LeftOpenRightInfiniteInterval<T>(_left);
+			return base::LeftOpenRightInfiniteInterval<T>{_left};
 		}
 
-		constexpr explicit operator base::LeftClosedRightInfiniteInterval<T>()
+		constexpr explicit operator base::LeftClosedRightInfiniteInterval<T>() const
 		{
 			if (_type != base::IntervalType::LeftClosedRightInfinite)
 			{
 				throw std::runtime_error{CODE_POS_STR + "无法转换。"};
 			}
 
-			return base::LeftClosedRightInfiniteInterval<T>(_left);
+			return base::LeftClosedRightInfiniteInterval<T>{_left};
 		}
 
 		/* #endregion */
