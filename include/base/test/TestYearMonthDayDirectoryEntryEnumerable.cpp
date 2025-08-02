@@ -34,6 +34,8 @@ void base::test::TestYearMonthDayDirectoryEntryEnumerable()
 		},
 	};
 
+	// 把本项目的 test 目录中的 TestYearMonthDayDirectoryEntryEnumerable 目录拷贝到合适的
+	// 地方，然后把下面的路径改一下，就可以测试了。
 	base::filesystem::YearMonthDayDirectoryEntryEnumerable enumerable{
 		base::Path{"C:/Users/huang/disk/ti600_2TB/.temp/TestYearMonthDayDirectoryEntryEnumerable"},
 		interval,
