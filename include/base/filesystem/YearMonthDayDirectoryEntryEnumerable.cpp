@@ -41,7 +41,7 @@ private:
 		try
 		{
 			base::Path year_dir_path = entry.Path();
-			_year = base::ParseInt64(year_dir_path.LastName().ToString());
+			_year = base::ParseInt64(year_dir_path.LastName().ToString(), 10);
 		}
 		catch (std::exception const &e)
 		{
@@ -168,7 +168,7 @@ private:
 		try
 		{
 			base::Path month_dir_path = entry.Path();
-			_month = base::ParseInt64(month_dir_path.LastName().ToString());
+			_month = base::ParseInt64(month_dir_path.LastName().ToString(), 10);
 		}
 		catch (std::exception const &e)
 		{
@@ -195,7 +195,7 @@ private:
 		try
 		{
 			base::Path day_dir_path = entry.Path();
-			_day = base::ParseInt64(day_dir_path.LastName().ToString());
+			_day = base::ParseInt64(day_dir_path.LastName().ToString(), 10);
 		}
 		catch (std::exception const &e)
 		{
