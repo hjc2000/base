@@ -114,7 +114,7 @@ private:
 	///
 	/// @brief 移动到下一个年目录。
 	///
-	/// @return 移动完之后如果 _year_dir_iterator 指向有效元素，则返回 true, 否则返回 false.
+	/// @return 移动完之后如果 _year_dir_iterator 指向有效的年目录，则返回 true, 否则返回 false.
 	///
 	bool MoveToNextYear()
 	{
@@ -138,18 +138,16 @@ private:
 			}
 
 			// 已经成功让年目录迭代器指向下一个有效项目了，接下来需要进行一些过滤，确保它是有效的年目录。
-			if (CheckYearEntry())
+			if (!CheckYearEntry())
 			{
-				return true;
+				continue;
 			}
+
+			// 历经重重考验，终于确认年迭代器指向的是有效的年目录了。
+			return true;
 		}
 	}
 
-	///
-	/// @brief 移动到下一个月目录。
-	///
-	/// @return 移动完之后如果 _month_dir_iterator 指向有效元素，则返回 true, 否则返回 false.
-	///
 	bool MoveToNextMonth()
 	{
 		while (true)
@@ -177,10 +175,12 @@ private:
 				continue;
 			}
 
-			if (CheckMonthEntry())
+			if (!CheckMonthEntry())
 			{
-				return true;
+				continue;
 			}
+
+			return true;
 		}
 	}
 
@@ -209,10 +209,12 @@ private:
 				continue;
 			}
 
-			if (CheckDayEntry())
+			if (!CheckDayEntry())
 			{
-				return true;
+				continue;
 			}
+
+			return true;
 		}
 	}
 
@@ -236,12 +238,12 @@ private:
 				_file_iterator->Add();
 			}
 
-			if (_file_iterator->IsNotEnd())
+			if (_file_iterator->IsEnd())
 			{
-				return true;
+				continue;
 			}
 
-			// 没有获取到有效的文件迭代器，继续下一轮循环，继续前往下一个日目录。
+			return true;
 		}
 	}
 
