@@ -29,6 +29,16 @@ namespace base
 		///
 		///
 		virtual void Add() = 0;
+
+		///
+		/// @brief 迭代器还没迭代结束，还指向有效元素。
+		///
+		/// @return
+		///
+		bool IsNotEnd() const
+		{
+			return !IsEnd();
+		}
 	};
 
 } // namespace base

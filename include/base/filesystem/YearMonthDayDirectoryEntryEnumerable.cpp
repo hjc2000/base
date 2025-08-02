@@ -18,79 +18,102 @@ private:
 	std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _day_dir_iterator;
 	std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _file_iterator;
 
-	void MoveToNextYear()
+	///
+	/// @brief 移动到下一个年份。
+	///
+	/// @return 移动完之后如果 _year_dir_iterator 指向有效元素，则返回 true, 否则返回 false.
+	///
+	bool MoveToNextYear()
 	{
 		if (_year_dir_iterator == nullptr)
 		{
 			_year_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(_enumerable._base_path);
-			return;
+			return _year_dir_iterator->IsNotEnd();
 		}
 
 		if (_year_dir_iterator->IsEnd())
 		{
 			// 没有下一个年份了
-			return;
+			return false;
 		}
 
 		_year_dir_iterator->Add();
+		return _year_dir_iterator->IsNotEnd();
 	}
 
-	void MoveToNextMonth()
+	bool MoveToNextMonth()
 	{
 		if (_month_dir_iterator == nullptr || _month_dir_iterator->IsEnd())
 		{
-			MoveToNextYear();
-			if (_year_dir_iterator->IsEnd())
+			while (true)
 			{
-				return;
-			}
+				if (!MoveToNextYear())
+				{
+					return false;
+				}
 
-			base::DirectoryEntry entry = _year_dir_iterator->CurrentValue();
-			base::Path year_dir_path = entry.Path();
-			_month_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(year_dir_path);
-			return;
+				base::DirectoryEntry entry = _year_dir_iterator->CurrentValue();
+				base::Path year_dir_path = entry.Path();
+				_month_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(year_dir_path);
+				if (_month_dir_iterator->IsNotEnd())
+				{
+					return true;
+				}
+			}
 		}
 
 		_month_dir_iterator->Add();
+		return _month_dir_iterator->IsNotEnd();
 	}
 
-	void MoveToNextDay()
+	bool MoveToNextDay()
 	{
 		if (_day_dir_iterator == nullptr || _day_dir_iterator->IsEnd())
 		{
-			MoveToNextMonth();
-			if (_month_dir_iterator->IsEnd())
+			while (true)
 			{
-				return;
-			}
+				if (!MoveToNextMonth())
+				{
+					return false;
+				}
 
-			base::DirectoryEntry entry = _month_dir_iterator->CurrentValue();
-			base::Path month_dir_path = entry.Path();
-			_day_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(month_dir_path);
-			return;
+				base::DirectoryEntry entry = _month_dir_iterator->CurrentValue();
+				base::Path month_dir_path = entry.Path();
+				_day_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(month_dir_path);
+				if (_day_dir_iterator->IsNotEnd())
+				{
+					return true;
+				}
+			}
 		}
 
 		_day_dir_iterator->Add();
+		return _day_dir_iterator->IsNotEnd();
 	}
 
-	void MoveToNextFile()
+	bool MoveToNextFile()
 	{
 		if (_file_iterator == nullptr || _file_iterator->IsEnd())
 		{
-			MoveToNextDay();
-			if (_day_dir_iterator->IsEnd())
+			while (true)
 			{
-				// 移动到下一天后 _day_dir_iterator 仍然结束，说明没有下一天了。
-				return;
-			}
+				if (!MoveToNextDay())
+				{
+					return false;
+				}
 
-			base::DirectoryEntry entry = _day_dir_iterator->CurrentValue();
-			base::Path day_dir_path = entry.Path();
-			_file_iterator = base::filesystem::CreateDirectoryEntryEnumerator(day_dir_path);
-			return;
+				base::DirectoryEntry entry = _day_dir_iterator->CurrentValue();
+				base::Path day_dir_path = entry.Path();
+				_file_iterator = base::filesystem::CreateDirectoryEntryEnumerator(day_dir_path);
+				if (_file_iterator->IsNotEnd())
+				{
+					return true;
+				}
+			}
 		}
 
 		_file_iterator->Add();
+		return _file_iterator->IsNotEnd();
 	}
 
 public:
