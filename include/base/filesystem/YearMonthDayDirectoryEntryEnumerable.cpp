@@ -405,7 +405,7 @@ public:
 	///
 	virtual base::DirectoryEntry const &CurrentValue() override
 	{
-		if (_file_iterator == nullptr)
+		if (_file_iterator == nullptr || _file_iterator->IsEnd())
 		{
 			throw std::runtime_error{CODE_POS_STR + "没有当前值可用。"};
 		}
