@@ -1056,6 +1056,10 @@ namespace base
 
 				return ret;
 			}
+		default:
+			{
+				throw std::runtime_error{CODE_POS_STR + "不支持的区间类型。"};
+			}
 		}
 	}
 
@@ -1261,6 +1265,10 @@ namespace base
 
 				return ret;
 			}
+		default:
+			{
+				throw std::runtime_error{CODE_POS_STR + "不支持的区间类型。"};
+			}
 		}
 	}
 
@@ -1465,6 +1473,10 @@ namespace base
 				};
 
 				return ret;
+			}
+		default:
+			{
+				throw std::runtime_error{CODE_POS_STR + "不支持的区间类型。"};
 			}
 		}
 	}
