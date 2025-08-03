@@ -47,20 +47,7 @@ private:
 		{
 			base::Path year_dir_path = entry.Path();
 			_year = base::ParseInt64(year_dir_path.LastName().ToString(), 10);
-		}
-		catch (std::exception const &e)
-		{
-			base::console.WriteError(CODE_POS_STR + e.what());
-			return false;
-		}
-		catch (...)
-		{
-			base::console.WriteError(CODE_POS_STR + "未知异常。");
-			return false;
-		}
 
-		// 检查日期时间
-		{
 			base::ClosedInterval<base::DateTime> interval{
 				base::DateTime{
 					_enumerable._utc_hour_offset,
@@ -89,6 +76,16 @@ private:
 				return false;
 			}
 		}
+		catch (std::exception const &e)
+		{
+			base::console.WriteError(CODE_POS_STR + e.what());
+			return false;
+		}
+		catch (...)
+		{
+			base::console.WriteError(CODE_POS_STR + "未知异常。");
+			return false;
+		}
 
 		return true;
 	}
@@ -105,20 +102,7 @@ private:
 		{
 			base::Path month_dir_path = entry.Path();
 			_month = base::ParseInt64(month_dir_path.LastName().ToString(), 10);
-		}
-		catch (std::exception const &e)
-		{
-			base::console.WriteError(CODE_POS_STR + e.what());
-			return false;
-		}
-		catch (...)
-		{
-			base::console.WriteError(CODE_POS_STR + "未知异常。");
-			return false;
-		}
 
-		// 检查日期时间
-		{
 			base::DateTime right{
 				_enumerable._utc_hour_offset,
 				_year,
@@ -158,6 +142,16 @@ private:
 				return false;
 			}
 		}
+		catch (std::exception const &e)
+		{
+			base::console.WriteError(CODE_POS_STR + e.what());
+			return false;
+		}
+		catch (...)
+		{
+			base::console.WriteError(CODE_POS_STR + "未知异常。");
+			return false;
+		}
 
 		return true;
 	}
@@ -174,20 +168,7 @@ private:
 		{
 			base::Path day_dir_path = entry.Path();
 			_day = base::ParseInt64(day_dir_path.LastName().ToString(), 10);
-		}
-		catch (std::exception const &e)
-		{
-			base::console.WriteError(CODE_POS_STR + e.what());
-			return false;
-		}
-		catch (...)
-		{
-			base::console.WriteError(CODE_POS_STR + "未知异常。");
-			return false;
-		}
 
-		// 检查日期时间
-		{
 			base::ClosedInterval<base::DateTime> interval{
 				base::DateTime{
 					_enumerable._utc_hour_offset,
@@ -215,6 +196,16 @@ private:
 			{
 				return false;
 			}
+		}
+		catch (std::exception const &e)
+		{
+			base::console.WriteError(CODE_POS_STR + e.what());
+			return false;
+		}
+		catch (...)
+		{
+			base::console.WriteError(CODE_POS_STR + "未知异常。");
+			return false;
 		}
 
 		return true;
