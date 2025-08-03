@@ -1519,6 +1519,160 @@ namespace base
 
 		/* #endregion */
 
+		/* #region HasIntersection */
+
+		constexpr bool HasIntersection(base::ClosedInterval<T> const &value) const
+		{
+			std::cout << "88888" << std::endl;
+			if (IsInRange(value.Left()))
+			{
+				return true;
+			}
+
+			if (IsInRange(value.Right()))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		constexpr bool HasIntersection(base::OpenInterval<T> const &value) const
+		{
+			if (IsInRange(value.Left()))
+			{
+				return true;
+			}
+
+			if (IsInRange(value.Right()))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		constexpr bool HasIntersection(base::LeftOpenRightClosedInterval<T> const &value) const
+		{
+			if (IsInRange(value.Left()))
+			{
+				return true;
+			}
+
+			if (IsInRange(value.Right()))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		constexpr bool HasIntersection(base::LeftClosedRightOpenInterval<T> const &value) const
+		{
+			if (IsInRange(value.Left()))
+			{
+				return true;
+			}
+
+			if (IsInRange(value.Right()))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		constexpr bool HasIntersection(base::LeftInfiniteRightOpenInterval<T> const &value) const
+		{
+			if (IsInRange(value.Right()))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		constexpr bool HasIntersection(base::LeftInfiniteRightClosedInterval<T> const &value) const
+		{
+			if (IsInRange(value.Right()))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		constexpr bool HasIntersection(base::LeftOpenRightInfiniteInterval<T> const &value) const
+		{
+			if (IsInRange(value.Left()))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		///
+		/// @brief 检查一个区间是否在本区间内。
+		///
+		/// @param value
+		/// @return
+		///
+		constexpr bool HasIntersection(base::LeftClosedRightInfiniteInterval<T> const &value) const
+		{
+			if (IsInRange(value.Left()))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		constexpr bool HasIntersection(base::Interval<T> const &value) const
+		{
+			switch (value._type)
+			{
+			case base::IntervalType::Closed:
+				{
+					return HasIntersection(base::ClosedInterval<T>{value});
+				}
+			case base::IntervalType::Open:
+				{
+					return HasIntersection(base::OpenInterval<T>{value});
+				}
+			case base::IntervalType::LeftOpenRightClosed:
+				{
+					return HasIntersection(base::LeftOpenRightClosedInterval<T>{value});
+				}
+			case base::IntervalType::LeftClosedRightOpen:
+				{
+					return HasIntersection(base::LeftClosedRightOpenInterval<T>{value});
+				}
+			case base::IntervalType::LeftInfiniteRightOpen:
+				{
+					return HasIntersection(base::LeftInfiniteRightOpenInterval<T>{value});
+				}
+			case base::IntervalType::LeftInfiniteRightClosed:
+				{
+					return HasIntersection(base::LeftInfiniteRightClosedInterval<T>{value});
+				}
+			case base::IntervalType::LeftOpenRightInfinite:
+				{
+					return HasIntersection(base::LeftOpenRightInfiniteInterval<T>{value});
+				}
+			case base::IntervalType::LeftClosedRightInfinite:
+				{
+					return HasIntersection(base::LeftClosedRightInfiniteInterval<T>{value});
+				}
+			default:
+				{
+					throw std::runtime_error{CODE_POS_STR + "无法判断该区间是否包含元素。"};
+				}
+			}
+		}
+
+		/* #endregion */
+
 		///
 		/// @brief 检查一个值是否在区间外。
 		///

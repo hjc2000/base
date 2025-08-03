@@ -60,20 +60,30 @@ private:
 
 		// 检查日期时间
 		{
-			// 现在只有年份是确定的，月份和日取一个 2 月 1 日，不要直接使用 1 月 1 日，
-			// 避免如果 _year_date_time_range 是开区间直接被过滤掉了。
-			base::DateTime file_year_date_time{
-				_enumerable._utc_hour_offset,
-				_year,
-				2,
-				1,
-				0,
-				0,
-				0,
-				0,
+			base::ClosedInterval<base::DateTime> interval{
+				base::DateTime{
+					_enumerable._utc_hour_offset,
+					_year,
+					1,
+					1,
+					0,
+					0,
+					0,
+					0,
+				},
+				base::DateTime{
+					_enumerable._utc_hour_offset,
+					_year,
+					12,
+					31,
+					23,
+					59,
+					59,
+					static_cast<int64_t>(1e9) - 1,
+				},
 			};
 
-			if (_year_date_time_interval.IsOutOfRange(file_year_date_time))
+			if (_year_date_time_interval.HasIntersection(interval))
 			{
 				return false;
 			}
@@ -108,20 +118,41 @@ private:
 
 		// 检查日期时间
 		{
-			// 现在只有年份、月份是确定的。日取一个 2 日，不要直接使用 1 日，
-			// 避免如果 _year_month_date_time_range 是开区间直接被过滤掉了。
-			base::DateTime file_year_date_time{
+			base::DateTime right{
 				_enumerable._utc_hour_offset,
 				_year,
 				_month,
-				2,
-				0,
-				0,
-				0,
-				0,
+				10,
+				23,
+				59,
+				59,
+				static_cast<int64_t>(1e9) - 1,
 			};
 
-			if (_year_month_date_time_interval.IsOutOfRange(file_year_date_time))
+			base::ClosedInterval<base::DateTime> interval{
+				base::DateTime{
+					_enumerable._utc_hour_offset,
+					_year,
+					_month,
+					1,
+					0,
+					0,
+					0,
+					0,
+				},
+				base::DateTime{
+					_enumerable._utc_hour_offset,
+					_year,
+					_month,
+					right.CurrentMonthDayCount(),
+					23,
+					59,
+					59,
+					static_cast<int64_t>(1e9) - 1,
+				},
+			};
+
+			if (_year_date_time_interval.HasIntersection(interval))
 			{
 				return false;
 			}
@@ -156,20 +187,30 @@ private:
 
 		// 检查日期时间
 		{
-			// 现在只有年份、月份、日是确定的。时取一个 1 点，不要直接使用 0 时，
-			// 避免如果 _year_month_day_date_time_range 是开区间直接被过滤掉了。
-			base::DateTime file_day_date_time{
-				_enumerable._utc_hour_offset,
-				_year,
-				_month,
-				_day,
-				1,
-				0,
-				0,
-				0,
+			base::ClosedInterval<base::DateTime> interval{
+				base::DateTime{
+					_enumerable._utc_hour_offset,
+					_year,
+					_month,
+					_day,
+					0,
+					0,
+					0,
+					0,
+				},
+				base::DateTime{
+					_enumerable._utc_hour_offset,
+					_year,
+					_month,
+					_day,
+					23,
+					59,
+					59,
+					static_cast<int64_t>(1e9) - 1,
+				},
 			};
 
-			if (_year_month_day_date_time_interval.IsOutOfRange(file_day_date_time))
+			if (_year_date_time_interval.HasIntersection(interval))
 			{
 				return false;
 			}
@@ -328,10 +369,11 @@ public:
 	Enumerator(YearMonthDayDirectoryEntryEnumerable &enumerable)
 		: _enumerable(enumerable)
 	{
-		MoveToNextFile();
 		_year_date_time_interval = base::GetYearDateTimeInterval(_enumerable._date_time_range);
 		_year_month_date_time_interval = base::GetYearMonthDateTimeInterval(_enumerable._date_time_range);
 		_year_month_day_date_time_interval = base::GetYearMonthDayDateTimeInterval(_enumerable._date_time_range);
+
+		MoveToNextFile();
 	}
 
 	///

@@ -872,7 +872,6 @@ namespace base
 
 				base::ClosedInterval<base::DateTime> ret{
 					base::DateTime{
-						left.UtcHourOffset(),
 						left.Year(),
 						1,
 						1,
@@ -902,7 +901,6 @@ namespace base
 
 				base::OpenInterval<base::DateTime> ret{
 					base::DateTime{
-						left.UtcHourOffset(),
 						left.Year(),
 						1,
 						1,
@@ -932,7 +930,6 @@ namespace base
 
 				base::LeftOpenRightClosedInterval<base::DateTime> ret{
 					base::DateTime{
-						left.UtcHourOffset(),
 						left.Year(),
 						1,
 						1,
@@ -962,7 +959,6 @@ namespace base
 
 				base::LeftClosedRightOpenInterval<base::DateTime> ret{
 					base::DateTime{
-						left.UtcHourOffset(),
 						left.Year(),
 						1,
 						1,
@@ -1029,7 +1025,6 @@ namespace base
 
 				base::LeftOpenRightInfiniteInterval<base::DateTime> ret{
 					base::DateTime{
-						left.UtcHourOffset(),
 						left.Year(),
 						1,
 						1,
@@ -1049,7 +1044,6 @@ namespace base
 
 				base::LeftClosedRightInfiniteInterval<base::DateTime> ret{
 					base::DateTime{
-						left.UtcHourOffset(),
 						left.Year(),
 						1,
 						1,
@@ -1083,7 +1077,6 @@ namespace base
 
 				base::ClosedInterval<base::DateTime> ret{
 					base::DateTime{
-						left.UtcHourOffset(),
 						left.Year(),
 						left.Month(),
 						1,
@@ -1113,7 +1106,6 @@ namespace base
 
 				base::OpenInterval<base::DateTime> ret{
 					base::DateTime{
-						left.UtcHourOffset(),
 						left.Year(),
 						left.Month(),
 						1,
@@ -1143,7 +1135,6 @@ namespace base
 
 				base::LeftOpenRightClosedInterval<base::DateTime> ret{
 					base::DateTime{
-						left.UtcHourOffset(),
 						left.Year(),
 						left.Month(),
 						1,
@@ -1173,7 +1164,6 @@ namespace base
 
 				base::LeftClosedRightOpenInterval<base::DateTime> ret{
 					base::DateTime{
-						left.UtcHourOffset(),
 						left.Year(),
 						left.Month(),
 						1,
@@ -1240,7 +1230,6 @@ namespace base
 
 				base::LeftOpenRightInfiniteInterval<base::DateTime> ret{
 					base::DateTime{
-						left.UtcHourOffset(),
 						left.Year(),
 						left.Month(),
 						1,
@@ -1260,7 +1249,6 @@ namespace base
 
 				base::LeftClosedRightInfiniteInterval<base::DateTime> ret{
 					base::DateTime{
-						left.UtcHourOffset(),
 						left.Year(),
 						left.Month(),
 						1,
@@ -1294,7 +1282,6 @@ namespace base
 
 				base::ClosedInterval<base::DateTime> ret{
 					base::DateTime{
-						left.UtcHourOffset(),
 						left.Year(),
 						left.Month(),
 						left.Day(),
@@ -1324,7 +1311,6 @@ namespace base
 
 				base::OpenInterval<base::DateTime> ret{
 					base::DateTime{
-						left.UtcHourOffset(),
 						left.Year(),
 						left.Month(),
 						left.Day(),
@@ -1354,7 +1340,6 @@ namespace base
 
 				base::LeftOpenRightClosedInterval<base::DateTime> ret{
 					base::DateTime{
-						left.UtcHourOffset(),
 						left.Year(),
 						left.Month(),
 						left.Day(),
@@ -1384,7 +1369,6 @@ namespace base
 
 				base::LeftClosedRightOpenInterval<base::DateTime> ret{
 					base::DateTime{
-						left.UtcHourOffset(),
 						left.Year(),
 						left.Month(),
 						left.Day(),
@@ -1451,7 +1435,6 @@ namespace base
 
 				base::LeftOpenRightInfiniteInterval<base::DateTime> ret{
 					base::DateTime{
-						left.UtcHourOffset(),
 						left.Year(),
 						left.Month(),
 						left.Day(),
@@ -1471,7 +1454,6 @@ namespace base
 
 				base::LeftClosedRightInfiniteInterval<base::DateTime> ret{
 					base::DateTime{
-						left.UtcHourOffset(),
 						left.Year(),
 						left.Month(),
 						left.Day(),

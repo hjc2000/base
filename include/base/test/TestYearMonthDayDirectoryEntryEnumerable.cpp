@@ -14,7 +14,7 @@ void base::test::TestYearMonthDayDirectoryEntryEnumerable()
 	base::ClosedInterval<base::DateTime> interval{
 		base::DateTime{
 			base::UtcHourOffset{8},
-			2024,
+			2023,
 			8,
 			1,
 			0,
