@@ -1,5 +1,6 @@
 #include "YearMonthDayDirectoryEntryEnumerable.h" // IWYU pragma: keep
 #include "base/Console.h"
+#include "base/IDisposable.h"
 #include "base/math/interval/Interval.h"
 #include "base/string/define.h"
 #include "base/string/Parse.h"
@@ -224,6 +225,11 @@ private:
 	{
 		while (true)
 		{
+			if (_enumerable._disposed)
+			{
+				return false;
+			}
+
 			// 先完成 _year_dir_iterator 的初始化或递增操作
 			if (_year_dir_iterator == nullptr)
 			{
@@ -256,6 +262,11 @@ private:
 	{
 		while (true)
 		{
+			if (_enumerable._disposed)
+			{
+				return false;
+			}
+
 			// 先完成 _month_dir_iterator 的初始化或递增操作。
 			if (_month_dir_iterator == nullptr || _month_dir_iterator->IsEnd())
 			{
@@ -292,6 +303,11 @@ private:
 	{
 		while (true)
 		{
+			if (_enumerable._disposed)
+			{
+				return false;
+			}
+
 			// 先完成 _day_dir_iterator 的初始化或递增操作。
 			if (_day_dir_iterator == nullptr || _day_dir_iterator->IsEnd())
 			{
@@ -328,6 +344,11 @@ private:
 	{
 		while (true)
 		{
+			if (_enumerable._disposed)
+			{
+				return false;
+			}
+
 			// 先完成 _file_iterator 的初始化或递增操作。
 			if (_file_iterator == nullptr || _file_iterator->IsEnd())
 			{
@@ -375,6 +396,11 @@ public:
 	///
 	virtual bool IsEnd() const override
 	{
+		if (_enumerable._disposed)
+		{
+			return true;
+		}
+
 		if (_file_iterator == nullptr)
 		{
 			return true;
@@ -390,6 +416,11 @@ public:
 	///
 	virtual base::DirectoryEntry const &CurrentValue() override
 	{
+		if (_enumerable._disposed)
+		{
+			throw base::ObjectDisposedException{};
+		}
+
 		if (_file_iterator == nullptr || _file_iterator->IsEnd())
 		{
 			throw std::runtime_error{CODE_POS_STR + "没有当前值可用。"};
@@ -404,11 +435,21 @@ public:
 	///
 	virtual void Add() override
 	{
+		if (_enumerable._disposed)
+		{
+			throw base::ObjectDisposedException{};
+		}
+
 		MoveToNextFile();
 	}
 };
 
 std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> base::filesystem::YearMonthDayDirectoryEntryEnumerable::GetEnumerator()
 {
+	if (_disposed)
+	{
+		throw base::ObjectDisposedException{};
+	}
+
 	return std::shared_ptr<Enumerator>{new Enumerator{*this}};
 }

@@ -3,6 +3,7 @@
 #include "base/container/iterator/IEnumerator.h"
 #include "base/filesystem/DirectoryEntry.h"
 #include "base/filesystem/Path.h"
+#include "base/IDisposable.h"
 #include "base/math/interval/Interval.h"
 #include "base/time/DateTime.h"
 #include "base/time/UtcHourOffset.h"
@@ -16,7 +17,8 @@ namespace base
 		///
 		///
 		class YearMonthDayDirectoryEntryEnumerable final :
-			public base::IEnumerable<base::DirectoryEntry const>
+			public base::IEnumerable<base::DirectoryEntry const>,
+			public IDisposable
 		{
 		private:
 			class Enumerator;
@@ -36,6 +38,8 @@ namespace base
 
 			base::UtcHourOffset _utc_hour_offset;
 
+			bool _disposed = false;
+
 		public:
 			///
 			/// @brief
@@ -51,6 +55,27 @@ namespace base
 				_base_path = base_path;
 				_date_time_range = date_time_range;
 				_utc_hour_offset = utc_hour_offset;
+			}
+
+			~YearMonthDayDirectoryEntryEnumerable()
+			{
+				Dispose();
+			}
+
+			///
+			/// @brief 处置对象，让对象准备好结束生命周期。类似于进入 “准备后事” 的状态。
+			///
+			/// @note 注意，对象并不是析构了，并不是完全无法访问，它仍然允许访问，仍然能执行一些
+			/// 符合 “准备后事” 的工作。
+			///
+			virtual void Dispose() override
+			{
+				if (_disposed)
+				{
+					return;
+				}
+
+				_disposed = true;
 			}
 
 			using base::IEnumerable<base::DirectoryEntry const>::GetEnumerator;
