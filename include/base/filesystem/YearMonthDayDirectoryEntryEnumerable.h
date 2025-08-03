@@ -3,6 +3,8 @@
 #include "base/container/iterator/IEnumerator.h"
 #include "base/filesystem/DirectoryEntry.h"
 #include "base/filesystem/Path.h"
+#include "base/filesystem/YearMonthDayDirectoryEntryEnumerator.h"
+#include "base/IDisposable.h"
 #include "base/math/interval/Interval.h"
 #include "base/time/DateTime.h"
 #include "base/time/UtcHourOffset.h"
@@ -62,7 +64,19 @@ namespace base
 			///
 			/// @return
 			///
-			virtual std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> GetEnumerator() override;
+			virtual std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> GetEnumerator() override
+			{
+				if (_disposed)
+				{
+					throw base::ObjectDisposedException{};
+				}
+
+				return std::shared_ptr<base::filesystem::YearMonthDayDirectoryEntryEnumerator>{new base::filesystem::YearMonthDayDirectoryEntryEnumerator{
+					_base_path,
+					_date_time_range,
+					_utc_hour_offset,
+				}};
+			}
 		};
 
 	} // namespace filesystem
