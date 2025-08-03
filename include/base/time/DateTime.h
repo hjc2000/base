@@ -854,6 +854,12 @@ namespace base
 		}
 	};
 
+	///
+	/// @brief 把日期时间区间的分辨率调整到整年。
+	///
+	/// @param value
+	/// @return
+	///
 	constexpr base::Interval<base::DateTime> GetYearDateTimeInterval(base::Interval<base::DateTime> const &value)
 	{
 		switch (value.Type())
