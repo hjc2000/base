@@ -39,7 +39,9 @@ namespace base
 
 		///
 		/// @brief 退队
+		///
 		/// @return
+		///
 		/// @exception 如果队列为空，会抛出 underflow_error
 		///
 		virtual T Dequeue() override
@@ -56,7 +58,9 @@ namespace base
 
 		///
 		/// @brief 尝试退队
+		///
 		/// @param out 从队列里拿出来的元素会被赋值给 out，这要求 out 的类要实现赋值运算符。
+		///
 		/// @return 退队成功返回 true，失败返回 false
 		///
 		virtual bool TryDequeue(T &out) override
@@ -73,6 +77,7 @@ namespace base
 
 		///
 		/// @brief 入队
+		///
 		/// @param obj
 		///
 		virtual void Enqueue(T const &obj) override
