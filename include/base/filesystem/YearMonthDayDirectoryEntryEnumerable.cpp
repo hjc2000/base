@@ -14,8 +14,9 @@ class base::filesystem::YearMonthDayDirectoryEntryEnumerable::Enumerator final :
 private:
 	YearMonthDayDirectoryEntryEnumerable &_enumerable;
 
-	base::Interval<base::DateTime> _year_date_time_range;
-	base::Interval<base::DateTime> _year_month_date_time_range;
+	base::Interval<base::DateTime> _year_date_time_interval;
+	base::Interval<base::DateTime> _year_month_date_time_interval;
+	base::Interval<base::DateTime> _year_month_day_date_time_interval;
 
 	///
 	/// @brief 用来迭代基路径的迭代器。
@@ -57,103 +58,24 @@ private:
 			return false;
 		}
 
-		// 日期时间检查
-		// 先一步去除年份不符合的
+		// 检查日期时间
 		{
-			switch (_enumerable._date_time_range.Type())
+			// 现在只有年份是确定的，月份和日取一个 2 月 1 日，不要直接使用 1 月 1 日，
+			// 避免如果 _year_date_time_range 是开区间直接被过滤掉了。
+			base::DateTime file_year_date_time{
+				_enumerable._utc_hour_offset,
+				_year,
+				2,
+				1,
+				0,
+				0,
+				0,
+				0,
+			};
+
+			if (_year_date_time_interval.IsOutOfRange(file_year_date_time))
 			{
-			case IntervalType::Closed:
-				{
-					base::ClosedInterval<base::DateTime> interval{_enumerable._date_time_range};
-					base::DateTime left = interval.Left();
-					base::DateTime right = interval.Right();
-					if (!(_year >= left.Year() || _year <= right.Year()))
-					{
-						return false;
-					}
-
-					break;
-				}
-			case IntervalType::Open:
-				{
-					base::OpenInterval<base::DateTime> interval{_enumerable._date_time_range};
-					base::DateTime left = interval.Left();
-					base::DateTime right = interval.Right();
-					if (!(_year > left.Year() || _year < right.Year()))
-					{
-						return false;
-					}
-
-					break;
-				}
-			case IntervalType::LeftOpenRightClosed:
-				{
-					base::LeftOpenRightClosedInterval<base::DateTime> interval{_enumerable._date_time_range};
-					base::DateTime left = interval.Left();
-					base::DateTime right = interval.Right();
-					if (!(_year > left.Year() || _year <= right.Year()))
-					{
-						return false;
-					}
-
-					break;
-				}
-			case IntervalType::LeftClosedRightOpen:
-				{
-					base::LeftClosedRightOpenInterval<base::DateTime> interval{_enumerable._date_time_range};
-					base::DateTime left = interval.Left();
-					base::DateTime right = interval.Right();
-					if (!(_year >= left.Year() || _year < right.Year()))
-					{
-						return false;
-					}
-
-					break;
-				}
-			case IntervalType::LeftInfiniteRightOpen:
-				{
-					base::LeftInfiniteRightOpenInterval<base::DateTime> interval{_enumerable._date_time_range};
-					base::DateTime right = interval.Right();
-					if (!(_year < right.Year()))
-					{
-						return false;
-					}
-
-					break;
-				}
-			case IntervalType::LeftInfiniteRightClosed:
-				{
-					base::LeftInfiniteRightClosedInterval<base::DateTime> interval{_enumerable._date_time_range};
-					base::DateTime right = interval.Right();
-					if (!(_year <= right.Year()))
-					{
-						return false;
-					}
-
-					break;
-				}
-			case IntervalType::LeftOpenRightInfinite:
-				{
-					base::LeftOpenRightInfiniteInterval<base::DateTime> interval{_enumerable._date_time_range};
-					base::DateTime left = interval.Left();
-					if (!(_year > left.Year()))
-					{
-						return false;
-					}
-
-					break;
-				}
-			case IntervalType::LeftClosedRightInfinite:
-				{
-					base::LeftClosedRightInfiniteInterval<base::DateTime> interval{_enumerable._date_time_range};
-					base::DateTime left = interval.Left();
-					if (!(_year >= left.Year()))
-					{
-						return false;
-					}
-
-					break;
-				}
+				return false;
 			}
 		}
 
@@ -182,6 +104,27 @@ private:
 		{
 			base::console.WriteError(CODE_POS_STR + "未知异常。");
 			return false;
+		}
+
+		// 检查日期时间
+		{
+			// 现在只有年份、月份是确定的。日取一个 2 日，不要直接使用 1 日，
+			// 避免如果 _year_month_date_time_range 是开区间直接被过滤掉了。
+			base::DateTime file_year_date_time{
+				_enumerable._utc_hour_offset,
+				_year,
+				_month,
+				2,
+				0,
+				0,
+				0,
+				0,
+			};
+
+			if (_year_month_date_time_interval.IsOutOfRange(file_year_date_time))
+			{
+				return false;
+			}
 		}
 
 		return true;
@@ -213,18 +156,20 @@ private:
 
 		// 检查日期时间
 		{
+			// 现在只有年份、月份、日是确定的。时取一个 1 点，不要直接使用 0 时，
+			// 避免如果 _year_month_day_date_time_range 是开区间直接被过滤掉了。
 			base::DateTime file_day_date_time{
 				_enumerable._utc_hour_offset,
 				_year,
 				_month,
 				_day,
-				0,
+				1,
 				0,
 				0,
 				0,
 			};
 
-			if (_enumerable._date_time_range.IsOutOfRange(file_day_date_time))
+			if (_year_month_day_date_time_interval.IsOutOfRange(file_day_date_time))
 			{
 				return false;
 			}
@@ -384,8 +329,9 @@ public:
 		: _enumerable(enumerable)
 	{
 		MoveToNextFile();
-		_year_date_time_range = base::GetYearDateTimeInterval(_enumerable._date_time_range);
-		_year_month_date_time_range = base::GetYearMonthDateTimeInterval(_enumerable._date_time_range);
+		_year_date_time_interval = base::GetYearDateTimeInterval(_enumerable._date_time_range);
+		_year_month_date_time_interval = base::GetYearMonthDateTimeInterval(_enumerable._date_time_range);
+		_year_month_day_date_time_interval = base::GetYearMonthDayDateTimeInterval(_enumerable._date_time_range);
 	}
 
 	///
