@@ -14,6 +14,9 @@ class base::filesystem::YearMonthDayDirectoryEntryEnumerable::Enumerator final :
 private:
 	YearMonthDayDirectoryEntryEnumerable &_enumerable;
 
+	base::Interval<base::DateTime> _year_date_time_range;
+	base::Interval<base::DateTime> _year_month_date_time_range;
+
 	///
 	/// @brief 用来迭代基路径的迭代器。
 	///
@@ -381,6 +384,8 @@ public:
 		: _enumerable(enumerable)
 	{
 		MoveToNextFile();
+		_year_date_time_range = base::GetYearDateTimeInterval(_enumerable._date_time_range);
+		_year_month_date_time_range = base::GetYearMonthDateTimeInterval(_enumerable._date_time_range);
 	}
 
 	///
