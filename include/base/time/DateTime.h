@@ -836,7 +836,7 @@ namespace base
 		///
 		/// @return
 		///
-		base::UtcHourOffset UtcHourOffset() const
+		constexpr base::UtcHourOffset UtcHourOffset() const
 		{
 			return base::UtcHourOffset{_utc_hour_offset};
 		}
