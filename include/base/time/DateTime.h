@@ -431,36 +431,77 @@ namespace base
 
 		/* #region 日期时间属性 */
 
+		///
+		/// @brief 获取日期时间中的年。
+		///
+		/// @note 本属性始终是 UTC+0 的日期时间。
+		///
+		/// @return
+		///
 		constexpr int64_t Year() const
 		{
 			return _year;
 		}
 
+		///
+		/// @brief 获取日期时间中的月。
+		///
+		/// @note 本属性始终是 UTC+0 的日期时间。
+		///
+		/// @return
+		///
 		constexpr int64_t Month() const
 		{
 			return _month;
 		}
 
+		///
+		/// @brief 获取日期时间中的日。
+		///
+		/// @note 本属性始终是 UTC+0 的日期时间。
+		///
+		/// @return
+		///
 		constexpr int64_t Day() const
 		{
 			return _day;
 		}
 
+		///
+		/// @brief 获取日期时间中的小时。
+		///
+		/// @return
+		///
 		constexpr int64_t Hour() const
 		{
 			return _hour;
 		}
 
+		///
+		/// @brief 获取日期时间中的分钟。
+		///
+		/// @return
+		///
 		constexpr int64_t Minute() const
 		{
 			return _minute;
 		}
 
+		///
+		/// @brief 获取日期时间中的秒。
+		///
+		/// @return
+		///
 		constexpr int64_t Second() const
 		{
 			return _second;
 		}
 
+		///
+		/// @brief 获取日期时间中的纳秒。
+		///
+		/// @return
+		///
 		constexpr int64_t Nanosecond() const
 		{
 			return _nanosecond;
