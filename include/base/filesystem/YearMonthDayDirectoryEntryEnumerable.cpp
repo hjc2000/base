@@ -83,7 +83,7 @@ private:
 				},
 			};
 
-			if (_year_date_time_interval.HasIntersection(interval))
+			if (!_year_date_time_interval.HasIntersection(interval))
 			{
 				return false;
 			}
@@ -152,7 +152,7 @@ private:
 				},
 			};
 
-			if (_year_date_time_interval.HasIntersection(interval))
+			if (!_year_month_date_time_interval.HasIntersection(interval))
 			{
 				return false;
 			}
@@ -210,7 +210,7 @@ private:
 				},
 			};
 
-			if (_year_date_time_interval.HasIntersection(interval))
+			if (!_year_month_day_date_time_interval.HasIntersection(interval))
 			{
 				return false;
 			}

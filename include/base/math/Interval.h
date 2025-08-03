@@ -1523,7 +1523,6 @@ namespace base
 
 		constexpr bool HasIntersection(base::ClosedInterval<T> const &value) const
 		{
-			std::cout << "88888" << std::endl;
 			if (IsInRange(value.Left()))
 			{
 				return true;
