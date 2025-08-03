@@ -76,6 +76,8 @@ namespace base
 			std::shared_ptr<IEnumerator<item_type>> _enumerator;
 
 		public:
+			ForwardIterator() = default;
+
 			ForwardIterator(std::shared_ptr<IEnumerator<item_type>> enumertor)
 			{
 				_enumerator = enumertor;
@@ -116,7 +118,17 @@ namespace base
 
 			bool operator==(ForwardIterator<item_type> const &o) const
 			{
-				return _enumerator->IsEnd();
+				if (_enumerator != nullptr)
+				{
+					return _enumerator->IsEnd();
+				}
+
+				if (o._enumerator != nullptr)
+				{
+					return o._enumerator->IsEnd();
+				}
+
+				return true;
 			}
 
 			bool operator!=(ForwardIterator<item_type> const &o) const
@@ -162,7 +174,7 @@ namespace base
 
 		ForwardIterator<ItemType> end()
 		{
-			return ForwardIterator<ItemType>{GetEnumerator()};
+			return ForwardIterator<ItemType>{};
 		}
 
 		ForwardIterator<ItemType const> begin() const
@@ -172,7 +184,7 @@ namespace base
 
 		ForwardIterator<ItemType const> end() const
 		{
-			return ForwardIterator<ItemType const>{GetEnumerator()};
+			return ForwardIterator<ItemType const>{};
 		}
 
 		/* #endregion */
