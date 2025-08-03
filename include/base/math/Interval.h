@@ -825,6 +825,8 @@ namespace base
 
 		/* #endregion */
 
+		/* #region IsInRange */
+
 		///
 		/// @brief 检查一个值是否在区间内。
 		///
@@ -1514,6 +1516,8 @@ namespace base
 				}
 			}
 		}
+
+		/* #endregion */
 
 		///
 		/// @brief 检查一个值是否在区间外。
