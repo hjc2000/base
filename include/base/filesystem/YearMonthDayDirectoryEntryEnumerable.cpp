@@ -4,6 +4,7 @@
 #include "base/string/define.h"
 #include "base/string/Parse.h"
 #include "base/time/DateTime.h"
+#include "base/time/DateTimeInterval.h"
 #include "filesystem.h"
 #include <cstdint>
 #include <stdexcept>
