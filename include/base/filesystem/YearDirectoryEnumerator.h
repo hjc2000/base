@@ -218,6 +218,11 @@ namespace base
 			{
 				MoveToNextYear();
 			}
+
+			int64_t Year() const
+			{
+				return _year;
+			}
 		};
 
 	} // namespace filesystem
