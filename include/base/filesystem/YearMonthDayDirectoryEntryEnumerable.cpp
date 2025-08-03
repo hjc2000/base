@@ -11,10 +11,19 @@
 #include <stdexcept>
 
 class base::filesystem::YearMonthDayDirectoryEntryEnumerable::Enumerator final :
-	public base::IEnumerator<base::DirectoryEntry const>
+	public base::IEnumerator<base::DirectoryEntry const>,
+	public IDisposable
 {
 private:
-	YearMonthDayDirectoryEntryEnumerable &_enumerable;
+	bool _disposed = false;
+
+	///
+	/// @brief “基路径/年/月/日/文件” 中的 “基路径”。
+	///
+	///
+	base::Path _base_path;
+
+	base::UtcHourOffset _utc_hour_offset;
 
 	base::Interval<base::DateTime> _year_date_time_interval;
 	base::Interval<base::DateTime> _year_month_date_time_interval;
@@ -51,7 +60,7 @@ private:
 
 			base::ClosedInterval<base::DateTime> interval{
 				base::DateTime{
-					_enumerable._utc_hour_offset,
+					_utc_hour_offset,
 					_year,
 					1,
 					1,
@@ -61,7 +70,7 @@ private:
 					0,
 				},
 				base::DateTime{
-					_enumerable._utc_hour_offset,
+					_utc_hour_offset,
 					_year,
 					12,
 					31,
@@ -105,7 +114,7 @@ private:
 			_month = base::ParseInt64(month_dir_path.LastName().ToString(), 10);
 
 			base::DateTime right{
-				_enumerable._utc_hour_offset,
+				_utc_hour_offset,
 				_year,
 				_month,
 				10,
@@ -117,7 +126,7 @@ private:
 
 			base::ClosedInterval<base::DateTime> interval{
 				base::DateTime{
-					_enumerable._utc_hour_offset,
+					_utc_hour_offset,
 					_year,
 					_month,
 					1,
@@ -127,7 +136,7 @@ private:
 					0,
 				},
 				base::DateTime{
-					_enumerable._utc_hour_offset,
+					_utc_hour_offset,
 					_year,
 					_month,
 					right.CurrentMonthDayCount(),
@@ -172,7 +181,7 @@ private:
 
 			base::ClosedInterval<base::DateTime> interval{
 				base::DateTime{
-					_enumerable._utc_hour_offset,
+					_utc_hour_offset,
 					_year,
 					_month,
 					_day,
@@ -182,7 +191,7 @@ private:
 					0,
 				},
 				base::DateTime{
-					_enumerable._utc_hour_offset,
+					_utc_hour_offset,
 					_year,
 					_month,
 					_day,
@@ -225,7 +234,7 @@ private:
 	{
 		while (true)
 		{
-			if (_enumerable._disposed)
+			if (_disposed)
 			{
 				return false;
 			}
@@ -233,7 +242,7 @@ private:
 			// 先完成 _year_dir_iterator 的初始化或递增操作
 			if (_year_dir_iterator == nullptr)
 			{
-				_year_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(_enumerable._base_path);
+				_year_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(_base_path);
 			}
 			else if (_year_dir_iterator->IsNotEnd())
 			{
@@ -262,7 +271,7 @@ private:
 	{
 		while (true)
 		{
-			if (_enumerable._disposed)
+			if (_disposed)
 			{
 				return false;
 			}
@@ -303,7 +312,7 @@ private:
 	{
 		while (true)
 		{
-			if (_enumerable._disposed)
+			if (_disposed)
 			{
 				return false;
 			}
@@ -344,7 +353,7 @@ private:
 	{
 		while (true)
 		{
-			if (_enumerable._disposed)
+			if (_disposed)
 			{
 				return false;
 			}
@@ -379,14 +388,44 @@ private:
 	/* #endregion */
 
 public:
-	Enumerator(YearMonthDayDirectoryEntryEnumerable &enumerable)
-		: _enumerable(enumerable)
+	Enumerator(base::Path const &base_path,
+			   base::Interval<base::DateTime> const &date_time_range,
+			   base::UtcHourOffset const &utc_hour_offset)
 	{
-		_year_date_time_interval = base::GetYearDateTimeInterval(_enumerable._date_time_range);
-		_year_month_date_time_interval = base::GetYearMonthDateTimeInterval(_enumerable._date_time_range);
-		_year_month_day_date_time_interval = base::GetYearMonthDayDateTimeInterval(_enumerable._date_time_range);
+		_base_path = base_path;
+		_utc_hour_offset = utc_hour_offset;
+
+		_year_date_time_interval = base::GetYearDateTimeInterval(date_time_range);
+		_year_month_date_time_interval = base::GetYearMonthDateTimeInterval(date_time_range);
+		_year_month_day_date_time_interval = base::GetYearMonthDayDateTimeInterval(date_time_range);
 
 		MoveToNextFile();
+	}
+
+	~Enumerator()
+	{
+		Dispose();
+	}
+
+	///
+	/// @brief 处置对象，让对象准备好结束生命周期。类似于进入 “准备后事” 的状态。
+	///
+	/// @note 注意，对象并不是析构了，并不是完全无法访问，它仍然允许访问，仍然能执行一些
+	/// 符合 “准备后事” 的工作。
+	///
+	/// @note 如果年目录非常多，而且很多非法的目录干扰，造成在迭代器移动到下一个日志文件时
+	/// 需要遍历和筛选掉很多非法的目录，导致要很久才能退出迭代，就可以在循环中直接调用本方法。
+	/// 本方法会让迭代器内部的递归迭代立刻停止，不再搜索合法的年、月、日目录。但是调用本方法
+	/// 后必须立刻结束循环，不能再次访问迭代器。
+	///
+	virtual void Dispose() override
+	{
+		if (_disposed)
+		{
+			return;
+		}
+
+		_disposed = true;
 	}
 
 	///
@@ -396,7 +435,7 @@ public:
 	///
 	virtual bool IsEnd() const override
 	{
-		if (_enumerable._disposed)
+		if (_disposed)
 		{
 			return true;
 		}
@@ -416,7 +455,7 @@ public:
 	///
 	virtual base::DirectoryEntry const &CurrentValue() override
 	{
-		if (_enumerable._disposed)
+		if (_disposed)
 		{
 			throw base::ObjectDisposedException{};
 		}
@@ -435,7 +474,7 @@ public:
 	///
 	virtual void Add() override
 	{
-		if (_enumerable._disposed)
+		if (_disposed)
 		{
 			throw base::ObjectDisposedException{};
 		}
@@ -451,5 +490,9 @@ std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> base::filesystem:
 		throw base::ObjectDisposedException{};
 	}
 
-	return std::shared_ptr<Enumerator>{new Enumerator{*this}};
+	return std::shared_ptr<Enumerator>{new Enumerator{
+		_base_path,
+		_date_time_range,
+		_utc_hour_offset,
+	}};
 }
