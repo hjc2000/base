@@ -1,6 +1,6 @@
 #include "YearMonthDayDirectoryEntryEnumerable.h" // IWYU pragma: keep
 #include "base/Console.h"
-#include "base/math/Interval.h"
+#include "base/math/interval/Interval.h"
 #include "base/string/define.h"
 #include "base/string/Parse.h"
 #include "base/time/DateTime.h"

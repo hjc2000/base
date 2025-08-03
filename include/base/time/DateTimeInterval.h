@@ -1,5 +1,5 @@
 #pragma once
-#include "base/math/Interval.h"
+#include "base/math/interval/Interval.h"
 #include "base/time/DateTime.h"
 
 namespace base
