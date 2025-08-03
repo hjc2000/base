@@ -11,7 +11,8 @@
 #include <stdexcept>
 
 class base::filesystem::YearDirectoryEnumerable::Enumerator final :
-	public base::IEnumerator<base::DirectoryEntry const>
+	public base::IEnumerator<base::DirectoryEntry const>,
+	public IDisposable
 {
 private:
 	///
@@ -135,6 +136,32 @@ public:
 		_year_date_time_interval = base::GetYearDateTimeInterval(date_time_range);
 		_utc_hour_offset = utc_hour_offset;
 		MoveToNextYear();
+	}
+
+	~Enumerator()
+	{
+		Dispose();
+	}
+
+	///
+	/// @brief 处置对象，让对象准备好结束生命周期。类似于进入 “准备后事” 的状态。
+	///
+	/// @note 注意，对象并不是析构了，并不是完全无法访问，它仍然允许访问，仍然能执行一些
+	/// 符合 “准备后事” 的工作。
+	///
+	/// @note 如果年目录非常多，而且很多非法的目录干扰，造成在迭代器移动到下一个日志文件时
+	/// 需要遍历和筛选掉很多非法的目录，导致要很久才能退出迭代，就可以在循环中直接调用本方法。
+	/// 本方法会让迭代器内部的递归迭代立刻停止，不再搜索合法的年、月、日目录。但是调用本方法
+	/// 后必须立刻结束循环，不能再次访问迭代器。
+	///
+	virtual void Dispose() override
+	{
+		if (_disposed)
+		{
+			return;
+		}
+
+		_disposed = true;
 	}
 
 	///
