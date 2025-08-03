@@ -1525,6 +1525,17 @@ namespace base
 		{
 			return !IsInRange(value);
 		}
+
+		///
+		/// @brief 检查一个值是否在区间外。
+		///
+		/// @param value
+		/// @return
+		///
+		constexpr bool IsOutOfRange(base::Interval<T> const &value) const
+		{
+			return !IsInRange(value);
+		}
 	};
 
 } // namespace base
