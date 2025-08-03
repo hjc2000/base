@@ -843,6 +843,22 @@ namespace base
 		}
 
 		///
+		/// @brief 本日期时间的 UTC 偏移量。
+		///
+		/// @note 设置本属性并不会影响内部的实际日期时间，仅仅是改变你打印输出。
+		///
+		/// @note 本类对象储存的始终是 UTC+0 的时间，设置 UTC 偏移量仅仅是影响
+		/// LocalDateTimeStringBuilder 而已。也就是仅仅影响你想要按照你本地
+		/// 时区得到日期时间字符串时的结果。
+		///
+		/// @param value
+		///
+		constexpr void SetUtcHourOffset(base::UtcHourOffset value)
+		{
+			_utc_hour_offset = value.Value();
+		}
+
+		///
 		/// @brief epoch 起点日期。
 		///
 		/// @return
