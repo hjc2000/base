@@ -21,9 +21,6 @@ namespace base
 			public base::IEnumerable<base::DirectoryEntry const>
 		{
 		private:
-			class Enumerator;
-
-		private:
 			///
 			/// @brief “基路径/年/月/日/文件” 中的 “基路径”。
 			///
