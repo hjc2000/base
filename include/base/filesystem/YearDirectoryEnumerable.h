@@ -27,7 +27,7 @@ namespace base
 			base::Path _base_path;
 
 			///
-			/// @brief 过滤的日期时间范围。迭代时范围外的文件将不会获取到。
+			/// @brief 过滤的日期时间范围。迭代时范围外的年目录将不会获取到。
 			///
 			///
 			base::Interval<base::DateTime> _date_time_range;
@@ -37,6 +37,13 @@ namespace base
 			bool _disposed = false;
 
 		public:
+			///
+			/// @brief
+			///
+			/// @param base_path
+			/// @param date_time_range
+			/// @param utc_hour_offset 文件系统中年目录的 UTC 偏移量是多少。
+			///
 			YearDirectoryEnumerable(base::Path const &base_path,
 									base::Interval<base::DateTime> const &date_time_range,
 									base::UtcHourOffset const &utc_hour_offset)
