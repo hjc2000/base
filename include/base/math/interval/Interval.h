@@ -1078,6 +1078,8 @@ namespace base
 
 		/* #endregion */
 
+		/* #region IsOutOfRange */
+
 		///
 		/// @brief 检查一个值是否在区间外。
 		///
@@ -1099,6 +1101,8 @@ namespace base
 		{
 			return !IsInRange(value);
 		}
+
+		/* #endregion */
 	};
 
 } // namespace base
