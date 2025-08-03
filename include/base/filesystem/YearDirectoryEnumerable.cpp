@@ -14,7 +14,16 @@ class base::filesystem::YearDirectoryEnumerable::Enumerator final :
 	public base::IEnumerator<base::DirectoryEntry const>
 {
 private:
-	base::filesystem::YearDirectoryEnumerable &_enumerable;
+	///
+	/// @brief “基路径/年/月/日/文件” 中的 “基路径”。
+	///
+	///
+	base::Path _base_path;
+
+	base::UtcHourOffset _utc_hour_offset;
+
+	bool _disposed = false;
+
 	base::Interval<base::DateTime> _year_date_time_interval;
 	std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _year_dir_iterator;
 	int64_t _year{};
@@ -35,7 +44,7 @@ private:
 
 			base::ClosedInterval<base::DateTime> interval{
 				base::DateTime{
-					_enumerable._utc_hour_offset,
+					_utc_hour_offset,
 					_year,
 					1,
 					1,
@@ -45,7 +54,7 @@ private:
 					0,
 				},
 				base::DateTime{
-					_enumerable._utc_hour_offset,
+					_utc_hour_offset,
 					_year,
 					12,
 					31,
@@ -84,7 +93,7 @@ private:
 	{
 		while (true)
 		{
-			if (_enumerable._disposed)
+			if (_disposed)
 			{
 				return false;
 			}
@@ -92,7 +101,7 @@ private:
 			// 先完成 _year_dir_iterator 的初始化或递增操作
 			if (_year_dir_iterator == nullptr)
 			{
-				_year_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(_enumerable._base_path);
+				_year_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(_base_path);
 			}
 			else if (_year_dir_iterator->IsNotEnd())
 			{
@@ -118,10 +127,13 @@ private:
 	}
 
 public:
-	Enumerator(base::filesystem::YearDirectoryEnumerable &enumerable)
-		: _enumerable(enumerable)
+	Enumerator(base::Path const &base_path,
+			   base::Interval<base::DateTime> const &date_time_range,
+			   base::UtcHourOffset const &utc_hour_offset)
 	{
-		_year_date_time_interval = base::GetYearDateTimeInterval(_enumerable._date_time_range);
+		_base_path = base_path;
+		_year_date_time_interval = base::GetYearDateTimeInterval(date_time_range);
+		_utc_hour_offset = utc_hour_offset;
 		MoveToNextYear();
 	}
 
@@ -132,7 +144,7 @@ public:
 	///
 	virtual bool IsEnd() const override
 	{
-		if (_enumerable._disposed)
+		if (_disposed)
 		{
 			return true;
 		}
@@ -154,7 +166,7 @@ public:
 	///
 	virtual base::DirectoryEntry const &CurrentValue() override
 	{
-		if (_enumerable._disposed)
+		if (_disposed)
 		{
 			throw base::ObjectDisposedException{};
 		}
@@ -184,5 +196,9 @@ std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> base::filesystem:
 		throw base::ObjectDisposedException{};
 	}
 
-	return std::shared_ptr<Enumerator>{new Enumerator{*this}};
+	return std::shared_ptr<Enumerator>{new Enumerator{
+		_base_path,
+		_date_time_range,
+		_utc_hour_offset,
+	}};
 }
