@@ -875,6 +875,647 @@ namespace base
 		}
 
 		///
+		/// @brief 检查一个区间是否在本区间内。
+		///
+		/// @param value
+		/// @return
+		///
+		constexpr bool IsInRange(base::ClosedInterval<T> const &value) const
+		{
+			switch (_type)
+			{
+			case base::IntervalType::Closed:
+				{
+					if (value.Left() >= _left && value.Right() <= _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::Open:
+				{
+					if (value.Left() > _left && value.Right() < _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftOpenRightClosed:
+				{
+					if (value.Left() > _left && value.Right() <= _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftClosedRightOpen:
+				{
+					if (value.Left() >= _left && value.Right() < _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftInfiniteRightOpen:
+				{
+					if (value.Right() < _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftInfiniteRightClosed:
+				{
+					if (value.Right() <= _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftOpenRightInfinite:
+				{
+					if (value.Left() > _left)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftClosedRightInfinite:
+				{
+					if (value.Left() >= _left)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			default:
+				{
+					throw std::runtime_error{CODE_POS_STR + "无法判断该区间是否包含元素。"};
+				}
+			}
+		}
+
+		///
+		/// @brief 检查一个区间是否在本区间内。
+		///
+		/// @param value
+		/// @return
+		///
+		constexpr bool IsInRange(base::OpenInterval<T> const &value) const
+		{
+			switch (_type)
+			{
+			case base::IntervalType::Closed:
+				{
+					if (value.Left() >= _left && value.Right() <= _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::Open:
+				{
+					if (value.Left() >= _left && value.Right() <= _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftOpenRightClosed:
+				{
+					if (value.Left() >= _left && value.Right() <= _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftClosedRightOpen:
+				{
+					if (value.Left() >= _left && value.Right() <= _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftInfiniteRightOpen:
+				{
+					if (value.Right() <= _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftInfiniteRightClosed:
+				{
+					if (value.Right() <= _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftOpenRightInfinite:
+				{
+					if (value.Left() >= _left)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftClosedRightInfinite:
+				{
+					if (value.Left() >= _left)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			default:
+				{
+					throw std::runtime_error{CODE_POS_STR + "无法判断该区间是否包含元素。"};
+				}
+			}
+		}
+
+		///
+		/// @brief 检查一个区间是否在本区间内。
+		///
+		/// @param value
+		/// @return
+		///
+		constexpr bool IsInRange(base::LeftOpenRightClosedInterval<T> const &value) const
+		{
+			switch (_type)
+			{
+			case base::IntervalType::Closed:
+				{
+					if (value.Left() >= _left && value.Right() <= _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::Open:
+				{
+					if (value.Left() >= _left && value.Right() < _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftOpenRightClosed:
+				{
+					if (value.Left() >= _left && value.Right() <= _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftClosedRightOpen:
+				{
+					if (value.Left() >= _left && value.Right() < _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftInfiniteRightOpen:
+				{
+					if (value.Right() < _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftInfiniteRightClosed:
+				{
+					if (value.Right() <= _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftOpenRightInfinite:
+				{
+					if (value.Left() >= _left)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftClosedRightInfinite:
+				{
+					if (value.Left() >= _left)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			default:
+				{
+					throw std::runtime_error{CODE_POS_STR + "无法判断该区间是否包含元素。"};
+				}
+			}
+		}
+
+		///
+		/// @brief 检查一个区间是否在本区间内。
+		///
+		/// @param value
+		/// @return
+		///
+		constexpr bool IsInRange(base::LeftClosedRightOpenInterval<T> const &value) const
+		{
+			switch (_type)
+			{
+			case base::IntervalType::Closed:
+				{
+					if (value.Left() >= _left && value.Right() <= _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::Open:
+				{
+					if (value.Left() > _left && value.Right() <= _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftOpenRightClosed:
+				{
+					if (value.Left() > _left && value.Right() <= _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftClosedRightOpen:
+				{
+					if (value.Left() >= _left && value.Right() <= _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftInfiniteRightOpen:
+				{
+					if (value.Right() <= _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftInfiniteRightClosed:
+				{
+					if (value.Right() <= _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftOpenRightInfinite:
+				{
+					if (value.Left() > _left)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftClosedRightInfinite:
+				{
+					if (value.Left() >= _left)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			default:
+				{
+					throw std::runtime_error{CODE_POS_STR + "无法判断该区间是否包含元素。"};
+				}
+			}
+		}
+
+		///
+		/// @brief 检查一个区间是否在本区间内。
+		///
+		/// @param value
+		/// @return
+		///
+		constexpr bool IsInRange(base::LeftInfiniteRightOpenInterval<T> const &value) const
+		{
+			switch (_type)
+			{
+			case base::IntervalType::Closed:
+				{
+					return false;
+				}
+			case base::IntervalType::Open:
+				{
+					return false;
+				}
+			case base::IntervalType::LeftOpenRightClosed:
+				{
+					return false;
+				}
+			case base::IntervalType::LeftClosedRightOpen:
+				{
+					return false;
+				}
+			case base::IntervalType::LeftInfiniteRightOpen:
+				{
+					if (value.Right() <= _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftInfiniteRightClosed:
+				{
+					if (value.Right() <= _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftOpenRightInfinite:
+				{
+					return false;
+				}
+			case base::IntervalType::LeftClosedRightInfinite:
+				{
+					return false;
+				}
+			default:
+				{
+					throw std::runtime_error{CODE_POS_STR + "无法判断该区间是否包含元素。"};
+				}
+			}
+		}
+
+		///
+		/// @brief 检查一个区间是否在本区间内。
+		///
+		/// @param value
+		/// @return
+		///
+		constexpr bool IsInRange(base::LeftInfiniteRightClosedInterval<T> const &value) const
+		{
+			switch (_type)
+			{
+			case base::IntervalType::Closed:
+				{
+					return false;
+				}
+			case base::IntervalType::Open:
+				{
+					return false;
+				}
+			case base::IntervalType::LeftOpenRightClosed:
+				{
+					return false;
+				}
+			case base::IntervalType::LeftClosedRightOpen:
+				{
+					return false;
+				}
+			case base::IntervalType::LeftInfiniteRightOpen:
+				{
+					if (value.Right() < _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftInfiniteRightClosed:
+				{
+					if (value.Right() <= _right)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftOpenRightInfinite:
+				{
+					return false;
+				}
+			case base::IntervalType::LeftClosedRightInfinite:
+				{
+					return false;
+				}
+			default:
+				{
+					throw std::runtime_error{CODE_POS_STR + "无法判断该区间是否包含元素。"};
+				}
+			}
+		}
+
+		///
+		/// @brief 检查一个区间是否在本区间内。
+		///
+		/// @param value
+		/// @return
+		///
+		constexpr bool IsInRange(base::LeftOpenRightInfiniteInterval<T> const &value) const
+		{
+			switch (_type)
+			{
+			case base::IntervalType::Closed:
+				{
+					return false;
+				}
+			case base::IntervalType::Open:
+				{
+					return false;
+				}
+			case base::IntervalType::LeftOpenRightClosed:
+				{
+					return false;
+				}
+			case base::IntervalType::LeftClosedRightOpen:
+				{
+					return false;
+				}
+			case base::IntervalType::LeftInfiniteRightOpen:
+				{
+					return false;
+				}
+			case base::IntervalType::LeftInfiniteRightClosed:
+				{
+					return false;
+				}
+			case base::IntervalType::LeftOpenRightInfinite:
+				{
+					if (value.Left() >= _left)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftClosedRightInfinite:
+				{
+					if (value.Left() >= _left)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			default:
+				{
+					throw std::runtime_error{CODE_POS_STR + "无法判断该区间是否包含元素。"};
+				}
+			}
+		}
+
+		///
+		/// @brief 检查一个区间是否在本区间内。
+		///
+		/// @param value
+		/// @return
+		///
+		constexpr bool IsInRange(base::LeftClosedRightInfiniteInterval<T> const &value) const
+		{
+			switch (_type)
+			{
+			case base::IntervalType::Closed:
+				{
+					return false;
+				}
+			case base::IntervalType::Open:
+				{
+					return false;
+				}
+			case base::IntervalType::LeftOpenRightClosed:
+				{
+					return false;
+				}
+			case base::IntervalType::LeftClosedRightOpen:
+				{
+					return false;
+				}
+			case base::IntervalType::LeftInfiniteRightOpen:
+				{
+					return false;
+				}
+			case base::IntervalType::LeftInfiniteRightClosed:
+				{
+					return false;
+				}
+			case base::IntervalType::LeftOpenRightInfinite:
+				{
+					if (value.Left() > _left)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			case base::IntervalType::LeftClosedRightInfinite:
+				{
+					if (value.Left() >= _left)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			default:
+				{
+					throw std::runtime_error{CODE_POS_STR + "无法判断该区间是否包含元素。"};
+				}
+			}
+		}
+
+		///
+		/// @brief 检查一个区间是否在本区间内。
+		///
+		/// @param value
+		/// @return
+		///
+		constexpr bool IsInRange(base::Interval<T> const &value) const
+		{
+			switch (value._type)
+			{
+			case base::IntervalType::Closed:
+				{
+					return IsInRange(base::ClosedInterval<T>{value});
+				}
+			case base::IntervalType::Open:
+				{
+					return IsInRange(base::OpenInterval<T>{value});
+				}
+			case base::IntervalType::LeftOpenRightClosed:
+				{
+					return IsInRange(base::LeftOpenRightClosedInterval<T>{value});
+				}
+			case base::IntervalType::LeftClosedRightOpen:
+				{
+					return IsInRange(base::LeftClosedRightOpenInterval<T>{value});
+				}
+			case base::IntervalType::LeftInfiniteRightOpen:
+				{
+					return IsInRange(base::LeftInfiniteRightOpenInterval<T>{value});
+				}
+			case base::IntervalType::LeftInfiniteRightClosed:
+				{
+					return IsInRange(base::LeftInfiniteRightClosedInterval<T>{value});
+				}
+			case base::IntervalType::LeftOpenRightInfinite:
+				{
+					return IsInRange(base::LeftOpenRightInfiniteInterval<T>{value});
+				}
+			case base::IntervalType::LeftClosedRightInfinite:
+				{
+					return IsInRange(base::LeftClosedRightInfiniteInterval<T>{value});
+				}
+			default:
+				{
+					throw std::runtime_error{CODE_POS_STR + "无法判断该区间是否包含元素。"};
+				}
+			}
+		}
+
+		///
 		/// @brief 检查一个值是否在区间外。
 		///
 		/// @param value
