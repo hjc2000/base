@@ -184,18 +184,6 @@ namespace base
 
 		public:
 			YearDirectoryEnumerator(base::Path const &base_path,
-									base::Interval<base::DateTime> const &date_time_range,
-									base::UtcHourOffset const &utc_hour_offset)
-			{
-				_base_path = base_path;
-				_should_check_time_range = true;
-
-				_date_time_interval = base::GetYearDateTimeInterval(date_time_range);
-				_utc_hour_offset = utc_hour_offset;
-				MoveToNextYear();
-			}
-
-			YearDirectoryEnumerator(base::Path const &base_path,
 									bool should_check_time_range,
 									base::Interval<base::DateTime> const &date_time_range,
 									base::UtcHourOffset const &utc_hour_offset)

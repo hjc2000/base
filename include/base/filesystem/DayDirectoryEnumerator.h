@@ -179,22 +179,6 @@ namespace base
 
 		public:
 			DayDirectoryEnumerator(base::Path const &year_month_path,
-								   int64_t year,
-								   int64_t month,
-								   base::Interval<base::DateTime> const &date_time_range,
-								   base::UtcHourOffset const &utc_hour_offset)
-			{
-				_year_month_path = year_month_path;
-				_should_check_time_range = true;
-
-				_year = year;
-				_month = month;
-				_date_time_interval = base::GetYearMonthDayDateTimeInterval(date_time_range);
-				_utc_hour_offset = utc_hour_offset;
-				MoveToNextDay();
-			}
-
-			DayDirectoryEnumerator(base::Path const &year_month_path,
 								   bool should_check_time_range,
 								   int64_t year,
 								   int64_t month,
