@@ -133,6 +133,11 @@ namespace base
 		/// @return
 		///
 		base::String ExtensionName() const;
+
+		bool operator==(base::Path const &other) const
+		{
+			return _path == other._path;
+		}
 	};
 
 } // namespace base

@@ -41,7 +41,13 @@ namespace base
 			///
 			/// @brief 当前的查找结果，找到了就打开文件，把文件流储存到本字段。
 			///
-			std::shared_ptr<base::Stream> _current_value;
+			std::shared_ptr<base::Stream> _current_file_stream;
+
+			///
+			/// @brief 成功打开文件并将文件流赋值给 _current_file_stream 字段后，
+			/// 将文件路径赋值给本字段。
+			///
+			base::Path _current_file_path;
 
 			void CountFile()
 			{
@@ -78,7 +84,16 @@ namespace base
 					throw std::invalid_argument{CODE_POS_STR + "键不能是空字符串。"};
 				}
 
+				// 先检查要查找的文件是不是已经就是当前文件了。
 				base::Path file_path = _workspace + key;
+				if (_current_file_path == file_path)
+				{
+					if (_current_file_stream != nullptr)
+					{
+						return &_current_file_stream;
+					}
+				}
+
 				if (!base::filesystem::Exists(file_path))
 				{
 					return nullptr;
@@ -86,8 +101,9 @@ namespace base
 
 				try
 				{
-					_current_value = base::file::OpenExisting(file_path);
-					return &_current_value;
+					_current_file_stream = base::file::OpenExisting(file_path);
+					_current_file_path = file_path;
+					return &_current_file_stream;
 				}
 				catch (std::exception const &e)
 				{
@@ -118,8 +134,15 @@ namespace base
 				}
 
 				base::Path file_path = _workspace + key;
+
 				if (base::filesystem::Exists(file_path))
 				{
+					if (_current_file_path == file_path)
+					{
+						_current_file_path = "";
+						_current_file_stream = nullptr;
+					}
+
 					base::filesystem::Remove(file_path);
 					return true;
 				}
@@ -133,6 +156,9 @@ namespace base
 			///
 			virtual void Clear() override
 			{
+				_current_file_path = "";
+				_current_file_stream = nullptr;
+
 				// 先删除工作目录，以达到清空字典的目的。
 				base::filesystem::Remove(_workspace);
 				_count = 0;
@@ -154,11 +180,15 @@ namespace base
 				}
 
 				base::Path file_path = _workspace + key;
-				_current_value = base::file::CreateNewAnyway(file_path);
+				_current_file_stream = base::file::CreateNewAnyway(file_path);
+				_current_file_path = file_path;
 
 				if (item != nullptr)
 				{
-					item->CopyTo(_current_value, base::CancellationToken::None());
+					// 直接拷贝流，并且不使用取消机制。
+					// 调用者如果怕流太长了，需要手动控制中断拷贝，可以在调用本方法的时候 item
+					// 传入空指针，然后调用一次 Get 方法获取这个文件的文件流，然后手动拷贝。
+					item->CopyTo(_current_file_stream, base::CancellationToken::None());
 				}
 			}
 		};
