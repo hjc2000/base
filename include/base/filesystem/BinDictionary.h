@@ -1,6 +1,7 @@
 #pragma once
 #include "base/Console.h"
 #include "base/container/IDictionary.h"
+#include "base/filesystem/DirectoryEntry.h"
 #include "base/filesystem/filesystem.h"
 #include "base/filesystem/IFileStream.h"
 #include "base/filesystem/Path.h"
@@ -51,6 +52,11 @@ namespace base
 
 			void CountFile()
 			{
+				for (base::DirectoryEntry const &entry : base::filesystem::DirectoryEntryEnumerable{_workspace})
+				{
+					(void)entry;
+					_count++;
+				}
 			}
 
 		public:
