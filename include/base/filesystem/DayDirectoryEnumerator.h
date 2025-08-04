@@ -20,7 +20,7 @@ namespace base
 		{
 		private:
 			bool _disposed = false;
-			base::Path _month_path;
+			base::Path _year_month_path;
 			base::UtcHourOffset _utc_hour_offset;
 			bool _should_check_time_range = false;
 			base::Interval<base::DateTime> _date_time_interval;
@@ -158,7 +158,7 @@ namespace base
 
 					if (_day_dir_iterator == nullptr)
 					{
-						_day_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(_month_path);
+						_day_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(_year_month_path);
 					}
 
 					if (!_day_dir_iterator->MoveToNext())
@@ -178,18 +178,18 @@ namespace base
 			}
 
 		public:
-			DayDirectoryEnumerator(base::Path const &year_path,
+			DayDirectoryEnumerator(base::Path const &year_month_path,
 								   int64_t year,
 								   int64_t month,
 								   base::Interval<base::DateTime> const &date_time_range,
 								   base::UtcHourOffset const &utc_hour_offset)
 			{
-				_month_path = year_path;
+				_year_month_path = year_month_path;
 				_should_check_time_range = true;
 
 				_year = year;
 				_month = month;
-				_date_time_interval = base::GetYearMonthDateTimeInterval(date_time_range);
+				_date_time_interval = base::GetYearMonthDayDateTimeInterval(date_time_range);
 				_utc_hour_offset = utc_hour_offset;
 				MoveToNextDay();
 			}
@@ -201,19 +201,19 @@ namespace base
 								   base::Interval<base::DateTime> const &date_time_range,
 								   base::UtcHourOffset const &utc_hour_offset)
 			{
-				_month_path = year_path;
+				_year_month_path = year_path;
 				_should_check_time_range = should_check_time_range;
 
 				_year = year;
 				_month = month;
-				_date_time_interval = base::GetYearMonthDateTimeInterval(date_time_range);
+				_date_time_interval = base::GetYearMonthDayDateTimeInterval(date_time_range);
 				_utc_hour_offset = utc_hour_offset;
 				MoveToNextDay();
 			}
 
 			DayDirectoryEnumerator(base::Path const &base_path)
 			{
-				_month_path = base_path;
+				_year_month_path = base_path;
 				_should_check_time_range = false;
 				MoveToNextDay();
 			}
