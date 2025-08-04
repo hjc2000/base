@@ -200,6 +200,11 @@ namespace base
 				{
 					_month_dir_iterator->Dispose();
 				}
+
+				if (_day_dir_iterator != nullptr)
+				{
+					_day_dir_iterator->Dispose();
+				}
 			}
 
 			///
