@@ -194,14 +194,14 @@ namespace base
 				MoveToNextDay();
 			}
 
-			DayDirectoryEnumerator(base::Path const &year_path,
+			DayDirectoryEnumerator(base::Path const &year_month_path,
 								   bool should_check_time_range,
 								   int64_t year,
 								   int64_t month,
 								   base::Interval<base::DateTime> const &date_time_range,
 								   base::UtcHourOffset const &utc_hour_offset)
 			{
-				_year_month_path = year_path;
+				_year_month_path = year_month_path;
 				_should_check_time_range = should_check_time_range;
 
 				_year = year;

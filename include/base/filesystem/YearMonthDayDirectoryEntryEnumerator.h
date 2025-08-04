@@ -1,15 +1,12 @@
 #pragma once
-#include "base/Console.h"
+#include "base/filesystem/DayDirectoryEnumerator.h"
 #include "base/filesystem/MonthDirectoryEnumerator.h"
 #include "base/filesystem/YearDirectoryEnumerator.h"
 #include "base/IDisposable.h"
 #include "base/math/interval/Interval.h"
 #include "base/string/define.h"
-#include "base/string/Parse.h"
 #include "base/time/DateTime.h"
-#include "base/time/DateTimeInterval.h"
 #include "filesystem.h"
-#include <cstdint>
 #include <memory>
 #include <stdexcept>
 
@@ -32,77 +29,14 @@ namespace base
 			base::Interval<base::DateTime> _date_time_range;
 			base::UtcHourOffset _utc_hour_offset;
 
-			base::Interval<base::DateTime> _year_month_day_date_time_interval;
-
 			///
 			/// @brief 用来迭代基路径的迭代器。
 			///
 			///
 			std::shared_ptr<base::filesystem::YearDirectoryEnumerator> _year_dir_iterator;
 			std::shared_ptr<base::filesystem::MonthDirectoryEnumerator> _month_dir_iterator;
-			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _day_dir_iterator;
+			std::shared_ptr<base::filesystem::DayDirectoryEnumerator> _day_dir_iterator;
 			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _file_iterator;
-
-			int64_t _day{};
-
-			/* #region 检查年、月、日条目 */
-
-			bool CheckDayEntry()
-			{
-				base::DirectoryEntry entry = _day_dir_iterator->CurrentValue();
-				if (!entry.IsDirectory())
-				{
-					return false;
-				}
-
-				try
-				{
-					base::Path day_dir_path = entry.Path();
-					_day = base::ParseInt64(day_dir_path.LastName().ToString(), 10);
-
-					base::ClosedInterval<base::DateTime> interval{
-						base::DateTime{
-							_utc_hour_offset,
-							_year_dir_iterator->Year(),
-							_month_dir_iterator->Month(),
-							_day,
-							0,
-							0,
-							0,
-							0,
-						},
-						base::DateTime{
-							_utc_hour_offset,
-							_year_dir_iterator->Year(),
-							_month_dir_iterator->Month(),
-							_day,
-							23,
-							59,
-							59,
-							static_cast<int64_t>(1e9) - 1,
-						},
-					};
-
-					if (!_year_month_day_date_time_interval.HasIntersection(interval))
-					{
-						return false;
-					}
-				}
-				catch (std::exception const &e)
-				{
-					base::console.WriteError(CODE_POS_STR + e.what());
-					return false;
-				}
-				catch (...)
-				{
-					base::console.WriteError(CODE_POS_STR + "未知异常。");
-					return false;
-				}
-
-				return true;
-			}
-
-			/* #endregion */
 
 			/* #region 递增迭代器 */
 
@@ -161,15 +95,18 @@ namespace base
 
 						base::DirectoryEntry entry = _month_dir_iterator->CurrentValue();
 						base::Path month_dir_path = entry.Path();
-						_day_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(month_dir_path);
+
+						_day_dir_iterator = std::shared_ptr<base::filesystem::DayDirectoryEnumerator>{new base::filesystem::DayDirectoryEnumerator{
+							month_dir_path,
+							true,
+							_year_dir_iterator->Year(),
+							_month_dir_iterator->Month(),
+							_date_time_range,
+							_utc_hour_offset,
+						}};
 					}
 
 					if (!_day_dir_iterator->MoveToNext())
-					{
-						continue;
-					}
-
-					if (!CheckDayEntry())
 					{
 						continue;
 					}
@@ -225,8 +162,6 @@ namespace base
 					date_time_range,
 					utc_hour_offset,
 				}};
-
-				_year_month_day_date_time_interval = base::GetYearMonthDayDateTimeInterval(date_time_range);
 
 				MoveToNextFile();
 			}
