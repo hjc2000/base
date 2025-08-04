@@ -1,5 +1,6 @@
 #pragma once
 #include "base/Console.h"
+#include "base/filesystem/YearDirectoryEnumerator.h"
 #include "base/IDisposable.h"
 #include "base/math/interval/Interval.h"
 #include "base/string/define.h"
@@ -8,6 +9,7 @@
 #include "base/time/DateTimeInterval.h"
 #include "filesystem.h"
 #include <cstdint>
+#include <memory>
 #include <stdexcept>
 
 namespace base
@@ -29,7 +31,6 @@ namespace base
 
 			base::UtcHourOffset _utc_hour_offset;
 
-			base::Interval<base::DateTime> _year_date_time_interval;
 			base::Interval<base::DateTime> _year_month_date_time_interval;
 			base::Interval<base::DateTime> _year_month_day_date_time_interval;
 
@@ -37,72 +38,15 @@ namespace base
 			/// @brief 用来迭代基路径的迭代器。
 			///
 			///
-			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _year_dir_iterator;
+			std::shared_ptr<base::filesystem::YearDirectoryEnumerator> _year_dir_iterator;
 			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _month_dir_iterator;
 			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _day_dir_iterator;
 			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _file_iterator;
 
-			int64_t _year{};
 			int64_t _month{};
 			int64_t _day{};
 
 			/* #region 检查年、月、日条目 */
-
-			bool CheckYearEntry()
-			{
-				base::DirectoryEntry entry = _year_dir_iterator->CurrentValue();
-				if (!entry.IsDirectory())
-				{
-					return false;
-				}
-
-				// 当前迭代器指向的项目是目录，但还要检查目录名称是不是合法的年份数字。
-				try
-				{
-					base::Path year_dir_path = entry.Path();
-					_year = base::ParseInt64(year_dir_path.LastName().ToString(), 10);
-
-					base::ClosedInterval<base::DateTime> interval{
-						base::DateTime{
-							_utc_hour_offset,
-							_year,
-							1,
-							1,
-							0,
-							0,
-							0,
-							0,
-						},
-						base::DateTime{
-							_utc_hour_offset,
-							_year,
-							12,
-							31,
-							23,
-							59,
-							59,
-							static_cast<int64_t>(1e9) - 1,
-						},
-					};
-
-					if (!_year_date_time_interval.HasIntersection(interval))
-					{
-						return false;
-					}
-				}
-				catch (std::exception const &e)
-				{
-					base::console.WriteError(CODE_POS_STR + e.what());
-					return false;
-				}
-				catch (...)
-				{
-					base::console.WriteError(CODE_POS_STR + "未知异常。");
-					return false;
-				}
-
-				return true;
-			}
 
 			bool CheckMonthEntry()
 			{
@@ -119,7 +63,7 @@ namespace base
 
 					base::DateTime right{
 						_utc_hour_offset,
-						_year,
+						_year_dir_iterator->Year(),
 						_month,
 						10,
 						23,
@@ -131,7 +75,7 @@ namespace base
 					base::ClosedInterval<base::DateTime> interval{
 						base::DateTime{
 							_utc_hour_offset,
-							_year,
+							_year_dir_iterator->Year(),
 							_month,
 							1,
 							0,
@@ -141,7 +85,7 @@ namespace base
 						},
 						base::DateTime{
 							_utc_hour_offset,
-							_year,
+							_year_dir_iterator->Year(),
 							_month,
 							right.CurrentMonthDayCount(),
 							23,
@@ -186,7 +130,7 @@ namespace base
 					base::ClosedInterval<base::DateTime> interval{
 						base::DateTime{
 							_utc_hour_offset,
-							_year,
+							_year_dir_iterator->Year(),
 							_month,
 							_day,
 							0,
@@ -196,7 +140,7 @@ namespace base
 						},
 						base::DateTime{
 							_utc_hour_offset,
-							_year,
+							_year_dir_iterator->Year(),
 							_month,
 							_day,
 							23,
@@ -229,41 +173,6 @@ namespace base
 
 			/* #region 递增迭代器 */
 
-			///
-			/// @brief 移动到下一个年目录。
-			///
-			/// @return 移动完之后如果 _year_dir_iterator 指向有效的年目录，则返回 true, 否则返回 false.
-			///
-			bool MoveToNextYear()
-			{
-				while (true)
-				{
-					if (_disposed)
-					{
-						return false;
-					}
-
-					if (_year_dir_iterator == nullptr)
-					{
-						_year_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(_base_path);
-					}
-
-					if (!_year_dir_iterator->MoveToNext())
-					{
-						return false;
-					}
-
-					// 已经成功让年目录迭代器指向下一个有效项目了，接下来需要进行一些过滤，确保它是有效的年目录。
-					if (!CheckYearEntry())
-					{
-						continue;
-					}
-
-					// 历经重重考验，终于确认年迭代器指向的是有效的年目录了。
-					return true;
-				}
-			}
-
 			bool MoveToNextMonth()
 			{
 				while (true)
@@ -275,7 +184,7 @@ namespace base
 
 					if (_month_dir_iterator == nullptr || _month_dir_iterator->IsEnd())
 					{
-						if (!MoveToNextYear())
+						if (!_year_dir_iterator->MoveToNext())
 						{
 							return false;
 						}
@@ -374,7 +283,12 @@ namespace base
 				_base_path = base_path;
 				_utc_hour_offset = utc_hour_offset;
 
-				_year_date_time_interval = base::GetYearDateTimeInterval(date_time_range);
+				_year_dir_iterator = std::shared_ptr<base::filesystem::YearDirectoryEnumerator>{new base::filesystem::YearDirectoryEnumerator{
+					base_path,
+					date_time_range,
+					utc_hour_offset,
+				}};
+
 				_year_month_date_time_interval = base::GetYearMonthDateTimeInterval(date_time_range);
 				_year_month_day_date_time_interval = base::GetYearMonthDayDateTimeInterval(date_time_range);
 
