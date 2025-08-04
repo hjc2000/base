@@ -33,7 +33,7 @@ namespace base
 		///
 		/// @return
 		///
-		std::shared_ptr<CancellationToken> const &Token() const
+		std::shared_ptr<CancellationToken> Token() const
 		{
 			return _token;
 		}
