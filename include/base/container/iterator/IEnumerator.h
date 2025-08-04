@@ -54,13 +54,14 @@ namespace base
 			if (_is_first_move)
 			{
 				_is_first_move = false;
-				return IsNotEnd();
 			}
-			else
+			else if (IsNotEnd())
 			{
+				// 不是第一次移动，并且迭代器还没结束，则递增，前往下一个位置。
 				Add();
-				return IsNotEnd();
 			}
+
+			return IsNotEnd();
 		}
 	};
 
