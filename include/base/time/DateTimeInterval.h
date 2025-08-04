@@ -1,6 +1,11 @@
 #pragma once
+#include "base/math/interval/ClosedInterval.h"
 #include "base/math/interval/Interval.h"
+#include "base/math/interval/LeftInfiniteRightOpenInterval.h"
+#include "base/math/interval/LeftOpenRightClosedInterval.h"
+#include "base/math/interval/OpenInterval.h"
 #include "base/time/DateTime.h"
+#include "TimePointSinceEpoch.h"
 
 namespace base
 {
@@ -622,6 +627,87 @@ namespace base
 					},
 				};
 
+				return ret;
+			}
+		default:
+			{
+				throw std::runtime_error{CODE_POS_STR + "不支持的区间类型。"};
+			}
+		}
+	}
+
+	///
+	/// @brief 把时间点时间区间转成日期时间区间。
+	///
+	/// @param interval
+	/// @return
+	///
+	constexpr base::Interval<base::DateTime> GetDateTimeInterval(base::Interval<base::TimePointSinceEpoch> const &interval)
+	{
+		switch (interval.Type())
+		{
+		case IntervalType::Closed:
+			{
+				base::TimePointSinceEpoch left = interval.Left();
+				base::TimePointSinceEpoch right = interval.Right();
+				base::DateTime left_date_time{left};
+				base::DateTime right_date_time{right};
+				base::ClosedInterval<base::DateTime> ret{left_date_time, right_date_time};
+				return ret;
+			}
+		case IntervalType::Open:
+			{
+				base::TimePointSinceEpoch left = interval.Left();
+				base::TimePointSinceEpoch right = interval.Right();
+				base::DateTime left_date_time{left};
+				base::DateTime right_date_time{right};
+				base::OpenInterval<base::DateTime> ret{left_date_time, right_date_time};
+				return ret;
+			}
+		case IntervalType::LeftOpenRightClosed:
+			{
+				base::TimePointSinceEpoch left = interval.Left();
+				base::TimePointSinceEpoch right = interval.Right();
+				base::DateTime left_date_time{left};
+				base::DateTime right_date_time{right};
+				base::LeftOpenRightClosedInterval<base::DateTime> ret{left_date_time, right_date_time};
+				return ret;
+			}
+		case IntervalType::LeftClosedRightOpen:
+			{
+				base::TimePointSinceEpoch left = interval.Left();
+				base::TimePointSinceEpoch right = interval.Right();
+				base::DateTime left_date_time{left};
+				base::DateTime right_date_time{right};
+				base::LeftClosedRightOpenInterval<base::DateTime> ret{left_date_time, right_date_time};
+				return ret;
+			}
+		case IntervalType::LeftInfiniteRightOpen:
+			{
+				base::TimePointSinceEpoch right = interval.Right();
+				base::DateTime right_date_time{right};
+				base::LeftInfiniteRightOpenInterval<base::DateTime> ret{right_date_time};
+				return ret;
+			}
+		case IntervalType::LeftInfiniteRightClosed:
+			{
+				base::TimePointSinceEpoch right = interval.Right();
+				base::DateTime right_date_time{right};
+				base::LeftInfiniteRightClosedInterval<base::DateTime> ret{right_date_time};
+				return ret;
+			}
+		case IntervalType::LeftOpenRightInfinite:
+			{
+				base::TimePointSinceEpoch left = interval.Left();
+				base::DateTime left_date_time{left};
+				base::LeftOpenRightInfiniteInterval<base::DateTime> ret{left_date_time};
+				return ret;
+			}
+		case IntervalType::LeftClosedRightInfinite:
+			{
+				base::TimePointSinceEpoch left = interval.Left();
+				base::DateTime left_date_time{left};
+				base::LeftClosedRightInfiniteInterval<base::DateTime> ret{left_date_time};
 				return ret;
 			}
 		default:
