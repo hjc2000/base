@@ -1,12 +1,14 @@
 #pragma once
 #include "base/define.h"
 #include "base/IIdToken.h"
+#include "base/string/define.h"
 #include "Mutex.h"
 #include <atomic>
 #include <cstdint>
 #include <functional>
 #include <map>
 #include <memory>
+#include <stdexcept>
 
 namespace base
 {
@@ -49,16 +51,18 @@ namespace base
 
 		/* #endregion */
 
+		friend class CancellationTokenSource;
+
+	private:
 		CancellationToken() = default;
 		DELETE_COPY_AND_MOVE(CancellationToken)
 
-		friend class CancellationTokenSource;
 		base::task::Mutex _lock{};
 		std::atomic_bool _is_cancellation_request = false;
 		std::map<uint64_t, std::function<void(void)>> _delegates;
 
-		inline static_field uint64_t _id = 0;
-		static_field std::shared_ptr<CancellationToken> _none_cancellation_token;
+		inline static uint64_t _id = 0;
+		static std::shared_ptr<CancellationToken> _none_cancellation_token;
 
 		void Cancel();
 
@@ -68,22 +72,33 @@ namespace base
 		///
 		/// @return
 		///
-		static std::shared_ptr<CancellationToken> const &None();
+		static std::shared_ptr<CancellationToken> const &None()
+		{
+			return _none_cancellation_token;
+		}
 
 		///
 		/// @brief 是否需要取消。
 		///
-		/// @return true
-		/// @return false
+		/// @return 为 true 表示已经请求取消了，为 false 表示没有请求取消。
 		///
-		bool IsCancellationRequested() const;
+		bool IsCancellationRequested() const
+		{
+			return _is_cancellation_request;
+		}
 
 		///
 		/// @brief 如果任务被取消了就抛出异常。
 		///
 		/// @note 使用本方法可以从深层嵌套中退出，快速结束当前任务。
 		///
-		void ThrowIfCancellationIsRequested() const;
+		void ThrowIfCancellationIsRequested() const
+		{
+			if (IsCancellationRequested())
+			{
+				throw std::runtime_error{CODE_POS_STR + "任务取消。"};
+			}
+		}
 
 		///
 		/// @brief 注册一个委托，当令牌取消时会被调用。
@@ -101,4 +116,5 @@ namespace base
 		///
 		void Unregister(std::shared_ptr<base::IIdToken> const &token);
 	};
+
 } // namespace base

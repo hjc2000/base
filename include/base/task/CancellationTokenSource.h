@@ -21,8 +21,7 @@ namespace base
 		///
 		/// @brief 检查任务是否已经取消了。
 		///
-		/// @return true 已经取消。
-		/// @return false 还没取消。
+		/// @return 为 true 表示已经请求取消了，为 false 表示没有请求取消。
 		///
 		bool IsCancellationRequested() const
 		{

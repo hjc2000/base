@@ -1,7 +1,4 @@
 #include "CancellationToken.h"
-#include "base/string/define.h"
-#include "Mutex.h"
-#include <stdexcept>
 
 std::shared_ptr<base::CancellationToken> base::CancellationToken::_none_cancellation_token{new base::CancellationToken{}};
 
@@ -32,24 +29,6 @@ void base::CancellationToken::Cancel()
 	for (auto const &pair : _delegates)
 	{
 		pair.second();
-	}
-}
-
-std::shared_ptr<base::CancellationToken> const &base::CancellationToken::None()
-{
-	return _none_cancellation_token;
-}
-
-bool base::CancellationToken::IsCancellationRequested() const
-{
-	return _is_cancellation_request;
-}
-
-void base::CancellationToken::ThrowIfCancellationIsRequested() const
-{
-	if (IsCancellationRequested())
-	{
-		throw std::runtime_error{CODE_POS_STR + "任务取消。"};
 	}
 }
 
