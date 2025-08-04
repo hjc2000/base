@@ -1,7 +1,8 @@
 #include "TestYearMonthDayDirectoryEntryEnumerable.h" // IWYU pragma: keep
+#include "base/container/iterator/Enumerable.h"
 #include "base/filesystem/DirectoryEntry.h"
 #include "base/filesystem/Path.h"
-#include "base/filesystem/YearMonthDayDirectoryEntryEnumerable.h"
+#include "base/filesystem/YearMonthDayDirectoryEntryEnumerator.h"
 #include "base/math/interval/Interval.h"
 #include "base/time/DateTime.h"
 #include "base/time/UtcHourOffset.h"
@@ -40,13 +41,13 @@ void base::test::TestYearMonthDayDirectoryEntryEnumerable()
 
 	// 把本项目的 test 目录中的 TestYearMonthDayDirectoryEntryEnumerable 目录拷贝到合适的
 	// 地方，然后把下面的路径改一下，就可以测试了。
-	base::filesystem::YearMonthDayDirectoryEntryEnumerable enumerable{
+	base::filesystem::YearMonthDayDirectoryEntryEnumerator enumerator{
 		test_path,
 		interval,
 		base::UtcHourOffset{8},
 	};
 
-	for (base::DirectoryEntry const &entry : enumerable)
+	for (base::DirectoryEntry const &entry : base::Enumerable{enumerator})
 	{
 		std::cout << entry.Path() << std::endl;
 	}
