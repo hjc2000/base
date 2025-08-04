@@ -40,6 +40,7 @@ void base::test::TestYearMonthDayDirectoryEntryEnumerator()
 
 	base::filesystem::YearMonthDayDirectoryEntryEnumerator enumerator{
 		test_path,
+		true,
 		interval,
 		base::UtcHourOffset{8},
 	};

@@ -26,6 +26,7 @@ namespace base
 			///
 			///
 			base::Path _base_path;
+			bool _should_check_time_range = false;
 			base::Interval<base::DateTime> _date_time_range;
 			base::UtcHourOffset _utc_hour_offset;
 
@@ -61,7 +62,7 @@ namespace base
 
 						_month_dir_iterator = std::shared_ptr<base::filesystem::MonthDirectoryEnumerator>{new base::filesystem::MonthDirectoryEnumerator{
 							year_dir_path,
-							true,
+							_should_check_time_range,
 							_year_dir_iterator->Year(),
 							_date_time_range,
 							_utc_hour_offset,
@@ -98,7 +99,7 @@ namespace base
 
 						_day_dir_iterator = std::shared_ptr<base::filesystem::DayDirectoryEnumerator>{new base::filesystem::DayDirectoryEnumerator{
 							month_dir_path,
-							true,
+							_should_check_time_range,
 							_year_dir_iterator->Year(),
 							_month_dir_iterator->Month(),
 							_date_time_range,
@@ -149,16 +150,18 @@ namespace base
 
 		public:
 			YearMonthDayDirectoryEntryEnumerator(base::Path const &base_path,
+												 bool should_check_time_range,
 												 base::Interval<base::DateTime> const &date_time_range,
 												 base::UtcHourOffset const &utc_hour_offset)
 			{
 				_base_path = base_path;
+				_should_check_time_range = should_check_time_range;
 				_date_time_range = date_time_range;
 				_utc_hour_offset = utc_hour_offset;
 
 				_year_dir_iterator = std::shared_ptr<base::filesystem::YearDirectoryEnumerator>{new base::filesystem::YearDirectoryEnumerator{
 					base_path,
-					true,
+					_should_check_time_range,
 					date_time_range,
 					utc_hour_offset,
 				}};
