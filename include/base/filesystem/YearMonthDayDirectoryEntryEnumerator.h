@@ -4,6 +4,7 @@
 #include "base/filesystem/YearDirectoryEnumerator.h"
 #include "base/math/interval/Interval.h"
 #include "base/string/define.h"
+#include "base/task/CancellationToken.h"
 #include "base/time/DateTime.h"
 #include "filesystem.h"
 #include <memory>
@@ -34,6 +35,8 @@ namespace base
 			std::shared_ptr<base::filesystem::MonthDirectoryEnumerator> _month_dir_iterator;
 			std::shared_ptr<base::filesystem::DayDirectoryEnumerator> _day_dir_iterator;
 			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _file_iterator;
+
+			std::shared_ptr<base::CancellationToken> _cancellation_token;
 
 			/* #region 递增迭代器 */
 
@@ -130,15 +133,26 @@ namespace base
 			/* #endregion */
 
 		public:
+			///
+			/// @brief
+			///
+			/// @param base_path
+			/// @param should_check_time_range
+			/// @param date_time_range
+			/// @param utc_hour_offset
+			/// @param cancellation_token 可以在另一个线程中取消，让迭代的线程尽快结束迭代。
+			///
 			YearMonthDayDirectoryEntryEnumerator(base::Path const &base_path,
 												 bool should_check_time_range,
 												 base::Interval<base::DateTime> const &date_time_range,
-												 base::UtcHourOffset const &utc_hour_offset)
+												 base::UtcHourOffset const &utc_hour_offset,
+												 std::shared_ptr<base::CancellationToken> cancellation_token)
 			{
 				_base_path = base_path;
 				_should_check_time_range = should_check_time_range;
 				_date_time_range = date_time_range;
 				_utc_hour_offset = utc_hour_offset;
+				_cancellation_token = cancellation_token;
 
 				_year_dir_iterator = std::shared_ptr<base::filesystem::YearDirectoryEnumerator>{new base::filesystem::YearDirectoryEnumerator{
 					base_path,

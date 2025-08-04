@@ -4,6 +4,7 @@
 #include "base/filesystem/Path.h"
 #include "base/filesystem/YearMonthDayDirectoryEntryEnumerator.h"
 #include "base/math/interval/Interval.h"
+#include "base/task/CancellationTokenSource.h"
 #include "base/time/DateTime.h"
 #include "base/time/UtcHourOffset.h"
 #include <iostream>
@@ -38,11 +39,14 @@ void base::test::TestYearMonthDayDirectoryEntryEnumerator()
 	base::Path test_path{__test_resource_pasth};
 	test_path += "TestYearMonthDayDirectoryEntryEnumerator";
 
+	base::CancellationTokenSource cancellation_source;
+
 	base::filesystem::YearMonthDayDirectoryEntryEnumerator enumerator{
 		test_path,
 		true,
 		interval,
 		base::UtcHourOffset{8},
+		cancellation_source.Token(),
 	};
 
 	for (base::DirectoryEntry const &entry : base::Enumerable{enumerator})

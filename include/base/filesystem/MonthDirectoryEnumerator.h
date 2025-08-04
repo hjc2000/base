@@ -1,6 +1,5 @@
 #pragma once
 #include "base/Console.h"
-#include "base/IDisposable.h"
 #include "base/math/interval/Interval.h"
 #include "base/string/define.h"
 #include "base/string/Parse.h"
