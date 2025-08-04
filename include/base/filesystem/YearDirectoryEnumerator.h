@@ -274,6 +274,11 @@ namespace base
 				MoveToNextYear();
 			}
 
+			///
+			/// @brief 如果迭代器没有结束，则本属性会把当前迭代器指向的年目录的年提取出来。
+			///
+			/// @return
+			///
 			int64_t Year() const
 			{
 				return _year;
