@@ -14,24 +14,19 @@ namespace base
 {
 	namespace filesystem
 	{
-		class YearDirectoryEnumerator final :
+		class MonthDirectoryEnumerator final :
 			public base::IEnumerator<base::DirectoryEntry const>,
 			public IDisposable
 		{
 		private:
 			bool _disposed = false;
-
-			///
-			/// @brief “基路径/年/月/日/文件” 中的 “基路径”。
-			///
-			///
-			base::Path _base_path;
-
+			base::Path _year_path;
 			base::UtcHourOffset _utc_hour_offset;
 			bool _should_check_time_range = false;
 			base::Interval<base::DateTime> _date_time_interval;
-			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _year_dir_iterator;
+			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _month_dir_iterator;
 			int64_t _year{};
+			int64_t _month{};
 
 			/* #region 检查 */
 
@@ -42,7 +37,7 @@ namespace base
 			///
 			bool CheckIsDirectory()
 			{
-				if (!_year_dir_iterator->CurrentValue().IsDirectory())
+				if (!_month_dir_iterator->CurrentValue().IsDirectory())
 				{
 					return false;
 				}
@@ -54,8 +49,8 @@ namespace base
 			{
 				try
 				{
-					base::Path year_dir_path = _year_dir_iterator->CurrentValue().Path();
-					_year = base::ParseInt64(year_dir_path.LastName().ToString(), 10);
+					base::Path dir_path = _month_dir_iterator->CurrentValue().Path();
+					_month = base::ParseInt64(dir_path.LastName().ToString(), 10);
 				}
 				catch (std::exception const &e)
 				{
@@ -80,12 +75,22 @@ namespace base
 
 				try
 				{
+					base::DateTime right{
+						_utc_hour_offset,
+						_year,
+						_month,
+						10,
+						23,
+						59,
+						59,
+						static_cast<int64_t>(1e9) - 1,
+					};
 
 					base::ClosedInterval<base::DateTime> interval{
 						base::DateTime{
 							_utc_hour_offset,
 							_year,
-							1,
+							_month,
 							1,
 							0,
 							0,
@@ -95,8 +100,8 @@ namespace base
 						base::DateTime{
 							_utc_hour_offset,
 							_year,
-							12,
-							31,
+							_month,
+							right.CurrentMonthDayCount(),
 							23,
 							59,
 							59,
@@ -152,7 +157,7 @@ namespace base
 			///
 			/// @return 移动完之后如果 _year_dir_iterator 指向有效的年目录，则返回 true, 否则返回 false.
 			///
-			bool MoveToNextYear()
+			bool MoveToNext()
 			{
 				while (true)
 				{
@@ -161,12 +166,12 @@ namespace base
 						return false;
 					}
 
-					if (_year_dir_iterator == nullptr)
+					if (_month_dir_iterator == nullptr)
 					{
-						_year_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(_base_path);
+						_month_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(_year_path);
 					}
 
-					if (!_year_dir_iterator->MoveToNext())
+					if (!_month_dir_iterator->MoveToNext())
 					{
 						return false;
 					}
@@ -183,25 +188,27 @@ namespace base
 			}
 
 		public:
-			YearDirectoryEnumerator(base::Path const &base_path,
-									base::Interval<base::DateTime> const &date_time_range,
-									base::UtcHourOffset const &utc_hour_offset)
+			MonthDirectoryEnumerator(base::Path const &year_path,
+									 int64_t year,
+									 base::Interval<base::DateTime> const &date_time_range,
+									 base::UtcHourOffset const &utc_hour_offset)
 			{
-				_base_path = base_path;
-				_date_time_interval = base::GetYearDateTimeInterval(date_time_range);
+				_year_path = year_path;
+				_year = year;
+				_date_time_interval = base::GetYearMonthDateTimeInterval(date_time_range);
 				_utc_hour_offset = utc_hour_offset;
 				_should_check_time_range = true;
-				MoveToNextYear();
+				MoveToNext();
 			}
 
-			YearDirectoryEnumerator(base::Path const &base_path)
+			MonthDirectoryEnumerator(base::Path const &base_path)
 			{
-				_base_path = base_path;
+				_year_path = base_path;
 				_should_check_time_range = false;
-				MoveToNextYear();
+				MoveToNext();
 			}
 
-			~YearDirectoryEnumerator()
+			~MonthDirectoryEnumerator()
 			{
 				Dispose();
 			}
@@ -239,12 +246,12 @@ namespace base
 					return true;
 				}
 
-				if (_year_dir_iterator == nullptr)
+				if (_month_dir_iterator == nullptr)
 				{
 					return true;
 				}
 
-				return _year_dir_iterator->IsEnd();
+				return _month_dir_iterator->IsEnd();
 			}
 
 			///
@@ -261,12 +268,12 @@ namespace base
 					throw base::ObjectDisposedException{};
 				}
 
-				if (_year_dir_iterator == nullptr || _year_dir_iterator->IsEnd())
+				if (_month_dir_iterator == nullptr || _month_dir_iterator->IsEnd())
 				{
 					throw std::runtime_error{CODE_POS_STR + "没有当前值可用。"};
 				}
 
-				return _year_dir_iterator->CurrentValue();
+				return _month_dir_iterator->CurrentValue();
 			}
 
 			///
@@ -275,7 +282,7 @@ namespace base
 			///
 			virtual void Add() override
 			{
-				MoveToNextYear();
+				MoveToNext();
 			}
 
 			///
@@ -286,6 +293,11 @@ namespace base
 			int64_t Year() const
 			{
 				return _year;
+			}
+
+			int64_t Month() const
+			{
+				return _month;
 			}
 		};
 
