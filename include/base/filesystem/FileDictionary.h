@@ -32,12 +32,18 @@ namespace base
 			base::Path _workspace;
 
 			///
+			/// @brief 已经数过文件的数量了。
+			///
+			///
+			mutable bool _have_counted_file = false;
+
+			///
 			/// @brief 工作目录中的文件总数，也是字典的元素数量。
 			///
 			/// @note 构造的时候数一遍文件数量，然后储存这个数量，后续如果这个目录只被
 			/// 本对象编辑的话，这个计数理论上会保持正确。
 			///
-			int64_t _count = 0;
+			mutable int64_t _count = 0;
 
 			///
 			/// @brief 当前的查找结果，找到了就打开文件，把文件流储存到本字段。
@@ -50,20 +56,10 @@ namespace base
 			///
 			base::Path _current_file_path;
 
-			void CountFile()
-			{
-				for (base::DirectoryEntry const &entry : base::filesystem::DirectoryEntryEnumerable{_workspace})
-				{
-					(void)entry;
-					_count++;
-				}
-			}
-
 		public:
 			FileDictionary(base::Path const &workspace)
 			{
 				_workspace = workspace;
-				CountFile();
 			}
 
 			///
@@ -73,6 +69,18 @@ namespace base
 			///
 			virtual int64_t Count() const override
 			{
+				if (_have_counted_file)
+				{
+					return _count;
+				}
+
+				for (base::DirectoryEntry const &entry : base::filesystem::DirectoryEntryEnumerable{_workspace})
+				{
+					(void)entry;
+					_count++;
+				}
+
+				_have_counted_file = true;
 				return _count;
 			}
 
