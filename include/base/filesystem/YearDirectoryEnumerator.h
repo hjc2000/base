@@ -33,6 +33,8 @@ namespace base
 			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _year_dir_iterator;
 			int64_t _year{};
 
+			/* #region 检查 */
+
 			///
 			/// @brief 检查当前 _year_dir_iterator 指向的条目是否是目录。
 			///
@@ -142,6 +144,8 @@ namespace base
 
 				return true;
 			}
+
+			/* #endregion */
 
 			///
 			/// @brief 移动到下一个年目录。
