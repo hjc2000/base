@@ -35,8 +35,7 @@ void base::test::TestYearMonthDayDirectoryEntryEnumerator()
 		},
 	};
 
-	base::Path test_path{__FILE__};
-	test_path = test_path.ParentPath();
+	base::Path test_path{__test_resource_pasth};
 	test_path += "TestYearMonthDayDirectoryEntryEnumerator";
 
 	base::filesystem::YearMonthDayDirectoryEntryEnumerator enumerator{
