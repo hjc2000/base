@@ -202,6 +202,21 @@ namespace base
 				MoveToNext();
 			}
 
+			MonthDirectoryEnumerator(base::Path const &year_path,
+									 bool should_check_time_range,
+									 int64_t year,
+									 base::Interval<base::DateTime> const &date_time_range,
+									 base::UtcHourOffset const &utc_hour_offset)
+			{
+				_year_path = year_path;
+				_should_check_time_range = should_check_time_range;
+
+				_year = year;
+				_date_time_interval = base::GetYearMonthDateTimeInterval(date_time_range);
+				_utc_hour_offset = utc_hour_offset;
+				MoveToNext();
+			}
+
 			MonthDirectoryEnumerator(base::Path const &base_path)
 			{
 				_year_path = base_path;
