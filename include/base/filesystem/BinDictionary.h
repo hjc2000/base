@@ -1,8 +1,13 @@
 #pragma once
 #include "base/container/IDictionary.h"
+#include "base/filesystem/filesystem.h"
+#include "base/filesystem/IFileStream.h"
+#include "base/filesystem/Path.h"
 #include "base/stream/Stream.h"
+#include "base/string/define.h"
 #include <cstdint>
 #include <memory>
+#include <stdexcept>
 #include <string>
 
 namespace base
@@ -22,6 +27,8 @@ namespace base
 			public base::IDictionary<std::string, std::shared_ptr<base::Stream>>
 		{
 		private:
+			base::Path _workspace;
+
 			///
 			/// @brief 工作目录中的文件总数，也是字典的元素数量。
 			///
@@ -35,13 +42,15 @@ namespace base
 			///
 			std::shared_ptr<base::Stream> _current_value;
 
-			void TryOpenFile(std::string const &file_name)
+			void CountFile()
 			{
 			}
 
 		public:
-			BinDictionary()
+			BinDictionary(base::Path const &workspace)
 			{
+				_workspace = workspace;
+				CountFile();
 			}
 
 			///
@@ -63,7 +72,18 @@ namespace base
 			///
 			virtual std::shared_ptr<base::Stream> *Find(std::string const &key) override
 			{
-				TryOpenFile(key);
+				if (key.size() == 0)
+				{
+					throw std::invalid_argument{CODE_POS_STR + "键不能是空字符串。"};
+				}
+
+				base::Path file_path = _workspace + key;
+				if (!base::filesystem::Exists(file_path))
+				{
+					return nullptr;
+				}
+
+				_current_value = base::file::OpenExisting(file_path);
 				if (_current_value == nullptr)
 				{
 					return nullptr;
@@ -81,6 +101,19 @@ namespace base
 			///
 			virtual bool Remove(std::string const &key) override
 			{
+				if (key.size() == 0)
+				{
+					throw std::invalid_argument{CODE_POS_STR + "键不能是空字符串。"};
+				}
+
+				base::Path file_path = _workspace + key;
+				if (base::filesystem::Exists(file_path))
+				{
+					base::filesystem::Remove(file_path);
+					return true;
+				}
+
+				return false;
 			}
 
 			///
@@ -89,6 +122,10 @@ namespace base
 			///
 			virtual void Clear() override
 			{
+				// 先删除工作目录，以达到清空字典的目的。
+				base::filesystem::Remove(_workspace);
+				_count = 0;
+				base::filesystem::EnsureDirectory(_workspace);
 			}
 
 			///
@@ -100,6 +137,18 @@ namespace base
 			///
 			virtual void Set(std::string const &key, std::shared_ptr<base::Stream> const &item) override
 			{
+				if (key.size() == 0)
+				{
+					throw std::invalid_argument{CODE_POS_STR + "键不能是空字符串。"};
+				}
+
+				base::Path file_path = _workspace + key;
+				_current_value = base::file::CreateNewAnyway(file_path);
+
+				if (item != nullptr)
+				{
+					item->CopyTo(_current_value, base::CancellationToken::None());
+				}
 			}
 		};
 
