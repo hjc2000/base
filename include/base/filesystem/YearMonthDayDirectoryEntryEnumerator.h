@@ -32,7 +32,6 @@ namespace base
 			base::Interval<base::DateTime> _date_time_range;
 			base::UtcHourOffset _utc_hour_offset;
 
-			base::Interval<base::DateTime> _year_month_date_time_interval;
 			base::Interval<base::DateTime> _year_month_day_date_time_interval;
 
 			///
@@ -40,80 +39,13 @@ namespace base
 			///
 			///
 			std::shared_ptr<base::filesystem::YearDirectoryEnumerator> _year_dir_iterator;
-			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _month_dir_iterator;
+			std::shared_ptr<base::filesystem::MonthDirectoryEnumerator> _month_dir_iterator;
 			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _day_dir_iterator;
 			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _file_iterator;
 
-			int64_t _month{};
 			int64_t _day{};
 
 			/* #region 检查年、月、日条目 */
-
-			bool CheckMonthEntry()
-			{
-				base::DirectoryEntry entry = _month_dir_iterator->CurrentValue();
-				if (!entry.IsDirectory())
-				{
-					return false;
-				}
-
-				try
-				{
-					base::Path month_dir_path = entry.Path();
-					_month = base::ParseInt64(month_dir_path.LastName().ToString(), 10);
-
-					base::DateTime right{
-						_utc_hour_offset,
-						_year_dir_iterator->Year(),
-						_month,
-						10,
-						23,
-						59,
-						59,
-						static_cast<int64_t>(1e9) - 1,
-					};
-
-					base::ClosedInterval<base::DateTime> interval{
-						base::DateTime{
-							_utc_hour_offset,
-							_year_dir_iterator->Year(),
-							_month,
-							1,
-							0,
-							0,
-							0,
-							0,
-						},
-						base::DateTime{
-							_utc_hour_offset,
-							_year_dir_iterator->Year(),
-							_month,
-							right.CurrentMonthDayCount(),
-							23,
-							59,
-							59,
-							static_cast<int64_t>(1e9) - 1,
-						},
-					};
-
-					if (!_year_month_date_time_interval.HasIntersection(interval))
-					{
-						return false;
-					}
-				}
-				catch (std::exception const &e)
-				{
-					base::console.WriteError(CODE_POS_STR + e.what());
-					return false;
-				}
-				catch (...)
-				{
-					base::console.WriteError(CODE_POS_STR + "未知异常。");
-					return false;
-				}
-
-				return true;
-			}
 
 			bool CheckDayEntry()
 			{
@@ -132,7 +64,7 @@ namespace base
 						base::DateTime{
 							_utc_hour_offset,
 							_year_dir_iterator->Year(),
-							_month,
+							_month_dir_iterator->Month(),
 							_day,
 							0,
 							0,
@@ -142,7 +74,7 @@ namespace base
 						base::DateTime{
 							_utc_hour_offset,
 							_year_dir_iterator->Year(),
-							_month,
+							_month_dir_iterator->Month(),
 							_day,
 							23,
 							59,
@@ -192,15 +124,17 @@ namespace base
 
 						base::DirectoryEntry entry = _year_dir_iterator->CurrentValue();
 						base::Path year_dir_path = entry.Path();
-						_month_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(year_dir_path);
+
+						_month_dir_iterator = std::shared_ptr<base::filesystem::MonthDirectoryEnumerator>{new base::filesystem::MonthDirectoryEnumerator{
+							year_dir_path,
+							true,
+							_year_dir_iterator->Year(),
+							_date_time_range,
+							_utc_hour_offset,
+						}};
 					}
 
 					if (!_month_dir_iterator->MoveToNext())
-					{
-						continue;
-					}
-
-					if (!CheckMonthEntry())
 					{
 						continue;
 					}
@@ -292,7 +226,6 @@ namespace base
 					utc_hour_offset,
 				}};
 
-				_year_month_date_time_interval = base::GetYearMonthDateTimeInterval(date_time_range);
 				_year_month_day_date_time_interval = base::GetYearMonthDayDateTimeInterval(date_time_range);
 
 				MoveToNextFile();
