@@ -190,6 +190,16 @@ namespace base
 				}
 
 				_disposed = true;
+
+				if (_year_dir_iterator != nullptr)
+				{
+					_year_dir_iterator->Dispose();
+				}
+
+				if (_month_dir_iterator != nullptr)
+				{
+					_month_dir_iterator->Dispose();
+				}
 			}
 
 			///
