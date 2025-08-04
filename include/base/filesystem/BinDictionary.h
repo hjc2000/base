@@ -1,4 +1,5 @@
 #pragma once
+#include "base/Console.h"
 #include "base/container/IDictionary.h"
 #include "base/filesystem/filesystem.h"
 #include "base/filesystem/IFileStream.h"
@@ -83,13 +84,23 @@ namespace base
 					return nullptr;
 				}
 
-				_current_value = base::file::OpenExisting(file_path);
-				if (_current_value == nullptr)
+				try
 				{
+					_current_value = base::file::OpenExisting(file_path);
+					return &_current_value;
+				}
+				catch (std::exception const &e)
+				{
+					base::console.WriteError(CODE_POS_STR + e.what());
+					return nullptr;
+				}
+				catch (...)
+				{
+					base::console.WriteError(CODE_POS_STR + "未知异常。");
 					return nullptr;
 				}
 
-				return &_current_value;
+				return nullptr;
 			}
 
 			///
