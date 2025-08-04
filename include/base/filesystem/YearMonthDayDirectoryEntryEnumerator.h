@@ -243,19 +243,12 @@ namespace base
 						return false;
 					}
 
-					// 先完成 _year_dir_iterator 的初始化或递增操作
 					if (_year_dir_iterator == nullptr)
 					{
 						_year_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(_base_path);
 					}
-					else if (_year_dir_iterator->IsNotEnd())
-					{
-						// 只有迭代器还没结束时才能递增，否则其结果是未定义的。
-						_year_dir_iterator->Add();
-					}
 
-					// 初始化或递增 _year_dir_iterator 完成。
-					if (_year_dir_iterator->IsEnd())
+					if (!_year_dir_iterator->MoveToNext())
 					{
 						return false;
 					}
