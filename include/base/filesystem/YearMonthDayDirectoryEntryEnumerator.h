@@ -308,7 +308,6 @@ namespace base
 						return false;
 					}
 
-					// 先完成 _day_dir_iterator 的初始化或递增操作。
 					if (_day_dir_iterator == nullptr || _day_dir_iterator->IsEnd())
 					{
 						if (!MoveToNextMonth())
@@ -320,13 +319,8 @@ namespace base
 						base::Path month_dir_path = entry.Path();
 						_day_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(month_dir_path);
 					}
-					else
-					{
-						_day_dir_iterator->Add();
-					}
 
-					// 初始化或递增 _day_dir_iterator 完成。
-					if (_day_dir_iterator->IsEnd())
+					if (!_day_dir_iterator->MoveToNext())
 					{
 						continue;
 					}
