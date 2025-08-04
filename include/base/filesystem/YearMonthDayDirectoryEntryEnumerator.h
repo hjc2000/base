@@ -285,6 +285,7 @@ namespace base
 
 				_year_dir_iterator = std::shared_ptr<base::filesystem::YearDirectoryEnumerator>{new base::filesystem::YearDirectoryEnumerator{
 					base_path,
+					true,
 					date_time_range,
 					utc_hour_offset,
 				}};
