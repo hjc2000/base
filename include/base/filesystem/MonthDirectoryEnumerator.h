@@ -153,7 +153,7 @@ namespace base
 			/* #endregion */
 
 			///
-			/// @brief 移动到下一个年目录。
+			/// @brief 移动到下一个月目录。
 			///
 			/// @return 移动完之后如果 _month_dir_iterator 指向有效的年目录，则返回 true, 否则返回 false.
 			///
