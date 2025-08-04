@@ -5,6 +5,9 @@ namespace base
 	template <typename ItemType>
 	class IEnumerator
 	{
+	private:
+		bool _is_first_move = true;
+
 	public:
 		virtual ~IEnumerator() = default;
 
@@ -38,6 +41,26 @@ namespace base
 		bool IsNotEnd() const
 		{
 			return !IsEnd();
+		}
+
+		///
+		/// @brief 本方法让迭代器支持像 C# 那样使用。即一开始拿到迭代器后首先一个 MoveToNext
+		/// 移动到第一个有效元素的位置。
+		///
+		/// @return 返回 true 表示成功移动到下一个有效元素，返回 false 表示没有下一个元素了。
+		///
+		bool MoveToNext()
+		{
+			if (_is_first_move)
+			{
+				_is_first_move = false;
+				return IsNotEnd();
+			}
+			else
+			{
+				Add();
+				return IsNotEnd();
+			}
 		}
 	};
 
