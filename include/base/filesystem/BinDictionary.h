@@ -150,6 +150,7 @@ namespace base
 					}
 
 					base::filesystem::Remove(file_path);
+					_count--;
 					return true;
 				}
 
@@ -186,8 +187,21 @@ namespace base
 				}
 
 				base::Path file_path = _workspace + key;
+
+				bool should_add_count = false;
+				if (!base::filesystem::Exists(file_path))
+				{
+					// 文件原本不存在，则等会创建成功后要递增计数。
+					should_add_count = true;
+				}
+
 				_current_file_stream = base::file::CreateNewAnyway(file_path);
 				_current_file_path = file_path;
+
+				if (should_add_count)
+				{
+					_count++;
+				}
 
 				if (item != nullptr)
 				{
