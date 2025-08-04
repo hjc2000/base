@@ -3,6 +3,7 @@
 #include "base/math/interval/Interval.h"
 #include "base/string/define.h"
 #include "base/string/Parse.h"
+#include "base/task/CancellationToken.h"
 #include "base/time/DateTime.h"
 #include "base/time/DateTimeInterval.h"
 #include "filesystem.h"
@@ -24,6 +25,8 @@ namespace base
 			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _month_dir_iterator;
 			int64_t _year{};
 			int64_t _month{};
+
+			std::shared_ptr<base::CancellationToken> _cancellation_token;
 
 			/* #region 检查 */
 
@@ -158,6 +161,11 @@ namespace base
 			{
 				while (true)
 				{
+					if (_cancellation_token->IsCancellationRequested())
+					{
+						return false;
+					}
+
 					if (_month_dir_iterator == nullptr)
 					{
 						_month_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(_year_path);
@@ -184,10 +192,12 @@ namespace base
 									 bool should_check_time_range,
 									 int64_t year,
 									 base::Interval<base::DateTime> const &date_time_range,
-									 base::UtcHourOffset const &utc_hour_offset)
+									 base::UtcHourOffset const &utc_hour_offset,
+									 std::shared_ptr<base::CancellationToken> cancellation_token)
 			{
 				_year_path = year_path;
 				_should_check_time_range = should_check_time_range;
+				_cancellation_token = cancellation_token;
 
 				_year = year;
 				_date_time_interval = base::GetYearMonthDateTimeInterval(date_time_range);
@@ -195,10 +205,12 @@ namespace base
 				MoveToNextMonth();
 			}
 
-			MonthDirectoryEnumerator(base::Path const &base_path)
+			MonthDirectoryEnumerator(base::Path const &base_path, std::shared_ptr<base::CancellationToken> cancellation_token)
 			{
 				_year_path = base_path;
 				_should_check_time_range = false;
+				_cancellation_token = cancellation_token;
+
 				MoveToNextMonth();
 			}
 
@@ -209,6 +221,11 @@ namespace base
 			///
 			virtual bool IsEnd() const override
 			{
+				if (_cancellation_token->IsCancellationRequested())
+				{
+					return true;
+				}
+
 				if (_month_dir_iterator == nullptr)
 				{
 					return true;
@@ -226,6 +243,8 @@ namespace base
 			///
 			virtual base::DirectoryEntry const &CurrentValue() override
 			{
+				_cancellation_token->ThrowIfCancellationIsRequested();
+
 				if (_month_dir_iterator == nullptr || _month_dir_iterator->IsEnd())
 				{
 					throw std::runtime_error{CODE_POS_STR + "没有当前值可用。"};
@@ -240,6 +259,7 @@ namespace base
 			///
 			virtual void Add() override
 			{
+				_cancellation_token->ThrowIfCancellationIsRequested();
 				MoveToNextMonth();
 			}
 

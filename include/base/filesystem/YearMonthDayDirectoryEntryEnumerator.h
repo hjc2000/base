@@ -65,6 +65,7 @@ namespace base
 							_year_dir_iterator->Year(),
 							_date_time_range,
 							_utc_hour_offset,
+							_cancellation_token,
 						}};
 					}
 
@@ -103,6 +104,7 @@ namespace base
 							_month_dir_iterator->Month(),
 							_date_time_range,
 							_utc_hour_offset,
+							_cancellation_token,
 						}};
 					}
 
@@ -174,6 +176,7 @@ namespace base
 					_should_check_time_range,
 					date_time_range,
 					utc_hour_offset,
+					_cancellation_token,
 				}};
 
 				MoveToNextFile();

@@ -3,6 +3,7 @@
 #include "base/math/interval/Interval.h"
 #include "base/string/define.h"
 #include "base/string/Parse.h"
+#include "base/task/CancellationToken.h"
 #include "base/time/DateTime.h"
 #include "base/time/DateTimeInterval.h"
 #include "filesystem.h"
@@ -28,6 +29,8 @@ namespace base
 			base::Interval<base::DateTime> _date_time_interval;
 			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _year_dir_iterator;
 			int64_t _year{};
+
+			std::shared_ptr<base::CancellationToken> _cancellation_token;
 
 			/* #region 检查 */
 
@@ -152,6 +155,11 @@ namespace base
 			{
 				while (true)
 				{
+					if (_cancellation_token->IsCancellationRequested())
+					{
+						return false;
+					}
+
 					if (_year_dir_iterator == nullptr)
 					{
 						_year_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(_base_path);
@@ -177,20 +185,24 @@ namespace base
 			YearDirectoryEnumerator(base::Path const &base_path,
 									bool should_check_time_range,
 									base::Interval<base::DateTime> const &date_time_range,
-									base::UtcHourOffset const &utc_hour_offset)
+									base::UtcHourOffset const &utc_hour_offset,
+									std::shared_ptr<base::CancellationToken> cancellation_token)
 			{
 				_base_path = base_path;
 				_should_check_time_range = should_check_time_range;
+				_cancellation_token = cancellation_token;
 
 				_date_time_interval = base::GetYearDateTimeInterval(date_time_range);
 				_utc_hour_offset = utc_hour_offset;
 				MoveToNextYear();
 			}
 
-			YearDirectoryEnumerator(base::Path const &base_path)
+			YearDirectoryEnumerator(base::Path const &base_path, std::shared_ptr<base::CancellationToken> cancellation_token)
 			{
 				_base_path = base_path;
 				_should_check_time_range = false;
+				_cancellation_token = cancellation_token;
+
 				MoveToNextYear();
 			}
 
@@ -201,6 +213,11 @@ namespace base
 			///
 			virtual bool IsEnd() const override
 			{
+				if (_cancellation_token->IsCancellationRequested())
+				{
+					return true;
+				}
+
 				if (_year_dir_iterator == nullptr)
 				{
 					return true;
@@ -218,6 +235,8 @@ namespace base
 			///
 			virtual base::DirectoryEntry const &CurrentValue() override
 			{
+				_cancellation_token->ThrowIfCancellationIsRequested();
+
 				if (_year_dir_iterator == nullptr || _year_dir_iterator->IsEnd())
 				{
 					throw std::runtime_error{CODE_POS_STR + "没有当前值可用。"};
@@ -232,6 +251,7 @@ namespace base
 			///
 			virtual void Add() override
 			{
+				_cancellation_token->ThrowIfCancellationIsRequested();
 				MoveToNextYear();
 			}
 

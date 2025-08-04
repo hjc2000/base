@@ -3,6 +3,7 @@
 #include "base/math/interval/Interval.h"
 #include "base/string/define.h"
 #include "base/string/Parse.h"
+#include "base/task/CancellationToken.h"
 #include "base/time/DateTime.h"
 #include "base/time/DateTimeInterval.h"
 #include "filesystem.h"
@@ -22,6 +23,7 @@ namespace base
 			bool _should_check_time_range = false;
 			base::Interval<base::DateTime> _date_time_interval;
 			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _day_dir_iterator;
+			std::shared_ptr<base::CancellationToken> _cancellation_token;
 			int64_t _year{};
 			int64_t _month{};
 			int64_t _day{};
@@ -148,6 +150,11 @@ namespace base
 			{
 				while (true)
 				{
+					if (_cancellation_token->IsCancellationRequested())
+					{
+						return false;
+					}
+
 					if (_day_dir_iterator == nullptr)
 					{
 						_day_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(_year_month_path);
@@ -175,10 +182,12 @@ namespace base
 								   int64_t year,
 								   int64_t month,
 								   base::Interval<base::DateTime> const &date_time_range,
-								   base::UtcHourOffset const &utc_hour_offset)
+								   base::UtcHourOffset const &utc_hour_offset,
+								   std::shared_ptr<base::CancellationToken> cancellation_token)
 			{
 				_year_month_path = year_month_path;
 				_should_check_time_range = should_check_time_range;
+				_cancellation_token = cancellation_token;
 
 				_year = year;
 				_month = month;
@@ -187,10 +196,12 @@ namespace base
 				MoveToNextDay();
 			}
 
-			DayDirectoryEnumerator(base::Path const &base_path)
+			DayDirectoryEnumerator(base::Path const &base_path, std::shared_ptr<base::CancellationToken> cancellation_token)
 			{
 				_year_month_path = base_path;
 				_should_check_time_range = false;
+				_cancellation_token = cancellation_token;
+
 				MoveToNextDay();
 			}
 
@@ -201,6 +212,11 @@ namespace base
 			///
 			virtual bool IsEnd() const override
 			{
+				if (_cancellation_token->IsCancellationRequested())
+				{
+					return true;
+				}
+
 				if (_day_dir_iterator == nullptr)
 				{
 					return true;
@@ -218,6 +234,8 @@ namespace base
 			///
 			virtual base::DirectoryEntry const &CurrentValue() override
 			{
+				_cancellation_token->ThrowIfCancellationIsRequested();
+
 				if (_day_dir_iterator == nullptr || _day_dir_iterator->IsEnd())
 				{
 					throw std::runtime_error{CODE_POS_STR + "没有当前值可用。"};
@@ -232,6 +250,7 @@ namespace base
 			///
 			virtual void Add() override
 			{
+				_cancellation_token->ThrowIfCancellationIsRequested();
 				MoveToNextDay();
 			}
 
