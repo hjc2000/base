@@ -32,19 +32,24 @@ namespace base
 			base::Interval<base::DateTime> _year_date_time_interval;
 			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _year_dir_iterator;
 			int64_t _year{};
+			base::DirectoryEntry _current_entry;
 
-			bool CheckYearEntry()
+			bool CheckIsDirectory()
 			{
-				base::DirectoryEntry entry = _year_dir_iterator->CurrentValue();
-				if (!entry.IsDirectory())
+				if (!_current_entry.IsDirectory())
 				{
 					return false;
 				}
 
+				return true;
+			}
+
+			bool CheckTimeRange()
+			{
 				// 当前迭代器指向的项目是目录，但还要检查目录名称是不是合法的年份数字。
 				try
 				{
-					base::Path year_dir_path = entry.Path();
+					base::Path year_dir_path = _current_entry.Path();
 					_year = base::ParseInt64(year_dir_path.LastName().ToString(), 10);
 
 					base::ClosedInterval<base::DateTime> interval{
@@ -89,6 +94,21 @@ namespace base
 				return true;
 			}
 
+			bool CheckCurrentEntry()
+			{
+				if (!CheckIsDirectory())
+				{
+					return false;
+				}
+
+				if (!CheckTimeRange())
+				{
+					return false;
+				}
+
+				return true;
+			}
+
 			///
 			/// @brief 移动到下一个年目录。
 			///
@@ -121,7 +141,8 @@ namespace base
 					}
 
 					// 已经成功让年目录迭代器指向下一个有效项目了，接下来需要进行一些过滤，确保它是有效的年目录。
-					if (!CheckYearEntry())
+					_current_entry = _year_dir_iterator->CurrentValue();
+					if (!CheckCurrentEntry())
 					{
 						continue;
 					}
