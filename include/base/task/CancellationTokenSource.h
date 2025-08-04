@@ -24,19 +24,29 @@ namespace base
 		/// @return true 已经取消。
 		/// @return false 还没取消。
 		///
-		bool IsCancellationRequested() const;
+		bool IsCancellationRequested() const
+		{
+			return _token->IsCancellationRequested();
+		}
 
 		///
 		/// @brief 取消令牌
 		///
 		/// @return
 		///
-		std::shared_ptr<CancellationToken> const &Token() const;
+		std::shared_ptr<CancellationToken> const &Token() const
+		{
+			return _token;
+		}
 
 		///
 		/// @brief 取消任务。
 		///
 		///
-		void Cancel();
+		void Cancel()
+		{
+			_token->Cancel();
+		}
 	};
+
 } // namespace base
