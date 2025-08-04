@@ -157,7 +157,7 @@ namespace base
 			///
 			/// @return 移动完之后如果 _month_dir_iterator 指向有效的年目录，则返回 true, 否则返回 false.
 			///
-			bool MoveToNext()
+			bool MoveToNextMonth()
 			{
 				while (true)
 				{
@@ -298,17 +298,7 @@ namespace base
 			///
 			virtual void Add() override
 			{
-				MoveToNext();
-			}
-
-			///
-			/// @brief 如果迭代器没有结束，则本属性会把当前迭代器指向的年目录的年提取出来。
-			///
-			/// @return
-			///
-			int64_t Year() const
-			{
-				return _year;
+				MoveToNextMonth();
 			}
 
 			int64_t Month() const
