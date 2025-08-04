@@ -199,7 +199,7 @@ namespace base
 				_year = year;
 				_date_time_interval = base::GetYearMonthDateTimeInterval(date_time_range);
 				_utc_hour_offset = utc_hour_offset;
-				MoveToNext();
+				MoveToNextMonth();
 			}
 
 			MonthDirectoryEnumerator(base::Path const &year_path,
@@ -214,14 +214,14 @@ namespace base
 				_year = year;
 				_date_time_interval = base::GetYearMonthDateTimeInterval(date_time_range);
 				_utc_hour_offset = utc_hour_offset;
-				MoveToNext();
+				MoveToNextMonth();
 			}
 
 			MonthDirectoryEnumerator(base::Path const &base_path)
 			{
 				_year_path = base_path;
 				_should_check_time_range = false;
-				MoveToNext();
+				MoveToNextMonth();
 			}
 
 			~MonthDirectoryEnumerator()

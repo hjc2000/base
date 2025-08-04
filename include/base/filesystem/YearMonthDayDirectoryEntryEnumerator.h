@@ -1,5 +1,6 @@
 #pragma once
 #include "base/Console.h"
+#include "base/filesystem/MonthDirectoryEnumerator.h"
 #include "base/filesystem/YearDirectoryEnumerator.h"
 #include "base/IDisposable.h"
 #include "base/math/interval/Interval.h"
