@@ -45,16 +45,14 @@ namespace base
 
 			bool CheckTimeRange()
 			{
-				if (!_should_check_time_range)
-				{
-					return true;
-				}
-
-				// 当前迭代器指向的项目是目录，但还要检查目录名称是不是合法的年份数字。
 				try
 				{
 					base::Path year_dir_path = _year_dir_iterator->CurrentValue().Path();
 					_year = base::ParseInt64(year_dir_path.LastName().ToString(), 10);
+					if (!_should_check_time_range)
+					{
+						return true;
+					}
 
 					base::ClosedInterval<base::DateTime> interval{
 						base::DateTime{
@@ -160,11 +158,9 @@ namespace base
 				MoveToNextYear();
 			}
 
-			YearDirectoryEnumerator(base::Path const &base_path,
-									base::UtcHourOffset const &utc_hour_offset)
+			YearDirectoryEnumerator(base::Path const &base_path)
 			{
 				_base_path = base_path;
-				_utc_hour_offset = utc_hour_offset;
 				_should_check_time_range = false;
 				MoveToNextYear();
 			}
