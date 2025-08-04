@@ -123,6 +123,8 @@ namespace base
 
 			bool Check()
 			{
+				// 按顺序调用上方的检查函数。
+				// 一定要按顺序，因为检查过程会为字段赋值，后一个检查会依赖前面检查的结果。
 				if (!CheckIsDirectory())
 				{
 					return false;
