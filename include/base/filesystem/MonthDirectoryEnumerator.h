@@ -31,7 +31,7 @@ namespace base
 			/* #region 检查 */
 
 			///
-			/// @brief 检查当前 _year_dir_iterator 指向的条目是否是目录。
+			/// @brief 检查当前 _month_dir_iterator 指向的条目是否是目录。
 			///
 			/// @return 是目录返回 true, 不是目录返回 false.
 			///
@@ -49,8 +49,8 @@ namespace base
 			{
 				try
 				{
-					base::Path dir_path = _month_dir_iterator->CurrentValue().Path();
-					_month = base::ParseInt64(dir_path.LastName().ToString(), 10);
+					base::Path path = _month_dir_iterator->CurrentValue().Path();
+					_month = base::ParseInt64(path.LastName().ToString(), 10);
 				}
 				catch (std::exception const &e)
 				{
@@ -155,7 +155,7 @@ namespace base
 			///
 			/// @brief 移动到下一个年目录。
 			///
-			/// @return 移动完之后如果 _year_dir_iterator 指向有效的年目录，则返回 true, 否则返回 false.
+			/// @return 移动完之后如果 _month_dir_iterator 指向有效的年目录，则返回 true, 否则返回 false.
 			///
 			bool MoveToNext()
 			{
@@ -194,10 +194,11 @@ namespace base
 									 base::UtcHourOffset const &utc_hour_offset)
 			{
 				_year_path = year_path;
+				_should_check_time_range = true;
+
 				_year = year;
 				_date_time_interval = base::GetYearMonthDateTimeInterval(date_time_range);
 				_utc_hour_offset = utc_hour_offset;
-				_should_check_time_range = true;
 				MoveToNext();
 			}
 
