@@ -343,7 +343,6 @@ namespace base
 						return false;
 					}
 
-					// 先完成 _file_iterator 的初始化或递增操作。
 					if (_file_iterator == nullptr || _file_iterator->IsEnd())
 					{
 						if (!MoveToNextDay())
@@ -355,13 +354,8 @@ namespace base
 						base::Path day_dir_path = entry.Path();
 						_file_iterator = base::filesystem::CreateDirectoryEntryEnumerator(day_dir_path);
 					}
-					else
-					{
-						_file_iterator->Add();
-					}
 
-					// 初始化或递增 _file_iterator 完成。
-					if (_file_iterator->IsEnd())
+					if (!_file_iterator->MoveToNext())
 					{
 						continue;
 					}
