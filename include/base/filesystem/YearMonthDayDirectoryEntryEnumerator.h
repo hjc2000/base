@@ -44,6 +44,11 @@ namespace base
 			{
 				while (true)
 				{
+					if (_cancellation_token->IsCancellationRequested())
+					{
+						return false;
+					}
+
 					if (_month_dir_iterator == nullptr || _month_dir_iterator->IsEnd())
 					{
 						if (!_year_dir_iterator->MoveToNext())
@@ -76,6 +81,11 @@ namespace base
 			{
 				while (true)
 				{
+					if (_cancellation_token->IsCancellationRequested())
+					{
+						return false;
+					}
+
 					if (_day_dir_iterator == nullptr || _day_dir_iterator->IsEnd())
 					{
 						if (!MoveToNextMonth())
@@ -109,6 +119,11 @@ namespace base
 			{
 				while (true)
 				{
+					if (_cancellation_token->IsCancellationRequested())
+					{
+						return false;
+					}
+
 					if (_file_iterator == nullptr || _file_iterator->IsEnd())
 					{
 						if (!MoveToNextDay())
@@ -171,6 +186,11 @@ namespace base
 			///
 			virtual bool IsEnd() const override
 			{
+				if (_cancellation_token->IsCancellationRequested())
+				{
+					return true;
+				}
+
 				if (_file_iterator == nullptr)
 				{
 					return true;
@@ -186,6 +206,8 @@ namespace base
 			///
 			virtual base::DirectoryEntry const &CurrentValue() override
 			{
+				_cancellation_token->ThrowIfCancellationIsRequested();
+
 				if (_file_iterator == nullptr || _file_iterator->IsEnd())
 				{
 					throw std::runtime_error{CODE_POS_STR + "没有当前值可用。"};
@@ -200,6 +222,7 @@ namespace base
 			///
 			virtual void Add() override
 			{
+				_cancellation_token->ThrowIfCancellationIsRequested();
 				MoveToNextFile();
 			}
 
