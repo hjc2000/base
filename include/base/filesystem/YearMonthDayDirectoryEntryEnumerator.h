@@ -28,7 +28,7 @@ namespace base
 			///
 			///
 			base::Path _base_path;
-
+			base::Interval<base::DateTime> _date_time_range;
 			base::UtcHourOffset _utc_hour_offset;
 
 			base::Interval<base::DateTime> _year_month_date_time_interval;
@@ -281,6 +281,7 @@ namespace base
 												 base::UtcHourOffset const &utc_hour_offset)
 			{
 				_base_path = base_path;
+				_date_time_range = date_time_range;
 				_utc_hour_offset = utc_hour_offset;
 
 				_year_dir_iterator = std::shared_ptr<base::filesystem::YearDirectoryEnumerator>{new base::filesystem::YearDirectoryEnumerator{
