@@ -1,4 +1,4 @@
-#include "TestYearMonthDayDirectoryEntryEnumerable.h" // IWYU pragma: keep
+#include "TestYearMonthDayDirectoryEntryEnumerator.h" // IWYU pragma: keep
 #include "base/container/iterator/Enumerable.h"
 #include "base/filesystem/DirectoryEntry.h"
 #include "base/filesystem/Path.h"
@@ -10,7 +10,7 @@
 
 #if HAS_THREAD
 
-void base::test::TestYearMonthDayDirectoryEntryEnumerable()
+void base::test::TestYearMonthDayDirectoryEntryEnumerator()
 {
 	base::ClosedInterval<base::DateTime> interval{
 		base::DateTime{
@@ -37,10 +37,8 @@ void base::test::TestYearMonthDayDirectoryEntryEnumerable()
 
 	base::Path test_path{__FILE__};
 	test_path = test_path.ParentPath();
-	test_path += "TestYearMonthDayDirectoryEntryEnumerable";
+	test_path += "TestYearMonthDayDirectoryEntryEnumerator";
 
-	// 把本项目的 test 目录中的 TestYearMonthDayDirectoryEntryEnumerable 目录拷贝到合适的
-	// 地方，然后把下面的路径改一下，就可以测试了。
 	base::filesystem::YearMonthDayDirectoryEntryEnumerator enumerator{
 		test_path,
 		interval,

@@ -1,6 +1,6 @@
-#include "base/test/TestYearMonthDayDirectoryEntryEnumerable.h"
+#include "base/test/TestYearMonthDayDirectoryEntryEnumerator.h"
 
 int main()
 {
-	base::test::TestYearMonthDayDirectoryEntryEnumerable();
+	base::test::TestYearMonthDayDirectoryEntryEnumerator();
 }

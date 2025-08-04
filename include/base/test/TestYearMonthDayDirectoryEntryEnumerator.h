@@ -6,7 +6,7 @@ namespace base
 {
 	namespace test
 	{
-		void TestYearMonthDayDirectoryEntryEnumerable();
+		void TestYearMonthDayDirectoryEntryEnumerator();
 
 	} // namespace test
 } // namespace base
