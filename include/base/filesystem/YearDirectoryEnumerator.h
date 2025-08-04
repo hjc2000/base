@@ -33,6 +33,11 @@ namespace base
 			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _year_dir_iterator;
 			int64_t _year{};
 
+			///
+			/// @brief 检查当前 _year_dir_iterator 指向的条目是否是目录。
+			///
+			/// @return 是目录返回 true, 不是目录返回 false.
+			///
 			bool CheckIsDirectory()
 			{
 				if (!_year_dir_iterator->CurrentValue().IsDirectory())
@@ -43,16 +48,36 @@ namespace base
 				return true;
 			}
 
-			bool CheckTimeRange()
+			bool CheckDirName()
 			{
 				try
 				{
 					base::Path year_dir_path = _year_dir_iterator->CurrentValue().Path();
 					_year = base::ParseInt64(year_dir_path.LastName().ToString(), 10);
-					if (!_should_check_time_range)
-					{
-						return true;
-					}
+				}
+				catch (std::exception const &e)
+				{
+					base::console.WriteError(CODE_POS_STR + e.what());
+					return false;
+				}
+				catch (...)
+				{
+					base::console.WriteError(CODE_POS_STR + "未知异常。");
+					return false;
+				}
+
+				return true;
+			}
+
+			bool CheckTimeRange()
+			{
+				if (!_should_check_time_range)
+				{
+					return true;
+				}
+
+				try
+				{
 
 					base::ClosedInterval<base::DateTime> interval{
 						base::DateTime{
@@ -99,6 +124,11 @@ namespace base
 			bool Check()
 			{
 				if (!CheckIsDirectory())
+				{
+					return false;
+				}
+
+				if (!CheckDirName())
 				{
 					return false;
 				}
