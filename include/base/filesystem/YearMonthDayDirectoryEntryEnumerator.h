@@ -260,6 +260,27 @@ namespace base
 
 				MoveToNextFile();
 			}
+
+			///
+			/// @brief 通过目录获得的 年/月/日 的日期时间。分辨率只精确到日。
+			///
+			/// @return
+			///
+			base::DateTime YearMonthDayDateTime() const
+			{
+				base::DateTime ret{
+					base::UtcHourOffset{0},
+					_year_dir_iterator->Year(),
+					_month_dir_iterator->Month(),
+					_day_dir_iterator->Day(),
+					0,
+					0,
+					0,
+					0,
+				};
+
+				return ret;
+			}
 		};
 
 	} // namespace filesystem
