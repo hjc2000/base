@@ -17,7 +17,7 @@ namespace base
 	namespace filesystem
 	{
 		///
-		/// @brief 二进制字典。
+		/// @brief 文件字典。
 		///
 		/// @note 利用文件系统实现。
 		///
@@ -25,7 +25,7 @@ namespace base
 		/// 这里封装一个通用的二进制文件字典，以字符串作为 key, 用来打开文件，然后返回此文件
 		/// 的流，作为 value.
 		///
-		class BinDictionary :
+		class FileDictionary :
 			public base::IDictionary<std::string, std::shared_ptr<base::Stream>>
 		{
 		private:
@@ -60,7 +60,7 @@ namespace base
 			}
 
 		public:
-			BinDictionary(base::Path const &workspace)
+			FileDictionary(base::Path const &workspace)
 			{
 				_workspace = workspace;
 				CountFile();
