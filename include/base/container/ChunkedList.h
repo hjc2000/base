@@ -144,7 +144,7 @@ namespace base
 		///
 		/// @param should_remove 用来指示特定的元素是否应该从容器中移除。
 		///
-		virtual void RemoveIf(std::function<bool(ItemType const &item)> should_remove) override
+		void RemoveIf(std::function<bool(ItemType const &item)> should_remove)
 		{
 			// 为了避免每移除一个元素就将后面位置的元素向前移动，造成开销过大。可以准备一个临时的容器，
 			// 不需要移除的元素就添加到临时容器，需要移除的就跳过。最后，用临时容器替换掉原来的容器。

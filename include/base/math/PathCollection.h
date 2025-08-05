@@ -60,7 +60,7 @@ namespace base
 			 *
 			 * @param should_remove 用来指示特定的元素是否应该从容器中移除。
 			 */
-			virtual void RemoveIf(std::function<bool(base::math::Path const &item)> should_remove) override;
+			void RemoveIf(std::function<bool(base::math::Path const &item)> should_remove);
 
 			/**
 			 * @brief 查找指定元素的索引。

@@ -4,7 +4,6 @@
 #include "base/sfinae/Compare.h"
 #include "base/sfinae/Equal.h"
 #include <cstdint>
-#include <functional>
 
 namespace base
 {
@@ -95,13 +94,6 @@ namespace base
 		/// @param index
 		///
 		virtual void RemoveAt(int64_t index) = 0;
-
-		///
-		/// @brief 移除符合条件的数据。
-		///
-		/// @param should_remove 用来指示特定的元素是否应该从容器中移除。
-		///
-		virtual void RemoveIf(std::function<bool(ItemType const &item)> should_remove) = 0;
 
 		///
 		/// @brief 清空列表。
