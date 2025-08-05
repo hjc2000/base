@@ -1,6 +1,7 @@
 #pragma once
 #include "base/Console.h"
 #include "base/container/IDictionary.h"
+#include "base/container/iterator/IEnumerator.h"
 #include "base/filesystem/DirectoryEntry.h"
 #include "base/filesystem/filesystem.h"
 #include "base/filesystem/IFileStream.h"
@@ -25,9 +26,67 @@ namespace base
 		/// 这里封装一个通用的二进制文件字典，以字符串作为 key, 用来打开文件，然后返回此文件
 		/// 的流，作为 value.
 		///
-		class FileDictionary :
+		class FileDictionary final :
 			public base::IDictionary<std::string, std::shared_ptr<base::Stream> const>
 		{
+		private:
+			class Enumerator :
+				public base::IEnumerator<std::pair<std::string const, std::shared_ptr<base::Stream> const>>
+			{
+			private:
+				std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _enumerator;
+				std::unique_ptr<std::pair<std::string const, std::shared_ptr<base::Stream> const>> _current_value;
+
+			public:
+				Enumerator(base::Path const &workspace)
+				{
+					_enumerator = base::filesystem::CreateDirectoryEntryEnumerator(workspace);
+				}
+
+				///
+				/// @brief 迭代器当前是否指向尾后元素。
+				///
+				/// @return
+				///
+				virtual bool IsEnd() const override
+				{
+					return _enumerator->IsEnd();
+				}
+
+				///
+				/// @brief 获取当前值的引用。
+				///
+				/// @note 迭代器构造后，如果被迭代的集合不为空，要立即让 CurrentValue 指向第一个有效元素。
+				///
+				/// @return
+				///
+				virtual std::pair<std::string const, std::shared_ptr<base::Stream> const> &CurrentValue() override
+				{
+					base::DirectoryEntry entry = _enumerator->CurrentValue();
+					std::string key = entry.Path().LastName().ToString();
+					std::shared_ptr<base::Stream> file_stream = base::file::OpenExisting(entry.Path());
+
+					_current_value = std::unique_ptr<std::pair<std::string const, std::shared_ptr<base::Stream> const>>{new std::pair<std::string const, std::shared_ptr<base::Stream> const>{
+						key,
+						file_stream,
+					}};
+
+					return *_current_value;
+				}
+
+				///
+				/// @brief 递增迭代器的位置。
+				///
+				/// @warning 本方法可能是没有保护的，迭代器结束后，再次调用本方法的行为是未定义的，
+				/// 可能移动越界了，然后导致 IsEnd 判定为 false, 但是实际上当前迭代器已经不指向
+				/// 有效元素了，而是指向非法内存区域了。如果是手动操作迭代器，推荐使用 MoveToNext 方法。
+				///
+				virtual void Add() override
+				{
+					_enumerator->Add();
+				}
+			};
+
 		private:
 			base::Path _workspace;
 
@@ -218,6 +277,18 @@ namespace base
 					// 传入空指针，然后调用一次 Get 方法获取这个文件的文件流，然后手动拷贝。
 					item->CopyTo(_current_file_stream, base::CancellationToken::None());
 				}
+			}
+
+			using base::IEnumerable<std::pair<std::string const, std::shared_ptr<base::Stream> const>>::GetEnumerator;
+
+			///
+			/// @brief 获取迭代器
+			///
+			/// @return
+			///
+			virtual std::shared_ptr<IEnumerator<std::pair<std::string const, std::shared_ptr<base::Stream> const>>> GetEnumerator() override
+			{
+				return std::shared_ptr<Enumerator>{new Enumerator{_workspace}};
 			}
 		};
 
