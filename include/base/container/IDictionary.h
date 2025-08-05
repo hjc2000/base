@@ -1,5 +1,6 @@
 #pragma once
 #include "base/container/iterator/IEnumerable.h"
+#include "base/sfinae/Compare.h"
 
 namespace base
 {
@@ -8,6 +9,9 @@ namespace base
 	///
 	///
 	template <typename KeyType, typename ValueType>
+		requires(base::has_equal_operator<KeyType> &&
+				 base::has_less_than_operator<KeyType> &&
+				 base::has_greater_than_operator<KeyType>)
 	class IDictionary :
 		public base::IEnumerable<std::pair<KeyType const, ValueType>>
 	{
