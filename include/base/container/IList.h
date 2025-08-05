@@ -4,6 +4,7 @@
 #include "base/sfinae/Compare.h"
 #include "base/sfinae/Equal.h"
 #include <cstdint>
+#include <vector>
 
 namespace base
 {
