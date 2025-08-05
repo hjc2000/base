@@ -26,7 +26,7 @@ namespace base
 		/// 的流，作为 value.
 		///
 		class FileDictionary :
-			public base::IDictionary<std::string, std::shared_ptr<base::Stream>>
+			public base::IDictionary<std::string, std::shared_ptr<base::Stream> const>
 		{
 		private:
 			base::Path _workspace;
@@ -91,7 +91,7 @@ namespace base
 			///
 			/// @return 指针。找到了返回元素的指针，找不到返回空指针。
 			///
-			virtual std::shared_ptr<base::Stream> *Find(std::string const &key) override
+			virtual std::shared_ptr<base::Stream> const *Find(std::string const &key) override
 			{
 				if (key.size() == 0)
 				{
