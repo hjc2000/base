@@ -135,10 +135,12 @@ namespace base
 			if (it != _vector.end())
 			{
 				_vector.erase(it);
-				return true; // 返回 true 表示成功找到并删除了元素
+
+				// 返回 true 表示成功找到并删除了元素。
+				return true;
 			}
 
-			// 如果没有找到元素，返回 false
+			// 如果没有找到元素，返回 false.
 			return false;
 		}
 
