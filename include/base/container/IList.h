@@ -272,6 +272,8 @@ namespace base
 
 		/* #endregion */
 
+		/* #region Insert */
+
 		void Insert(int64_t index, IList<ItemType> const &list)
 		{
 			for (ItemType const &item : list)
@@ -329,6 +331,8 @@ namespace base
 				Insert(index++, item);
 			}
 		}
+
+		/* #endregion */
 
 		/* #region GetEnumerator */
 
