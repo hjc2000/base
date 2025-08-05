@@ -74,6 +74,8 @@ namespace base
 			_deque.push_back(item);
 		}
 
+		using IList<ItemType>::Insert;
+
 		///
 		/// @brief 将元素插入列表指定位置。
 		///
