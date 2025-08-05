@@ -322,7 +322,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual ItemType &operator[](int64_t const index) override
+		virtual ItemType &operator[](int64_t const index)
 		{
 			return _deque[index];
 		}
@@ -343,7 +343,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual ItemType const &operator[](int64_t const index) const override
+		virtual ItemType const &operator[](int64_t const index) const
 		{
 			return _deque[index];
 		}
