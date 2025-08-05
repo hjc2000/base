@@ -184,6 +184,7 @@ namespace base
 		/// @warning 需要 ItemType 实现了比较运算符，否则会引发异常。
 		///
 		void Sort(bool ascending = true)
+			requires(base::has_less_than_operator<ItemType>)
 		{
 			try
 			{
@@ -198,7 +199,7 @@ namespace base
 										 //
 										 // 如果返回的是 base::LessThan, 则小于的时候谓语返回 true, left 排到
 										 // right 前面，那这就是升序排列，即从小到大排列。
-										 return base::LessThan(left, right);
+										 return left < right;
 									 }
 									 else
 									 {
