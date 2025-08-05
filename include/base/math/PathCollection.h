@@ -94,21 +94,40 @@ namespace base
 			 */
 			virtual int64_t Count() const override;
 
-			/**
-			 * @brief 获取指定索引位置的元素。
-			 *
-			 * @param index
-			 * @return base::math::Path&
-			 */
-			virtual base::math::Path &operator[](int64_t index) override;
+			///
+			/// @brief 获取指定索引位置的元素。
+			///
+			/// @param index
+			///
+			/// @return
+			///
+			virtual base::math::Path &Get(int64_t index) override
+			{
+				return _paths[index];
+			}
 
-			/**
-			 * @brief 获取指定索引位置的元素。
-			 *
-			 * @param index
-			 * @return base::math::Path const&
-			 */
-			virtual base::math::Path const &operator[](int64_t index) const override;
+			///
+			/// @brief 获取指定索引位置的元素。
+			///
+			/// @param index
+			///
+			/// @return
+			///
+			virtual base::math::Path const &Get(int64_t index) const override
+			{
+				return _paths[index];
+			}
+
+			///
+			/// @brief 设置指定位置的元素。
+			///
+			/// @param index
+			/// @param value
+			///
+			virtual void Set(int64_t index, base::math::Path const &value) override
+			{
+				_paths[index] = value;
+			}
 
 		public:
 			/**
@@ -126,5 +145,6 @@ namespace base
 			 */
 			base::List<base::math::Path> FindPaths(base::List<base::math::Point> const &points) const;
 		};
+
 	} // namespace math
 } // namespace base

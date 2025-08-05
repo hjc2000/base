@@ -51,16 +51,6 @@ int64_t base::math::PathCollection::Count() const
 	return _paths.Count();
 }
 
-base::math::Path &base::math::PathCollection::operator[](int64_t index)
-{
-	return _paths[index];
-}
-
-base::math::Path const &base::math::PathCollection::operator[](int64_t index) const
-{
-	return _paths[index];
-}
-
 base::List<base::math::Point> base::math::PathCollection::AllPoints() const
 {
 	base::Set<base::math::Point> all_points_set;

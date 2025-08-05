@@ -54,7 +54,7 @@ namespace base
 			///
 			virtual item_type &CurrentValue() override
 			{
-				return (*_list)[_index];
+				return _list->Get(_index);
 			}
 
 			///
@@ -152,7 +152,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual ItemType &operator[](int64_t index) = 0;
+		virtual ItemType &Get(int64_t index) = 0;
 
 		///
 		/// @brief 获取指定索引位置的元素。
@@ -161,7 +161,15 @@ namespace base
 		///
 		/// @return
 		///
-		virtual ItemType const &operator[](int64_t index) const = 0;
+		virtual ItemType const &Get(int64_t index) const = 0;
+
+		///
+		/// @brief 设置指定位置的元素。
+		///
+		/// @param index
+		/// @param value
+		///
+		virtual void Set(int64_t index, ItemType const &value) = 0;
 
 		/* #endregion */
 

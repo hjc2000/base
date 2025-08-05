@@ -264,7 +264,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual ItemType &operator[](int64_t const index) override
+		virtual ItemType &operator[](int64_t const index)
 		{
 			return IRawArray<ItemType>::operator[](index);
 		}
@@ -276,9 +276,44 @@ namespace base
 		///
 		/// @return
 		///
-		virtual ItemType const &operator[](int64_t const index) const override
+		virtual ItemType const &operator[](int64_t const index) const
 		{
 			return IRawArray<ItemType>::operator[](index);
+		}
+
+		///
+		/// @brief 获取指定索引位置的元素。
+		///
+		/// @param index
+		///
+		/// @return
+		///
+		virtual ItemType &Get(int64_t index) override
+		{
+			return IRawArray<ItemType>::operator[](index);
+		}
+
+		///
+		/// @brief 获取指定索引位置的元素。
+		///
+		/// @param index
+		///
+		/// @return
+		///
+		virtual ItemType const &Get(int64_t index) const override
+		{
+			return IRawArray<ItemType>::operator[](index);
+		}
+
+		///
+		/// @brief 设置指定位置的元素。
+		///
+		/// @param index
+		/// @param value
+		///
+		virtual void Set(int64_t index, ItemType const &value) override
+		{
+			IRawArray<ItemType>::operator[](index) = value;
 		}
 
 		/* #endregion */
