@@ -16,11 +16,6 @@ void base::math::PathCollection::Insert(int64_t index, base::math::Path const &i
 	_paths.Insert(index, item);
 }
 
-bool base::math::PathCollection::Remove(base::math::Path const &item)
-{
-	return _paths.Remove(item);
-}
-
 void base::math::PathCollection::RemoveAt(int64_t index)
 {
 	_paths.RemoveAt(index);
@@ -29,16 +24,6 @@ void base::math::PathCollection::RemoveAt(int64_t index)
 void base::math::PathCollection::RemoveIf(std::function<bool(base::math::Path const &item)> should_remove)
 {
 	_paths.RemoveIf(should_remove);
-}
-
-int64_t base::math::PathCollection::IndexOf(base::math::Path const &item) const
-{
-	return _paths.IndexOf(item);
-}
-
-bool base::math::PathCollection::Contains(base::math::Path const &item) const
-{
-	return _paths.Contains(item);
 }
 
 void base::math::PathCollection::Clear()

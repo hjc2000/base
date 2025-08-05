@@ -38,17 +38,6 @@ namespace base
 			virtual void Insert(int64_t index, base::math::Path const &item) override;
 
 			/**
-			 * @brief 从列表移除指定元素。
-			 *
-			 * @note 如果列表中有重复元素，调用一次本方法只会移除一个。
-			 *
-			 * @param item
-			 * @return true
-			 * @return false
-			 */
-			bool Remove(base::math::Path const &item);
-
-			/**
 			 * @brief 移除指定索引位置的元素。
 			 *
 			 * @param index
@@ -61,23 +50,6 @@ namespace base
 			 * @param should_remove 用来指示特定的元素是否应该从容器中移除。
 			 */
 			void RemoveIf(std::function<bool(base::math::Path const &item)> should_remove);
-
-			/**
-			 * @brief 查找指定元素的索引。
-			 *
-			 * @param item
-			 * @return int64_t
-			 */
-			int64_t IndexOf(base::math::Path const &item) const;
-
-			/**
-			 * @brief 检查列表中是否含有该元素。
-			 *
-			 * @param item
-			 * @return true
-			 * @return false
-			 */
-			bool Contains(base::math::Path const &item) const;
 
 			/**
 			 * @brief 清空列表。
@@ -131,7 +103,7 @@ namespace base
 			/**
 			 * @brief 获取本路径集合中所有路径所经过的所有点的列表。
 			 *
-			 * @return base::List<base::math::Point>
+			 * @return
 			 */
 			base::List<base::math::Point> AllPoints() const;
 
@@ -139,7 +111,8 @@ namespace base
 			 * @brief 找到一条路径经过 points 中所有的点。
 			 *
 			 * @param points
-			 * @return base::List<base::math::Path>
+			 *
+			 * @return
 			 */
 			base::List<base::math::Path> FindPaths(base::List<base::math::Point> const &points) const;
 		};

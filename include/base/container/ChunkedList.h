@@ -106,12 +106,13 @@ namespace base
 		/// @return
 		///
 		bool Remove(ItemType const &item)
+			requires(base::has_equal_operator<ItemType>)
 		{
 			auto it = std::find_if(_deque.begin(),
 								   _deque.end(),
 								   [&](ItemType const &p)
 								   {
-									   return base::Equal(p, item);
+									   return p == item;
 								   });
 
 			if (it != _deque.end())
@@ -191,12 +192,13 @@ namespace base
 		/// @return
 		///
 		int64_t IndexOf(ItemType const &item) const
+			requires(base::has_equal_operator<ItemType>)
 		{
 			auto it = std::find_if(_deque.begin(),
 								   _deque.end(),
 								   [&](ItemType const &p)
 								   {
-									   return base::Equal(p, item);
+									   return p == item;
 								   });
 
 			if (it != _deque.end())
@@ -216,12 +218,13 @@ namespace base
 		/// @return
 		///
 		bool Contains(ItemType const &item) const
+			requires(base::has_equal_operator<ItemType>)
 		{
 			auto it = std::find_if(_deque.begin(),
 								   _deque.end(),
 								   [&](ItemType const &p)
 								   {
-									   return base::Equal(p, item);
+									   return p == item;
 								   });
 
 			return it != _deque.end();
