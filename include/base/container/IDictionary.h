@@ -130,7 +130,7 @@ namespace base
 
 		/* #endregion */
 
-		/* #region 接口扩展 Add */
+		/* #region Add */
 
 		///
 		/// @brief 添加一个键值对到字典中。如果此键已经存在，会抛出异常。
