@@ -105,7 +105,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual bool Remove(ItemType const &item) override
+		bool Remove(ItemType const &item)
 		{
 			auto it = std::find_if(_deque.begin(),
 								   _deque.end(),
@@ -324,7 +324,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual ItemType &operator[](int64_t const index)
+		ItemType &operator[](int64_t const index)
 		{
 			return _deque[index];
 		}
@@ -345,7 +345,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual ItemType const &operator[](int64_t const index) const
+		ItemType const &operator[](int64_t const index) const
 		{
 			return _deque[index];
 		}

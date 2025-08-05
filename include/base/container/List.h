@@ -123,7 +123,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual bool Remove(ItemType const &item) override
+		bool Remove(ItemType const &item)
 		{
 			auto it = std::find_if(_vector.begin(),
 								   _vector.end(),
@@ -266,7 +266,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual ItemType &operator[](int64_t const index)
+		ItemType &operator[](int64_t const index)
 		{
 			return IRawArray<ItemType>::operator[](index);
 		}
@@ -278,7 +278,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual ItemType const &operator[](int64_t const index) const
+		ItemType const &operator[](int64_t const index) const
 		{
 			return IRawArray<ItemType>::operator[](index);
 		}

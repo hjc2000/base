@@ -37,8 +37,6 @@ namespace base
 			 */
 			virtual void Insert(int64_t index, base::math::Path const &item) override;
 
-			using base::IList<base::math::Path>::Remove;
-
 			/**
 			 * @brief 从列表移除指定元素。
 			 *
@@ -48,7 +46,7 @@ namespace base
 			 * @return true
 			 * @return false
 			 */
-			virtual bool Remove(base::math::Path const &item) override;
+			bool Remove(base::math::Path const &item);
 
 			/**
 			 * @brief 移除指定索引位置的元素。

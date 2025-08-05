@@ -90,17 +90,6 @@ namespace base
 		virtual void Insert(int64_t index, ItemType const &item) = 0;
 
 		///
-		/// @brief 从列表移除指定元素。
-		///
-		/// @note 如果列表中有重复元素，调用一次本方法只会移除一个。
-		///
-		/// @param item
-		///
-		/// @return
-		///
-		virtual bool Remove(ItemType const &item) = 0;
-
-		///
 		/// @brief 移除指定索引位置的元素。
 		///
 		/// @param index
