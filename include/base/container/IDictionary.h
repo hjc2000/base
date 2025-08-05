@@ -12,6 +12,8 @@ namespace base
 		public base::IEnumerable<std::pair<KeyType const, ValueType>>
 	{
 	public:
+		/* #region 接口 */
+
 		///
 		/// @brief 获取元素个数。
 		///
@@ -60,6 +62,8 @@ namespace base
 		/// @return
 		///
 		virtual std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>> GetEnumerator() override = 0;
+
+		/* #endregion */
 
 		/* #region 接口扩展 */
 
