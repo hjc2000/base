@@ -2,6 +2,7 @@
 #include "base/Console.h"
 #include "base/container/IDictionary.h"
 #include "base/container/iterator/IEnumerator.h"
+#include "base/container/StdPairWrapper.h"
 #include "base/filesystem/DirectoryEntry.h"
 #include "base/filesystem/filesystem.h"
 #include "base/filesystem/IFileStream.h"
@@ -35,8 +36,7 @@ namespace base
 			{
 			private:
 				std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _enumerator;
-				bool _should_destruct_current_value = true;
-				std::pair<std::string const, std::shared_ptr<base::Stream> const> _current_value;
+				base::StdPairWrapper<std::string const, std::shared_ptr<base::Stream> const> _current_value;
 
 			public:
 				Enumerator(base::Path const &workspace)
@@ -67,22 +67,12 @@ namespace base
 					std::string key = entry.Path().LastName().ToString();
 					std::shared_ptr<base::Stream> file_stream = base::file::OpenExisting(entry.Path());
 
-					if (_should_destruct_current_value)
-					{
-						_current_value.~pair();
-						_should_destruct_current_value = false;
-					}
-
-					new (&_current_value) std::pair<std::string const, std::shared_ptr<base::Stream> const>{
+					_current_value = std::pair<std::string const, std::shared_ptr<base::Stream> const>{
 						key,
 						file_stream,
 					};
 
-					// 如果构造发生了异常，走不到这里，下次再次调用本函数不会执行
-					// _current_value.~pair();
-					_should_destruct_current_value = true;
-
-					return _current_value;
+					return _current_value.Pair();
 				}
 
 				///
