@@ -18,12 +18,22 @@ namespace base
 		{
 		}
 
-		constexpr TKey Key() const
+		constexpr TKey &Key()
 		{
 			return _key;
 		}
 
-		constexpr TValue Value() const
+		constexpr TKey const &Key() const
+		{
+			return _key;
+		}
+
+		constexpr TValue &Value()
+		{
+			return _value;
+		}
+
+		constexpr TValue const &Value() const
 		{
 			return _value;
 		}
