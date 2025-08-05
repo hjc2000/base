@@ -104,24 +104,6 @@ namespace base
 		virtual void RemoveIf(std::function<bool(ItemType const &item)> should_remove) = 0;
 
 		///
-		/// @brief 查找指定元素的索引。
-		///
-		/// @param item
-		///
-		/// @return
-		///
-		virtual int64_t IndexOf(ItemType const &item) const = 0;
-
-		///
-		/// @brief 检查列表中是否含有该元素。
-		///
-		/// @param item
-		///
-		/// @return
-		///
-		virtual bool Contains(ItemType const &item) const = 0;
-
-		///
 		/// @brief 清空列表。
 		///
 		///

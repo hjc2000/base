@@ -68,7 +68,7 @@ namespace base
 			 * @param item
 			 * @return int64_t
 			 */
-			virtual int64_t IndexOf(base::math::Path const &item) const override;
+			int64_t IndexOf(base::math::Path const &item) const;
 
 			/**
 			 * @brief 检查列表中是否含有该元素。
@@ -77,7 +77,7 @@ namespace base
 			 * @return true
 			 * @return false
 			 */
-			virtual bool Contains(base::math::Path const &item) const override;
+			bool Contains(base::math::Path const &item) const;
 
 			/**
 			 * @brief 清空列表。

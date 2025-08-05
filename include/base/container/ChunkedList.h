@@ -190,7 +190,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual int64_t IndexOf(ItemType const &item) const override
+		int64_t IndexOf(ItemType const &item) const
 		{
 			auto it = std::find_if(_deque.begin(),
 								   _deque.end(),
@@ -215,7 +215,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual bool Contains(ItemType const &item) const override
+		bool Contains(ItemType const &item) const
 		{
 			auto it = std::find_if(_deque.begin(),
 								   _deque.end(),
