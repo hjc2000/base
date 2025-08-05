@@ -3,7 +3,6 @@
 #include "base/container/IRawArray.h"
 #include "base/container/iterator/IEnumerable.h"
 #include "base/sfinae/Compare.h"
-#include "base/sfinae/Equal.h"
 #include "base/string/define.h"
 #include <algorithm>
 #include <cstdint>

@@ -2,7 +2,6 @@
 #include "base/container/IQueue.h"
 #include "base/container/iterator/IEnumerable.h"
 #include "base/sfinae/Compare.h"
-#include "base/sfinae/Equal.h"
 #include <array>
 #include <cstdint>
 #include <initializer_list>
