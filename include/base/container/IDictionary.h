@@ -52,8 +52,6 @@ namespace base
 		///
 		virtual void Set(KeyType const &key, ValueType const &item) = 0;
 
-		/* #region GetEnumerator */
-
 		using base::IEnumerable<std::pair<KeyType const, ValueType>>::GetEnumerator;
 
 		///
@@ -62,8 +60,6 @@ namespace base
 		/// @return
 		///
 		virtual std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>> GetEnumerator() override = 0;
-
-		/* #endregion */
 
 		/* #region 接口扩展 */
 
@@ -130,7 +126,7 @@ namespace base
 
 		/* #endregion */
 
-		/* #region Add */
+		/* #region 接口扩展 Add */
 
 		///
 		/// @brief 添加一个键值对到字典中。如果此键已经存在，会抛出异常。
