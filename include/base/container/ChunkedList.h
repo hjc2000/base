@@ -253,7 +253,8 @@ namespace base
 		/// @warning 需要 ItemType 实现了比较运算符，否则会引发异常。
 		///
 		void Sort(bool ascending = true)
-			requires(base::has_less_than_operator<ItemType>)
+			requires(base::has_less_than_operator<ItemType> &&
+					 base::has_greater_than_operator<ItemType>)
 		{
 			try
 			{
@@ -272,7 +273,7 @@ namespace base
 									 }
 									 else
 									 {
-										 return base::GreaterThan(left, right);
+										 return left > right;
 									 }
 								 });
 			}
