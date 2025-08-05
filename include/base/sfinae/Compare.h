@@ -1,8 +1,8 @@
 #pragma once
 #include "base/sfinae/Equal.h" // IWYU pragma: export
 #include "base/string/define.h"
-#include <concepts>
 #include <stdexcept>
+#include <type_traits>
 
 namespace base
 {
@@ -10,7 +10,7 @@ namespace base
 
 	template <typename T, typename = void>
 	concept has_less_than_operator = requires(T a, T b) {
-		requires std::same_as<decltype(a < b), bool>;
+		requires(std::is_same_v<decltype(a < b), bool>);
 	};
 
 	template <typename T>
@@ -34,7 +34,7 @@ namespace base
 
 	template <typename T, typename = void>
 	concept has_greater_than_operator = requires(T a, T b) {
-		requires std::same_as<decltype(a > b), bool>;
+		requires(std::is_same_v<decltype(a > b), bool>);
 	};
 
 	template <typename T>
@@ -58,7 +58,7 @@ namespace base
 
 	template <typename T, typename = void>
 	concept has_less_than_or_equal_operator = requires(T a, T b) {
-		requires std::same_as<decltype(a <= b), bool>;
+		requires(std::is_same_v<decltype(a <= b), bool>);
 	};
 
 	template <typename T>
@@ -82,7 +82,7 @@ namespace base
 
 	template <typename T, typename = void>
 	concept has_greater_than_or_equal_operator = requires(T a, T b) {
-		requires std::same_as<decltype(a >= b), bool>;
+		requires(std::is_same_v<decltype(a >= b), bool>);
 	};
 
 	template <typename T>

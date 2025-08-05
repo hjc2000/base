@@ -1,4 +1,5 @@
 #pragma once
+#include <type_traits>
 
 namespace base
 {
@@ -11,7 +12,7 @@ namespace base
 	///
 	template <typename T>
 	concept has_equal_operator = requires(T a, T b) {
-		requires std::same_as<decltype(a == b), bool>;
+		requires(std::is_same_v<decltype(a == b), bool>);
 	};
 
 	///
@@ -19,7 +20,7 @@ namespace base
 	///
 	/// @param lhs
 	/// @param rhs
-	/// @return std::enable_if_t<base::has_equal_operator<T>::value, bool>
+	/// @return
 	///
 	template <typename T>
 		requires(base::has_equal_operator<T>)
@@ -33,7 +34,7 @@ namespace base
 	///
 	/// @param lhs
 	/// @param rhs
-	/// @return std::enable_if_t<!base::has_equal_operator<T>::value, bool>
+	/// @return
 	///
 	template <typename T>
 		requires(!base::has_equal_operator<T>)
