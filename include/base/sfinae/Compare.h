@@ -4,7 +4,7 @@
 namespace base
 {
 	///
-	/// @brief 概念：T 具有比较运算符。
+	/// @brief 概念：具有相等运算符。
 	///
 	/// @param a
 	/// @param b
@@ -15,21 +15,49 @@ namespace base
 		requires(std::is_same_v<decltype(a == b), bool>);
 	};
 
+	///
+	/// @brief 概念：具有小于运算符。
+	///
+	/// @param a
+	/// @param b
+	/// @return
+	///
 	template <typename T, typename = void>
 	concept has_less_than_operator = requires(T a, T b) {
 		requires(std::is_same_v<decltype(a < b), bool>);
 	};
 
+	///
+	/// @brief 概念：具有大于运算符。
+	///
+	/// @param a
+	/// @param b
+	/// @return
+	///
 	template <typename T, typename = void>
 	concept has_greater_than_operator = requires(T a, T b) {
 		requires(std::is_same_v<decltype(a > b), bool>);
 	};
 
+	///
+	/// @brief 概念：具有小于等于运算符。
+	///
+	/// @param a
+	/// @param b
+	/// @return
+	///
 	template <typename T, typename = void>
 	concept has_less_than_or_equal_operator = requires(T a, T b) {
 		requires(std::is_same_v<decltype(a <= b), bool>);
 	};
 
+	///
+	/// @brief 概念：具有大于等于运算符。
+	///
+	/// @param a
+	/// @param b
+	/// @return
+	///
 	template <typename T, typename = void>
 	concept has_greater_than_or_equal_operator = requires(T a, T b) {
 		requires(std::is_same_v<decltype(a >= b), bool>);
