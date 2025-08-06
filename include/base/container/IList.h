@@ -335,7 +335,7 @@ namespace base
 			// 执行到这里说明 Count 相等。
 			for (int64_t i = 0; i < Count(); i++)
 			{
-				if ((*this)[i] != o[i])
+				if (Get(i) != o.Get(i))
 				{
 					return false;
 				}
@@ -357,12 +357,12 @@ namespace base
 			int64_t count = std::min(Count(), o.Count());
 			for (int64_t i = 0; i < count; i++)
 			{
-				if ((*this)[i] < o[i])
+				if (Get(i) < o.Get(i))
 				{
 					return true;
 				}
 
-				if ((*this)[i] > o[i])
+				if (Get(i) > o.Get(i))
 				{
 					return false;
 				}
@@ -387,12 +387,12 @@ namespace base
 			int64_t count = std::min(Count(), o.Count());
 			for (int64_t i = 0; i < count; i++)
 			{
-				if ((*this)[i] > o[i])
+				if (Get(i) > o.Get(i))
 				{
 					return true;
 				}
 
-				if ((*this)[i] < o[i])
+				if (Get(i) < o.Get(i))
 				{
 					return false;
 				}
@@ -417,12 +417,12 @@ namespace base
 			int64_t count = std::min(Count(), o.Count());
 			for (int64_t i = 0; i < count; i++)
 			{
-				if ((*this)[i] < o[i])
+				if (Get(i) < o.Get(i))
 				{
 					return true;
 				}
 
-				if ((*this)[i] > o[i])
+				if (Get(i) > o.Get(i))
 				{
 					return false;
 				}
@@ -447,12 +447,12 @@ namespace base
 			int64_t count = std::min(Count(), o.Count());
 			for (int64_t i = 0; i < count; i++)
 			{
-				if ((*this)[i] > o[i])
+				if (Get(i) > o.Get(i))
 				{
 					return true;
 				}
 
-				if ((*this)[i] < o[i])
+				if (Get(i) < o.Get(i))
 				{
 					return false;
 				}
