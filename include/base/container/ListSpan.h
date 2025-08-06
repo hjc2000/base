@@ -102,6 +102,12 @@ namespace base
 			_list->Set(index + _start_index, value);
 		}
 
+		///
+		/// @brief 尽可能增大起始索引的值。这会导致窗口缩小。
+		///
+		/// @param value
+		/// @return
+		///
 		constexpr int64_t AddStartAsFarAsPossible(int64_t value)
 		{
 			if (value < 0)
@@ -125,6 +131,12 @@ namespace base
 			return delta;
 		}
 
+		///
+		/// @brief 尽可能减小起始索引的值。这会导致窗口扩大。
+		///
+		/// @param value
+		/// @return
+		///
 		constexpr int64_t SubtractStartAsFarAsPossible(int64_t value)
 		{
 			if (value < 0)
@@ -149,7 +161,7 @@ namespace base
 		}
 
 		///
-		/// @brief 尽可能通过增大尾部扩大窗口大小。如果窗口已经顶到列表边界了就会无法继续扩大更多。
+		/// @brief 尽可能增大结束索引的值，这会导致窗口扩大。如果窗口已经顶到列表边界了就会无法继续扩大更多。
 		///
 		/// @param expand_size
 		/// @return
@@ -177,6 +189,12 @@ namespace base
 			return delta;
 		}
 
+		///
+		/// @brief 尽可能减小结束索引的值。这会导致窗口缩小。
+		///
+		/// @param value
+		/// @return
+		///
 		constexpr int64_t SubtractEndAsFarAsPossible(int64_t value)
 		{
 			if (value < 0)
