@@ -11,15 +11,12 @@ namespace base
 	class ListSpan
 	{
 	private:
-		base::IList<ItemType> &_list;
+		base::IList<ItemType> *_list = nullptr;
 		int64_t _start_index = 0;
 		int64_t _end_index = 0;
 
 	public:
 		ListSpan(base::IList<ItemType> &list, int64_t start_index, int64_t end_index)
-			: _list(list),
-			  _start_index(start_index),
-			  _end_index(end_index)
 		{
 			if (start_index < 0)
 			{
@@ -36,10 +33,14 @@ namespace base
 				throw std::invalid_argument{CODE_POS_STR + "end_index 不能小于 start_index."};
 			}
 
-			if (end_index > _list.Count())
+			if (end_index > list.Count())
 			{
 				throw std::invalid_argument{CODE_POS_STR + "end_index 超出范围."};
 			}
+
+			_list = &list;
+			_start_index = start_index;
+			_end_index = end_index;
 		}
 
 		int64_t StartIndex() const
@@ -71,7 +72,7 @@ namespace base
 		///
 		ItemType &Get(int64_t index)
 		{
-			return _list.Get(index + _start_index);
+			return _list->Get(index + _start_index);
 		}
 
 		///
@@ -83,7 +84,7 @@ namespace base
 		///
 		ItemType const &Get(int64_t index) const
 		{
-			return _list.Get(index + _start_index);
+			return _list->Get(index + _start_index);
 		}
 
 		///
@@ -94,7 +95,7 @@ namespace base
 		///
 		void Set(int64_t index, ItemType const &value)
 		{
-			_list.Set(index + _start_index, value);
+			_list->Set(index + _start_index, value);
 		}
 
 		int64_t AddStartAsFarAsPossible(int64_t value)
@@ -161,7 +162,7 @@ namespace base
 				return 0;
 			}
 
-			int64_t possible = _list.Count() - _end_index;
+			int64_t possible = _list->Count() - _end_index;
 			if (possible <= 0)
 			{
 				return 0;
@@ -208,7 +209,7 @@ namespace base
 				return false;
 			}
 
-			if (_end_index + step > _list.Count())
+			if (_end_index + step > _list->Count())
 			{
 				return false;
 			}
@@ -231,7 +232,7 @@ namespace base
 
 			if (step > 0)
 			{
-				int64_t avalible = _list.Count() - _end_index;
+				int64_t avalible = _list->Count() - _end_index;
 				delta = std::min(step, avalible);
 				TryMove(delta);
 			}
