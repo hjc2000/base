@@ -42,6 +42,16 @@ namespace base
 			}
 		}
 
+		int64_t StartIndex() const
+		{
+			return _start_index;
+		}
+
+		int64_t EndIndex() const
+		{
+			return _end_index;
+		}
+
 		///
 		/// @brief 列表中元素的数量。
 		///
@@ -135,6 +145,25 @@ namespace base
 			}
 
 			return have_moved;
+		}
+
+		///
+		/// @brief 尽可能扩大窗口大小。如果窗口已经顶到列表边界了就会无法继续扩大更多。
+		///
+		/// @param expand_size
+		/// @return
+		///
+		int64_t ExpandAsFarAsPossible(int64_t expand_size)
+		{
+			int64_t possible = _list.Count() - _end_index;
+			if (possible <= 0)
+			{
+				return 0;
+			}
+
+			int64_t have_expand = std::min(possible, expand_size);
+			_end_index += have_expand;
+			return have_expand;
 		}
 	};
 
