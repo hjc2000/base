@@ -20,6 +20,8 @@ namespace base
 		int64_t _end_index = 0;
 
 	public:
+		ListSpan() = default;
+
 		constexpr ListSpan(base::IList<ItemType> &list, int64_t start_index, int64_t end_index)
 		{
 			if (start_index < 0)
