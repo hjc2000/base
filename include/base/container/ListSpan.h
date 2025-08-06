@@ -7,6 +7,10 @@
 
 namespace base
 {
+	///
+	/// @brief 列表段，用来实现列表上的滑动窗口。
+	///
+	///
 	template <typename ItemType>
 	class ListSpan
 	{
@@ -16,7 +20,7 @@ namespace base
 		int64_t _end_index = 0;
 
 	public:
-		ListSpan(base::IList<ItemType> &list, int64_t start_index, int64_t end_index)
+		constexpr ListSpan(base::IList<ItemType> &list, int64_t start_index, int64_t end_index)
 		{
 			if (start_index < 0)
 			{
@@ -43,12 +47,12 @@ namespace base
 			_end_index = end_index;
 		}
 
-		int64_t StartIndex() const
+		constexpr int64_t StartIndex() const
 		{
 			return _start_index;
 		}
 
-		int64_t EndIndex() const
+		constexpr int64_t EndIndex() const
 		{
 			return _end_index;
 		}
@@ -58,7 +62,7 @@ namespace base
 		///
 		/// @return
 		///
-		int64_t Count() const
+		constexpr int64_t Count() const
 		{
 			return _end_index - _start_index;
 		}
@@ -70,7 +74,7 @@ namespace base
 		///
 		/// @return
 		///
-		ItemType &Get(int64_t index)
+		constexpr ItemType &Get(int64_t index)
 		{
 			return _list->Get(index + _start_index);
 		}
@@ -82,7 +86,7 @@ namespace base
 		///
 		/// @return
 		///
-		ItemType const &Get(int64_t index) const
+		constexpr ItemType const &Get(int64_t index) const
 		{
 			return _list->Get(index + _start_index);
 		}
@@ -93,12 +97,12 @@ namespace base
 		/// @param index
 		/// @param value
 		///
-		void Set(int64_t index, ItemType const &value)
+		constexpr void Set(int64_t index, ItemType const &value)
 		{
 			_list->Set(index + _start_index, value);
 		}
 
-		int64_t AddStartAsFarAsPossible(int64_t value)
+		constexpr int64_t AddStartAsFarAsPossible(int64_t value)
 		{
 			if (value < 0)
 			{
@@ -121,7 +125,7 @@ namespace base
 			return delta;
 		}
 
-		int64_t SubtractStartAsFarAsPossible(int64_t value)
+		constexpr int64_t SubtractStartAsFarAsPossible(int64_t value)
 		{
 			if (value < 0)
 			{
@@ -150,7 +154,7 @@ namespace base
 		/// @param expand_size
 		/// @return
 		///
-		int64_t AddEndAsFarAsPossible(int64_t value)
+		constexpr int64_t AddEndAsFarAsPossible(int64_t value)
 		{
 			if (value < 0)
 			{
@@ -173,7 +177,7 @@ namespace base
 			return delta;
 		}
 
-		int64_t SubtractEndAsFarAsPossible(int64_t value)
+		constexpr int64_t SubtractEndAsFarAsPossible(int64_t value)
 		{
 			if (value < 0)
 			{
@@ -202,7 +206,7 @@ namespace base
 		/// @param step
 		/// @return
 		///
-		bool TryMove(int64_t step)
+		constexpr bool TryMove(int64_t step)
 		{
 			if (_start_index + step < 0)
 			{
@@ -226,7 +230,7 @@ namespace base
 		///
 		/// @return 实际移动距离。
 		///
-		int64_t TryMoveAsFarAsPossible(int64_t step)
+		constexpr int64_t TryMoveAsFarAsPossible(int64_t step)
 		{
 			int64_t delta = 0;
 
