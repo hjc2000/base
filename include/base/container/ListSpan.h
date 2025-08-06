@@ -148,12 +148,12 @@ namespace base
 		}
 
 		///
-		/// @brief 尽可能扩大窗口大小。如果窗口已经顶到列表边界了就会无法继续扩大更多。
+		/// @brief 尽可能通过增大尾部扩大窗口大小。如果窗口已经顶到列表边界了就会无法继续扩大更多。
 		///
 		/// @param expand_size
 		/// @return
 		///
-		int64_t ExpandAsFarAsPossible(int64_t expand_size)
+		int64_t AddEndAsFarAsPossible(int64_t expand_size)
 		{
 			int64_t possible = _list.Count() - _end_index;
 			if (possible <= 0)
