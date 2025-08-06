@@ -194,6 +194,56 @@ namespace base
 			_end_index -= delta;
 			return delta;
 		}
+
+		///
+		/// @brief 移动列表窗口。
+		///
+		/// @param step
+		/// @return
+		///
+		bool TryMove(int64_t step)
+		{
+			if (_start_index + step < 0)
+			{
+				return false;
+			}
+
+			if (_end_index + step > _list.Count())
+			{
+				return false;
+			}
+
+			_start_index += step;
+			_end_index += step;
+			return true;
+		}
+
+		///
+		/// @brief 尽可能移动列表窗口。如果窗口已经顶到列表边界了就会无法继续移动更多。
+		///
+		/// @param step
+		///
+		/// @return 实际移动距离。
+		///
+		int64_t TryMoveAsFarAsPossible(int64_t step)
+		{
+			int64_t delta = 0;
+
+			if (step > 0)
+			{
+				int64_t avalible = _list.Count() - _end_index;
+				delta = std::min(step, avalible);
+				TryMove(delta);
+			}
+			else if (step < 0)
+			{
+				int64_t avalible = -_start_index;
+				delta = std::max(step, avalible);
+				TryMove(delta);
+			}
+
+			return delta;
+		}
 	};
 
 } // namespace base
