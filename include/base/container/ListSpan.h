@@ -147,23 +147,102 @@ namespace base
 			return have_moved;
 		}
 
+		int64_t AddStartAsFarAsPossible(int64_t value)
+		{
+			if (value < 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "value 不能小于 0."};
+			}
+
+			if (value == 0)
+			{
+				return 0;
+			}
+
+			int64_t possible = _end_index - _start_index;
+			if (possible <= 0)
+			{
+				return 0;
+			}
+
+			int64_t delta = std::min(possible, value);
+			_start_index += delta;
+			return delta;
+		}
+
+		int64_t SubtractStartAsFarAsPossible(int64_t value)
+		{
+			if (value < 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "value 不能小于 0."};
+			}
+
+			if (value == 0)
+			{
+				return 0;
+			}
+
+			int64_t possible = _start_index;
+			if (possible <= 0)
+			{
+				return 0;
+			}
+
+			int64_t delta = std::min(possible, value);
+			_start_index -= delta;
+			return delta;
+		}
+
 		///
 		/// @brief 尽可能通过增大尾部扩大窗口大小。如果窗口已经顶到列表边界了就会无法继续扩大更多。
 		///
 		/// @param expand_size
 		/// @return
 		///
-		int64_t AddEndAsFarAsPossible(int64_t expand_size)
+		int64_t AddEndAsFarAsPossible(int64_t value)
 		{
+			if (value < 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "value 不能小于 0."};
+			}
+
+			if (value == 0)
+			{
+				return 0;
+			}
+
 			int64_t possible = _list.Count() - _end_index;
 			if (possible <= 0)
 			{
 				return 0;
 			}
 
-			int64_t have_expand = std::min(possible, expand_size);
-			_end_index += have_expand;
-			return have_expand;
+			int64_t delta = std::min(possible, value);
+			_end_index += delta;
+			return delta;
+		}
+
+		int64_t SubtractEndAsFarAsPossible(int64_t value)
+		{
+			if (value < 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "value 不能小于 0."};
+			}
+
+			if (value == 0)
+			{
+				return 0;
+			}
+
+			int64_t possible = _end_index - _start_index;
+			if (possible <= 0)
+			{
+				return 0;
+			}
+
+			int64_t delta = std::min(possible, value);
+			_end_index -= delta;
+			return delta;
 		}
 	};
 
