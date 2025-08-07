@@ -73,6 +73,12 @@ namespace base
 				return *this;
 			}
 
+			Iterator operator+(int64_t value)
+			{
+				std::cout << "operator+ 被调用" << std::endl;
+				return *this;
+			}
+
 			int64_t operator-(Iterator const &other) const
 			{
 				std::cout << "operator- 被调用" << std::endl;
