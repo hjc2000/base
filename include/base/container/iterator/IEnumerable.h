@@ -61,7 +61,7 @@ namespace base
 		/* #endregion */
 
 	public:
-		/* #region ForwardIterator */
+		/* #region Iterator */
 
 		///
 		/// @brief 包装 IEnumerator 对象，并提供 C++ 迭代器的方法。这样就能在 begin, end
@@ -70,15 +70,15 @@ namespace base
 		/// @tparam item_type
 		///
 		template <typename item_type>
-		class ForwardIterator
+		class Iterator
 		{
 		private:
 			std::shared_ptr<IEnumerator<item_type>> _enumerator;
 
 		public:
-			ForwardIterator() = default;
+			Iterator() = default;
 
-			ForwardIterator(std::shared_ptr<IEnumerator<item_type>> enumertor)
+			Iterator(std::shared_ptr<IEnumerator<item_type>> enumertor)
 			{
 				_enumerator = enumertor;
 			}
@@ -98,7 +98,7 @@ namespace base
 			///
 			/// @return
 			///
-			ForwardIterator<item_type> &operator++()
+			Iterator<item_type> &operator++()
 			{
 				_enumerator->Add();
 				return *this;
@@ -109,14 +109,14 @@ namespace base
 			///
 			/// @return
 			///
-			ForwardIterator<item_type> operator++(int)
+			Iterator<item_type> operator++(int)
 			{
-				ForwardIterator<item_type> ret{*this};
+				Iterator<item_type> ret{*this};
 				++(*this);
 				return ret;
 			}
 
-			bool operator==(ForwardIterator<item_type> const &o) const
+			bool operator==(Iterator<item_type> const &o) const
 			{
 				if (_enumerator != nullptr)
 				{
@@ -131,7 +131,7 @@ namespace base
 				return true;
 			}
 
-			bool operator!=(ForwardIterator<item_type> const &o) const
+			bool operator!=(Iterator<item_type> const &o) const
 			{
 				return !(*this == o);
 			}
@@ -167,24 +167,24 @@ namespace base
 			}};
 		}
 
-		ForwardIterator<ItemType> begin()
+		Iterator<ItemType> begin()
 		{
-			return ForwardIterator<ItemType>{GetEnumerator()};
+			return Iterator<ItemType>{GetEnumerator()};
 		}
 
-		ForwardIterator<ItemType> end()
+		Iterator<ItemType> end()
 		{
-			return ForwardIterator<ItemType>{};
+			return Iterator<ItemType>{};
 		}
 
-		ForwardIterator<ItemType const> begin() const
+		Iterator<ItemType const> begin() const
 		{
-			return ForwardIterator<ItemType const>{GetEnumerator()};
+			return Iterator<ItemType const>{GetEnumerator()};
 		}
 
-		ForwardIterator<ItemType const> end() const
+		Iterator<ItemType const> end() const
 		{
-			return ForwardIterator<ItemType const>{};
+			return Iterator<ItemType const>{};
 		}
 
 		/* #endregion */
