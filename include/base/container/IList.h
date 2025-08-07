@@ -28,11 +28,11 @@ namespace base
 			public base::IEnumerator<ItemType>
 		{
 		private:
-			IList<ItemType> *_list;
+			base::IList<ItemType> *_list;
 			int64_t _index = 0;
 
 		public:
-			Enumerator(IList<ItemType> *list)
+			Enumerator(base::IList<ItemType> *list)
 			{
 				_list = list;
 			}
