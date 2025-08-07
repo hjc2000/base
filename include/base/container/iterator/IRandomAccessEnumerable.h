@@ -1,10 +1,12 @@
 #pragma once
+#include "base/container/iterator/IEnumerable.h"
 #include "base/container/iterator/IRandomAccessEnumerator.h"
 
 namespace base
 {
 	template <typename ItemType>
-	class IRandomAccessEnumerable
+	class IRandomAccessEnumerable :
+		public base::IEnumerable<ItemType>
 	{
 	private:
 		/* #region const 迭代器 */
@@ -209,27 +211,39 @@ namespace base
 		///
 		/// @return
 		///
-		virtual std::shared_ptr<base::IRandomAccessEnumerable<ItemType>> GetEnumerator() = 0;
+		virtual std::shared_ptr<base::IRandomAccessEnumerable<ItemType>> GetRandomAccessEnumerator() = 0;
 
 		/* #endregion */
 
 		/* #region 接口扩展 */
+
+		using base::IEnumerable<ItemType>::GetEnumerator;
+
+		///
+		/// @brief 获取非 const 迭代器
+		///
+		/// @return
+		///
+		virtual std::shared_ptr<base::IEnumerator<ItemType>> GetEnumerator() override final
+		{
+			return GetRandomAccessEnumerator();
+		}
 
 		///
 		/// @brief 获取 const 迭代器
 		///
 		/// @return
 		///
-		std::shared_ptr<base::IEnumerator<ItemType const>> GetEnumerator() const
+		std::shared_ptr<base::IEnumerator<ItemType const>> GetRandomAccessEnumerator() const
 		{
 			return std::shared_ptr<IEnumerator<ItemType const>>{new ConstEnumerator<ItemType>{
-				const_cast<base::IRandomAccessEnumerable<ItemType> *>(this)->GetEnumerator(),
+				const_cast<base::IRandomAccessEnumerable<ItemType> *>(this)->GetRandomAccessEnumerator(),
 			}};
 		}
 
 		Iterator<ItemType> begin()
 		{
-			return Iterator<ItemType>{GetEnumerator()};
+			return Iterator<ItemType>{GetRandomAccessEnumerator()};
 		}
 
 		Iterator<ItemType> end()
@@ -239,7 +253,7 @@ namespace base
 
 		Iterator<ItemType const> begin() const
 		{
-			return Iterator<ItemType const>{GetEnumerator()};
+			return Iterator<ItemType const>{GetRandomAccessEnumerator()};
 		}
 
 		Iterator<ItemType const> end() const
