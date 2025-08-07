@@ -164,6 +164,41 @@ namespace base
 				return *this;
 			}
 
+			Iterator &operator+=(int64_t value)
+			{
+				_enumerator->Add(value);
+				return *this;
+			}
+
+			int64_t operator-(Iterator const &other) const
+			{
+				if (_enumerator == nullptr && other._enumerator != nullptr)
+				{
+					// 本对象是 end, other 不是 end.
+					// end - other
+					return other._enumerator->Count() - other._enumerator->Position();
+				}
+
+				if (_enumerator != nullptr && other._enumerator == nullptr)
+				{
+					// 本对象不是 end, other 是 end.
+					// this - end
+					return _enumerator->Position() - _enumerator->Count();
+				}
+
+				if (_enumerator != nullptr && other._enumerator != nullptr)
+				{
+					return _enumerator->Position() - other._enumerator->Position();
+				}
+
+				if (_enumerator == nullptr && other._enumerator == nullptr)
+				{
+					return 0;
+				}
+
+				return 0;
+			}
+
 			bool operator==(Iterator<item_type> const &other) const
 			{
 				if (_enumerator != nullptr && other._enumerator == nullptr)
