@@ -81,29 +81,36 @@ namespace base
 				return 0;
 			}
 
-			bool operator==(Iterator const &o) const
+			bool operator==(Iterator const &other) const
 			{
 				if (_enumerator != nullptr)
 				{
+					// 本对象不是 end.
+					if (_count <= 0)
+					{
+						return true;
+					}
+
 					return _enumerator->IsEnd();
 				}
 
-				if (o._enumerator != nullptr)
+				if (other._enumerator != nullptr)
 				{
-					return o._enumerator->IsEnd();
-				}
+					// 本对象是 end 而 other 不是。
+					if (other._count <= 0)
+					{
+						return true;
+					}
 
-				if (_count == o._count)
-				{
-					return true;
+					return other._enumerator->IsEnd();
 				}
 
 				return true;
 			}
 
-			bool operator!=(Iterator const &o) const
+			bool operator!=(Iterator const &other) const
 			{
-				return !(*this == o);
+				return !(*this == other);
 			}
 		};
 
