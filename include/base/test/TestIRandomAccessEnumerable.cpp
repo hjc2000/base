@@ -1,4 +1,5 @@
 #include "TestIRandomAccessEnumerable.h" // IWYU pragma: keep
+#include "base/container/ChunkedList.h"
 #include "base/container/List.h"
 #include <deque>
 #include <iostream>
@@ -28,7 +29,7 @@ void base::test::TestIRandomAccessEnumerable()
 		std::cout << std::endl
 				  << "测试 std::deque" << std::endl;
 
-		base::List<int> list{0, 1, 2, 3};
+		base::ChunkedList<int> list{0, 1, 2, 3};
 		std::deque<int> deque{6, 6, 6, 6, 6, 6};
 		deque.insert(deque.begin() + 1, list.begin(), list.end());
 
