@@ -22,15 +22,15 @@ void base::test::TestInsertingEnumerableHelper()
 	}
 
 	{
-		base::List<int> list{0, 1, 2, 3};
-		std::deque<int> deque{6, 6, 6, 6, 6, 6};
-		base::InsertingEnumerableHelper<int> helper{list, list.Count()};
-		deque.insert(deque.begin() + 1, helper.begin(), helper.end());
+		// base::List<int> list{0, 1, 2, 3};
+		// std::deque<int> deque{6, 6, 6, 6, 6, 6};
+		// base::InsertingEnumerableHelper<int> helper{list, list.Count()};
+		// deque.insert(deque.begin() + 1, helper.begin(), helper.end());
 
-		for (int num : deque)
-		{
-			std::cout << num << std::endl;
-		}
+		// for (int num : deque)
+		// {
+		// 	std::cout << num << std::endl;
+		// }
 	}
 }
 

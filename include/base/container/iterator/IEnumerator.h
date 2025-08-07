@@ -6,7 +6,7 @@ namespace base
 	class IEnumerator
 	{
 	private:
-		bool _is_first_move = true;
+		bool _has_not_moved = true;
 
 	public:
 		virtual ~IEnumerator() = default;
@@ -54,9 +54,9 @@ namespace base
 		///
 		bool MoveToNext()
 		{
-			if (_is_first_move)
+			if (_has_not_moved)
 			{
-				_is_first_move = false;
+				_has_not_moved = false;
 			}
 			else if (IsNotEnd())
 			{
