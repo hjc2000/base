@@ -237,68 +237,6 @@ namespace base
 
 		/* #endregion */
 
-		/* #region Insert */
-
-		void Insert(int64_t index, IList<ItemType> const &list)
-		{
-			for (ItemType const &item : list)
-			{
-				Insert(index++, item);
-			}
-		}
-
-		void Insert(int64_t index, base::IQueue<ItemType> &queue)
-		{
-			ItemType item{};
-			while (queue.TryDequeue(item))
-			{
-				Insert(index++, item);
-			}
-		}
-
-		void Insert(int64_t index, base::IEnumerable<ItemType> const &items)
-		{
-			for (ItemType const &item : items)
-			{
-				Insert(index++, item);
-			}
-		}
-
-		void Insert(int64_t index, base::IEnumerable<ItemType const> const &items)
-		{
-			for (ItemType const &item : items)
-			{
-				Insert(index++, item);
-			}
-		}
-
-		void Insert(int64_t index, std::initializer_list<ItemType> const &list)
-		{
-			for (ItemType const &item : list)
-			{
-				Insert(index++, item);
-			}
-		}
-
-		void Insert(int64_t index, std::vector<ItemType> const &list)
-		{
-			for (ItemType const &item : list)
-			{
-				Insert(index++, item);
-			}
-		}
-
-		template <int64_t Count>
-		void Insert(int64_t index, std::array<ItemType, Count> const &list)
-		{
-			for (ItemType const &item : list)
-			{
-				Insert(index++, item);
-			}
-		}
-
-		/* #endregion */
-
 		/* #region GetEnumerator */
 
 		using base::IEnumerable<ItemType>::GetEnumerator;
