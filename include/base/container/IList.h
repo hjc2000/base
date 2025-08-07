@@ -24,16 +24,15 @@ namespace base
 		/// @brief 用来迭代 IList 的私有迭代器。
 		///
 		///
-		template <typename item_type>
 		class Enumerator final :
-			public base::IEnumerator<item_type>
+			public base::IEnumerator<ItemType>
 		{
 		private:
-			IList<item_type> *_list;
+			IList<ItemType> *_list;
 			int64_t _index = 0;
 
 		public:
-			Enumerator(IList<item_type> *list)
+			Enumerator(IList<ItemType> *list)
 			{
 				_list = list;
 			}
@@ -53,7 +52,7 @@ namespace base
 			///
 			/// @return
 			///
-			virtual item_type &CurrentValue() override
+			virtual ItemType &CurrentValue() override
 			{
 				return _list->Get(_index);
 			}
@@ -248,7 +247,7 @@ namespace base
 		///
 		virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() override
 		{
-			return std::shared_ptr<IEnumerator<ItemType>>{new Enumerator<ItemType>{this}};
+			return std::shared_ptr<IEnumerator<ItemType>>{new Enumerator{this}};
 		}
 
 		/* #endregion */
