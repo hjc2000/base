@@ -74,6 +74,7 @@ namespace base
 		{
 		private:
 			std::shared_ptr<IEnumerator<item_type>> _enumerator;
+			int64_t _position = 0;
 
 		public:
 			Iterator() = default;
@@ -100,20 +101,14 @@ namespace base
 			///
 			Iterator<item_type> &operator++()
 			{
+				if (_enumerator->IsEnd())
+				{
+					return *this;
+				}
+
+				_position++;
 				_enumerator->Add();
 				return *this;
-			}
-
-			///
-			/// @brief 后缀递增。
-			///
-			/// @return
-			///
-			Iterator<item_type> operator++(int)
-			{
-				Iterator<item_type> ret{*this};
-				++(*this);
-				return ret;
 			}
 
 			bool operator==(Iterator<item_type> const &other) const
