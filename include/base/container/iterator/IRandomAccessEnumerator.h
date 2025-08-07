@@ -1,6 +1,7 @@
 #pragma once
 #include "base/container/iterator/IEnumerator.h"
 #include <cstdint>
+#include <memory>
 
 namespace base
 {
@@ -9,6 +10,27 @@ namespace base
 		public base::IEnumerator<ItemType>
 	{
 	public:
+		///
+		/// @brief 克隆一个迭代器对象副本。
+		///
+		/// @return
+		///
+		virtual std::shared_ptr<base::IRandomAccessEnumerator<ItemType>> Clone() const = 0;
+
+		///
+		/// @brief 容器中总共有多少个元素。
+		///
+		/// @return
+		///
+		virtual int64_t Count() const = 0;
+
+		///
+		/// @brief 当前迭代到的位置。
+		///
+		/// @return
+		///
+		virtual int64_t Position() const = 0;
+
 		///
 		/// @brief 将迭代器位置增加 value.
 		///
