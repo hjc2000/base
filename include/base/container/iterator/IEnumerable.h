@@ -116,24 +116,24 @@ namespace base
 				return ret;
 			}
 
-			bool operator==(Iterator<item_type> const &o) const
+			bool operator==(Iterator<item_type> const &other) const
 			{
 				if (_enumerator != nullptr)
 				{
 					return _enumerator->IsEnd();
 				}
 
-				if (o._enumerator != nullptr)
+				if (other._enumerator != nullptr)
 				{
-					return o._enumerator->IsEnd();
+					return other._enumerator->IsEnd();
 				}
 
 				return true;
 			}
 
-			bool operator!=(Iterator<item_type> const &o) const
+			bool operator!=(Iterator<item_type> const &other) const
 			{
-				return !(*this == o);
+				return !(*this == other);
 			}
 		};
 
