@@ -26,6 +26,17 @@ namespace base
 				_enumerator = enumerator;
 			}
 
+			ConstEnumerator(ConstEnumerator const &other)
+			{
+				*this = other;
+			}
+
+			ConstEnumerator &operator=(ConstEnumerator const &other)
+			{
+				_enumerator = other._enumerator->Clone();
+				return *this;
+			}
+
 			///
 			/// @brief 克隆一个迭代器对象副本。
 			///
@@ -33,7 +44,7 @@ namespace base
 			///
 			virtual std::shared_ptr<base::IRandomAccessEnumerator<ItemType const>> Clone() const override
 			{
-				std::shared_ptr<base::IRandomAccessEnumerator<ItemType const>> ret{new ConstEnumerator{_enumerator->Clone()}};
+				std::shared_ptr<base::IRandomAccessEnumerator<ItemType const>> ret{new ConstEnumerator{*this}};
 				return ret;
 			}
 
@@ -122,6 +133,25 @@ namespace base
 				_enumerator = enumertor;
 			}
 
+			Iterator(Iterator const &other)
+			{
+				*this = other;
+			}
+
+			Iterator &operator=(Iterator const &other)
+			{
+				if (other._enumerator != nullptr)
+				{
+					_enumerator = other._enumerator->Clone();
+				}
+				else
+				{
+					_enumerator = other._enumerator;
+				}
+
+				return *this;
+			}
+
 			item_type &operator*()
 			{
 				return _enumerator->CurrentValue();
@@ -168,6 +198,13 @@ namespace base
 			{
 				_enumerator->Add(value);
 				return *this;
+			}
+
+			Iterator operator+(int64_t value)
+			{
+				Iterator copy{*this};
+				copy._enumerator->Add(value);
+				return copy;
 			}
 
 			int64_t operator-(Iterator const &other) const

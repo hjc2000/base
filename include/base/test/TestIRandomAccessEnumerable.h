@@ -6,7 +6,7 @@ namespace base
 {
 	namespace test
 	{
-		void TestInsertingEnumerableHelper();
+		void TestIRandomAccessEnumerable();
 
 	} // namespace test
 } // namespace base
