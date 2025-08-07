@@ -59,18 +59,18 @@ namespace base
 					return 0;
 				}
 
-				if (_enumerator != nullptr && other._enumerator == nullptr)
-				{
-					// 本对象不是 end, other 是 end.
-					// this - end = -_count
-					return -_count;
-				}
-
 				if (_enumerator == nullptr && other._enumerator != nullptr)
 				{
 					// 本对象是 end, other 不是 end.
 					// end - other = _count
 					return other._count;
+				}
+
+				if (_enumerator != nullptr && other._enumerator == nullptr)
+				{
+					// 本对象不是 end, other 是 end.
+					// this - end = -_count
+					return -_count;
 				}
 
 				if (_enumerator != nullptr && other._enumerator != nullptr)
