@@ -1,6 +1,8 @@
 #pragma once
 #include "base/container/iterator/IEnumerable.h"
 #include <cstdint>
+#include <iostream>
+#include <iterator>
 
 namespace base
 {
@@ -10,6 +12,13 @@ namespace base
 	public:
 		class Iterator
 		{
+		public:
+			using iterator_category = std::random_access_iterator_tag;
+			using value_type = ItemType const;
+			using difference_type = int64_t;
+			using pointer = ItemType const *;
+			using reference = ItemType const &;
+
 		private:
 			int64_t _count = 0;
 			std::shared_ptr<base::IEnumerator<ItemType const>> _enumerator;
@@ -24,8 +33,9 @@ namespace base
 			/// @param count 总共可迭代多少个元素。
 			///
 			Iterator(std::shared_ptr<base::IEnumerator<ItemType const>> const &enumerator, int64_t count)
-				: _enumerator(enumerator),
-				  _count(count)
+				: _count(count),
+				  _enumerator(enumerator)
+
 			{
 			}
 
@@ -51,8 +61,22 @@ namespace base
 				return *this;
 			}
 
+			Iterator &operator--()
+			{
+				std::cout << "operator-- 被调用" << std::endl;
+				return *this;
+			}
+
+			Iterator &operator+=(int64_t value)
+			{
+				std::cout << "operator+= 被调用" << std::endl;
+				return *this;
+			}
+
 			int64_t operator-(Iterator const &other) const
 			{
+				std::cout << "operator- 被调用" << std::endl;
+
 				if (_enumerator == other._enumerator)
 				{
 					// 两者指向同一个对象，无论如何都是相等的。
