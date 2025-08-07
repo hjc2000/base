@@ -1,6 +1,5 @@
 #pragma once
 #include "base/container/IList.h"
-#include "base/container/iterator/IEnumerable.h"
 #include "base/sfinae/Compare.h"
 #include "base/string/define.h"
 #include <algorithm>
@@ -82,7 +81,7 @@ namespace base
 		/// @param index
 		/// @param item
 		///
-		virtual void Insert(int64_t const index, ItemType const &item) override
+		virtual void Insert(int64_t index, ItemType const &item) override
 		{
 			if (index < 0 || index > static_cast<int64_t>(_deque.size()))
 			{
@@ -90,6 +89,13 @@ namespace base
 			}
 
 			_deque.insert(_deque.begin() + index, item);
+		}
+
+		void Insert(int64_t index, base::IList<ItemType> const &list)
+		{
+			_deque.insert(_deque.begin() + index,
+						  list.begin(),
+						  list.end());
 		}
 
 		/* #endregion */
@@ -406,17 +412,6 @@ namespace base
 		virtual void Set(int64_t index, ItemType const &value) override
 		{
 			_deque[index] = value;
-		}
-
-		/* #endregion */
-
-		/* #region GetEnumerator */
-
-		using IEnumerable<ItemType>::GetEnumerator;
-
-		virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() override
-		{
-			return base::IList<ItemType>::GetEnumerator();
 		}
 
 		/* #endregion */
