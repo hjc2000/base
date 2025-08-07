@@ -177,8 +177,8 @@ namespace base
 		///
 		std::shared_ptr<base::IEnumerator<ItemType const>> GetEnumerator() const
 		{
-			return std::shared_ptr<IEnumerator<ItemType const>>{new ConstEnumerator<ItemType>{
-				const_cast<IEnumerable *>(this)->GetEnumerator(),
+			return std::shared_ptr<base::IEnumerator<ItemType const>>{new ConstEnumerator<ItemType>{
+				const_cast<base::IEnumerable<ItemType> *>(this)->GetEnumerator(),
 			}};
 		}
 
