@@ -1,7 +1,6 @@
 #pragma once
 #include "base/container/IList.h"
 #include "base/container/IRawArray.h"
-#include "base/container/iterator/IEnumerable.h"
 #include "base/sfinae/Compare.h"
 #include "base/string/define.h"
 #include <algorithm>
@@ -420,13 +419,18 @@ namespace base
 
 		/* #endregion */
 
-		/* #region GetEnumerator */
+		/* #region GetRandomAccessEnumerator */
 
-		using IEnumerable<ItemType>::GetEnumerator;
+		using base::IRandomAccessEnumerable<ItemType>::GetRandomAccessEnumerator;
 
-		virtual std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() override
+		///
+		/// @brief 获取非 const 迭代器
+		///
+		/// @return
+		///
+		virtual std::shared_ptr<base::IRandomAccessEnumerator<ItemType>> GetRandomAccessEnumerator() override
 		{
-			return base::IRawArray<ItemType>::GetEnumerator();
+			return base::IRawArray<ItemType>::GetRandomAccessEnumerator();
 		}
 
 		/* #endregion */

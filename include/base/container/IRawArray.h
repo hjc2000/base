@@ -1,6 +1,6 @@
 #pragma once
 #include "base/container/ArraySpan.h"
-#include "base/container/iterator/IEnumerable.h"
+#include "base/container/iterator/IRandomAccessEnumerable.h"
 #include "base/string/define.h"
 
 namespace base
@@ -11,7 +11,7 @@ namespace base
 	///
 	template <typename ItemType>
 	class IRawArray :
-		public virtual base::IEnumerable<ItemType>
+		public virtual base::IRandomAccessEnumerable<ItemType>
 	{
 	public:
 		virtual ~IRawArray() = default;
@@ -152,18 +152,18 @@ namespace base
 
 		/* #endregion */
 
-		/* #region GetEnumerator */
+		/* #region GetRandomAccessEnumerator */
 
-		using IEnumerable<ItemType>::GetEnumerator;
+		using base::IRandomAccessEnumerable<ItemType>::GetRandomAccessEnumerator;
 
 		///
-		/// @brief 获取迭代器
+		/// @brief 获取非 const 迭代器
 		///
-		/// @return std::shared_ptr<IEnumerator<ItemType>>
+		/// @return
 		///
-		std::shared_ptr<IEnumerator<ItemType>> GetEnumerator() override
+		virtual std::shared_ptr<base::IRandomAccessEnumerator<ItemType>> GetRandomAccessEnumerator() override
 		{
-			return Span().GetEnumerator();
+			return Span().GetRandomAccessEnumerator();
 		}
 
 		/* #endregion */

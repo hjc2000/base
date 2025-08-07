@@ -14,17 +14,14 @@ namespace base
 		///
 		/// @brief const 迭代器
 		///
-		/// @tparam item_type
-		///
-		template <typename item_type>
 		class ConstEnumerator final :
-			public base::IRandomAccessEnumerable<item_type const>
+			public base::IRandomAccessEnumerator<ItemType const>
 		{
 		private:
-			std::shared_ptr<base::IRandomAccessEnumerable<item_type>> _enumerator;
+			std::shared_ptr<base::IRandomAccessEnumerator<ItemType>> _enumerator;
 
 		public:
-			ConstEnumerator(std::shared_ptr<base::IRandomAccessEnumerable<item_type>> enumerator)
+			ConstEnumerator(std::shared_ptr<base::IRandomAccessEnumerator<ItemType>> enumerator)
 			{
 				_enumerator = enumerator;
 			}
@@ -34,9 +31,10 @@ namespace base
 			///
 			/// @return
 			///
-			virtual std::shared_ptr<base::IRandomAccessEnumerator<item_type const>> Clone() const override
+			virtual std::shared_ptr<base::IRandomAccessEnumerator<ItemType const>> Clone() const override
 			{
-				std::shared_ptr<base::IRandomAccessEnumerator<item_type const>> ret{new ConstEnumerator{_enumerator->Clone()}};
+				std::shared_ptr<base::IRandomAccessEnumerator<ItemType const>> ret{new ConstEnumerator{_enumerator->Clone()}};
+				return ret;
 			}
 
 			///
@@ -86,7 +84,7 @@ namespace base
 			///
 			/// @return
 			///
-			virtual item_type const &CurrentValue() override
+			virtual ItemType const &CurrentValue() override
 			{
 				return _enumerator->CurrentValue();
 			}
@@ -114,12 +112,12 @@ namespace base
 			using reference = ItemType const &;
 
 		private:
-			std::shared_ptr<base::IRandomAccessEnumerable<item_type>> _enumerator;
+			std::shared_ptr<base::IRandomAccessEnumerator<item_type>> _enumerator;
 
 		public:
 			Iterator() = default;
 
-			Iterator(std::shared_ptr<base::IRandomAccessEnumerable<item_type>> enumertor)
+			Iterator(std::shared_ptr<base::IRandomAccessEnumerator<item_type>> enumertor)
 			{
 				_enumerator = enumertor;
 			}
@@ -211,7 +209,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual std::shared_ptr<base::IRandomAccessEnumerable<ItemType>> GetRandomAccessEnumerator() = 0;
+		virtual std::shared_ptr<base::IRandomAccessEnumerator<ItemType>> GetRandomAccessEnumerator() = 0;
 
 		/* #endregion */
 
@@ -234,9 +232,9 @@ namespace base
 		///
 		/// @return
 		///
-		std::shared_ptr<base::IEnumerator<ItemType const>> GetRandomAccessEnumerator() const
+		std::shared_ptr<base::IRandomAccessEnumerator<ItemType const>> GetRandomAccessEnumerator() const
 		{
-			return std::shared_ptr<IEnumerator<ItemType const>>{new ConstEnumerator<ItemType>{
+			return std::shared_ptr<IRandomAccessEnumerator<ItemType const>>{new ConstEnumerator{
 				const_cast<base::IRandomAccessEnumerable<ItemType> *>(this)->GetRandomAccessEnumerator(),
 			}};
 		}
