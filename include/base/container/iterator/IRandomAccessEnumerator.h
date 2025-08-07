@@ -56,7 +56,7 @@ namespace base
 		///
 		virtual ItemType &CurrentValue() override = 0;
 
-		/* #region final */
+		/* #region 接口扩展 */
 
 		///
 		/// @brief 递增迭代器的位置。
@@ -68,6 +68,15 @@ namespace base
 		virtual void Add() override final
 		{
 			Add(1);
+		}
+
+		///
+		/// @brief 将迭代器的位置递减 1.
+		///
+		///
+		void Subtract()
+		{
+			Subtract(1);
 		}
 
 		///

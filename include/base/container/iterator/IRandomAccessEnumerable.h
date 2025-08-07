@@ -104,6 +104,13 @@ namespace base
 		template <typename item_type>
 		class Iterator
 		{
+		public:
+			using iterator_category = std::random_access_iterator_tag;
+			using value_type = ItemType const;
+			using difference_type = int64_t;
+			using pointer = ItemType const *;
+			using reference = ItemType const &;
+
 		private:
 			std::shared_ptr<base::IRandomAccessEnumerable<item_type>> _enumerator;
 
@@ -141,14 +148,24 @@ namespace base
 				return *this;
 			}
 
-			bool operator==(Iterator<item_type> const &other) const
+			///
+			/// @brief 前缀递减。
+			///
+			/// @return
+			///
+			Iterator<item_type> &operator--()
 			{
-				if (_enumerator == other._enumerator)
+				if (_enumerator->IsEnd())
 				{
-					// 两者指向同一个对象，无论如何都是相等的。
-					return true;
+					return *this;
 				}
 
+				_enumerator->Subtract();
+				return *this;
+			}
+
+			bool operator==(Iterator<item_type> const &other) const
+			{
 				if (_enumerator != nullptr && other._enumerator == nullptr)
 				{
 					// 本对象不是 end, other 是 end.
@@ -163,8 +180,6 @@ namespace base
 
 				if (_enumerator != nullptr && other._enumerator != nullptr)
 				{
-					// 两个的 _enumerator 指向不同对象，分别独立迭代，则比较 _position 计数
-					// 来判断是不是迭代到相同的位置了。
 					return _enumerator->Position() == other._enumerator->Position();
 				}
 
