@@ -9,7 +9,8 @@
 void base::test::TestIRandomAccessEnumerable()
 {
 	{
-		std::cout << "测试 std::vector" << std::endl;
+		std::cout << std::endl
+				  << "测试 std::vector" << std::endl;
 
 		base::List<int> list{0, 1, 2, 3};
 		std::vector<int> vector{6, 6, 6, 6, 6, 6};
@@ -24,7 +25,8 @@ void base::test::TestIRandomAccessEnumerable()
 	}
 
 	{
-		std::cout << "测试 std::deque" << std::endl;
+		std::cout << std::endl
+				  << "测试 std::deque" << std::endl;
 
 		base::List<int> list{0, 1, 2, 3};
 		std::deque<int> deque{6, 6, 6, 6, 6, 6};
