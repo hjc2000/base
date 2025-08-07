@@ -93,7 +93,7 @@ namespace base
 					return o._enumerator->IsEnd();
 				}
 
-				if (_count <= 0)
+				if (_count == o._count)
 				{
 					return true;
 				}
