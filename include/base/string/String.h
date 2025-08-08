@@ -1,6 +1,6 @@
 #pragma once
-#include "base/bit/IStreamSerializable.h"
-#include "base/bit/StdStringStreamSerializer.h"
+#include "base/bit/serialize/IStreamSerializable.h"
+#include "base/bit/serialize/StdStringStreamSerializer.h"
 #include "base/container/List.h"
 #include "base/container/Range.h"
 #include "base/stream/ReadOnlySpan.h"
