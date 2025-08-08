@@ -141,11 +141,4 @@ namespace base
 		}
 	};
 
-#if HAS_THREAD
-	namespace test
-	{
-		void TestSafeQueue();
-	} // namespace test
-#endif // HAS_THREAD
-
 } // namespace base

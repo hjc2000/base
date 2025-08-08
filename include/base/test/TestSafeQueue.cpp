@@ -1,4 +1,5 @@
-#include "SafeQueue.h"
+#include "TestSafeQueue.h" // IWYU pragma: keep
+#include "base/container/SafeQueue.h"
 #include "base/string/define.h"
 #include <exception>
 #include <iostream>
