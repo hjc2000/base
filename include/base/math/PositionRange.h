@@ -13,26 +13,37 @@ namespace base
 	class PositionRange
 	{
 	private:
-		base::Position<T> _start;
-		base::Position<T> _end;
+		base::Position<T> _left_top;
+		base::Position<T> _right_bottom;
 
 	public:
 		constexpr PositionRange() = default;
 
-		constexpr PositionRange(base::Position<T> const &start, base::Position<T> const &end)
-			: _start(start),
-			  _end(end)
+		constexpr PositionRange(base::Position<T> const &left_top, base::Position<T> const &right_bottom)
+			: _left_top(left_top),
+			  _right_bottom(right_bottom)
 		{
 		}
 
-		constexpr base::Position<T> Start() const
+		///
+		/// @brief 选中范围矩形左上角的点。
+		///
+		/// @return
+		///
+		constexpr base::Position<T> LeftTop() const
 		{
-			return _start;
+			return _left_top;
 		}
 
-		constexpr base::Position<T> End() const
+		///
+		/// @brief 选中范围矩形右下角的点。
+		///
+		/// @return
+		///
+		constexpr base::Position<T> RightBottom() const
 		{
-			return _end;
+			return _right_bottom;
 		}
 	};
+
 } // namespace base
