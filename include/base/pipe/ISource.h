@@ -5,9 +5,6 @@ namespace base
 	///
 	/// @brief 数据源接口。
 	///
-	/// @tparam T 必须是具有无参构造函数的类，实在不行可以用智能指针包装起来，
-	/// 让 T 是一个智能指针。
-	///
 	template <typename T>
 	class ISource
 	{
@@ -26,4 +23,5 @@ namespace base
 		///
 		virtual bool ReadData(T &data) = 0;
 	};
+
 } // namespace base

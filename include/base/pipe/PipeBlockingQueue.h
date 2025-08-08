@@ -33,7 +33,6 @@ namespace base
 		/// @brief 释放队列
 		///
 		/// @note 释放后队列会被清空。所以如果想要取消阻塞，但又希望能够读出残留的数据，进行
-		///
 		/// 收尾，调用 Flush 方法而不是本方法。
 		///
 		virtual void Dispose() override
@@ -76,7 +75,7 @@ namespace base
 		///
 		/// @param data
 		///
-		/// @return 读取成功返回 0，失败返回负数的错误代码。
+		/// @return
 		///
 		virtual bool ReadData(T &data) override
 		{
