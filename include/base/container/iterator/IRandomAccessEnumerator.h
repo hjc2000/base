@@ -15,6 +15,8 @@ namespace base
 		///
 		/// @brief 克隆一个迭代器对象副本。
 		///
+		/// @note 派生类要实现拷贝构造函数后在这里调用自己的拷贝构造函数拷贝一份自己。
+		///
 		/// @return
 		///
 		virtual std::shared_ptr<base::IRandomAccessEnumerator<ItemType>> Clone() const = 0;
