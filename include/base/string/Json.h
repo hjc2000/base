@@ -19,21 +19,21 @@ namespace base
 		///
 		/// @brief 序列化为 json
 		///
-		/// @return base::Json
+		/// @return
 		///
 		virtual base::Json ToJson() const = 0;
 
 		///
 		/// @brief 利用序列化出的 Json 对象，将本对象转化为 json 字符串。
 		///
-		/// @return std::string
+		/// @return
 		///
 		std::string ToString() const override;
 
 		///
 		/// @brief 强制转换为 Json 对象。
 		///
-		/// @return base::Json
+		/// @return
 		///
 		operator base::Json() const
 		{
@@ -62,4 +62,5 @@ namespace base
 		///
 		void FromJsonString(std::string const &json_string);
 	};
+
 } // namespace base
