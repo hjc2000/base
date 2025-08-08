@@ -33,7 +33,8 @@ namespace base
 				throw std::runtime_error{CODE_POS_STR + "未正确初始化。"};
 			}
 
-			return _string->size();
+			// 字符串的大小再加上头部的一个 64 位整型用来记录长度。
+			return _string->size() + sizeof(int64_t);
 		}
 
 		///
