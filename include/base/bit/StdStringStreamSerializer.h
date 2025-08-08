@@ -1,6 +1,6 @@
 #pragma once
+#include "base/bit/IStreamSerializable.h"
 #include "base/string/define.h"
-#include "IStreamSerializable.h"
 #include <cstdint>
 #include <stdexcept>
 #include <string>

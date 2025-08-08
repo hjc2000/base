@@ -1,9 +1,9 @@
 #include "StdStringStreamSerializer.h" // IWYU pragma: keep
 #include "base/bit/AutoBitConverter.h"
+#include "base/bit/IStreamSerializable.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
 #include "base/string/define.h"
-#include "IStreamSerializable.h"
 
 void base::StdStringStreamSerializer::SerializeIntoStream(base::Stream &stream) const
 {
