@@ -7,13 +7,13 @@
 
 void base::StdStringStreamSerializer::SerializeIntoStream(base::Stream &stream) const
 {
-	int64_t size = _string.size();
+	int64_t size = _string->size();
 
 	// 先序列化 8 个字节的 int64_t 进去，这样反序列化的时候就知道有多大了。
 	base::little_endian_remote_converter.GetBytes(size, stream);
 
 	base::ReadOnlySpan span{
-		reinterpret_cast<uint8_t const *>(_string.data()),
+		reinterpret_cast<uint8_t const *>(_string->data()),
 		size,
 	};
 
@@ -23,15 +23,15 @@ void base::StdStringStreamSerializer::SerializeIntoStream(base::Stream &stream) 
 void base::StdStringStreamSerializer::DeserializeFromStream(base::Stream &stream)
 {
 	int64_t size = base::little_endian_remote_converter.FromBytes<int64_t>(stream);
-	_string.clear();
-	_string.reserve(size);
+	_string->clear();
+	_string->reserve(size);
 
 	uint8_t temp_buffer[128];
 	base::Span temp_buffer_span{temp_buffer, sizeof(temp_buffer)};
 
 	while (true)
 	{
-		if (static_cast<int64_t>(_string.size()) >= size)
+		if (static_cast<int64_t>(_string->size()) >= size)
 		{
 			return;
 		}
@@ -42,6 +42,6 @@ void base::StdStringStreamSerializer::DeserializeFromStream(base::Stream &stream
 			throw base::StreamDeserializeException{CODE_POS_STR + "还没反序列化完成流就结束了。"};
 		}
 
-		_string.append(reinterpret_cast<char const *>(temp_buffer), have_read);
+		_string->append(reinterpret_cast<char const *>(temp_buffer), have_read);
 	}
 }

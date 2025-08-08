@@ -9,12 +9,14 @@ namespace base
 		public base::IStreamSerializable
 	{
 	private:
-		std::string &_string;
+		std::string *_string{};
 
 	public:
+		StdStringStreamSerializer() = default;
+
 		StdStringStreamSerializer(std::string &string)
-			: _string(string)
 		{
+			_string = &string;
 		}
 
 		///
@@ -24,7 +26,7 @@ namespace base
 		///
 		virtual int64_t StreamSerializingSize() const override
 		{
-			return _string.size();
+			return _string->size();
 		}
 
 		///

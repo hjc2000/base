@@ -1,4 +1,6 @@
 #pragma once
+#include "base/bit/IStreamSerializable.h"
+#include "base/bit/StdStringStreamSerializer.h"
 #include "base/container/List.h"
 #include "base/container/Range.h"
 #include "base/stream/ReadOnlySpan.h"
@@ -39,10 +41,12 @@ namespace base
 	/// @brief 对 std::string 进行包装。
 	///
 	///
-	class String final
+	class String final :
+		public base::IStreamSerializable
 	{
 	private:
 		std::string _string{};
+		base::StdStringStreamSerializer _serializer{_string};
 
 	public:
 		/* #region 构造函数 */
@@ -797,7 +801,40 @@ namespace base
 		}
 
 		/* #endregion */
-	};
+
+		///
+		/// @brief 序列化到流中要写入多少字节。
+		///
+		/// @return
+		///
+		virtual int64_t StreamSerializingSize() const override
+		{
+			return _serializer.StreamSerializingSize();
+		}
+
+		///
+		/// @brief 将对象序列化写入流中。
+		///
+		/// @param stream
+		///
+		virtual void SerializeIntoStream(base::Stream &stream) const override
+		{
+			_serializer.SerializeIntoStream(stream);
+		}
+
+		///
+		/// @brief 从流中反序列化得到对象。
+		///
+		/// @note 对象要先无参默认构造，然后再调用此方法进行反序列化，重新初始化对象的各个字段。
+		///
+		/// @param stream
+		///
+		virtual void DeserializeFromStream(base::Stream &stream) override
+		{
+			_serializer.DeserializeFromStream(stream);
+		}
+
+	}; // class String
 
 } // namespace base
 
