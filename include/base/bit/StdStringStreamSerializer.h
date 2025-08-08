@@ -5,7 +5,6 @@
 #include <stdexcept>
 #include <string>
 
-
 namespace base
 {
 	class StdStringStreamSerializer :
