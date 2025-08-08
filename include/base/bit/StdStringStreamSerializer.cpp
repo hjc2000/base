@@ -2,6 +2,8 @@
 #include "base/bit/AutoBitConverter.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
+#include "base/string/define.h"
+#include "IStreamSerializable.h"
 
 void base::StdStringStreamSerializer::SerializeIntoStream(base::Stream &stream) const
 {
@@ -35,6 +37,11 @@ void base::StdStringStreamSerializer::DeserializeFromStream(base::Stream &stream
 		}
 
 		int64_t have_read = stream.Read(temp_buffer_span);
+		if (have_read <= 0)
+		{
+			throw base::StreamDeserializeException{CODE_POS_STR + "还没反序列化完成流就结束了。"};
+		}
+
 		_string.append(reinterpret_cast<char const *>(temp_buffer), have_read);
 	}
 }
