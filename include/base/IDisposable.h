@@ -1,5 +1,6 @@
 #pragma once
 #include <stdexcept>
+#include <string>
 
 namespace base
 {
@@ -30,12 +31,12 @@ namespace base
 	{
 	public:
 		ObjectDisposedException()
-			: std::runtime_error("ObjectDisposedException")
+			: std::runtime_error(__func__)
 		{
 		}
 
 		ObjectDisposedException(std::string const &message)
-			: std::runtime_error("ObjectDisposedException: " + message)
+			: std::runtime_error(std::string{__func__} + ": " + message)
 		{
 		}
 	};

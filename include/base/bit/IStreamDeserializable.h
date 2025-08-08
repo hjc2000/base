@@ -1,6 +1,7 @@
 #pragma once
 #include "base/stream/Stream.h"
 #include <stdexcept>
+#include <string>
 
 namespace base
 {
@@ -27,12 +28,12 @@ namespace base
 	{
 	public:
 		StreamDeserializeException()
-			: std::runtime_error("ObjectDisposedException")
+			: std::runtime_error(__func__)
 		{
 		}
 
 		StreamDeserializeException(std::string const &message)
-			: std::runtime_error("ObjectDisposedException: " + message)
+			: std::runtime_error(std::string{__func__} + ": " + message)
 		{
 		}
 	};
