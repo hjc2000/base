@@ -6,6 +6,10 @@
 
 namespace base
 {
+	///
+	/// @brief 可以序列化到流中，也可以从流中反序列化。
+	///
+	///
 	class IStreamSerializable
 	{
 	public:
