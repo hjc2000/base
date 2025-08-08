@@ -10,8 +10,8 @@ namespace base
 	/// @param b
 	/// @return
 	///
-	template <typename T>
-	concept has_equal_operator = requires(T a, T b) {
+	template <typename TLeft, typename TRight>
+	concept has_equal_operator = requires(TLeft a, TRight b) {
 		requires(std::is_same_v<decltype(a == b), bool>);
 	};
 

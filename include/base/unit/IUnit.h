@@ -288,11 +288,6 @@ namespace base
 
 			/* #region 比较 */
 
-			bool operator==(TSelf const &other) const
-			{
-				return Value() == other.Value();
-			}
-
 			bool operator<(TSelf const &other) const
 			{
 				return Value() < other.Value();
@@ -347,6 +342,14 @@ namespace base
 	}
 
 } // namespace base
+
+template <typename TLeft, typename TRight>
+	requires(base::is_unit<TLeft> &&
+			 base::is_unit<TRight>)
+inline bool operator==(TLeft const &left, TRight const &right)
+{
+	return left.Value() == right.Value();
+}
 
 ///
 /// @brief 单位乘上一个无量纲的系数。

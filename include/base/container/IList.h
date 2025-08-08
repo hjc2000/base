@@ -308,7 +308,7 @@ namespace base
 		/* #region 比较运算符 */
 
 		bool operator==(IList<ItemType> const &o) const
-			requires(base::has_equal_operator<ItemType> &&
+			requires(base::has_equal_operator<ItemType, ItemType> &&
 					 base::has_less_than_operator<ItemType> &&
 					 base::has_greater_than_operator<ItemType>)
 		{
@@ -335,7 +335,7 @@ namespace base
 		}
 
 		bool operator<(IList<ItemType> const &o) const
-			requires(base::has_equal_operator<ItemType> &&
+			requires(base::has_equal_operator<ItemType, ItemType> &&
 					 base::has_less_than_operator<ItemType> &&
 					 base::has_greater_than_operator<ItemType>)
 		{
@@ -365,7 +365,7 @@ namespace base
 		}
 
 		bool operator>(IList<ItemType> const &o) const
-			requires(base::has_equal_operator<ItemType> &&
+			requires(base::has_equal_operator<ItemType, ItemType> &&
 					 base::has_less_than_operator<ItemType> &&
 					 base::has_greater_than_operator<ItemType>)
 		{
@@ -395,7 +395,7 @@ namespace base
 		}
 
 		bool operator<=(IList<ItemType> const &o) const
-			requires(base::has_equal_operator<ItemType> &&
+			requires(base::has_equal_operator<ItemType, ItemType> &&
 					 base::has_less_than_operator<ItemType> &&
 					 base::has_greater_than_operator<ItemType>)
 		{
@@ -425,7 +425,7 @@ namespace base
 		}
 
 		bool operator>=(IList<ItemType> const &o) const
-			requires(base::has_equal_operator<ItemType> &&
+			requires(base::has_equal_operator<ItemType, ItemType> &&
 					 base::has_less_than_operator<ItemType> &&
 					 base::has_greater_than_operator<ItemType>)
 		{

@@ -123,7 +123,7 @@ namespace base
 		/// @return
 		///
 		bool Remove(ItemType const &item)
-			requires(base::has_equal_operator<ItemType>)
+			requires(base::has_equal_operator<ItemType, ItemType>)
 		{
 			auto it = std::find_if(_vector.begin(),
 								   _vector.end(),
@@ -211,7 +211,7 @@ namespace base
 		/// @return
 		///
 		int64_t IndexOf(ItemType const &item) const
-			requires(base::has_equal_operator<ItemType>)
+			requires(base::has_equal_operator<ItemType, ItemType>)
 		{
 			auto it = std::find_if(_vector.begin(),
 								   _vector.end(),
@@ -237,7 +237,7 @@ namespace base
 		/// @return
 		///
 		bool Contains(ItemType const &item) const
-			requires(base::has_equal_operator<ItemType>)
+			requires(base::has_equal_operator<ItemType, ItemType>)
 		{
 			auto it = std::find_if(_vector.begin(),
 								   _vector.end(),
