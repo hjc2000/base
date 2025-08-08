@@ -1,7 +1,10 @@
 #pragma once
+#include "base/string/define.h"
 #include "IStreamSerializable.h"
 #include <cstdint>
+#include <stdexcept>
 #include <string>
+
 
 namespace base
 {
@@ -26,6 +29,11 @@ namespace base
 		///
 		virtual int64_t StreamSerializingSize() const override
 		{
+			if (_string == nullptr)
+			{
+				throw std::runtime_error{CODE_POS_STR + "未正确初始化。"};
+			}
+
 			return _string->size();
 		}
 

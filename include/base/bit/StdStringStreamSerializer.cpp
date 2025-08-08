@@ -7,6 +7,11 @@
 
 void base::StdStringStreamSerializer::SerializeIntoStream(base::Stream &stream) const
 {
+	if (_string == nullptr)
+	{
+		throw std::runtime_error{CODE_POS_STR + "未正确初始化。"};
+	}
+
 	int64_t size = _string->size();
 
 	// 先序列化 8 个字节的 int64_t 进去，这样反序列化的时候就知道有多大了。
@@ -22,6 +27,11 @@ void base::StdStringStreamSerializer::SerializeIntoStream(base::Stream &stream) 
 
 void base::StdStringStreamSerializer::DeserializeFromStream(base::Stream &stream)
 {
+	if (_string == nullptr)
+	{
+		throw std::runtime_error{CODE_POS_STR + "未正确初始化。"};
+	}
+
 	int64_t size = base::little_endian_remote_converter.FromBytes<int64_t>(stream);
 	_string->clear();
 	_string->reserve(size);
