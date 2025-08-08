@@ -1,6 +1,5 @@
 #pragma once
 #include "base/math/Fraction.h"
-#include "base/sfinae/Compare.h"
 #include "base/sfinae/is_coefficient.h"
 #include "base/sfinae/is_unit.h"
 #include "base/string/ICanToString.h"
@@ -345,12 +344,12 @@ namespace base
 } // namespace base
 
 template <typename TLeft, typename TRight>
-	requires(base::is_unit<std::remove_cvref_t<TLeft>> &&
-			 base::is_unit<std::remove_cvref_t<TRight>> &&
-			 std::is_same_v<TRight, std::remove_cvref_t<TRight> const &>)
-inline bool operator==(TLeft left, TRight right)
+	requires(base::is_unit<TLeft> &&
+			 base::is_unit<TRight> &&
+			 std::is_convertible_v<TRight, TLeft>)
+inline bool operator==(TLeft const &left, TRight const &right)
 {
-	return left.Value() == right.Value();
+	return left.Value() == TLeft{right}.Value();
 }
 
 ///
