@@ -1,4 +1,5 @@
 #pragma once
+#include "type_traits.h"
 
 namespace base
 {
@@ -14,7 +15,7 @@ namespace base
 	///
 	template <typename T>
 	concept is_unit = requires(T t) {
-		requires(std::is_base_of_v<base::unit::IUnit<T>, T>);
+		requires(base::is_real_base_of<base::unit::IUnit<T>, T>);
 	};
 
 } // namespace base
