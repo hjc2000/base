@@ -30,7 +30,7 @@ namespace base
 	{
 	public:
 		ObjectDisposedException()
-			: ObjectDisposedException("ObjectDisposedException")
+			: std::runtime_error("ObjectDisposedException")
 		{
 		}
 
@@ -39,4 +39,5 @@ namespace base
 		{
 		}
 	};
+
 } // namespace base

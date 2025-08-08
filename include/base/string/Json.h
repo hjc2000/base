@@ -45,7 +45,7 @@ namespace base
 	/// @brief 继承此接口表示能从 json 反序列化。
 	///
 	///
-	class IJsonDserializable
+	class IJsonDeserializable
 	{
 	public:
 		///
