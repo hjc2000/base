@@ -25,7 +25,7 @@ namespace base
 		///
 		/// @param stream
 		///
-		virtual void SerializeIntoStream(base::Stream &stream) = 0;
+		virtual void SerializeIntoStream(base::Stream &stream) const = 0;
 
 		///
 		/// @brief 从流中反序列化得到对象。
