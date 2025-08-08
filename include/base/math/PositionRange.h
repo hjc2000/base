@@ -13,8 +13,8 @@ namespace base
 	class PositionRange
 	{
 	private:
-		base::Position<T> _left_top;
-		base::Position<T> _right_bottom;
+		base::Position<T> _left_top{};
+		base::Position<T> _right_bottom{};
 
 	public:
 		constexpr PositionRange() = default;
