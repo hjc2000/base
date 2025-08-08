@@ -104,6 +104,21 @@ namespace base
 			return _queue[index];
 		}
 
+		T &Get(int64_t index)
+		{
+			return _queue[index];
+		}
+
+		T const &Get(int64_t index) const
+		{
+			return _queue[index];
+		}
+
+		void Set(int64_t index, T const &value)
+		{
+			_queue[index] = value;
+		}
+
 		/* #region 迭代 */
 
 		auto begin()
