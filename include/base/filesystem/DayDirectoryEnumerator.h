@@ -18,6 +18,7 @@ namespace base
 			public base::IEnumerator<base::DirectoryEntry const>
 		{
 		private:
+			bool _has_not_moved = true;
 			base::Path _year_month_path;
 			base::UtcHourOffset _utc_hour_offset;
 			bool _should_check_time_range = false;
@@ -257,6 +258,26 @@ namespace base
 			int64_t Day() const
 			{
 				return _day;
+			}
+
+			///
+			/// @brief 从未被调用过 MoveToNext 方法。
+			///
+			/// @return
+			///
+			virtual bool HasNotMoved() override
+			{
+				return _has_not_moved;
+			}
+
+			///
+			/// @brief 设置是否从未被调用过 MoveToNext 方法。
+			///
+			/// @param value
+			///
+			virtual void SetHasNotMoved(bool value) override
+			{
+				_has_not_moved = value;
 			}
 		};
 

@@ -28,5 +28,6 @@ namespace base
 				return std::shared_ptr<base::IEnumerator<base::ReadOnlySpan>>{new base::profinet::DcpTlvEnumerator{_span}};
 			}
 		};
+
 	} // namespace profinet
 } // namespace base

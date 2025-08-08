@@ -28,6 +28,7 @@ namespace base
 		private:
 			base::IList<ItemType> *_list;
 			int64_t _index = 0;
+			bool _has_not_moved = true;
 
 		public:
 			RandomAccessEnumerator(base::IList<ItemType> *list)
@@ -96,6 +97,26 @@ namespace base
 			virtual ItemType &CurrentValue() override
 			{
 				return _list->Get(_index);
+			}
+
+			///
+			/// @brief 从未被调用过 MoveToNext 方法。
+			///
+			/// @return
+			///
+			virtual bool HasNotMoved() override
+			{
+				return _has_not_moved;
+			}
+
+			///
+			/// @brief 设置是否从未被调用过 MoveToNext 方法。
+			///
+			/// @param value
+			///
+			virtual void SetHasNotMoved(bool value) override
+			{
+				_has_not_moved = value;
 			}
 		};
 

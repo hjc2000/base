@@ -95,6 +95,7 @@ namespace
 		base::DirectoryEntry _current;
 		std::filesystem::directory_iterator _current_it;
 		std::filesystem::directory_iterator _end_it;
+		bool _has_not_moved = true;
 
 	public:
 		DirectoryEntryEnumerator(base::Path const &path)
@@ -137,6 +138,26 @@ namespace
 		{
 			++_current_it;
 		}
+
+		///
+		/// @brief 从未被调用过 MoveToNext 方法。
+		///
+		/// @return
+		///
+		virtual bool HasNotMoved() override
+		{
+			return _has_not_moved;
+		}
+
+		///
+		/// @brief 设置是否从未被调用过 MoveToNext 方法。
+		///
+		/// @param value
+		///
+		virtual void SetHasNotMoved(bool value) override
+		{
+			_has_not_moved = value;
+		}
 	};
 
 	///
@@ -150,6 +171,7 @@ namespace
 		base::DirectoryEntry _current;
 		std::filesystem::recursive_directory_iterator _current_it;
 		std::filesystem::recursive_directory_iterator _end_it;
+		bool _has_not_moved = true;
 
 	public:
 		RecursiveDirectoryEntryEnumerator(base::Path const &path)
@@ -191,6 +213,26 @@ namespace
 		virtual void Add() override
 		{
 			++_current_it;
+		}
+
+		///
+		/// @brief 从未被调用过 MoveToNext 方法。
+		///
+		/// @return
+		///
+		virtual bool HasNotMoved() override
+		{
+			return _has_not_moved;
+		}
+
+		///
+		/// @brief 设置是否从未被调用过 MoveToNext 方法。
+		///
+		/// @param value
+		///
+		virtual void SetHasNotMoved(bool value) override
+		{
+			_has_not_moved = value;
 		}
 	};
 

@@ -5,9 +5,6 @@ namespace base
 	template <typename ItemType>
 	class IEnumerator
 	{
-	private:
-		bool _has_not_moved = true;
-
 	public:
 		virtual ~IEnumerator() = default;
 
@@ -47,6 +44,20 @@ namespace base
 		}
 
 		///
+		/// @brief 从未被调用过 MoveToNext 方法。
+		///
+		/// @return
+		///
+		virtual bool HasNotMoved() = 0;
+
+		///
+		/// @brief 设置是否从未被调用过 MoveToNext 方法。
+		///
+		/// @param value
+		///
+		virtual void SetHasNotMoved(bool value) = 0;
+
+		///
 		/// @brief 本方法让迭代器支持像 C# 那样使用。即一开始拿到迭代器后首先一个 MoveToNext
 		/// 移动到第一个有效元素的位置。
 		///
@@ -54,9 +65,9 @@ namespace base
 		///
 		bool MoveToNext()
 		{
-			if (_has_not_moved)
+			if (HasNotMoved())
 			{
-				_has_not_moved = false;
+				SetHasNotMoved(false);
 			}
 			else if (IsNotEnd())
 			{

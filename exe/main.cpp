@@ -3,6 +3,6 @@
 
 int main()
 {
-	// base::test::TestYearMonthDayDirectoryEntryEnumerator();
+	base::test::TestYearMonthDayDirectoryEntryEnumerator();
 	base::test::TestIRandomAccessEnumerable();
 }

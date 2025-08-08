@@ -58,6 +58,20 @@ namespace base
 		///
 		virtual ItemType &CurrentValue() override = 0;
 
+		///
+		/// @brief 从未被调用过 MoveToNext 方法。
+		///
+		/// @return
+		///
+		virtual bool HasNotMoved() override = 0;
+
+		///
+		/// @brief 设置是否从未被调用过 MoveToNext 方法。
+		///
+		/// @param value
+		///
+		virtual void SetHasNotMoved(bool value) override = 0;
+
 		/* #region 接口扩展 */
 
 		///

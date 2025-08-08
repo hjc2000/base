@@ -26,6 +26,7 @@ namespace base
 		{
 		private:
 			std::shared_ptr<IEnumerator<item_type>> _enumerator;
+			bool _has_not_moved = true;
 
 		public:
 			ConstEnumerator(std::shared_ptr<IEnumerator<item_type>> enumerator)
@@ -55,6 +56,26 @@ namespace base
 			virtual void Add() override
 			{
 				_enumerator->Add();
+			}
+
+			///
+			/// @brief 从未被调用过 MoveToNext 方法。
+			///
+			/// @return
+			///
+			virtual bool HasNotMoved() override
+			{
+				return _has_not_moved;
+			}
+
+			///
+			/// @brief 设置是否从未被调用过 MoveToNext 方法。
+			///
+			/// @param value
+			///
+			virtual void SetHasNotMoved(bool value) override
+			{
+				_has_not_moved = value;
 			}
 		};
 

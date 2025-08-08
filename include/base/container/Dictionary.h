@@ -23,6 +23,7 @@ namespace base
 			using IteratorType = decltype(std::map<KeyType, ValueType>{}.begin());
 			IteratorType _current;
 			IteratorType _end;
+			bool _has_not_moved = true;
 
 		public:
 			Enumerator(std::map<KeyType, ValueType> &map)
@@ -58,6 +59,26 @@ namespace base
 			virtual void Add() override
 			{
 				++_current;
+			}
+
+			///
+			/// @brief 从未被调用过 MoveToNext 方法。
+			///
+			/// @return
+			///
+			virtual bool HasNotMoved() override
+			{
+				return _has_not_moved;
+			}
+
+			///
+			/// @brief 设置是否从未被调用过 MoveToNext 方法。
+			///
+			/// @param value
+			///
+			virtual void SetHasNotMoved(bool value) override
+			{
+				_has_not_moved = value;
 			}
 		};
 

@@ -11,6 +11,7 @@ namespace base
 			public base::IEnumerator<base::ReadOnlySpan>
 		{
 		private:
+			bool _has_not_moved = true;
 			base::ReadOnlySpan _span;
 			base::ReadOnlySpan _remain_span;
 			base::ReadOnlySpan _current_value;
@@ -43,6 +44,27 @@ namespace base
 			///
 			///
 			virtual void Add() override;
+
+			///
+			/// @brief 从未被调用过 MoveToNext 方法。
+			///
+			/// @return
+			///
+			virtual bool HasNotMoved() override
+			{
+				return _has_not_moved;
+			}
+
+			///
+			/// @brief 设置是否从未被调用过 MoveToNext 方法。
+			///
+			/// @param value
+			///
+			virtual void SetHasNotMoved(bool value) override
+			{
+				_has_not_moved = value;
+			}
 		};
+
 	} // namespace profinet
 } // namespace base
