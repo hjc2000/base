@@ -30,6 +30,7 @@ namespace base
 
 		///
 		/// @brief 当前队列中元素的数量。
+		///
 		/// @return
 		///
 		virtual int64_t Count() const override

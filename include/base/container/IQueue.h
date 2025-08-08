@@ -20,6 +20,7 @@ namespace base
 
 		///
 		/// @brief 退队。队列为空会抛出异常。
+		///
 		/// @return
 		///
 		virtual T Dequeue() = 0;
