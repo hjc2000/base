@@ -101,7 +101,8 @@ namespace base
 			{
 				return _enumerator->CurrentValue();
 			}
-		};
+
+		}; // class ConstEnumerator
 
 		/* #endregion */
 
@@ -334,6 +335,7 @@ namespace base
 		}
 
 		/* #endregion */
-	};
+
+	}; // class IRandomAccessEnumerable
 
 } // namespace base
