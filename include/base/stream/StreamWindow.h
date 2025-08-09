@@ -148,7 +148,7 @@ namespace base
 		///
 		virtual void Write(base::ReadOnlySpan const &span) override
 		{
-			if (Position() + span.Size() >= Length())
+			if (Position() + span.Size() > Length())
 			{
 				throw std::overflow_error{CODE_POS_STR + "写入的数据太多，会发生越界。"};
 			}
