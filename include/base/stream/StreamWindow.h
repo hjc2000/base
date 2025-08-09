@@ -137,7 +137,13 @@ namespace base
 			}
 
 			int64_t remain = Length() - Position();
-			base::Span sliced_span = span[base::Range{0, std::min(span.Size(), remain)}];
+
+			base::Range range{
+				0,
+				std::min(span.Size(), remain),
+			};
+
+			base::Span sliced_span = span[range];
 			return _stream->Read(sliced_span);
 		}
 
@@ -150,7 +156,10 @@ namespace base
 		{
 			if (Position() + span.Size() > Length())
 			{
-				throw std::overflow_error{CODE_POS_STR + "Position 已到达文件尾后，或者写入的数据太多，会发生越界。"};
+				throw std::overflow_error{
+					CODE_POS_STR +
+						"Position 已到达文件尾后，或者写入的数据太多，会发生越界。",
+				};
 			}
 
 			_stream->Write(span);
