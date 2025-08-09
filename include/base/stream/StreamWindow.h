@@ -1,9 +1,12 @@
 #pragma once
 #include "base/container/Range.h"
 #include "base/exception/NotSupportedException.h"
+#include "base/stream/Span.h"
 #include "base/stream/Stream.h"
+#include "base/string/define.h"
 #include <algorithm>
 #include <cstdint>
+#include <stdexcept>
 
 namespace base
 {
@@ -95,6 +98,11 @@ namespace base
 		///
 		virtual void SetPosition(int64_t value) override
 		{
+			if (value < 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "value 不能 < 0."};
+			}
+
 			_stream->SetPosition(value + _range.Begin());
 		}
 
@@ -109,14 +117,32 @@ namespace base
 		///
 		/// @return
 		///
-		virtual int64_t Read(base::Span const &span) override = 0;
+		virtual int64_t Read(base::Span const &span) override
+		{
+			if (Position() >= _range.Size())
+			{
+				return 0;
+			}
+
+			int64_t remain = _range.Size() - Position();
+			base::Span sliced_span = span[base::Range{0, std::min(span.Size(), remain)}];
+			return _stream->Read(sliced_span);
+		}
 
 		///
 		/// @brief 将 span 中的数据写入本流。
 		///
 		/// @param span
 		///
-		virtual void Write(base::ReadOnlySpan const &span) override = 0;
+		virtual void Write(base::ReadOnlySpan const &span) override
+		{
+			if (Position() + span.Size() >= _range.Size())
+			{
+				throw std::overflow_error{CODE_POS_STR + "写入的数据太多，会发生越界。"};
+			}
+
+			_stream->Write(span);
+		}
 
 		///
 		/// @brief 冲洗流。
