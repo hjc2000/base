@@ -67,7 +67,9 @@ namespace base
 		///
 		virtual int64_t Length() const override
 		{
-			int64_t ret = std::min(_range.Size(), _stream->Length());
+			int64_t ret = std::min(_range.Size(),
+								   _stream->Length() - _range.Begin());
+
 			return ret;
 		}
 
@@ -103,6 +105,11 @@ namespace base
 				throw std::invalid_argument{CODE_POS_STR + "value 不能 < 0."};
 			}
 
+			if (value > Length())
+			{
+				throw std::overflow_error{CODE_POS_STR + "设置的位置越界了。"};
+			}
+
 			_stream->SetPosition(value + _range.Begin());
 		}
 
@@ -119,12 +126,12 @@ namespace base
 		///
 		virtual int64_t Read(base::Span const &span) override
 		{
-			if (Position() >= _range.Size())
+			if (Position() >= Length())
 			{
 				return 0;
 			}
 
-			int64_t remain = _range.Size() - Position();
+			int64_t remain = Length() - Position();
 			base::Span sliced_span = span[base::Range{0, std::min(span.Size(), remain)}];
 			return _stream->Read(sliced_span);
 		}
@@ -136,7 +143,7 @@ namespace base
 		///
 		virtual void Write(base::ReadOnlySpan const &span) override
 		{
-			if (Position() + span.Size() >= _range.Size())
+			if (Position() + span.Size() >= Length())
 			{
 				throw std::overflow_error{CODE_POS_STR + "写入的数据太多，会发生越界。"};
 			}
