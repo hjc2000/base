@@ -90,6 +90,11 @@ namespace base
 		///
 		virtual int64_t Position() const override
 		{
+			if (_stream->Position() < _range.Begin())
+			{
+				throw std::runtime_error{CODE_POS_STR + "流的位置错误地小于 _range.Begin(). 将流交给本类管理后不要再自行操作流。"};
+			}
+
 			return _stream->Position() - _range.Begin();
 		}
 
