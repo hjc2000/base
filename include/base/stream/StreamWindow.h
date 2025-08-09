@@ -1,12 +1,28 @@
 #pragma once
+#include "base/container/Range.h"
+#include "base/exception/NotSupportedException.h"
 #include "base/stream/Stream.h"
+#include <algorithm>
+#include <cstdint>
 
 namespace base
 {
 	class StreamWindow :
 		public base::Stream
 	{
+	private:
+		base::Stream *_stream = nullptr;
+		base::Range _range{};
+
 	public:
+		StreamWindow() = default;
+
+		StreamWindow(base::Stream &stream, base::Range const &range)
+		{
+			_stream = &stream;
+			_range = range;
+		}
+
 		/* #region 接口 - 流属性 */
 
 		///
@@ -14,49 +30,71 @@ namespace base
 		///
 		/// @return
 		///
-		virtual bool CanRead() const override = 0;
+		virtual bool CanRead() const override
+		{
+			return _stream->CanRead();
+		}
 
 		///
 		/// @brief 本流能否写入。
 		///
 		/// @return
 		///
-		virtual bool CanWrite() const override = 0;
+		virtual bool CanWrite() const override
+		{
+			return _stream->CanWrite();
+		}
 
 		///
 		/// @brief 本流能否定位。
 		///
 		/// @return
 		///
-		virtual bool CanSeek() const override = 0;
+		virtual bool CanSeek() const override
+		{
+			return _stream->CanSeek();
+		}
 
 		///
 		/// @brief 流的长度
 		///
 		/// @return
 		///
-		virtual int64_t Length() const override = 0;
+		virtual int64_t Length() const override
+		{
+			int64_t ret = std::min(_range.Size(), _stream->Length());
+			return ret;
+		}
 
 		///
 		/// @brief 设置流的长度。
 		///
 		/// @param value
 		///
-		virtual void SetLength(int64_t value) override = 0;
+		virtual void SetLength(int64_t value) override
+		{
+			throw base::NotSupportedException{};
+		}
 
 		///
 		/// @brief 流当前的位置。
 		///
 		/// @return
 		///
-		virtual int64_t Position() const override = 0;
+		virtual int64_t Position() const override
+		{
+			return _stream->Position() - _range.Begin();
+		}
 
 		///
 		/// @brief 设置流当前的位置。
 		///
 		/// @param value
 		///
-		virtual void SetPosition(int64_t value) override = 0;
+		virtual void SetPosition(int64_t value) override
+		{
+			_stream->SetPosition(value + _range.Begin());
+		}
 
 		/* #endregion */
 
@@ -94,7 +132,10 @@ namespace base
 		/// @note 关闭后流的读取不会引发异常，但是在读完内部残留的数据后，将不会再读到
 		/// 任何数据。
 		///
-		virtual void Close() override = 0;
+		virtual void Close() override
+		{
+			_stream->Close();
+		}
 
 		/* #endregion */
 	};
