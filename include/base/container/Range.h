@@ -14,6 +14,8 @@ namespace base
 		int64_t _end = 0;
 
 	public:
+		constexpr Range() = default;
+
 		///
 		/// @brief 构造函数。
 		///
