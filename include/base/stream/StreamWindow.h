@@ -21,6 +21,8 @@ namespace base
 		{
 			_stream = &stream;
 			_range = range;
+
+			_stream->SetPosition(_range.Begin());
 		}
 
 		/* #region 接口 - 流属性 */
