@@ -1,6 +1,5 @@
 #pragma once
 #include "base/stream/Stream.h"
-#include <cstdint>
 #include <stdexcept>
 #include <string>
 
@@ -13,13 +12,6 @@ namespace base
 	class IStreamSerializable
 	{
 	public:
-		///
-		/// @brief 序列化到流中要写入多少字节。
-		///
-		/// @return
-		///
-		virtual int64_t StreamSerializingSize() const = 0;
-
 		///
 		/// @brief 将对象序列化写入流中。
 		///

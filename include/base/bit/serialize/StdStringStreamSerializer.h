@@ -1,8 +1,5 @@
 #pragma once
 #include "base/bit/serialize/IStreamSerializable.h"
-#include "base/string/define.h"
-#include <cstdint>
-#include <stdexcept>
 #include <string>
 
 namespace base
@@ -19,22 +16,6 @@ namespace base
 		StdStringStreamSerializer(std::string &string)
 		{
 			_string = &string;
-		}
-
-		///
-		/// @brief 序列化到流中要写入多少字节。
-		///
-		/// @return
-		///
-		virtual int64_t StreamSerializingSize() const override
-		{
-			if (_string == nullptr)
-			{
-				throw std::runtime_error{CODE_POS_STR + "未正确初始化。"};
-			}
-
-			// 字符串的大小再加上头部的一个 64 位整型用来记录长度。
-			return _string->size() + sizeof(int64_t);
 		}
 
 		///
