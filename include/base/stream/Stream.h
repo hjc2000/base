@@ -14,7 +14,7 @@ namespace base
 	public:
 		virtual ~Stream() = default;
 
-		/* #region 流属性 */
+		/* #region 接口 - 流属性 */
 
 		///
 		/// @brief 本流能否读取。
@@ -67,7 +67,7 @@ namespace base
 
 		/* #endregion */
 
-		/* #region 读写冲关 */
+		/* #region 接口 - 读写冲关 */
 
 		///
 		/// @brief 将本流的数据读取到 span 中。
