@@ -154,12 +154,9 @@ namespace base
 		///
 		virtual void Write(base::ReadOnlySpan const &span) override
 		{
-			if (Position() + span.Size() > Length())
+			if (Position() + span.Size() > _range.Size())
 			{
-				throw std::overflow_error{
-					CODE_POS_STR +
-						"Position 已到达文件尾后，或者写入的数据太多，会发生越界。",
-				};
+				throw std::overflow_error{CODE_POS_STR + "写入的数据太多，会发生越界。"};
 			}
 
 			_stream->Write(span);
