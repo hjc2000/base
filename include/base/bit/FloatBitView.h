@@ -36,12 +36,12 @@ namespace base
 			}
 
 			///
-			/// @brief 将浮点的位视图视为 uint64_t 的位视图后得到的
-			/// uint64_t 类型的值。
+			/// @brief 将浮点的位视图视为 uint32_t 的位视图后得到的
+			/// uint32_t 类型的值。
 			///
 			/// @return
 			///
-			constexpr uint64_t AsUint64() const
+			constexpr uint32_t AsUint32() const
 			{
 				return _value;
 			}
@@ -51,7 +51,7 @@ namespace base
 			///
 			/// @return
 			///
-			constexpr uint64_t MantissaBits() const
+			constexpr uint32_t MantissaBits() const
 			{
 				return base::bit::ReadBits(_value, 0, 23);
 			}
@@ -61,7 +61,7 @@ namespace base
 			///
 			/// @return
 			///
-			constexpr uint64_t ExponentBits() const
+			constexpr uint32_t ExponentBits() const
 			{
 				return base::bit::ReadBits(_value, 23, 31);
 			}
