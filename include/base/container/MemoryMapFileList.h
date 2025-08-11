@@ -319,7 +319,7 @@ namespace base
 				throw std::out_of_range{CODE_POS_STR + "索引超出范围。"};
 			}
 
-			ItemType const *address = GetAddress(index);
+			ItemType *address = GetAddress(index);
 			*address = value;
 		}
 	};
