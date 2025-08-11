@@ -72,6 +72,7 @@ namespace base
 
 			ItemType *address = GetAddress(_count);
 			new (address) ItemType{item};
+			_count++;
 		}
 
 		///
