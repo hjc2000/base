@@ -1,6 +1,7 @@
 #pragma once
 #include "base/container/IList.h"
 #include "base/container/Range.h"
+#include "base/filesystem/filesystem.h"
 #include "base/filesystem/IMemoryMapFile.h"
 #include "base/filesystem/Path.h"
 #include "base/stream/Span.h"
@@ -182,7 +183,13 @@ namespace base
 		{
 			_memory_map_file_path = memory_map_file_path;
 			_memory_map_file = base::memory_map_file::OpenOrCreate(memory_map_file_path);
-			Reserve(0);
+			Reserve(128);
+		}
+
+		~MemoryMapFileList()
+		{
+			_memory_map_file->UnMapAll();
+			base::filesystem::Remove(_memory_map_file_path);
 		}
 
 		///
