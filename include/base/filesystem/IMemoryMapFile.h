@@ -21,6 +21,19 @@ namespace base
 			virtual base::Span Map(base::Range const &range) = 0;
 
 			///
+			/// @brief 取消映射。
+			///
+			/// @param address 传入 Map 方法返回的 base::Span 的 Buffer 属性。
+			///
+			virtual void UnMap(uint8_t *address) = 0;
+
+			///
+			/// @brief 取消所有映射。
+			///
+			///
+			virtual void UnMapAll() = 0;
+
+			///
 			/// @brief 调整文件大小。
 			///
 			/// @param size
