@@ -186,11 +186,13 @@ namespace base
 		{
 			Reserve(_count + 1);
 			MoveDown(index, 1);
-			ItemType *current_address = GetAddress(index);
+
+			// current_item 在 MoveDown 中已经被析构了。
+			ItemType *current_item = GetAddress(index);
 
 			try
 			{
-				new (current_address) ItemType{item};
+				new (current_item) ItemType{item};
 				_count++;
 			}
 			catch (...)
