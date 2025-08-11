@@ -109,6 +109,8 @@ namespace base
 				}
 				catch (...)
 				{
+					// 拷贝或移动失败，直接把 next_item 丢弃，递减容器计数。
+					_count--;
 				}
 
 				// 失败了也会递增 next_item, 并且直接把 next_item 丢弃。
