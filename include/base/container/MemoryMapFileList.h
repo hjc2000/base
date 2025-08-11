@@ -19,20 +19,10 @@ namespace base
 		public base::IList<ItemType>
 	{
 	private:
-		base::Path _memory_map_file_path;
-		std::shared_ptr<base::memory_map_file::IMemoryMapFile> _memory_map_file;
-		base::Span _span;
+		base::Path _memory_map_file_path{};
+		std::shared_ptr<base::memory_map_file::IMemoryMapFile> _memory_map_file{};
+		base::Span _span{};
 		int64_t _count = 0;
-
-		///
-		/// @brief 储备空间能够储存多少个元素。
-		///
-		/// @return
-		///
-		int64_t ReservedCount() const
-		{
-			return _span.Size() / sizeof(ItemType);
-		}
 
 		///
 		/// @brief 储备一定空间，以容纳 count 个元素。
