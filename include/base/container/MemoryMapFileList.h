@@ -189,6 +189,7 @@ namespace base
 		~MemoryMapFileList()
 		{
 			_memory_map_file->UnMapAll();
+			_memory_map_file->Close();
 			base::filesystem::Remove(_memory_map_file_path);
 		}
 

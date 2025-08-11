@@ -39,6 +39,12 @@ namespace base
 			/// @param size
 			///
 			virtual void Resize(int64_t size) = 0;
+
+			///
+			/// @brief 关闭内存映射文件。
+			///
+			///
+			virtual void Close() = 0;
 		};
 
 		///
