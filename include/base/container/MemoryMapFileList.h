@@ -41,7 +41,10 @@ namespace base
 		void Reserve(int64_t count)
 		{
 			_memory_map_file->UnMapAll();
-			_span = _memory_map_file->Map(base::Range{0, count * sizeof(ItemType)});
+
+			int64_t size = count * sizeof(ItemType);
+			size = std::max(size, _span.Size() * 2);
+			_span = _memory_map_file->Map(base::Range{0, size});
 		}
 
 		ItemType *GetAddress(int64_t index) const
@@ -65,11 +68,7 @@ namespace base
 		///
 		virtual void Add(ItemType const &item) override
 		{
-			if (_count + 1 > ReservedCount())
-			{
-				Reserve(std::max<int64_t>(_count * 2, 32));
-			}
-
+			Reserve(_count + 1);
 			ItemType *address = GetAddress(_count);
 			new (address) ItemType{item};
 			_count++;
@@ -83,10 +82,7 @@ namespace base
 		///
 		virtual void Insert(int64_t index, ItemType const &item) override
 		{
-			if (_count + 1 > ReservedCount())
-			{
-				Reserve(std::max<int64_t>(_count * 2, 32));
-			}
+			Reserve(_count + 1);
 
 			int64_t current_index = _count;
 			for (int64_t next_index = _count - 1; next_index >= index; next_index--)
