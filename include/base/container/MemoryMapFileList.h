@@ -82,6 +82,32 @@ namespace base
 		///
 		virtual void Insert(int64_t index, ItemType const &item) override
 		{
+			if (_count + 1 > ReservedCount())
+			{
+				Reserve(std::max<int64_t>(_count * 2, 32));
+			}
+
+			int64_t current_index = _count;
+			for (int64_t next_index = _count - 1; next_index >= index; next_index--)
+			{
+				ItemType *current_item = GetAddress(current_index);
+				ItemType *next_item = GetAddress(next_index);
+
+				try
+				{
+					new (current_item) ItemType{std::move(*next_item)};
+
+					// 成功拷贝或移动后才递增 current_index.
+					current_index--;
+				}
+				catch (...)
+				{
+					// 拷贝或移动失败，直接把 next_item 丢弃，递减容器计数。
+					_count--;
+				}
+
+				next_item->~ItemType();
+			}
 		}
 
 		///
