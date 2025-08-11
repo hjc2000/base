@@ -8,6 +8,7 @@
 #include "base/string/define.h"
 #include <algorithm>
 #include <cstdint>
+#include <iostream>
 #include <new> // IWYU pragma: keep
 #include <stdexcept>
 #include <utility>
@@ -35,6 +36,7 @@ namespace base
 			if (_span.Size() < required_size)
 			{
 				_memory_map_file->UnMapAll();
+				required_size = std::max<int64_t>(required_size, _span.Size() * 2);
 				_span = _memory_map_file->Map(base::Range{0, required_size});
 			}
 		}
@@ -183,6 +185,8 @@ namespace base
 			_memory_map_file->Close();
 			base::filesystem::Remove(_memory_map_file_path);
 		}
+
+		using base::IList<ItemType>::Add;
 
 		///
 		/// @brief 向列表末尾添加一个元素。
