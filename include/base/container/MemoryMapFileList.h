@@ -53,6 +53,99 @@ namespace base
 			return reinterpret_cast<ItemType *>(address);
 		}
 
+		///
+		/// @brief 把 index 后面的 offset 位置及后续的元素向上移动到 index 的位置。
+		/// 会把 index 位置给覆盖掉，如果那个位置是一个有效元素，需要提前析构。
+		///
+		/// @param index
+		/// @param offset
+		///
+		void MoveUp(int64_t index, int64_t offset)
+		{
+			if (offset < 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "offset 不能 <0."};
+			}
+
+			if (offset == 0)
+			{
+				return;
+			}
+
+			int64_t current_index = index;
+
+			for (int64_t next_index = current_index + offset; next_index < _count; next_index++)
+			{
+				ItemType *current_item = GetAddress(current_index);
+				ItemType *next_item = GetAddress(next_index);
+
+				try
+				{
+					new (current_item) ItemType{std::move(*next_item)};
+
+					// 成功拷贝或移动后才递增 current_index.
+					current_index++;
+				}
+				catch (...)
+				{
+					// 拷贝或移动失败，直接把 next_item 丢弃，递减容器计数。
+					_count--;
+				}
+
+				// 失败了也会递增 next_item, 并且直接把 next_item 丢弃。
+				next_item->~ItemType();
+			}
+		}
+
+		void MoveDown(int64_t index, int64_t offset)
+		{
+			if (offset < 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "offset 不能 <0."};
+			}
+
+			if (offset == 0)
+			{
+				return;
+			}
+
+			if (_count == 0)
+			{
+				return;
+			}
+
+			Reserve(_count + offset);
+
+			int64_t discarded_count = 0;
+
+			// 从底部开始向上推进，逐个向下拷贝。
+			int64_t current_index = _count - 1 + offset;
+
+			for (int64_t next_index = current_index - offset; next_index >= index; next_index--)
+			{
+				ItemType *current_item = GetAddress(current_index);
+				ItemType *next_item = GetAddress(next_index);
+
+				try
+				{
+					new (current_item) ItemType{std::move(*next_item)};
+
+					// 成功拷贝或移动后才递增 current_index.
+					current_index--;
+				}
+				catch (...)
+				{
+					// 拷贝或移动失败，直接把 next_item 丢弃，递减容器计数。
+					discarded_count++;
+				}
+
+				next_item->~ItemType();
+			}
+
+			_count -= discarded_count;
+			MoveUp(index + offset, discarded_count);
+		}
+
 	public:
 		MemoryMapFileList(base::Path const &memory_map_file_path)
 		{
@@ -83,27 +176,17 @@ namespace base
 		virtual void Insert(int64_t index, ItemType const &item) override
 		{
 			Reserve(_count + 1);
+			MoveDown(index, 1);
+			ItemType *current_address = GetAddress(index);
 
-			int64_t current_index = _count;
-			for (int64_t next_index = _count - 1; next_index >= index; next_index--)
+			try
 			{
-				ItemType *current_item = GetAddress(current_index);
-				ItemType *next_item = GetAddress(next_index);
-
-				try
-				{
-					new (current_item) ItemType{std::move(*next_item)};
-
-					// 成功拷贝或移动后才递增 current_index.
-					current_index--;
-				}
-				catch (...)
-				{
-					// 拷贝或移动失败，直接把 next_item 丢弃，递减容器计数。
-					_count--;
-				}
-
-				next_item->~ItemType();
+				new (current_address) ItemType{item};
+				_count++;
+			}
+			catch (...)
+			{
+				MoveUp(index, 1);
 			}
 		}
 
@@ -114,32 +197,9 @@ namespace base
 		///
 		virtual void RemoveAt(int64_t index) override
 		{
-			int64_t current_index = index;
-			ItemType *current_item = GetAddress(current_index);
+			ItemType *current_item = GetAddress(index);
 			current_item->~ItemType();
-
-			for (int64_t next_index = index + 1; next_index < _count; next_index++)
-			{
-				ItemType *current_item = GetAddress(current_index);
-				ItemType *next_item = GetAddress(next_index);
-
-				try
-				{
-					new (current_item) ItemType{std::move(*next_item)};
-
-					// 成功拷贝或移动后才递增 current_index.
-					current_index++;
-				}
-				catch (...)
-				{
-					// 拷贝或移动失败，直接把 next_item 丢弃，递减容器计数。
-					_count--;
-				}
-
-				// 失败了也会递增 next_item, 并且直接把 next_item 丢弃。
-				next_item->~ItemType();
-			}
-
+			MoveUp(index, 1);
 			_count--;
 		}
 
