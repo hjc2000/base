@@ -1,6 +1,6 @@
 #include "GenerateCalculationQuestions.h"
 #include "base/container/Set.h"
-#include "base/filesystem/IFileStream.h"
+#include "base/filesystem/file.h"
 #include "base/math/random.h"
 #include "base/stream/StreamWriter.h"
 
@@ -116,7 +116,7 @@ base::usage::CalculationQuestion base::usage::CalculationQuestionGenerator::Gene
 
 void base::usage::GenerateCalculationQuestions()
 {
-	std::shared_ptr<base::IFileStream> fs = base::file::CreateNewAnyway("math.txt");
+	std::shared_ptr<base::Stream> fs = base::file::CreateNewAnyway("math.txt");
 	base::StreamWriter writer{fs};
 
 	std::function<bool(base::usage::CalculationQuestion const &)> filter{

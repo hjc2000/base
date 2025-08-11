@@ -1,5 +1,4 @@
 #pragma once
-#include "base/filesystem/IFileStream.h"
 #include "base/filesystem/Path.h"
 #include <filesystem>
 #include <fstream>
@@ -9,7 +8,7 @@
 namespace base
 {
 	class FileStream final :
-		public base::IFileStream
+		public base::Stream
 	{
 	private:
 		FileStream(base::Path const &path)
