@@ -31,10 +31,10 @@ namespace base
 		///
 		void Reserve(int64_t count)
 		{
-			_memory_map_file->UnMapAll();
 			int64_t required_size = count * sizeof(ItemType);
 			if (_span.Size() < required_size)
 			{
+				_memory_map_file->UnMapAll();
 				_span = _memory_map_file->Map(base::Range{0, required_size});
 			}
 		}
