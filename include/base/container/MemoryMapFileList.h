@@ -97,6 +97,12 @@ namespace base
 			}
 		}
 
+		///
+		/// @brief 把 index 位置及后续的元素向后移动 offset.
+		///
+		/// @param index
+		/// @param offset
+		///
 		void MoveDown(int64_t index, int64_t offset)
 		{
 			if (offset < 0)
@@ -143,6 +149,9 @@ namespace base
 			}
 
 			_count -= discarded_count;
+
+			// 如果没有丢弃任何一个元素，则 index + offset 位置会是有效元素，但是如果丢弃了，
+			// index + offset 位置就是无效元素。
 			MoveUp(index + offset, discarded_count);
 		}
 
