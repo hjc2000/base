@@ -1,5 +1,6 @@
 #pragma once
 #include "base/container/Range.h"
+#include "base/stream/Span.h"
 #include "Path.h"
 #include <cstdint>
 #include <memory>
@@ -17,7 +18,7 @@ namespace base
 			/// @param range
 			/// @return
 			///
-			virtual void *Map(base::Range const &range) = 0;
+			virtual base::Span Map(base::Range const &range) = 0;
 
 			///
 			/// @brief 调整文件大小。
