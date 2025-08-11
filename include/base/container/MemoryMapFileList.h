@@ -91,14 +91,16 @@ namespace base
 					// 拷贝或移动失败，直接把 next_item 丢弃，递减容器计数。
 					_count--;
 
-					std::cerr << CODE_POS_STR << e.what() << std::endl;
+					std::cerr << CODE_POS_STR
+							  << "移动构造发生异常，删除移动失败的元素。发生的异常为："
+							  << e.what() << std::endl;
 				}
 				catch (...)
 				{
 					// 拷贝或移动失败，直接把 next_item 丢弃，递减容器计数。
 					_count--;
 
-					std::cerr << CODE_POS_STR << "未知异常。" << std::endl;
+					std::cerr << CODE_POS_STR << "移动构造发生未知异常，删除移动失败的元素。" << std::endl;
 				}
 
 				// 失败了也会递增 next_item, 并且直接把 next_item 丢弃。
@@ -153,14 +155,16 @@ namespace base
 					// 拷贝或移动失败，直接把 next_item 丢弃，递减容器计数。
 					discarded_count++;
 
-					std::cerr << CODE_POS_STR << e.what() << std::endl;
+					std::cerr << CODE_POS_STR
+							  << "移动构造发生异常，删除移动失败的元素。发生的异常为："
+							  << e.what() << std::endl;
 				}
 				catch (...)
 				{
 					// 拷贝或移动失败，直接把 next_item 丢弃，递减容器计数。
 					discarded_count++;
 
-					std::cerr << CODE_POS_STR << "未知异常。" << std::endl;
+					std::cerr << CODE_POS_STR << "移动构造发生未知异常，删除移动失败的元素。" << std::endl;
 				}
 
 				next_item->~ItemType();
