@@ -5,8 +5,11 @@
 #include "base/filesystem/Path.h"
 #include "base/stream/Span.h"
 #include "base/string/define.h"
+#include <algorithm>
 #include <cstdint>
+#include <new> // IWYU pragma: keep
 #include <stdexcept>
+#include <utility>
 
 namespace base
 {
@@ -64,7 +67,7 @@ namespace base
 		{
 			if (_count + 1 > ReservedCount())
 			{
-				Reserve(_count * 2);
+				Reserve(std::max<int64_t>(_count * 2, 32));
 			}
 
 			ItemType *address = GetAddress(_count);
@@ -88,6 +91,17 @@ namespace base
 		///
 		virtual void RemoveAt(int64_t index) override
 		{
+			for (int64_t i = index; i < _count - 1; i++)
+			{
+				ItemType *current_item = GetAddress(i);
+				ItemType *next_item = GetAddress(i + 1);
+				current_item->~ItemType();
+				new (current_item) ItemType{std::move(*next_item)};
+			}
+
+			ItemType *last_item = GetAddress(_count - 1);
+			last_item->~ItemType();
+			_count--;
 		}
 
 		///
@@ -96,6 +110,13 @@ namespace base
 		///
 		virtual void Clear() override
 		{
+			for (int64_t i = 0; i < _count; i++)
+			{
+				ItemType &item = Get(i);
+				item.~ItemType();
+			}
+
+			_count = 0;
 		}
 
 		///
