@@ -42,10 +42,11 @@ namespace base
 		void Reserve(int64_t count)
 		{
 			_memory_map_file->UnMapAll();
-
-			int64_t size = count * sizeof(ItemType);
-			size = std::max(size, _span.Size() * 2);
-			_span = _memory_map_file->Map(base::Range{0, size});
+			int64_t required_size = count * sizeof(ItemType);
+			if (_span.Size() < required_size)
+			{
+				_span = _memory_map_file->Map(base::Range{0, required_size});
+			}
 		}
 
 		ItemType *GetAddress(int64_t index) const
