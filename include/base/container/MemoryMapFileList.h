@@ -86,10 +86,19 @@ namespace base
 					// 成功拷贝或移动后才递增 current_index.
 					current_index++;
 				}
+				catch (std::exception const &e)
+				{
+					// 拷贝或移动失败，直接把 next_item 丢弃，递减容器计数。
+					_count--;
+
+					std::cerr << CODE_POS_STR << e.what() << std::endl;
+				}
 				catch (...)
 				{
 					// 拷贝或移动失败，直接把 next_item 丢弃，递减容器计数。
 					_count--;
+
+					std::cerr << CODE_POS_STR << "未知异常。" << std::endl;
 				}
 
 				// 失败了也会递增 next_item, 并且直接把 next_item 丢弃。
@@ -139,10 +148,19 @@ namespace base
 					// 成功拷贝或移动后才递增 current_index.
 					current_index--;
 				}
+				catch (std::exception const &e)
+				{
+					// 拷贝或移动失败，直接把 next_item 丢弃，递减容器计数。
+					discarded_count++;
+
+					std::cerr << CODE_POS_STR << e.what() << std::endl;
+				}
 				catch (...)
 				{
 					// 拷贝或移动失败，直接把 next_item 丢弃，递减容器计数。
 					discarded_count++;
+
+					std::cerr << CODE_POS_STR << "未知异常。" << std::endl;
 				}
 
 				next_item->~ItemType();
