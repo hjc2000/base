@@ -217,9 +217,18 @@ namespace base
 				new (current_item) ItemType{item};
 				_count++;
 			}
+			catch (std::exception const &e)
+			{
+				MoveUp(index, 1);
+
+				std::cerr << CODE_POS_STR
+						  << "插入元素时调用拷贝构造函数时发生异常，无法插入。异常为："
+						  << e.what() << std::endl;
+			}
 			catch (...)
 			{
 				MoveUp(index, 1);
+				std::cerr << CODE_POS_STR << "插入元素时调用拷贝构造函数时发生未知异常，无法插入。" << std::endl;
 			}
 		}
 
