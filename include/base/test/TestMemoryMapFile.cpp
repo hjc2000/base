@@ -8,6 +8,8 @@
 #include <iostream>
 #include <string>
 
+#if HAS_THREAD
+
 void base::test::TestMemoryMapFile()
 {
 	constexpr uint8_t datas[128] = {0, 1, 2, 3, 4, 5, 6};
@@ -44,3 +46,5 @@ void base::test::TestMemoryMapFile()
 		std::cout << "删除 " << path << std::endl;
 	}
 }
+
+#endif // HAS_THREAD
