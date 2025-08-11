@@ -103,15 +103,16 @@ namespace base
 				try
 				{
 					new (current_item) ItemType{std::move(*next_item)};
-					next_item->~ItemType();
 
 					// 成功拷贝或移动后才递增 current_index.
-					// 失败了也会递增 next_item, 直接把 next_item 丢弃。
 					current_index++;
 				}
 				catch (...)
 				{
 				}
+
+				// 失败了也会递增 next_item, 并且直接把 next_item 丢弃。
+				next_item->~ItemType();
 			}
 
 			_count--;
