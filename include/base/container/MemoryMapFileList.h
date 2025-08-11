@@ -91,16 +91,29 @@ namespace base
 		///
 		virtual void RemoveAt(int64_t index) override
 		{
-			for (int64_t i = index; i < _count - 1; i++)
+			int64_t current_index = index;
+			ItemType *current_item = GetAddress(current_index);
+			current_item->~ItemType();
+
+			for (int64_t next_index = index + 1; next_index < _count; next_index++)
 			{
-				ItemType *current_item = GetAddress(i);
-				ItemType *next_item = GetAddress(i + 1);
-				current_item->~ItemType();
-				new (current_item) ItemType{std::move(*next_item)};
+				ItemType *current_item = GetAddress(current_index);
+				ItemType *next_item = GetAddress(next_index);
+
+				try
+				{
+					new (current_item) ItemType{std::move(*next_item)};
+					next_item->~ItemType();
+
+					// 成功拷贝或移动后才递增 current_index.
+					// 失败了也会递增 next_item, 直接把 next_item 丢弃。
+					current_index++;
+				}
+				catch (...)
+				{
+				}
 			}
 
-			ItemType *last_item = GetAddress(_count - 1);
-			last_item->~ItemType();
 			_count--;
 		}
 
