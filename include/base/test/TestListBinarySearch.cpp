@@ -34,6 +34,29 @@ void base::test::TestListBinarySearch()
 	}
 
 	{
+		base::List<int> list{9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+		int64_t index = 0;
+
+		index = list.DescendingOrderBinarySearch(5);
+		if (index != 4)
+		{
+			throw std::runtime_error{CODE_POS_STR + "测试不通过。"};
+		}
+
+		index = list.DescendingOrderBinarySearch(0);
+		if (index != 9)
+		{
+			throw std::runtime_error{CODE_POS_STR + "测试不通过。"};
+		}
+
+		index = list.DescendingOrderBinarySearch(9);
+		if (index != 0)
+		{
+			throw std::runtime_error{CODE_POS_STR + "测试不通过。"};
+		}
+	}
+
+	{
 		base::List<int> list{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
 		std::function<int(int const &left, int const &right)> compare = [](int const &left, int const &right) -> int64_t
