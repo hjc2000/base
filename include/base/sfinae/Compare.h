@@ -22,8 +22,8 @@ namespace base
 	/// @param b
 	/// @return
 	///
-	template <typename T, typename = void>
-	concept has_less_than_operator = requires(T a, T b) {
+	template <typename TLeft, typename TRight>
+	concept has_less_than_operator = requires(TLeft a, TRight b) {
 		requires(std::is_same_v<decltype(a < b), bool>);
 	};
 
@@ -34,8 +34,8 @@ namespace base
 	/// @param b
 	/// @return
 	///
-	template <typename T, typename = void>
-	concept has_greater_than_operator = requires(T a, T b) {
+	template <typename TLeft, typename TRight>
+	concept has_greater_than_operator = requires(TLeft a, TRight b) {
 		requires(std::is_same_v<decltype(a > b), bool>);
 	};
 
@@ -46,8 +46,8 @@ namespace base
 	/// @param b
 	/// @return
 	///
-	template <typename T, typename = void>
-	concept has_less_than_or_equal_operator = requires(T a, T b) {
+	template <typename TLeft, typename TRight>
+	concept has_less_than_or_equal_operator = requires(TLeft a, TRight b) {
 		requires(std::is_same_v<decltype(a <= b), bool>);
 	};
 
@@ -58,8 +58,8 @@ namespace base
 	/// @param b
 	/// @return
 	///
-	template <typename T, typename = void>
-	concept has_greater_than_or_equal_operator = requires(T a, T b) {
+	template <typename TLeft, typename TRight>
+	concept has_greater_than_or_equal_operator = requires(TLeft a, TRight b) {
 		requires(std::is_same_v<decltype(a >= b), bool>);
 	};
 

@@ -10,8 +10,8 @@ namespace base
 	///
 	template <typename KeyType, typename ValueType>
 		requires(base::has_equal_operator<KeyType, KeyType> &&
-				 base::has_less_than_operator<KeyType> &&
-				 base::has_greater_than_operator<KeyType>)
+				 base::has_less_than_operator<KeyType, KeyType> &&
+				 base::has_greater_than_operator<KeyType, KeyType>)
 	class IDictionary :
 		public base::IEnumerable<std::pair<KeyType const, ValueType>>
 	{

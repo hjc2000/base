@@ -299,8 +299,8 @@ namespace base
 		///
 		int64_t AscendingOrderBinarySearch(ItemType const &item) const
 			requires(base::has_equal_operator<ItemType, ItemType> &&
-					 base::has_less_than_operator<ItemType> &&
-					 base::has_greater_than_operator<ItemType>)
+					 base::has_less_than_operator<ItemType, ItemType> &&
+					 base::has_greater_than_operator<ItemType, ItemType>)
 		{
 			int64_t left = 0;
 			int64_t right = Count() - 1;
@@ -373,8 +373,8 @@ namespace base
 		///
 		int64_t DescendingOrderBinarySearch(ItemType const &item) const
 			requires(base::has_equal_operator<ItemType, ItemType> &&
-					 base::has_less_than_operator<ItemType> &&
-					 base::has_greater_than_operator<ItemType>)
+					 base::has_less_than_operator<ItemType, ItemType> &&
+					 base::has_greater_than_operator<ItemType, ItemType>)
 		{
 			int64_t left = 0;
 			int64_t right = Count() - 1;
@@ -462,8 +462,8 @@ namespace base
 
 		bool operator==(IList<ItemType> const &o) const
 			requires(base::has_equal_operator<ItemType, ItemType> &&
-					 base::has_less_than_operator<ItemType> &&
-					 base::has_greater_than_operator<ItemType>)
+					 base::has_less_than_operator<ItemType, ItemType> &&
+					 base::has_greater_than_operator<ItemType, ItemType>)
 		{
 			if (this == &o)
 			{
@@ -489,8 +489,8 @@ namespace base
 
 		bool operator<(IList<ItemType> const &o) const
 			requires(base::has_equal_operator<ItemType, ItemType> &&
-					 base::has_less_than_operator<ItemType> &&
-					 base::has_greater_than_operator<ItemType>)
+					 base::has_less_than_operator<ItemType, ItemType> &&
+					 base::has_greater_than_operator<ItemType, ItemType>)
 		{
 			if (this == &o)
 			{
@@ -519,8 +519,8 @@ namespace base
 
 		bool operator>(IList<ItemType> const &o) const
 			requires(base::has_equal_operator<ItemType, ItemType> &&
-					 base::has_less_than_operator<ItemType> &&
-					 base::has_greater_than_operator<ItemType>)
+					 base::has_less_than_operator<ItemType, ItemType> &&
+					 base::has_greater_than_operator<ItemType, ItemType>)
 		{
 			if (this == &o)
 			{
@@ -549,8 +549,8 @@ namespace base
 
 		bool operator<=(IList<ItemType> const &o) const
 			requires(base::has_equal_operator<ItemType, ItemType> &&
-					 base::has_less_than_operator<ItemType> &&
-					 base::has_greater_than_operator<ItemType>)
+					 base::has_less_than_operator<ItemType, ItemType> &&
+					 base::has_greater_than_operator<ItemType, ItemType>)
 		{
 			if (this == &o)
 			{
@@ -579,8 +579,8 @@ namespace base
 
 		bool operator>=(IList<ItemType> const &o) const
 			requires(base::has_equal_operator<ItemType, ItemType> &&
-					 base::has_less_than_operator<ItemType> &&
-					 base::has_greater_than_operator<ItemType>)
+					 base::has_less_than_operator<ItemType, ItemType> &&
+					 base::has_greater_than_operator<ItemType, ItemType>)
 		{
 			if (this == &o)
 			{
