@@ -15,8 +15,7 @@ namespace base
 		///
 		/// @param item
 		///
-		/// @return true 集合中原本没有该元素，添加成功。
-		/// @return false 集合中原本已经有该元素了，添加失败。
+		/// @return 如果集合中原本没有该元素，则添加成功，返回 true, 否则返回 false.
 		///
 		virtual bool Add(ItemType const &item) = 0;
 
@@ -25,8 +24,7 @@ namespace base
 		///
 		/// @param item
 		///
-		/// @return true 集合中有该元素，移除成功。
-		/// @return false 集合中没有该元素，移除失败。
+		/// @return 集合中有该元素，移除成功则返回 true, 否则返回 false.
 		///
 		virtual bool Remove(ItemType const &item) = 0;
 
@@ -34,15 +32,15 @@ namespace base
 		/// @brief 检查是否存在指定元素。
 		///
 		/// @param item
-		/// @return true
-		/// @return false
+		///
+		/// @return
 		///
 		virtual bool Contains(ItemType const &item) const = 0;
 
 		///
 		/// @brief 元素个数。
 		///
-		/// @return int64_t
+		/// @return
 		///
 		virtual int64_t Count() const = 0;
 
@@ -51,7 +49,7 @@ namespace base
 		///
 		/// @brief 获取非 const 迭代器
 		///
-		/// @return std::shared_ptr<base::IEnumerator<ItemType const>>
+		/// @return
 		///
 		virtual std::shared_ptr<base::IEnumerator<ItemType const>> GetEnumerator() = 0;
 
