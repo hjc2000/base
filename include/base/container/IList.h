@@ -336,7 +336,7 @@ namespace base
 		/// @return 找到了返回元素的索引，找不到返回 -1.
 		///
 		int64_t AscendingOrderBinarySearch(ItemType const &item,
-										   std::function<bool(ItemType const &left, ItemType const &right)> compare) const
+										   std::function<int(ItemType const &left, ItemType const &right)> compare) const
 		{
 			int64_t left = 0;
 			int64_t right = Count() - 1;
@@ -409,7 +409,7 @@ namespace base
 		/// @return 找到了返回元素的索引，找不到返回 -1.
 		///
 		int64_t DescendingOrderBinarySearch(ItemType const &item,
-											std::function<bool(ItemType const &left, ItemType const &right)> compare) const
+											std::function<int(ItemType const &left, ItemType const &right)> compare) const
 		{
 			int64_t left = 0;
 			int64_t right = Count() - 1;
