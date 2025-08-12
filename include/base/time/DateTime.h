@@ -898,6 +898,29 @@ namespace base
 			_utc_hour_offset = value.Value();
 		}
 
+		constexpr int64_t DictionaryOrder() const
+		{
+			constexpr int64_t ns_coefficient = 1;
+			constexpr int64_t us_coefficient = 1000 * ns_coefficient;
+			constexpr int64_t ms_coefficient = 1000 * us_coefficient;
+			constexpr int64_t seconds_coefficient = 1000 * ms_coefficient;
+			constexpr int64_t minutes_coefficient = 60 * seconds_coefficient;
+			constexpr int64_t hours_coefficient = 60 * minutes_coefficient;
+			constexpr int64_t days_coefficient = 24 * hours_coefficient;
+			constexpr int64_t months_coefficient = 31 * days_coefficient;
+			constexpr int64_t years_coefficient = 12 * months_coefficient;
+
+			int64_t order = _year * years_coefficient +
+							_month * months_coefficient +
+							_day * days_coefficient +
+							_hour * hours_coefficient +
+							_minute * minutes_coefficient +
+							_second * seconds_coefficient +
+							_nanosecond * ns_coefficient;
+
+			return order;
+		}
+
 		///
 		/// @brief epoch 起点日期。
 		///
