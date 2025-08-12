@@ -332,7 +332,7 @@ namespace base
 		///
 		/// @brief 升序排列时适用的二分法查找。
 		///
-		/// @param 比较器。返回负数表示左边小于右边，返回 0 表示等于，返回正数表示左边大于右边。
+		/// @param compare 比较器。返回负数表示左边小于右边，返回 0 表示等于，返回正数表示左边大于右边。
 		///
 		/// @return 找到了返回元素的索引，找不到返回 -1.
 		///
@@ -406,7 +406,7 @@ namespace base
 		///
 		/// @brief 升序排列时适用的二分法查找。
 		///
-		/// @param 比较器。返回负数表示左边小于右边，返回 0 表示等于，返回正数表示左边大于右边。
+		/// @param compare 比较器。返回负数表示左边小于右边，返回 0 表示等于，返回正数表示左边大于右边。
 		///
 		/// @return 找到了返回元素的索引，找不到返回 -1.
 		///
@@ -443,16 +443,23 @@ namespace base
 
 		/* #endregion */
 
+		/* #region 二分法近似查找 */
+
 		///
-		/// @brief 升序排列时适用的二分法查找。
+		/// @brief 升序排列时适用的二分法查找。查找最接近 item 的元素的索引。
 		///
-		/// @param 比较器。返回负数表示左边小于右边，返回 0 表示等于，返回正数表示左边大于右边。
+		/// @param compare 比较器。返回左边的对象和右边的对象的距离，即 left - right.
 		///
-		/// @return 找到了返回元素的索引，找不到返回 -1.
+		/// @return 返回最接近 item 的元素的索引。列表为空时会直接返回 -1.
 		///
 		int64_t AscendingOrderBinarySearchAround(ItemType const &item,
 												 std::function<int64_t(ItemType const &left, ItemType const &right)> compare) const
 		{
+			if (Count() <= 0)
+			{
+				return -1;
+			}
+
 			int64_t left = 0;
 			int64_t right = Count() - 1;
 
@@ -492,15 +499,20 @@ namespace base
 		}
 
 		///
-		/// @brief 升序排列时适用的二分法查找。
+		/// @brief 降序排列时适用的二分法查找。查找最接近 item 的元素的索引。
 		///
-		/// @param 比较器。返回负数表示左边小于右边，返回 0 表示等于，返回正数表示左边大于右边。
+		/// @param compare 比较器。返回左边的对象和右边的对象的距离，即 left - right.
 		///
-		/// @return 找到了返回元素的索引，找不到返回 -1.
+		/// @return 返回最接近 item 的元素的索引。列表为空时会直接返回 -1.
 		///
 		int64_t DescendingOrderBinarySearchAround(ItemType const &item,
 												  std::function<int64_t(ItemType const &left, ItemType const &right)> compare) const
 		{
+			if (Count() <= 0)
+			{
+				return -1;
+			}
+
 			int64_t left = 0;
 			int64_t right = Count() - 1;
 
@@ -538,6 +550,8 @@ namespace base
 
 			return closest_item_index;
 		}
+
+		/* #endregion */
 
 		/* #region GetRandomAccessEnumerator */
 
