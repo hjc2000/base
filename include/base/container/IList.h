@@ -3,6 +3,7 @@
 #include "base/container/iterator/IEnumerable.h"
 #include "base/container/iterator/IRandomAccessEnumerable.h"
 #include "base/container/iterator/IRandomAccessEnumerator.h"
+#include "base/math/math.h"
 #include "base/sfinae/Compare.h"
 #include <array>
 #include <cstdint>
@@ -336,7 +337,7 @@ namespace base
 		/// @return 找到了返回元素的索引，找不到返回 -1.
 		///
 		int64_t AscendingOrderBinarySearch(ItemType const &item,
-										   std::function<int(ItemType const &left, ItemType const &right)> compare) const
+										   std::function<int64_t(ItemType const &left, ItemType const &right)> compare) const
 		{
 			int64_t left = 0;
 			int64_t right = Count() - 1;
@@ -345,7 +346,7 @@ namespace base
 			{
 				int64_t middle = (left + right) / 2;
 				ItemType const &middle_item = Get(middle);
-				int compare_result = compare(item, middle_item);
+				int64_t compare_result = compare(item, middle_item);
 
 				if (compare_result == 0)
 				{
@@ -410,7 +411,7 @@ namespace base
 		/// @return 找到了返回元素的索引，找不到返回 -1.
 		///
 		int64_t DescendingOrderBinarySearch(ItemType const &item,
-											std::function<int(ItemType const &left, ItemType const &right)> compare) const
+											std::function<int64_t(ItemType const &left, ItemType const &right)> compare) const
 		{
 			int64_t left = 0;
 			int64_t right = Count() - 1;
@@ -419,7 +420,7 @@ namespace base
 			{
 				int64_t middle = (left + right) / 2;
 				ItemType const &middle_item = Get(middle);
-				int compare_result = compare(item, middle_item);
+				int64_t compare_result = compare(item, middle_item);
 
 				if (compare_result == 0)
 				{
@@ -441,6 +442,54 @@ namespace base
 		}
 
 		/* #endregion */
+
+		///
+		/// @brief 升序排列时适用的二分法查找。
+		///
+		/// @param 比较器。返回负数表示左边小于右边，返回 0 表示等于，返回正数表示左边大于右边。
+		///
+		/// @return 找到了返回元素的索引，找不到返回 -1.
+		///
+		int64_t AscendingOrderBinarySearchAround(ItemType const &item,
+												 std::function<int64_t(ItemType const &left, ItemType const &right)> compare) const
+		{
+			int64_t left = 0;
+			int64_t right = Count() - 1;
+
+			int64_t closest_distance = compare(item, Get(left));
+			closest_distance = base::abs(closest_distance);
+			int64_t closest_item_index = left;
+
+			while (left <= right)
+			{
+				int64_t middle = (left + right) / 2;
+				ItemType const &middle_item = Get(middle);
+				int64_t compare_result = compare(item, middle_item);
+
+				if (compare_result == 0)
+				{
+					return middle;
+				}
+
+				int64_t distance = base::abs(compare_result);
+				if (distance < closest_distance)
+				{
+					closest_item_index = middle;
+				}
+
+				if (compare_result < 0)
+				{
+					// item 在 middle_item 左边
+					right = middle - 1;
+					continue;
+				}
+
+				// item 在 middle_item 右边
+				left = middle + 1;
+			}
+
+			return closest_item_index;
+		}
 
 		/* #region GetRandomAccessEnumerator */
 
