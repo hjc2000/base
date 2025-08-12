@@ -308,7 +308,7 @@ namespace base
 
 			while (left <= right)
 			{
-				int64_t middle = (left + right) / 2;
+				int64_t middle = left + (right - left) / 2;
 				ItemType const &middle_item = Get(middle);
 				if (middle_item == item)
 				{
@@ -344,7 +344,7 @@ namespace base
 
 			while (left <= right)
 			{
-				int64_t middle = (left + right) / 2;
+				int64_t middle = left + (right - left) / 2;
 				ItemType const &middle_item = Get(middle);
 				int64_t compare_result = compare(item, middle_item);
 
@@ -382,7 +382,7 @@ namespace base
 
 			while (left <= right)
 			{
-				int64_t middle = (left + right) / 2;
+				int64_t middle = left + (right - left) / 2;
 				ItemType const &middle_item = Get(middle);
 				if (middle_item == item)
 				{
@@ -418,7 +418,7 @@ namespace base
 
 			while (left <= right)
 			{
-				int64_t middle = (left + right) / 2;
+				int64_t middle = left + (right - left) / 2;
 				ItemType const &middle_item = Get(middle);
 				int64_t compare_result = compare(item, middle_item);
 
@@ -469,7 +469,7 @@ namespace base
 
 			while (left <= right)
 			{
-				int64_t middle = (left + right) / 2;
+				int64_t middle = left + (right - left) / 2;
 				ItemType const &middle_item = Get(middle);
 				int64_t compare_result = compare(item, middle_item);
 
@@ -523,7 +523,7 @@ namespace base
 
 			while (left <= right)
 			{
-				int64_t middle = (left + right) / 2;
+				int64_t middle = left + (right - left) / 2;
 				ItemType const &middle_item = Get(middle);
 				int64_t compare_result = compare(item, middle_item);
 
