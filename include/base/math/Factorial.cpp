@@ -3,7 +3,7 @@
 #include "base/string/define.h"
 #include <stdexcept>
 
-base::BigInteger base::Factorial(base::BigInteger num)
+base::BigInteger base::Factorial(base::BigInteger const &num)
 {
 	if (num < 0)
 	{

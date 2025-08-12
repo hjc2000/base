@@ -7,8 +7,9 @@ namespace base
 	/// @brief 阶乘。
 	///
 	/// @param num
-	/// @return base::BigInteger
 	///
-	base::BigInteger Factorial(base::BigInteger num);
+	/// @return
+	///
+	base::BigInteger Factorial(base::BigInteger const &num);
 
 } // namespace base
