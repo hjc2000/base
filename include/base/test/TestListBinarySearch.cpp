@@ -30,7 +30,18 @@ void base::test::TestListBinarySearch()
 			return left - right;
 		};
 
-		std::cout << "基于比较器，使用二分法查找最近的索引：" << list.AscendingOrderBinarySearchAround(5, compare) << std::endl;
+		std::cout << "升序列表，基于比较器，使用二分法查找最近的索引：" << list.AscendingOrderBinarySearchAround(5, compare) << std::endl;
+	}
+
+	{
+		base::List<int> list{12, 11, 10, 9, 8, 7, 6, 3, 2, 1, 0};
+
+		std::function<int(int const &left, int const &right)> compare = [](int const &left, int const &right) -> int64_t
+		{
+			return left - right;
+		};
+
+		std::cout << "降序列表，基于比较器，使用二分法查找最近的索引：" << list.DescendingOrderBinarySearchAround(5, compare) << std::endl;
 	}
 }
 

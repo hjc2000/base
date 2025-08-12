@@ -481,6 +481,7 @@ namespace base
 				int64_t distance = base::abs(compare_result);
 				if (distance < closest_distance)
 				{
+					closest_distance = distance;
 					closest_item_index = middle;
 				}
 
@@ -534,6 +535,7 @@ namespace base
 				int64_t distance = base::abs(compare_result);
 				if (distance < closest_distance)
 				{
+					closest_distance = distance;
 					closest_item_index = middle;
 				}
 
