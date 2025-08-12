@@ -898,6 +898,11 @@ namespace base
 			_utc_hour_offset = value.Value();
 		}
 
+		///
+		/// @brief 日期时间的字典序。
+		///
+		/// @return
+		///
 		constexpr int64_t DictionaryOrder() const
 		{
 			constexpr int64_t ns_coefficient = 1;
