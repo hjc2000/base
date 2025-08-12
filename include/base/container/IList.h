@@ -345,13 +345,14 @@ namespace base
 			{
 				int64_t middle = (left + right) / 2;
 				ItemType const &middle_item = Get(middle);
+				int compare_result = compare(item, middle_item);
 
-				if (compare(item, middle_item) == 0)
+				if (compare_result == 0)
 				{
 					return middle;
 				}
 
-				if (compare(item, middle_item) < 0)
+				if (compare_result < 0)
 				{
 					// item 在 middle_item 左边
 					right = middle - 1;
@@ -418,13 +419,14 @@ namespace base
 			{
 				int64_t middle = (left + right) / 2;
 				ItemType const &middle_item = Get(middle);
+				int compare_result = compare(item, middle_item);
 
-				if (compare(item, middle_item) == 0)
+				if (compare_result == 0)
 				{
 					return middle;
 				}
 
-				if (compare(item, middle_item) < 0)
+				if (compare_result < 0)
 				{
 					// item 在 middle_item 右边
 					left = middle + 1;
