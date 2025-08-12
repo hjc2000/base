@@ -151,6 +151,16 @@ namespace base
 		}
 
 		///
+		/// @brief 清空元素。
+		///
+		/// @return
+		///
+		virtual void Clear() override
+		{
+			_set.clear();
+		}
+
+		///
 		/// @brief 检查是否存在指定元素。
 		///
 		/// @param item

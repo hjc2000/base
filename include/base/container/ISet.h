@@ -29,6 +29,13 @@ namespace base
 		virtual bool Remove(ItemType const &item) = 0;
 
 		///
+		/// @brief 清空元素。
+		///
+		/// @return
+		///
+		virtual void Clear() = 0;
+
+		///
 		/// @brief 检查是否存在指定元素。
 		///
 		/// @param item
