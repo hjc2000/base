@@ -724,5 +724,3 @@ namespace base
 	};
 
 } // namespace base
-
-template class base::IList<int>;

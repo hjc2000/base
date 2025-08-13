@@ -461,5 +461,3 @@ namespace base
 	};
 
 } // namespace base
-
-template class base::List<int>;

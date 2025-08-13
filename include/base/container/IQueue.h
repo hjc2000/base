@@ -48,5 +48,3 @@ namespace base
 	};
 
 } // namespace base
-
-template class base::IQueue<int>;
