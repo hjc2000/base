@@ -1,6 +1,6 @@
 #pragma once
-#include "base/container/iterator/IEnumerable.h"
-#include "base/container/iterator/IEnumerator.h"
+#include "base/container/iterator/IRandomAccessEnumerable.h"
+#include "base/container/iterator/IRandomAccessEnumerator.h"
 #include "base/math/Counter.h"
 #include "base/string/define.h"
 #include "IDeque.h"
@@ -19,51 +19,107 @@ namespace base
 		requires(Size > 0)
 	class CircleDeque final :
 		public base::IDeque<T>,
-		public base::IEnumerable<T>
+		public base::IRandomAccessEnumerable<T>
 	{
 	private:
 		/* #region Enumerator */
 
-		class Enumerator final :
-			public base::IEnumerator<T>
+		class RandomAccessEnumerator final :
+			public base::IRandomAccessEnumerator<T>
 		{
 		private:
-			CircleDeque<T, Size> &_queue;
+			CircleDeque<T, Size> *_queue;
 			int64_t _index = 0;
+			bool _has_not_moved = true;
 
 		public:
-			Enumerator(CircleDeque<T, Size> &queue)
-				: _queue(queue)
+			RandomAccessEnumerator(CircleDeque<T, Size> &queue)
 			{
+				_queue = &queue;
 			}
 
 			///
-			/// @brief 迭代器当前是否指向尾后元素。
+			/// @brief 克隆一个迭代器对象副本。
+			///
+			/// @note 派生类要实现拷贝构造函数后在这里调用自己的拷贝构造函数拷贝一份自己。
 			///
 			/// @return
 			///
-			virtual bool IsEnd() const override
+			virtual std::shared_ptr<base::IRandomAccessEnumerator<T>> Clone() const override
 			{
-				return _index >= _queue.Count();
+				return std::shared_ptr<RandomAccessEnumerator>{new RandomAccessEnumerator{*this}};
+			}
+
+			///
+			/// @brief 容器中总共有多少个元素。
+			///
+			/// @return
+			///
+			virtual int64_t Count() const override
+			{
+				return _queue->Count();
+			}
+
+			///
+			/// @brief 当前迭代到的位置。
+			///
+			/// @return
+			///
+			virtual int64_t Position() const override
+			{
+				return _index;
+			}
+
+			///
+			/// @brief 将迭代器位置增加 value.
+			///
+			/// @param value 增加的值。可以是正数和负数。
+			///
+			virtual void Add(int64_t value) override
+			{
+				_index += value;
+			}
+
+			///
+			/// @brief 将迭代器位置减小 value.
+			///
+			/// @param value 减小的值。可以是正数和负数。
+			///
+			virtual void Subtract(int64_t value) override
+			{
+				_index -= value;
 			}
 
 			///
 			/// @brief 获取当前值的引用。
 			///
+			/// @note 迭代器构造后，如果被迭代的集合不为空，要立即让 CurrentValue 指向第一个有效元素。
+			///
 			/// @return
 			///
 			virtual T &CurrentValue() override
 			{
-				return _queue[_index];
+				return _queue->Get(_index);
 			}
 
 			///
-			/// @brief 递增迭代器的位置。
+			/// @brief 从未被调用过 MoveToNext 方法。
 			///
+			/// @return
 			///
-			virtual void Add() override
+			virtual bool HasNotMoved() override
 			{
-				_index++;
+				return _has_not_moved;
+			}
+
+			///
+			/// @brief 设置是否从未被调用过 MoveToNext 方法。
+			///
+			/// @param value
+			///
+			virtual void SetHasNotMoved(bool value) override
+			{
+				_has_not_moved = value;
 			}
 
 		}; // class Enumerator
@@ -261,16 +317,38 @@ namespace base
 			return Buffer()[real_index];
 		}
 
-		using base::IEnumerator<T>::GetEnumerator;
+		T &Get(int64_t index)
+		{
+			if (index < 0 || index >= Count())
+			{
+				throw std::out_of_range{CODE_POS_STR + "索引越界。"};
+			}
+
+			int64_t real_index = _begin + index;
+			return Buffer()[real_index];
+		}
+
+		T const &Get(int64_t index) const
+		{
+			if (index < 0 || index >= Count())
+			{
+				throw std::out_of_range{CODE_POS_STR + "索引越界。"};
+			}
+
+			int64_t real_index = _begin + index;
+			return Buffer()[real_index];
+		}
+
+		using base::IRandomAccessEnumerable<T>::GetRandomAccessEnumerator;
 
 		///
 		/// @brief 获取非 const 迭代器
 		///
 		/// @return
 		///
-		virtual std::shared_ptr<base::IEnumerator<T>> GetEnumerator() override
+		virtual std::shared_ptr<base::IRandomAccessEnumerator<T>> GetRandomAccessEnumerator() override
 		{
-			return std::shared_ptr<Enumerator>{new Enumerator{*this}};
+			return std::shared_ptr<RandomAccessEnumerator>{new RandomAccessEnumerator{*this}};
 		}
 	};
 
