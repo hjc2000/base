@@ -98,7 +98,7 @@ namespace base
 				return Size;
 			}
 
-			return static_cast<uint64_t>(_end - _begin);
+			return _end - _begin;
 		}
 
 		///
@@ -133,7 +133,7 @@ namespace base
 				throw std::runtime_error{CODE_POS_STR + "队列为空，无法退队。"};
 			}
 
-			int64_t index = static_cast<uint64_t>(_end - 1);
+			int64_t index = _end - 1;
 			T ret{std::move(Buffer()[index])};
 			Buffer()[index].~T();
 			_end--;
@@ -154,7 +154,7 @@ namespace base
 				return false;
 			}
 
-			int64_t index = static_cast<uint64_t>(_end - 1);
+			int64_t index = _end - 1;
 			out = std::move(Buffer()[index]);
 			Buffer()[index].~T();
 			_end--;
@@ -246,7 +246,7 @@ namespace base
 				throw std::out_of_range{CODE_POS_STR + "索引越界。"};
 			}
 
-			int64_t real_index = static_cast<uint64_t>(_begin + index);
+			int64_t real_index = _begin + index;
 			return Buffer()[real_index];
 		}
 
@@ -257,7 +257,7 @@ namespace base
 				throw std::out_of_range{CODE_POS_STR + "索引越界。"};
 			}
 
-			int64_t real_index = static_cast<uint64_t>(_begin + index);
+			int64_t real_index = _begin + index;
 			return Buffer()[real_index];
 		}
 

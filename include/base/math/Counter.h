@@ -36,29 +36,27 @@ namespace base
 			*this += current_value;
 		}
 
-		/* #region 递增递减 */
-
 		///
 		/// @brief 前缀递增
 		///
-		/// @return
+		/// @return 返回递增后的值。
 		///
-		constexpr base::Counter<T> &operator++()
+		constexpr T operator++()
 		{
 			*this += 1;
-			return *this;
+			return _count;
 		}
 
 		///
 		/// @brief 后缀递增
 		///
-		/// @return
+		/// @return 返回递增前的值。
 		///
-		constexpr base::Counter<T> operator++(int)
+		constexpr T operator++(int)
 		{
-			Counter copy{*this};
+			T record = _count;
 			*this += 1;
-			return copy;
+			return record;
 		}
 
 		///
@@ -66,10 +64,10 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr base::Counter<T> &operator--()
+		constexpr T operator--()
 		{
 			*this -= 1;
-			return *this;
+			return _count;
 		}
 
 		///
@@ -77,35 +75,33 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr base::Counter<T> operator--(int)
+		constexpr T operator--(int)
 		{
-			base::Counter<T> copy{*this};
+			T record = _count;
 			*this -= 1;
-			return copy;
+			return record;
 		}
 
-		/* #endregion */
-
-		constexpr base::Counter<T> operator+(T value) const
+		constexpr T operator+(T value) const
 		{
 			base::Counter<T> copy{*this};
 			copy += value;
-			return copy;
+			return copy._count;
 		}
 
-		constexpr base::Counter<T> operator+(base::Counter<T> const &another) const
+		constexpr T operator+(base::Counter<T> const &another) const
 		{
 			return *this + another._count;
 		}
 
-		constexpr base::Counter<T> operator-(T value) const
+		constexpr T operator-(T value) const
 		{
 			base::Counter<T> copy{*this};
 			copy -= value;
-			return copy;
+			return copy._count;
 		}
 
-		constexpr base::Counter<T> operator-(base::Counter<T> const &another) const
+		constexpr T operator-(base::Counter<T> const &another) const
 		{
 			return *this - another._count;
 		}
@@ -117,7 +113,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr Counter &operator+=(T value)
+		constexpr T operator+=(T value)
 		{
 			// 将要加的值约束在一个最小正周期内。
 			value %= _max_value + 1;
@@ -145,7 +141,7 @@ namespace base
 				_count += value;
 			}
 
-			return *this;
+			return _count;
 		}
 
 		///
@@ -155,7 +151,7 @@ namespace base
 		///
 		/// @return 返回运算后的值。
 		///
-		constexpr Counter &operator-=(T value)
+		constexpr T operator-=(T value)
 		{
 			// 将要减的值约束在一个最小正周期内。
 			value %= _max_value + 1;
@@ -176,7 +172,7 @@ namespace base
 				_count -= value;
 			}
 
-			return *this;
+			return _count;
 		}
 
 		///
@@ -244,5 +240,4 @@ namespace base
 
 		/* #endregion */
 	};
-
 } // namespace base
