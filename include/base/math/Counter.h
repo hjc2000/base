@@ -2,6 +2,7 @@
 #include "base/math/Fraction.h"
 #include "base/math/Int64Fraction.h"
 #include "base/math/math.h"
+#include "base/string/define.h"
 #include <limits>
 #include <stdexcept>
 #include <type_traits>
@@ -21,6 +22,11 @@ namespace base
 
 		constexpr void AddPositiveNumber(T value)
 		{
+			if (value < 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "value 不能 < 0."};
+			}
+
 			// 将要加的值约束在一个最小正周期内。
 			value %= _max_value + 1;
 
@@ -50,6 +56,11 @@ namespace base
 
 		constexpr void SubtractPositiveNumber(T value)
 		{
+			if (value < 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "value 不能 < 0."};
+			}
+
 			// 将要减的值约束在一个最小正周期内。
 			value %= _max_value + 1;
 			if (value > _count)
