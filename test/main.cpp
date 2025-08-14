@@ -1,3 +1,4 @@
+#include "base/test/TestCounter.h"
 #include "base/test/TestFraction.h"
 #include "base/test/TestIRandomAccessEnumerable.h"
 #include "base/test/TestListBinarySearch.h"
@@ -10,5 +11,6 @@ int main()
 	// base::test::TestIRandomAccessEnumerable();
 	// base::test::TestFraction();
 	// base::test::TestStdStringStreamSerializer();
-	base::test::TestListBinarySearch();
+	// base::test::TestListBinarySearch();
+	base::test::TestCounter();
 }

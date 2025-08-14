@@ -246,7 +246,7 @@ namespace base
 				throw std::out_of_range{CODE_POS_STR + "索引越界。"};
 			}
 
-			int64_t real_index = _begin + index;
+			int64_t real_index = static_cast<uint64_t>(_begin + index);
 			return Buffer()[real_index];
 		}
 
@@ -257,7 +257,7 @@ namespace base
 				throw std::out_of_range{CODE_POS_STR + "索引越界。"};
 			}
 
-			int64_t real_index = _begin + index;
+			int64_t real_index = static_cast<uint64_t>(_begin + index);
 			return Buffer()[real_index];
 		}
 

@@ -114,24 +114,24 @@ namespace base
 		///
 		/// @brief 前缀递增
 		///
-		/// @return 返回递增后的值。
+		/// @return
 		///
-		constexpr T operator++()
+		constexpr Counter &operator++()
 		{
 			*this += 1;
-			return _count;
+			return *this;
 		}
 
 		///
 		/// @brief 后缀递增
 		///
-		/// @return 返回递增前的值。
+		/// @return
 		///
-		constexpr T operator++(int)
+		constexpr Counter operator++(int)
 		{
-			T record = _count;
+			Counter copy{*this};
 			*this += 1;
-			return record;
+			return copy;
 		}
 
 		///
@@ -139,10 +139,10 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr T operator--()
+		constexpr Counter &operator--()
 		{
 			*this -= 1;
-			return _count;
+			return *this;
 		}
 
 		///
@@ -150,21 +150,21 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr T operator--(int)
+		constexpr Counter operator--(int)
 		{
-			T record = _count;
+			Counter copy{*this};
 			*this -= 1;
-			return record;
+			return copy;
 		}
 
-		constexpr T operator+(T value) const
+		constexpr base::Counter<T> operator+(T value) const
 		{
 			base::Counter<T> copy{*this};
 			copy += value;
-			return copy._count;
+			return copy;
 		}
 
-		constexpr T operator+(base::Counter<T> const &another) const
+		constexpr base::Counter<T> operator+(base::Counter<T> const &another) const
 		{
 			return *this + another._count;
 		}
@@ -288,4 +288,5 @@ namespace base
 
 		/* #endregion */
 	};
+
 } // namespace base
