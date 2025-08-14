@@ -36,6 +36,8 @@ namespace base
 			*this += current_value;
 		}
 
+		/* #region 递增、递减 */
+
 		///
 		/// @brief 前缀递增
 		///
@@ -82,6 +84,10 @@ namespace base
 			return record;
 		}
 
+		/* #endregion */
+
+		/* #region 加减 */
+
 		constexpr T operator+(T value) const
 		{
 			base::Counter<T> copy{*this};
@@ -105,6 +111,10 @@ namespace base
 		{
 			return *this - another._count;
 		}
+
+		/* #endregion */
+
+		/* #region 自改变加减 */
 
 		///
 		/// @brief 将计数器的值增加指定的值
@@ -174,6 +184,8 @@ namespace base
 
 			return _count;
 		}
+
+		/* #endregion */
 
 		///
 		/// @brief 重置计数值。计数值归 0.
