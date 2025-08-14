@@ -43,13 +43,6 @@ namespace base
 		virtual void Add(int64_t value) = 0;
 
 		///
-		/// @brief 将迭代器位置减小 value.
-		///
-		/// @param value 减小的值。可以是正数和负数。
-		///
-		virtual void Subtract(int64_t value) = 0;
-
-		///
 		/// @brief 获取当前值的引用。
 		///
 		/// @note 迭代器构造后，如果被迭代的集合不为空，要立即让 CurrentValue 指向第一个有效元素。
@@ -92,7 +85,7 @@ namespace base
 		///
 		void Subtract()
 		{
-			Subtract(1);
+			Add(-1);
 		}
 
 		///
