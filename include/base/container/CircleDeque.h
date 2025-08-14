@@ -220,8 +220,9 @@ namespace base
 				throw std::runtime_error{CODE_POS_STR + "队列已满，无法入队。"};
 			}
 
+			int64_t index = _begin - 1;
+			new (&Buffer()[index]) T{obj};
 			_begin--;
-			new (&Buffer()[_begin.CurrentValue()]) T{obj};
 			if (_begin == _end)
 			{
 				_is_full = true;
