@@ -36,6 +36,8 @@ namespace base
 			*this += current_value;
 		}
 
+		/* #region 递增递减 */
+
 		///
 		/// @brief 前缀递增
 		///
@@ -81,6 +83,8 @@ namespace base
 			*this -= 1;
 			return copy;
 		}
+
+		/* #endregion */
 
 		constexpr base::Counter<T> operator+(T value) const
 		{
