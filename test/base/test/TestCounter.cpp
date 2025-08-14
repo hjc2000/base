@@ -13,11 +13,6 @@ void base::test::TestCounter()
 		for (int i = 0; i < 20; i++)
 		{
 			std::cout << counter.CurrentValue() << ", ";
-			if ((i + 1) % 10 == 0)
-			{
-				std::cout << std::endl;
-			}
-
 			counter++;
 		}
 
@@ -32,11 +27,6 @@ void base::test::TestCounter()
 		for (int i = 0; i < 20; i++)
 		{
 			std::cout << counter.CurrentValue() << ", ";
-			if ((i + 1) % 10 == 0)
-			{
-				std::cout << std::endl;
-			}
-
 			counter--;
 		}
 
