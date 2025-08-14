@@ -288,28 +288,6 @@ namespace base
 
 		/* #region 索引器 */
 
-		T &operator[](int64_t index)
-		{
-			if (index < 0 || index >= Count())
-			{
-				throw std::out_of_range{CODE_POS_STR + "索引越界。"};
-			}
-
-			int64_t real_index = _begin + index;
-			return Buffer()[real_index];
-		}
-
-		T const &operator[](int64_t index) const
-		{
-			if (index < 0 || index >= Count())
-			{
-				throw std::out_of_range{CODE_POS_STR + "索引越界。"};
-			}
-
-			int64_t real_index = _begin + index;
-			return Buffer()[real_index];
-		}
-
 		T &Get(int64_t index)
 		{
 			if (index < 0 || index >= Count())
@@ -341,6 +319,16 @@ namespace base
 
 			int64_t real_index = _begin + index;
 			Buffer()[real_index] = value;
+		}
+
+		T &operator[](int64_t index)
+		{
+			return Get(index);
+		}
+
+		T const &operator[](int64_t index) const
+		{
+			return Get(index);
 		}
 
 		/* #endregion */
