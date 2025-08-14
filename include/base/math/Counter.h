@@ -129,6 +129,12 @@ namespace base
 		///
 		constexpr T operator+=(T value)
 		{
+			if (_max_value == std::numeric_limits<T>::max())
+			{
+				_count += value;
+				return _count;
+			}
+
 			// 将要加的值约束在一个最小正周期内。
 			value %= _max_value + 1;
 
@@ -167,6 +173,12 @@ namespace base
 		///
 		constexpr T operator-=(T value)
 		{
+			if (_max_value == std::numeric_limits<T>::max())
+			{
+				_count -= value;
+				return _count;
+			}
+
 			// 将要减的值约束在一个最小正周期内。
 			value %= _max_value + 1;
 			if (value > _count)
