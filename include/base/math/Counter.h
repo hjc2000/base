@@ -240,4 +240,5 @@ namespace base
 
 		/* #endregion */
 	};
+
 } // namespace base
