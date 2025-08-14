@@ -285,6 +285,8 @@ namespace base
 			_is_full = false;
 		}
 
+		/* #region 索引器 */
+
 		T &operator[](int64_t index)
 		{
 			if (index < 0 || index >= Count())
@@ -340,6 +342,10 @@ namespace base
 			Buffer()[real_index] = value;
 		}
 
+		/* #endregion */
+
+		/* #region GetRandomAccessEnumerator */
+
 		using base::IRandomAccessEnumerable<T>::GetRandomAccessEnumerator;
 
 		///
@@ -351,6 +357,8 @@ namespace base
 		{
 			return std::shared_ptr<RandomAccessEnumerator>{new RandomAccessEnumerator{*this}};
 		}
+
+		/* #endregion */
 	};
 
 } // namespace base
