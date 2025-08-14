@@ -17,6 +17,8 @@ namespace base
 		T _count = 0;
 
 	public:
+		/* #region 构造函数 */
+
 		constexpr Counter() = default;
 
 		///
@@ -35,6 +37,8 @@ namespace base
 			_max_value = max_value;
 			*this += current_value;
 		}
+
+		/* #endregion */
 
 		/* #region 递增、递减 */
 
