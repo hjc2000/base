@@ -329,6 +329,17 @@ namespace base
 			return Buffer()[real_index];
 		}
 
+		void Set(int64_t index, T const &value)
+		{
+			if (index < 0 || index >= Count())
+			{
+				throw std::out_of_range{CODE_POS_STR + "索引越界。"};
+			}
+
+			int64_t real_index = _begin + index;
+			Buffer()[real_index] = value;
+		}
+
 		using base::IRandomAccessEnumerable<T>::GetRandomAccessEnumerator;
 
 		///
