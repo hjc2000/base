@@ -278,7 +278,7 @@ namespace base
 		{
 			for (int64_t i = 0; i < Count(); i++)
 			{
-				(*this)[i].~T();
+				Get(i).~T();
 			}
 
 			_begin.Reset();
