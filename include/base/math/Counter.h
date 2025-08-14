@@ -116,7 +116,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr Counter &operator++()
+		constexpr base::Counter<T> &operator++()
 		{
 			*this += 1;
 			return *this;
@@ -127,7 +127,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr Counter operator++(int)
+		constexpr base::Counter<T> operator++(int)
 		{
 			Counter copy{*this};
 			*this += 1;
@@ -139,7 +139,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr Counter &operator--()
+		constexpr base::Counter<T> &operator--()
 		{
 			*this -= 1;
 			return *this;
@@ -150,9 +150,9 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr Counter operator--(int)
+		constexpr base::Counter<T> operator--(int)
 		{
-			Counter copy{*this};
+			base::Counter<T> copy{*this};
 			*this -= 1;
 			return copy;
 		}
@@ -169,14 +169,14 @@ namespace base
 			return *this + another._count;
 		}
 
-		constexpr T operator-(T value) const
+		constexpr base::Counter<T> operator-(T value) const
 		{
 			base::Counter<T> copy{*this};
 			copy -= value;
-			return copy._count;
+			return copy;
 		}
 
-		constexpr T operator-(base::Counter<T> const &another) const
+		constexpr base::Counter<T> operator-(base::Counter<T> const &another) const
 		{
 			return *this - another._count;
 		}

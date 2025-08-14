@@ -181,7 +181,7 @@ namespace base
 				return _buffer_size;
 			}
 
-			return _end - _start;
+			return static_cast<uint64_t>(_end - _start);
 		}
 
 		///
