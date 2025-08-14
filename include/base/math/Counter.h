@@ -20,6 +20,11 @@ namespace base
 		T _max_value = std::numeric_limits<T>::max();
 		T _count = 0;
 
+		///
+		/// @brief 计数值加上一个正数。
+		///
+		/// @param value
+		///
 		constexpr void AddPositiveNumber(T value)
 		{
 			if (value < 0)
@@ -54,6 +59,11 @@ namespace base
 			}
 		}
 
+		///
+		/// @brief 计数值减去一个正数。
+		///
+		/// @param value
+		///
 		constexpr void SubtractPositiveNumber(T value)
 		{
 			if (value < 0)
