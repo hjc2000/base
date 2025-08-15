@@ -22,9 +22,11 @@ void base::heap::AddHeap(std::shared_ptr<base::heap::IHeap> const &heap)
 	base::task::TaskSchedulerSuspendGuard g;
 	if (_heap_vector == nullptr)
 	{
-		std::vector<std::shared_ptr<base::heap::IHeap>> *vec = new std::vector<std::shared_ptr<base::heap::IHeap>>{};
-		vec->push_back(heap);
-		vec->push_back(base::RentedPtrFactory::Create(&base::heap::Heap()));
+		std::vector<std::shared_ptr<base::heap::IHeap>> *vec = new std::vector<std::shared_ptr<base::heap::IHeap>>{
+			base::RentedPtrFactory::Create(&base::heap::Heap()),
+			heap,
+		};
+
 		_heap_vector = vec;
 		return;
 	}
@@ -56,7 +58,7 @@ void *base::heap::Malloc(size_t size) noexcept
 		return p;
 	}
 
-	for (std::shared_ptr<base::heap::IHeap> &heap : *_heap_vector)
+	for (std::shared_ptr<base::heap::IHeap> const &heap : *_heap_vector)
 	{
 		void *ptr = heap->Malloc(size);
 		if (ptr != nullptr)
