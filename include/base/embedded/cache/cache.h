@@ -1,5 +1,6 @@
 #pragma once
 #include <cstddef>
+#include <cstdint>
 
 namespace base
 {
@@ -33,7 +34,7 @@ namespace base
 		/// @param address
 		/// @param size
 		///
-		void invalidate_d_cache(void *address, size_t size);
+		void invalidate_d_cache(uint8_t *address, size_t size);
 
 		///
 		/// @brief 清除 D-Cache。
@@ -52,7 +53,7 @@ namespace base
 		/// @param address
 		/// @param size
 		///
-		void clean_d_cache(void *address, size_t size);
+		void clean_d_cache(uint8_t const *address, size_t size);
 
 		///
 		/// @brief 清除并且无效化 D-Cache.
@@ -65,7 +66,7 @@ namespace base
 		/// @param address
 		/// @param size
 		///
-		void clean_and_invalidate_d_cache(void *address, size_t size);
+		void clean_and_invalidate_d_cache(uint8_t *address, size_t size);
 
 	} // namespace cache
 } // namespace base
