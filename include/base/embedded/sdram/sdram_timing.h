@@ -12,7 +12,7 @@ namespace base
 		/// @brief SDRAM 时序。
 		///
 		///
-		class sdram_timing :
+		class sdram_timing final :
 			public base::IJsonSerializable
 		{
 		private:
