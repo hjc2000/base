@@ -59,5 +59,13 @@ namespace base
 		///
 		void clean_and_invalidate_d_cache();
 
+		///
+		/// @brief 清除并且无效化 D-Cache.
+		///
+		/// @param address
+		/// @param size
+		///
+		void clean_and_invalidate_d_cache(void *address, size_t size);
+
 	} // namespace cache
 } // namespace base
