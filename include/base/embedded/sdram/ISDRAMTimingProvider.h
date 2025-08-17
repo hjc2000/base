@@ -13,6 +13,8 @@ namespace base
 		class ISDRAMTimingProvider
 		{
 		public:
+			virtual ~ISDRAMTimingProvider() = default;
+
 			///
 			/// @brief 允许的最大时钟频率。
 			///

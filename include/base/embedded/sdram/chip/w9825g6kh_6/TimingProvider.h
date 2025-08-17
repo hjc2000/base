@@ -9,14 +9,14 @@ namespace base
 		{
 			namespace w9825g6kh_6
 			{
-				class TimingProvider :
+				class TimingProvider final :
 					public base::sdram::ISDRAMTimingProvider
 				{
 				public:
 					///
 					/// @brief 允许的最大时钟频率。
 					///
-					/// @return base::unit::MHz
+					/// @return
 					///
 					virtual base::unit::MHz MaxClockFrequency() const override
 					{
@@ -27,7 +27,8 @@ namespace base
 					/// @brief 获取指定时钟频率下的时序。
 					///
 					/// @param clock_frequency
-					/// @return base::sdram::sdram_timing
+					///
+					/// @return
 					///
 					virtual base::sdram::sdram_timing GetTiming(base::unit::MHz const &clock_frequency) const override
 					{
@@ -59,6 +60,7 @@ namespace base
 						return ret;
 					}
 				};
+
 			} // namespace w9825g6kh_6
 		} // namespace chip
 	} // namespace sdram
