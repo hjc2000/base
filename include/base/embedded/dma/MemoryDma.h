@@ -23,6 +23,8 @@ namespace base
 				base::memory_dma::initialize(*_handle);
 			}
 
+			/* #region Copy */
+
 			///
 			/// @brief 利用 DMA 将数据从 [begin, end) 内存段拷贝到 dst 指针指向的位置。
 			///
@@ -62,6 +64,8 @@ namespace base
 			{
 				base::memory_dma::copy(*_handle, begin, end, dst);
 			}
+
+			/* #endregion */
 		};
 
 	} // namespace memory_dma
