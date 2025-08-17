@@ -47,7 +47,7 @@ namespace base
 			///
 			/// @brief 时钟信号频率。
 			///
-			/// @return base::unit::MHz
+			/// @return
 			///
 			base::unit::MHz clock_frequency() const
 			{
@@ -62,7 +62,7 @@ namespace base
 			///
 			/// @brief 时钟信号周期。
 			///
-			/// @return base::unit::Nanosecond
+			/// @return
 			///
 			base::unit::Nanosecond clock_period() const
 			{

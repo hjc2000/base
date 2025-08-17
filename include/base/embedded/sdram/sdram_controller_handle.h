@@ -14,7 +14,8 @@ namespace base
 		/// @brief 打开指定的 SDRAM 控制器。
 		///
 		/// @param id
-		/// @return std::shared_ptr<base::sdram::sdram_controller_handle>
+		///
+		/// @return
 		///
 		std::shared_ptr<base::sdram::sdram_controller_handle> open(uint32_t id);
 
@@ -86,7 +87,8 @@ namespace base
 		/// 实际上没有这么大。
 		///
 		/// @param h
-		/// @return base::Span
+		///
+		/// @return
 		///
 		base::Span span(base::sdram::sdram_controller_handle &h);
 
