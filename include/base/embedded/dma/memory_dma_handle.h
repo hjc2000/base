@@ -25,7 +25,7 @@ namespace base
 		/// @param id
 		/// @return
 		///
-		std::shared_ptr<memory_dma_handle> open(uint32_t id);
+		std::shared_ptr<base::memory_dma::memory_dma_handle> open(uint32_t id);
 
 		///
 		/// @brief 初始化内存 DMA.
@@ -42,7 +42,7 @@ namespace base
 		/// @param end 元数据内存段的结束位置。
 		/// @param dst 要将数据拷贝到的目的地址。
 		///
-		void copy(memory_dma_handle &self,
+		void copy(base::memory_dma::memory_dma_handle &self,
 				  uint8_t const *begin,
 				  uint8_t const *end,
 				  uint8_t *dst);
@@ -57,7 +57,7 @@ namespace base
 		/// @param dst
 		///
 		IMPLEMENTED
-		inline void copy(memory_dma_handle &self,
+		inline void copy(base::memory_dma::memory_dma_handle &self,
 						 base::ReadOnlySpan const &src,
 						 base::Span const &dst)
 		{
@@ -81,7 +81,7 @@ namespace base
 		/// @param dst
 		///
 		IMPLEMENTED
-		inline void copy(memory_dma_handle &self,
+		inline void copy(base::memory_dma::memory_dma_handle &self,
 						 uint8_t const *begin,
 						 uint8_t const *end,
 						 base::Span dst)
