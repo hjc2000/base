@@ -11,9 +11,9 @@ namespace base
 	///
 	/// @brief 利用 DMA 将数据从 [begin, end) 内存段拷贝到 dst 指针指向的位置。
 	///
-	/// @param begin
-	/// @param end
-	/// @param dst
+	/// @param begin 元数据内存段的起始位置。
+	/// @param end 元数据内存段的结束位置。
+	/// @param dst 要将数据拷贝到的目的地址。
 	///
 	void dma_copy(uint8_t const *begin, uint8_t const *end, uint8_t *dst);
 
