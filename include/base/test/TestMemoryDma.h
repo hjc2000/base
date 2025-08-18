@@ -67,7 +67,12 @@ namespace base
 			///
 			struct Data
 			{
-				uint32_t src_buffer[16] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
+				uint32_t src_buffer[16] =
+					{0xffff'fff1, 0xffff'fff2, 0xffff'fff3, 0xffff'fff4,
+					 0xffff'fff5, 0xffff'fff6, 0xffff'fff7, 0xffff'fff8,
+					 0xffff'fff9, 0xffff'ff10, 0xffff'ff11, 0xffff'ff12,
+					 0xffff'ff13, 0xffff'ff14, 0xffff'ff15, 0xffff'ff16};
+
 				uint32_t dst_buffer[16]{};
 			};
 
