@@ -39,7 +39,10 @@ namespace base
 		/// @brief 初始化内存 DMA.
 		///
 		/// @param self
-		/// @param align
+		///
+		/// @param align 对齐的字节数。
+		/// 	@note 对于一些特殊的外设和储存器，读写时必须满足对齐要求和最小操作粒度要求，此时如果
+		/// 	要使用 DMA, 则也要将 DMA 配置为符合这些要求。
 		///
 		void initialize(base::memory_dma::memory_dma_handle &self, size_t align);
 
