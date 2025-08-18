@@ -6,7 +6,6 @@
 #include <cstddef>
 #include <cstdint>
 #include <exception>
-#include <string>
 
 namespace base
 {
@@ -25,8 +24,8 @@ namespace base
 			///
 			struct Data
 			{
-				alignas(Align) uint8_t src_buffer[8] = {1, 2, 3, 4, 5, 6, 7, 8};
-				alignas(Align) uint8_t dst_buffer[8]{};
+				alignas(Align) uint8_t src_buffer[16] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
+				alignas(Align) uint8_t dst_buffer[16]{};
 			};
 
 			Data data;
@@ -35,11 +34,11 @@ namespace base
 			{
 				base::console.WriteLine(base::ToHexString(data.src_buffer));
 				base::console.WriteLine(base::ToHexString(data.dst_buffer));
-				memory_dma.Copy(data.src_buffer, data.src_buffer + sizeof(data.src_buffer), data.dst_buffer);
+				memory_dma.Copy(data.src_buffer, data.src_buffer + 8, data.dst_buffer);
 
 				for (size_t i = 0; i < sizeof(data.dst_buffer); i++)
 				{
-					base::console.Write(std::to_string(data.dst_buffer[i]));
+					base::console.Write(base::ToHexString(data.dst_buffer[i]));
 					base::console.Write(", ");
 				}
 
