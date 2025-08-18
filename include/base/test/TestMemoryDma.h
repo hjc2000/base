@@ -1,9 +1,12 @@
 #pragma once
 #include "base/Console.h"
 #include "base/embedded/dma/MemoryDma.h"
+#include "base/string/define.h"
 #include "base/string/ToHexString.h"
 #include <cstddef>
 #include <cstdint>
+#include <exception>
+#include <string>
 
 namespace base
 {
