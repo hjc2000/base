@@ -56,17 +56,24 @@ namespace base
 
 		/* #region AddHeap */
 
+		///
 		/// @brief 添加一个堆到堆列表。一旦添加，堆就会投入使用，被用于动态内存分配。
 		/// @param heap
+		///
 		void AddHeap(std::shared_ptr<base::heap::IHeap> const &heap);
 
+		///
 		/// @brief 添加一个堆到堆列表。一旦添加，堆就会投入使用，被用于动态内存分配。
 		/// @param buffer
+		///
 		/// @param size
+		///
 		void AddHeap(uint8_t *buffer, size_t size);
 
+		///
 		/// @brief 添加一个堆到堆列表。一旦添加，堆就会投入使用，被用于动态内存分配。
 		/// @param span
+		///
 		void AddHeap(base::Span const &span);
 
 		/* #endregion */
