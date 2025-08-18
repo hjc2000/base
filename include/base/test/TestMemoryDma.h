@@ -11,6 +11,12 @@ namespace base
 {
 	namespace test
 	{
+		///
+		/// @brief
+		///
+		/// @param dma_id
+		/// @return
+		///
 		template <size_t Align>
 		inline void TestMemoryDma(uint32_t dma_id)
 		{
@@ -61,6 +67,12 @@ namespace base
 			}
 		}
 
+		///
+		/// @brief
+		///
+		/// @param dma_id
+		/// @return
+		///
 		template <size_t Align>
 		inline void TestMemoryDma1(uint32_t dma_id)
 		{
