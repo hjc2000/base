@@ -116,12 +116,9 @@ namespace base
 						 T const *end,
 						 T *dst)
 		{
-			size_t count = end - begin;
-			size_t size = count * sizeof(T);
-
 			base::memory_dma::copy(self,
 								   reinterpret_cast<uint8_t const *>(begin),
-								   reinterpret_cast<uint8_t const *>(begin + size),
+								   reinterpret_cast<uint8_t const *>(end),
 								   reinterpret_cast<uint8_t *>(dst));
 		}
 
