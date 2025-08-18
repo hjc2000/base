@@ -3,6 +3,7 @@
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
 #include "base/string/define.h"
+#include <cstddef>
 #include <cstdint>
 #include <memory>
 #include <stdexcept>
@@ -33,6 +34,14 @@ namespace base
 		/// @param self
 		///
 		void initialize(base::memory_dma::memory_dma_handle &self);
+
+		///
+		/// @brief 初始化内存 DMA.
+		///
+		/// @param self
+		/// @param align
+		///
+		void initialize(base::memory_dma::memory_dma_handle &self, size_t align);
 
 		///
 		/// @brief 利用 DMA 将数据从 [begin, end) 内存段拷贝到 dst 指针指向的位置。

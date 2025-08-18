@@ -18,9 +18,23 @@ namespace base
 				_handle = base::memory_dma::open(id);
 			}
 
+			///
+			/// @brief 初始化内存 DMA.
+			///
+			///
 			void Initialize()
 			{
 				base::memory_dma::initialize(*_handle);
+			}
+
+			///
+			/// @brief 初始化内存 DMA.
+			///
+			/// @param align
+			///
+			void Initialize(size_t align)
+			{
+				base::memory_dma::initialize(*_handle, align);
 			}
 
 			/* #region Copy */
