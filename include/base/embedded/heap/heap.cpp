@@ -12,9 +12,9 @@ namespace
 
 } // namespace
 
-/* #region AddHeap */
+/* #region PushBack */
 
-void base::heap::AddHeap(std::shared_ptr<base::heap::IHeap> const &heap)
+void base::heap::PushBack(std::shared_ptr<base::heap::IHeap> const &heap)
 {
 	base::task::TaskSchedulerSuspendGuard g;
 	if (_heaps.Count() == 0)
@@ -25,17 +25,45 @@ void base::heap::AddHeap(std::shared_ptr<base::heap::IHeap> const &heap)
 	_heaps.PushBack(heap);
 }
 
-void base::heap::AddHeap(uint8_t *buffer, size_t size)
+void base::heap::PushBack(uint8_t *buffer, size_t size)
 {
 	base::task::TaskSchedulerSuspendGuard g;
 	std::shared_ptr<base::heap::Heap4> heap{new base::heap::Heap4{buffer, size}};
-	base::heap::AddHeap(heap);
+	base::heap::PushBack(heap);
 }
 
-void base::heap::AddHeap(base::Span const &span)
+void base::heap::PushBack(base::Span const &span)
 {
 	base::task::TaskSchedulerSuspendGuard g;
-	AddHeap(span.Buffer(), span.Size());
+	PushBack(span.Buffer(), span.Size());
+}
+
+/* #endregion */
+
+/* #region PushFront */
+
+void base::heap::PushFront(std::shared_ptr<base::heap::IHeap> const &heap)
+{
+	base::task::TaskSchedulerSuspendGuard g;
+	if (_heaps.Count() == 0)
+	{
+		_heaps.PushFront(base::RentedPtrFactory::Create(&base::heap::Heap()));
+	}
+
+	_heaps.PushFront(heap);
+}
+
+void base::heap::PushFront(uint8_t *buffer, size_t size)
+{
+	base::task::TaskSchedulerSuspendGuard g;
+	std::shared_ptr<base::heap::Heap4> heap{new base::heap::Heap4{buffer, size}};
+	base::heap::PushFront(heap);
+}
+
+void base::heap::PushFront(base::Span const &span)
+{
+	base::task::TaskSchedulerSuspendGuard g;
+	PushFront(span.Buffer(), span.Size());
 }
 
 /* #endregion */
