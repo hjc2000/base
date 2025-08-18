@@ -1,5 +1,6 @@
 #pragma once
 #include "memory_dma_handle.h"
+#include <cstddef>
 #include <cstdint>
 #include <memory>
 
