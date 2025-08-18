@@ -1,5 +1,6 @@
 #pragma once
 #include "base/Console.h"
+#include "base/embedded/cache/cache.h"
 #include "base/embedded/dma/MemoryDma.h"
 #include "base/string/define.h"
 #include "base/string/ToHexString.h"
@@ -29,6 +30,8 @@ namespace base
 			};
 
 			Data data;
+			base::cache::clean_d_cache(data.src_buffer, 16);
+			base::cache::clean_d_cache(data.dst_buffer, 16);
 
 			try
 			{
@@ -77,6 +80,8 @@ namespace base
 			};
 
 			Data data;
+			base::cache::clean_d_cache(reinterpret_cast<uint8_t *>(data.src_buffer), 16 * sizeof(uint32_t));
+			base::cache::clean_d_cache(reinterpret_cast<uint8_t *>(data.dst_buffer), 16 * sizeof(uint32_t));
 
 			try
 			{
