@@ -111,14 +111,18 @@ namespace base
 		///
 		IMPLEMENTED
 		template <typename T>
-		inline void copy(T const *begin, T const *end, T *dst)
+		inline void copy(base::memory_dma::memory_dma_handle &self,
+						 T const *begin,
+						 T const *end,
+						 T *dst)
 		{
 			size_t count = end - begin;
 			size_t size = count * sizeof(T);
 
-			copy(reinterpret_cast<uint8_t const *>(begin),
-				 reinterpret_cast<uint8_t const *>(begin + size),
-				 reinterpret_cast<uint8_t *>(dst));
+			base::memory_dma::copy(self,
+								   reinterpret_cast<uint8_t const *>(begin),
+								   reinterpret_cast<uint8_t const *>(begin + size),
+								   reinterpret_cast<uint8_t *>(dst));
 		}
 
 		/* #endregion */

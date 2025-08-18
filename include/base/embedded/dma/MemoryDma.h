@@ -80,6 +80,20 @@ namespace base
 				base::memory_dma::copy(*_handle, begin, end, dst);
 			}
 
+			///
+			/// @brief 利用 DMA 将数据从 [begin, end) 内存段拷贝到 dst 指针指向的位置。
+			///
+			/// @param begin
+			/// @param end
+			/// @param dst
+			/// @return
+			///
+			template <typename T>
+			void Copy(T const *begin, T const *end, T *dst)
+			{
+				base::memory_dma::copy<T>(*_handle, begin, end, dst);
+			}
+
 			/* #endregion */
 		};
 
