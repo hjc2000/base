@@ -92,6 +92,7 @@ namespace base
 						};
 					}
 				};
+
 			} // namespace w9825g6kh_6
 		} // namespace chip
 	} // namespace sdram
