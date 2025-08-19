@@ -199,6 +199,8 @@ namespace base
 
 			/* #endregion */
 
+			/* #region t_wr */
+
 			///
 			/// @brief 写恢复时间。
 			///
@@ -223,6 +225,10 @@ namespace base
 				return static_cast<int>(value.Ceil());
 			}
 
+			/* #endregion */
+
+			/* #region t_rp */
+
 			///
 			/// @brief 预充电命令后的延迟。
 			///
@@ -241,11 +247,13 @@ namespace base
 				_t_rp = value;
 			}
 
-			int t_rp_clock_count() const
+			int t_rp_clock_cycle_count() const
 			{
 				base::Fraction value{_t_rp / clock_cycle()};
 				return static_cast<int>(value.Ceil());
 			}
+
+			/* #endregion */
 
 			///
 			/// @brief 行到列时间。
@@ -265,7 +273,7 @@ namespace base
 				_t_rcd = value;
 			}
 
-			int t_rcd_clock_count() const
+			int t_rcd_clock_cycle_count() const
 			{
 				base::Fraction value{_t_rcd / clock_cycle()};
 				return static_cast<int>(value.Ceil());
