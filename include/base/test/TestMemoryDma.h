@@ -23,11 +23,6 @@ namespace base
 			base::memory_dma::MemoryDma memory_dma{dma_id};
 			memory_dma.Initialize(Align);
 
-			///
-			/// @brief 不知道为什么，直接在栈上放置数组变量，并使用 alignas, 对齐并没有正确
-			/// 生效，这导致一旦使用 DMA 拷贝直接陷入 HardFault, 所以这里使用结构体来进行数组
-			/// 的对齐。
-			///
 			struct Data
 			{
 				alignas(Align) uint8_t src_buffer[16] =
@@ -82,20 +77,15 @@ namespace base
 			base::memory_dma::MemoryDma memory_dma{dma_id};
 			memory_dma.Initialize(Align);
 
-			///
-			/// @brief 不知道为什么，直接在栈上放置数组变量，并使用 alignas, 对齐并没有正确
-			/// 生效，这导致一旦使用 DMA 拷贝直接陷入 HardFault, 所以这里使用结构体来进行数组
-			/// 的对齐。
-			///
 			struct Data
 			{
-				uint32_t src_buffer[16] =
+				alignas(Align) uint32_t src_buffer[16] =
 					{0xffff'fff1, 0xffff'fff2, 0xffff'fff3, 0xffff'fff4,
 					 0xffff'fff5, 0xffff'fff6, 0xffff'fff7, 0xffff'fff8,
 					 0xffff'fff9, 0xffff'ff10, 0xffff'ff11, 0xffff'ff12,
 					 0xffff'ff13, 0xffff'ff14, 0xffff'ff15, 0xffff'ff16};
 
-				uint32_t dst_buffer[16]{};
+				alignas(Align) uint32_t dst_buffer[16]{};
 			};
 
 			Data data;
