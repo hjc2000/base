@@ -20,7 +20,6 @@ namespace base
 			base::unit::Nanosecond _address_setup_time{};
 			base::unit::Nanosecond _address_hold_time{};
 			base::unit::Nanosecond _data_setup_time{};
-			base::unit::Nanosecond _data_hold_time{};
 			base::unit::Nanosecond _bus_turn_around_time{};
 
 		public:
@@ -138,6 +137,8 @@ namespace base
 
 			/* #endregion */
 
+			/* #region 数据建立时间 */
+
 			///
 			/// @brief 数据建立时间。
 			///
@@ -168,6 +169,43 @@ namespace base
 				base::Fraction value{_data_setup_time / clock_cycle()};
 				return static_cast<int>(value.Ceil());
 			}
+
+			/* #endregion */
+
+			/* #region 总线周转时间 */
+
+			///
+			/// @brief 总线周转时间。
+			///
+			/// @return
+			///
+			base::unit::Nanosecond bus_turn_around_time() const
+			{
+				return _bus_turn_around_time;
+			}
+
+			///
+			/// @brief 设置总线周转时间。
+			///
+			/// @param value
+			///
+			void set_bus_turn_around_time(base::unit::Nanosecond const &value)
+			{
+				_bus_turn_around_time = value;
+			}
+
+			///
+			/// @brief 总线周转时钟周期数。
+			///
+			/// @return
+			///
+			int bus_turn_around_clock_cycle_count() const
+			{
+				base::Fraction value{_bus_turn_around_time / clock_cycle()};
+				return static_cast<int>(value.Ceil());
+			}
+
+			/* #endregion */
 		};
 
 	} // namespace asynchronous_sram
