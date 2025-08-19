@@ -24,6 +24,8 @@ namespace base
 			base::unit::Nanosecond _bus_turn_around_time{};
 
 		public:
+			/* #region 时钟 */
+
 			///
 			/// @brief SRAM 控制器的时钟频率。
 			///
@@ -64,6 +66,10 @@ namespace base
 				_clock_frequency = base::unit::MHz{value};
 			}
 
+			/* #endregion */
+
+			/* #region 地址建立时间 */
+
 			///
 			/// @brief 地址建立时间。
 			///
@@ -89,11 +95,15 @@ namespace base
 			///
 			/// @return
 			///
-			int address_setup_time_clock_cycle_count() const
+			int address_setup_clock_cycle_count() const
 			{
 				base::Fraction value{_address_setup_time / clock_cycle()};
 				return static_cast<int>(value.Ceil());
 			}
+
+			/* #endregion */
+
+			/* #region 地址保持时间 */
 
 			///
 			/// @brief 地址保持时间。
@@ -106,6 +116,29 @@ namespace base
 			}
 
 			///
+			/// @brief 设置地址保持时间。
+			///
+			/// @param value
+			///
+			void set_address_hold_time(base::unit::Nanosecond const &value)
+			{
+				_address_hold_time = value;
+			}
+
+			///
+			/// @brief 地址保持时钟周期数。
+			///
+			/// @return
+			///
+			int address_hold_clock_cycle_count() const
+			{
+				base::Fraction value{_address_hold_time / clock_cycle()};
+				return static_cast<int>(value.Ceil());
+			}
+
+			/* #endregion */
+
+			///
 			/// @brief 数据建立时间。
 			///
 			/// @return
@@ -113,6 +146,27 @@ namespace base
 			base::unit::Nanosecond data_setup_time() const
 			{
 				return _data_setup_time;
+			}
+
+			///
+			/// @brief 数据建立时间。
+			///
+			/// @param value
+			///
+			void set_data_setup_time(base::unit::Nanosecond const &value)
+			{
+				_data_setup_time = value;
+			}
+
+			///
+			/// @brief 数据建立时钟周期数。
+			///
+			/// @return
+			///
+			int data_setup_clock_cycle_count() const
+			{
+				base::Fraction value{_data_setup_time / clock_cycle()};
+				return static_cast<int>(value.Ceil());
 			}
 		};
 
