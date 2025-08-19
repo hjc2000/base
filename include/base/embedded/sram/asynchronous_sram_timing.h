@@ -1,5 +1,6 @@
 #pragma once
 #include "base/math/Fraction.h"
+#include "base/string/Json.h"
 #include "base/unit/MHz.h"
 #include "base/unit/Nanosecond.h"
 
@@ -13,7 +14,8 @@ namespace base
 		/// @note 异步 SRAM 不需要主机提供时钟信号，但是需要主机接口支持 WAIT 信号。
 		///
 		///
-		class asynchronous_sram_timing
+		class asynchronous_sram_timing final :
+			public base::IJsonSerializable
 		{
 		private:
 			base::unit::MHz _clock_frequency{};
@@ -206,6 +208,13 @@ namespace base
 			}
 
 			/* #endregion */
+
+			///
+			/// @brief 序列化为 json
+			///
+			/// @return
+			///
+			virtual base::Json ToJson() const override;
 		};
 
 	} // namespace asynchronous_sram
