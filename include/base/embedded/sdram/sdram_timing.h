@@ -255,6 +255,8 @@ namespace base
 
 			/* #endregion */
 
+			/* #region t_rcd */
+
 			///
 			/// @brief 行到列时间。
 			///
@@ -279,6 +281,8 @@ namespace base
 				return static_cast<int>(value.Ceil());
 			}
 
+			/* #endregion */
+
 			///
 			/// @brief 自动刷新时间。
 			///
@@ -302,7 +306,7 @@ namespace base
 				_t_ref = value;
 			}
 
-			int t_ref_clock_count() const
+			int t_ref_clock_cycle_count() const
 			{
 				base::Fraction value{_t_ref / clock_cycle()};
 				return static_cast<int>(value.Ceil());
@@ -321,7 +325,7 @@ namespace base
 			/// @brief 每隔多少个时钟周期要发送一次自动刷新命令。
 			/// @return
 			///
-			int auto_refresh_command_clock_count() const
+			int auto_refresh_command_clock_cycle_count() const
 			{
 				base::Fraction value{auto_refresh_command_period() / clock_cycle()};
 				return static_cast<int>(value.Ceil());

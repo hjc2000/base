@@ -13,8 +13,8 @@ base::Json base::sdram::sdram_timing::ToJson() const
 		{"t_wr_clock_cycle_count", t_wr_clock_cycle_count()},
 		{"t_rp_clock_cycle_count", t_rp_clock_cycle_count()},
 		{"t_rcd_clock_cycle_count", t_rcd_clock_cycle_count()},
-		{"t_ref_clock_count", t_ref_clock_count()},
-		{"auto_refresh_command_clock_count", auto_refresh_command_clock_count()},
+		{"t_ref_clock_cycle_count", t_ref_clock_cycle_count()},
+		{"auto_refresh_command_clock_cycle_count", auto_refresh_command_clock_cycle_count()},
 		{"cas_latency", cas_latency()},
 	};
 
