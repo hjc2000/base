@@ -1,5 +1,6 @@
 #pragma once
-
+#include "base/math/Fraction.h"
+#include "base/unit/MHz.h"
 #include "base/unit/Nanosecond.h"
 
 namespace base
@@ -15,6 +16,7 @@ namespace base
 		class asynchronous_sram_timing
 		{
 		private:
+			base::unit::MHz _clock_frequency{};
 			base::unit::Nanosecond _address_setup_time{};
 			base::unit::Nanosecond _address_hold_time{};
 			base::unit::Nanosecond _data_setup_time{};
@@ -22,6 +24,96 @@ namespace base
 			base::unit::Nanosecond _bus_turn_around_time{};
 
 		public:
+			///
+			/// @brief SRAM 控制器的时钟频率。
+			///
+			/// @return
+			///
+			base::unit::MHz clock_frequency() const
+			{
+				return _clock_frequency;
+			}
+
+			///
+			/// @brief 设置 SRAM 控制器的时钟频率。
+			///
+			/// @param value
+			///
+			void set_clock_frequency(base::unit::MHz const &value)
+			{
+				_clock_frequency = value;
+			}
+
+			///
+			/// @brief SRAM 控制器的时钟信号周期。
+			///
+			/// @return
+			///
+			base::unit::Nanosecond clock_cycle() const
+			{
+				return base::unit::Nanosecond{_clock_frequency};
+			}
+
+			///
+			/// @brief 设置 SRAM 控制器的时钟信号周期。
+			///
+			/// @param value
+			///
+			void set_clock_cycle(base::unit::Nanosecond const &value)
+			{
+				_clock_frequency = base::unit::MHz{value};
+			}
+
+			///
+			/// @brief 地址建立时间。
+			///
+			/// @return
+			///
+			base::unit::Nanosecond address_setup_time() const
+			{
+				return _address_setup_time;
+			}
+
+			///
+			/// @brief 设置地址建立时间。
+			///
+			/// @param value
+			///
+			void set_address_setup_time(base::unit::Nanosecond const &value)
+			{
+				_address_setup_time = value;
+			}
+
+			///
+			/// @brief 地址建立时间是多少个 SRAM 控制器的时钟周期。
+			///
+			/// @return
+			///
+			int address_setup_time_clock_cycle_count() const
+			{
+				base::Fraction value{_address_setup_time / clock_cycle()};
+				return static_cast<int>(value.Ceil());
+			}
+
+			///
+			/// @brief 地址保持时间。
+			///
+			/// @return
+			///
+			base::unit::Nanosecond address_hold_time() const
+			{
+				return _address_hold_time;
+			}
+
+			///
+			/// @brief 数据建立时间。
+			///
+			/// @return
+			///
+			base::unit::Nanosecond data_setup_time() const
+			{
+				return _data_setup_time;
+			}
 		};
 
 	} // namespace asynchronous_sram
