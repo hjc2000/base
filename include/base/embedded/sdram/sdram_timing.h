@@ -44,6 +44,8 @@ namespace base
 				_row_count = value;
 			}
 
+			/* #region 时钟信号 */
+
 			///
 			/// @brief 时钟信号频率。
 			///
@@ -54,6 +56,11 @@ namespace base
 				return _clock_frequency;
 			}
 
+			///
+			/// @brief 设置时钟信号频率。
+			///
+			/// @param value
+			///
 			void set_clock_frequency(base::unit::MHz const &value)
 			{
 				_clock_frequency = value;
@@ -64,15 +71,24 @@ namespace base
 			///
 			/// @return
 			///
-			base::unit::Nanosecond clock_period() const
+			base::unit::Nanosecond clock_cycle() const
 			{
 				return base::unit::Nanosecond{_clock_frequency};
 			}
 
-			void set_clock_period(base::unit::Nanosecond const &value)
+			///
+			/// @brief 设置时钟信号周期。
+			///
+			/// @param value
+			///
+			void set_clock_cycle(base::unit::Nanosecond const &value)
 			{
 				_clock_frequency = base::unit::MHz{value};
 			}
+
+			/* #endregion */
+
+			/* #region t_rsc */
 
 			///
 			/// @brief 模式寄存器设置延迟。
@@ -94,11 +110,15 @@ namespace base
 				_t_rsc = value;
 			}
 
-			int t_rsc_clock_count() const
+			int t_rsc_clock_cycle_count() const
 			{
-				base::Fraction value{_t_rsc / clock_period()};
+				base::Fraction value{_t_rsc / clock_cycle()};
 				return static_cast<int>(value.Ceil());
 			}
+
+			/* #endregion */
+
+			/* #region t_xsr */
 
 			///
 			/// @brief 退出自刷新模式的时间。
@@ -117,11 +137,15 @@ namespace base
 				_t_xsr = value;
 			}
 
-			int t_xsr_clock_count() const
+			int t_xsr_clock_cycle_count() const
 			{
-				base::Fraction value{_t_xsr / clock_period()};
+				base::Fraction value{_t_xsr / clock_cycle()};
 				return static_cast<int>(value.Ceil());
 			}
+
+			/* #endregion */
+
+			/* #region t_ras */
 
 			///
 			/// @brief 从行激活到预充电的时间。
@@ -141,11 +165,15 @@ namespace base
 				_t_ras = value;
 			}
 
-			int t_ras_clock_count() const
+			int t_ras_clock_cycle_count() const
 			{
-				base::Fraction value{_t_ras / clock_period()};
+				base::Fraction value{_t_ras / clock_cycle()};
 				return static_cast<int>(value.Ceil());
 			}
+
+			/* #endregion */
+
+			/* #region t_rc */
 
 			///
 			/// @brief 行循环时间。
@@ -163,11 +191,13 @@ namespace base
 				_t_rc = value;
 			}
 
-			int t_rc_clock_count() const
+			int t_rc_clock_cycle_count() const
 			{
-				base::Fraction value{_t_rc / clock_period()};
+				base::Fraction value{_t_rc / clock_cycle()};
 				return static_cast<int>(value.Ceil());
 			}
+
+			/* #endregion */
 
 			///
 			/// @brief 写恢复时间。
@@ -187,9 +217,9 @@ namespace base
 				_t_wr = value;
 			}
 
-			int t_wr_clock_count() const
+			int t_wr_clock_cycle_count() const
 			{
-				base::Fraction value{_t_wr / clock_period()};
+				base::Fraction value{_t_wr / clock_cycle()};
 				return static_cast<int>(value.Ceil());
 			}
 
@@ -213,7 +243,7 @@ namespace base
 
 			int t_rp_clock_count() const
 			{
-				base::Fraction value{_t_rp / clock_period()};
+				base::Fraction value{_t_rp / clock_cycle()};
 				return static_cast<int>(value.Ceil());
 			}
 
@@ -237,7 +267,7 @@ namespace base
 
 			int t_rcd_clock_count() const
 			{
-				base::Fraction value{_t_rcd / clock_period()};
+				base::Fraction value{_t_rcd / clock_cycle()};
 				return static_cast<int>(value.Ceil());
 			}
 
@@ -266,7 +296,7 @@ namespace base
 
 			int t_ref_clock_count() const
 			{
-				base::Fraction value{_t_ref / clock_period()};
+				base::Fraction value{_t_ref / clock_cycle()};
 				return static_cast<int>(value.Ceil());
 			}
 
@@ -285,7 +315,7 @@ namespace base
 			///
 			int auto_refresh_command_clock_count() const
 			{
-				base::Fraction value{auto_refresh_command_period() / clock_period()};
+				base::Fraction value{auto_refresh_command_period() / clock_cycle()};
 				return static_cast<int>(value.Ceil());
 			}
 
