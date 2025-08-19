@@ -283,6 +283,8 @@ namespace base
 
 			/* #endregion */
 
+			/* #region t_ref */
+
 			///
 			/// @brief 自动刷新时间。
 			///
@@ -330,6 +332,8 @@ namespace base
 				base::Fraction value{auto_refresh_command_period() / clock_cycle()};
 				return static_cast<int>(value.Ceil());
 			}
+
+			/* #endregion */
 
 			///
 			/// @brief 发送读命令后要等待多少个 CLK 信号的周期 SDRAM 才能将数据输出到数据总线上。
