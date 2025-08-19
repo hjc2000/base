@@ -84,16 +84,12 @@ namespace base
 		///
 		/// @param h
 		///
-		/// @param alternate_function_index 复用功能的索引。
-		/// 	@note 每个 GPIO 引脚都通过一个多路复用器将 GPIO 引脚连接到多个外设的信号线上。
-		/// 	可以通过寄存器配置让多路复用器开通哪一条线，让它导通到引脚上，这样就实现了功能复用。
-		/// 	本参数就是用来选择复用功能的索引，即让多路复用器将哪个索引的线开通。
-		///
+		/// @param alternate_function_id 复用功能的 ID.
 		/// @param pull_mode
 		/// @param drive_mode
 		///
 		void initialize_as_alternate_function_mode(base::gpio::gpio_pin_handle &h,
-												   uint32_t alternate_function_index,
+												   uint32_t alternate_function_id,
 												   base::gpio::PullMode pull_mode,
 												   base::gpio::DriveMode drive_mode);
 
