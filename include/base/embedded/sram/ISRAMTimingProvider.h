@@ -12,13 +12,6 @@ namespace base
 			virtual ~ISRAMTimingProvider() = default;
 
 			///
-			/// @brief 允许的最大时钟频率。
-			///
-			/// @return
-			///
-			virtual base::unit::MHz MaxClockFrequency() const = 0;
-
-			///
 			/// @brief 获取指定 CLK 频率下的时序。
 			///
 			/// @param clk_frequency
