@@ -39,6 +39,16 @@ namespace base
 			{
 				base::independent_watch_dog::feed(*_handle);
 			}
+
+			///
+			/// @brief 看门狗超时时间。
+			///
+			/// @return
+			///
+			std::chrono::milliseconds Timeout() const
+			{
+				return base::independent_watch_dog::timeout(*_handle);
+			}
 		};
 
 	} // namespace independent_watch_dog
