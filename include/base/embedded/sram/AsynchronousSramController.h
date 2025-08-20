@@ -22,9 +22,24 @@ namespace base
 				_handle = base::asynchronous_sram::open(id);
 			}
 
+			///
+			/// @brief 初始化 SRAM 控制器。
+			///
+			/// @param timing_provider
+			///
 			void Initialize(base::asynchronous_sram::ISRAMTimingProvider const &timing_provider)
 			{
 				base::asynchronous_sram::initialize(*_handle, timing_provider);
+			}
+
+			///
+			/// @brief 初始化 SRAM 控制器成功后可以调用本方法获取正在应用中的时序。
+			///
+			/// @return
+			///
+			base::asynchronous_sram::asynchronous_sram_timing Timing()
+			{
+				return base::asynchronous_sram::timing(*_handle);
 			}
 		};
 
