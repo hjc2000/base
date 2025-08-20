@@ -2,6 +2,7 @@
 #include "base/embedded/sdram/ISDRAMTimingProvider.h"
 #include "base/stream/Span.h"
 #include "parameter.h"
+#include <cstdint>
 #include <memory>
 
 namespace base
@@ -18,6 +19,15 @@ namespace base
 		/// @return
 		///
 		std::shared_ptr<base::sdram::sdram_controller_handle> open(uint32_t id);
+
+		///
+		/// @brief SDRAM 控制器的底层初始化回调。
+		///
+		/// @note 在初始化 SDRAM 控制器时，控制器会回调此函数。在这里执行一些底层的初始化，例如 GPIO 初始化。
+		///
+		/// @param id
+		///
+		void msp_initialize_callback(uint32_t id);
 
 		///
 		/// @brief 将 SDRAM 控制器初始化为读突发模式。写不突发。
