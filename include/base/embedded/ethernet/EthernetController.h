@@ -144,5 +144,6 @@ namespace base
 				base::ethernet::hardware_reset_phy(*_handle);
 			}
 		};
+
 	} // namespace ethernet
 } // namespace base
