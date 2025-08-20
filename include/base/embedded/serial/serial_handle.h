@@ -15,6 +15,7 @@ namespace base
 		///
 		/// @brief 串口句柄。
 		///
+		/// @note 在单片机平台，打开串口前需要自行初始化串口的 GPIO 引脚。
 		///
 		class serial_handle;
 
