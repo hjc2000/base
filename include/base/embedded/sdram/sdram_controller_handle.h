@@ -22,6 +22,12 @@ namespace base
 		///
 		/// @brief 将 SDRAM 控制器初始化为读突发模式。写不突发。
 		///
+		/// @note 需自行初始化 SDRAM 控制器的 GPIO 引脚。SDRAM 控制器无法负责 GPIO 引脚的初始化。
+		/// 因为：
+		/// 	@li 即使是同一个外设的同一个信号，也可以分配到不同的 GPIO 引脚上。
+		/// 	@li SDRAM 芯片各种各样，所需的地址线和数据线个数也不一样。
+		/// 这部分工作需要结合原理图完成。
+		///
 		/// @param h
 		/// @param timing_provider
 		/// @param bank_count
