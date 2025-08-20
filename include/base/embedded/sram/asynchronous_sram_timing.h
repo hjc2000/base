@@ -102,6 +102,16 @@ namespace base
 				return static_cast<int>(value.Ceil());
 			}
 
+			///
+			/// @brief 设置地址建立时钟周期数。
+			///
+			/// @param value
+			///
+			void set_address_setup_clock_cycle_count(int value)
+			{
+				_address_setup_time = value * clock_cycle();
+			}
+
 			/* #endregion */
 
 			/* #region 地址保持时间 */
@@ -135,6 +145,16 @@ namespace base
 			{
 				base::Fraction value{_address_hold_time / clock_cycle()};
 				return static_cast<int>(value.Ceil());
+			}
+
+			///
+			/// @brief 设置地址保持时钟周期数。
+			///
+			/// @param value
+			///
+			void set_address_hold_clock_cycle_count(int value)
+			{
+				_address_hold_time = value * clock_cycle();
 			}
 
 			/* #endregion */
@@ -172,6 +192,16 @@ namespace base
 				return static_cast<int>(value.Ceil());
 			}
 
+			///
+			/// @brief 设置数据建立时钟周期数。
+			///
+			/// @param value
+			///
+			void set_data_setup_clock_cycle_count(int value)
+			{
+				_data_setup_time = value * clock_cycle();
+			}
+
 			/* #endregion */
 
 			/* #region 总线周转时间 */
@@ -205,6 +235,16 @@ namespace base
 			{
 				base::Fraction value{_bus_turn_around_time / clock_cycle()};
 				return static_cast<int>(value.Ceil());
+			}
+
+			///
+			/// @brief 设置总线周转时钟周期数。
+			///
+			/// @param value
+			///
+			void set_bus_turn_around_clock_cycle_count(int value)
+			{
+				_bus_turn_around_time = value * clock_cycle();
 			}
 
 			/* #endregion */
