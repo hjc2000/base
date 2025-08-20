@@ -10,6 +10,10 @@ namespace base
 {
 	namespace serial
 	{
+		///
+		/// @brief 串口类。
+		///
+		///
 		class Serial :
 			public base::Stream
 		{

@@ -12,6 +12,10 @@ namespace base
 {
 	namespace serial
 	{
+		///
+		/// @brief 串口句柄。
+		///
+		///
 		class serial_handle;
 
 		///
