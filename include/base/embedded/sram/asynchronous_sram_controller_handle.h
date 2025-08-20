@@ -12,6 +12,8 @@ namespace base
 
 		std::shared_ptr<base::asynchronous_sram::asynchronous_sram_controller_handle> open(uint32_t id);
 
+		void msp_initialize_callback(uint32_t id);
+
 		///
 		/// @brief 初始化 SRAM 控制器。
 		///
