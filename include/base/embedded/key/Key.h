@@ -41,5 +41,6 @@ namespace base
 				return base::key::key_is_up(*_handle);
 			}
 		};
+
 	} // namespace key
 } // namespace base

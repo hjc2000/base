@@ -77,5 +77,6 @@ namespace base
 			///
 			bool HasKeyPressedEvent(int key_index) const;
 		};
+
 	} // namespace key
 } // namespace base
