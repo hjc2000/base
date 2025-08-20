@@ -31,7 +31,7 @@ namespace base
 		/// 	@li SDRAM 芯片各种各样，所需的地址线和数据线个数也不一样。
 		/// 这部分工作需要结合原理图完成。
 		///
-		/// @param id
+		/// @param id SDRAM 控制器的 ID, 与 open 函数中传入的 ID 是同一个。
 		///
 		void msp_initialize_callback(uint32_t id);
 
