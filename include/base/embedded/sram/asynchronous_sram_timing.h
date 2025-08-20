@@ -13,7 +13,6 @@ namespace base
 		///
 		/// @note 异步 SRAM 不需要主机提供时钟信号，但是需要主机接口支持 WAIT 信号。
 		///
-		///
 		class asynchronous_sram_timing final :
 			public base::IJsonSerializable
 		{
