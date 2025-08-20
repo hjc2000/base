@@ -10,7 +10,6 @@ namespace base
 		///
 		/// @brief 独立看门狗句柄。
 		///
-		///
 		class independent_watch_dog_handle;
 
 		///
