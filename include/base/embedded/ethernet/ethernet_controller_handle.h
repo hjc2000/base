@@ -121,7 +121,19 @@ namespace base
 		/* #endregion */
 
 		///
+		/// @brief 底层初始化回调。
+		///
+		/// @note BSP 层负责实现。
+		/// @note 初始化例如 GPIO 引脚等。
+		///
+		/// @param id
+		///
+		void msp_initialize_callback(uint32_t id);
+
+		///
 		/// @brief 通过 PHY 的复位引脚复位 PHY.
+		///
+		/// @note BSP 层负责实现。
 		///
 		/// @param h
 		///
