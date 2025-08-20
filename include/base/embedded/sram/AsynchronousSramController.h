@@ -37,7 +37,7 @@ namespace base
 			///
 			/// @return
 			///
-			base::asynchronous_sram::asynchronous_sram_timing Timing()
+			base::asynchronous_sram::asynchronous_sram_timing Timing() const
 			{
 				return base::asynchronous_sram::timing(*_handle);
 			}
