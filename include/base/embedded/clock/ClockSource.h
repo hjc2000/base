@@ -1,5 +1,4 @@
 #pragma once
-
 #include "clock_source_handle.h"
 #include <memory>
 #include <string>
@@ -115,5 +114,6 @@ namespace base
 				base::clock::turn_off(*_handle);
 			}
 		};
+
 	} // namespace clock
 } // namespace base
