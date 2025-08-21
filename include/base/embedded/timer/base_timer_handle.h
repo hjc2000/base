@@ -55,7 +55,7 @@ namespace base
 		/// @param callback
 		///
 		void set_period_elapsed_callback(base::base_timer::base_timer_handle &self,
-										 std::function<void()> callback);
+										 std::function<void()> const &callback);
 
 		///
 		/// @brief 启动定时器。
