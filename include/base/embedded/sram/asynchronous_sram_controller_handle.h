@@ -1,5 +1,6 @@
 #pragma once
 #include "base/embedded/sram/asynchronous_sram_timing.h"
+#include "base/stream/Span.h"
 #include "ISRAMTimingProvider.h"
 #include <cstdint>
 #include <memory>
@@ -45,6 +46,16 @@ namespace base
 		/// @return
 		///
 		base::asynchronous_sram::asynchronous_sram_timing timing(base::asynchronous_sram::asynchronous_sram_controller_handle &self);
+
+		///
+		/// @brief SRAM 控制器所管理的内存段。
+		///
+		/// @note 实际可用的空间由实际的 SRAM 大小决定。这里返回的内存段只是 SRAM 控制器所管理的范围。
+		///
+		/// @param self
+		/// @return
+		///
+		base::Span span(base::asynchronous_sram::asynchronous_sram_controller_handle &self);
 
 	} // namespace asynchronous_sram
 } // namespace base

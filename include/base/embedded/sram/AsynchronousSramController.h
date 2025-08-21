@@ -1,5 +1,6 @@
 #pragma once
 #include "asynchronous_sram_controller_handle.h"
+#include "base/stream/Span.h"
 #include <cstdint>
 
 namespace base
@@ -40,6 +41,18 @@ namespace base
 			base::asynchronous_sram::asynchronous_sram_timing Timing() const
 			{
 				return base::asynchronous_sram::timing(*_handle);
+			}
+
+			///
+			/// @brief SRAM 控制器所管理的内存段。
+			///
+			/// @note 实际可用的空间由实际的 SRAM 大小决定。这里返回的内存段只是 SRAM 控制器所管理的范围。
+			///
+			/// @return
+			///
+			base::Span Span() const
+			{
+				return base::asynchronous_sram::span(*_handle);
 			}
 		};
 
