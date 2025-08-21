@@ -1,6 +1,7 @@
 #pragma once
 #include <chrono>
 #include <cstdint>
+#include <functional>
 #include <memory>
 
 namespace base
@@ -48,9 +49,13 @@ namespace base
 		///
 		/// @brief 设置定时时间到的回调。
 		///
-		/// @param self
+		/// @warning 实现者实现时需要注意在修改回调函数的时候禁用定时器中断。
 		///
-		void set_period_elapsed_callback(base::base_timer::base_timer_handle &self);
+		/// @param self
+		/// @param callback
+		///
+		void set_period_elapsed_callback(base::base_timer::base_timer_handle &self,
+										 std::function<void()> callback);
 
 		///
 		/// @brief 启动定时器。
