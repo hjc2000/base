@@ -5,6 +5,7 @@
 #include "base/task/task.h"
 #include <chrono>
 #include <cstdint>
+#include <string>
 
 namespace base
 {
@@ -31,6 +32,7 @@ namespace base
 					{
 						_semaphore.Acquire();
 						base::console.WriteLine("被定时器释放了。");
+						base::console.WriteLine(std::to_string(timer.Period().count()));
 					}
 				});
 		}
