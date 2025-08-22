@@ -78,6 +78,17 @@ namespace base
 		}
 
 		///
+		/// @brief 从最低位开始数，有多少个连续的 0.
+		/// @return
+		///
+		template <typename RegisterType>
+			requires(std::is_integral_v<RegisterType>)
+		constexpr int LowZeroCount(RegisterType num)
+		{
+			return std::countr_zero(num);
+		}
+
+		///
 		/// @brief 最高位的 1 的索引。
 		///
 		/// @note 例如 0x1 的 bit0 是最高位的 1，于是返回 0.
@@ -91,6 +102,19 @@ namespace base
 		{
 			int count = HighZeroCount(num);
 			return sizeof(num) * 8 - count - 1;
+		}
+
+		///
+		/// @brief 最低位的 1 所在的索引。
+		///
+		/// @param num
+		/// @return
+		///
+		template <typename RegisterType>
+			requires(std::is_integral_v<RegisterType>)
+		constexpr int LowestOneBitIndex(RegisterType num)
+		{
+			return LowZeroCount(num);
 		}
 
 		///
