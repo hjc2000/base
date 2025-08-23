@@ -83,12 +83,10 @@ namespace base
 		///
 		constexpr void Extract(T factor, T factor_limit)
 		{
-			factor_limit = base::abs(factor_limit);
-
 			while (base::abs(_base) >= base::abs(factor) &&
 				   _base % factor == 0)
 			{
-				if (base::abs(_factor) >= factor_limit)
+				if (base::abs(_factor) >= base::abs(factor_limit))
 				{
 					break;
 				}
