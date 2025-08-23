@@ -87,7 +87,7 @@ namespace base
 				   _base % factor == 0)
 			{
 				T next_factor = _factor * factor;
-				if (base::abs(next_factor) >= base::abs(factor_limit))
+				if (base::abs(next_factor) > base::abs(factor_limit))
 				{
 					break;
 				}
