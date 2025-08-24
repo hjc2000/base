@@ -86,14 +86,13 @@ namespace base
 			while (base::abs(_base) >= base::abs(factor) &&
 				   _base % factor == 0)
 			{
-				T next_factor = _factor * factor;
-				if (base::abs(next_factor) > base::abs(factor_limit))
+				if (base::abs(_factor) > base::abs(factor_limit / factor))
 				{
 					break;
 				}
 
 				_base /= factor;
-				_factor = next_factor;
+				_factor *= factor;
 			}
 		}
 	};
