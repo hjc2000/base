@@ -1,7 +1,9 @@
 #include "TestFactorExtractor.h" // IWYU pragma: keep
 #include "base/math/FactorExtractor.h"
+#include "base/string/define.h"
 #include <cstdint>
 #include <iostream>
+#include <stdexcept>
 
 #if HAS_THREAD
 
@@ -13,9 +15,15 @@ void base::test::TestFactorExtractor()
 		constexpr uint64_t base_num = 7;
 		base::FactorExtractor<uint64_t> factor_extractor{factor * base_num};
 
+		factor_extractor.Extract(2);
 		factor_extractor.Extract(3);
-		factor_extractor.Extract(4);
 		factor_extractor.Extract(5);
+
+		if (factor_extractor.Factor() * factor_extractor.Base() != factor * base_num)
+		{
+			throw std::runtime_error{CODE_POS_STR + "测试不通过。"};
+		}
+
 		std::cout << "系数: " << factor_extractor.Factor() << std::endl;
 		std::cout << "基数: " << factor_extractor.Base() << std::endl;
 		std::cout << std::endl;
@@ -27,9 +35,15 @@ void base::test::TestFactorExtractor()
 		constexpr uint64_t base_num = 7;
 		base::FactorExtractor<uint64_t> factor_extractor{factor * base_num};
 
+		factor_extractor.Extract(2, 9);
 		factor_extractor.Extract(3, 9);
-		factor_extractor.Extract(4, 9);
 		factor_extractor.Extract(5, 9);
+
+		if (factor_extractor.Factor() * factor_extractor.Base() != factor * base_num)
+		{
+			throw std::runtime_error{CODE_POS_STR + "测试不通过。"};
+		}
+
 		std::cout << "系数: " << factor_extractor.Factor() << std::endl;
 		std::cout << "基数: " << factor_extractor.Base() << std::endl;
 		std::cout << std::endl;
