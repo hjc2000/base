@@ -35,9 +35,9 @@ void base::test::TestFactorExtractor()
 		constexpr uint64_t base_num = 7;
 		base::FactorExtractor<uint64_t> factor_extractor{factor * base_num};
 
-		factor_extractor.Extract(2, 9);
-		factor_extractor.Extract(3, 9);
-		factor_extractor.Extract(5, 9);
+		factor_extractor.Extract(2, 8);
+		factor_extractor.Extract(3, 8);
+		factor_extractor.Extract(5, 8);
 
 		if (factor_extractor.Factor() * factor_extractor.Base() != factor * base_num)
 		{
