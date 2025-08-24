@@ -1,5 +1,6 @@
 #pragma once
 #include "base/math/math.h"
+#include <limits>
 #include <type_traits>
 
 namespace base
@@ -65,12 +66,7 @@ namespace base
 		///
 		constexpr void Extract(T factor)
 		{
-			while (base::abs(_base) >= base::abs(factor) &&
-				   _base % factor == 0)
-			{
-				_base /= factor;
-				_factor *= factor;
-			}
+			Extract(factor, std::numeric_limits<T>::max());
 		}
 
 		///
