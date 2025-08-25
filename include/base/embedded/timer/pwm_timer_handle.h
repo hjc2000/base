@@ -112,15 +112,6 @@ namespace base
 		void start(base::pwm_timer::pwm_timer_handle &self);
 
 		///
-		/// @brief 停止定时器并停止 PWM 输出。
-		///
-		/// @note 所有输出都要置于无效的电平。
-		///
-		/// @param self
-		///
-		void stop(base::pwm_timer::pwm_timer_handle &self);
-
-		///
 		/// @brief 运行时改变比较值。
 		///
 		/// @param self
@@ -130,6 +121,15 @@ namespace base
 		void change_compare_value(base::pwm_timer::pwm_timer_handle &self,
 								  std::bitset<32> channels,
 								  uint32_t value);
+
+		///
+		/// @brief 停止定时器并停止 PWM 输出。
+		///
+		/// @note 所有输出都要置于无效的电平。
+		///
+		/// @param self
+		///
+		void stop(base::pwm_timer::pwm_timer_handle &self);
 
 	} // namespace pwm_timer
 } // namespace base
