@@ -57,13 +57,6 @@ namespace base
 
 		/* #endregion */
 
-		///
-		/// @brief 串口的底层初始化回调。
-		///
-		/// @param id
-		///
-		void msp_initialize_callback(uint32_t id);
-
 		/* #region 启动串口 */
 
 		///
@@ -211,6 +204,13 @@ namespace base
 		/// @param h
 		///
 		void close(base::serial::serial_handle &h);
+
+		///
+		/// @brief 串口的底层初始化回调。
+		///
+		/// @param id
+		///
+		void msp_initialize_callback(uint32_t id);
 
 	} // namespace serial
 } // namespace base
