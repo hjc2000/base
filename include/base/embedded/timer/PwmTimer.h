@@ -1,4 +1,7 @@
 #pragma once
+#include "pwm_timer_handle.h"
+#include <cstdint>
+#include <memory>
 
 namespace base
 {
@@ -6,7 +9,117 @@ namespace base
 	{
 		class PwmTimer
 		{
+		private:
+			std::shared_ptr<base::pwm_timer::pwm_timer_handle> _handle;
+
 		public:
+			PwmTimer(uint32_t id)
+			{
+				_handle = base::pwm_timer::open(id);
+			}
+
+			///
+			/// @brief 初始化为增计数模式。
+			///
+			/// @note 刚开始的时候当前计数值是 0.
+			///
+			/// @note compare_value 大于当前计数值的时候输出是有效状态，输出有效极性的电平。
+			///
+			/// @note 计数值递增到等于 compare_value 的时候输出就会立刻切换成无效状态，
+			/// 输出无效极性电平。
+			///
+			/// @note 例如计数周期是 256, 设置 compare_value 为 256 / 8 = 128.
+			/// 设置有效极性为正，即输出有效状态是高电平。
+			///
+			/// @li 刚开始计数值等于 0, 比较值大于计数值，输出是有效状态，输出高电平。
+			/// @li 计数值等于 compare_value = 128 的时候输出切换成无效状态，输出低电平。
+			/// @li 计数值继续递增，递增到 255, 下一个时钟信号到来，计数值继续递增 1, 溢出清零的瞬间，
+			/// 	当前计数值又满足小于 compare_value 了，输出变成有效状态，再次输出高电平。
+			///
+			/// 这样计数值属于 [0, 128) 的时候输出高电平，计数值属于 [128, 256) 的时候
+			/// 输出低电平。高电平和低电平各占一半，占空比为 50%.
+			///
+			/// 注：
+			/// 	这里的 [128, 256) 中的 256 不是指计数器的值真的能是 256, 指的是下一个周期的 0.
+			///
+			/// @param frequency PWM 的频率。
+			///
+			void InitializeAsUpMode(base::unit::Hz const &frequency);
+
+			///
+			/// @brief 初始化为递减计数模式。
+			///
+			/// @note 刚开始的时候当前计数值是重装载值。
+			///
+			/// @note compare_value 小于当前计数值的时候输出是无效状态，输出与无效电平。
+			///
+			/// @note 计数值递减到等于 compare_value 的时候，输出立刻切换为有效状态，输出有效电平。
+			///
+			/// @param frequency
+			///
+			void InitializeAsDownMode(base::unit::Hz const &frequency);
+
+			///
+			/// @brief 初始化为先向上计数再向下计数的模式。
+			///
+			/// @param frequency
+			///
+			void InitializeAsUpDownMode(base::unit::Hz const &frequency);
+
+			///
+			/// @brief 定时器一个周期的计数次数。
+			///
+			/// @note 初始化完定时器核心部分后，就可以知道定时器一个周期计数多少了。
+			///
+			/// @return
+			///
+			uint32_t Cycle(base::pwm_timer::pwm_timer_handle const &self);
+
+			///
+			/// @brief 配置输出。
+			///
+			/// @param channel_id 要配置的通道的 ID.
+			/// @param effective_polarity 有效极性。
+			/// @param idle_polarity 空闲极性。
+			/// @param compare_value 比较寄存器的比较值。
+			///
+			/// @param dead_time 同一相的一对互相反相的输出，在一个输出变成无效后，经过死区时间后
+			/// 另一个输出才会变成有效。这可以避免全桥 PWM 控制的同一相 IGBT 同时导通造成短路。
+			///
+			void ConfigureOutput(uint32_t channel_id,
+								 base::pwm_timer::Polarity effective_polarity,
+								 base::pwm_timer::Polarity idle_polarity,
+								 uint32_t compare_value,
+								 uint32_t dead_time);
+
+			///
+			/// @brief 启动定时器，开始输出 PWM 信号。
+			///
+			/// @param channel_id
+			///
+			void Start(uint32_t channel_id);
+
+			///
+			/// @brief 启动定时器，并同时启动所有通道的输出。
+			///
+			void Start();
+
+			///
+			/// @brief 运行时改变比较值。
+			///
+			/// @param channel_id
+			/// @param value
+			///
+			void ChangeCompareValue(uint32_t channel_id, uint32_t value);
+
+			///
+			/// @brief 停止定时器并停止 PWM 输出。
+			///
+			/// @note 所有输出都要置于无效的电平。
+			///
+			/// @param channel_id
+			///
+			void Stop(uint32_t channel_id);
 		};
 
 	} // namespace pwm_timer
