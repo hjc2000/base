@@ -109,6 +109,13 @@ namespace base
 		void start(base::pwm_timer::pwm_timer_handle &self, uint32_t channel_id);
 
 		///
+		/// @brief 启动定时器，并同时启动所有通道的输出。
+		///
+		/// @param self
+		///
+		void start(base::pwm_timer::pwm_timer_handle &self);
+
+		///
 		/// @brief 运行时改变比较值。
 		///
 		/// @param self
