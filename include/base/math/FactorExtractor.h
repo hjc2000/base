@@ -77,7 +77,22 @@ namespace base
 		/// @param factor
 		/// @param factor_limit
 		///
-		constexpr void Extract(T factor, T factor_limit)
+		constexpr void GreedyExtract(T factor, T factor_limit)
+		{
+			while (base::abs(_base) >= base::abs(factor) &&
+				   _base % factor == 0)
+			{
+				if (base::abs(_factor) > base::abs(factor_limit / factor))
+				{
+					break;
+				}
+
+				_base /= factor;
+				_factor *= factor;
+			}
+		}
+
+		constexpr void ConservativeExtract(T factor, T factor_limit)
 		{
 			while (base::abs(_base) >= base::abs(factor) &&
 				   _base % factor == 0)
