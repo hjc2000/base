@@ -20,6 +20,8 @@ namespace base
 		///
 		/// @brief 初始化为增计数模式。
 		///
+		/// @note 刚开始的时候当前计数值是 0.
+		///
 		/// @note compare_value 大于当前计数值的时候输出是有效状态，输出 effective_polarity
 		/// 设置的有效极性的电平。
 		///
@@ -47,6 +49,25 @@ namespace base
 		void initialize_as_up_count_mode(base::pwm_timer::pwm_timer_handle &self,
 										 base::unit::Hz const &frequency,
 										 base::pwm_timer::Polarity effective_polarity);
+
+		///
+		/// @brief 初始化为递减计数模式。
+		///
+		/// @note 刚开始的时候当前计数值是重装载值。
+		///
+		/// @note compare_value 小于当前计数值的时候输出是无效状态，输出与 effective_polarity
+		/// 极性相反的电平。
+		///
+		/// @note 计数值递减到等于 compare_value 的时候，输出立刻切换为有效状态，输出 effective_polarity
+		/// 设置的有效电平。
+		///
+		/// @param self
+		/// @param frequency
+		/// @param effective_polarity
+		///
+		void initialize_as_down_count_mode(base::pwm_timer::pwm_timer_handle &self,
+										   base::unit::Hz const &frequency,
+										   base::pwm_timer::Polarity effective_polarity);
 
 		///
 		/// @brief 定时器输出 PWM 一个周期的计数次数。
