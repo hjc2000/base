@@ -15,7 +15,7 @@ namespace base
 			timer.ConfigureOutput(channel_id,
 								  base::pwm_timer::Polarity::Positive,
 								  base::pwm_timer::Polarity::Negative,
-								  timer.Cycle() / 2,
+								  timer.Cycle() / 10,
 								  0);
 
 			timer.Start(channel_id);
