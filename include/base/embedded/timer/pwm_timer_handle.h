@@ -46,9 +46,9 @@ namespace base
 		/// @param frequency PWM 的频率。
 		/// @param effective_polarity 有效极性。
 		///
-		void initialize_as_up_count_mode(base::pwm_timer::pwm_timer_handle &self,
-										 base::unit::Hz const &frequency,
-										 base::pwm_timer::Polarity effective_polarity);
+		void initialize_as_up_mode(base::pwm_timer::pwm_timer_handle &self,
+								   base::unit::Hz const &frequency,
+								   base::pwm_timer::Polarity effective_polarity);
 
 		///
 		/// @brief 初始化为递减计数模式。
@@ -65,9 +65,20 @@ namespace base
 		/// @param frequency
 		/// @param effective_polarity
 		///
-		void initialize_as_down_count_mode(base::pwm_timer::pwm_timer_handle &self,
-										   base::unit::Hz const &frequency,
-										   base::pwm_timer::Polarity effective_polarity);
+		void initialize_as_down_mode(base::pwm_timer::pwm_timer_handle &self,
+									 base::unit::Hz const &frequency,
+									 base::pwm_timer::Polarity effective_polarity);
+
+		///
+		/// @brief 初始化为先向上计数再向下计数的模式。
+		///
+		/// @param self
+		/// @param frequency
+		/// @param effective_polarity
+		///
+		void initialize_as_up_down_mode(base::pwm_timer::pwm_timer_handle &self,
+										base::unit::Hz const &frequency,
+										base::pwm_timer::Polarity effective_polarity);
 
 		///
 		/// @brief 定时器输出 PWM 一个周期的计数次数。
@@ -94,6 +105,22 @@ namespace base
 		/// @param value
 		///
 		void set_compare_value(base::pwm_timer::pwm_timer_handle &self, uint32_t value);
+
+		///
+		/// @brief 死区时间。单位：定时器计数值。
+		///
+		/// @param self
+		/// @return
+		///
+		uint32_t dead_time(base::pwm_timer::pwm_timer_handle const &self);
+
+		///
+		/// @brief 设置死区时间。单位：定时器计数值。
+		///
+		/// @param self
+		/// @param value
+		///
+		void set_dead_time(base::pwm_timer::pwm_timer_handle &self, uint32_t value);
 
 		///
 		/// @brief 启动定时器，开始输出 PWM 信号。
