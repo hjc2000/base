@@ -143,5 +143,12 @@ namespace base
 		///
 		void stop_all_channels(base::pwm_timer::pwm_timer_handle &self);
 
+		///
+		/// @brief PWM 定时器的底层初始化回调。
+		///
+		/// @param id
+		///
+		void msp_initialize_callback(uint32_t id);
+
 	} // namespace pwm_timer
 } // namespace base
