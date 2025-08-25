@@ -1,7 +1,9 @@
 #pragma once
+#include "base/Console.h"
 #include "base/embedded/timer/PwmTimer.h"
 #include "base/unit/Hz.h"
 #include <cstdint>
+#include <string>
 
 namespace base
 {
@@ -17,6 +19,10 @@ namespace base
 								  base::pwm_timer::Polarity::Negative,
 								  timer.Cycle() / 10,
 								  0);
+
+			base::console.Write("timer.Cycle(): ");
+			base::console.Write(std::to_string(timer.Cycle()));
+			base::console.WriteLine();
 
 			timer.Start(channel_id);
 		}
