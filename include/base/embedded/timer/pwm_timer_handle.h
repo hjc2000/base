@@ -104,9 +104,6 @@ namespace base
 		///
 		/// @brief 启动定时器，开始输出 PWM 信号。
 		///
-		/// @note 启动前必须设置好比较值和死区时间等，否则有的实现者可能选择抛出异常，
-		/// 有的实现者可能选择使用默认值。
-		///
 		/// @param self
 		///
 		void start(base::pwm_timer::pwm_timer_handle &self);
