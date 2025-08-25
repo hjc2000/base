@@ -113,7 +113,7 @@ namespace base
 		///
 		/// @param self
 		///
-		void start(base::pwm_timer::pwm_timer_handle &self);
+		void start_all_channels(base::pwm_timer::pwm_timer_handle &self);
 
 		///
 		/// @brief 运行时改变比较值。
@@ -127,14 +127,21 @@ namespace base
 								  uint32_t value);
 
 		///
-		/// @brief 停止定时器并停止 PWM 输出。
+		/// @brief 停止指定通道的 PWM 输出。
 		///
-		/// @note 所有输出都要置于无效的电平。
+		/// @note 停止后该通道输出空闲电平。
 		///
 		/// @param self
 		/// @param channel_id
 		///
 		void stop(base::pwm_timer::pwm_timer_handle &self, uint32_t channel_id);
+
+		///
+		/// @brief 停止所有通道的 PWM 输出。
+		///
+		/// @param self
+		///
+		void stop_all_channels(base::pwm_timer::pwm_timer_handle &self);
 
 	} // namespace pwm_timer
 } // namespace base

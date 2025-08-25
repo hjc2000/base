@@ -44,7 +44,10 @@ namespace base
 			///
 			/// @param frequency PWM 的频率。
 			///
-			void InitializeAsUpMode(base::unit::Hz const &frequency);
+			void InitializeAsUpMode(base::unit::Hz const &frequency)
+			{
+				base::pwm_timer::initialize_as_up_mode(*_handle, frequency);
+			}
 
 			///
 			/// @brief 初始化为递减计数模式。
@@ -57,14 +60,20 @@ namespace base
 			///
 			/// @param frequency
 			///
-			void InitializeAsDownMode(base::unit::Hz const &frequency);
+			void InitializeAsDownMode(base::unit::Hz const &frequency)
+			{
+				base::pwm_timer::initialize_as_down_mode(*_handle, frequency);
+			}
 
 			///
 			/// @brief 初始化为先向上计数再向下计数的模式。
 			///
 			/// @param frequency
 			///
-			void InitializeAsUpDownMode(base::unit::Hz const &frequency);
+			void InitializeAsUpDownMode(base::unit::Hz const &frequency)
+			{
+				base::pwm_timer::initialize_as_up_down_mode(*_handle, frequency);
+			}
 
 			///
 			/// @brief 定时器一个周期的计数次数。
@@ -73,7 +82,10 @@ namespace base
 			///
 			/// @return
 			///
-			uint32_t Cycle(base::pwm_timer::pwm_timer_handle const &self);
+			uint32_t Cycle() const
+			{
+				return base::pwm_timer::cycle(*_handle);
+			}
 
 			///
 			/// @brief 配置输出。
@@ -90,19 +102,32 @@ namespace base
 								 base::pwm_timer::Polarity effective_polarity,
 								 base::pwm_timer::Polarity idle_polarity,
 								 uint32_t compare_value,
-								 uint32_t dead_time);
+								 uint32_t dead_time)
+			{
+				base::pwm_timer::configure_output(*_handle,
+												  channel_id,
+												  effective_polarity,
+												  idle_polarity,
+												  compare_value, dead_time);
+			}
 
 			///
 			/// @brief 启动定时器，开始输出 PWM 信号。
 			///
 			/// @param channel_id
 			///
-			void Start(uint32_t channel_id);
+			void Start(uint32_t channel_id)
+			{
+				base::pwm_timer::start(*_handle, channel_id);
+			}
 
 			///
 			/// @brief 启动定时器，并同时启动所有通道的输出。
 			///
-			void Start();
+			void StartAllChannels()
+			{
+				base::pwm_timer::start_all_channels(*_handle);
+			}
 
 			///
 			/// @brief 运行时改变比较值。
@@ -110,16 +135,32 @@ namespace base
 			/// @param channel_id
 			/// @param value
 			///
-			void ChangeCompareValue(uint32_t channel_id, uint32_t value);
+			void ChangeCompareValue(uint32_t channel_id, uint32_t value)
+			{
+				base::pwm_timer::change_compare_value(*_handle, channel_id, value);
+			}
 
 			///
-			/// @brief 停止定时器并停止 PWM 输出。
+			/// @brief 停止指定通道的 PWM 输出。
 			///
-			/// @note 所有输出都要置于无效的电平。
+			/// @note 停止后该通道输出空闲电平。
 			///
 			/// @param channel_id
 			///
-			void Stop(uint32_t channel_id);
+			void Stop(uint32_t channel_id)
+			{
+				base::pwm_timer::stop(*_handle, channel_id);
+			}
+
+			///
+			/// @brief 停止所有通道的 PWM 输出。
+			///
+			/// @note 停止后所有通道都输出空闲电平。
+			///
+			void StopAllChannels()
+			{
+				base::pwm_timer::stop_all_channels(*_handle);
+			}
 		};
 
 	} // namespace pwm_timer
