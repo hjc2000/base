@@ -15,7 +15,7 @@ namespace base
 						base::unit::Hz const &frequency);
 
 		///
-		/// @brief 获取一个整数，代表了 PWM 的周期。
+		/// @brief 定时器输出 PWM 一个周期的计数值。
 		///
 		/// @param self
 		/// @return
@@ -23,14 +23,23 @@ namespace base
 		uint32_t cycle(base::pwm_timer::pwm_timer_handle const &self);
 
 		///
-		/// @brief 获取一个整数，代表了 PWM 的占空。
-		/// 即：
+		/// @brief PWM 占空时间。
+		///
+		/// @note 即：
 		/// 	占空比 * cycle = duty.
 		///
 		/// @param self
 		/// @return
 		///
 		uint32_t duty(base::pwm_timer::pwm_timer_handle const &self);
+
+		///
+		/// @brief 设置 PWM 占空时间。
+		///
+		/// @param self
+		/// @param duty
+		///
+		void set_duty(base::pwm_timer::pwm_timer_handle &self, uint32_t duty);
 
 	} // namespace pwm_timer
 } // namespace base
