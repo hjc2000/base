@@ -1,6 +1,5 @@
 #pragma once
 #include "base/unit/Hz.h"
-#include <bitset>
 #include <cstdint>
 #include <memory>
 
@@ -86,7 +85,7 @@ namespace base
 		/// @brief 配置输出。
 		///
 		/// @param self
-		/// @param channels 配置要对哪一个通道生效，就把对应的位置 1.
+		/// @param channel_id 要配置的通道的 ID.
 		/// @param effective_polarity 有效极性。
 		/// @param idle_polarity 空闲极性。
 		/// @param compare_value 比较寄存器的比较值。
@@ -95,7 +94,7 @@ namespace base
 		/// 另一个输出才会变成有效。这可以避免全桥 PWM 控制的同一相 IGBT 同时导通造成短路。
 		///
 		void configure_output(base::pwm_timer::pwm_timer_handle &self,
-							  std::bitset<32> const &channels,
+							  uint32_t channel_id,
 							  base::pwm_timer::Polarity effective_polarity,
 							  base::pwm_timer::Polarity idle_polarity,
 							  uint32_t compare_value,
@@ -112,11 +111,11 @@ namespace base
 		/// @brief 运行时改变比较值。
 		///
 		/// @param self
-		/// @param channels
+		/// @param channel_id
 		/// @param value
 		///
 		void change_compare_value(base::pwm_timer::pwm_timer_handle &self,
-								  std::bitset<32> channels,
+								  uint32_t channel_id,
 								  uint32_t value);
 
 		///
