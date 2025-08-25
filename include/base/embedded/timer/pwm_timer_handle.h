@@ -104,8 +104,9 @@ namespace base
 		/// @brief 启动定时器，开始输出 PWM 信号。
 		///
 		/// @param self
+		/// @param channel_id
 		///
-		void start(base::pwm_timer::pwm_timer_handle &self);
+		void start(base::pwm_timer::pwm_timer_handle &self, uint32_t channel_id);
 
 		///
 		/// @brief 运行时改变比较值。
@@ -124,8 +125,9 @@ namespace base
 		/// @note 所有输出都要置于无效的电平。
 		///
 		/// @param self
+		/// @param channel_id
 		///
-		void stop(base::pwm_timer::pwm_timer_handle &self);
+		void stop(base::pwm_timer::pwm_timer_handle &self, uint32_t channel_id);
 
 	} // namespace pwm_timer
 } // namespace base
