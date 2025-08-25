@@ -17,9 +17,36 @@ namespace base
 
 		std::shared_ptr<base::pwm_timer::pwm_timer_handle> open(uint32_t id);
 
+		///
+		/// @brief 初始化为增计数模式。
+		///
+		/// @note compare_value 大于当前计数值的时候输出是有效状态，输出 effective_polarity
+		/// 设置的有效极性的电平。
+		///
+		/// @note 计数值递增到等于 compare_value 的时候输出就会立刻切换成无效状态，输出与
+		/// effective_polarity 相反的的无效极性电平。
+		///
+		/// @note 例如计数周期是 256, 设置 compare_value 为 256 / 8 = 128.
+		/// 设置 effective_polarity 为 Positive, 即输出有效状态是高电平。
+		///
+		/// @li 刚开始计数值等于 0, 比较值大于计数值，输出是有效状态，输出高电平。
+		/// @li 计数值等于 compare_value = 128 的时候输出切换成无效状态，输出低电平。
+		/// @li 计数值继续递增，递增到 255, 下一个时钟信号到来，计数值继续递增 1, 溢出清零的瞬间，
+		/// 	当前计数值又满足小于 compare_value 了，输出变成有效状态，再次输出高电平。
+		///
+		/// 这样计数值属于 [0, 128) 的时候输出高电平，计数值属于 [128, 256) 的时候
+		/// 输出低电平。高电平和低电平各占一半，占空比为 50%.
+		///
+		/// 注：
+		/// 	这里的 [128, 256) 中的 256 不是指计数器的值真的能是 256, 指的是下一个周期的 0.
+		///
+		/// @param self
+		/// @param frequency PWM 的频率。
+		/// @param effective_polarity 有效极性。
+		///
 		void initialize_as_up_count_mode(base::pwm_timer::pwm_timer_handle &self,
 										 base::unit::Hz const &frequency,
-										 base::pwm_timer::Polarity polarity);
+										 base::pwm_timer::Polarity effective_polarity);
 
 		///
 		/// @brief 定时器输出 PWM 一个周期的计数次数。
