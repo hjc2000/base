@@ -73,7 +73,7 @@ namespace base
 										base::unit::Hz const &frequency);
 
 		///
-		/// @brief 定时器输出 PWM 一个周期的计数次数。
+		/// @brief 定时器一个周期的计数次数。
 		///
 		/// @note 初始化完定时器核心部分后，就可以知道定时器一个周期计数多少了。
 		///
@@ -102,40 +102,6 @@ namespace base
 							  uint32_t dead_time);
 
 		///
-		/// @brief 比较值。
-		///
-		/// @note 计数值变化到等于比较值的时候，输出极性会立刻变化。
-		///
-		/// @param self
-		/// @return
-		///
-		uint32_t compare_value(base::pwm_timer::pwm_timer_handle const &self);
-
-		///
-		/// @brief 设置比较值。
-		///
-		/// @param self
-		/// @param value
-		///
-		void set_compare_value(base::pwm_timer::pwm_timer_handle &self, uint32_t value);
-
-		///
-		/// @brief 死区时间。单位：定时器计数值。
-		///
-		/// @param self
-		/// @return
-		///
-		uint32_t dead_time(base::pwm_timer::pwm_timer_handle const &self);
-
-		///
-		/// @brief 设置死区时间。单位：定时器计数值。
-		///
-		/// @param self
-		/// @param value
-		///
-		void set_dead_time(base::pwm_timer::pwm_timer_handle &self, uint32_t value);
-
-		///
 		/// @brief 启动定时器，开始输出 PWM 信号。
 		///
 		/// @note 启动前必须设置好比较值和死区时间等，否则有的实现者可能选择抛出异常，
@@ -153,6 +119,17 @@ namespace base
 		/// @param self
 		///
 		void stop(base::pwm_timer::pwm_timer_handle &self);
+
+		///
+		/// @brief 运行时改变比较值。
+		///
+		/// @param self
+		/// @param channels
+		/// @param value
+		///
+		void change_compare_value(base::pwm_timer::pwm_timer_handle &self,
+								  std::bitset<32> channels,
+								  uint32_t value);
 
 	} // namespace pwm_timer
 } // namespace base
