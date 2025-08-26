@@ -64,9 +64,9 @@ namespace base
 		///
 		/// @param factor
 		///
-		constexpr void Extract(T factor)
+		constexpr void ExtractGreedily(T factor)
 		{
-			Extract(factor, std::numeric_limits<T>::max());
+			ExtractGreedily(factor, std::numeric_limits<T>::max());
 		}
 
 		///
@@ -77,7 +77,7 @@ namespace base
 		/// @param factor
 		/// @param factor_limit
 		///
-		constexpr void GreedyExtract(T factor, T factor_limit)
+		constexpr void ExtractGreedily(T factor, T factor_limit)
 		{
 			while (base::abs(_base) >= base::abs(factor) &&
 				   _base % factor == 0)
