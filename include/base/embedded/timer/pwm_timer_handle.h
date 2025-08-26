@@ -91,7 +91,6 @@ namespace base
 		/// @param self
 		/// @param channel_id 要配置的通道的 ID.
 		/// @param effective_polarity 有效极性。
-		/// @param idle_polarity 空闲极性。
 		/// @param compare_value 比较寄存器的比较值。
 		///
 		/// @param dead_time 同一相的一对互相反相的输出，在一个输出变成无效后，经过死区时间后
@@ -100,7 +99,6 @@ namespace base
 		void configure_output(base::pwm_timer::pwm_timer_handle &self,
 							  uint32_t channel_id,
 							  base::pwm_timer::Polarity effective_polarity,
-							  base::pwm_timer::Polarity idle_polarity,
 							  uint32_t compare_value,
 							  uint32_t dead_time);
 
@@ -122,7 +120,7 @@ namespace base
 		///
 		/// @brief 停止指定通道的 PWM 输出。
 		///
-		/// @note 停止后该通道输出空闲电平。
+		/// @note 停止后该通道输出无效电平。
 		///
 		/// @param self
 		/// @param channel_id
