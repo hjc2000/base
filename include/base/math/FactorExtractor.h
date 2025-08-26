@@ -92,16 +92,19 @@ namespace base
 			}
 		}
 
-		constexpr void ConservativeExtract(T factor, T factor_limit)
+		///
+		/// @brief 保守地提取因数。
+		///
+		/// @note 只要基数不大于限制值，就停止提取。
+		///
+		/// @param factor
+		/// @param base_limit
+		///
+		constexpr void ExtractConservatively(T factor, T base_limit)
 		{
-			while (base::abs(_base) >= base::abs(factor) &&
+			while (base::abs(_base) > base::abs(base_limit) &&
 				   _base % factor == 0)
 			{
-				if (base::abs(_factor) > base::abs(factor_limit / factor))
-				{
-					break;
-				}
-
 				_base /= factor;
 				_factor *= factor;
 			}
