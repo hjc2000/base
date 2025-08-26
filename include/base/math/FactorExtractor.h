@@ -59,8 +59,10 @@ namespace base
 		}
 
 		///
-		/// @brief 如果 Base 是 factor 的倍数，则进一步将 factor 从 Base
-		/// 提取到 Factor 中。
+		/// @brief 贪心地提取因数。
+		///
+		/// @note 只要基数还能提取因数，就不断把因数提取到 Factor 中。除非提取会让 Factor
+		/// 超过限制值。
 		///
 		/// @param factor
 		///
@@ -70,9 +72,10 @@ namespace base
 		}
 
 		///
-		/// @brief 如果 Base 是 factor 的倍数，则进一步将 factor 从 Base
-		/// 提取到 Factor 中。但是 Factor 的大小是有限制的，Factor 的绝对值
-		/// 不会大于 factor_limit 的绝对值。
+		/// @brief 贪心地提取因数。
+		///
+		/// @note 只要基数还能提取因数，就不断把因数提取到 Factor 中。除非提取会让 Factor
+		/// 超过限制值。
 		///
 		/// @param factor
 		/// @param factor_limit
@@ -90,6 +93,19 @@ namespace base
 				_base /= factor;
 				_factor *= factor;
 			}
+		}
+
+		///
+		/// @brief 保守地提取因数。
+		///
+		/// @note 只要基数不大于限制值，就停止提取。
+		///
+		/// @param factor
+		/// @param base_limit
+		///
+		constexpr void ExtractConservatively(T factor)
+		{
+			ExtractConservatively(factor, std::numeric_limits<T>::max());
 		}
 
 		///
