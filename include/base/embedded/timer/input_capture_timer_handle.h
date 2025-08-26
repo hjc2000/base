@@ -85,12 +85,14 @@ namespace base
 		/// @brief 配置捕获通道。
 		///
 		/// @param self
+		/// @param channel_id
 		/// @param edge
 		///
 		/// @param input_prescaler 对要被捕获的输入信号进行预分频，然后再送入捕获通道。
 		/// 例如设置为 2, 则每 2 个输入信号的有效边缘触发一次捕获。
 		///
 		void configure_channel(base::input_capture_timer::input_capture_timer_handle &self,
+							   uint32_t channel_id,
 							   base::input_capture_timer::CaptureEdge edge,
 							   uint32_t input_prescaler);
 
