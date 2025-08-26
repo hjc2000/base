@@ -44,7 +44,9 @@ namespace base
 		///
 		/// @param self
 		/// @param edge
+		///
 		/// @param input_prescaler 对要被捕获的输入信号进行预分频，然后再送入捕获通道。
+		/// 例如设置为 2, 则每 2 个输入信号的有效边缘触发一次捕获。
 		///
 		void configure_channel(base::input_capture_timer::input_capture_timer_handle &self,
 							   base::input_capture_timer::CaptureEdge edge,
@@ -88,18 +90,45 @@ namespace base
 										 std::function<void()> const &callback);
 
 		///
-		/// @brief 启动定时器。
+		/// @brief 设置捕获完成回调。
 		///
 		/// @param self
+		/// @param callback
 		///
-		void start(base::input_capture_timer::input_capture_timer_handle &self);
+		void set_capture_complete_callback(base::input_capture_timer::input_capture_timer_handle &self,
+										   std::function<void()> const &callback);
 
 		///
-		/// @brief 停止定时器。
+		/// @brief 启动定时器，开始输出 PWM 信号。
+		///
+		/// @param self
+		/// @param channel_id
+		///
+		void start(base::input_capture_timer::input_capture_timer_handle &self, uint32_t channel_id);
+
+		///
+		/// @brief 启动定时器，并同时启动所有通道的输出。
 		///
 		/// @param self
 		///
-		void stop(base::input_capture_timer::input_capture_timer_handle &self);
+		void start_all_channels(base::input_capture_timer::input_capture_timer_handle &self);
+
+		///
+		/// @brief 停止指定通道的 PWM 输出。
+		///
+		/// @note 停止后该通道输出空闲电平。
+		///
+		/// @param self
+		/// @param channel_id
+		///
+		void stop(base::input_capture_timer::input_capture_timer_handle &self, uint32_t channel_id);
+
+		///
+		/// @brief 停止所有通道的 PWM 输出。
+		///
+		/// @param self
+		///
+		void stop_all_channels(base::input_capture_timer::input_capture_timer_handle &self);
 
 		///
 		/// @brief 输入捕获定时器的底层初始化回调。

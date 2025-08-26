@@ -116,17 +116,6 @@ namespace base
 		void start_all_channels(base::pwm_timer::pwm_timer_handle &self);
 
 		///
-		/// @brief 运行时改变比较值。
-		///
-		/// @param self
-		/// @param channel_id
-		/// @param value
-		///
-		void change_compare_value(base::pwm_timer::pwm_timer_handle &self,
-								  uint32_t channel_id,
-								  uint32_t value);
-
-		///
 		/// @brief 停止指定通道的 PWM 输出。
 		///
 		/// @note 停止后该通道输出空闲电平。
@@ -142,6 +131,17 @@ namespace base
 		/// @param self
 		///
 		void stop_all_channels(base::pwm_timer::pwm_timer_handle &self);
+
+		///
+		/// @brief 运行时改变比较值。
+		///
+		/// @param self
+		/// @param channel_id
+		/// @param value
+		///
+		void change_compare_value(base::pwm_timer::pwm_timer_handle &self,
+								  uint32_t channel_id,
+								  uint32_t value);
 
 		///
 		/// @brief PWM 定时器的底层初始化回调。

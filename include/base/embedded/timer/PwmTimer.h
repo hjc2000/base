@@ -130,17 +130,6 @@ namespace base
 			}
 
 			///
-			/// @brief 运行时改变比较值。
-			///
-			/// @param channel_id
-			/// @param value
-			///
-			void ChangeCompareValue(uint32_t channel_id, uint32_t value)
-			{
-				base::pwm_timer::change_compare_value(*_handle, channel_id, value);
-			}
-
-			///
 			/// @brief 停止指定通道的 PWM 输出。
 			///
 			/// @note 停止后该通道输出空闲电平。
@@ -160,6 +149,17 @@ namespace base
 			void StopAllChannels()
 			{
 				base::pwm_timer::stop_all_channels(*_handle);
+			}
+
+			///
+			/// @brief 运行时改变比较值。
+			///
+			/// @param channel_id
+			/// @param value
+			///
+			void ChangeCompareValue(uint32_t channel_id, uint32_t value)
+			{
+				base::pwm_timer::change_compare_value(*_handle, channel_id, value);
 			}
 		};
 
