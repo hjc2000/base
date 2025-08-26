@@ -44,10 +44,10 @@ namespace base
 		/// 死锁的实现方式。
 		///
 		/// @param self
-		/// @param period
+		/// @param value
 		///
 		void set_period(base::base_timer::base_timer_handle &self,
-						std::chrono::nanoseconds const &period);
+						std::chrono::nanoseconds const &value);
 
 		///
 		/// @brief 设置定时时间到的回调。
