@@ -17,7 +17,7 @@ namespace base
 			timer.ConfigureOutput(channel_id,
 								  base::pwm_timer::Polarity::Positive,
 								  base::pwm_timer::Polarity::Negative,
-								  timer.CounterPeriod() / 10,
+								  timer.CounterPeriod() * 9 / 10,
 								  0);
 
 			base::console.Write("timer.CounterPeriod() = ");
