@@ -72,9 +72,9 @@ namespace base
 										base::unit::Hz const &frequency);
 
 		///
-		/// @brief 定时器一个周期的计数次数。
+		/// @brief PWM 一个周期定时器计数多少次。
 		///
-		/// @note 初始化完定时器核心部分后，就可以知道定时器一个周期计数多少了。
+		/// @note 初始化完定时器核心部分后就可以读取本属性了。
 		///
 		/// @param self
 		/// @return
