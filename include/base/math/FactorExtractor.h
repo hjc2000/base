@@ -103,6 +103,19 @@ namespace base
 		/// @param factor
 		/// @param base_limit
 		///
+		constexpr void ExtractConservatively(T factor)
+		{
+			ExtractConservatively(factor, std::numeric_limits<T>::max());
+		}
+
+		///
+		/// @brief 保守地提取因数。
+		///
+		/// @note 只要基数不大于限制值，就停止提取。
+		///
+		/// @param factor
+		/// @param base_limit
+		///
 		constexpr void ExtractConservatively(T factor, T base_limit)
 		{
 			while (base::abs(_base) > base::abs(base_limit) &&
