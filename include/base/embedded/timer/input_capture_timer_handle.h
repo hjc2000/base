@@ -10,6 +10,8 @@ namespace base
 	{
 		class input_capture_timer_handle;
 
+		/* #region 参数类 */
+
 		enum CaptureEdge
 		{
 			///
@@ -44,6 +46,8 @@ namespace base
 				return _capture_value;
 			}
 		};
+
+		/* #endregion */
 
 		std::shared_ptr<base::input_capture_timer::input_capture_timer_handle> open(uint32_t id);
 
