@@ -57,7 +57,7 @@ namespace base
 						std::chrono::nanoseconds const &period);
 
 		///
-		/// @brief 定时器一个周期的计数次数。
+		/// @brief 定时器一个定时周期的计数次数。
 		///
 		/// @note 初始化完定时器核心部分后，就可以知道定时器一个周期计数多少了。
 		///
