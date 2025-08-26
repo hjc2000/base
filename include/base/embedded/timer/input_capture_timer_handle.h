@@ -36,6 +36,8 @@ namespace base
 			uint32_t _capture_value{};
 
 		public:
+			constexpr CaptureCompleteEventArgs() = default;
+
 			constexpr CaptureCompleteEventArgs(uint32_t capture_value)
 			{
 				_capture_value = capture_value;
@@ -44,6 +46,11 @@ namespace base
 			constexpr uint32_t CaptureValue() const
 			{
 				return _capture_value;
+			}
+
+			constexpr void SetCaptureValue(uint32_t value)
+			{
+				_capture_value = value;
 			}
 		};
 
