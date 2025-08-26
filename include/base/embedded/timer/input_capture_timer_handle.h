@@ -131,7 +131,7 @@ namespace base
 		/// @param callback
 		///
 		void set_capture_complete_callback(base::input_capture_timer::input_capture_timer_handle &self,
-										   std::function<void(CaptureCompleteEventArgs const &)> const &callback);
+										   std::function<void(base::input_capture_timer::CaptureCompleteEventArgs const &)> const &callback);
 
 		///
 		/// @brief 启动定时器，开始输出 PWM 信号。
