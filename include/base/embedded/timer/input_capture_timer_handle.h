@@ -51,6 +51,28 @@ namespace base
 							   uint32_t input_prescaler);
 
 		///
+		/// @brief 定时时间。
+		///
+		/// @param self
+		/// @return
+		///
+		std::chrono::nanoseconds period(base::input_capture_timer::input_capture_timer_handle &self);
+
+		///
+		/// @brief 设置定时时间。
+		///
+		/// @note 允许运行时实时修改定时时间。
+		///
+		/// @note 此函数要实现为能够在定时时间到的回调中被调用，因此实现者需要避免会出现
+		/// 死锁的实现方式。
+		///
+		/// @param self
+		/// @param period
+		///
+		void set_period(base::input_capture_timer::input_capture_timer_handle &self,
+						std::chrono::nanoseconds const &period);
+
+		///
 		/// @brief 设置定时时间到的回调。
 		///
 		/// @note 单片机平台直接实现为在中断中回调，不要太早使用线程和信号量进行封装。
@@ -64,6 +86,20 @@ namespace base
 		///
 		void set_period_elapsed_callback(base::input_capture_timer::input_capture_timer_handle &self,
 										 std::function<void()> const &callback);
+
+		///
+		/// @brief 启动定时器。
+		///
+		/// @param self
+		///
+		void start(base::input_capture_timer::input_capture_timer_handle &self);
+
+		///
+		/// @brief 停止定时器。
+		///
+		/// @param self
+		///
+		void stop(base::input_capture_timer::input_capture_timer_handle &self);
 
 		///
 		/// @brief 输入捕获定时器的底层初始化回调。
