@@ -72,15 +72,12 @@ namespace base
 										base::unit::Hz const &frequency);
 
 		///
-		/// @brief 定时器一个定时周期的计数次数。
-		///
-		/// @note 或者说 PWM 一个周期定时器计数多少次。
-		/// @note 初始化完定时器核心部分后就可以读取本属性了。
+		/// @brief 计数器一次单调计数的长度。
 		///
 		/// @param self
 		/// @return
 		///
-		uint32_t cycle(base::pwm_timer::pwm_timer_handle const &self);
+		uint32_t counter_period(base::pwm_timer::pwm_timer_handle const &self);
 
 		///
 		/// @brief 配置输出。

@@ -17,11 +17,11 @@ namespace base
 			timer.ConfigureOutput(channel_id,
 								  base::pwm_timer::Polarity::Positive,
 								  base::pwm_timer::Polarity::Negative,
-								  timer.Cycle() / 10,
+								  timer.CounterPeriod() / 10,
 								  0);
 
 			base::console.Write("timer.Cycle(): ");
-			base::console.Write(std::to_string(timer.Cycle()));
+			base::console.Write(std::to_string(timer.CounterPeriod()));
 			base::console.WriteLine();
 
 			timer.Start(channel_id);

@@ -76,15 +76,13 @@ namespace base
 			}
 
 			///
-			/// @brief PWM 一个周期定时器计数多少次。
-			///
-			/// @note 初始化完定时器核心部分后就可以读取本属性了。
+			/// @brief 计数器一次单调计数的长度。
 			///
 			/// @return
 			///
-			uint32_t Cycle() const
+			uint32_t CounterPeriod() const
 			{
-				return base::pwm_timer::cycle(*_handle);
+				return base::pwm_timer::counter_period(*_handle);
 			}
 
 			///
