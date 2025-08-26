@@ -1,6 +1,7 @@
 #pragma once
 #include <chrono>
 #include <cstdint>
+#include <functional>
 #include <memory>
 
 namespace base
@@ -48,6 +49,21 @@ namespace base
 		void configure_channel(base::input_capture_timer::input_capture_timer_handle &self,
 							   base::input_capture_timer::CaptureEdge edge,
 							   uint32_t input_prescaler);
+
+		///
+		/// @brief 设置定时时间到的回调。
+		///
+		/// @note 单片机平台直接实现为在中断中回调，不要太早使用线程和信号量进行封装。
+		/// 到时候在这个基础上设计一个包装类，包装直接使用中断进行回调的定时器，使用信号量
+		/// 释放被阻塞的任务去执行定时任务。
+		///
+		/// @warning 实现者实现时需要注意在修改回调函数的时候禁用定时器中断。
+		///
+		/// @param self
+		/// @param callback
+		///
+		void set_period_elapsed_callback(base::input_capture_timer::input_capture_timer_handle &self,
+										 std::function<void()> const &callback);
 
 		///
 		/// @brief 输入捕获定时器的底层初始化回调。
