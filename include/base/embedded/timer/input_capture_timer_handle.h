@@ -28,6 +28,23 @@ namespace base
 			BothEdge,
 		};
 
+		class CaptureCompleteEventArgs
+		{
+		private:
+			uint32_t _capture_value{};
+
+		public:
+			constexpr CaptureCompleteEventArgs(uint32_t capture_value)
+			{
+				_capture_value = capture_value;
+			}
+
+			constexpr uint32_t CaptureValue() const
+			{
+				return _capture_value;
+			}
+		};
+
 		std::shared_ptr<base::input_capture_timer::input_capture_timer_handle> open(uint32_t id);
 
 		///
@@ -38,6 +55,16 @@ namespace base
 		///
 		void initialize(base::input_capture_timer::input_capture_timer_handle &self,
 						std::chrono::nanoseconds const &period);
+
+		///
+		/// @brief 定时器一个周期的计数次数。
+		///
+		/// @note 初始化完定时器核心部分后，就可以知道定时器一个周期计数多少了。
+		///
+		/// @param self
+		/// @return
+		///
+		uint32_t cycle(base::input_capture_timer::input_capture_timer_handle &self);
 
 		///
 		/// @brief 配置捕获通道。
@@ -96,7 +123,7 @@ namespace base
 		/// @param callback
 		///
 		void set_capture_complete_callback(base::input_capture_timer::input_capture_timer_handle &self,
-										   std::function<void()> const &callback);
+										   std::function<void(CaptureCompleteEventArgs const &)> const &callback);
 
 		///
 		/// @brief 启动定时器，开始输出 PWM 信号。
