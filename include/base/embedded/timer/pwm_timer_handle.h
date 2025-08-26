@@ -74,6 +74,8 @@ namespace base
 		///
 		/// @brief 计数器一次单调计数的长度。
 		///
+		/// @note 初始化完定时器的核心后就可以读取本属性了。
+		///
 		/// @note 对于增计数模式，计数器从 0 计数到 counter_period - 1.
 		/// @note 对于减计数模式，计数器从 counter_period - 1 计数到 0.
 		/// @note 对于增减计数模式，计数器从 0 计数到 counter_period, 然后递减计数到 0.

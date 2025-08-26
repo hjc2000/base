@@ -61,19 +61,18 @@ namespace base
 						std::chrono::nanoseconds const &period);
 
 		///
-		/// @brief 定时器一个定时周期的计数次数。
+		/// @brief 计数器一次单调计数的长度。
 		///
-		/// @note 初始化完定时器核心部分后，就可以知道定时器一个周期计数多少了。
+		/// @note 初始化完定时器的核心后就可以读取本属性了。
 		///
-		/// @note 将捕获值除以本属性，再乘上单位为纳秒的定时周期，就可以知道是在一个定时周期内的
-		/// 第几纳秒捕获到输入了。
-		///
-		/// @note 单位为纳秒的定时周期可以通过 period 属性获得。
+		/// @note 对于增计数模式，计数器从 0 计数到 counter_period - 1.
+		/// @note 对于减计数模式，计数器从 counter_period - 1 计数到 0.
+		/// @note 对于增减计数模式，计数器从 0 计数到 counter_period, 然后递减计数到 0.
 		///
 		/// @param self
 		/// @return
 		///
-		uint32_t cycle(base::input_capture_timer::input_capture_timer_handle &self);
+		uint32_t counter_period(base::input_capture_timer::input_capture_timer_handle &self);
 
 		///
 		/// @brief 配置捕获通道。
