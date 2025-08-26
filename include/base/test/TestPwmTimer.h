@@ -20,7 +20,7 @@ namespace base
 								  timer.CounterPeriod() / 10,
 								  0);
 
-			base::console.Write("timer.Cycle(): ");
+			base::console.Write("timer.CounterPeriod() = ");
 			base::console.Write(std::to_string(timer.CounterPeriod()));
 			base::console.WriteLine();
 
