@@ -1,5 +1,8 @@
 #pragma once
+#include "base/Console.h"
 #include "base/embedded/timer/InputCaptureTimer.h"
+#include "base/math/Int64Fraction.h"
+#include "base/math/PID.h"
 #include <cstdint>
 #include <type_traits>
 
@@ -17,6 +20,7 @@ namespace base
 		bool _current_capture_value_changed = false;
 		CounterType _current_capture_value{};
 		CounterType _current_capture_value_interpolation{};
+		base::PID<base::Int64Fraction> _pid{};
 
 	public:
 		InputCaptureTimerPll(base::input_capture_timer::InputCaptureTimer &timer,
@@ -29,6 +33,17 @@ namespace base
 			_expected_capture_value = expected_capture_value;
 			_current_capture_value = expected_capture_value;
 			_current_capture_value_interpolation = expected_capture_value;
+
+			_pid = base::PID<base::Int64Fraction>{
+				1,
+				base::Int64Fraction{1, 1000},
+				0,
+				base::Int64Fraction{1, INT32_MAX},
+				base::Int64Fraction{static_cast<int64_t>(adjust_limit)},
+				-base::Int64Fraction{static_cast<int64_t>(adjust_limit)},
+			};
+
+			base::console.WriteLine(-base::Int64Fraction{static_cast<int64_t>(adjust_limit)});
 		}
 
 		void UpdateCaptureValue(CounterType capture_value)
@@ -54,16 +69,19 @@ namespace base
 					error -= _origin_period;
 				}
 
-				if (error > static_cast<int64_t>(_adjust_limit))
+				base::Int64Fraction output = _pid.Input(error);
+				int64_t int_output = static_cast<int64_t>(output);
+
+				if (int_output > static_cast<int64_t>(_adjust_limit))
 				{
-					error = static_cast<int64_t>(_adjust_limit);
+					int_output = static_cast<int64_t>(_adjust_limit);
 				}
-				else if (error < -static_cast<int64_t>(_adjust_limit))
+				else if (int_output < -static_cast<int64_t>(_adjust_limit))
 				{
-					error = -static_cast<int64_t>(_adjust_limit);
+					int_output = -static_cast<int64_t>(_adjust_limit);
 				}
 
-				int64_t period = static_cast<int64_t>(_origin_period) + error;
+				int64_t period = static_cast<int64_t>(_origin_period) + int_output;
 				if (period < 1)
 				{
 					period = 1;
