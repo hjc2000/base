@@ -36,7 +36,7 @@ namespace base
 			_current_capture_value_interpolation = expected_capture_value;
 
 			_pid = base::PID<base::Int64Fraction>{
-				1,
+				base::Int64Fraction{1, 10},
 				base::Int64Fraction{1, 1000},
 				0,
 				base::Int64Fraction{1, INT32_MAX},
