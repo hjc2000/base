@@ -1,10 +1,8 @@
 #pragma once
-#include "base/Console.h"
 #include "base/embedded/timer/InputCaptureTimer.h"
 #include "base/math/Int64Fraction.h"
 #include "base/math/math.h"
 #include <cstdint>
-#include <string>
 #include <type_traits>
 
 namespace base
@@ -92,9 +90,6 @@ namespace base
 				}
 
 				_timer.SetCounterPeriodPreloadValue(period);
-				base::console.Write("delta = ");
-				base::console.Write(std::to_string(delta));
-				base::console.WriteLine();
 
 				// 因为定时时间到中断触发的频率比捕获中断触发的频率高，所以在下次捕获前需要对
 				// 捕获值进行插值。
