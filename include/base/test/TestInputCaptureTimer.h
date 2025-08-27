@@ -74,7 +74,7 @@ namespace base
 				}
 			};
 
-			base::task::run(task_func);
+			base::task::run(2, 1024 * 2, task_func);
 		}
 
 	} // namespace test
