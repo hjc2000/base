@@ -2,6 +2,7 @@
 #include "base/Console.h"
 #include "base/embedded/timer/InputCaptureTimer.h"
 #include "base/math/Int64Fraction.h"
+#include "base/math/math.h"
 #include "base/math/PID.h"
 #include <cstdint>
 #include <type_traits>
@@ -82,7 +83,14 @@ namespace base
 
 				// 因为定时时间到中断触发的频率比捕获中断触发的频率高，所以在下次捕获前需要对
 				// 捕获值进行插值。
-				_current_capture_value_interpolation -= error;
+				if (base::abs(error) < base::abs(int_output))
+				{
+					_current_capture_value_interpolation -= error;
+				}
+				else
+				{
+					_current_capture_value_interpolation -= int_output;
+				}
 			}
 			catch (...)
 			{
