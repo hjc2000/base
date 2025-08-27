@@ -19,7 +19,7 @@ namespace base
 			auto task_func = [timer_id, channel_id]()
 			{
 				base::input_capture_timer::InputCaptureTimer timer{timer_id};
-				timer.Initialize(std::chrono::milliseconds{1000});
+				timer.Initialize(std::chrono::milliseconds{1});
 				base::task::BinarySemaphore semaphore{false};
 
 				base::InputCaptureTimerPll<uint16_t> pll{
@@ -50,20 +50,27 @@ namespace base
 
 				timer.Start(channel_id);
 
+				uint32_t loop_times = 0;
 				while (true)
 				{
 					semaphore.Acquire();
 					pll.Adjust();
 
-					base::console.Write("timer.CounterPeriod() = ");
-					base::console.Write(std::to_string(timer.CounterPeriod()));
-					base::console.WriteLine();
+					if (loop_times % 1000 == 0)
+					{
+						base::console.Write("timer.CounterPeriod() = ");
+						base::console.Write(std::to_string(timer.CounterPeriod()));
+						base::console.WriteLine();
 
-					base::console.Write("捕获值：");
-					base::console.Write(std::to_string(capture_value));
-					base::console.WriteLine();
+						base::console.Write("捕获值：");
+						base::console.Write(std::to_string(capture_value));
+						base::console.WriteLine();
 
-					base::task::Delay(std::chrono::milliseconds{1000});
+						base::task::Delay(std::chrono::milliseconds{1000});
+					}
+
+					loop_times++;
+					loop_times %= 1000;
 				}
 			};
 
