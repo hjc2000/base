@@ -26,7 +26,7 @@ namespace base
 					timer,
 					base::Int64Fraction{1, 10},
 					10,
-					0,
+					1000,
 				};
 
 				timer.ConfigureChannel(channel_id,
