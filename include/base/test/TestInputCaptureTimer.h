@@ -2,7 +2,6 @@
 #include "base/Console.h"
 #include "base/embedded/timer/InputCaptureTimer.h"
 #include "base/embedded/timer/InputCaptureTimerPll.h"
-#include "base/math/Int64Fraction.h"
 #include "base/task/BinarySemaphore.h"
 #include "base/task/delay.h"
 #include "base/task/task.h"
@@ -29,7 +28,6 @@ namespace base
 
 				base::InputCaptureTimerPll<uint16_t> pll{
 					timer,
-					static_cast<base::Int64Fraction>(period / pwm_period),
 					static_cast<uint16_t>(timer.CounterPeriod() / 10),
 					233,
 				};
