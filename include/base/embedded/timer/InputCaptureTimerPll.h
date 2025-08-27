@@ -18,7 +18,9 @@ namespace base
 		CounterType _origin_period{};
 		CounterType _adjust_limit{};
 		CounterType _expected_capture_value{};
+		bool _current_capture_value_changed = false;
 		CounterType _current_capture_value{};
+		CounterType _current_capture_value_interpolation{};
 
 	public:
 		InputCaptureTimerPll(base::input_capture_timer::InputCaptureTimer &timer,
@@ -32,25 +34,33 @@ namespace base
 			_adjust_limit = adjust_limit;
 			_expected_capture_value = expected_capture_value;
 			_current_capture_value = expected_capture_value;
+			_current_capture_value_interpolation = expected_capture_value;
 		}
 
 		void UpdateCaptureValue(CounterType capture_value)
 		{
 			_current_capture_value = capture_value;
+			_current_capture_value_changed = true;
 		}
 
 		void Adjust()
 		{
 			try
 			{
-				int64_t error = static_cast<int64_t>(_current_capture_value) - static_cast<int64_t>(_expected_capture_value);
+				if (_current_capture_value_changed)
+				{
+					_current_capture_value_changed = false;
+					_current_capture_value_interpolation = _current_capture_value;
+				}
+
+				int64_t error = static_cast<int64_t>(_current_capture_value_interpolation) - static_cast<int64_t>(_expected_capture_value);
 				error %= _origin_period;
 				if (error > _origin_period / 2)
 				{
 					error -= _origin_period;
 				}
 
-				int64_t delta = static_cast<int64_t>(_kp * error);
+				int64_t delta = static_cast<int64_t>(_kp.Num() * error / _kp.Den());
 
 				if (error != 0 && delta == 0)
 				{
@@ -88,7 +98,7 @@ namespace base
 
 				// 因为定时时间到中断触发的频率比捕获中断触发的频率高，所以在下次捕获前需要对
 				// 捕获值进行插值。
-				_current_capture_value -= delta;
+				_current_capture_value_interpolation -= delta;
 			}
 			catch (...)
 			{
