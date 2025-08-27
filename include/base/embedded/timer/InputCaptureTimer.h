@@ -45,6 +45,18 @@ namespace base
 			}
 
 			///
+			/// @brief 设置自动重装载寄存器的预装载值。定时时间到后，下一个计数周期进行更新。
+			///
+			/// @note 实现者应实现为高效的直接寄存器操作。
+			///
+			/// @param value
+			///
+			void SetCounterPeriodPreloadValue(uint32_t value)
+			{
+				base::input_capture_timer::set_counter_period_preload_value(*_handle, value);
+			}
+
+			///
 			/// @brief 配置捕获通道。
 			///
 			/// @param channel_id

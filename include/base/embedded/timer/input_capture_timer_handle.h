@@ -82,6 +82,16 @@ namespace base
 		uint32_t counter_period(base::input_capture_timer::input_capture_timer_handle &self);
 
 		///
+		/// @brief 设置自动重装载寄存器的预装载值。定时时间到后，下一个计数周期进行更新。
+		///
+		/// @note 实现者应实现为高效的直接寄存器操作。
+		///
+		/// @param self
+		/// @param value
+		///
+		void set_counter_period_preload_value(base::input_capture_timer::input_capture_timer_handle &self, uint32_t value);
+
+		///
 		/// @brief 配置捕获通道。
 		///
 		/// @param self
