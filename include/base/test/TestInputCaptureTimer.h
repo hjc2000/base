@@ -1,6 +1,8 @@
 #pragma once
 #include "base/Console.h"
 #include "base/embedded/timer/InputCaptureTimer.h"
+#include "base/embedded/timer/InputCaptureTimerPll.h"
+#include "base/math/Int64Fraction.h"
 #include "base/task/BinarySemaphore.h"
 #include "base/task/delay.h"
 #include "base/task/task.h"
@@ -20,6 +22,13 @@ namespace base
 				timer.Initialize(std::chrono::milliseconds{1000});
 				base::task::BinarySemaphore semaphore{false};
 
+				base::InputCaptureTimerPll<uint16_t> pll{
+					timer,
+					base::Int64Fraction{1, 10},
+					10,
+					0,
+				};
+
 				timer.ConfigureChannel(channel_id,
 									   base::input_capture_timer::CaptureEdge::RisingEdge,
 									   1);
@@ -30,12 +39,12 @@ namespace base
 					[&](base::input_capture_timer::CaptureCompleteEventArgs const &args)
 					{
 						capture_value = args.CaptureValue();
+						semaphore.ReleaseFromIsr();
 					});
 
 				timer.SetPeriodElapsedCallback(
 					[&]()
 					{
-						semaphore.ReleaseFromIsr();
 					});
 
 				timer.Start(channel_id);
@@ -43,6 +52,7 @@ namespace base
 				while (true)
 				{
 					semaphore.Acquire();
+					pll.Adjust(capture_value);
 
 					base::console.Write("timer.CounterPeriod() = ");
 					base::console.Write(std::to_string(timer.CounterPeriod()));
@@ -51,6 +61,7 @@ namespace base
 					base::console.Write("捕获值：");
 					base::console.Write(std::to_string(capture_value));
 					base::console.WriteLine();
+
 					base::task::Delay(std::chrono::milliseconds{1000});
 				}
 			};
