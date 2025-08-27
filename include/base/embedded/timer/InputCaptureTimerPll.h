@@ -39,8 +39,8 @@ namespace base
 				base::Int64Fraction{1, 1000},
 				0,
 				base::Int64Fraction{1, INT32_MAX},
-				static_cast<int64_t>(adjust_limit) * 2,
-				-static_cast<int64_t>(adjust_limit) * 2,
+				static_cast<int64_t>(adjust_limit),
+				-static_cast<int64_t>(adjust_limit),
 			};
 
 			base::console.WriteLine(-base::Int64Fraction{static_cast<int64_t>(adjust_limit)});
@@ -71,15 +71,6 @@ namespace base
 
 				base::Int64Fraction output = _pid.Input(error);
 				int64_t int_output = static_cast<int64_t>(output);
-
-				if (int_output > static_cast<int64_t>(_adjust_limit))
-				{
-					int_output = static_cast<int64_t>(_adjust_limit);
-				}
-				else if (int_output < -static_cast<int64_t>(_adjust_limit))
-				{
-					int_output = -static_cast<int64_t>(_adjust_limit);
-				}
 
 				int64_t period = static_cast<int64_t>(_origin_period) + int_output;
 				if (period < 1)

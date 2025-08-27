@@ -29,7 +29,7 @@ namespace base
 
 				base::InputCaptureTimerPll<uint16_t> pll{
 					timer,
-					static_cast<uint16_t>(timer.CounterPeriod() / 10),
+					static_cast<uint16_t>(timer.CounterPeriod() / 2),
 					233,
 				};
 
