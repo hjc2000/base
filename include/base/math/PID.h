@@ -66,7 +66,7 @@ namespace base
 			_current_output += _kd * (_x[0] - 2 * _x[1] + _x[2]);
 
 			_current_output = base::reduce_resolution(_current_output, _resolution);
-			// LimitOutput();
+			LimitOutput();
 			return _current_output;
 		}
 

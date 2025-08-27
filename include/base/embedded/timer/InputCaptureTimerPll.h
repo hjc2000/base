@@ -39,8 +39,8 @@ namespace base
 				base::Int64Fraction{1, 1000},
 				0,
 				base::Int64Fraction{1, INT32_MAX},
-				base::Int64Fraction{static_cast<int64_t>(adjust_limit)},
-				-base::Int64Fraction{static_cast<int64_t>(adjust_limit)},
+				static_cast<int64_t>(adjust_limit) * 2,
+				-static_cast<int64_t>(adjust_limit) * 2,
 			};
 
 			base::console.WriteLine(-base::Int64Fraction{static_cast<int64_t>(adjust_limit)});
