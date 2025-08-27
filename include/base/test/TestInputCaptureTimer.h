@@ -39,12 +39,12 @@ namespace base
 					[&](base::input_capture_timer::CaptureCompleteEventArgs const &args)
 					{
 						capture_value = args.CaptureValue();
-						semaphore.ReleaseFromIsr();
 					});
 
 				timer.SetPeriodElapsedCallback(
 					[&]()
 					{
+						semaphore.ReleaseFromIsr();
 					});
 
 				timer.Start(channel_id);
