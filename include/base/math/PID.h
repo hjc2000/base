@@ -1,4 +1,7 @@
 #pragma once
+#include "base/math/Fraction.h"
+#include "base/math/Int64Fraction.h"
+#include "base/math/math.h"
 
 namespace base
 {
@@ -11,13 +14,15 @@ namespace base
 		T _ki{};
 		T _kd{};
 		T _x[3]{};
+		T _resolution{};
 
 	public:
-		constexpr PID(T kp, T ki, T kd)
+		constexpr PID(T kp, T ki, T kd, T resolution)
 		{
 			_kp = kp;
 			_ki = ki;
 			_kd = kd;
+			_resolution = resolution;
 		}
 
 		constexpr T Input(T x)
@@ -29,6 +34,8 @@ namespace base
 			_current_output += _kp * (_x[0] - _x[1]);
 			_current_output += _ki * _x[0];
 			_current_output += _kd * (_x[0] - 2 * _x[1] + _x[2]);
+
+			_current_output = base::reduce_resolution(_current_output, _resolution);
 			return _current_output;
 		}
 
