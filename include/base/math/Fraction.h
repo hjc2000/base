@@ -383,6 +383,17 @@ namespace base
 
 		explicit operator float() const;
 
+		explicit operator base::Int64Fraction() const
+		{
+			base::Fraction copy{*this};
+			copy.ReduceResolution(base::Fraction{1, INT64_MAX});
+
+			return base::Int64Fraction{
+				static_cast<int64_t>(_num),
+				static_cast<int64_t>(_den),
+			};
+		}
+
 		/* #endregion */
 
 		/* #region 比较 */
