@@ -74,6 +74,21 @@ namespace base
 		{
 			return _current_output;
 		}
+
+		constexpr T Kp() const
+		{
+			return _kp;
+		}
+
+		constexpr T Ki() const
+		{
+			return _ki;
+		}
+
+		constexpr T Kd() const
+		{
+			return _kd;
+		}
 	};
 
 } // namespace base
