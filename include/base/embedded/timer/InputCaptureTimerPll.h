@@ -86,7 +86,7 @@ namespace base
 				int64_t step_p = static_cast<int64_t>(error * _pid.Kp());
 				if (base::abs(step_p) < base::abs(int_output))
 				{
-					_current_capture_value_interpolation -= error;
+					_current_capture_value_interpolation -= step_p;
 				}
 				else
 				{
