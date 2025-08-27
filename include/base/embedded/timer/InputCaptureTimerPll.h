@@ -83,7 +83,8 @@ namespace base
 
 				// 因为定时时间到中断触发的频率比捕获中断触发的频率高，所以在下次捕获前需要对
 				// 捕获值进行插值。
-				if (base::abs(error) < base::abs(int_output))
+				int64_t step_p = static_cast<int64_t>(error * _pid.Kp());
+				if (base::abs(step_p) < base::abs(int_output))
 				{
 					_current_capture_value_interpolation -= error;
 				}
