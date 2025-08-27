@@ -24,12 +24,12 @@ namespace base
 							 base::Int64Fraction const &kp,
 							 CounterType adjust_limit,
 							 CounterType expected_capture_value)
-			: _timer(timer),
-			  _kp(kp),
-			  _origin_period(timer.CounterPeriod()),
-			  _adjust_limit(adjust_limit),
-			  _expected_capture_value(expected_capture_value)
+			: _timer(timer)
 		{
+			_kp = kp;
+			_origin_period = timer.CounterPeriod();
+			_adjust_limit = adjust_limit;
+			_expected_capture_value = expected_capture_value;
 		}
 
 		void Adjust(CounterType capture_value)
