@@ -52,6 +52,20 @@ namespace base
 
 				int64_t delta = static_cast<int64_t>(_kp * error);
 
+				if (error != 0 && delta == 0)
+				{
+					// 误差过小，乘上 kp 后截断了，但是误差确实存在，需要调整。
+					// 于是按照最小的步长，即 1 进行调整。
+					if (error > 0)
+					{
+						delta = 1;
+					}
+					else
+					{
+						delta = -1;
+					}
+				}
+
 				if (delta > static_cast<int64_t>(_adjust_limit))
 				{
 					delta = static_cast<int64_t>(_adjust_limit);
@@ -71,6 +85,10 @@ namespace base
 				base::console.Write("delta = ");
 				base::console.Write(std::to_string(delta));
 				base::console.WriteLine();
+
+				// 因为定时时间到中断触发的频率比捕获中断触发的频率高，所以在下次捕获前需要对
+				// 捕获值进行插值。
+				_current_capture_value -= delta;
 			}
 			catch (...)
 			{
