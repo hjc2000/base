@@ -6,6 +6,8 @@
 #include "base/task/BinarySemaphore.h"
 #include "base/task/delay.h"
 #include "base/task/task.h"
+#include "base/unit/Hz.h"
+#include "base/unit/Nanosecond.h"
 #include <chrono>
 #include <cstdint>
 #include <string>
@@ -19,14 +21,17 @@ namespace base
 			auto task_func = [timer_id, channel_id]()
 			{
 				base::input_capture_timer::InputCaptureTimer timer{timer_id};
-				timer.Initialize(std::chrono::milliseconds{1});
+				base::unit::Nanosecond period{100 * 1000};
+				base::unit::Hz pwm_frequency{1 * 1000};
+				base::unit::Nanosecond pwm_period{pwm_frequency};
+				timer.Initialize(std::chrono::microseconds{period});
 				base::task::BinarySemaphore semaphore{false};
 
 				base::InputCaptureTimerPll<uint16_t> pll{
 					timer,
-					base::Int64Fraction{1, 1000},
+					static_cast<base::Int64Fraction>(period / pwm_period),
 					static_cast<uint16_t>(timer.CounterPeriod() / 10),
-					1000,
+					233,
 				};
 
 				timer.ConfigureChannel(channel_id,
@@ -45,6 +50,7 @@ namespace base
 				timer.SetPeriodElapsedCallback(
 					[&]()
 					{
+						pll.Adjust();
 						semaphore.ReleaseFromIsr();
 					});
 
@@ -54,7 +60,6 @@ namespace base
 				while (true)
 				{
 					semaphore.Acquire();
-					pll.Adjust();
 
 					if (loop_times % 1000 == 0)
 					{
