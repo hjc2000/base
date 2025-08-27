@@ -12,7 +12,7 @@ namespace base
 		inline void TestPwmTimer(uint32_t pwm_timer_id, uint32_t channel_id)
 		{
 			base::pwm_timer::PwmTimer timer{pwm_timer_id};
-			timer.InitializeAsUpMode(base::unit::Hz{20 * 1000});
+			timer.InitializeAsUpMode(base::unit::Hz{1 * 1000});
 
 			timer.ConfigureOutput(channel_id,
 								  base::pwm_timer::Polarity::Positive,
