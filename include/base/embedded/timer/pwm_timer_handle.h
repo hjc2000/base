@@ -57,6 +57,9 @@ namespace base
 		///
 		/// 所以占空比为 50%.
 		///
+		/// compare_value 的值就像是 C++ 迭代器的 end, 即尾后元素。在计数值为 compare_value - 1 的时候
+		/// 输出还是有效的，一旦等于 compare_value, 输出就无效了。
+		///
 		///
 		/// @param self
 		/// @param frequency PWM 的频率。
