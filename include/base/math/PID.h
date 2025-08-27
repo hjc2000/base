@@ -15,6 +15,9 @@ namespace base
 	public:
 		constexpr PID(T kp, T ki, T kd)
 		{
+			_kp = kp;
+			_ki = ki;
+			_kd = kd;
 		}
 
 		constexpr T Input(T x)
@@ -26,6 +29,11 @@ namespace base
 			_current_output += _kp * (_x[0] - _x[1]);
 			_current_output += _ki * _x[0];
 			_current_output += _kd * (_x[0] - 2 * _x[1] + _x[2]);
+			return _current_output;
+		}
+
+		constexpr T CurrentOutput() const
+		{
 			return _current_output;
 		}
 	};
