@@ -59,22 +59,7 @@ namespace base
 					error -= _origin_period;
 				}
 
-				base::Int64Fraction kp_factor = base::Int64Fraction{base::abs(error)} * 20 / _origin_period;
-				if (kp_factor < 1)
-				{
-					// 非线性优化。
-					//
-					// 误差很大，大于 1/20 的 _origin_period 时，kp_factor 大于 1, 并且误差越大，
-					// kp_factor 越大。
-					//
-					// 让 kp 乘上 kp_factor, 就可以实现大误差时增大比例系数。
-					//
-					// 当 kp_factor 小于 1 时，说明误差小于 1/20 的 _origin_period, 此时让 kp_factor
-					// 等于 1, 即使用原始的 kp 值进行调整。
-					kp_factor = 1;
-				}
-
-				int64_t delta = static_cast<int64_t>(_kp * kp_factor * error);
+				int64_t delta = static_cast<int64_t>(_kp * error);
 
 				if (error != 0 && delta == 0)
 				{

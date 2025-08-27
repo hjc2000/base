@@ -24,7 +24,7 @@ namespace base
 
 				base::InputCaptureTimerPll<uint16_t> pll{
 					timer,
-					base::Int64Fraction{1, 4},
+					base::Int64Fraction{1, 1000},
 					static_cast<uint16_t>(timer.CounterPeriod() / 10),
 					1000,
 				};
