@@ -18,19 +18,19 @@ namespace base
 				{
 					base::base_timer::BaseTimer timer{base_timer_id};
 					timer.Initialize(std::chrono::milliseconds{1000});
-					base::task::BinarySemaphore _semaphore{false};
+					base::task::BinarySemaphore semaphore{false};
 
 					timer.SetPeriodElapsedCallback(
 						[&]()
 						{
-							_semaphore.ReleaseFromIsr();
+							semaphore.ReleaseFromIsr();
 						});
 
 					timer.Start();
 
 					while (true)
 					{
-						_semaphore.Acquire();
+						semaphore.Acquire();
 						base::console.WriteLine("被定时器释放了。");
 						base::console.WriteLine(std::to_string(timer.Period().count()));
 					}

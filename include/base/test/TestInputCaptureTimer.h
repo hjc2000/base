@@ -1,6 +1,7 @@
 #pragma once
 #include "base/Console.h"
 #include "base/embedded/timer/InputCaptureTimer.h"
+#include "base/task/BinarySemaphore.h"
 #include "base/task/delay.h"
 #include "base/task/task.h"
 #include <chrono>
@@ -17,10 +18,7 @@ namespace base
 			{
 				base::input_capture_timer::InputCaptureTimer timer{timer_id};
 				timer.Initialize(std::chrono::milliseconds{1000});
-
-				base::console.Write("timer.CounterPeriod() = ");
-				base::console.Write(std::to_string(timer.CounterPeriod()));
-				base::console.WriteLine();
+				base::task::BinarySemaphore semaphore{false};
 
 				timer.ConfigureChannel(channel_id,
 									   base::input_capture_timer::CaptureEdge::RisingEdge,
@@ -34,10 +32,22 @@ namespace base
 						capture_value = args.CaptureValue();
 					});
 
+				timer.SetPeriodElapsedCallback(
+					[&]()
+					{
+						semaphore.ReleaseFromIsr();
+					});
+
 				timer.Start(channel_id);
 
 				while (true)
 				{
+					semaphore.Acquire();
+
+					base::console.Write("timer.CounterPeriod() = ");
+					base::console.Write(std::to_string(timer.CounterPeriod()));
+					base::console.WriteLine();
+
 					base::console.Write("捕获值：");
 					base::console.Write(std::to_string(capture_value));
 					base::console.WriteLine();
