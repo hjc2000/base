@@ -36,7 +36,13 @@ namespace base
 		{
 			try
 			{
-				int64_t error = static_cast<std::make_signed_t<CounterType>>(_expected_capture_value - capture_value);
+				int64_t error = static_cast<int64_t>(capture_value) - static_cast<int64_t>(_expected_capture_value);
+				error %= _origin_period;
+				if (error > _origin_period / 2)
+				{
+					error -= _origin_period;
+				}
+
 				int64_t delta = static_cast<int64_t>(_kp * error);
 
 				if (delta > static_cast<int64_t>(_adjust_limit))
@@ -48,7 +54,7 @@ namespace base
 					delta = -static_cast<int64_t>(_adjust_limit);
 				}
 
-				int64_t period = static_cast<int64_t>(_origin_period) - delta;
+				int64_t period = static_cast<int64_t>(_origin_period) + delta;
 				if (period < 1)
 				{
 					period = 1;
