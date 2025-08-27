@@ -39,6 +39,7 @@ namespace base
 					[&](base::input_capture_timer::CaptureCompleteEventArgs const &args)
 					{
 						capture_value = args.CaptureValue();
+						pll.UpdateCaptureValue(capture_value);
 					});
 
 				timer.SetPeriodElapsedCallback(
@@ -52,7 +53,7 @@ namespace base
 				while (true)
 				{
 					semaphore.Acquire();
-					pll.Adjust(capture_value);
+					pll.Adjust();
 
 					base::console.Write("timer.CounterPeriod() = ");
 					base::console.Write(std::to_string(timer.CounterPeriod()));

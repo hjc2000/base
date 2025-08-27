@@ -18,6 +18,7 @@ namespace base
 		CounterType _origin_period{};
 		CounterType _adjust_limit{};
 		CounterType _expected_capture_value{};
+		CounterType _current_capture_value{};
 
 	public:
 		InputCaptureTimerPll(base::input_capture_timer::InputCaptureTimer &timer,
@@ -30,13 +31,19 @@ namespace base
 			_origin_period = timer.CounterPeriod();
 			_adjust_limit = adjust_limit;
 			_expected_capture_value = expected_capture_value;
+			_current_capture_value = expected_capture_value;
 		}
 
-		void Adjust(CounterType capture_value)
+		void UpdateCaptureValue(CounterType capture_value)
+		{
+			_current_capture_value = capture_value;
+		}
+
+		void Adjust()
 		{
 			try
 			{
-				int64_t error = static_cast<int64_t>(capture_value) - static_cast<int64_t>(_expected_capture_value);
+				int64_t error = static_cast<int64_t>(_current_capture_value) - static_cast<int64_t>(_expected_capture_value);
 				error %= _origin_period;
 				if (error > _origin_period / 2)
 				{
