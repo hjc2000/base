@@ -25,7 +25,7 @@ namespace base
 				base::InputCaptureTimerPll<uint16_t> pll{
 					timer,
 					base::Int64Fraction{1, 10},
-					10,
+					static_cast<uint16_t>(timer.CounterPeriod() / 10),
 					1000,
 				};
 
@@ -33,7 +33,7 @@ namespace base
 									   base::input_capture_timer::CaptureEdge::RisingEdge,
 									   1);
 
-				uint32_t capture_value = 0;
+				uint32_t volatile capture_value = 0;
 
 				timer.SetCaptureCompleteCallback(
 					[&](base::input_capture_timer::CaptureCompleteEventArgs const &args)

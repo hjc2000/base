@@ -2,6 +2,7 @@
 #include "base/Console.h"
 #include "base/embedded/timer/InputCaptureTimer.h"
 #include "base/math/Int64Fraction.h"
+#include "base/math/math.h"
 #include <cstdint>
 #include <string>
 #include <type_traits>
@@ -65,14 +66,13 @@ namespace base
 				if (error != 0 && delta == 0)
 				{
 					// 误差过小，乘上 kp 后截断了，但是误差确实存在，需要调整。
-					// 于是按照最小的步长，即 1 进行调整。
-					if (error > 0)
+					if (base::abs(error) > 1)
 					{
-						delta = 1;
+						delta = error / 2;
 					}
 					else
 					{
-						delta = -1;
+						delta = error / error;
 					}
 				}
 
