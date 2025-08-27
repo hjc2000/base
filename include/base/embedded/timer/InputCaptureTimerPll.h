@@ -37,9 +37,9 @@ namespace base
 
 			_pid = base::PID<base::Int64Fraction>{
 				base::Int64Fraction{1, 10},
-				base::Int64Fraction{1, 1000},
+				base::Int64Fraction{1, 5000},
 				0,
-				base::Int64Fraction{1, INT32_MAX},
+				base::Int64Fraction{1, INT16_MAX},
 				static_cast<int64_t>(adjust_limit),
 				-static_cast<int64_t>(adjust_limit),
 			};
