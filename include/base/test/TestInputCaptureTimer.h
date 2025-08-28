@@ -54,11 +54,15 @@ namespace base
 
 				while (true)
 				{
-					base::console.Write("timer.CounterPeriod() = ");
+					base::console.Write("timer.CounterPeriod: ");
 					base::console.Write(std::to_string(timer.CounterPeriod()));
 					base::console.WriteLine();
 
-					base::console.Write("CapturedSignalPeriod: ");
+					base::console.Write("pll.CurrentCaptureValue: ");
+					base::console.Write(std::to_string(pll.CurrentCaptureValue()));
+					base::console.WriteLine();
+
+					base::console.Write("pll.CapturedSignalPeriod: ");
 					base::console.Write(std::to_string(pll.CapturedSignalPeriod()));
 					base::console.WriteLine();
 

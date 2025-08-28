@@ -2,7 +2,6 @@
 #include "base/Console.h"
 #include "base/embedded/timer/InputCaptureTimer.h"
 #include "base/math/Int64Fraction.h"
-#include "base/math/math.h"
 #include "base/math/PID.h"
 #include "base/string/define.h"
 #include <cstdint>
