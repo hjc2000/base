@@ -27,7 +27,6 @@ namespace base
 				base::InputCaptureTimerPll pll{
 					timer,
 					20,
-					timer.CounterPeriod() / 2,
 					233,
 				};
 

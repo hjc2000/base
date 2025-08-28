@@ -98,7 +98,6 @@ namespace base
 		constexpr void SetMaxOutput(T const &value)
 		{
 			_max_output = value;
-			LimitOutput();
 		}
 
 		constexpr T MinOutput() const
@@ -109,14 +108,12 @@ namespace base
 		constexpr void SetMinOutput(T const &value)
 		{
 			_min_output = value;
-			LimitOutput();
 		}
 
 		constexpr void SetOutputLimit(T const &max_output, T const &min_output)
 		{
 			_max_output = max_output;
 			_min_output = min_output;
-			LimitOutput();
 		}
 	};
 
