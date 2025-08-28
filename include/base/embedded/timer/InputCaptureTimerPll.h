@@ -4,6 +4,7 @@
 #include "base/math/Int64Fraction.h"
 #include "base/math/PID.h"
 #include "base/string/define.h"
+#include <algorithm>
 #include <cstdint>
 #include <stdexcept>
 #include <string>
@@ -18,7 +19,6 @@ namespace base
 	private:
 		base::input_capture_timer::InputCaptureTimer &_timer;
 		int64_t _multiple = 1;
-		CounterType _origin_period{};
 		CounterType _adjust_limit{};
 		CounterType _expected_capture_value{};
 
@@ -89,7 +89,9 @@ namespace base
 				_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + int_pid_output);
 			}
 
-			int64_t const pll_output_limit = _timer.CounterPeriod() / 4;
+			int64_t const pll_output_limit = std::min<int64_t>(static_cast<int64_t>(_adjust_limit),
+															   static_cast<int64_t>(_timer.CounterPeriod() / 4));
+
 			if (fll_error > pll_output_limit)
 			{
 				// 锁频环误差过大，锁相环不工作，直接返回。
