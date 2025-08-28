@@ -7,7 +7,7 @@
 
 void base::InputCaptureTimerPll::LockFrequency()
 {
-	_fll_error = _captured_signal_period - _timer.CounterPeriod() * _multiple;
+	_fll_error = _captured_signal_period - (_timer.CounterPeriod() - _pll_ajustment) * _multiple;
 
 	_fll_pid.SetOutputLimit(static_cast<int64_t>(_timer.CounterPeriod() / 2),
 							-static_cast<int64_t>(_timer.CounterPeriod() / 2));
@@ -37,6 +37,10 @@ void base::InputCaptureTimerPll::LockPhase()
 	{
 		_pll_error += static_cast<int64_t>(_timer.CounterPeriod());
 	}
+
+	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() - _pll_ajustment);
+	_pll_ajustment = _pll_error / _multiple;
+	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + _pll_ajustment);
 }
 
 base::InputCaptureTimerPll::InputCaptureTimerPll(base::input_capture_timer::InputCaptureTimer &timer,
