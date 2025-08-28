@@ -40,6 +40,16 @@ void base::InputCaptureTimerPll::LockPhase()
 
 	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() - _pll_ajustment);
 	_pll_ajustment = _pll_error / _multiple;
+
+	if (_pll_ajustment < -pll_output_limit)
+	{
+		_pll_ajustment = -pll_output_limit;
+	}
+	else if (_pll_ajustment > pll_output_limit)
+	{
+		_pll_ajustment = pll_output_limit;
+	}
+
 	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + _pll_ajustment);
 }
 
