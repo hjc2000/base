@@ -60,6 +60,8 @@ void base::InputCaptureTimerPll::UpdateCaptureValue(int64_t capture_value)
 		int_pid_output /= _multiple;
 		_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + int_pid_output);
 	}
+
+	_pll_error = capture_value - _expected_capture_value;
 }
 
 void base::InputCaptureTimerPll::OnPeriodElapsed()

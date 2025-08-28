@@ -69,6 +69,10 @@ namespace base
 					base::console.Write(std::to_string(pll.CapturedSignalPeriod()));
 					base::console.WriteLine();
 
+					base::console.Write("pll.PllError: ");
+					base::console.Write(std::to_string(pll.PllError()));
+					base::console.WriteLine();
+
 					base::console.WriteLine();
 					base::task::Delay(std::chrono::milliseconds{1000});
 				}

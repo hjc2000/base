@@ -72,6 +72,11 @@ namespace base
 		{
 			return _captured_signal_period;
 		}
+
+		int64_t PllError() const
+		{
+			return _pll_error;
+		}
 	};
 
 } // namespace base
