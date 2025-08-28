@@ -2,6 +2,7 @@
 #include "base/Console.h"
 #include "base/embedded/timer/InputCaptureTimer.h"
 #include "base/embedded/timer/InputCaptureTimerPll.h"
+#include "base/math/Int64Fraction.h"
 #include "base/task/BinarySemaphore.h"
 #include "base/task/delay.h"
 #include "base/task/task.h"
@@ -28,7 +29,7 @@ namespace base
 
 				base::InputCaptureTimerPll<uint16_t> pll{
 					timer,
-					static_cast<int64_t>(pwm_period / period),
+					base::Int64Fraction{pwm_period / period},
 					static_cast<uint16_t>(timer.CounterPeriod() / 2),
 					233,
 				};
@@ -49,6 +50,7 @@ namespace base
 				timer.SetPeriodElapsedCallback(
 					[&]()
 					{
+						pll.Adjust();
 						semaphore.ReleaseFromIsr();
 					});
 
@@ -78,7 +80,6 @@ namespace base
 				while (true)
 				{
 					semaphore.Acquire();
-					pll.Adjust();
 				}
 			};
 

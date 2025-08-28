@@ -1,4 +1,5 @@
 #pragma once
+#include "base/Console.h"
 #include "base/embedded/timer/InputCaptureTimer.h"
 #include "base/math/Int64Fraction.h"
 #include "base/math/math.h"
@@ -16,7 +17,7 @@ namespace base
 	{
 	private:
 		base::input_capture_timer::InputCaptureTimer &_timer;
-		int64_t _multiple = 1;
+		base::Int64Fraction _multiple = 1;
 		CounterType _origin_period{};
 		CounterType _adjust_limit{};
 		CounterType _expected_capture_value{};
@@ -30,7 +31,7 @@ namespace base
 
 	public:
 		InputCaptureTimerPll(base::input_capture_timer::InputCaptureTimer &timer,
-							 int64_t multiple,
+							 base::Int64Fraction const &multiple,
 							 CounterType adjust_limit,
 							 CounterType expected_capture_value)
 			: _timer(timer)
@@ -55,6 +56,8 @@ namespace base
 				static_cast<int64_t>(adjust_limit),
 				-static_cast<int64_t>(adjust_limit),
 			};
+
+			base::console.WriteLine(std::string{"multiple = "} + multiple.ToString());
 		}
 
 		void UpdateCaptureValue(CounterType capture_value)
