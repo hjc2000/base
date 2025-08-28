@@ -49,7 +49,7 @@ namespace base
 			_current_capture_value = expected_capture_value;
 
 			_pid = base::PID<base::Int64Fraction>{
-				base::Int64Fraction{1, 1000},
+				base::Int64Fraction{1, 100},
 				base::Int64Fraction{1, 1000},
 				0,
 				base::Int64Fraction{1, INT16_MAX},
