@@ -27,7 +27,7 @@ namespace base
 
 				base::InputCaptureTimerPll<uint16_t> pll{
 					timer,
-					static_cast<int64_t>((pwm_period / period).Ceil()),
+					20,
 					static_cast<uint16_t>(timer.CounterPeriod() / 2),
 					233,
 				};
