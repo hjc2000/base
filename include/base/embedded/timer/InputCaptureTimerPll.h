@@ -75,11 +75,14 @@ namespace base
 				return;
 			}
 
-			int64_t error = _captured_signal_period - _timer.CounterPeriod() * _multiple;
-			base::Int64Fraction pid_output = _pid.Input(error);
-			int64_t int_pid_output{pid_output};
-			int_pid_output /= _multiple;
-			_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + int_pid_output);
+			// PI 控制锁频
+			{
+				int64_t error = _captured_signal_period - _timer.CounterPeriod() * _multiple;
+				base::Int64Fraction pid_output = _pid.Input(error);
+				int64_t int_pid_output{pid_output};
+				int_pid_output /= _multiple;
+				_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + int_pid_output);
+			}
 		}
 
 		void OnPeriodElapsed()
