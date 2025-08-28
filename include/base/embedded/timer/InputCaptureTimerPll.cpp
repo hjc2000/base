@@ -37,6 +37,8 @@ base::InputCaptureTimerPll::InputCaptureTimerPll(base::input_capture_timer::Inpu
 void base::InputCaptureTimerPll::UpdateCaptureValue(int64_t capture_value)
 {
 	_current_capture_register_value = capture_value;
+	_current_capture_register_value_updated = true;
+
 	_last_capture_value = _current_capture_value;
 	_current_capture_value = _current_capture_register_value + _additional_capture_period;
 	_captured_signal_period = _current_capture_value - _last_capture_value + _additional_capture_period;

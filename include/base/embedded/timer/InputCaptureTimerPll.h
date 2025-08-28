@@ -16,6 +16,7 @@ namespace base
 
 		int64_t _additional_capture_period = 0;
 
+		bool _current_capture_register_value_updated = false;
 		int64_t _current_capture_register_value{};
 		int64_t _last_capture_value{};
 		int64_t _current_capture_value{};
