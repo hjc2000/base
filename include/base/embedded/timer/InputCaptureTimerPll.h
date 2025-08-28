@@ -86,6 +86,11 @@ namespace base
 				_last_capture_value = _current_capture_value;
 				_current_capture_value = _current_capture_register_value + _additional_capture_period;
 				_delta_capture_value = _current_capture_value - _last_capture_value;
+				if (_delta_capture_value < 0)
+				{
+					_delta_capture_value += _timer.CounterPeriod();
+				}
+
 				_additional_capture_period = 0;
 
 				if (!_adjust_started)
