@@ -7,6 +7,7 @@
 #include "base/string/define.h"
 #include <cstdint>
 #include <stdexcept>
+#include <string>
 #include <type_traits>
 
 namespace base
@@ -17,7 +18,7 @@ namespace base
 	{
 	private:
 		base::input_capture_timer::InputCaptureTimer &_timer;
-		base::Int64Fraction _multiple = 1;
+		int64_t _multiple = 1;
 		CounterType _origin_period{};
 		CounterType _adjust_limit{};
 		CounterType _expected_capture_value{};
@@ -35,7 +36,7 @@ namespace base
 
 	public:
 		InputCaptureTimerPll(base::input_capture_timer::InputCaptureTimer &timer,
-							 base::Int64Fraction const &multiple,
+							 int64_t multiple,
 							 CounterType adjust_limit,
 							 CounterType expected_capture_value)
 			: _timer(timer)
@@ -61,7 +62,7 @@ namespace base
 				-static_cast<int64_t>(adjust_limit),
 			};
 
-			base::console.WriteLine(std::string{"multiple = "} + multiple.ToString());
+			base::console.WriteLine(std::string{"multiple = "} + std::to_string(multiple));
 		}
 
 		void UpdateCaptureValue(CounterType capture_value)
