@@ -59,8 +59,12 @@ namespace base
 					base::console.Write(std::to_string(timer.CounterPeriod()));
 					base::console.WriteLine();
 
-					base::console.Write("捕获值：");
+					base::console.Write("CurrentCaptureValue: ");
 					base::console.Write(std::to_string(pll.CurrentCaptureValue()));
+					base::console.WriteLine();
+
+					base::console.Write("DeltaCaptureValue: ");
+					base::console.Write(std::to_string(pll.DeltaCaptureValue()));
 					base::console.WriteLine();
 
 					base::task::Delay(std::chrono::milliseconds{1000});

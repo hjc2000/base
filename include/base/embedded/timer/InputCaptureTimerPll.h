@@ -85,6 +85,7 @@ namespace base
 				_current_capture_register_value_changed = false;
 				_last_capture_value = _current_capture_value;
 				_current_capture_value = _current_capture_register_value + _additional_capture_period;
+				_delta_capture_value = _current_capture_value - _last_capture_value;
 				_additional_capture_period = 0;
 
 				if (!_adjust_started)
@@ -102,6 +103,11 @@ namespace base
 		int64_t CurrentCaptureValue() const
 		{
 			return _current_capture_value;
+		}
+
+		int64_t DeltaCaptureValue() const
+		{
+			return _delta_capture_value;
 		}
 	};
 
