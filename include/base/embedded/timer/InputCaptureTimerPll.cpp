@@ -60,8 +60,6 @@ void base::InputCaptureTimerPll::UpdateCaptureValue(int64_t capture_value)
 		int_pid_output /= _multiple;
 		_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + int_pid_output);
 	}
-
-	_pll_error = capture_value - _expected_capture_value;
 }
 
 void base::InputCaptureTimerPll::OnPeriodElapsed()
@@ -79,5 +77,11 @@ void base::InputCaptureTimerPll::OnPeriodElapsed()
 	{
 		// 锁频环误差过大，锁相环不工作，直接返回。
 		return;
+	}
+
+	if (_current_capture_register_value_updated)
+	{
+		_current_capture_register_value_updated = false;
+		_pll_error = _current_capture_register_value - _expected_capture_value;
 	}
 }
