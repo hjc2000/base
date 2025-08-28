@@ -28,7 +28,12 @@ namespace base
 		int64_t _current_capture_value{};
 		int64_t _captured_signal_period{};
 
-		base::PID<base::Int64Fraction> _pid{};
+		///
+		/// @brief 锁频环 PID.
+		///
+		///
+		base::PID<base::Int64Fraction> _fll_pid{};
+
 		bool _adjust_started = false;
 
 	public:
@@ -48,7 +53,7 @@ namespace base
 			_expected_capture_value = expected_capture_value;
 			_current_capture_value = expected_capture_value;
 
-			_pid = base::PID<base::Int64Fraction>{
+			_fll_pid = base::PID<base::Int64Fraction>{
 				base::Int64Fraction{1, 100},
 				base::Int64Fraction{1, 1000},
 				0,
@@ -77,7 +82,7 @@ namespace base
 			// PI 控制锁频
 			{
 				int64_t error = _captured_signal_period - _timer.CounterPeriod() * _multiple;
-				base::Int64Fraction pid_output = _pid.Input(error);
+				base::Int64Fraction pid_output = _fll_pid.Input(error);
 				int64_t int_pid_output{pid_output};
 				int_pid_output /= _multiple;
 				_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + int_pid_output);
