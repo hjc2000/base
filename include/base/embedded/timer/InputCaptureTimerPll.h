@@ -22,10 +22,11 @@ namespace base
 		CounterType _expected_capture_value{};
 		bool _current_capture_value_changed = false;
 		CounterType _current_capture_value{};
-		CounterType _current_capture_value_interpolation{};
+		int64_t _last_capture_value_interpolation{};
+		int64_t _current_capture_value_interpolation{};
 		base::PID<base::Int64Fraction> _pid{};
-
 		int64_t _additional_capture_period = 0;
+		bool _adjust_started = false;
 
 	public:
 		InputCaptureTimerPll(base::input_capture_timer::InputCaptureTimer &timer,
@@ -75,8 +76,16 @@ namespace base
 				}
 
 				_current_capture_value_changed = false;
+				_last_capture_value_interpolation = _current_capture_value_interpolation;
 				_current_capture_value_interpolation = _current_capture_value + _additional_capture_period;
 				_additional_capture_period = 0;
+
+				if (!_adjust_started)
+				{
+					// 第一次进来，不进行调整工作
+					_adjust_started = true;
+					return;
+				}
 			}
 			catch (...)
 			{
