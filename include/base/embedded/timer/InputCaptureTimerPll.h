@@ -105,6 +105,14 @@ namespace base
 			}
 		}
 
+		///
+		/// @brief 当前捕获值。
+		///
+		/// @note 已经处理了定时周期小于被捕获信号周期导致的溢出问题。本属性读取的捕获值
+		/// 就是无溢出的理论情况下的捕获值。
+		///
+		/// @return
+		///
 		int64_t CurrentCaptureValue() const
 		{
 			return _current_capture_value;
