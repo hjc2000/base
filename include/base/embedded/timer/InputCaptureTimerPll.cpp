@@ -91,10 +91,13 @@ void base::InputCaptureTimerPll::UpdateCaptureValue(int64_t capture_value)
 		return;
 	}
 
+	_pll_fine_error = 0;
+
 	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() - _pll_ajustment);
 	_pll_ajustment = 0;
+
+	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() - _pll_fine_ajustment);
 	_pll_fine_ajustment = 0;
-	_pll_fine_error = 0;
 
 	LockFrequency();
 	LockPhase();
