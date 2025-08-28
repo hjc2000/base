@@ -24,10 +24,10 @@ namespace base
 				base::unit::Nanosecond pwm_period{pwm_frequency};
 				timer.Initialize(std::chrono::microseconds{period});
 
-				base::InputCaptureTimerPll<uint16_t> pll{
+				base::InputCaptureTimerPll pll{
 					timer,
 					20,
-					static_cast<uint16_t>(timer.CounterPeriod() / 2),
+					timer.CounterPeriod() / 2,
 					233,
 				};
 

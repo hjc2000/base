@@ -8,19 +8,16 @@
 #include <cstdint>
 #include <stdexcept>
 #include <string>
-#include <type_traits>
 
 namespace base
 {
-	template <typename CounterType>
-		requires(std::is_unsigned_v<CounterType>)
 	class InputCaptureTimerPll
 	{
 	private:
 		base::input_capture_timer::InputCaptureTimer &_timer;
 		int64_t _multiple = 1;
-		CounterType _adjust_limit{};
-		CounterType _expected_capture_value{};
+		int64_t _adjust_limit{};
+		int64_t _expected_capture_value{};
 
 		int64_t _additional_capture_period = 0;
 
@@ -41,13 +38,13 @@ namespace base
 	public:
 		InputCaptureTimerPll(base::input_capture_timer::InputCaptureTimer &timer,
 							 int64_t multiple,
-							 CounterType adjust_limit,
-							 CounterType expected_capture_value)
+							 int64_t adjust_limit,
+							 int64_t expected_capture_value)
 			: _timer(timer)
 		{
 			if (multiple <= 0)
 			{
-				throw std::invalid_argument{CODE_POS_STR + "非法倍数。"};
+				throw std::invalid_argument{CODE_POS_STR + "非法 multiple."};
 			}
 
 			_multiple = multiple;
@@ -76,7 +73,7 @@ namespace base
 			base::console.WriteLine(std::string{"multiple = "} + std::to_string(multiple));
 		}
 
-		void UpdateCaptureValue(CounterType capture_value)
+		void UpdateCaptureValue(int64_t capture_value)
 		{
 			_last_capture_value = _current_capture_value;
 			_current_capture_value = capture_value + _additional_capture_period;
