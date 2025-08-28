@@ -3,7 +3,6 @@
 #include "base/embedded/timer/InputCaptureTimer.h"
 #include "base/embedded/timer/InputCaptureTimerPll.h"
 #include "base/task/BinarySemaphore.h"
-#include "base/task/delay.h"
 #include "base/task/task.h"
 #include "base/unit/Hz.h"
 #include "base/unit/Nanosecond.h"
@@ -48,7 +47,6 @@ namespace base
 				timer.SetPeriodElapsedCallback(
 					[&]()
 					{
-						pll.Adjust();
 						semaphore.ReleaseFromIsr();
 					});
 
@@ -58,6 +56,7 @@ namespace base
 				while (true)
 				{
 					semaphore.Acquire();
+					pll.Adjust();
 
 					if (loop_times % 1000 == 0)
 					{
@@ -68,8 +67,6 @@ namespace base
 						base::console.Write("捕获值：");
 						base::console.Write(std::to_string(capture_value));
 						base::console.WriteLine();
-
-						base::task::Delay(std::chrono::milliseconds{1000});
 					}
 
 					loop_times++;
