@@ -89,7 +89,7 @@ namespace base
 				_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + int_pid_output);
 			}
 
-			if (fll_error > _timer.CounterPeriod())
+			if (fll_error > _timer.CounterPeriod() / 4)
 			{
 				// 锁频环误差过大，锁相环不工作，直接返回。
 				return;
