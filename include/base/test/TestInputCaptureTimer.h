@@ -3,7 +3,6 @@
 #include "base/embedded/timer/InputCaptureTimer.h"
 #include "base/embedded/timer/InputCaptureTimerPll.h"
 #include "base/math/Int64Fraction.h"
-#include "base/task/BinarySemaphore.h"
 #include "base/task/delay.h"
 #include "base/task/task.h"
 #include "base/unit/Hz.h"
@@ -25,7 +24,6 @@ namespace base
 				base::unit::Hz pwm_frequency{1 * 1000};
 				base::unit::Nanosecond pwm_period{pwm_frequency};
 				timer.Initialize(std::chrono::microseconds{period});
-				base::task::BinarySemaphore semaphore{false};
 
 				base::InputCaptureTimerPll<uint16_t> pll{
 					timer,
@@ -51,39 +49,29 @@ namespace base
 					[&]()
 					{
 						pll.Adjust();
-						semaphore.ReleaseFromIsr();
 					});
 
 				timer.Start(channel_id);
 
-				base::task::run(
-					[&]()
-					{
-						while (true)
-						{
-							base::console.Write("timer.CounterPeriod() = ");
-							base::console.Write(std::to_string(timer.CounterPeriod()));
-							base::console.WriteLine();
-
-							base::console.Write("捕获值：");
-							base::console.Write(std::to_string(capture_value));
-							base::console.WriteLine();
-
-							base::console.Write("捕获值插值：");
-							base::console.Write(std::to_string(pll.CurrentCaptureValueInterpolation()));
-							base::console.WriteLine();
-
-							base::task::Delay(std::chrono::milliseconds{1000});
-						}
-					});
-
 				while (true)
 				{
-					semaphore.Acquire();
+					base::console.Write("timer.CounterPeriod() = ");
+					base::console.Write(std::to_string(timer.CounterPeriod()));
+					base::console.WriteLine();
+
+					base::console.Write("捕获值：");
+					base::console.Write(std::to_string(capture_value));
+					base::console.WriteLine();
+
+					base::console.Write("捕获值插值：");
+					base::console.Write(std::to_string(pll.CurrentCaptureValueInterpolation()));
+					base::console.WriteLine();
+
+					base::task::Delay(std::chrono::milliseconds{1000});
 				}
 			};
 
-			base::task::run(2, 1024 * 4, task_func);
+			base::task::run(1, 1024 * 4, task_func);
 		}
 
 	} // namespace test
