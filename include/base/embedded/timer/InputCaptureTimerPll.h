@@ -27,6 +27,7 @@ namespace base
 		///
 		base::PID<base::Int64Fraction> _fll_pid{};
 		int64_t _fll_error{};
+		int64_t _pll_error{};
 
 		bool _adjust_started = false;
 
