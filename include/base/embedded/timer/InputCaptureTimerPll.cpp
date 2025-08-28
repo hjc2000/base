@@ -63,6 +63,11 @@ void base::InputCaptureTimerPll::OnPeriodElapsed()
 {
 	_additional_capture_period += _timer.CounterPeriod();
 
+	if (!_adjust_started)
+	{
+		return;
+	}
+
 	int64_t const pll_output_limit = std::min<int64_t>(static_cast<int64_t>(_adjust_limit - _fll_pid.CurrentOutput().Abs()),
 													   static_cast<int64_t>(_timer.CounterPeriod() / 4));
 
