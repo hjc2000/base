@@ -21,12 +21,16 @@ namespace base
 		CounterType _origin_period{};
 		CounterType _adjust_limit{};
 		CounterType _expected_capture_value{};
-		bool _current_capture_value_changed = false;
-		CounterType _current_capture_value{};
-		int64_t _last_capture_value_interpolation{};
-		int64_t _current_capture_value_interpolation{};
-		base::PID<base::Int64Fraction> _pid{};
+
+		bool _current_capture_register_value_changed = false;
+		CounterType _current_capture_register_value{};
 		int64_t _additional_capture_period = 0;
+
+		int64_t _last_capture_value{};
+		int64_t _current_capture_value{};
+		int64_t _delta_capture_value{};
+
+		base::PID<base::Int64Fraction> _pid{};
 		bool _adjust_started = false;
 
 	public:
@@ -45,8 +49,8 @@ namespace base
 			_origin_period = timer.CounterPeriod();
 			_adjust_limit = adjust_limit;
 			_expected_capture_value = expected_capture_value;
+			_current_capture_register_value = expected_capture_value;
 			_current_capture_value = expected_capture_value;
-			_current_capture_value_interpolation = expected_capture_value;
 
 			_pid = base::PID<base::Int64Fraction>{
 				base::Int64Fraction{1, 100},
@@ -62,15 +66,15 @@ namespace base
 
 		void UpdateCaptureValue(CounterType capture_value)
 		{
-			_current_capture_value = capture_value;
-			_current_capture_value_changed = true;
+			_current_capture_register_value = capture_value;
+			_current_capture_register_value_changed = true;
 		}
 
 		void Adjust()
 		{
 			try
 			{
-				if (!_current_capture_value_changed)
+				if (!_current_capture_register_value_changed)
 				{
 					// 捕获值没有更新，而是定时器溢出，触发一次定时时间到中断，计数器清零了。
 					// 下次捕获值要加上 _additional_capture_period 才是真实的距离上次捕获过去的时间。
@@ -78,9 +82,9 @@ namespace base
 					return;
 				}
 
-				_current_capture_value_changed = false;
-				_last_capture_value_interpolation = _current_capture_value_interpolation;
-				_current_capture_value_interpolation = _current_capture_value + _additional_capture_period;
+				_current_capture_register_value_changed = false;
+				_last_capture_value = _current_capture_value;
+				_current_capture_value = _current_capture_register_value + _additional_capture_period;
 				_additional_capture_period = 0;
 
 				if (!_adjust_started)
@@ -95,9 +99,9 @@ namespace base
 			}
 		}
 
-		int64_t CurrentCaptureValueInterpolation() const
+		int64_t CurrentCaptureValue() const
 		{
-			return _current_capture_value_interpolation;
+			return _current_capture_value;
 		}
 	};
 

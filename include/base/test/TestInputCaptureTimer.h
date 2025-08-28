@@ -60,11 +60,7 @@ namespace base
 					base::console.WriteLine();
 
 					base::console.Write("捕获值：");
-					base::console.Write(std::to_string(capture_value));
-					base::console.WriteLine();
-
-					base::console.Write("捕获值插值：");
-					base::console.Write(std::to_string(pll.CurrentCaptureValueInterpolation()));
+					base::console.Write(std::to_string(pll.CurrentCaptureValue()));
 					base::console.WriteLine();
 
 					base::task::Delay(std::chrono::milliseconds{1000});
