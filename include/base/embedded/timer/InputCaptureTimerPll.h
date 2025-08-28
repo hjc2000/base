@@ -28,7 +28,7 @@ namespace base
 
 		int64_t _last_capture_value{};
 		int64_t _current_capture_value{};
-		int64_t _delta_capture_value{};
+		int64_t _captured_signal_period{};
 
 		base::PID<base::Int64Fraction> _pid{};
 		bool _adjust_started = false;
@@ -83,13 +83,10 @@ namespace base
 				}
 
 				_current_capture_register_value_changed = false;
+
 				_last_capture_value = _current_capture_value;
 				_current_capture_value = _current_capture_register_value + _additional_capture_period;
-				_delta_capture_value = _current_capture_value - _last_capture_value;
-				if (_delta_capture_value < 0)
-				{
-					_delta_capture_value += _timer.CounterPeriod();
-				}
+				_captured_signal_period = _current_capture_value - _last_capture_value + _additional_capture_period;
 
 				_additional_capture_period = 0;
 
@@ -118,9 +115,14 @@ namespace base
 			return _current_capture_value;
 		}
 
-		int64_t DeltaCaptureValue() const
+		///
+		/// @brief 被捕获的信号的周期。
+		///
+		/// @return
+		///
+		int64_t CapturedSignalPeriod() const
 		{
-			return _delta_capture_value;
+			return _captured_signal_period;
 		}
 	};
 
