@@ -30,15 +30,6 @@ base::InputCaptureTimerPll::InputCaptureTimerPll(base::input_capture_timer::Inpu
 		-static_cast<int64_t>(adjust_limit),
 	};
 
-	_pll_pid = base::PID<base::Int64Fraction>{
-		base::Int64Fraction{1, 100},
-		base::Int64Fraction{1, 1000},
-		0,
-		base::Int64Fraction{1, INT16_MAX},
-		static_cast<int64_t>(adjust_limit),
-		-static_cast<int64_t>(adjust_limit),
-	};
-
 	base::console.WriteLine(std::string{"multiple = "} + std::to_string(multiple));
 }
 
@@ -57,19 +48,23 @@ void base::InputCaptureTimerPll::UpdateCaptureValue(int64_t capture_value)
 	}
 
 	// PI 控制锁频
-	int64_t fll_error = _captured_signal_period - _timer.CounterPeriod() * _multiple;
-
 	{
-		base::Int64Fraction pid_output = _fll_pid.Input(fll_error);
+		_fll_error = _captured_signal_period - _timer.CounterPeriod() * _multiple;
+		base::Int64Fraction pid_output = _fll_pid.Input(_fll_error);
 		int64_t int_pid_output{pid_output};
 		int_pid_output /= _multiple;
 		_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + int_pid_output);
 	}
+}
+
+void base::InputCaptureTimerPll::OnPeriodElapsed()
+{
+	_additional_capture_period += _timer.CounterPeriod();
 
 	int64_t const pll_output_limit = std::min<int64_t>(static_cast<int64_t>(_adjust_limit),
 													   static_cast<int64_t>(_timer.CounterPeriod() / 4));
 
-	if (fll_error > pll_output_limit)
+	if (_fll_error > pll_output_limit)
 	{
 		// 锁频环误差过大，锁相环不工作，直接返回。
 		return;

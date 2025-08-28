@@ -25,8 +25,7 @@ namespace base
 		///
 		///
 		base::PID<base::Int64Fraction> _fll_pid{};
-
-		base::PID<base::Int64Fraction> _pll_pid{};
+		int64_t _fll_error{};
 
 		bool _adjust_started = false;
 
@@ -38,10 +37,7 @@ namespace base
 
 		void UpdateCaptureValue(int64_t capture_value);
 
-		void OnPeriodElapsed()
-		{
-			_additional_capture_period += _timer.CounterPeriod();
-		}
+		void OnPeriodElapsed();
 
 		///
 		/// @brief 当前捕获值。
