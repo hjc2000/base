@@ -20,7 +20,7 @@ namespace base
 			auto task_func = [timer_id, channel_id]()
 			{
 				base::input_capture_timer::InputCaptureTimer timer{timer_id};
-				base::unit::Nanosecond period{50 * 1000};
+				base::unit::Nanosecond period{60 * 1000};
 				base::unit::Hz pwm_frequency{1 * 1000};
 				base::unit::Nanosecond pwm_period{pwm_frequency};
 				timer.Initialize(std::chrono::microseconds{period});
@@ -28,6 +28,7 @@ namespace base
 
 				base::InputCaptureTimerPll<uint16_t> pll{
 					timer,
+					static_cast<int64_t>(pwm_period / period),
 					static_cast<uint16_t>(timer.CounterPeriod() / 2),
 					233,
 				};

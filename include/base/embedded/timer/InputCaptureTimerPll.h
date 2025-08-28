@@ -1,10 +1,11 @@
 #pragma once
-#include "base/Console.h"
 #include "base/embedded/timer/InputCaptureTimer.h"
 #include "base/math/Int64Fraction.h"
 #include "base/math/math.h"
 #include "base/math/PID.h"
+#include "base/string/define.h"
 #include <cstdint>
+#include <stdexcept>
 #include <type_traits>
 
 namespace base
@@ -15,6 +16,7 @@ namespace base
 	{
 	private:
 		base::input_capture_timer::InputCaptureTimer &_timer;
+		int64_t _multiple = 1;
 		CounterType _origin_period{};
 		CounterType _adjust_limit{};
 		CounterType _expected_capture_value{};
@@ -25,10 +27,17 @@ namespace base
 
 	public:
 		InputCaptureTimerPll(base::input_capture_timer::InputCaptureTimer &timer,
+							 int64_t multiple,
 							 CounterType adjust_limit,
 							 CounterType expected_capture_value)
 			: _timer(timer)
 		{
+			if (multiple <= 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "非法倍数。"};
+			}
+
+			_multiple = multiple;
 			_origin_period = timer.CounterPeriod();
 			_adjust_limit = adjust_limit;
 			_expected_capture_value = expected_capture_value;
@@ -36,15 +45,13 @@ namespace base
 			_current_capture_value_interpolation = expected_capture_value;
 
 			_pid = base::PID<base::Int64Fraction>{
-				base::Int64Fraction{1, 10},
-				base::Int64Fraction{1, 5000},
+				base::Int64Fraction{1, 100},
+				base::Int64Fraction{1, 10000},
 				0,
 				base::Int64Fraction{1, INT16_MAX},
 				static_cast<int64_t>(adjust_limit),
 				-static_cast<int64_t>(adjust_limit),
 			};
-
-			base::console.WriteLine(-base::Int64Fraction{static_cast<int64_t>(adjust_limit)});
 		}
 
 		void UpdateCaptureValue(CounterType capture_value)
