@@ -71,7 +71,7 @@ void base::InputCaptureTimerPll::OnPeriodElapsed()
 		return;
 	}
 
-	int64_t const pll_output_limit = _timer.CounterPeriod() / 4;
+	int64_t const pll_output_limit = _timer.CounterPeriod() / 10;
 
 	if (_fll_error > pll_output_limit)
 	{
