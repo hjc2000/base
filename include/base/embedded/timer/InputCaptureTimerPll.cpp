@@ -29,6 +29,14 @@ void base::InputCaptureTimerPll::LockPhase()
 	}
 
 	_pll_error = _current_capture_register_value - _expected_capture_value;
+	if (_pll_error > static_cast<int64_t>(_timer.CounterPeriod() / 2))
+	{
+		_pll_error -= static_cast<int64_t>(_timer.CounterPeriod());
+	}
+	else if (_pll_error < -static_cast<int64_t>(_timer.CounterPeriod() / 2))
+	{
+		_pll_error += static_cast<int64_t>(_timer.CounterPeriod());
+	}
 }
 
 base::InputCaptureTimerPll::InputCaptureTimerPll(base::input_capture_timer::InputCaptureTimer &timer,
