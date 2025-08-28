@@ -25,6 +25,8 @@ namespace base
 		CounterType _current_capture_value_interpolation{};
 		base::PID<base::Int64Fraction> _pid{};
 
+		int64_t _additional_capture_period = 0;
+
 	public:
 		InputCaptureTimerPll(base::input_capture_timer::InputCaptureTimer &timer,
 							 int64_t multiple,
@@ -64,45 +66,26 @@ namespace base
 		{
 			try
 			{
-				if (_current_capture_value_changed)
+				if (!_current_capture_value_changed)
 				{
-					_current_capture_value_changed = false;
-					_current_capture_value_interpolation = _current_capture_value;
+					// 捕获值没有更新，而是定时器溢出，触发一次定时时间到中断，计数器清零了。
+					// 下次捕获值要加上 _additional_capture_period 才是真实的距离上次捕获过去的时间。
+					_additional_capture_period += _timer.CounterPeriod();
+					return;
 				}
 
-				int64_t error = static_cast<int64_t>(_current_capture_value_interpolation) - static_cast<int64_t>(_expected_capture_value);
-				error %= _origin_period;
-				if (error > _origin_period / 2)
-				{
-					error -= _origin_period;
-				}
-
-				base::Int64Fraction output = _pid.Input(error);
-				int64_t int_output = static_cast<int64_t>(output);
-
-				int64_t period = static_cast<int64_t>(_origin_period) + int_output;
-				if (period < 1)
-				{
-					period = 1;
-				}
-
-				_timer.SetCounterPeriodPreloadValue(period);
-
-				// 因为定时时间到中断触发的频率比捕获中断触发的频率高，所以在下次捕获前需要对
-				// 捕获值进行插值。
-				int64_t step_p = static_cast<int64_t>(error * _pid.Kp());
-				if (base::abs(step_p) < base::abs(int_output))
-				{
-					_current_capture_value_interpolation -= step_p;
-				}
-				else
-				{
-					_current_capture_value_interpolation -= int_output;
-				}
+				_current_capture_value_changed = false;
+				_current_capture_value_interpolation = _current_capture_value + _additional_capture_period;
+				_additional_capture_period = 0;
 			}
 			catch (...)
 			{
 			}
+		}
+
+		int64_t CurrentCaptureValueInterpolation() const
+		{
+			return _current_capture_value_interpolation;
 		}
 	};
 
