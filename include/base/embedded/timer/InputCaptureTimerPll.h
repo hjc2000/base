@@ -51,7 +51,7 @@ namespace base
 
 			_pid = base::PID<base::Int64Fraction>{
 				base::Int64Fraction{1, 100},
-				base::Int64Fraction{1, 10000},
+				base::Int64Fraction{0, 1},
 				0,
 				base::Int64Fraction{1, INT16_MAX},
 				static_cast<int64_t>(adjust_limit),
@@ -79,7 +79,7 @@ namespace base
 			base::Int64Fraction pid_output = _pid.Input(error);
 			int64_t int_pid_output{pid_output};
 			int_pid_output /= _multiple;
-			// _timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + int_pid_output);
+			_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + int_pid_output);
 		}
 
 		void OnPeriodElapsed()
