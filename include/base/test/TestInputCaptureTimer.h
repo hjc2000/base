@@ -58,6 +58,10 @@ namespace base
 					base::console.Write(std::to_string(timer.CounterPeriod()));
 					base::console.WriteLine();
 
+					base::console.Write("pll.CurrentCaptureRegisterValue: ");
+					base::console.Write(std::to_string(pll.CurrentCaptureRegisterValue()));
+					base::console.WriteLine();
+
 					base::console.Write("pll.CurrentCaptureValue: ");
 					base::console.Write(std::to_string(pll.CurrentCaptureValue()));
 					base::console.WriteLine();
