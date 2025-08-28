@@ -34,6 +34,8 @@ namespace base
 		///
 		base::PID<base::Int64Fraction> _fll_pid{};
 
+		base::PID<base::Int64Fraction> _pll_pid{};
+
 		bool _adjust_started = false;
 
 	public:
@@ -54,6 +56,15 @@ namespace base
 			_current_capture_value = expected_capture_value;
 
 			_fll_pid = base::PID<base::Int64Fraction>{
+				base::Int64Fraction{1, 100},
+				base::Int64Fraction{1, 1000},
+				0,
+				base::Int64Fraction{1, INT16_MAX},
+				static_cast<int64_t>(adjust_limit),
+				-static_cast<int64_t>(adjust_limit),
+			};
+
+			_pll_pid = base::PID<base::Int64Fraction>{
 				base::Int64Fraction{1, 100},
 				base::Int64Fraction{1, 1000},
 				0,
