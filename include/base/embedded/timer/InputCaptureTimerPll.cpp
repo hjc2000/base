@@ -29,17 +29,17 @@ void base::InputCaptureTimerPll::LockPhase()
 	}
 
 	_pll_error = _current_capture_register_value - _expected_capture_value;
+	if (_pll_error < -pll_output_limit)
+	{
+		_pll_error = -pll_output_limit;
+	}
+	else if (_pll_error > pll_output_limit)
+	{
+		_pll_error = pll_output_limit;
+	}
 
 	// 把相位误差分给距离下次捕获会经历的 _multiple 个周期去调整。
 	_pll_ajustment = _pll_error / _multiple;
-	if (_pll_ajustment < -pll_output_limit)
-	{
-		_pll_ajustment = -pll_output_limit;
-	}
-	else if (_pll_ajustment > pll_output_limit)
-	{
-		_pll_ajustment = pll_output_limit;
-	}
 
 	if (_pll_ajustment == 0 && _pll_error != 0)
 	{
