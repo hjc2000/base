@@ -110,6 +110,11 @@ namespace base
 			return _current_capture_value;
 		}
 
+		///
+		/// @brief 捕获值的增量，代表了被测量信号的周期。
+		///
+		/// @return
+		///
 		int64_t DeltaCaptureValue() const
 		{
 			return _delta_capture_value;
