@@ -80,12 +80,19 @@ namespace base
 			}
 
 			// PI 控制锁频
+			int64_t fll_error = _captured_signal_period - _timer.CounterPeriod() * _multiple;
+
 			{
-				int64_t error = _captured_signal_period - _timer.CounterPeriod() * _multiple;
-				base::Int64Fraction pid_output = _fll_pid.Input(error);
+				base::Int64Fraction pid_output = _fll_pid.Input(fll_error);
 				int64_t int_pid_output{pid_output};
 				int_pid_output /= _multiple;
 				_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + int_pid_output);
+			}
+
+			if (fll_error > _timer.CounterPeriod())
+			{
+				// 锁频环误差过大，锁相环不工作，直接返回。
+				return;
 			}
 		}
 
