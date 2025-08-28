@@ -23,8 +23,6 @@ namespace base
 		CounterType _adjust_limit{};
 		CounterType _expected_capture_value{};
 
-		bool _current_capture_register_value_changed = false;
-		CounterType _current_capture_register_value{};
 		int64_t _additional_capture_period = 0;
 
 		int64_t _last_capture_value{};
@@ -47,10 +45,8 @@ namespace base
 			}
 
 			_multiple = multiple;
-			_origin_period = timer.CounterPeriod();
 			_adjust_limit = adjust_limit;
 			_expected_capture_value = expected_capture_value;
-			_current_capture_register_value = expected_capture_value;
 			_current_capture_value = expected_capture_value;
 
 			_pid = base::PID<base::Int64Fraction>{
@@ -67,40 +63,28 @@ namespace base
 
 		void UpdateCaptureValue(CounterType capture_value)
 		{
-			_current_capture_register_value = capture_value;
-			_current_capture_register_value_changed = true;
+			_last_capture_value = _current_capture_value;
+			_current_capture_value = capture_value + _additional_capture_period;
+			_captured_signal_period = _current_capture_value - _last_capture_value + _additional_capture_period;
+			_additional_capture_period = 0;
+
+			if (!_adjust_started)
+			{
+				// 第一次进来，不进行调整工作
+				_adjust_started = true;
+				return;
+			}
+
+			int64_t error = _captured_signal_period - _timer.CounterPeriod() * _multiple;
+			base::Int64Fraction pid_output = _pid.Input(error);
+			int64_t int_pid_output{pid_output};
+			int_pid_output /= _multiple;
+			// _timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + int_pid_output);
 		}
 
-		void Adjust()
+		void OnPeriodElapsed()
 		{
-			try
-			{
-				if (!_current_capture_register_value_changed)
-				{
-					// 捕获值没有更新，而是定时器溢出，触发一次定时时间到中断，计数器清零了。
-					// 下次捕获值要加上 _additional_capture_period 才是真实的距离上次捕获过去的时间。
-					_additional_capture_period += _timer.CounterPeriod();
-					return;
-				}
-
-				_current_capture_register_value_changed = false;
-
-				_last_capture_value = _current_capture_value;
-				_current_capture_value = _current_capture_register_value + _additional_capture_period;
-				_captured_signal_period = _current_capture_value - _last_capture_value + _additional_capture_period;
-
-				_additional_capture_period = 0;
-
-				if (!_adjust_started)
-				{
-					// 第一次进来，不进行调整工作
-					_adjust_started = true;
-					return;
-				}
-			}
-			catch (...)
-			{
-			}
+			_additional_capture_period += _timer.CounterPeriod();
 		}
 
 		///

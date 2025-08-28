@@ -2,7 +2,6 @@
 #include "base/Console.h"
 #include "base/embedded/timer/InputCaptureTimer.h"
 #include "base/embedded/timer/InputCaptureTimerPll.h"
-#include "base/math/Int64Fraction.h"
 #include "base/task/delay.h"
 #include "base/task/task.h"
 #include "base/unit/Hz.h"
@@ -48,7 +47,7 @@ namespace base
 				timer.SetPeriodElapsedCallback(
 					[&]()
 					{
-						pll.Adjust();
+						pll.OnPeriodElapsed();
 					});
 
 				timer.Start(channel_id);
