@@ -16,6 +16,7 @@ namespace base
 
 		int64_t _additional_capture_period = 0;
 
+		int64_t _current_capture_register_value{};
 		int64_t _last_capture_value{};
 		int64_t _current_capture_value{};
 		int64_t _captured_signal_period{};
@@ -50,6 +51,16 @@ namespace base
 		int64_t CurrentCaptureValue() const
 		{
 			return _current_capture_value;
+		}
+
+		///
+		/// @brief 当前捕获寄存器的值。
+		///
+		/// @return
+		///
+		int64_t CurrentCaptureRegisterValue() const
+		{
+			return _current_capture_register_value;
 		}
 
 		///
