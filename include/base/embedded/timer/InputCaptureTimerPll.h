@@ -28,6 +28,7 @@ namespace base
 		int64_t _fll_error{};
 		int64_t _pll_error{};
 		int64_t _pll_ajustment{};
+		int64_t _pll_fine_error{};
 		int64_t _pll_fine_ajustment{};
 
 		bool _adjust_started = false;

@@ -1,6 +1,5 @@
 #include "InputCaptureTimerPll.h" // IWYU pragma: keep
 #include "base/Console.h"
-#include "base/math/math.h"
 #include "base/string/define.h"
 #include <cstdint>
 #include <stdexcept>
@@ -8,7 +7,7 @@
 
 void base::InputCaptureTimerPll::LockFrequency()
 {
-	_fll_error = _captured_signal_period - (_timer.CounterPeriod() - _pll_ajustment) * _multiple;
+	_fll_error = _captured_signal_period - _timer.CounterPeriod() * _multiple;
 
 	_fll_pid.SetOutputLimit(static_cast<int64_t>(_timer.CounterPeriod() / 2),
 							-static_cast<int64_t>(_timer.CounterPeriod() / 2));
@@ -30,19 +29,14 @@ void base::InputCaptureTimerPll::LockPhase()
 	}
 
 	_pll_error = _current_capture_register_value - _expected_capture_value;
-	if (_pll_error > static_cast<int64_t>(_timer.CounterPeriod() / 2))
-	{
-		_pll_error -= static_cast<int64_t>(_timer.CounterPeriod());
-	}
-	else if (_pll_error < -static_cast<int64_t>(_timer.CounterPeriod() / 2))
-	{
-		_pll_error += static_cast<int64_t>(_timer.CounterPeriod());
-	}
-
-	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() - _pll_ajustment);
 
 	// 把相位误差分给距离下次捕获会经历的 _multiple 个周期去调整。
 	_pll_ajustment = _pll_error / _multiple;
+	if (_pll_ajustment == 0 && _pll_error != 0)
+	{
+		_pll_fine_error = _pll_error;
+		return;
+	}
 
 	if (_pll_ajustment < -pll_output_limit)
 	{
@@ -97,6 +91,11 @@ void base::InputCaptureTimerPll::UpdateCaptureValue(int64_t capture_value)
 		return;
 	}
 
+	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() - _pll_ajustment);
+	_pll_ajustment = 0;
+	_pll_fine_ajustment = 0;
+	_pll_fine_error = 0;
+
 	LockFrequency();
 	LockPhase();
 }
@@ -109,5 +108,30 @@ void base::InputCaptureTimerPll::OnPeriodElapsed()
 	{
 		// 第一次进来，不进行调整工作
 		return;
+	}
+
+	if (_pll_fine_error > 0)
+	{
+		_pll_fine_error--;
+		if (_pll_fine_ajustment == 0)
+		{
+			_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + 1);
+			_pll_fine_ajustment = 1;
+		}
+	}
+	else if (_pll_fine_error < 0)
+	{
+		_pll_fine_error++;
+		if (_pll_fine_ajustment == 0)
+		{
+			_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() - 1);
+			_pll_fine_ajustment = -1;
+		}
+	}
+
+	if (_pll_fine_error == 0)
+	{
+		_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() - _pll_fine_ajustment);
+		_pll_fine_ajustment = 0;
 	}
 }
