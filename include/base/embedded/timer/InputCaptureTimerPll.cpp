@@ -5,6 +5,32 @@
 #include <stdexcept>
 #include <string>
 
+void base::InputCaptureTimerPll::LockFrequency()
+{
+	_fll_error = _captured_signal_period - _timer.CounterPeriod() * _multiple;
+
+	_fll_pid.SetOutputLimit(static_cast<int64_t>(_timer.CounterPeriod() / 2),
+							-static_cast<int64_t>(_timer.CounterPeriod() / 2));
+
+	base::Int64Fraction pid_output = _fll_pid.Input(_fll_error);
+	int64_t int_pid_output{pid_output};
+	int_pid_output /= _multiple;
+	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + int_pid_output);
+}
+
+void base::InputCaptureTimerPll::LockPhase()
+{
+	int64_t const pll_output_limit = _timer.CounterPeriod() / 10;
+
+	if (_fll_error > pll_output_limit)
+	{
+		// 锁频环误差过大，锁相环不工作，直接返回。
+		return;
+	}
+
+	_pll_error = _current_capture_register_value - _expected_capture_value;
+}
+
 base::InputCaptureTimerPll::InputCaptureTimerPll(base::input_capture_timer::InputCaptureTimer &timer,
 												 int64_t multiple,
 												 int64_t expected_capture_value)
@@ -34,8 +60,6 @@ base::InputCaptureTimerPll::InputCaptureTimerPll(base::input_capture_timer::Inpu
 void base::InputCaptureTimerPll::UpdateCaptureValue(int64_t capture_value)
 {
 	_current_capture_register_value = capture_value;
-	_current_capture_register_value_updated = true;
-
 	_last_capture_value = _current_capture_value;
 	_current_capture_value = _current_capture_register_value + _additional_capture_period;
 	_captured_signal_period = _current_capture_value - _last_capture_value + _additional_capture_period;
@@ -48,40 +72,11 @@ void base::InputCaptureTimerPll::UpdateCaptureValue(int64_t capture_value)
 		return;
 	}
 
-	// PI 控制锁频
-	{
-		_fll_error = _captured_signal_period - _timer.CounterPeriod() * _multiple;
-
-		_fll_pid.SetOutputLimit(static_cast<int64_t>(_timer.CounterPeriod() / 2),
-								-static_cast<int64_t>(_timer.CounterPeriod() / 2));
-
-		base::Int64Fraction pid_output = _fll_pid.Input(_fll_error);
-		int64_t int_pid_output{pid_output};
-		int_pid_output /= _multiple;
-		_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + int_pid_output);
-	}
+	LockFrequency();
+	LockPhase();
 }
 
 void base::InputCaptureTimerPll::OnPeriodElapsed()
 {
 	_additional_capture_period += _timer.CounterPeriod();
-
-	if (!_adjust_started)
-	{
-		return;
-	}
-
-	int64_t const pll_output_limit = _timer.CounterPeriod() / 10;
-
-	if (_fll_error > pll_output_limit)
-	{
-		// 锁频环误差过大，锁相环不工作，直接返回。
-		return;
-	}
-
-	if (_current_capture_register_value_updated)
-	{
-		_current_capture_register_value_updated = false;
-		_pll_error = _current_capture_register_value - _expected_capture_value;
-	}
 }
