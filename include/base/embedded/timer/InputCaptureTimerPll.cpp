@@ -20,7 +20,7 @@ void base::InputCaptureTimerPll::LockFrequency()
 
 void base::InputCaptureTimerPll::LockPhase()
 {
-	int64_t const pll_output_limit = _timer.CounterPeriod() / 10;
+	int64_t const pll_output_limit = _timer.CounterPeriod() / 100;
 
 	if (_fll_error > pll_output_limit)
 	{
@@ -32,12 +32,6 @@ void base::InputCaptureTimerPll::LockPhase()
 
 	// 把相位误差分给距离下次捕获会经历的 _multiple 个周期去调整。
 	_pll_ajustment = _pll_error / _multiple;
-	if (_pll_ajustment == 0 && _pll_error != 0)
-	{
-		_pll_fine_error = _pll_error;
-		return;
-	}
-
 	if (_pll_ajustment < -pll_output_limit)
 	{
 		_pll_ajustment = -pll_output_limit;
@@ -45,6 +39,12 @@ void base::InputCaptureTimerPll::LockPhase()
 	else if (_pll_ajustment > pll_output_limit)
 	{
 		_pll_ajustment = pll_output_limit;
+	}
+
+	if (_pll_ajustment == 0 && _pll_error != 0)
+	{
+		_pll_fine_error = _pll_error;
+		return;
 	}
 
 	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + _pll_ajustment);
