@@ -1,5 +1,6 @@
 #include "InputCaptureTimerPll.h" // IWYU pragma: keep
 #include "base/Console.h"
+#include "base/math/math.h"
 #include "base/string/define.h"
 #include <cstdint>
 #include <stdexcept>
@@ -39,6 +40,8 @@ void base::InputCaptureTimerPll::LockPhase()
 	}
 
 	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() - _pll_ajustment);
+
+	// 把相位误差分给距离下次捕获会经历的 _multiple 个周期去调整。
 	_pll_ajustment = _pll_error / _multiple;
 
 	if (_pll_ajustment < -pll_output_limit)
@@ -101,4 +104,10 @@ void base::InputCaptureTimerPll::UpdateCaptureValue(int64_t capture_value)
 void base::InputCaptureTimerPll::OnPeriodElapsed()
 {
 	_additional_capture_period += _timer.CounterPeriod();
+
+	if (!_adjust_started)
+	{
+		// 第一次进来，不进行调整工作
+		return;
+	}
 }
