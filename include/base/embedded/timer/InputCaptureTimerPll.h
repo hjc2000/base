@@ -1,5 +1,6 @@
 #pragma once
 #include "base/embedded/timer/InputCaptureTimer.h"
+#include "base/math/InertialElement.h"
 #include "base/math/Int64Fraction.h"
 #include "base/math/PID.h"
 #include <cstdint>
@@ -19,6 +20,8 @@ namespace base
 		int64_t _last_capture_value{};
 		int64_t _current_capture_value{};
 		int64_t _captured_signal_period{};
+
+		base::InertialElement<base::Int64Fraction> _captured_signal_period_filter{};
 
 		///
 		/// @brief 锁频环 PID.

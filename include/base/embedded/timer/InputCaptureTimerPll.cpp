@@ -1,14 +1,15 @@
 #include "InputCaptureTimerPll.h" // IWYU pragma: keep
-#include "base/Console.h"
+#include "base/math/InertialElement.h"
+#include "base/math/Int64Fraction.h"
 #include "base/math/math.h"
 #include "base/string/define.h"
 #include <algorithm>
 #include <cstdint>
 #include <stdexcept>
-#include <string>
 
 void base::InputCaptureTimerPll::LockFrequency()
 {
+	_captured_signal_period = static_cast<int64_t>(_captured_signal_period_filter.Input(_captured_signal_period));
 	_fll_error = _captured_signal_period - _timer.CounterPeriod() * _multiple;
 
 	_fll_pid.SetOutputLimit(static_cast<int64_t>(_timer.CounterPeriod() / 2),
@@ -70,12 +71,18 @@ base::InputCaptureTimerPll::InputCaptureTimerPll(base::input_capture_timer::Inpu
 		base::Int64Fraction{1, 100},
 		base::Int64Fraction{1, 1000},
 		0,
-		base::Int64Fraction{1, INT32_MAX},
+		base::Int64Fraction{1, INT16_MAX},
 		static_cast<int64_t>(_timer.CounterPeriod() / 2),
 		-static_cast<int64_t>(_timer.CounterPeriod() / 2),
 	};
 
-	base::console.WriteLine(std::string{"multiple = "} + std::to_string(multiple));
+	_captured_signal_period_filter = base::InertialElement<base::Int64Fraction>{
+		base::Int64Fraction{1, 1000},
+		base::Int64Fraction{1, 1000},
+		base::Int64Fraction{1, INT16_MAX},
+	};
+
+	_captured_signal_period_filter.SetCurrentOutput(_timer.CounterPeriod() * _multiple);
 }
 
 void base::InputCaptureTimerPll::UpdateCaptureValue(int64_t capture_value)
