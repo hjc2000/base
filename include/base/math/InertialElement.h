@@ -23,6 +23,8 @@ namespace base
 		T _resolution{};
 
 	public:
+		constexpr InertialElement() = default;
+
 		///
 		/// @brief 一阶惯性环节。
 		///
