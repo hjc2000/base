@@ -14,9 +14,11 @@ namespace base
 {
 	namespace test
 	{
-		inline void TestInputCaptureTimer(uint32_t timer_id, uint32_t channel_id)
+		inline void TestInputCaptureTimer(uint32_t timer_id,
+										  uint32_t channel_id,
+										  int64_t frequency_multiple)
 		{
-			auto task_func = [timer_id, channel_id]()
+			auto task_func = [timer_id, channel_id, frequency_multiple]()
 			{
 				base::input_capture_timer::InputCaptureTimer timer{timer_id};
 				base::unit::Nanosecond period{60 * 1000};
@@ -26,7 +28,7 @@ namespace base
 
 				base::InputCaptureTimerPll pll{
 					timer,
-					20,
+					frequency_multiple,
 					666,
 				};
 
