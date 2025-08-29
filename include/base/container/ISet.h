@@ -71,11 +71,6 @@ namespace base
 		///
 		void Add(ISet<ItemType> const &set)
 		{
-			if (this == &set)
-			{
-				return;
-			}
-
 			for (ItemType const &item : set)
 			{
 				Add(item);
@@ -89,11 +84,6 @@ namespace base
 		///
 		void Add(base::IEnumerable<ItemType> const &items)
 		{
-			if (this == &items)
-			{
-				return;
-			}
-
 			for (ItemType const &item : items)
 			{
 				Add(item);
@@ -107,11 +97,6 @@ namespace base
 		///
 		void Add(base::IEnumerable<ItemType const> const &items)
 		{
-			if (this == &items)
-			{
-				return;
-			}
-
 			for (ItemType const &item : items)
 			{
 				Add(item);
@@ -133,4 +118,5 @@ namespace base
 			}
 		}
 	};
+
 } // namespace base
