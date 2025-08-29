@@ -126,6 +126,11 @@ namespace base
 			return reinterpret_cast<T *>(_memory_block);
 		}
 
+		T const *Buffer() const
+		{
+			return reinterpret_cast<T const *>(_memory_block);
+		}
+
 	public:
 		~CircleDeque()
 		{
