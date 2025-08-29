@@ -101,7 +101,7 @@ namespace base
 
 		Dictionary(std::initializer_list<std::pair<KeyType, ValueType>> const &list)
 		{
-			Add(list);
+			base::IDictionary<KeyType, ValueType>::Add(list);
 		}
 
 		/* #endregion */
@@ -183,12 +183,5 @@ namespace base
 			return std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>>{new Enumerator{_map}};
 		}
 	};
-
-#if HAS_THREAD
-	namespace test
-	{
-		void TestDictionary();
-	} // namespace test
-#endif
 
 } // namespace base
