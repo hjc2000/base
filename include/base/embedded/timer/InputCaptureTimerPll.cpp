@@ -2,6 +2,7 @@
 #include "base/Console.h"
 #include "base/math/math.h"
 #include "base/string/define.h"
+#include <algorithm>
 #include <cstdint>
 #include <stdexcept>
 #include <string>
@@ -21,7 +22,7 @@ void base::InputCaptureTimerPll::LockFrequency()
 
 void base::InputCaptureTimerPll::LockPhase()
 {
-	int64_t const pll_output_limit = _timer.CounterPeriod() / 200;
+	int64_t const pll_output_limit = std::min<int64_t>(_timer.CounterPeriod() / 100, 1000);
 
 	if (base::abs(_fll_error) > pll_output_limit)
 	{
@@ -30,17 +31,17 @@ void base::InputCaptureTimerPll::LockPhase()
 	}
 
 	_pll_error = _current_capture_register_value - _expected_capture_value;
-	if (_pll_error < -pll_output_limit)
-	{
-		_pll_error = -pll_output_limit;
-	}
-	else if (_pll_error > pll_output_limit)
-	{
-		_pll_error = pll_output_limit;
-	}
 
 	// 把相位误差分给距离下次捕获会经历的 _multiple 个周期去调整。
 	_pll_ajustment = _pll_error / _multiple;
+	if (_pll_ajustment < -pll_output_limit)
+	{
+		_pll_ajustment = -pll_output_limit;
+	}
+	else if (_pll_ajustment > pll_output_limit)
+	{
+		_pll_ajustment = pll_output_limit;
+	}
 
 	if (_pll_ajustment == 0 && _pll_error != 0)
 	{
@@ -132,8 +133,7 @@ void base::InputCaptureTimerPll::OnPeriodElapsed()
 			_pll_fine_ajustment = -1;
 		}
 	}
-
-	if (_pll_fine_error == 0)
+	else
 	{
 		_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() - _pll_fine_ajustment);
 		_pll_fine_ajustment = 0;
