@@ -1,5 +1,6 @@
 #include "InputCaptureTimerPll.h" // IWYU pragma: keep
 #include "base/Console.h"
+#include "base/math/math.h"
 #include "base/string/define.h"
 #include <cstdint>
 #include <stdexcept>
@@ -20,9 +21,9 @@ void base::InputCaptureTimerPll::LockFrequency()
 
 void base::InputCaptureTimerPll::LockPhase()
 {
-	int64_t const pll_output_limit = _timer.CounterPeriod() / 100;
+	int64_t const pll_output_limit = _timer.CounterPeriod() / 200;
 
-	if (_fll_error > pll_output_limit)
+	if (base::abs(_fll_error) > pll_output_limit)
 	{
 		// 锁频环误差过大，锁相环不工作，直接返回。
 		return;

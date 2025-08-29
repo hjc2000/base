@@ -27,7 +27,7 @@ namespace base
 				base::InputCaptureTimerPll pll{
 					timer,
 					20,
-					233,
+					666,
 				};
 
 				timer.ConfigureChannel(channel_id,
