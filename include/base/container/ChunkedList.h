@@ -51,12 +51,10 @@ namespace base
 		///
 		void Reserve(int64_t size)
 		{
-			if (size < 0)
-			{
-				throw std::invalid_argument{CODE_POS_STR + "size 不能 < 0."};
-			}
-
-			_deque.reserve(size);
+			// std::deque 是需要扩容时额外申请一块内存链接到块链表中，不需要像其他容器那样
+			// 为了高效添加数据预先保留一块内存。
+			//
+			// std::deque 本身也没有提供预先保留空间的方法。
 		}
 
 		/* #region 添加元素 */
