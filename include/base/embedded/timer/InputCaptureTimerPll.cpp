@@ -79,7 +79,7 @@ base::InputCaptureTimerPll::InputCaptureTimerPll(base::input_capture_timer::Inpu
 		base::Int64Fraction{1, 100},
 		base::Int64Fraction{1, 1000},
 		0,
-		base::Int64Fraction{1, INT16_MAX},
+		base::Int64Fraction{1, INT32_MAX},
 		static_cast<int64_t>(_timer.CounterPeriod() / 2),
 		-static_cast<int64_t>(_timer.CounterPeriod() / 2),
 	};
@@ -90,7 +90,7 @@ base::InputCaptureTimerPll::InputCaptureTimerPll(base::input_capture_timer::Inpu
 	_captured_signal_period_filter = base::InertialElement<base::Int64Fraction>{
 		inertial_time_constant,
 		inertial_time_constant / 10,
-		base::Int64Fraction{1, INT16_MAX},
+		base::Int64Fraction{1, INT32_MAX},
 	};
 
 	_captured_signal_period_filter.SetCurrentOutput(_timer.CounterPeriod() * _frequency_multiple);
