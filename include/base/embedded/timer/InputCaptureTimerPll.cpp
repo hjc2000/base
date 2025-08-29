@@ -32,6 +32,14 @@ void base::InputCaptureTimerPll::LockPhase()
 	}
 
 	_pll_error = _current_capture_register_value - _expected_capture_value;
+	if (_pll_error > static_cast<int64_t>(_timer.CounterPeriod()) / 2)
+	{
+		_pll_error -= _timer.CounterPeriod();
+	}
+	else if (_pll_error < -static_cast<int64_t>(_timer.CounterPeriod()) / 2)
+	{
+		_pll_error += _timer.CounterPeriod();
+	}
 
 	// 把相位误差分给距离下次捕获会经历的 _frequency_multiple 个周期去调整。
 	_pll_ajustment = _pll_error / _frequency_multiple;
