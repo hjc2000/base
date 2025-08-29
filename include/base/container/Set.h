@@ -290,11 +290,4 @@ namespace base
 		/* #endregion */
 	};
 
-#if HAS_THREAD
-	namespace test
-	{
-		void test_set();
-	} // namespace test
-#endif
-
 } // namespace base
