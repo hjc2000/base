@@ -76,6 +76,7 @@ base::InputCaptureTimerPll::InputCaptureTimerPll(base::input_capture_timer::Inpu
 		-static_cast<int64_t>(_timer.CounterPeriod() / 2),
 	};
 
+	// 惯性时间常数是采样间隔的 10 倍，单位不重要，反正滤波器要的是这两个的倍数关系。
 	_captured_signal_period_filter = base::InertialElement<base::Int64Fraction>{
 		base::Int64Fraction{1, 100},
 		base::Int64Fraction{1, 1000},
