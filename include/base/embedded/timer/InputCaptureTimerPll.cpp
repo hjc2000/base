@@ -77,7 +77,7 @@ base::InputCaptureTimerPll::InputCaptureTimerPll(base::input_capture_timer::Inpu
 	};
 
 	_captured_signal_period_filter = base::InertialElement<base::Int64Fraction>{
-		base::Int64Fraction{1, 1000},
+		base::Int64Fraction{1, 100},
 		base::Int64Fraction{1, 1000},
 		base::Int64Fraction{1, INT16_MAX},
 	};
