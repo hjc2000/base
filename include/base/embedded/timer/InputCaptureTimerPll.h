@@ -11,7 +11,7 @@ namespace base
 	{
 	private:
 		base::input_capture_timer::InputCaptureTimer &_timer;
-		int64_t _multiple = 1;
+		int64_t _frequency_multiple = 1;
 		int64_t _expected_capture_value{};
 
 		int64_t _additional_capture_period = 0;
@@ -41,7 +41,7 @@ namespace base
 
 	public:
 		InputCaptureTimerPll(base::input_capture_timer::InputCaptureTimer &timer,
-							 int64_t multiple,
+							 int64_t frequency_multiple,
 							 int64_t expected_capture_value);
 
 		void UpdateCaptureValue(int64_t capture_value);

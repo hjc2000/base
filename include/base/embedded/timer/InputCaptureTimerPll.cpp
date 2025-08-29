@@ -10,14 +10,14 @@
 void base::InputCaptureTimerPll::LockFrequency()
 {
 	_captured_signal_period = static_cast<int64_t>(_captured_signal_period_filter.Input(_captured_signal_period));
-	_fll_error = _captured_signal_period - _timer.CounterPeriod() * _multiple;
+	_fll_error = _captured_signal_period - _timer.CounterPeriod() * _frequency_multiple;
 
 	_fll_pid.SetOutputLimit(static_cast<int64_t>(_timer.CounterPeriod() / 2),
 							-static_cast<int64_t>(_timer.CounterPeriod() / 2));
 
 	base::Int64Fraction pid_output = _fll_pid.Input(_fll_error);
 	int64_t int_pid_output{pid_output};
-	int_pid_output /= _multiple;
+	int_pid_output /= _frequency_multiple;
 	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + int_pid_output);
 }
 
@@ -33,8 +33,8 @@ void base::InputCaptureTimerPll::LockPhase()
 
 	_pll_error = _current_capture_register_value - _expected_capture_value;
 
-	// 把相位误差分给距离下次捕获会经历的 _multiple 个周期去调整。
-	_pll_ajustment = _pll_error / _multiple;
+	// 把相位误差分给距离下次捕获会经历的 _frequency_multiple 个周期去调整。
+	_pll_ajustment = _pll_error / _frequency_multiple;
 	if (_pll_ajustment < -pll_output_limit)
 	{
 		_pll_ajustment = -pll_output_limit;
@@ -54,16 +54,16 @@ void base::InputCaptureTimerPll::LockPhase()
 }
 
 base::InputCaptureTimerPll::InputCaptureTimerPll(base::input_capture_timer::InputCaptureTimer &timer,
-												 int64_t multiple,
+												 int64_t frequency_multiple,
 												 int64_t expected_capture_value)
 	: _timer(timer)
 {
-	if (multiple <= 0)
+	if (frequency_multiple <= 0)
 	{
-		throw std::invalid_argument{CODE_POS_STR + "非法 multiple."};
+		throw std::invalid_argument{CODE_POS_STR + "非法 frequency_multiple."};
 	}
 
-	_multiple = multiple;
+	_frequency_multiple = frequency_multiple;
 	_expected_capture_value = expected_capture_value;
 	_current_capture_value = expected_capture_value;
 
@@ -85,7 +85,7 @@ base::InputCaptureTimerPll::InputCaptureTimerPll(base::input_capture_timer::Inpu
 		base::Int64Fraction{1, INT16_MAX},
 	};
 
-	_captured_signal_period_filter.SetCurrentOutput(_timer.CounterPeriod() * _multiple);
+	_captured_signal_period_filter.SetCurrentOutput(_timer.CounterPeriod() * _frequency_multiple);
 }
 
 void base::InputCaptureTimerPll::UpdateCaptureValue(int64_t capture_value)
