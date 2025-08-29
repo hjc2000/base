@@ -88,7 +88,7 @@ namespace base
 		///
 		void CopyFrom(base::ReadOnlyArraySpan<ItemType> const &another)
 		{
-			Span().CopyFrom(another.Span());
+			Span().CopyFrom(another);
 		}
 
 		/* #endregion */
