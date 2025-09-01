@@ -1,6 +1,6 @@
 #pragma once
 #include "base/bit/bit.h"
-#include "base/container/ArraySpan.h"
+#include "base/container/ReadOnlyArraySpan.h"
 #include "base/string/define.h"
 #include "EncoderType.h"
 #include <algorithm>
