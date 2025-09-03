@@ -42,9 +42,10 @@ namespace base
 					  T max_output,
 					  T min_output)
 		{
-			if (max_output <= min_output)
+			if (max_output < min_output)
 			{
-				throw std::invalid_argument{CODE_POS_STR + "max_output 不能 <= min_output."};
+				// 允许 max_output == min_output, 因为有些时候需要将输出钳制在某一个值上。
+				throw std::invalid_argument{CODE_POS_STR + "max_output 不能 < min_output."};
 			}
 
 			_kp = kp;
