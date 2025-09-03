@@ -81,7 +81,12 @@ namespace base
 			return _captured_signal_period;
 		}
 
-		int64_t PllError() const
+		///
+		/// @brief 相位误差。
+		///
+		/// @return
+		///
+		int64_t PhaseError() const
 		{
 			return _pll_error;
 		}

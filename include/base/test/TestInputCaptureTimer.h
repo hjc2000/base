@@ -72,8 +72,8 @@ namespace base
 					base::console.Write(std::to_string(pll.CapturedSignalPeriod()));
 					base::console.WriteLine();
 
-					base::console.Write("pll.PllError: ");
-					base::console.Write(std::to_string(pll.PllError()));
+					base::console.Write("pll.PhaseError: ");
+					base::console.Write(std::to_string(pll.PhaseError()));
 					base::console.WriteLine();
 
 					base::console.WriteLine();
