@@ -31,18 +31,18 @@ void base::InputCaptureTimerPll::LockPhase()
 		return;
 	}
 
-	_pll_error = _current_capture_register_value - _expected_capture_value;
-	if (_pll_error > static_cast<int64_t>(_timer.CounterPeriod()) / 2)
+	_phase_error = _current_capture_register_value - _expected_capture_value;
+	if (_phase_error > static_cast<int64_t>(_timer.CounterPeriod()) / 2)
 	{
-		_pll_error -= _timer.CounterPeriod();
+		_phase_error -= _timer.CounterPeriod();
 	}
-	else if (_pll_error < -static_cast<int64_t>(_timer.CounterPeriod()) / 2)
+	else if (_phase_error < -static_cast<int64_t>(_timer.CounterPeriod()) / 2)
 	{
-		_pll_error += _timer.CounterPeriod();
+		_phase_error += _timer.CounterPeriod();
 	}
 
 	// 把相位误差分给距离下次捕获会经历的 _frequency_multiple 个周期去调整。
-	_pll_ajustment = _pll_error / _frequency_multiple;
+	_pll_ajustment = _phase_error / _frequency_multiple;
 	if (_pll_ajustment < -pll_output_limit)
 	{
 		_pll_ajustment = -pll_output_limit;
@@ -52,9 +52,9 @@ void base::InputCaptureTimerPll::LockPhase()
 		_pll_ajustment = pll_output_limit;
 	}
 
-	if (_pll_ajustment == 0 && _pll_error != 0)
+	if (_pll_ajustment == 0 && _phase_error != 0)
 	{
-		_pll_fine_error = _pll_error;
+		_pll_fine_error = _phase_error;
 		return;
 	}
 
