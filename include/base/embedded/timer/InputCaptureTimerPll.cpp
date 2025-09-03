@@ -42,23 +42,23 @@ void base::InputCaptureTimerPll::LockPhase()
 	}
 
 	// 把相位误差分给距离下次捕获会经历的 _frequency_multiple 个周期去调整。
-	_pll_ajustment = _phase_error / _frequency_multiple;
-	if (_pll_ajustment < -pll_output_limit)
+	_phase_ajustment = _phase_error / _frequency_multiple;
+	if (_phase_ajustment < -pll_output_limit)
 	{
-		_pll_ajustment = -pll_output_limit;
+		_phase_ajustment = -pll_output_limit;
 	}
-	else if (_pll_ajustment > pll_output_limit)
+	else if (_phase_ajustment > pll_output_limit)
 	{
-		_pll_ajustment = pll_output_limit;
+		_phase_ajustment = pll_output_limit;
 	}
 
-	if (_pll_ajustment == 0 && _phase_error != 0)
+	if (_phase_ajustment == 0 && _phase_error != 0)
 	{
 		_pll_fine_error = _phase_error;
 		return;
 	}
 
-	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + _pll_ajustment);
+	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + _phase_ajustment);
 }
 
 base::InputCaptureTimerPll::InputCaptureTimerPll(base::input_capture_timer::InputCaptureTimer &timer,
@@ -113,8 +113,8 @@ void base::InputCaptureTimerPll::UpdateCaptureValue(int64_t capture_value)
 
 	_pll_fine_error = 0;
 
-	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() - _pll_ajustment);
-	_pll_ajustment = 0;
+	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() - _phase_ajustment);
+	_phase_ajustment = 0;
 
 	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() - _pll_fine_ajustment);
 	_pll_fine_ajustment = 0;

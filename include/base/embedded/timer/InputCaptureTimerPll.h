@@ -29,8 +29,10 @@ namespace base
 		///
 		base::PID<base::Int64Fraction> _fll_pid{};
 		int64_t _frequency_error{};
+
 		int64_t _phase_error{};
-		int64_t _pll_ajustment{};
+		int64_t _phase_ajustment{};
+
 		int64_t _pll_fine_error{};
 		int64_t _pll_fine_ajustment{};
 
