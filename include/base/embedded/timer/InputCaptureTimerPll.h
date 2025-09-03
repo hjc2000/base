@@ -84,6 +84,16 @@ namespace base
 		}
 
 		///
+		/// @brief 频率误差。
+		///
+		/// @return
+		///
+		int64_t FrequencyError() const
+		{
+			return _frequency_error;
+		}
+
+		///
 		/// @brief 相位误差。
 		///
 		/// @return
