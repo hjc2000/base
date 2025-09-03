@@ -86,7 +86,7 @@ namespace base
 		///
 		/// @brief 频率误差。
 		///
-		/// @return
+		/// @return 返回值不是单位为 Hz 的频率。返回值是计数器的计数值的误差。
 		///
 		int64_t FrequencyError() const
 		{
