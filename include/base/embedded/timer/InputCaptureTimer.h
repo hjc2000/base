@@ -127,7 +127,7 @@ namespace base
 			}
 
 			///
-			/// @brief 启动定时器，开始输出 PWM 信号。
+			/// @brief 启动定时器，开始定时，并启动捕获输入通道，开始捕获。
 			///
 			/// @param channel_id
 			///
@@ -137,7 +137,7 @@ namespace base
 			}
 
 			///
-			/// @brief 启动定时器，并同时启动所有通道的输出。
+			/// @brief 启动定时器，开始定时，并启动所有捕获输入通道，开始捕获。
 			///
 			void StartAllChannels()
 			{
@@ -145,9 +145,7 @@ namespace base
 			}
 
 			///
-			/// @brief 停止指定通道的 PWM 输出。
-			///
-			/// @note 停止后该通道输出空闲电平。
+			/// @brief 停止指定的捕获输入通道。
 			///
 			/// @param channel_id
 			///
@@ -157,7 +155,7 @@ namespace base
 			}
 
 			///
-			/// @brief 停止所有通道的 PWM 输出。
+			/// @brief 停止所有捕获输入通道。
 			///
 			void StopAllChannels()
 			{
