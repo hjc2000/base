@@ -120,17 +120,33 @@ namespace base
 			}
 
 			///
-			/// @brief 启动定时器，开始输出 PWM 信号。
+			/// @brief 启动定时器核心的计数器。
 			///
-			/// @param channel_id
-			///
-			void Start(uint32_t channel_id)
+			void Start()
 			{
-				base::pwm_timer::start(*_handle, channel_id);
+				base::pwm_timer::start(*_handle);
 			}
 
 			///
-			/// @brief 启动定时器，并同时启动所有通道的输出。
+			/// @brief 停止定时器核心的计数器。
+			///
+			void Stop()
+			{
+				base::pwm_timer::stop(*_handle);
+			}
+
+			///
+			/// @brief 启动指定的 PWM 输出通道。
+			///
+			/// @param channel_id
+			///
+			void StartChannel(uint32_t channel_id)
+			{
+				base::pwm_timer::start_channel(*_handle, channel_id);
+			}
+
+			///
+			/// @brief 启动所有的 PWM 输出通道。
 			///
 			void StartAllChannels()
 			{
@@ -138,19 +154,19 @@ namespace base
 			}
 
 			///
-			/// @brief 停止指定通道的 PWM 输出。
+			/// @brief 停止指定的 PWM 输出通道。
 			///
 			/// @note 停止后该通道输出空闲电平。
 			///
 			/// @param channel_id
 			///
-			void Stop(uint32_t channel_id)
+			void StopChannel(uint32_t channel_id)
 			{
-				base::pwm_timer::stop(*_handle, channel_id);
+				base::pwm_timer::stop_channel(*_handle, channel_id);
 			}
 
 			///
-			/// @brief 停止所有通道的 PWM 输出。
+			/// @brief 停止所有 PWM 输出通道。
 			///
 			/// @note 停止后所有通道都输出空闲电平。
 			///

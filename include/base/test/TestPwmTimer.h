@@ -23,7 +23,8 @@ namespace base
 			base::console.Write(std::to_string(timer.CounterPeriod()));
 			base::console.WriteLine();
 
-			timer.Start(channel_id);
+			timer.Start();
+			timer.StartChannel(channel_id);
 		}
 
 	} // namespace test
