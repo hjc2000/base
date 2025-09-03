@@ -51,7 +51,8 @@ namespace base
 						pll.OnPeriodElapsed();
 					});
 
-				timer.Start(channel_id);
+				timer.Start();
+				timer.StartChannel(channel_id);
 
 				while (true)
 				{

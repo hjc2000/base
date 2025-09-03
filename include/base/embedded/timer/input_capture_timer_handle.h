@@ -153,32 +153,44 @@ namespace base
 										   std::function<void(base::input_capture_timer::CaptureCompleteEventArgs const &)> const &callback);
 
 		///
-		/// @brief 启动定时器，开始输出 PWM 信号。
+		/// @brief 启动核心的定时器计数器。
+		///
+		/// @param self
+		///
+		void start(base::input_capture_timer::input_capture_timer_handle &self);
+
+		///
+		/// @brief 停止核心的定时器计数器。
+		///
+		/// @param self
+		///
+		void stop(base::input_capture_timer::input_capture_timer_handle &self);
+
+		///
+		/// @brief 启动定时器的指定的捕获输入通道。
 		///
 		/// @param self
 		/// @param channel_id
 		///
-		void start(base::input_capture_timer::input_capture_timer_handle &self, uint32_t channel_id);
+		void start_channel(base::input_capture_timer::input_capture_timer_handle &self, uint32_t channel_id);
 
 		///
-		/// @brief 启动定时器，并同时启动所有通道的输出。
+		/// @brief 启动定时器的所有捕获输入通道。
 		///
 		/// @param self
 		///
 		void start_all_channels(base::input_capture_timer::input_capture_timer_handle &self);
 
 		///
-		/// @brief 停止指定通道的 PWM 输出。
-		///
-		/// @note 停止后该通道输出空闲电平。
+		/// @brief 停止定时器的指定的捕获输入通道。
 		///
 		/// @param self
 		/// @param channel_id
 		///
-		void stop(base::input_capture_timer::input_capture_timer_handle &self, uint32_t channel_id);
+		void stop_channel(base::input_capture_timer::input_capture_timer_handle &self, uint32_t channel_id);
 
 		///
-		/// @brief 停止所有通道的 PWM 输出。
+		/// @brief 停止定时器的所有的捕获输入通道。
 		///
 		/// @param self
 		///

@@ -127,17 +127,34 @@ namespace base
 			}
 
 			///
-			/// @brief 启动定时器，开始定时，并启动捕获输入通道，开始捕获。
+			/// @brief 启动核心的定时器计数器。
 			///
-			/// @param channel_id
-			///
-			void Start(uint32_t channel_id)
+			void Start()
 			{
-				base::input_capture_timer::start(*_handle, channel_id);
+				base::input_capture_timer::start(*_handle);
 			}
 
 			///
-			/// @brief 启动定时器，开始定时，并启动所有捕获输入通道，开始捕获。
+			/// @brief 停止核心的定时器计数器。
+			///
+			///
+			void Stop()
+			{
+				base::input_capture_timer::stop(*_handle);
+			}
+
+			///
+			/// @brief 启动定时器的指定的捕获输入通道。
+			///
+			/// @param channel_id
+			///
+			void StartChannel(uint32_t channel_id)
+			{
+				base::input_capture_timer::start_channel(*_handle, channel_id);
+			}
+
+			///
+			/// @brief 启动定时器的所有捕获输入通道。
 			///
 			void StartAllChannels()
 			{
@@ -145,17 +162,17 @@ namespace base
 			}
 
 			///
-			/// @brief 停止指定的捕获输入通道。
+			/// @brief 停止定时器的指定的捕获输入通道。
 			///
 			/// @param channel_id
 			///
-			void Stop(uint32_t channel_id)
+			void StopChannel(uint32_t channel_id)
 			{
-				base::input_capture_timer::stop(*_handle, channel_id);
+				base::input_capture_timer::stop_channel(*_handle, channel_id);
 			}
 
 			///
-			/// @brief 停止所有捕获输入通道。
+			/// @brief 停止定时器的所有的捕获输入通道。
 			///
 			void StopAllChannels()
 			{
