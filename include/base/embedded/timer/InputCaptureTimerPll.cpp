@@ -10,12 +10,12 @@
 void base::InputCaptureTimerPll::LockFrequency()
 {
 	_captured_signal_period = static_cast<int64_t>(_captured_signal_period_filter.Input(_captured_signal_period));
-	_fll_error = _captured_signal_period - _timer.CounterPeriod() * _frequency_multiple;
+	_frequency_error = _captured_signal_period - _timer.CounterPeriod() * _frequency_multiple;
 
 	_fll_pid.SetOutputLimit(static_cast<int64_t>(_timer.CounterPeriod() / 2),
 							-static_cast<int64_t>(_timer.CounterPeriod() / 2));
 
-	base::Int64Fraction pid_output = _fll_pid.Input(_fll_error);
+	base::Int64Fraction pid_output = _fll_pid.Input(_frequency_error);
 	int64_t int_pid_output{pid_output};
 	int_pid_output /= _frequency_multiple;
 	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + int_pid_output);
@@ -25,7 +25,7 @@ void base::InputCaptureTimerPll::LockPhase()
 {
 	int64_t const pll_output_limit = std::min<int64_t>(_timer.CounterPeriod() / 100, 1000);
 
-	if (base::abs(_fll_error) > pll_output_limit)
+	if (base::abs(_frequency_error) > pll_output_limit)
 	{
 		// 锁频环误差过大，锁相环不工作，直接返回。
 		return;
