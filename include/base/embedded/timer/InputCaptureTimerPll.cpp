@@ -54,7 +54,7 @@ void base::InputCaptureTimerPll::LockPhase()
 
 	if (_phase_ajustment == 0 && _phase_error != 0)
 	{
-		_pll_fine_error = _phase_error;
+		_phase_fine_error = _phase_error;
 		return;
 	}
 
@@ -111,13 +111,13 @@ void base::InputCaptureTimerPll::UpdateCaptureValue(int64_t capture_value)
 		return;
 	}
 
-	_pll_fine_error = 0;
+	_phase_fine_error = 0;
 
 	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() - _phase_ajustment);
 	_phase_ajustment = 0;
 
-	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() - _pll_fine_ajustment);
-	_pll_fine_ajustment = 0;
+	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() - _phase_fine_ajustment);
+	_phase_fine_ajustment = 0;
 
 	LockFrequency();
 	LockPhase();
@@ -133,27 +133,27 @@ void base::InputCaptureTimerPll::OnPeriodElapsed()
 		return;
 	}
 
-	if (_pll_fine_error > 0)
+	if (_phase_fine_error > 0)
 	{
-		_pll_fine_error--;
-		if (_pll_fine_ajustment == 0)
+		_phase_fine_error--;
+		if (_phase_fine_ajustment == 0)
 		{
 			_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + 1);
-			_pll_fine_ajustment = 1;
+			_phase_fine_ajustment = 1;
 		}
 	}
-	else if (_pll_fine_error < 0)
+	else if (_phase_fine_error < 0)
 	{
-		_pll_fine_error++;
-		if (_pll_fine_ajustment == 0)
+		_phase_fine_error++;
+		if (_phase_fine_ajustment == 0)
 		{
 			_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() - 1);
-			_pll_fine_ajustment = -1;
+			_phase_fine_ajustment = -1;
 		}
 	}
 	else
 	{
-		_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() - _pll_fine_ajustment);
-		_pll_fine_ajustment = 0;
+		_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() - _phase_fine_ajustment);
+		_phase_fine_ajustment = 0;
 	}
 }

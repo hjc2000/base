@@ -33,8 +33,8 @@ namespace base
 		int64_t _phase_error{};
 		int64_t _phase_ajustment{};
 
-		int64_t _pll_fine_error{};
-		int64_t _pll_fine_ajustment{};
+		int64_t _phase_fine_error{};
+		int64_t _phase_fine_ajustment{};
 
 		bool _adjust_started = false;
 
