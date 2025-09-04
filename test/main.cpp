@@ -2,11 +2,15 @@
 
 #include "base/test/TestCircleDeque.h"
 #include "base/test/TestFactorExtractor.h"
+#include "base/test/TestParse.h"
 
 // IWYU pragma: end_keep
 
 int main()
 {
-	base::test::TestCircleDeque();
+	// base::test::TestCircleDeque();
 	// base::test::TestFactorExtractor();
+	base::test::TestParseInt32();
+	base::test::TestParseInt64();
+	base::test::TestParseDouble();
 }
