@@ -234,11 +234,10 @@ namespace base
 				return false;
 			}
 
-			int64_t index = _end - 1;
-			out = std::move(Buffer()[index]);
-			Buffer()[index].~T();
 			_end--;
 			_is_full = false;
+			out = std::move(Buffer()[_end.CurrentValue()]);
+			Buffer()[_end.CurrentValue()].~T();
 			return true;
 		}
 
