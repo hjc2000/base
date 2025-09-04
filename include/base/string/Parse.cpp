@@ -15,9 +15,6 @@ namespace
 	///
 	/// @brief 包含 2 个字段，一个是数字的进制，另一个是数字字符串。
 	///
-	/// @note 把类似 0x100 这种字符串解析为进制和数字字符串。这里进制是 16,
-	/// 数字字符串是 "100".
-	///
 	class BaseAndNumberString
 	{
 	private:
@@ -41,6 +38,13 @@ namespace
 			return _number_str;
 		}
 
+		///
+		/// @brief 把类似 0x100 这种字符串解析为进制和数字字符串。这里进制是 16,
+		/// 数字字符串是 "100".
+		///
+		/// @param str
+		/// @return
+		///
 		static BaseAndNumberString Parse(base::String const &str)
 		{
 			int32_t base = 10;
