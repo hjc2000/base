@@ -7,6 +7,6 @@
 
 int main()
 {
-	// base::test::TestCircleDeque();
-	base::test::TestFactorExtractor();
+	base::test::TestCircleDeque();
+	// base::test::TestFactorExtractor();
 }

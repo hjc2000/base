@@ -173,6 +173,27 @@ namespace base
 		}
 
 		///
+		/// @brief 从队列前端入队。
+		///
+		/// @param obj
+		///
+		virtual void PushFront(T const &obj) override
+		{
+			if (_is_full)
+			{
+				throw std::runtime_error{CODE_POS_STR + "队列已满，无法入队。"};
+			}
+
+			int64_t index = _begin - 1;
+			new (&Buffer()[index]) T{obj};
+			_begin--;
+			if (_begin == _end)
+			{
+				_is_full = true;
+			}
+		}
+
+		///
 		/// @brief 从队列末端退队。
 		///
 		/// @return
@@ -211,27 +232,6 @@ namespace base
 			_end--;
 			_is_full = false;
 			return true;
-		}
-
-		///
-		/// @brief 从队列前端入队。
-		///
-		/// @param obj
-		///
-		virtual void PushFront(T const &obj) override
-		{
-			if (_is_full)
-			{
-				throw std::runtime_error{CODE_POS_STR + "队列已满，无法入队。"};
-			}
-
-			int64_t index = _begin - 1;
-			new (&Buffer()[index]) T{obj};
-			_begin--;
-			if (_begin == _end)
-			{
-				_is_full = true;
-			}
 		}
 
 		///
