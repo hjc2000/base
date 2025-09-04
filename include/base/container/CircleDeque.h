@@ -214,11 +214,10 @@ namespace base
 				throw std::runtime_error{CODE_POS_STR + "队列为空，无法退队。"};
 			}
 
-			int64_t index = _end - 1;
-			T ret{std::move(Buffer()[index])};
-			Buffer()[index].~T();
 			_end--;
 			_is_full = false;
+			T ret{std::move(Buffer()[_end.CurrentValue()])};
+			Buffer()[_end.CurrentValue()].~T();
 			return ret;
 		}
 
