@@ -28,11 +28,21 @@ namespace
 		{
 		}
 
+		///
+		/// @brief 进制。
+		///
+		/// @return
+		///
 		int32_t Base() const
 		{
 			return _base;
 		}
 
+		///
+		/// @brief 纯数字字符串，不包含进制信息。
+		///
+		/// @return
+		///
 		base::String NumberString() const
 		{
 			return _number_str;
