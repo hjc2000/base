@@ -61,15 +61,4 @@ namespace base
 	///
 	double ParseDouble(base::String const &str, int32_t base);
 
-#if HAS_THREAD
-	namespace test
-	{
-		void test_parse_int32();
-
-		void test_parse_int64();
-
-		void test_parse_double();
-	} // namespace test
-#endif
-
 } // namespace base
