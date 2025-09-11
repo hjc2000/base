@@ -11,7 +11,7 @@ extern "C"
 	#include <sys/times.h>
 	#include <unistd.h>
 
-	void *__dso_handle = (void *)&__dso_handle;
+	__base_weak void *__dso_handle = (void *)&__dso_handle;
 
 	/* #region 进程 */
 
@@ -46,7 +46,7 @@ extern "C"
 		}
 	}
 
-	void _fini()
+	__base_weak void _fini()
 	{
 	}
 

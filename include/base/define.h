@@ -10,16 +10,18 @@
 
 #if defined(_MSC_VER)
 	// MSVC 编译器
-	#define FORCE_INLINE __forceinline
+	#define __base_force_inline __forceinline
 #elif defined(__GNUC__) || defined(__clang__)
 	// GCC 或 Clang 编译器
-	#define FORCE_INLINE inline __attribute__((always_inline))
+	#define __base_force_inline inline __attribute__((always_inline))
 #else
 	// 其他编译器（无法保证强制内联）
-	#define FORCE_INLINE inline
+	#define __base_force_inline inline
 #endif
 
 /* #endregion */
+
+#define __base_weak __attribute__((weak))
 
 ///
 /// @brief 静态全局变量。
