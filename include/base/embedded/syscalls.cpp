@@ -11,6 +11,8 @@ extern "C"
 	#include <sys/times.h>
 	#include <unistd.h>
 
+	void *__dso_handle = (void *)&__dso_handle;
+
 	/* #region 进程 */
 
 	char *getenv(char const *name)
@@ -42,6 +44,10 @@ extern "C"
 		{
 			/* Make sure we hang here */
 		}
+	}
+
+	void _fini()
+	{
 	}
 
 	/* #endregion */
