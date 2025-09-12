@@ -1,4 +1,4 @@
-#include "LedBar.h" // IWYU pragma: keep
+#include "LedBar.h"
 #include "base/SingletonProvider.h"
 
 namespace

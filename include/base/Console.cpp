@@ -1,4 +1,4 @@
-#include "Console.h" // IWYU pragma: keep
+#include "Console.h"
 #include "base/SingletonProvider.h"
 
 namespace
