@@ -1,6 +1,5 @@
 #include "LedBar.h" // IWYU pragma: keep
-#include "base/task/task.h"
-#include <cstdint>
+#include "base/embedded/SingletonProvider.h"
 
 #if HAS_THREAD
 
@@ -14,27 +13,13 @@ base::led::LedBar &base::led::led_bar()
 
 namespace
 {
-	struct
-	{
-		bool _initialized = false;
-		alignas(base::led::LedBar) uint8_t _led_bar_obj_buffer[sizeof(base::led::LedBar)];
-	} _led_bar_obj_provider;
+	base::embedded::SingletonProvider<base::led::LedBar> _led_bar_instance_provider{};
 
 } // namespace
 
 base::led::LedBar &base::led::led_bar()
 {
-	if (!_led_bar_obj_provider._initialized)
-	{
-		base::task::TaskSchedulerSuspendGuard g{};
-		if (!_led_bar_obj_provider._initialized)
-		{
-			new (_led_bar_obj_provider._led_bar_obj_buffer) base::led::LedBar{};
-			_led_bar_obj_provider._initialized = true;
-		}
-	}
-
-	return *reinterpret_cast<base::led::LedBar *>(_led_bar_obj_provider._led_bar_obj_buffer);
+	return _led_bar_instance_provider.Instance();
 }
 
 #endif // HAS_THREAD
