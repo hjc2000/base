@@ -30,6 +30,7 @@ base::Console &base::console()
 		if (!_console_obj_provider._initialized)
 		{
 			new (_console_obj_provider._console_obj_buffer) base::Console{};
+			_console_obj_provider._initialized = true;
 		}
 	}
 
