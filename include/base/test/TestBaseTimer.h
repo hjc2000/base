@@ -31,8 +31,8 @@ namespace base
 					while (true)
 					{
 						semaphore.Acquire();
-						base::console.WriteLine("被定时器释放了。");
-						base::console.WriteLine(std::to_string(timer.Period().count()));
+						base::console().WriteLine("被定时器释放了。");
+						base::console().WriteLine(std::to_string(timer.Period().count()));
 					}
 				});
 		}

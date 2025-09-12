@@ -36,32 +36,32 @@ namespace base
 
 			try
 			{
-				base::console.WriteLine(base::ToHexString(data.src_buffer));
-				base::console.WriteLine(base::ToHexString(data.dst_buffer));
+				base::console().WriteLine(base::ToHexString(data.src_buffer));
+				base::console().WriteLine(base::ToHexString(data.dst_buffer));
 				for (size_t i = 0; i < 16; i++)
 				{
-					base::console.Write(base::ToHexString(data.dst_buffer[i]));
-					base::console.Write(", ");
+					base::console().Write(base::ToHexString(data.dst_buffer[i]));
+					base::console().Write(", ");
 				}
 
-				base::console.WriteLine();
+				base::console().WriteLine();
 				memory_dma.Copy(data.src_buffer, data.src_buffer + 8, data.dst_buffer);
 
 				for (size_t i = 0; i < 16; i++)
 				{
-					base::console.Write(base::ToHexString(data.dst_buffer[i]));
-					base::console.Write(", ");
+					base::console().Write(base::ToHexString(data.dst_buffer[i]));
+					base::console().Write(", ");
 				}
 
-				base::console.WriteLine();
+				base::console().WriteLine();
 			}
 			catch (std::exception const &e)
 			{
-				base::console.WriteError(CODE_POS_STR + e.what());
+				base::console().WriteError(CODE_POS_STR + e.what());
 			}
 			catch (...)
 			{
-				base::console.WriteError(CODE_POS_STR + "未知异常。");
+				base::console().WriteError(CODE_POS_STR + "未知异常。");
 			}
 		}
 
@@ -92,32 +92,32 @@ namespace base
 
 			try
 			{
-				base::console.WriteLine(base::ToHexString(data.src_buffer));
-				base::console.WriteLine(base::ToHexString(data.dst_buffer));
+				base::console().WriteLine(base::ToHexString(data.src_buffer));
+				base::console().WriteLine(base::ToHexString(data.dst_buffer));
 				for (size_t i = 0; i < 16; i++)
 				{
-					base::console.Write(base::ToHexString(data.dst_buffer[i]));
-					base::console.Write(", ");
+					base::console().Write(base::ToHexString(data.dst_buffer[i]));
+					base::console().Write(", ");
 				}
 
-				base::console.WriteLine();
+				base::console().WriteLine();
 				memory_dma.Copy(data.src_buffer, data.src_buffer + 8, data.dst_buffer);
 
 				for (size_t i = 0; i < 16; i++)
 				{
-					base::console.Write(base::ToHexString(data.dst_buffer[i]));
-					base::console.Write(", ");
+					base::console().Write(base::ToHexString(data.dst_buffer[i]));
+					base::console().Write(", ");
 				}
 
-				base::console.WriteLine();
+				base::console().WriteLine();
 			}
 			catch (std::exception const &e)
 			{
-				base::console.WriteError(CODE_POS_STR + e.what());
+				base::console().WriteError(CODE_POS_STR + e.what());
 			}
 			catch (...)
 			{
-				base::console.WriteError(CODE_POS_STR + "未知异常。");
+				base::console().WriteError(CODE_POS_STR + "未知异常。");
 			}
 		}
 

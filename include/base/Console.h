@@ -521,6 +521,6 @@ namespace base
 		/* #endregion */
 	};
 
-	extern base::Console console;
+	base::Console &console();
 
 } // namespace base

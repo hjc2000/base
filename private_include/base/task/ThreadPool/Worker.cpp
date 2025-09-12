@@ -31,12 +31,12 @@ void base::task::ThreadPool::Worker::ThreadFunc()
 		}
 		catch (std::exception const &e)
 		{
-			base::console.WriteErrorLine(CODE_POS_STR + e.what());
+			base::console().WriteErrorLine(CODE_POS_STR + e.what());
 			return;
 		}
 		catch (...)
 		{
-			base::console.WriteErrorLine(CODE_POS_STR + "未知异常。");
+			base::console().WriteErrorLine(CODE_POS_STR + "未知异常。");
 			return;
 		}
 

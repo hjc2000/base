@@ -56,31 +56,31 @@ namespace base
 
 				while (true)
 				{
-					base::console.Write("timer.CounterPeriod: ");
-					base::console.Write(std::to_string(timer.CounterPeriod()));
-					base::console.WriteLine();
+					base::console().Write("timer.CounterPeriod: ");
+					base::console().Write(std::to_string(timer.CounterPeriod()));
+					base::console().WriteLine();
 
-					base::console.Write("pll.CurrentCaptureRegisterValue: ");
-					base::console.Write(std::to_string(pll.CurrentCaptureRegisterValue()));
-					base::console.WriteLine();
+					base::console().Write("pll.CurrentCaptureRegisterValue: ");
+					base::console().Write(std::to_string(pll.CurrentCaptureRegisterValue()));
+					base::console().WriteLine();
 
-					base::console.Write("pll.CurrentCaptureValue: ");
-					base::console.Write(std::to_string(pll.CurrentCaptureValue()));
-					base::console.WriteLine();
+					base::console().Write("pll.CurrentCaptureValue: ");
+					base::console().Write(std::to_string(pll.CurrentCaptureValue()));
+					base::console().WriteLine();
 
-					base::console.Write("pll.CapturedSignalPeriod: ");
-					base::console.Write(std::to_string(pll.CapturedSignalPeriod()));
-					base::console.WriteLine();
+					base::console().Write("pll.CapturedSignalPeriod: ");
+					base::console().Write(std::to_string(pll.CapturedSignalPeriod()));
+					base::console().WriteLine();
 
-					base::console.Write("pll.FrequencyError: ");
-					base::console.Write(std::to_string(pll.FrequencyError()));
-					base::console.WriteLine();
+					base::console().Write("pll.FrequencyError: ");
+					base::console().Write(std::to_string(pll.FrequencyError()));
+					base::console().WriteLine();
 
-					base::console.Write("pll.PhaseError: ");
-					base::console.Write(std::to_string(pll.PhaseError()));
-					base::console.WriteLine();
+					base::console().Write("pll.PhaseError: ");
+					base::console().Write(std::to_string(pll.PhaseError()));
+					base::console().WriteLine();
 
-					base::console.WriteLine();
+					base::console().WriteLine();
 					base::task::Delay(std::chrono::milliseconds{1000});
 				}
 			};

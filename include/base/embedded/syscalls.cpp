@@ -87,7 +87,7 @@ extern "C"
 	{
 		try
 		{
-			base::console.Write(ptr, len);
+			base::console().Write(ptr, len);
 			return len;
 		}
 		catch (...)

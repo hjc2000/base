@@ -19,9 +19,9 @@ namespace base
 								  timer.CounterPeriod() * 9 / 10,
 								  0);
 
-			base::console.Write("timer.CounterPeriod() = ");
-			base::console.Write(std::to_string(timer.CounterPeriod()));
-			base::console.WriteLine();
+			base::console().Write("timer.CounterPeriod() = ");
+			base::console().Write(std::to_string(timer.CounterPeriod()));
+			base::console().WriteLine();
 
 			timer.Start();
 			timer.StartChannel(channel_id);

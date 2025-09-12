@@ -17,10 +17,10 @@ void base::task::ThreadPool::Task::operator()() noexcept
 	}
 	catch (std::exception const &e)
 	{
-		base::console.WriteError(CODE_POS_STR + e.what());
+		base::console().WriteError(CODE_POS_STR + e.what());
 	}
 	catch (...)
 	{
-		base::console.WriteError(CODE_POS_STR + "未知异常。");
+		base::console().WriteError(CODE_POS_STR + "未知异常。");
 	}
 }

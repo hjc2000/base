@@ -202,12 +202,12 @@ namespace base
 				}
 				catch (std::exception const &e)
 				{
-					base::console.WriteError(CODE_POS_STR + e.what());
+					base::console().WriteError(CODE_POS_STR + e.what());
 					return nullptr;
 				}
 				catch (...)
 				{
-					base::console.WriteError(CODE_POS_STR + "未知异常。");
+					base::console().WriteError(CODE_POS_STR + "未知异常。");
 					return nullptr;
 				}
 
