@@ -76,7 +76,7 @@ namespace base
 		/// @brief 数字输出模块插槽。
 		///
 		///
-		extern base::Slot<DigitalOutputModule> digital_output_module_slot;
+		base::Slot<base::digital_output_module::DigitalOutputModule> &digital_output_module_slot();
 
 	} // namespace digital_output_module
 } // namespace base

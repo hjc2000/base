@@ -53,7 +53,7 @@ namespace base
 		/// @brief 数字输入模块插槽。
 		///
 		///
-		extern base::Slot<DigitalInputModule> digital_input_module_slot;
+		base::Slot<base::digital_input_module::DigitalInputModule> &digital_input_module_slot();
 
 	} // namespace digital_input_module
 } // namespace base
