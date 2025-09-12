@@ -130,7 +130,7 @@ namespace base
 		/// @brief IIC 主机接口插槽。
 		///
 		///
-		extern base::Slot<base::iic::IicHost> iic_host_slot;
+		base::Slot<base::iic::IicHost> &iic_host_slot();
 
 	} // namespace iic
 } // namespace base
