@@ -46,6 +46,10 @@ extern "C"
 		}
 	}
 
+	__base_weak void _init()
+	{
+	}
+
 	__base_weak void _fini()
 	{
 	}
