@@ -1,5 +1,5 @@
 #pragma once
-#include "base/task/task.h"
+#include "base/task/task.h" // IWYU pragma: keep
 #include <cstdint>
 
 namespace base
@@ -51,14 +51,13 @@ namespace base
 		/// @brief HAS_THREAD 的平台，即通用操作系统才需要析构。
 		/// 非 HAS_THREAD 平台是单片机，程序永不终止，单例永不析构。
 		///
+		/// @note 单例的析构是程序结束时运行时调用的，是单线程的，不需要加锁。
+		///
 		~SingletonProvider()
 		{
+			if (!_initialized)
 			{
-				base::task::TaskSchedulerSuspendGuard g{};
-				if (!_initialized)
-				{
-					return;
-				}
+				return;
 			}
 
 			reinterpret_cast<T *>(_instance_buffer)->~T();
