@@ -1,4 +1,5 @@
 #include "Console.h" // IWYU pragma: keep
+#include "base/task/task.h"
 #include <cstdint>
 
 #if HAS_THREAD
@@ -25,7 +26,11 @@ base::Console &base::console()
 {
 	if (!_console_obj_provider._initialized)
 	{
-		new (_console_obj_provider._console_obj_buffer) base::Console{};
+		base::task::TaskSchedulerSuspendGuard g{};
+		if (!_console_obj_provider._initialized)
+		{
+			new (_console_obj_provider._console_obj_buffer) base::Console{};
+		}
 	}
 
 	return *reinterpret_cast<base::Console *>(_console_obj_provider._console_obj_buffer);
