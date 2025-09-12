@@ -1,40 +1,13 @@
 #include "Console.h" // IWYU pragma: keep
-#include "base/task/task.h"
-#include <cstdint>
-
-#if HAS_THREAD
-
-base::Console &base::console()
-{
-	static base::Console instance{};
-	return instance;
-}
-
-#else
+#include "base/SingletonProvider.h"
 
 namespace
 {
-	struct
-	{
-		bool _initialized = false;
-		alignas(base::Console) uint8_t _console_obj_buffer[sizeof(base::Console)];
-	} _console_obj_provider;
+	base::SingletonProvider<base::Console> _console_instance_provider;
 
 } // namespace
 
 base::Console &base::console()
 {
-	if (!_console_obj_provider._initialized)
-	{
-		base::task::TaskSchedulerSuspendGuard g{};
-		if (!_console_obj_provider._initialized)
-		{
-			new (_console_obj_provider._console_obj_buffer) base::Console{};
-			_console_obj_provider._initialized = true;
-		}
-	}
-
-	return *reinterpret_cast<base::Console *>(_console_obj_provider._console_obj_buffer);
+	return _console_instance_provider.Instance();
 }
-
-#endif // HAS_THREAD
