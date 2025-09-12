@@ -2,13 +2,16 @@
 #include "base/container/CircleDeque.h"
 #include "base/embedded/heap/Heap4.h"
 #include "base/RentedPtrFactory.h"
+#include "base/SingletonProvider.h"
 #include "base/task/task.h"
 #include <cstdint>
 #include <memory>
 
 namespace
 {
-	base::CircleDeque<std::shared_ptr<base::heap::IHeap>, 10> _heaps;
+	using Queue = base::CircleDeque<std::shared_ptr<base::heap::IHeap>, 10>;
+
+	base::SingletonProvider<Queue> _queue_provider{};
 
 } // namespace
 
@@ -17,12 +20,12 @@ namespace
 void base::heap::PushBack(std::shared_ptr<base::heap::IHeap> const &heap)
 {
 	base::task::TaskSchedulerSuspendGuard g;
-	if (_heaps.Count() == 0)
+	if (_queue_provider.Instance().Count() == 0)
 	{
-		_heaps.PushBack(base::RentedPtrFactory::Create(&base::heap::Heap()));
+		_queue_provider.Instance().PushBack(base::RentedPtrFactory::Create(&base::heap::Heap()));
 	}
 
-	_heaps.PushBack(heap);
+	_queue_provider.Instance().PushBack(heap);
 }
 
 void base::heap::PushBack(uint8_t *buffer, size_t size)
@@ -45,12 +48,12 @@ void base::heap::PushBack(base::Span const &span)
 void base::heap::PushFront(std::shared_ptr<base::heap::IHeap> const &heap)
 {
 	base::task::TaskSchedulerSuspendGuard g;
-	if (_heaps.Count() == 0)
+	if (_queue_provider.Instance().Count() == 0)
 	{
-		_heaps.PushFront(base::RentedPtrFactory::Create(&base::heap::Heap()));
+		_queue_provider.Instance().PushFront(base::RentedPtrFactory::Create(&base::heap::Heap()));
 	}
 
-	_heaps.PushFront(heap);
+	_queue_provider.Instance().PushFront(heap);
 }
 
 void base::heap::PushFront(uint8_t *buffer, size_t size)
@@ -71,15 +74,15 @@ void base::heap::PushFront(base::Span const &span)
 void *base::heap::Malloc(size_t size) noexcept
 {
 	base::task::TaskSchedulerSuspendGuard g;
-	if (_heaps.Count() == 0)
+	if (_queue_provider.Instance().Count() == 0)
 	{
 		void *p = base::heap::Heap().Malloc(size);
 		return p;
 	}
 
-	for (int64_t i = 0; i < _heaps.Count(); i++)
+	for (int64_t i = 0; i < _queue_provider.Instance().Count(); i++)
 	{
-		void *ptr = _heaps[i]->Malloc(size);
+		void *ptr = _queue_provider.Instance()[i]->Malloc(size);
 		if (ptr != nullptr)
 		{
 			return ptr;
@@ -92,17 +95,17 @@ void *base::heap::Malloc(size_t size) noexcept
 void base::heap::Free(void *ptr) noexcept
 {
 	base::task::TaskSchedulerSuspendGuard g;
-	if (_heaps.Count() == 0)
+	if (_queue_provider.Instance().Count() == 0)
 	{
 		base::heap::Heap().Free(ptr);
 		return;
 	}
 
-	for (int64_t i = 0; i < _heaps.Count(); i++)
+	for (int64_t i = 0; i < _queue_provider.Instance().Count(); i++)
 	{
-		if (ptr >= _heaps[i]->begin() && ptr < _heaps[i]->end())
+		if (ptr >= _queue_provider.Instance()[i]->begin() && ptr < _queue_provider.Instance()[i]->end())
 		{
-			_heaps[i]->Free(ptr);
+			_queue_provider.Instance()[i]->Free(ptr);
 			return;
 		}
 	}
