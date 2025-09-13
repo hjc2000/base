@@ -8,7 +8,7 @@ namespace base
 	{
 		class flash_handle;
 
-		std::shared_ptr<flash_handle> open(uint32_t id);
+		std::shared_ptr<base::flash::flash_handle> open(uint32_t id);
 
 		void initialize(base::flash::flash_handle &self);
 
