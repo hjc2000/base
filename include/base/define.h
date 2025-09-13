@@ -70,36 +70,4 @@
 		Class &operator=(Class const &) = delete; \
 		Class &operator=(Class &&) = delete;
 
-/* #region 预先初始化 */
-
-extern bool volatile _preinit_error;
-
-	#define PREINIT(func)                              \
-		namespace                                      \
-		{                                              \
-			struct                                     \
-			{                                          \
-				class InitHelper                       \
-				{                                      \
-				public:                                \
-					InitHelper()                       \
-					{                                  \
-						try                            \
-						{                              \
-							func();                    \
-						}                              \
-						catch (...)                    \
-						{                              \
-							_preinit_error = true;     \
-						}                              \
-					}                                  \
-				};                                     \
-                                                       \
-				InitHelper _init{};                    \
-                                                       \
-			} volatile CONCAT(_preinit_, __COUNTER__); \
-		}
-
-/* #endregion */
-
 #endif // __cplusplus
