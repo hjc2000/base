@@ -1,5 +1,4 @@
 #pragma once
-#include "base/define.h"
 #include "base/net/Mac.h"
 
 namespace base
@@ -10,8 +9,8 @@ namespace base
 		class MulticastMacEnum
 		{
 		public:
-			static_function base::Mac const DcpIdentify();
-			static_function base::Mac const DcpHello();
+			static base::Mac const DcpIdentify();
+			static base::Mac const DcpHello();
 		};
 	} // namespace profinet
 } // namespace base

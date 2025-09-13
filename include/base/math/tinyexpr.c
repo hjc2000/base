@@ -36,7 +36,6 @@ For log = natural log uncomment the next line. */
 /* #define TE_NAT_LOG */
 
 #include "tinyexpr.h"
-#include "base/define.h"
 #include <ctype.h>
 #include <limits.h>
 #include <math.h>
@@ -98,7 +97,7 @@ typedef struct state
 		return NULL;         \
 	}
 
-static_function te_expr *new_expr(int const type, te_expr const *parameters[])
+static te_expr *new_expr(int const type, te_expr const *parameters[])
 {
 	int const arity = ARITY(type);
 	int const psize = sizeof(void *) * arity;
@@ -161,17 +160,17 @@ void te_free(te_expr *n)
 	free(n);
 }
 
-static_function double pi(void)
+static double pi(void)
 {
 	return 3.14159265358979323846;
 }
 
-static_function double e(void)
+static double e(void)
 {
 	return 2.71828182845904523536;
 }
 
-static_function double fac(double a)
+static double fac(double a)
 {
 	/* simplest version of fac */
 	if (a < 0.0)
@@ -198,7 +197,7 @@ static_function double fac(double a)
 	return (double)result;
 }
 
-static_function double ncr(double n, double r)
+static double ncr(double n, double r)
 {
 	if (n < 0.0 || r < 0.0 || n < r)
 	{
@@ -230,7 +229,7 @@ static_function double ncr(double n, double r)
 	return result;
 }
 
-static_function double npr(double n, double r)
+static double npr(double n, double r)
 {
 	return ncr(n, r) * fac(r);
 }
@@ -240,7 +239,7 @@ static_function double npr(double n, double r)
 	#pragma function(floor)
 #endif
 
-static_global te_variable const functions[] = {
+static te_variable const functions[] = {
 	/* must be in alphabetical order */
 	{"abs", fabs, TE_FUNCTION1 | TE_FLAG_PURE, 0},
 	{"acos", acos, TE_FUNCTION1 | TE_FLAG_PURE, 0},
@@ -273,7 +272,7 @@ static_global te_variable const functions[] = {
 	{0, 0, 0, 0},
 };
 
-static_function te_variable const *find_builtin(char const *name, int len)
+static te_variable const *find_builtin(char const *name, int len)
 {
 	int imin = 0;
 	int imax = sizeof(functions) / sizeof(te_variable) - 2;
@@ -305,7 +304,7 @@ static_function te_variable const *find_builtin(char const *name, int len)
 	return 0;
 }
 
-static_function te_variable const *find_lookup(state const *s, char const *name, int len)
+static te_variable const *find_lookup(state const *s, char const *name, int len)
 {
 	int iters;
 	te_variable const *var;
@@ -325,32 +324,32 @@ static_function te_variable const *find_lookup(state const *s, char const *name,
 	return 0;
 }
 
-static_function double add(double a, double b)
+static double add(double a, double b)
 {
 	return a + b;
 }
 
-static_function double sub(double a, double b)
+static double sub(double a, double b)
 {
 	return a - b;
 }
 
-static_function double mul(double a, double b)
+static double mul(double a, double b)
 {
 	return a * b;
 }
 
-static_function double divide(double a, double b)
+static double divide(double a, double b)
 {
 	return a / b;
 }
 
-static_function double negate(double a)
+static double negate(double a)
 {
 	return -a;
 }
 
-static_function double comma(double a, double b)
+static double comma(double a, double b)
 {
 	(void)a;
 	return b;
@@ -505,11 +504,11 @@ void next_token(state *s)
 	} while (s->type == TOK_NULL);
 }
 
-static_function te_expr *list(state *s);
-static_function te_expr *expr(state *s);
-static_function te_expr *power(state *s);
+static te_expr *list(state *s);
+static te_expr *expr(state *s);
+static te_expr *power(state *s);
 
-static_function te_expr *base(state *s)
+static te_expr *base(state *s)
 {
 	/* <base>      =    <constant> | <variable> | <function-0> {"(" ")"} | <function-1> <power> | <function-X> "(" <expr> {"," <expr>} ")" | "(" <list> ")" */
 	te_expr *ret;
@@ -661,7 +660,7 @@ static_function te_expr *base(state *s)
 	return ret;
 }
 
-static_function te_expr *power(state *s)
+static te_expr *power(state *s)
 {
 	/* <power>     =    {("-" | "+")} <base> */
 	int sign = 1;
@@ -693,7 +692,7 @@ static_function te_expr *power(state *s)
 }
 
 #ifdef TE_POW_FROM_RIGHT
-static_function te_expr *factor(state *s)
+static te_expr *factor(state *s)
 {
 	/* <factor>    =    <power> {"^" <power>} */
 	te_expr *ret = power(s);
@@ -755,7 +754,7 @@ static_function te_expr *factor(state *s)
 	return ret;
 }
 #else
-static_function te_expr *factor(state *s)
+static te_expr *factor(state *s)
 {
 	/* <factor>    =    <power> {"^" <power>} */
 	te_expr *ret = power(s);
@@ -779,7 +778,7 @@ static_function te_expr *factor(state *s)
 }
 #endif
 
-static_function te_expr *term(state *s)
+static te_expr *term(state *s)
 {
 	/* <term>      =    <factor> {("*" | "/" | "%") <factor>} */
 	te_expr *ret = factor(s);
@@ -802,7 +801,7 @@ static_function te_expr *term(state *s)
 	return ret;
 }
 
-static_function te_expr *expr(state *s)
+static te_expr *expr(state *s)
 {
 	/* <expr>      =    <term> {("+" | "-") <term>} */
 	te_expr *ret = term(s);
@@ -825,7 +824,7 @@ static_function te_expr *expr(state *s)
 	return ret;
 }
 
-static_function te_expr *list(state *s)
+static te_expr *list(state *s)
 {
 	/* <list>      =    <expr> {"," <expr>} */
 	te_expr *ret = expr(s);
@@ -939,7 +938,7 @@ double te_eval(te_expr const *n)
 #undef TE_FUN
 #undef M
 
-static_function void optimize(te_expr *n)
+static void optimize(te_expr *n)
 {
 	/* Evaluates as much as possible. */
 	if (n->type == TE_CONSTANT)
@@ -1024,7 +1023,7 @@ double te_interp(char const *expression, int *error)
 	return ret;
 }
 
-static_function void pn(te_expr const *n, int depth)
+static void pn(te_expr const *n, int depth)
 {
 	int i, arity;
 	printf("%*s", depth, "");

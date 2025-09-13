@@ -24,31 +24,10 @@
 #define __base_weak __attribute__((weak))
 
 ///
-/// @brief 静态全局变量。
-///
-///
-#define static_global static
-
-///
-/// @brief 静态函数
-///
-///
-#define static_function static
-
-///
-/// @brief 静态字段
-///
-///
-#define static_field static
-
-///
 /// @brief 弱符号。
 ///
 ///
 #define __weak __attribute__((weak))
-
-#define CONCAT_IMPL(x, y) x##y
-#define CONCAT(x, y) CONCAT_IMPL(x, y)
 
 ///
 /// @brief 下面的宏仅用于 C++.
