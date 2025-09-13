@@ -1,5 +1,4 @@
 #include "random.h"
-#include "base/define.h"
 #include <algorithm>
 #include <cstdint>
 #include <memory>
