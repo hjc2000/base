@@ -48,6 +48,7 @@ namespace
 			return distribution(_generator);
 		}
 	};
+
 } // namespace
 
 std::shared_ptr<base::IRandomGenerator> base::CreateRandomGenerator()
