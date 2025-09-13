@@ -14,7 +14,7 @@ namespace
 		public base::IRandomGenerator
 	{
 	private:
-		inline static_field std::mt19937_64 _generator{std::random_device{}()};
+		inline static std::mt19937_64 _generator{std::random_device{}()};
 
 	public:
 		virtual int64_t GenerateInt64Random(int64_t min = std::numeric_limits<int64_t>::min(),
