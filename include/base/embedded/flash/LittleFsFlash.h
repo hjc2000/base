@@ -87,6 +87,10 @@ namespace base
 			int64_t ReadFile(lfs_file_t &file, base::Span const &span);
 
 			void WriteFile(lfs_file_t &file, base::ReadOnlySpan const &span);
+
+			void CloseFile(lfs_file_t &file);
+
+			void Unmount();
 		};
 
 	} // namespace flash

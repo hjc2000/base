@@ -250,3 +250,22 @@ void base::flash::LittleFsFlash::WriteFile(lfs_file_t &file, base::ReadOnlySpan 
 		throw std::runtime_error{CODE_POS_STR + "写入文件的大小不等于 span 的大小。"};
 	}
 }
+
+void base::flash::LittleFsFlash::CloseFile(lfs_file_t &file)
+{
+	// remember the storage is not updated until the file is closed successfully
+	int result = lfs_file_close(&_lfs, &file);
+	if (result != lfs_error::LFS_ERR_OK)
+	{
+		throw std::runtime_error{CODE_POS_STR + "关闭文件失败。"};
+	}
+}
+
+void base::flash::LittleFsFlash::Unmount()
+{
+	int result = lfs_unmount(&_lfs);
+	if (result != lfs_error::LFS_ERR_OK)
+	{
+		throw std::runtime_error{CODE_POS_STR + "卸载文件系统失败。"};
+	}
+}

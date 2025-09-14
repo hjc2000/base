@@ -28,6 +28,8 @@ namespace base
 			little_fs_flash.WriteFile(file, num_span);
 			little_fs_flash.ReadFile(file, num_span);
 			base::console().WriteLine("读出数字：" + std::to_string(number));
+			little_fs_flash.CloseFile(file);
+			little_fs_flash.Unmount();
 
 			base::console().WriteLine(CODE_POS_STR + "测试成功。");
 		}
