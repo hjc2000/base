@@ -57,6 +57,14 @@ namespace base
 			///
 			void Mount();
 
+			///
+			/// @brief 打开或创建文件。
+			///
+			/// @note 如果文件存在则直接打开，如果文件不存在，则创建后打开。
+			///
+			/// @param file
+			/// @param path
+			///
 			void OpenOrCreate(lfs_file_t &file, char const *path);
 		};
 
