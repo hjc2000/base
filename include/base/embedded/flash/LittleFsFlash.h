@@ -1,11 +1,7 @@
 #pragma once
-#include "base/embedded/flash/exception.h"
 #include "base/embedded/flash/littlefs/src/lfs.h"
-#include "base/stream/ReadOnlySpan.h"
-#include "base/stream/Span.h"
 #include "base/string/define.h"
 #include "Flash.h"
-#include <cstdint>
 #include <memory>
 #include <stdexcept>
 
@@ -31,80 +27,17 @@ namespace base
 			handle_context _handle_context{this};
 			std::shared_ptr<base::flash::Flash> _flash;
 
-			int Erase(lfs_block_t block) noexcept
-			{
-				try
-				{
-					_flash->EraseSector(block);
-					return 0;
-				}
-				catch (base::flash::SectorIndexOutOfRangeException &e)
-				{
-					return lfs_error::LFS_ERR_INVAL;
-				}
-				catch (...)
-				{
-					return lfs_error::LFS_ERR_IO;
-				}
-			}
+			int Erase(lfs_block_t block) noexcept;
 
 			int Read(lfs_block_t block,
 					 lfs_off_t off,
 					 void *buffer,
-					 lfs_size_t size) noexcept
-			{
-				try
-				{
-					base::Span span{reinterpret_cast<uint8_t *>(buffer), size};
-					_flash->ReadSector(block, off, span);
-					return 0;
-				}
-				catch (base::flash::SectorIndexOutOfRangeException &e)
-				{
-					return lfs_error::LFS_ERR_INVAL;
-				}
-				catch (base::flash::CrossSectorException &e)
-				{
-					return lfs_error::LFS_ERR_INVAL;
-				}
-				catch (base::flash::AlignmentException &e)
-				{
-					return lfs_error::LFS_ERR_INVAL;
-				}
-				catch (...)
-				{
-					return lfs_error::LFS_ERR_IO;
-				}
-			}
+					 lfs_size_t size) noexcept;
 
 			int Program(lfs_block_t block,
 						lfs_off_t off,
 						void const *buffer,
-						lfs_size_t size) noexcept
-			{
-				try
-				{
-					base::ReadOnlySpan span{reinterpret_cast<uint8_t const *>(buffer), size};
-					_flash->ProgramSector(block, off, span);
-					return 0;
-				}
-				catch (base::flash::SectorIndexOutOfRangeException &e)
-				{
-					return lfs_error::LFS_ERR_INVAL;
-				}
-				catch (base::flash::CrossSectorException &e)
-				{
-					return lfs_error::LFS_ERR_INVAL;
-				}
-				catch (base::flash::AlignmentException &e)
-				{
-					return lfs_error::LFS_ERR_INVAL;
-				}
-				catch (...)
-				{
-					return lfs_error::LFS_ERR_IO;
-				}
-			}
+						lfs_size_t size) noexcept;
 
 			void InitializeFunctionPtr();
 
