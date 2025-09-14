@@ -70,36 +70,69 @@ namespace base
 
 			void EraseSector(int64_t sector_index)
 			{
-				base::Range range{
-					sector_index * _sector_size,
-					_sector_size,
-				};
+				try
+				{
+					base::Range range{
+						sector_index * _sector_size,
+						_sector_size,
+					};
 
-				_span[range].FillWith(0xff);
+					_span[range].FillWith(0xff);
+				}
+				catch (std::exception const &e)
+				{
+					throw std::runtime_error{CODE_POS_STR + e.what()};
+				}
+				catch (...)
+				{
+					throw std::runtime_error{CODE_POS_STR + "未知的异常。"};
+				}
 			}
 
 			void ReadSector(int64_t sector_index,
 							int64_t offset,
 							base::Span const &span)
 			{
-				base::Range range{
-					sector_index * _sector_size + offset,
-					_sector_size,
-				};
+				try
+				{
+					base::Range range{
+						sector_index * _sector_size + offset,
+						_sector_size,
+					};
 
-				span.CopyFrom(_span[range]);
+					span.CopyFrom(_span[range]);
+				}
+				catch (std::exception const &e)
+				{
+					throw std::runtime_error{CODE_POS_STR + e.what()};
+				}
+				catch (...)
+				{
+					throw std::runtime_error{CODE_POS_STR + "未知的异常。"};
+				}
 			}
 
 			void ProgramSector(int64_t sector_index,
 							   int64_t offset,
 							   base::ReadOnlySpan const &span)
 			{
-				base::Range range{
-					sector_index * _sector_size + offset,
-					_sector_size,
-				};
+				try
+				{
+					base::Range range{
+						sector_index * _sector_size + offset,
+						_sector_size,
+					};
 
-				_span[range].CopyFrom(span);
+					_span[range].CopyFrom(span);
+				}
+				catch (std::exception const &e)
+				{
+					throw std::runtime_error{CODE_POS_STR + e.what()};
+				}
+				catch (...)
+				{
+					throw std::runtime_error{CODE_POS_STR + "未知的异常。"};
+				}
 			}
 		};
 

@@ -1,20 +1,30 @@
 #include "LittleFsFlash.h" // IWYU pragma: keep
+#include "base/Console.h"
 #include "base/embedded/flash/exception.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
+#include "base/string/define.h"
 #include <cstdint>
+#include <exception>
 #include <numeric>
 
 int base::flash::LittleFsFlash::Erase(lfs_block_t block) noexcept
 {
 	try
 	{
+		base::console().WriteLine(CODE_POS_STR);
+
 		_flash.EraseSector(block);
 		return 0;
 	}
 	catch (base::flash::SectorIndexOutOfRangeException &e)
 	{
 		return lfs_error::LFS_ERR_INVAL;
+	}
+	catch (std::exception const &e)
+	{
+		base::console().WriteLine(CODE_POS_STR + e.what());
+		return lfs_error::LFS_ERR_IO;
 	}
 	catch (...)
 	{
@@ -29,6 +39,8 @@ int base::flash::LittleFsFlash::Read(lfs_block_t block,
 {
 	try
 	{
+		base::console().WriteLine(CODE_POS_STR);
+
 		base::Span span{reinterpret_cast<uint8_t *>(buffer), size};
 		_flash.ReadSector(block, off, span);
 		return 0;
@@ -45,6 +57,11 @@ int base::flash::LittleFsFlash::Read(lfs_block_t block,
 	{
 		return lfs_error::LFS_ERR_INVAL;
 	}
+	catch (std::exception const &e)
+	{
+		base::console().WriteLine(CODE_POS_STR + e.what());
+		return lfs_error::LFS_ERR_IO;
+	}
 	catch (...)
 	{
 		return lfs_error::LFS_ERR_IO;
@@ -58,6 +75,8 @@ int base::flash::LittleFsFlash::Program(lfs_block_t block,
 {
 	try
 	{
+		base::console().WriteLine(CODE_POS_STR);
+
 		base::ReadOnlySpan span{reinterpret_cast<uint8_t const *>(buffer), size};
 		_flash.ProgramSector(block, off, span);
 		return 0;
@@ -73,6 +92,11 @@ int base::flash::LittleFsFlash::Program(lfs_block_t block,
 	catch (base::flash::AlignmentException &e)
 	{
 		return lfs_error::LFS_ERR_INVAL;
+	}
+	catch (std::exception const &e)
+	{
+		base::console().WriteLine(CODE_POS_STR + e.what());
+		return lfs_error::LFS_ERR_IO;
 	}
 	catch (...)
 	{
