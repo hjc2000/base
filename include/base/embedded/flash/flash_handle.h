@@ -12,6 +12,11 @@ namespace base
 
 		std::shared_ptr<base::flash::flash_handle> open(uint32_t id);
 
+		///
+		/// @brief 初始化 flash.
+		///
+		/// @param self
+		///
 		void initialize(base::flash::flash_handle &self);
 
 		///
@@ -34,6 +39,9 @@ namespace base
 
 		///
 		/// @brief 读取的最小粒度。单位：字节。
+		///
+		/// @param self
+		/// @return
 		///
 		int64_t reading_size(base::flash::flash_handle &self);
 
