@@ -54,6 +54,14 @@ namespace base
 
 				_flash = flash;
 				InitializeFunctionPtr();
+
+				_handle_context._config.read_size = _flash->ReadingSize();
+				_handle_context._config.prog_size = _flash->ProgrammingSize();
+				_handle_context._config.block_size = _flash->SectorSize();
+				_handle_context._config.block_count = _flash->SectorCount();
+				_handle_context._config.block_cycles = 1000;
+				_handle_context._config.cache_size = 256;
+				_handle_context._config.lookahead_size = 256;
 			}
 		};
 
