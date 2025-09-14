@@ -187,7 +187,7 @@ void base::flash::LittleFsFlash::Mount()
 	base::console().WriteLine("挂载成功。");
 }
 
-void base::flash::LittleFsFlash::OpenOrCreate(lfs_file_t &file, char const *path)
+void base::flash::LittleFsFlash::OpenOrCreateFile(lfs_file_t &file, char const *path)
 {
 	int result = lfs_file_open(&_lfs,
 							   &file,
@@ -197,5 +197,50 @@ void base::flash::LittleFsFlash::OpenOrCreate(lfs_file_t &file, char const *path
 	if (result != lfs_error::LFS_ERR_OK)
 	{
 		throw std::runtime_error{CODE_POS_STR + "打开或创建文件失败。"};
+	}
+}
+
+int64_t base::flash::LittleFsFlash::GetFilePosition(lfs_file_t &file)
+{
+	lfs_soff_t result = lfs_file_tell(&_lfs, &file);
+	if (result < 0)
+	{
+		throw std::runtime_error{CODE_POS_STR + "获取文件指针失败。"};
+	}
+
+	return result;
+}
+
+void base::flash::LittleFsFlash::SetFilePosition(lfs_file_t &file, int64_t position)
+{
+	lfs_soff_t result = lfs_file_seek(&_lfs, &file, 0, lfs_whence_flags::LFS_SEEK_SET);
+	if (result < 0)
+	{
+		throw std::runtime_error{CODE_POS_STR + "设置文件指针失败。"};
+	}
+}
+
+int64_t base::flash::LittleFsFlash::ReadFile(lfs_file_t &file, base::Span const &span)
+{
+	int64_t have_read = lfs_file_read(&_lfs, &file, span.Buffer(), span.Size());
+	if (have_read < 0)
+	{
+		throw std::runtime_error{CODE_POS_STR + "读取文件失败。"};
+	}
+
+	return have_read;
+}
+
+void base::flash::LittleFsFlash::WriteFile(lfs_file_t &file, base::ReadOnlySpan const &span)
+{
+	int64_t have_written = lfs_file_write(&_lfs, &file, span.Buffer(), span.Size());
+	if (have_written < 0)
+	{
+		throw std::runtime_error{CODE_POS_STR + "写入文件失败。"};
+	}
+
+	if (have_written != span.Size())
+	{
+		throw std::runtime_error{CODE_POS_STR + "写入文件的大小不等于 span 的大小。"};
 	}
 }

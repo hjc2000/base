@@ -1,6 +1,7 @@
 #pragma once
 #include "base/embedded/flash/littlefs/src/lfs.h"
 #include "Flash.h"
+#include <cstdint>
 
 namespace base
 {
@@ -65,7 +66,15 @@ namespace base
 			/// @param file
 			/// @param path
 			///
-			void OpenOrCreate(lfs_file_t &file, char const *path);
+			void OpenOrCreateFile(lfs_file_t &file, char const *path);
+
+			int64_t GetFilePosition(lfs_file_t &file);
+
+			void SetFilePosition(lfs_file_t &file, int64_t position);
+
+			int64_t ReadFile(lfs_file_t &file, base::Span const &span);
+
+			void WriteFile(lfs_file_t &file, base::ReadOnlySpan const &span);
 		};
 
 	} // namespace flash
