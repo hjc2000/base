@@ -105,6 +105,22 @@ namespace base
 			void SetFilePosition(lfs_file_t &file, int64_t position);
 
 			///
+			/// @brief 获取指定文件的大小。
+			///
+			/// @param file
+			/// @return
+			///
+			int64_t GetFileSize(lfs_file_t &file);
+
+			///
+			/// @brief 设置指定文件的大小。
+			///
+			/// @param file
+			/// @param size
+			///
+			void SetFileSize(lfs_file_t &file, int64_t size);
+
+			///
 			/// @brief 读取指定文件。
 			///
 			/// @param file

@@ -232,6 +232,26 @@ void base::flash::LittleFsFlash::SetFilePosition(lfs_file_t &file, int64_t posit
 	}
 }
 
+int64_t base::flash::LittleFsFlash::GetFileSize(lfs_file_t &file)
+{
+	int64_t result = lfs_file_size(&_lfs, &file);
+	if (result < 0)
+	{
+		throw std::runtime_error{CODE_POS_STR + "获取文件大小失败。"};
+	}
+
+	return result;
+}
+
+void base::flash::LittleFsFlash::SetFileSize(lfs_file_t &file, int64_t size)
+{
+	int result = lfs_file_truncate(&_lfs, &file, size);
+	if (result < 0)
+	{
+		throw std::runtime_error{CODE_POS_STR + "设置文件大小失败。"};
+	}
+}
+
 int64_t base::flash::LittleFsFlash::ReadFile(lfs_file_t &file, base::Span const &span)
 {
 	int64_t have_read = lfs_file_read(&_lfs, &file, span.Buffer(), span.Size());

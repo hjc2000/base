@@ -21,6 +21,12 @@ namespace base
 			lfs_file_t file{};
 			little_fs_flash.OpenOrCreateFile(file, "test_file");
 
+			base::console().WriteLine("文件大小：" + std::to_string(little_fs_flash.GetFileSize(file)));
+			little_fs_flash.SetFileSize(file, 6);
+			base::console().WriteLine("文件大小：" + std::to_string(little_fs_flash.GetFileSize(file)));
+			little_fs_flash.SetFileSize(file, 0);
+			base::console().WriteLine("文件大小：" + std::to_string(little_fs_flash.GetFileSize(file)));
+
 			base::console().WriteLine("文件指针：" + std::to_string(little_fs_flash.GetFilePosition(file)));
 
 			uint32_t number = 666;
