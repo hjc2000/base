@@ -11,6 +11,7 @@ namespace base
 			base::flash::Flash flash{1};
 			flash.Initialize();
 			base::flash::LittleFsFlash little_fs_flash{flash};
+			little_fs_flash.Mount();
 		}
 
 	} // namespace test

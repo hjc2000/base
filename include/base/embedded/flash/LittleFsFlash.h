@@ -1,4 +1,5 @@
 #pragma once
+#include "base/Console.h"
 #include "base/embedded/flash/littlefs/src/lfs.h"
 #include "Flash.h"
 
@@ -24,7 +25,8 @@ namespace base
 				LittleFsFlash *_self = nullptr;
 			};
 
-			lfs_config_context _handle_context{this};
+			lfs_t _lfs{};
+			lfs_config_context _lfs_config_context{this};
 			base::flash::Flash _flash;
 
 			int Erase(lfs_block_t block) noexcept;
@@ -50,8 +52,24 @@ namespace base
 				InitializeFunctionPtr();
 			}
 
+			///
+			/// @brief 挂载 flash.
+			///
+			///
 			void Mount()
 			{
+				int result = lfs_mount(&_lfs, &_lfs_config_context._config);
+
+				// reformat if we can't mount the filesystem
+				// this should only happen on the first boot
+				if (result)
+				{
+					base::console().WriteLine("挂载失败，格式化后重试。");
+					lfs_format(&_lfs, &_lfs_config_context._config);
+					lfs_mount(&_lfs, &_lfs_config_context._config);
+				}
+
+				base::console().WriteLine("挂载成功。");
 			}
 		};
 

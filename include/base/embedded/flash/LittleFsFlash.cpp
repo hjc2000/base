@@ -82,50 +82,50 @@ int base::flash::LittleFsFlash::Program(lfs_block_t block,
 
 void base::flash::LittleFsFlash::InitalizeAttributes()
 {
-	_handle_context._config.read_size = _flash.ReadingSize();
-	_handle_context._config.prog_size = _flash.ProgrammingSize();
-	_handle_context._config.block_size = _flash.SectorSize();
-	_handle_context._config.block_count = _flash.SectorCount();
-	_handle_context._config.block_cycles = 1000;
-	_handle_context._config.cache_size = std::lcm<int64_t>(_flash.ReadingSize(), _flash.ProgrammingSize());
+	_lfs_config_context._config.read_size = _flash.ReadingSize();
+	_lfs_config_context._config.prog_size = _flash.ProgrammingSize();
+	_lfs_config_context._config.block_size = _flash.SectorSize();
+	_lfs_config_context._config.block_count = _flash.SectorCount();
+	_lfs_config_context._config.block_cycles = 1000;
+	_lfs_config_context._config.cache_size = std::lcm<int64_t>(_flash.ReadingSize(), _flash.ProgrammingSize());
 
-	if (_flash.SectorSize() % _handle_context._config.cache_size != 0)
+	if (_flash.SectorSize() % _lfs_config_context._config.cache_size != 0)
 	{
 		throw std::runtime_error{CODE_POS_STR + "缓存大小不是扇区大小的因数。"};
 	}
 
-	_handle_context._config.lookahead_size = 256;
+	_lfs_config_context._config.lookahead_size = 256;
 }
 
 void base::flash::LittleFsFlash::InitializeFunctionPtr()
 {
-	_handle_context._config.erase = [](lfs_config const *c, lfs_block_t block) -> int
+	_lfs_config_context._config.erase = [](lfs_config const *c, lfs_block_t block) -> int
 	{
 		LittleFsFlash *self = reinterpret_cast<lfs_config_context const *>(c)->_self;
 		return self->Erase(block);
 	};
 
-	_handle_context._config.read = [](lfs_config const *c,
-									  lfs_block_t block,
-									  lfs_off_t off,
-									  void *buffer,
-									  lfs_size_t size) -> int
+	_lfs_config_context._config.read = [](lfs_config const *c,
+										  lfs_block_t block,
+										  lfs_off_t off,
+										  void *buffer,
+										  lfs_size_t size) -> int
 	{
 		LittleFsFlash *self = reinterpret_cast<lfs_config_context const *>(c)->_self;
 		return self->Read(block, off, buffer, size);
 	};
 
-	_handle_context._config.prog = [](lfs_config const *c,
-									  lfs_block_t block,
-									  lfs_off_t off,
-									  void const *buffer,
-									  lfs_size_t size) -> int
+	_lfs_config_context._config.prog = [](lfs_config const *c,
+										  lfs_block_t block,
+										  lfs_off_t off,
+										  void const *buffer,
+										  lfs_size_t size) -> int
 	{
 		LittleFsFlash *self = reinterpret_cast<lfs_config_context const *>(c)->_self;
 		return self->Program(block, off, buffer, size);
 	};
 
-	_handle_context._config.sync = [](lfs_config const *c) -> int
+	_lfs_config_context._config.sync = [](lfs_config const *c) -> int
 	{
 		return lfs_error::LFS_ERR_OK;
 	};
