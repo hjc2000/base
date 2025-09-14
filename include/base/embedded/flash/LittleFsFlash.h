@@ -1,4 +1,5 @@
 #pragma once
+#include "base/embedded/flash/exception.h"
 #include "base/embedded/flash/littlefs/src/lfs.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
@@ -32,8 +33,19 @@ namespace base
 
 			int Erase(lfs_block_t block) noexcept
 			{
-				_flash->EraseSector(block);
-				return 0;
+				try
+				{
+					_flash->EraseSector(block);
+					return 0;
+				}
+				catch (base::flash::SectorIndexOutOfRangeException &e)
+				{
+					return lfs_error::LFS_ERR_INVAL;
+				}
+				catch (...)
+				{
+					return lfs_error::LFS_ERR_IO;
+				}
 			}
 
 			int Read(lfs_block_t block,
@@ -41,9 +53,28 @@ namespace base
 					 void *buffer,
 					 lfs_size_t size) noexcept
 			{
-				base::Span span{reinterpret_cast<uint8_t *>(buffer), size};
-				_flash->ReadSector(block, off, span);
-				return 0;
+				try
+				{
+					base::Span span{reinterpret_cast<uint8_t *>(buffer), size};
+					_flash->ReadSector(block, off, span);
+					return 0;
+				}
+				catch (base::flash::SectorIndexOutOfRangeException &e)
+				{
+					return lfs_error::LFS_ERR_INVAL;
+				}
+				catch (base::flash::CrossSectorException &e)
+				{
+					return lfs_error::LFS_ERR_INVAL;
+				}
+				catch (base::flash::AlignmentException &e)
+				{
+					return lfs_error::LFS_ERR_INVAL;
+				}
+				catch (...)
+				{
+					return lfs_error::LFS_ERR_IO;
+				}
 			}
 
 			int Program(lfs_block_t block,
@@ -51,9 +82,28 @@ namespace base
 						void const *buffer,
 						lfs_size_t size) noexcept
 			{
-				base::ReadOnlySpan span{reinterpret_cast<uint8_t const *>(buffer), size};
-				_flash->ProgramSector(block, off, span);
-				return 0;
+				try
+				{
+					base::ReadOnlySpan span{reinterpret_cast<uint8_t const *>(buffer), size};
+					_flash->ProgramSector(block, off, span);
+					return 0;
+				}
+				catch (base::flash::SectorIndexOutOfRangeException &e)
+				{
+					return lfs_error::LFS_ERR_INVAL;
+				}
+				catch (base::flash::CrossSectorException &e)
+				{
+					return lfs_error::LFS_ERR_INVAL;
+				}
+				catch (base::flash::AlignmentException &e)
+				{
+					return lfs_error::LFS_ERR_INVAL;
+				}
+				catch (...)
+				{
+					return lfs_error::LFS_ERR_IO;
+				}
 			}
 
 			void InitializeFunctionPtr();
