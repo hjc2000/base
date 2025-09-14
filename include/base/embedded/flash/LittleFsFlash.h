@@ -30,7 +30,7 @@ namespace base
 			handle_context _handle_context{this};
 			std::shared_ptr<base::flash::Flash> _flash;
 
-			int Erase(lfs_block_t block)
+			int Erase(lfs_block_t block) noexcept
 			{
 				_flash->EraseSector(block);
 				return 0;
@@ -39,7 +39,7 @@ namespace base
 			int Read(lfs_block_t block,
 					 lfs_off_t off,
 					 void *buffer,
-					 lfs_size_t size)
+					 lfs_size_t size) noexcept
 			{
 				base::Span span{reinterpret_cast<uint8_t *>(buffer), size};
 				_flash->ReadSector(block, off, span);
@@ -49,7 +49,7 @@ namespace base
 			int Program(lfs_block_t block,
 						lfs_off_t off,
 						void const *buffer,
-						lfs_size_t size)
+						lfs_size_t size) noexcept
 			{
 				base::ReadOnlySpan span{reinterpret_cast<uint8_t const *>(buffer), size};
 				_flash->ProgramSector(block, off, span);
