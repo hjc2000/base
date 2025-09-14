@@ -8,40 +8,6 @@ namespace base
 {
 	namespace flash
 	{
-		/* #region 异常类 */
-
-		class SectorIndexOutOfRangeException :
-			public std::exception
-		{
-		public:
-			virtual char const *what() const noexcept override
-			{
-				return "扇区索引超出范围。";
-			}
-		};
-
-		class CrossSectorException :
-			public std::exception
-		{
-		public:
-			virtual char const *what() const noexcept override
-			{
-				return "不能跨扇区。";
-			}
-		};
-
-		class AlignmentException :
-			public std::exception
-		{
-		public:
-			virtual char const *what() const noexcept override
-			{
-				return "对齐异常。";
-			}
-		};
-
-		/* #endregion */
-
 		class flash_handle;
 
 		std::shared_ptr<base::flash::flash_handle> open(uint32_t id);
