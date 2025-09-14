@@ -35,5 +35,13 @@ namespace base
 		///
 		int64_t reading_size(base::flash::flash_handle &self);
 
+		///
+		/// @brief 编程的最小粒度。单位：字节。
+		///
+		/// @param self
+		/// @return
+		///
+		int64_t program_size(base::flash::flash_handle &self);
+
 	} // namespace flash
 } // namespace base
