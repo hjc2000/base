@@ -1,9 +1,6 @@
 #pragma once
 #include "base/embedded/flash/littlefs/src/lfs.h"
-#include "base/string/define.h"
 #include "Flash.h"
-#include <memory>
-#include <stdexcept>
 
 namespace base
 {
@@ -28,7 +25,7 @@ namespace base
 			};
 
 			handle_context _handle_context{this};
-			std::shared_ptr<base::flash::Flash> _flash;
+			base::flash::Flash _flash;
 
 			int Erase(lfs_block_t block) noexcept;
 
@@ -46,14 +43,9 @@ namespace base
 			void InitializeFunctionPtr();
 
 		public:
-			LittleFsFlash(std::shared_ptr<base::flash::Flash> const &flash)
+			LittleFsFlash(base::flash::Flash const &flash)
+				: _flash(flash)
 			{
-				if (flash == nullptr)
-				{
-					throw std::invalid_argument{CODE_POS_STR + "不允许传入空指针。"};
-				}
-
-				_flash = flash;
 				InitalizeAttributes();
 				InitializeFunctionPtr();
 			}

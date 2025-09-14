@@ -9,7 +9,7 @@ int base::flash::LittleFsFlash::Erase(lfs_block_t block) noexcept
 {
 	try
 	{
-		_flash->EraseSector(block);
+		_flash.EraseSector(block);
 		return 0;
 	}
 	catch (base::flash::SectorIndexOutOfRangeException &e)
@@ -30,7 +30,7 @@ int base::flash::LittleFsFlash::Read(lfs_block_t block,
 	try
 	{
 		base::Span span{reinterpret_cast<uint8_t *>(buffer), size};
-		_flash->ReadSector(block, off, span);
+		_flash.ReadSector(block, off, span);
 		return 0;
 	}
 	catch (base::flash::SectorIndexOutOfRangeException &e)
@@ -59,7 +59,7 @@ int base::flash::LittleFsFlash::Program(lfs_block_t block,
 	try
 	{
 		base::ReadOnlySpan span{reinterpret_cast<uint8_t const *>(buffer), size};
-		_flash->ProgramSector(block, off, span);
+		_flash.ProgramSector(block, off, span);
 		return 0;
 	}
 	catch (base::flash::SectorIndexOutOfRangeException &e)
@@ -82,14 +82,14 @@ int base::flash::LittleFsFlash::Program(lfs_block_t block,
 
 void base::flash::LittleFsFlash::InitalizeAttributes()
 {
-	_handle_context._config.read_size = _flash->ReadingSize();
-	_handle_context._config.prog_size = _flash->ProgrammingSize();
-	_handle_context._config.block_size = _flash->SectorSize();
-	_handle_context._config.block_count = _flash->SectorCount();
+	_handle_context._config.read_size = _flash.ReadingSize();
+	_handle_context._config.prog_size = _flash.ProgrammingSize();
+	_handle_context._config.block_size = _flash.SectorSize();
+	_handle_context._config.block_count = _flash.SectorCount();
 	_handle_context._config.block_cycles = 1000;
-	_handle_context._config.cache_size = std::lcm<int64_t>(_flash->ReadingSize(), _flash->ProgrammingSize());
+	_handle_context._config.cache_size = std::lcm<int64_t>(_flash.ReadingSize(), _flash.ProgrammingSize());
 
-	if (_flash->SectorSize() % _handle_context._config.cache_size != 0)
+	if (_flash.SectorSize() % _handle_context._config.cache_size != 0)
 	{
 		throw std::runtime_error{CODE_POS_STR + "缓存大小不是扇区大小的因数。"};
 	}
