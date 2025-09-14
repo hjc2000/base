@@ -18,15 +18,30 @@ namespace base
 			std::unique_ptr<uint8_t[]> _buffer;
 			base::Span _span{};
 
-		public:
-			RamFlash(int64_t sector_size,
-					 int64_t sector_count)
+			void InitializeBuffer()
 			{
+				_buffer = std::unique_ptr<uint8_t[]>{new uint8_t[_sector_size * _sector_count]};
+				_span = base::Span{_buffer.get(), _sector_size * _sector_count};
+				_span.FillWith(0xff);
+			}
+
+		public:
+			RamFlash()
+			{
+				InitializeBuffer();
+			}
+
+			RamFlash(int64_t sector_size,
+					 int64_t sector_count,
+					 int64_t reading_size,
+					 int64_t programming_size)
+			{
+
 				_sector_size = sector_size;
 				_sector_count = sector_count;
-				_buffer = std::unique_ptr<uint8_t[]>{new uint8_t[sector_size * sector_count]};
-				_span = base::Span{_buffer.get(), sector_size * sector_count};
-				_span.FillWith(0xff);
+				_reading_size = reading_size;
+				_programming_size = programming_size;
+				InitializeBuffer();
 			}
 
 			void Initialize()
