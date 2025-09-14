@@ -26,6 +26,7 @@ namespace base
 				_sector_count = sector_count;
 				_buffer = std::unique_ptr<uint8_t[]>{new uint8_t[sector_size * sector_count]};
 				_span = base::Span{_buffer.get(), sector_size * sector_count};
+				_span.FillWith(0xff);
 			}
 
 			void Initialize()
