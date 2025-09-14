@@ -68,8 +68,20 @@ namespace base
 			///
 			void OpenOrCreateFile(lfs_file_t &file, char const *path);
 
+			///
+			/// @brief 获取指定文件的文件指针。
+			///
+			/// @param file
+			/// @return
+			///
 			int64_t GetFilePosition(lfs_file_t &file);
 
+			///
+			/// @brief 设置指定文件的文件指针。
+			///
+			/// @param file
+			/// @param position
+			///
 			void SetFilePosition(lfs_file_t &file, int64_t position);
 
 			int64_t ReadFile(lfs_file_t &file, base::Span const &span);

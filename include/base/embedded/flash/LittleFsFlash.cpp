@@ -233,7 +233,13 @@ int64_t base::flash::LittleFsFlash::ReadFile(lfs_file_t &file, base::Span const 
 
 void base::flash::LittleFsFlash::WriteFile(lfs_file_t &file, base::ReadOnlySpan const &span)
 {
-	int64_t have_written = lfs_file_write(&_lfs, &file, span.Buffer(), span.Size());
+	base::ReadOnlySpan remain_span{span};
+
+	int64_t have_written = lfs_file_write(&_lfs,
+										  &file,
+										  remain_span.Buffer(),
+										  remain_span.Size());
+
 	if (have_written < 0)
 	{
 		throw std::runtime_error{CODE_POS_STR + "写入文件失败。"};

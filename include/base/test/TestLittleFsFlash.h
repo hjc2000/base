@@ -2,7 +2,9 @@
 #include "base/Console.h"
 #include "base/embedded/flash/Flash.h"
 #include "base/embedded/flash/LittleFsFlash.h"
+#include "base/stream/Span.h"
 #include "base/string/define.h"
+#include <cstdint>
 #include <string>
 
 namespace base
@@ -20,6 +22,12 @@ namespace base
 			little_fs_flash.OpenOrCreateFile(file, "test_file");
 
 			base::console().WriteLine("文件指针：" + std::to_string(little_fs_flash.GetFilePosition(file)));
+
+			uint32_t number = 666;
+			base::Span num_span{reinterpret_cast<uint8_t *>(&number), sizeof(number)};
+			little_fs_flash.WriteFile(file, num_span);
+			little_fs_flash.ReadFile(file, num_span);
+			base::console().WriteLine("读出数字：" + std::to_string(number));
 
 			base::console().WriteLine(CODE_POS_STR + "测试成功。");
 		}
