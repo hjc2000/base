@@ -2,7 +2,9 @@
 #include "base/embedded/flash/littlefs/src/lfs.h"
 #include "base/string/define.h"
 #include "Flash.h"
+#include <cstdint>
 #include <memory>
+#include <numeric>
 #include <stdexcept>
 
 namespace base
@@ -60,7 +62,7 @@ namespace base
 				_handle_context._config.block_size = _flash->SectorSize();
 				_handle_context._config.block_count = _flash->SectorCount();
 				_handle_context._config.block_cycles = 1000;
-				_handle_context._config.cache_size = 256;
+				_handle_context._config.cache_size = std::lcm<int64_t>(_flash->ReadingSize(), _flash->ProgrammingSize());
 				_handle_context._config.lookahead_size = 256;
 			}
 		};
