@@ -1,5 +1,6 @@
 #pragma once
 #include "base/embedded/flash/littlefs/src/lfs.h"
+#include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
 #include "base/string/define.h"
 #include "Flash.h"
@@ -31,6 +32,7 @@ namespace base
 
 			int Erase(lfs_block_t block)
 			{
+				_flash->EraseSector(block);
 				return 0;
 			}
 
@@ -49,6 +51,8 @@ namespace base
 						void const *buffer,
 						lfs_size_t size)
 			{
+				base::ReadOnlySpan span{reinterpret_cast<uint8_t const *>(buffer), size};
+				_flash->ProgramSector(block, off, span);
 				return 0;
 			}
 
