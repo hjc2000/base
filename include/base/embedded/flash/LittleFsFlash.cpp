@@ -12,13 +12,12 @@ int base::flash::LittleFsFlash::Erase(lfs_block_t block) noexcept
 {
 	try
 	{
-		base::console().WriteLine(CODE_POS_STR);
-
 		_flash.EraseSector(block);
 		return 0;
 	}
 	catch (base::flash::SectorIndexOutOfRangeException &e)
 	{
+		base::console().WriteLine(CODE_POS_STR + "SectorIndexOutOfRangeException");
 		return lfs_error::LFS_ERR_INVAL;
 	}
 	catch (std::exception const &e)
@@ -28,6 +27,7 @@ int base::flash::LittleFsFlash::Erase(lfs_block_t block) noexcept
 	}
 	catch (...)
 	{
+		base::console().WriteLine(CODE_POS_STR + "未知异常。");
 		return lfs_error::LFS_ERR_IO;
 	}
 }
@@ -39,22 +39,23 @@ int base::flash::LittleFsFlash::Read(lfs_block_t block,
 {
 	try
 	{
-		base::console().WriteLine(CODE_POS_STR);
-
 		base::Span span{reinterpret_cast<uint8_t *>(buffer), size};
 		_flash.ReadSector(block, off, span);
 		return 0;
 	}
 	catch (base::flash::SectorIndexOutOfRangeException &e)
 	{
+		base::console().WriteLine(CODE_POS_STR + "SectorIndexOutOfRangeException");
 		return lfs_error::LFS_ERR_INVAL;
 	}
 	catch (base::flash::CrossSectorException &e)
 	{
+		base::console().WriteLine(CODE_POS_STR + "CrossSectorException");
 		return lfs_error::LFS_ERR_INVAL;
 	}
 	catch (base::flash::AlignmentException &e)
 	{
+		base::console().WriteLine(CODE_POS_STR + "AlignmentException");
 		return lfs_error::LFS_ERR_INVAL;
 	}
 	catch (std::exception const &e)
@@ -64,6 +65,7 @@ int base::flash::LittleFsFlash::Read(lfs_block_t block,
 	}
 	catch (...)
 	{
+		base::console().WriteLine(CODE_POS_STR + "未知异常。");
 		return lfs_error::LFS_ERR_IO;
 	}
 }
@@ -75,22 +77,23 @@ int base::flash::LittleFsFlash::Program(lfs_block_t block,
 {
 	try
 	{
-		base::console().WriteLine(CODE_POS_STR);
-
 		base::ReadOnlySpan span{reinterpret_cast<uint8_t const *>(buffer), size};
 		_flash.ProgramSector(block, off, span);
 		return 0;
 	}
 	catch (base::flash::SectorIndexOutOfRangeException &e)
 	{
+		base::console().WriteLine(CODE_POS_STR + "SectorIndexOutOfRangeException");
 		return lfs_error::LFS_ERR_INVAL;
 	}
 	catch (base::flash::CrossSectorException &e)
 	{
+		base::console().WriteLine(CODE_POS_STR + "CrossSectorException");
 		return lfs_error::LFS_ERR_INVAL;
 	}
 	catch (base::flash::AlignmentException &e)
 	{
+		base::console().WriteLine(CODE_POS_STR + "AlignmentException");
 		return lfs_error::LFS_ERR_INVAL;
 	}
 	catch (std::exception const &e)
@@ -100,6 +103,7 @@ int base::flash::LittleFsFlash::Program(lfs_block_t block,
 	}
 	catch (...)
 	{
+		base::console().WriteLine(CODE_POS_STR + "未知异常。");
 		return lfs_error::LFS_ERR_IO;
 	}
 }

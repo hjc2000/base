@@ -74,7 +74,7 @@ namespace base
 				{
 					base::Range range{
 						sector_index * _sector_size,
-						_sector_size,
+						(sector_index + 1) * _sector_size,
 					};
 
 					_span[range].FillWith(0xff);
@@ -95,11 +95,12 @@ namespace base
 			{
 				try
 				{
-					base::Range range{
-						sector_index * _sector_size + offset,
-						_sector_size,
-					};
+					int64_t begin = sector_index * _sector_size + offset;
 
+					int64_t end = std::min<int64_t>((sector_index + 1) * _sector_size,
+													begin + span.Size());
+
+					base::Range range{begin, end};
 					span.CopyFrom(_span[range]);
 				}
 				catch (std::exception const &e)
@@ -118,11 +119,12 @@ namespace base
 			{
 				try
 				{
-					base::Range range{
-						sector_index * _sector_size + offset,
-						_sector_size,
-					};
+					int64_t begin = sector_index * _sector_size + offset;
 
+					int64_t end = std::min<int64_t>((sector_index + 1) * _sector_size,
+													begin + span.Size());
+
+					base::Range range{begin, end};
 					_span[range].CopyFrom(span);
 				}
 				catch (std::exception const &e)
