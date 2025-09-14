@@ -101,7 +101,7 @@ void base::flash::LittleFsFlash::InitializeFunctionPtr()
 {
 	_handle_context._config.erase = [](lfs_config const *c, lfs_block_t block) -> int
 	{
-		LittleFsFlash *self = reinterpret_cast<handle_context const *>(c)->_self;
+		LittleFsFlash *self = reinterpret_cast<lfs_config_context const *>(c)->_self;
 		return self->Erase(block);
 	};
 
@@ -111,7 +111,7 @@ void base::flash::LittleFsFlash::InitializeFunctionPtr()
 									  void *buffer,
 									  lfs_size_t size) -> int
 	{
-		LittleFsFlash *self = reinterpret_cast<handle_context const *>(c)->_self;
+		LittleFsFlash *self = reinterpret_cast<lfs_config_context const *>(c)->_self;
 		return self->Read(block, off, buffer, size);
 	};
 
@@ -121,7 +121,7 @@ void base::flash::LittleFsFlash::InitializeFunctionPtr()
 									  void const *buffer,
 									  lfs_size_t size) -> int
 	{
-		LittleFsFlash *self = reinterpret_cast<handle_context const *>(c)->_self;
+		LittleFsFlash *self = reinterpret_cast<lfs_config_context const *>(c)->_self;
 		return self->Program(block, off, buffer, size);
 	};
 

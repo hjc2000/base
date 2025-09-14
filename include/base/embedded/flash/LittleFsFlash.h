@@ -12,10 +12,10 @@ namespace base
 		class LittleFsFlash
 		{
 		private:
-			class handle_context
+			class lfs_config_context
 			{
 			public:
-				handle_context(LittleFsFlash *self)
+				lfs_config_context(LittleFsFlash *self)
 					: _self(self)
 				{
 				}
@@ -24,7 +24,7 @@ namespace base
 				LittleFsFlash *_self = nullptr;
 			};
 
-			handle_context _handle_context{this};
+			lfs_config_context _handle_context{this};
 			base::flash::Flash _flash;
 
 			int Erase(lfs_block_t block) noexcept;
@@ -48,6 +48,10 @@ namespace base
 			{
 				InitalizeAttributes();
 				InitializeFunctionPtr();
+			}
+
+			void Mount()
+			{
 			}
 		};
 
