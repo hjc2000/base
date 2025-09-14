@@ -9,6 +9,9 @@ namespace base
 {
 	namespace flash
 	{
+		///
+		/// @brief 通过 littlefs 接管 flash.
+		///
 		class LittleFsFlash
 		{
 		private:

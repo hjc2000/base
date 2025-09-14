@@ -109,6 +109,6 @@ void base::flash::LittleFsFlash::InitializeFunctionPtr()
 
 	_handle_context._config.sync = [](lfs_config const *c) -> int
 	{
-		return 0;
+		return lfs_error::LFS_ERR_OK;
 	};
 }
