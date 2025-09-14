@@ -186,3 +186,16 @@ void base::flash::LittleFsFlash::Mount()
 
 	base::console().WriteLine("挂载成功。");
 }
+
+void base::flash::LittleFsFlash::OpenOrCreate(lfs_file_t &file, char const *path)
+{
+	int result = lfs_file_open(&_lfs,
+							   &file,
+							   path,
+							   lfs_open_flags::LFS_O_RDWR | lfs_open_flags::LFS_O_CREAT);
+
+	if (result != lfs_error::LFS_ERR_OK)
+	{
+		throw std::runtime_error{CODE_POS_STR + "打开或创建文件失败。"};
+	}
+}

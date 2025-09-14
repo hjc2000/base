@@ -56,6 +56,8 @@ namespace base
 			///
 			///
 			void Mount();
+
+			void OpenOrCreate(lfs_file_t &file, char const *path);
 		};
 
 	} // namespace flash
