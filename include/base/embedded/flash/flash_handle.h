@@ -7,6 +7,40 @@ namespace base
 {
 	namespace flash
 	{
+		/* #region 异常类 */
+
+		class SectorIndexOutOfRangeException :
+			public std::exception
+		{
+		public:
+			virtual char const *what() const noexcept override
+			{
+				return "扇区索引超出范围。";
+			}
+		};
+
+		class CrossSectorException :
+			public std::exception
+		{
+		public:
+			virtual char const *what() const noexcept override
+			{
+				return "不能跨扇区。";
+			}
+		};
+
+		class AlignmentException :
+			public std::exception
+		{
+		public:
+			virtual char const *what() const noexcept override
+			{
+				return "对齐异常。";
+			}
+		};
+
+		/* #endregion */
+
 		class flash_handle;
 
 		std::shared_ptr<base::flash::flash_handle> open(uint32_t id);
@@ -50,6 +84,8 @@ namespace base
 		/// @param self
 		/// @param sector_index
 		///
+		/// @exception SectorIndexOutOfRangeException 扇区索引超出范围会抛出此异常。
+		///
 		void erase(base::flash::flash_handle &self, int64_t sector_index);
 
 		///
@@ -62,6 +98,10 @@ namespace base
 		///
 		/// @note 此函数禁止跨扇区读取。例如指定的起始地址离扇区结束只有 256 字节，span
 		/// 的大小就不能超过 256 字节。
+		///
+		/// @exception SectorIndexOutOfRangeException 扇区索引超出范围会抛出此异常。
+		/// @exception CrossSectorException span 如果跨扇区了，会抛出此异常。
+		/// @exception AlignmentException span 如果没有按照最小粒度对齐，会抛出此异常。
 		///
 		void read_sector(base::flash::flash_handle &self,
 						 int64_t sector_index,
