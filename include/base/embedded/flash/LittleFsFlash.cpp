@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <exception>
 #include <numeric>
+#include <stdexcept>
 
 int base::flash::LittleFsFlash::Erase(lfs_block_t block) noexcept
 {
@@ -157,4 +158,31 @@ void base::flash::LittleFsFlash::InitializeFunctionPtr()
 	{
 		return lfs_error::LFS_ERR_OK;
 	};
+}
+
+void base::flash::LittleFsFlash::Mount()
+{
+	int result = lfs_mount(&_lfs, &_lfs_config_context._config);
+	if (result == lfs_error::LFS_ERR_OK)
+	{
+		base::console().WriteLine("挂载成功。");
+		return;
+	}
+
+	// 首次挂载失败
+	base::console().WriteLine("挂载失败，格式化后重试。");
+	result = lfs_format(&_lfs, &_lfs_config_context._config);
+	if (result != lfs_error::LFS_ERR_OK)
+	{
+		throw std::runtime_error{CODE_POS_STR + "格式化失败。"};
+	}
+
+	base::console().WriteLine("格式化成功。");
+	result = lfs_mount(&_lfs, &_lfs_config_context._config);
+	if (result != lfs_error::LFS_ERR_OK)
+	{
+		throw std::runtime_error{CODE_POS_STR + "格式化后重试挂载失败。"};
+	}
+
+	base::console().WriteLine("挂载成功。");
 }
