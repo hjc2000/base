@@ -43,7 +43,6 @@ namespace base
 						lfs_size_t size) noexcept;
 
 			void InitalizeAttributes();
-
 			void InitializeFunctionPtr();
 
 		public:
