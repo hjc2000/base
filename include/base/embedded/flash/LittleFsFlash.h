@@ -53,10 +53,30 @@ namespace base
 			}
 
 			///
-			/// @brief 挂载 flash.
+			/// @brief 挂载文件系统.
 			///
 			///
 			void Mount();
+
+			///
+			/// @brief 卸载文件系统。
+			///
+			///
+			void Unmount();
+
+			///
+			/// @brief 重新挂载文件系统。
+			///
+			void Remount()
+			{
+				Unmount();
+				Mount();
+			}
+
+			///
+			/// @brief 格式化文件系统。
+			///
+			void Format();
 
 			///
 			/// @brief 打开或创建文件。
@@ -84,13 +104,29 @@ namespace base
 			///
 			void SetFilePosition(lfs_file_t &file, int64_t position);
 
+			///
+			/// @brief 读取指定文件。
+			///
+			/// @param file
+			/// @param span
+			/// @return
+			///
 			int64_t ReadFile(lfs_file_t &file, base::Span const &span);
 
+			///
+			/// @brief 写入指定文件。
+			///
+			/// @param file
+			/// @param span
+			///
 			void WriteFile(lfs_file_t &file, base::ReadOnlySpan const &span);
 
+			///
+			/// @brief 关闭指定文件。
+			///
+			/// @param file
+			///
 			void CloseFile(lfs_file_t &file);
-
-			void Unmount();
 		};
 
 	} // namespace flash

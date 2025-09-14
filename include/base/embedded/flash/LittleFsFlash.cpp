@@ -171,13 +171,7 @@ void base::flash::LittleFsFlash::Mount()
 
 	// 首次挂载失败
 	base::console().WriteLine("挂载失败，格式化后重试。");
-	result = lfs_format(&_lfs, &_lfs_config_context._config);
-	if (result != lfs_error::LFS_ERR_OK)
-	{
-		throw std::runtime_error{CODE_POS_STR + "格式化失败。"};
-	}
-
-	base::console().WriteLine("格式化成功。");
+	Format();
 	result = lfs_mount(&_lfs, &_lfs_config_context._config);
 	if (result != lfs_error::LFS_ERR_OK)
 	{
@@ -185,6 +179,24 @@ void base::flash::LittleFsFlash::Mount()
 	}
 
 	base::console().WriteLine("挂载成功。");
+}
+
+void base::flash::LittleFsFlash::Unmount()
+{
+	int result = lfs_unmount(&_lfs);
+	if (result != lfs_error::LFS_ERR_OK)
+	{
+		throw std::runtime_error{CODE_POS_STR + "卸载文件系统失败。"};
+	}
+}
+
+void base::flash::LittleFsFlash::Format()
+{
+	int result = lfs_format(&_lfs, &_lfs_config_context._config);
+	if (result != lfs_error::LFS_ERR_OK)
+	{
+		throw std::runtime_error{CODE_POS_STR + "格式化失败。"};
+	}
 }
 
 void base::flash::LittleFsFlash::OpenOrCreateFile(lfs_file_t &file, char const *path)
@@ -258,14 +270,5 @@ void base::flash::LittleFsFlash::CloseFile(lfs_file_t &file)
 	if (result != lfs_error::LFS_ERR_OK)
 	{
 		throw std::runtime_error{CODE_POS_STR + "关闭文件失败。"};
-	}
-}
-
-void base::flash::LittleFsFlash::Unmount()
-{
-	int result = lfs_unmount(&_lfs);
-	if (result != lfs_error::LFS_ERR_OK)
-	{
-		throw std::runtime_error{CODE_POS_STR + "卸载文件系统失败。"};
 	}
 }

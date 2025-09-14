@@ -16,7 +16,7 @@ namespace base
 			base::flash::Flash flash{1};
 			flash.Initialize();
 			base::flash::LittleFsFlash little_fs_flash{flash};
-			little_fs_flash.Mount();
+			little_fs_flash.Remount();
 
 			lfs_file_t file{};
 			little_fs_flash.OpenOrCreateFile(file, "test_file");
