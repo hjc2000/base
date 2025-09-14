@@ -1,5 +1,11 @@
 #pragma once
 #include "base/embedded/flash/littlefs/src/lfs.h"
+#include "base/stream/Span.h"
+#include "base/string/define.h"
+#include "Flash.h"
+#include <cstdint>
+#include <memory>
+#include <stdexcept>
 
 namespace base
 {
@@ -21,6 +27,7 @@ namespace base
 			};
 
 			handle_context _handle_context{this};
+			std::shared_ptr<base::flash::Flash> _flash;
 
 			int Erase(lfs_block_t block)
 			{
@@ -32,6 +39,8 @@ namespace base
 					 void *buffer,
 					 lfs_size_t size)
 			{
+				base::Span span{reinterpret_cast<uint8_t *>(buffer), size};
+				_flash->ReadSector(block, off, span);
 				return 0;
 			}
 
@@ -43,43 +52,18 @@ namespace base
 				return 0;
 			}
 
-			void InitializeFunctionPtr()
-			{
-				_handle_context._config.erase = [](lfs_config const *c, lfs_block_t block) -> int
-				{
-					LittleFsFlash *self = reinterpret_cast<handle_context const *>(c)->_self;
-					return self->Erase(block);
-				};
-
-				_handle_context._config.read = [](lfs_config const *c,
-												  lfs_block_t block,
-												  lfs_off_t off,
-												  void *buffer,
-												  lfs_size_t size) -> int
-				{
-					LittleFsFlash *self = reinterpret_cast<handle_context const *>(c)->_self;
-					return self->Read(block, off, buffer, size);
-				};
-
-				_handle_context._config.prog = [](lfs_config const *c,
-												  lfs_block_t block,
-												  lfs_off_t off,
-												  void const *buffer,
-												  lfs_size_t size) -> int
-				{
-					LittleFsFlash *self = reinterpret_cast<handle_context const *>(c)->_self;
-					return self->Program(block, off, buffer, size);
-				};
-
-				_handle_context._config.sync = [](lfs_config const *c) -> int
-				{
-					return 0;
-				};
-			}
+			void InitializeFunctionPtr();
 
 		public:
-			LittleFsFlash()
+			LittleFsFlash(std::shared_ptr<base::flash::Flash> const &flash)
 			{
+				if (flash == nullptr)
+				{
+					throw std::invalid_argument{CODE_POS_STR + "不允许传入空指针。"};
+				}
+
+				_flash = flash;
+				InitializeFunctionPtr();
 			}
 		};
 
