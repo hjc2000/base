@@ -2,9 +2,7 @@
 #include "base/embedded/flash/littlefs/src/lfs.h"
 #include "base/string/define.h"
 #include "Flash.h"
-#include <cstdint>
 #include <memory>
-#include <numeric>
 #include <stdexcept>
 
 namespace base
@@ -44,6 +42,8 @@ namespace base
 						void const *buffer,
 						lfs_size_t size) noexcept;
 
+			void InitalizeAttributes();
+
 			void InitializeFunctionPtr();
 
 		public:
@@ -55,21 +55,8 @@ namespace base
 				}
 
 				_flash = flash;
+				InitalizeAttributes();
 				InitializeFunctionPtr();
-
-				_handle_context._config.read_size = _flash->ReadingSize();
-				_handle_context._config.prog_size = _flash->ProgrammingSize();
-				_handle_context._config.block_size = _flash->SectorSize();
-				_handle_context._config.block_count = _flash->SectorCount();
-				_handle_context._config.block_cycles = 1000;
-				_handle_context._config.cache_size = std::lcm<int64_t>(_flash->ReadingSize(), _flash->ProgrammingSize());
-
-				if (_flash->SectorSize() % _handle_context._config.cache_size != 0)
-				{
-					throw std::runtime_error{CODE_POS_STR + "缓存大小不是扇区大小的因数。"};
-				}
-
-				_handle_context._config.lookahead_size = 256;
 			}
 		};
 
