@@ -79,7 +79,7 @@ namespace base
 		/* #endregion */
 
 		///
-		/// @brief 控制器被打开后所使用的时序。
+		/// @brief 控制器被初始化后所使用的时序。
 		///
 		/// @param h
 		/// @return
