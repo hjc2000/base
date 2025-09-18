@@ -77,7 +77,7 @@ namespace base
 		/// @brief 控制器被打开后所使用的时序。
 		///
 		/// @param h
-		/// @return base::sdram::sdram_timing const&
+		/// @return
 		///
 		base::sdram::sdram_timing const &timing(base::sdram::sdram_controller_handle &h);
 
