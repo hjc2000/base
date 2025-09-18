@@ -34,6 +34,23 @@ namespace base
 			}
 
 			///
+			/// @brief 初始化 SRAM 控制器。
+			///
+			/// @param clock_source_name 时钟源的名称。
+			/// @param divider 时钟源的分频数。
+			/// @param timing_provider
+			///
+			void Initialize(std::string const &clock_source_name,
+							uint32_t divider,
+							base::asynchronous_sram::ISRAMTimingProvider const &timing_provider)
+			{
+				base::asynchronous_sram::initialize(*_handle,
+													clock_source_name,
+													divider,
+													timing_provider);
+			}
+
+			///
 			/// @brief 初始化 SRAM 控制器成功后可以调用本方法获取正在应用中的时序。
 			///
 			/// @return

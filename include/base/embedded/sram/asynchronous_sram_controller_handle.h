@@ -4,6 +4,7 @@
 #include "ISRAMTimingProvider.h"
 #include <cstdint>
 #include <memory>
+#include <string>
 
 namespace base
 {
@@ -20,6 +21,19 @@ namespace base
 		/// @param timing_provider
 		///
 		void initialize(base::asynchronous_sram::asynchronous_sram_controller_handle &self,
+						base::asynchronous_sram::ISRAMTimingProvider const &timing_provider);
+
+		///
+		/// @brief 初始化 SRAM 控制器。
+		///
+		/// @param self
+		/// @param clock_source_name 时钟源的名称。
+		/// @param divider 时钟源的分频数。
+		/// @param timing_provider
+		///
+		void initialize(base::asynchronous_sram::asynchronous_sram_controller_handle &self,
+						std::string const &clock_source_name,
+						uint32_t divider,
 						base::asynchronous_sram::ISRAMTimingProvider const &timing_provider);
 
 		///
