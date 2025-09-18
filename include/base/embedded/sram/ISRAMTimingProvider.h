@@ -6,6 +6,10 @@ namespace base
 {
 	namespace asynchronous_sram
 	{
+		///
+		/// @brief 异步 SRAM 的时序提供者。
+		///
+		///
 		class ISRAMTimingProvider
 		{
 		public:
