@@ -39,7 +39,7 @@ namespace base
 						// 改变控制器时钟周期，相应的各种时序的纳秒数不变，但是时钟周期数会改变，
 						// 适应新的时钟频率。
 						ret.set_clock_frequency(clk_frequency);
-						return _timing;
+						return ret;
 					}
 				};
 
