@@ -17,7 +17,7 @@ namespace base
 				/// @brief W9825G6KH_6 芯片操作器。
 				///
 				///
-				class W9825G6KH_6
+				class W9825G6KH_6_Operator final
 				{
 				private:
 					base::sdram::SdramController _controller;
@@ -27,7 +27,7 @@ namespace base
 					/// @brief 构造函数。
 					/// @param controller 需要一个控制器来控制 SDRAM 芯片。
 					///
-					W9825G6KH_6(base::sdram::SdramController const &controller)
+					W9825G6KH_6_Operator(base::sdram::SdramController const &controller)
 						: _controller(controller)
 					{
 					}
