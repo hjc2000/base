@@ -4,6 +4,7 @@
 #include "parameter.h"
 #include <cstdint>
 #include <memory>
+#include <string>
 
 namespace base
 {
@@ -32,6 +33,28 @@ namespace base
 		/// @param read_burst_length
 		///
 		void initialize_as_read_burst_mode(base::sdram::sdram_controller_handle &h,
+										   base::sdram::ISDRAMTimingProvider const &timing_provider,
+										   base::sdram::BankCount const &bank_count,
+										   base::sdram::RowBitCount const &row_bit_count,
+										   base::sdram::ColumnBitCount const &column_bit_count,
+										   base::sdram::DataWidth const &data_width,
+										   base::sdram::ReadBurstLength const &read_burst_length);
+		///
+		/// @brief 将 SDRAM 控制器初始化为读突发模式。写不突发。
+		///
+		/// @param h
+		/// @param clock_source_name
+		/// @param divider
+		/// @param timing_provider
+		/// @param bank_count
+		/// @param row_bit_count
+		/// @param column_bit_count
+		/// @param data_width
+		/// @param read_burst_length
+		///
+		void initialize_as_read_burst_mode(base::sdram::sdram_controller_handle &h,
+										   std::string const &clock_source_name,
+										   uint32_t divider,
 										   base::sdram::ISDRAMTimingProvider const &timing_provider,
 										   base::sdram::BankCount const &bank_count,
 										   base::sdram::RowBitCount const &row_bit_count,
