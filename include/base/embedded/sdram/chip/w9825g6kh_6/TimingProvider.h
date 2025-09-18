@@ -1,5 +1,7 @@
 #pragma once
 #include "base/embedded/sdram/ISDRAMTimingProvider.h"
+#include "base/string/define.h"
+#include <stdexcept>
 
 namespace base
 {
@@ -32,6 +34,11 @@ namespace base
 					///
 					virtual base::sdram::sdram_timing GetTiming(base::unit::MHz const &clock_frequency) const override
 					{
+						if (clock_frequency > MaxClockFrequency())
+						{
+							throw std::invalid_argument{CODE_POS_STR + "频率过高。"};
+						}
+
 						base::unit::Nanosecond clock_period{clock_frequency};
 
 						base::sdram::sdram_timing ret{};
