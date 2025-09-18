@@ -35,15 +35,18 @@ namespace base
 					/* #region 通用的打开方法 */
 
 					///
-					/// @brief 打开 SDRAM.
+					/// @brief 初始化 SDRAM.
 					///
 					/// @note 分为 2 步：
 					/// 	@li 打开 SDRAM 控制器。
 					/// 	@li 初始化 SDRAM 芯片。
 					///
-					void Open()
+					void Initialize(std::string const &clock_source_name,
+									uint32_t divider)
 					{
-						_controller.InitializeAsReadBurstMode(base::sdram::chip::w9825g6kh_6::TimingProvider{},
+						_controller.InitializeAsReadBurstMode(clock_source_name,
+															  divider,
+															  base::sdram::chip::w9825g6kh_6::TimingProvider{},
 															  base::sdram::BankCount{4},
 															  base::sdram::RowBitCount{13},
 															  base::sdram::ColumnBitCount{9},
@@ -73,9 +76,9 @@ namespace base
 					/// @note 如果有些单片机实在太特殊，就为它单独设计一个函数。然后 SDRAM 句柄那边
 					/// 也给它单独设计一个初始化函数。
 					///
-					void open_for_stm32h743iit6()
+					void initialize_for_stm32h743iit6()
 					{
-						Open();
+						Initialize("hclk3", 2);
 					}
 
 					/* #endregion */
