@@ -5,7 +5,7 @@
 
 namespace base
 {
-	namespace usb_pcd
+	namespace usb_fs_pcd
 	{
 		/* #region 参数类 */
 
@@ -31,12 +31,12 @@ namespace base
 
 		class usb_fs_pcd_handle;
 
-		std::shared_ptr<base::usb_pcd::usb_fs_pcd_handle> open(uint32_t id);
+		std::shared_ptr<base::usb_fs_pcd::usb_fs_pcd_handle> open(uint32_t id);
 
-		void initialize_as_full_speed_mode_device(base::usb_pcd::usb_fs_pcd_handle &self,
-												  std::string const &clock_source_name,
-												  uint32_t divider,
-												  base::usb_pcd::PhyType phy_type);
+		void initialize_as_device(base::usb_fs_pcd::usb_fs_pcd_handle &self,
+								  std::string const &clock_source_name,
+								  uint32_t divider,
+								  base::usb_fs_pcd::PhyType phy_type);
 
 		///
 		/// @brief 底层初始化。
@@ -48,5 +48,5 @@ namespace base
 		///
 		void msp_initialize(uint32_t id);
 
-	} // namespace usb_pcd
+	} // namespace usb_fs_pcd
 } // namespace base
