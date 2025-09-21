@@ -51,7 +51,7 @@ namespace base
 		/// @param index
 		/// @return
 		///
-		std::shared_ptr<T> operator[](int32_t index) const
+		std::shared_ptr<T> const &operator[](int32_t index) const
 		{
 			if (index < 0 || index > static_cast<int32_t>(_vector.size()))
 			{
