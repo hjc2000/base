@@ -1,4 +1,5 @@
 #pragma once
+#include "PhyType.h"
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -7,28 +8,6 @@ namespace base
 {
 	namespace usb_fs_pcd
 	{
-		/* #region 参数类 */
-
-		enum class PhyType
-		{
-			///
-			/// @brief 低引脚数外置 PHY.
-			///
-			ULPI,
-
-			///
-			/// @brief 高引脚数外置 PHY.
-			///
-			UTMI,
-
-			///
-			/// @brief 内置 PHY.
-			///
-			Embedded,
-		};
-
-		/* #endregion */
-
 		class usb_fs_pcd_handle;
 
 		std::shared_ptr<base::usb_fs_pcd::usb_fs_pcd_handle> open(uint32_t id);
@@ -36,7 +15,7 @@ namespace base
 		void initialize_as_device(base::usb_fs_pcd::usb_fs_pcd_handle &self,
 								  std::string const &clock_source_name,
 								  uint32_t divider,
-								  base::usb_fs_pcd::PhyType phy_type);
+								  base::usb::PhyType phy_type);
 
 		///
 		/// @brief 底层初始化。

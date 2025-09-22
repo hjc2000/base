@@ -21,7 +21,7 @@ namespace base
 
 			void InitializeAsDevice(std::string const &clock_source_name,
 									uint32_t divider,
-									base::usb_fs_pcd::PhyType phy_type)
+									base::usb::PhyType phy_type)
 			{
 				base::usb_fs_pcd::initialize_as_device(*_handle,
 													   clock_source_name,
