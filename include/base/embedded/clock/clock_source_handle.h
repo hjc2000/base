@@ -18,19 +18,19 @@ namespace base
 		///
 		/// @brief 获取时钟源的频率。
 		///
-		/// @param h
+		/// @param self
 		/// @return
 		///
-		base::unit::MHz frequency(base::clock::clock_source_handle &h);
+		base::unit::MHz frequency(base::clock::clock_source_handle &self);
 
 		///
 		/// @brief 获取指定输出通道的频率。
 		///
-		/// @param h
+		/// @param self
 		/// @param output_channel_name
 		/// @return
 		///
-		base::unit::MHz frequency(base::clock::clock_source_handle &h,
+		base::unit::MHz frequency(base::clock::clock_source_handle &self,
 								  std::string const &output_channel_name);
 
 		/* #endregion */
@@ -40,60 +40,60 @@ namespace base
 		///
 		/// @brief 配置时钟源。
 		///
-		/// @param h
+		/// @param self
 		///
-		void configure(base::clock::clock_source_handle &h);
+		void configure(base::clock::clock_source_handle &self);
 
 		///
 		/// @brief 配置时钟源。
 		///
-		/// @param h
+		/// @param self
 		/// @param divider 对输入的时钟源的分频系数。
 		///
-		void configure(base::clock::clock_source_handle &h, uint32_t divider);
+		void configure(base::clock::clock_source_handle &self, uint32_t divider);
 
 		///
 		/// @brief 配置时钟源。
 		///
-		/// @param h
+		/// @param self
 		///
 		/// @param channel_factor_map 储存着各个通道的分频或倍频系数的 map. 其中 key 是通道的
 		/// 名称，value 是系数。
 		///
-		void configure(base::clock::clock_source_handle &h,
+		void configure(base::clock::clock_source_handle &self,
 					   std::map<std::string, uint32_t> const &channel_factor_map);
 
 		///
 		/// @brief 配置时钟源。
 		///
-		/// @param h
+		/// @param self
 		/// @param input_channel_name 时钟源具有多个输入通道可供选择。选择一个。
 		///
-		void configure(base::clock::clock_source_handle &h,
+		void configure(base::clock::clock_source_handle &self,
 					   std::string const &input_channel_name);
 
 		///
 		/// @brief 配置时钟源。
 		///
-		/// @param h
+		/// @param self
 		/// @param input_channel_name 时钟源具有多个输入通道可供选择。选择一个。
 		/// @param divider 对输入的时钟源的分频系数。
 		///
-		void configure(base::clock::clock_source_handle &h,
+		void configure(base::clock::clock_source_handle &self,
 					   std::string const &input_channel_name,
 					   uint32_t divider);
 
 		///
 		/// @brief 配置时钟源。
 		///
-		/// @param h
+		/// @param self
 		///
 		/// @param input_channel_name 时钟源具有多个输入通道可供选择。选择一个。
 		///
 		/// @param channel_factor_map 储存着各个通道的分频或倍频系数的 map. 其中 key 是通道的
 		/// 名称，value 是系数。
 		///
-		void configure(base::clock::clock_source_handle &h,
+		void configure(base::clock::clock_source_handle &self,
 					   std::string const &input_channel_name,
 					   std::map<std::string, uint32_t> const &channel_factor_map);
 
@@ -102,18 +102,18 @@ namespace base
 		///
 		/// @brief 设置为旁路模式。
 		///
-		/// @param h
+		/// @param self
 		/// @param bypass_input_frequency 旁路的输入频率。
 		///
-		void configure_as_bypass_mode(base::clock::clock_source_handle &h,
+		void configure_as_bypass_mode(base::clock::clock_source_handle &self,
 									  base::unit::MHz const &bypass_input_frequency);
 
 		///
 		/// @brief 关闭此时钟源。
 		///
-		/// @param h
+		/// @param self
 		///
-		void turn_off(base::clock::clock_source_handle &h);
+		void turn_off(base::clock::clock_source_handle &self);
 
 	} // namespace clock
 } // namespace base
