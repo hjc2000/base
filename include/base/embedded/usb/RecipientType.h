@@ -24,6 +24,11 @@ namespace base
 			/// @brief 端点。
 			///
 			Endpoint,
+
+			///
+			/// @brief 其他。
+			///
+			Other,
 		};
 
 	} // namespace usb
