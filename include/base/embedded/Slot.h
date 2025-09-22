@@ -22,7 +22,7 @@ namespace base
 		///
 		/// @brief 使用类型擦除，只生成一种类型的 std::vector, 减小代码段大小。
 		///
-		std::vector<std::shared_ptr<void>> _vector;
+		std::vector<std::shared_ptr<T>> _vector;
 
 	public:
 		///
@@ -58,7 +58,7 @@ namespace base
 				throw std::out_of_range{CODE_POS_STR + "索引溢出。"};
 			}
 
-			return std::static_pointer_cast<T>(_vector[index]);
+			return _vector[index];
 		}
 	};
 
