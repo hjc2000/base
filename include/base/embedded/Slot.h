@@ -19,9 +19,6 @@ namespace base
 	class Slot
 	{
 	private:
-		///
-		/// @brief 使用类型擦除，只生成一种类型的 std::vector, 减小代码段大小。
-		///
 		std::vector<std::shared_ptr<T>> _vector;
 
 	public:
