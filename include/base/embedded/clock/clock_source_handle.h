@@ -48,9 +48,9 @@ namespace base
 		/// @brief 配置时钟源。
 		///
 		/// @param self
-		/// @param divider 对输入的时钟源的分频系数。
+		/// @param input_divider 对输入的时钟源的分频系数。
 		///
-		void configure(base::clock::clock_source_handle &self, uint32_t divider);
+		void configure(base::clock::clock_source_handle &self, uint32_t input_divider);
 
 		///
 		/// @brief 配置时钟源。
@@ -77,11 +77,11 @@ namespace base
 		///
 		/// @param self
 		/// @param input_channel_name 时钟源具有多个输入通道可供选择。选择一个。
-		/// @param divider 对输入的时钟源的分频系数。
+		/// @param input_divider 对输入的时钟源的分频系数。
 		///
 		void configure(base::clock::clock_source_handle &self,
 					   std::string const &input_channel_name,
-					   uint32_t divider);
+					   uint32_t input_divider);
 
 		///
 		/// @brief 配置时钟源。
