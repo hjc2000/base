@@ -305,7 +305,7 @@ namespace base
 			/* #endregion */
 		};
 
-		extern base::Slot<base::extended_io::PCF8574> pcf8574_slot;
+		base::Slot<base::extended_io::PCF8574> &pcf8574_slot();
 
 	} // namespace extended_io
 } // namespace base

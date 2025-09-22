@@ -1,4 +1,5 @@
 #include "PCF8574.h" // IWYU pragma: keep
+#include "base/SingletonProvider.h"
 
 base::extended_io::PCF8574::PCF8574(base::gpio::GpioPin interrupt_pin,
 									std::shared_ptr<base::iic::IicHost> const &iic_host,
@@ -23,4 +24,12 @@ base::extended_io::PCF8574::PCF8574(base::gpio::GpioPin interrupt_pin,
 	op.WriteByte(0, 0xff);
 }
 
-base::Slot<base::extended_io::PCF8574> base::extended_io::pcf8574_slot{};
+namespace
+{
+	base::SingletonProvider<base::Slot<base::extended_io::PCF8574>> _provider{};
+}
+
+base::Slot<base::extended_io::PCF8574> &base::extended_io::pcf8574_slot()
+{
+	return _provider.Instance();
+}
