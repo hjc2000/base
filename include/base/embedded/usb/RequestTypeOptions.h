@@ -111,7 +111,7 @@ namespace base
 				return _data_direction;
 			}
 
-			constexpr operator uint8_t() const
+			constexpr explicit operator uint8_t() const
 			{
 				uint8_t ret = 0;
 				base::bit::WriteBits(ret, 0, 5, static_cast<uint64_t>(_recipient_type));
