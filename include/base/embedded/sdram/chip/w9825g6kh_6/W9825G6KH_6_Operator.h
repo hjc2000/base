@@ -38,8 +38,8 @@ namespace base
 					/// 	@li 打开 SDRAM 控制器。
 					/// 	@li 初始化 SDRAM 芯片。
 					///
-					void Initialize(std::string const &clock_source_name,
-									uint32_t divider);
+					void InitializeAsReadBurstMode(std::string const &clock_source_name,
+												   uint32_t divider);
 
 					/* #endregion */
 
@@ -53,7 +53,7 @@ namespace base
 					///
 					void initialize_for_stm32h743iit6()
 					{
-						Initialize("hclk3", 2);
+						InitializeAsReadBurstMode("hclk3", 2);
 					}
 
 					/* #endregion */

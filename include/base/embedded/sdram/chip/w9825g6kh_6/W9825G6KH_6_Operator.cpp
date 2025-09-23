@@ -3,8 +3,8 @@
 #include "base/task/delay.h"
 #include "ModeRegister.h"
 
-void base::sdram::chip::w9825g6kh_6::W9825G6KH_6_Operator::Initialize(std::string const &clock_source_name,
-																	  uint32_t divider)
+void base::sdram::chip::w9825g6kh_6::W9825G6KH_6_Operator::InitializeAsReadBurstMode(std::string const &clock_source_name,
+																					 uint32_t divider)
 {
 	_controller.InitializeAsReadBurstMode(clock_source_name,
 										  divider,
