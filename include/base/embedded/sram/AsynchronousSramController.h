@@ -26,16 +26,6 @@ namespace base
 			///
 			/// @brief 初始化 SRAM 控制器。
 			///
-			/// @param timing_provider
-			///
-			void Initialize(base::asynchronous_sram::ISRAMTimingProvider const &timing_provider)
-			{
-				base::asynchronous_sram::initialize(*_handle, timing_provider);
-			}
-
-			///
-			/// @brief 初始化 SRAM 控制器。
-			///
 			/// @param clock_source_name 时钟源的名称。
 			/// @param divider 时钟源的分频数。
 			/// @param timing_provider
