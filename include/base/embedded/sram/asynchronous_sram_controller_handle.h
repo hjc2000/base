@@ -22,14 +22,6 @@ namespace base
 						base::asynchronous_sram::asynchronous_sram_timing const &timing);
 
 		///
-		/// @brief 初始化 SRAM 控制器成功后可以调用本方法获取正在应用中的时序。
-		///
-		/// @param self
-		/// @return
-		///
-		base::asynchronous_sram::asynchronous_sram_timing timing(base::asynchronous_sram::asynchronous_sram_controller_handle &self);
-
-		///
 		/// @brief SRAM 控制器所管理的内存段。
 		///
 		/// @note 实际可用的空间由实际的 SRAM 大小决定。这里返回的内存段只是 SRAM 控制器所管理的范围。
