@@ -1,9 +1,10 @@
 #pragma once
+#include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
 #include "base/string/define.h"
 #include "DescriptorWriter.h"
+#include <cstddef>
 #include <stdexcept>
-#include <string>
 
 namespace base
 {
@@ -30,26 +31,25 @@ namespace base
 			///
 			/// @brief 写入字符串数据。
 			///
-			/// @param unicode_string
+			/// @param span 容纳着 UTF16-LE 编码的字符串的内存段。
 			///
-			void WriteData(std::string const &unicode_string)
+			void WriteData(base::ReadOnlySpan const &span)
 			{
-				if (unicode_string.size() % 2 != 0)
+				if (span.Size() % 2 != 0)
 				{
 					// 字符编码必须是 UTF16-LE。
 					// 字符串长度为奇数说明肯定不是 UTF16-LE 编码的。
 					throw std::invalid_argument{CODE_POS_STR + "必须是 UTF16-LE 编码的字符串。"};
 				}
 
-				_writer.WriteDataLength(unicode_string.size());
+				if (reinterpret_cast<size_t>(span.Buffer()) % 2 != 0)
+				{
+					throw std::invalid_argument{CODE_POS_STR + "内存段必须 2 字节对齐。"};
+				}
+
+				_writer.WriteDataLength(span.Size());
 				_writer.WriteDescriptorType(base::usb::DescriptorType::String);
-
-				base::ReadOnlySpan str_span{
-					reinterpret_cast<uint8_t const *>(unicode_string.data()),
-					unicode_string.size(),
-				};
-
-				_writer.WriteData(str_span);
+				_writer.WriteData(span);
 			}
 		};
 
