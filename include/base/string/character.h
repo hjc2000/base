@@ -49,5 +49,6 @@ namespace base
 		{
 			return std::toupper(value);
 		}
+
 	} // namespace character
 } // namespace base
