@@ -41,7 +41,7 @@ namespace base
 					throw std::invalid_argument{CODE_POS_STR + "必须是 UTF16-LE 编码的字符串。"};
 				}
 
-				_writer.WriteLength(unicode_string.size());
+				_writer.WriteDataLength(unicode_string.size());
 				_writer.WriteDescriptorType(base::usb::DescriptorType::String);
 
 				base::ReadOnlySpan str_span{

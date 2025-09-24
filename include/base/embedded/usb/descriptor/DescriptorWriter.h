@@ -1,4 +1,5 @@
 #pragma once
+#include "base/container/Range.h"
 #include "base/embedded/usb/DescriptorType.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
@@ -37,14 +38,41 @@ namespace base
 				_span = span;
 			}
 
-			void WriteLength(uint8_t length)
+			///
+			/// @brief 写入数据长度。
+			///
+			/// @note 不包括长度字段和描述符类型字段。
+			///
+			/// @param value
+			///
+			void WriteDataLength(int64_t value)
 			{
-				_span[0] = length;
+				if (value < 0)
+				{
+					throw std::invalid_argument{CODE_POS_STR + "数据长度不能 < 0."};
+				}
+
+				if (value + 2 > 255)
+				{
+					throw std::invalid_argument{CODE_POS_STR + "数据长度超过描述符能容纳的最大大小: 255 字节。"};
+				}
+
+				if (value + 2 > _span.Size())
+				{
+					throw std::invalid_argument{CODE_POS_STR + "本写入器接管的内存段过小，无法容纳这么长的数据。"};
+				}
+
+				_span[0] = static_cast<uint8_t>(value) + 2;
 			}
 
-			void WriteDescriptorType(base::usb::DescriptorType type)
+			///
+			/// @brief 写入描述符类型字段。
+			///
+			/// @param value
+			///
+			void WriteDescriptorType(base::usb::DescriptorType value)
 			{
-				_span[1] = static_cast<uint8_t>(type);
+				_span[1] = static_cast<uint8_t>(value);
 			}
 
 			///
@@ -57,8 +85,11 @@ namespace base
 			{
 				if (_span.Size() < span.Size() + 2)
 				{
+					// 算上额外的两个字节，即长度字段和描述符类型字段后，无法写入了。
 					throw std::invalid_argument{CODE_POS_STR + "本写入器接管的内存段过小，无法写入。"};
 				}
+
+				_span[base::Range{2, span.Size() + 2}].CopyFrom(span);
 			}
 		};
 
