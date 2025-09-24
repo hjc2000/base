@@ -374,7 +374,7 @@ namespace base
 		///
 		/// @brief 裁剪掉字符串开头处的空白字符。
 		///
-		/// @note 关于哪些是空白字符，见 IsWhiteChar 函数。
+		/// @note 关于哪些是空白字符，见 is_white_char 函数。
 		///
 		void TrimStart()
 		{
@@ -385,7 +385,7 @@ namespace base
 
 			for (int64_t i = 0; i < static_cast<int64_t>(_string.size()); i++)
 			{
-				if (!base::character::IsWhiteChar(_string[i]))
+				if (!base::character::is_white_char(_string[i]))
 				{
 					Remove(base::Range{0, i});
 					return;
@@ -396,7 +396,7 @@ namespace base
 		///
 		/// @brief 裁剪掉字符串末尾处的空白字符。
 		///
-		/// @note 关于哪些是空白字符，见 IsWhiteChar 函数。
+		/// @note 关于哪些是空白字符，见 is_white_char 函数。
 		///
 		void TrimEnd()
 		{
@@ -407,7 +407,7 @@ namespace base
 
 			for (int64_t i = Length() - 1; i >= 0; i--)
 			{
-				if (!base::character::IsWhiteChar(_string[i]))
+				if (!base::character::is_white_char(_string[i]))
 				{
 					if (i == Length() - 1)
 					{
@@ -424,7 +424,7 @@ namespace base
 		///
 		/// @brief 裁剪掉字符串开头和结尾的空白字符。
 		///
-		/// @note 关于哪些是空白字符，见 IsWhiteChar 函数。
+		/// @note 关于哪些是空白字符，见 is_white_char 函数。
 		///
 		void Trim()
 		{

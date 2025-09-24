@@ -11,9 +11,10 @@ namespace base
 		/// @brief 判断一个字符是否是空白字符。
 		///
 		/// @param value
-		/// @return bool
 		///
-		constexpr bool IsWhiteChar(char value)
+		/// @return
+		///
+		constexpr bool is_white_char(char value)
 		{
 			switch (value)
 			{
