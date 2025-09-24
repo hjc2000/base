@@ -42,6 +42,21 @@ namespace base
 			OtherSpeedConfiguration = 0x07,
 
 			///
+			/// @brief 接口功率描述符。
+			///
+			InterfacePower = 0x08,
+
+			///
+			/// @brief OTG描述符。
+			///
+			OTG = 0x09,
+
+			///
+			/// @brief 调试描述符。
+			///
+			Debug = 0x0A,
+
+			///
 			/// @brief 接口关联描述符。
 			///
 			InterfaceAssociation = 0x0B,
@@ -70,6 +85,16 @@ namespace base
 			/// @brief Hub描述符。
 			///
 			Hub = 0x29,
+
+			///
+			/// @brief 超级速度USB端点伴随描述符。
+			///
+			SuperSpeedEndpointCompanion = 0x30,
+
+			///
+			/// @brief 超级速度Plus等时端点伴随描述符。
+			///
+			SuperSpeedPlusIsochronousEndpointCompanion = 0x31
 		};
 
 		///
