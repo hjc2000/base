@@ -4,6 +4,7 @@
 #include "base/string/define.h"
 #include "DescriptorWriter.h"
 #include <cstddef>
+#include <cstdint>
 #include <stdexcept>
 #include <string>
 
@@ -62,7 +63,7 @@ namespace base
 			{
 				base::ReadOnlySpan span{
 					reinterpret_cast<uint8_t const *>(str.data()),
-					str.size() * sizeof(char16_t),
+					static_cast<int64_t>(str.size() * sizeof(char16_t)),
 				};
 
 				_writer.WriteDataLength(span.Size());
