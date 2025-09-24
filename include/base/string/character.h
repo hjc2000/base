@@ -1,4 +1,6 @@
 #pragma once
+#include "base/bit/bit_converte.h"
+#include <bit>
 #include <cctype>
 #include <cstdint>
 #include <stdexcept>
@@ -83,6 +85,32 @@ namespace base
 			}
 
 			return 'a' + value - 10;
+		}
+
+		///
+		/// @brief 将数值转换为单个的 16 进制数字符。
+		///
+		/// @note 这里的字符是 UTF16-LE 的字符。
+		///
+		/// @param value
+		/// @return
+		///
+		constexpr char16_t number_to_hex_utf16le_char(uint8_t value)
+		{
+			// 对于数字的 16 进制字符，都是 ASCII 能表示的字符，
+			// 这种字符用 UTF16-LE 表示其实就是简单地把 ASCII 字符的整型扩展为 16 位。
+			uint16_t ret = number_to_hex_char(value);
+
+			if (std::endian::native != std::endian::little)
+			{
+				uint8_t high = ret >> 8;
+				uint8_t low = ret & 0xff;
+
+				// 颠倒字节序。
+				ret = base::bit_converte::ToUInt16(low, high);
+			}
+
+			return ret;
 		}
 
 	} // namespace character
