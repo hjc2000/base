@@ -61,6 +61,21 @@ namespace base
 	}
 
 	///
+	/// @brief 将数字转化为 16 进制的字符串。
+	///
+	/// @param number
+	/// @param options
+	///
+	/// @return
+	///
+	template <typename T>
+		requires(std::is_integral_v<T> && !std::is_same_v<T, uint64_t>)
+	std::u16string ToHexUtf16leString(T number, ToHexStringOptions const &options = ToHexStringOptions{})
+	{
+		return ToHexUtf16leString(static_cast<uint64_t>(number), options);
+	}
+
+	///
 	/// @brief 将指针转换为 16 进制字符串。
 	///
 	/// @param p
@@ -72,6 +87,20 @@ namespace base
 	{
 		size_t address = reinterpret_cast<size_t>(p);
 		return ToHexString(static_cast<uint64_t>(address), options);
+	}
+
+	///
+	/// @brief 将指针转换为 16 进制字符串。
+	///
+	/// @param p
+	/// @param options
+	///
+	/// @return
+	///
+	inline std::u16string ToHexUtf16leString(void const *p, ToHexStringOptions const &options = ToHexStringOptions{})
+	{
+		size_t address = reinterpret_cast<size_t>(p);
+		return ToHexUtf16leString(static_cast<uint64_t>(address), options);
 	}
 
 	///
