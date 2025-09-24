@@ -9,7 +9,7 @@
 #include "base/string/StringSplitOptions.h"
 #include <cctype>
 #include <cstddef>
-#include <ostream>
+#include <ostream> // IWYU pragma: keep
 #include <stdexcept>
 #include <stdint.h>
 #include <string>
