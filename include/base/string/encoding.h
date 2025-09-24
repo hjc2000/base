@@ -11,25 +11,36 @@ namespace base
 	{
 		namespace encoding
 		{
-			constexpr std::u16string to_utf16le_string(std::u16string const &str)
+			///
+			/// @brief 让传入的 str 的内部缓冲区中的数据变成 UTF16-LE 字符串字节序列。
+			///
+			/// @note 如果本机是小端序，不需要任何处理，std::u16string 中的数据本来就是
+			/// UTF16-LE 字符串字节序列。
+			///
+			/// @note 如果本机是大端序，需要转换，则直接颠倒每个字符的字节序，
+			/// 让缓冲区中的数据变成 UTF16-LE 的字符串字节序列。
+			///
+			/// @warning 如果发生了转换，经过处理后的 str 中的字符的值将不再正确，只能够
+			/// 读取其中的缓冲区进行发送，不能够进行字符处理。
+			///
+			/// @param str
+			///
+			inline void convert_to_utf16le_string(std::u16string &str)
 			{
 				if (std::endian::native == std::endian::little)
 				{
-					return str;
+					return;
 				}
 
-				std::u16string ret{str};
-				for (size_t i = 0; i < ret.size(); i++)
+				for (size_t i = 0; i < str.size(); i++)
 				{
-					uint8_t high = ret[i] >> 8;
-					uint8_t low = ret[i] & 0xFF;
+					uint8_t high = str[i] >> 8;
+					uint8_t low = str[i] & 0xFF;
 
 					// 颠倒字节序。
 					uint16_t value = base::bit_converte::ToUInt16(low, high);
-					ret[i] = value;
+					str[i] = value;
 				}
-
-				return ret;
 			}
 
 		} // namespace encoding
