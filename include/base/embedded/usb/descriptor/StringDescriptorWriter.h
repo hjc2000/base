@@ -5,6 +5,7 @@
 #include "DescriptorWriter.h"
 #include <cstddef>
 #include <stdexcept>
+#include <string>
 
 namespace base
 {
@@ -46,6 +47,23 @@ namespace base
 				{
 					throw std::invalid_argument{CODE_POS_STR + "内存段必须 2 字节对齐。"};
 				}
+
+				_writer.WriteDataLength(span.Size());
+				_writer.WriteDescriptorType(base::usb::DescriptorType::String);
+				_writer.WriteData(span);
+			}
+
+			///
+			/// @brief 写入数据。
+			///
+			/// @param str
+			///
+			void WriteData(std::u16string const &str)
+			{
+				base::ReadOnlySpan span{
+					reinterpret_cast<uint8_t const *>(str.data()),
+					str.size() * sizeof(char16_t),
+				};
 
 				_writer.WriteDataLength(span.Size());
 				_writer.WriteDescriptorType(base::usb::DescriptorType::String);
