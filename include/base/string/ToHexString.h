@@ -59,7 +59,11 @@ namespace base
 	///
 	/// @return
 	///
-	std::string ToHexString(void const *p, ToHexStringOptions const &options = ToHexStringOptions{});
+	inline std::string ToHexString(void const *p, ToHexStringOptions const &options = ToHexStringOptions{})
+	{
+		size_t address = reinterpret_cast<size_t>(p);
+		return ToHexString(static_cast<uint64_t>(address), options);
+	}
 
 	///
 	/// @brief 将缓冲区中的每个字节变成 16 进制字符串，每个字节的字符串用逗号分隔，
