@@ -3,6 +3,7 @@
 #include "base/stream/Span.h"
 #include <cstdint>
 #include <string>
+#include <type_traits>
 
 namespace base
 {
@@ -33,77 +34,22 @@ namespace base
 	///
 	/// @return
 	///
-	std::string ToHexString(int8_t number, ToHexStringOptions const &options = ToHexStringOptions{});
-
-	///
-	/// @brief 将数字转化为 16 进制的字符串。
-	///
-	/// @param number
-	/// @param options
-	///
-	/// @return
-	///
-	std::string ToHexString(uint8_t number, ToHexStringOptions const &options = ToHexStringOptions{});
-
-	///
-	/// @brief 将数字转化为 16 进制的字符串。
-	///
-	/// @param number
-	/// @param options
-	///
-	/// @return
-	///
-	std::string ToHexString(int16_t number, ToHexStringOptions const &options = ToHexStringOptions{});
-
-	///
-	/// @brief 将数字转化为 16 进制的字符串。
-	///
-	/// @param number
-	/// @param options
-	///
-	/// @return
-	///
-	std::string ToHexString(uint16_t number, ToHexStringOptions const &options = ToHexStringOptions{});
-
-	///
-	/// @brief 将数字转化为 16 进制的字符串。
-	///
-	/// @param number
-	/// @param options
-	///
-	/// @return
-	///
-	std::string ToHexString(int32_t number, ToHexStringOptions const &options = ToHexStringOptions{});
-
-	///
-	/// @brief 将数字转化为 16 进制的字符串。
-	///
-	/// @param number
-	/// @param options
-	///
-	/// @return
-	///
-	std::string ToHexString(uint32_t number, ToHexStringOptions const &options = ToHexStringOptions{});
-
-	///
-	/// @brief 将数字转化为 16 进制的字符串。
-	///
-	/// @param number
-	/// @param options
-	///
-	/// @return
-	///
-	std::string ToHexString(int64_t number, ToHexStringOptions const &options = ToHexStringOptions{});
-
-	///
-	/// @brief 将数字转化为 16 进制的字符串。
-	///
-	/// @param number
-	/// @param options
-	///
-	/// @return
-	///
 	std::string ToHexString(uint64_t number, ToHexStringOptions const &options = ToHexStringOptions{});
+
+	///
+	/// @brief 将数字转化为 16 进制的字符串。
+	///
+	/// @param number
+	/// @param options
+	///
+	/// @return
+	///
+	template <typename T>
+		requires(std::is_integral_v<T> && !std::is_same_v<T, uint64_t>)
+	std::string ToHexString(T number, ToHexStringOptions const &options = ToHexStringOptions{})
+	{
+		return ToHexString(static_cast<uint64_t>(number), options);
+	}
 
 	///
 	/// @brief 将指针转换为 16 进制字符串。

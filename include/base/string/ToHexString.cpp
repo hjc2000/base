@@ -3,41 +3,6 @@
 #include <algorithm>
 #include <stdexcept>
 
-std::string base::ToHexString(int8_t number, ToHexStringOptions const &options)
-{
-	return ToHexString(static_cast<uint64_t>(number), options);
-}
-
-std::string base::ToHexString(uint8_t number, ToHexStringOptions const &options)
-{
-	return ToHexString(static_cast<uint64_t>(number), options);
-}
-
-std::string base::ToHexString(int16_t number, ToHexStringOptions const &options)
-{
-	return ToHexString(static_cast<uint64_t>(number), options);
-}
-
-std::string base::ToHexString(uint16_t number, ToHexStringOptions const &options)
-{
-	return ToHexString(static_cast<uint64_t>(number), options);
-}
-
-std::string base::ToHexString(int32_t number, ToHexStringOptions const &options)
-{
-	return ToHexString(static_cast<uint64_t>(number), options);
-}
-
-std::string base::ToHexString(uint32_t number, ToHexStringOptions const &options)
-{
-	return ToHexString(static_cast<uint64_t>(number), options);
-}
-
-std::string base::ToHexString(int64_t number, ToHexStringOptions const &options)
-{
-	return ToHexString(static_cast<uint64_t>(number), options);
-}
-
 std::string base::ToHexString(uint64_t number, ToHexStringOptions const &options)
 {
 	// 64 位数据，每 4 位需要一个 16 进制数来表示
