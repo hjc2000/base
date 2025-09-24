@@ -6,6 +6,7 @@
 #include "base/string/define.h"
 #include <cstdint>
 #include <stdexcept>
+#include <string>
 
 namespace base
 {
@@ -78,7 +79,7 @@ namespace base
 			///
 			/// @brief 写入数据。
 			///
-			/// @param span 储存着数据的内存段。
+			/// @param span 储存着 UTF16-LE 字符串的内存段。
 			/// 	@note 数据中不包括长度字段和描述符类型字段。
 			///
 			void WriteData(base::ReadOnlySpan const &span)
@@ -90,6 +91,21 @@ namespace base
 				}
 
 				_span[base::Range{2, span.Size() + 2}].CopyFrom(span);
+			}
+
+			///
+			/// @brief 写入数据。
+			///
+			/// @param str
+			///
+			void WriteData(std::u16string const &str)
+			{
+				base::ReadOnlySpan span{
+					reinterpret_cast<uint8_t const *>(str.data()),
+					str.size() * sizeof(char16_t),
+				};
+
+				WriteData(span);
 			}
 		};
 
