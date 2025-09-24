@@ -1,5 +1,7 @@
 #pragma once
 #include <cctype>
+#include <cstdint>
+#include <stdexcept>
 
 namespace base
 {
@@ -48,6 +50,27 @@ namespace base
 		constexpr char ToUpper(char value)
 		{
 			return std::toupper(value);
+		}
+
+		///
+		/// @brief 将数值转换为单个的 16 进制数字符。
+		///
+		/// @param value
+		/// @return
+		///
+		constexpr char number_to_hex_char(uint8_t value)
+		{
+			if (value > 15)
+			{
+				throw std::out_of_range{"数值超出范围"};
+			}
+
+			if (value < 10)
+			{
+				return '0' + value;
+			}
+
+			return 'a' + value - 10;
 		}
 
 	} // namespace character
