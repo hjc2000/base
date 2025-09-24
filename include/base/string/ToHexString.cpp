@@ -1,30 +1,7 @@
 #include "ToHexString.h"
+#include "character.h"
 #include <algorithm>
 #include <stdexcept>
-
-namespace
-{
-	/**
-	 * @brief 将数字转化为 1 位 16 进制数字符。
-	 *
-	 * @param num 数字要在 1 位 16 进制数能表示的范围内，即：[0, 15].
-	 * @return char 表示 1 位 16 进制数的字符。
-	 */
-	char NumToOneHex(uint8_t num)
-	{
-		if (num > 15)
-		{
-			throw std::out_of_range{"数值超出范围"};
-		}
-
-		if (num < 10)
-		{
-			return '0' + num;
-		}
-
-		return 'a' + num - 10;
-	}
-} // namespace
 
 std::string base::ToHexString(int8_t number, ToHexStringOptions const &options)
 {
@@ -83,7 +60,7 @@ std::string base::ToHexString(uint64_t number, ToHexStringOptions const &options
 	// 倒着拼接，最后需要翻转
 	while (true)
 	{
-		ret += NumToOneHex(number & 0xf);
+		ret += base::character::number_to_hex_char(number & 0xf);
 		number >>= 4;
 		if (number == 0)
 		{
@@ -127,11 +104,9 @@ std::string base::ToHexString(uint8_t const *buffer,
 
 	std::string ret{};
 
-	/**
-	 * 对于每个数字：
-	 * 		@li 类似 0x00 这样的，占用 4 个字符。
-	 * 		@li ", " 空白及逗号再占用 2 个字符。
-	 */
+	// 对于每个数字：
+	// 		类似 0x00 这样的，占用 4 个字符。
+	// 		", " 空白及逗号再占用 2 个字符。
 	int reserve = (4 + 2) * size;
 
 	// 每 16 个数字要有一个换行符，于是再加上 size/16
