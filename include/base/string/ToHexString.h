@@ -154,10 +154,40 @@ namespace base
 	///
 	/// @return
 	///
+	inline std::u16string ToHexUtf16String(base::ReadOnlySpan const &span,
+										   ToHexStringOptions const &options = ToHexStringOptions{})
+	{
+		return ToHexUtf16String(span.Buffer(), span.Size(), options);
+	}
+
+	///
+	/// @brief 将缓冲区中的每个字节变成 16 进制字符串，每个字节的字符串用逗号分隔，
+	/// 每 16 个字节一行。
+	///
+	/// @param span
+	/// @param options
+	///
+	/// @return
+	///
 	inline std::string ToHexString(base::Span const &span,
 								   ToHexStringOptions const &options = ToHexStringOptions{})
 	{
 		return ToHexString(base::ReadOnlySpan{span}, options);
+	}
+
+	///
+	/// @brief 将缓冲区中的每个字节变成 16 进制字符串，每个字节的字符串用逗号分隔，
+	/// 每 16 个字节一行。
+	///
+	/// @param span
+	/// @param options
+	///
+	/// @return
+	///
+	inline std::u16string ToHexUtf16String(base::Span const &span,
+										   ToHexStringOptions const &options = ToHexStringOptions{})
+	{
+		return ToHexUtf16String(base::ReadOnlySpan{span}, options);
 	}
 
 } // namespace base
