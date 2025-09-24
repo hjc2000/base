@@ -27,6 +27,11 @@ namespace base
 				_writer = base::usb::DescriptorWriter{span};
 			}
 
+			///
+			/// @brief 写入字符串数据。
+			///
+			/// @param unicode_string
+			///
 			void WriteData(std::string const &unicode_string)
 			{
 				if (unicode_string.size() % 2 != 0)
