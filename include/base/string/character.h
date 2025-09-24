@@ -98,7 +98,9 @@ namespace base
 		constexpr char16_t number_to_hex_utf16le_char(uint8_t value)
 		{
 			// 对于数字的 16 进制字符，都是 ASCII 能表示的字符，
-			// 这种字符用 UTF16-LE 表示其实就是简单地把 ASCII 字符的整型扩展为 16 位。
+			//
+			// 这种范围内的字符的 UTF16-LE 字符就是小端序的 16 位无符号整型，
+			// 其值是 unicode 值。
 			uint16_t ret = number_to_hex_char(value);
 
 			if (std::endian::native != std::endian::little)
