@@ -37,7 +37,7 @@ void base::Path::CorrectPath()
 
 	// 如果是 windows 的类似 C: 这种路径，给它加上结尾的斜杠
 	if (_path.Length() == 2 &&
-		base::character::IsAlpha(_path[0]) &&
+		base::character::is_alpha(_path[0]) &&
 		_path[1] == ':')
 	{
 		if (!_path.EndWith('/'))
@@ -48,7 +48,7 @@ void base::Path::CorrectPath()
 
 	// 如果是 windows 路径，将盘符统一转为大写。
 	if (_path.Length() >= 2 &&
-		base::character::IsAlpha(_path[0]) &&
+		base::character::is_alpha(_path[0]) &&
 		_path[1] == ':')
 	{
 		_path[0] = base::character::ToUpper(_path[0]);
@@ -58,7 +58,7 @@ void base::Path::CorrectPath()
 bool base::Path::IsRootPath() const
 {
 	if (_path.Length() == 3 &&
-		base::character::IsAlpha(_path[0]) &&
+		base::character::is_alpha(_path[0]) &&
 		_path[1] == ':' &&
 		_path[2] == '/')
 	{
@@ -83,7 +83,7 @@ bool base::Path::IsAbsolutePath() const
 
 	// 是 windows 风格的绝对路径
 	if (_path.Length() >= 2 &&
-		base::character::IsAlpha(_path[0]) &&
+		base::character::is_alpha(_path[0]) &&
 		_path[1] == ':')
 	{
 		return true;
@@ -95,7 +95,7 @@ bool base::Path::IsAbsolutePath() const
 bool base::Path::IsWindowsSytlePath() const
 {
 	if (_path.Length() >= 2 &&
-		base::character::IsAlpha(_path[0]) &&
+		base::character::is_alpha(_path[0]) &&
 		_path[1] == ':')
 	{
 		return true;

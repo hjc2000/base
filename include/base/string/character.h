@@ -34,10 +34,10 @@ namespace base
 		/// @brief 检查一个字符是不是英文字母。
 		///
 		/// @param value
-		/// @return true
-		/// @return false
 		///
-		constexpr bool IsAlpha(char value)
+		/// @return
+		///
+		constexpr bool is_alpha(char value)
 		{
 			return std::isalpha(value);
 		}
