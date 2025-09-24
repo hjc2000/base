@@ -51,7 +51,7 @@ void base::Path::CorrectPath()
 		base::character::is_alpha(_path[0]) &&
 		_path[1] == ':')
 	{
-		_path[0] = base::character::ToUpper(_path[0]);
+		_path[0] = base::character::to_upper(_path[0]);
 	}
 }
 

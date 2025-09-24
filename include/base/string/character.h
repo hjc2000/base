@@ -46,11 +46,22 @@ namespace base
 		/// @brief 将字母转换为大写。
 		///
 		/// @param value
-		/// @return constexpr char
+		/// @return
 		///
-		constexpr char ToUpper(char value)
+		constexpr char to_upper(char value)
 		{
 			return std::toupper(value);
+		}
+
+		///
+		/// @brief 将字母转换为小写。
+		///
+		/// @param value
+		/// @return
+		///
+		constexpr char to_lower(char value)
+		{
+			return std::tolower(value);
 		}
 
 		///
