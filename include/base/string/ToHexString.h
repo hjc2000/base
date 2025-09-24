@@ -43,7 +43,7 @@ namespace base
 	/// @param options
 	/// @return
 	///
-	std::u16string ToHexUtf16leString(uint64_t number, ToHexStringOptions const &options = ToHexStringOptions{});
+	std::u16string ToHexUtf16String(uint64_t number, ToHexStringOptions const &options = ToHexStringOptions{});
 
 	///
 	/// @brief 将数字转化为 16 进制的字符串。
@@ -70,9 +70,9 @@ namespace base
 	///
 	template <typename T>
 		requires(std::is_integral_v<T> && !std::is_same_v<T, uint64_t>)
-	std::u16string ToHexUtf16leString(T number, ToHexStringOptions const &options = ToHexStringOptions{})
+	std::u16string ToHexUtf16String(T number, ToHexStringOptions const &options = ToHexStringOptions{})
 	{
-		return ToHexUtf16leString(static_cast<uint64_t>(number), options);
+		return ToHexUtf16String(static_cast<uint64_t>(number), options);
 	}
 
 	///
@@ -97,10 +97,10 @@ namespace base
 	///
 	/// @return
 	///
-	inline std::u16string ToHexUtf16leString(void const *p, ToHexStringOptions const &options = ToHexStringOptions{})
+	inline std::u16string ToHexUtf16String(void const *p, ToHexStringOptions const &options = ToHexStringOptions{})
 	{
 		size_t address = reinterpret_cast<size_t>(p);
-		return ToHexUtf16leString(static_cast<uint64_t>(address), options);
+		return ToHexUtf16String(static_cast<uint64_t>(address), options);
 	}
 
 	///
@@ -116,6 +116,19 @@ namespace base
 	std::string ToHexString(uint8_t const *buffer,
 							int64_t size,
 							ToHexStringOptions const &options = ToHexStringOptions{});
+
+	/// @brief 将缓冲区中的每个字节变成 16 进制字符串，每个字节的字符串用逗号分隔，
+	/// 每 16 个字节一行。
+	///
+	/// @param buffer
+	/// @param size
+	/// @param options
+	///
+	/// @return
+	///
+	std::u16string ToHexUtf16String(uint8_t const *buffer,
+									int64_t size,
+									ToHexStringOptions const &options = ToHexStringOptions{});
 
 	///
 	/// @brief 将缓冲区中的每个字节变成 16 进制字符串，每个字节的字符串用逗号分隔，

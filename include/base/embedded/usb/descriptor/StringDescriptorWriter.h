@@ -33,15 +33,15 @@ namespace base
 			///
 			/// @brief 写入字符串数据。
 			///
-			/// @param span 容纳着 UTF16-LE 编码的字符串的内存段。
+			/// @param span 容纳着 UTF16 编码的字符串的内存段。
 			///
 			void WriteData(base::ReadOnlySpan const &span)
 			{
 				if (span.Size() % 2 != 0)
 				{
 					// 字符编码必须是 UTF16-LE。
-					// 字符串长度为奇数说明肯定不是 UTF16-LE 编码的。
-					throw std::invalid_argument{CODE_POS_STR + "必须是 UTF16-LE 编码的字符串。"};
+					// 字符串长度为奇数说明肯定不是 UTF16 编码的。
+					throw std::invalid_argument{CODE_POS_STR + "必须是 UTF16 编码的字符串。"};
 				}
 
 				if (reinterpret_cast<size_t>(span.Buffer()) % 2 != 0)

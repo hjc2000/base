@@ -52,7 +52,7 @@ std::string base::ToHexString(uint64_t number, ToHexStringOptions const &options
 	return ret;
 }
 
-std::u16string base::ToHexUtf16leString(uint64_t number, ToHexStringOptions const &options)
+std::u16string base::ToHexUtf16String(uint64_t number, ToHexStringOptions const &options)
 {
 	// 64 位数据，每 4 位需要一个 16 进制数来表示
 	int reserve = 64 / 4;
@@ -74,7 +74,7 @@ std::u16string base::ToHexUtf16leString(uint64_t number, ToHexStringOptions cons
 	// 倒着拼接，最后需要翻转
 	while (true)
 	{
-		ret += base::character::number_to_hex_utf16le_char(number & 0xf);
+		ret += base::character::number_to_hex_utf16_char(number & 0xf);
 		number >>= 4;
 		if (number == 0)
 		{
@@ -132,6 +132,43 @@ std::string base::ToHexString(uint8_t const *buffer,
 		if (i < size - 1)
 		{
 			ret += ", ";
+		}
+	}
+
+	return ret;
+}
+
+std::u16string base::ToHexUtf16String(uint8_t const *buffer,
+									  int64_t size,
+									  ToHexStringOptions const &options)
+{
+	if (size <= 0)
+	{
+		return std::u16string{};
+	}
+
+	std::u16string ret{};
+
+	// 对于每个数字：
+	// 		类似 0x00 这样的，占用 4 个字符。
+	// 		", " 空白及逗号再占用 2 个字符。
+	int reserve = (4 + 2) * size;
+
+	// 每 16 个数字要有一个换行符，于是再加上 size/16
+	reserve += size / 16;
+	ret.reserve(reserve);
+
+	for (int i = 0; i < size; i++)
+	{
+		if ((i % 16 == 0) && i > 0)
+		{
+			ret += '\n';
+		}
+
+		ret += base::ToHexUtf16String(buffer[i], options);
+		if (i < size - 1)
+		{
+			ret += u", ";
 		}
 	}
 
