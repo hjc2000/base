@@ -94,13 +94,3 @@ std::string base::ToHexString(uint8_t const *buffer,
 
 	return ret;
 }
-
-std::string base::ToHexString(base::ReadOnlySpan const &span, ToHexStringOptions const &options)
-{
-	return ToHexString(span.Buffer(), span.Size(), options);
-}
-
-std::string base::ToHexString(base::Span const &span, ToHexStringOptions const &options)
-{
-	return ToHexString(base::ReadOnlySpan{span}, options);
-}

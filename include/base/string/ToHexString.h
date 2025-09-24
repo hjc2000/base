@@ -84,8 +84,11 @@ namespace base
 	///
 	/// @return
 	///
-	std::string ToHexString(base::ReadOnlySpan const &span,
-							ToHexStringOptions const &options = ToHexStringOptions{});
+	inline std::string ToHexString(base::ReadOnlySpan const &span,
+								   ToHexStringOptions const &options = ToHexStringOptions{})
+	{
+		return ToHexString(span.Buffer(), span.Size(), options);
+	}
 
 	///
 	/// @brief 将缓冲区中的每个字节变成 16 进制字符串，每个字节的字符串用逗号分隔，
@@ -96,7 +99,10 @@ namespace base
 	///
 	/// @return
 	///
-	std::string ToHexString(base::Span const &span,
-							ToHexStringOptions const &options = ToHexStringOptions{});
+	inline std::string ToHexString(base::Span const &span,
+								   ToHexStringOptions const &options = ToHexStringOptions{})
+	{
+		return ToHexString(base::ReadOnlySpan{span}, options);
+	}
 
 } // namespace base
