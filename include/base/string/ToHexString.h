@@ -122,6 +122,7 @@ namespace base
 	/// @param buffer
 	/// @param size
 	/// @param options
+	///
 	/// @return
 	///
 	std::string ToHexString(uint8_t const *buffer,
@@ -134,6 +135,7 @@ namespace base
 	///
 	/// @param span
 	/// @param options
+	///
 	/// @return
 	///
 	std::string ToHexString(base::ReadOnlySpan const &span,
@@ -145,6 +147,7 @@ namespace base
 	///
 	/// @param span
 	/// @param options
+	///
 	/// @return
 	///
 	std::string ToHexString(base::Span const &span,
