@@ -34,7 +34,7 @@ std::string base::ToHexString(uint64_t number, ToHexStringOptions const &options
 
 		if (static_cast<int64_t>(ret.size()) > reserve)
 		{
-			throw std::runtime_error{"ToHexString 在拼接数字时结果特别长"};
+			throw std::runtime_error{"ToHexString 在拼接数字时结果特别长。"};
 		}
 	}
 
@@ -46,6 +46,55 @@ std::string base::ToHexString(uint64_t number, ToHexStringOptions const &options
 	if (options.with_0x_prefix)
 	{
 		ret += "x0";
+	}
+
+	std::reverse(ret.begin(), ret.end());
+	return ret;
+}
+
+std::u16string base::ToHexUtf16leString(uint64_t number, ToHexStringOptions const &options)
+{
+	// 64 位数据，每 4 位需要一个 16 进制数来表示
+	int reserve = 64 / 4;
+	if (options.width > reserve)
+	{
+		// 填充后宽度大于实际内容，保留的空间定为 options.width.
+		reserve = options.width;
+	}
+
+	if (options.with_0x_prefix)
+	{
+		// 还需要额外为 0x 前缀保留 2 个字符的空间。
+		reserve += 2;
+	}
+
+	std::u16string ret;
+	ret.reserve(reserve);
+
+	// 倒着拼接，最后需要翻转
+	while (true)
+	{
+		ret += base::character::number_to_hex_utf16le_char(number & 0xf);
+		number >>= 4;
+		if (number == 0)
+		{
+			break;
+		}
+
+		if (static_cast<int64_t>(ret.size()) > reserve)
+		{
+			throw std::runtime_error{"ToHexString 在拼接数字时结果特别长。"};
+		}
+	}
+
+	while (static_cast<int64_t>(ret.size()) < options.width)
+	{
+		ret += u'0';
+	}
+
+	if (options.with_0x_prefix)
+	{
+		ret += u"x0";
 	}
 
 	std::reverse(ret.begin(), ret.end());

@@ -41,6 +41,15 @@ namespace base
 	///
 	/// @param number
 	/// @param options
+	/// @return
+	///
+	std::u16string ToHexUtf16leString(uint64_t number, ToHexStringOptions const &options = ToHexStringOptions{});
+
+	///
+	/// @brief 将数字转化为 16 进制的字符串。
+	///
+	/// @param number
+	/// @param options
 	///
 	/// @return
 	///
