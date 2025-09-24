@@ -1,1 +1,1 @@
-#include "character.h"
+#include "character.h" // IWYU pragma: keep

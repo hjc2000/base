@@ -1,6 +1,4 @@
 #pragma once
-#include "base/bit/bit_converte.h"
-#include <bit>
 #include <cctype>
 #include <cstdint>
 #include <stdexcept>
@@ -102,16 +100,6 @@ namespace base
 			// 这种范围内的字符的 UTF16 字符就是小端序的 16 位无符号整型，
 			// 其值是 unicode 值。
 			uint16_t ret = number_to_hex_char(value);
-
-			if (std::endian::native != std::endian::little)
-			{
-				uint8_t high = ret >> 8;
-				uint8_t low = ret & 0xff;
-
-				// 颠倒字节序。
-				ret = base::bit_converte::ToUInt16(low, high);
-			}
-
 			return ret;
 		}
 
