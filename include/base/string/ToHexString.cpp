@@ -162,7 +162,7 @@ std::u16string base::ToHexUtf16String(uint8_t const *buffer,
 	{
 		if ((i % 16 == 0) && i > 0)
 		{
-			ret += '\n';
+			ret += u'\n';
 		}
 
 		ret += base::ToHexUtf16String(buffer[i], options);
