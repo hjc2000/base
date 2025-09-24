@@ -83,7 +83,7 @@ std::u16string base::ToHexUtf16String(uint64_t number, ToHexStringOptions const 
 
 		if (static_cast<int64_t>(ret.size()) > reserve)
 		{
-			throw std::runtime_error{"ToHexString 在拼接数字时结果特别长。"};
+			throw std::runtime_error{"ToHexUtf16String 在拼接数字时结果特别长。"};
 		}
 	}
 
