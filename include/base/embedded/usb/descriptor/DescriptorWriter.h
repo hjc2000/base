@@ -1,6 +1,6 @@
 #pragma once
 #include "base/container/Range.h"
-#include "base/embedded/usb/DescriptorType.h"
+#include "base/embedded/usb/descriptor/DescriptorType.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
 #include "base/string/define.h"
