@@ -108,11 +108,25 @@ namespace base
 		///
 		/// @param high
 		/// @param low
-		/// @return uint16_t
 		///
-		inline uint16_t ToUInt16(uint8_t high, uint8_t low)
+		/// @return
+		///
+		constexpr uint16_t ToUInt16(uint8_t high, uint8_t low)
 		{
 			return (static_cast<uint16_t>(high) << 8) | low;
+		}
+
+		///
+		/// @brief 将低 uint16_t 和高 uint16_t 拼接成 uint32_t.
+		///
+		/// @param high
+		/// @param low
+		///
+		/// @return
+		///
+		constexpr uint32_t ToUInt32(uint16_t high, uint16_t low)
+		{
+			return (static_cast<uint32_t>(high) << 16) | low;
 		}
 
 		///
@@ -122,20 +136,14 @@ namespace base
 		/// @param b2
 		/// @param b1
 		/// @param b0 最低字节
-		/// @return uint32_t
 		///
-		uint32_t ToUInt32(uint8_t b3, uint8_t b2, uint8_t b1, uint8_t b0);
-
+		/// @return
 		///
-		/// @brief 将低 uint16_t 和高 uint16_t 拼接成 uint32_t.
-		///
-		/// @param high
-		/// @param low
-		/// @return uint32_t
-		///
-		inline uint32_t ToUInt32(uint16_t high, uint16_t low)
+		constexpr uint32_t ToUInt32(uint8_t b3, uint8_t b2, uint8_t b1, uint8_t b0)
 		{
-			return (static_cast<uint32_t>(high) << 16) | low;
+			uint16_t high = ToUInt16(b3, b2);
+			uint16_t low = ToUInt16(b1, b0);
+			return ToUInt32(high, low);
 		}
 
 		/* #endregion */
