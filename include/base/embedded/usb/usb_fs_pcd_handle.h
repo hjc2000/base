@@ -96,6 +96,14 @@ namespace base
 			void set_reset_callback(base::usb::fs_pcd::usb_fs_pcd_handle &self,
 									std::function<void()> const &callback);
 
+			///
+			/// @brief 设置收到主机发来的挂起请求时的回调。
+			///
+			/// @note 回调中做好自定义的工作后要调用 suspend 函数来挂起 USB 硬件。
+			///
+			/// @param self
+			/// @param callback
+			///
 			void set_suspend_callback(base::usb::fs_pcd::usb_fs_pcd_handle &self,
 									  std::function<void()> const &callback);
 
