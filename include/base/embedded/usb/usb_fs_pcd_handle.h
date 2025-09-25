@@ -11,6 +11,8 @@ namespace base
 	{
 		namespace fs_pcd
 		{
+			/* #region 回调参数类 */
+
 			class SetupStageCallbackArgs
 			{
 			private:
@@ -27,6 +29,8 @@ namespace base
 					return _span;
 				}
 			};
+
+			/* #endregion */
 
 			class usb_fs_pcd_handle;
 
