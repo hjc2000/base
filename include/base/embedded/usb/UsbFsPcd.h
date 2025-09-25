@@ -26,12 +26,12 @@ namespace base
 
 			/* #region 注册回调 */
 
-			void SetSofCallback(std::function<void()> const callback)
+			void SetSofCallback(std::function<void()> const &callback)
 			{
 				base::usb::fs_pcd::set_sof_callback(*_handle, callback);
 			}
 
-			void SetSetupStageCallback(std::function<void()> const callback)
+			void SetSetupStageCallback(std::function<void()> const &callback)
 			{
 				base::usb::fs_pcd::set_setup_stage_callback(*_handle, callback);
 			}
