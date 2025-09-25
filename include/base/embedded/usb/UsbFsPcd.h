@@ -52,6 +52,11 @@ namespace base
 				base::usb::fs_pcd::set_setup_stage_callback(*_handle, callback);
 			}
 
+			void SetResetCallback(std::function<void()> const &callback)
+			{
+				base::usb::fs_pcd::set_reset_callback(*_handle, callback);
+			}
+
 			/* #endregion */
 		};
 
