@@ -31,7 +31,7 @@ namespace base
 				base::usb::fs_pcd::set_sof_callback(*_handle, callback);
 			}
 
-			void SetSetupStageCallback(std::function<void()> const &callback)
+			void SetSetupStageCallback(std::function<void(base::usb::fs_pcd::SetupStageCallbackArgs const &)> const &callback)
 			{
 				base::usb::fs_pcd::set_setup_stage_callback(*_handle, callback);
 			}
