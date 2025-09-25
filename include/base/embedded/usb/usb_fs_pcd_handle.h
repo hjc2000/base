@@ -1,4 +1,5 @@
 #pragma once
+#include "base/stream/ReadOnlySpan.h"
 #include "PhyType.h"
 #include <cstdint>
 #include <functional>
@@ -10,6 +11,23 @@ namespace base
 	{
 		namespace fs_pcd
 		{
+			class SetupStageCallbackArgs
+			{
+			private:
+				base::ReadOnlySpan _span;
+
+			public:
+				SetupStageCallbackArgs(base::ReadOnlySpan const &span)
+				{
+					_span = span;
+				}
+
+				base::ReadOnlySpan Span() const
+				{
+					return _span;
+				}
+			};
+
 			class usb_fs_pcd_handle;
 
 			std::shared_ptr<base::usb::fs_pcd::usb_fs_pcd_handle> open(uint32_t id);
