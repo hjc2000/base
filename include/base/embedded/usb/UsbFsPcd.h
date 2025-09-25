@@ -24,6 +24,14 @@ namespace base
 				base::usb::fs_pcd::initialize_as_device(*_handle, phy_type);
 			}
 
+			///
+			/// @brief 启动 USB 设备。
+			///
+			void Start()
+			{
+				base::usb::fs_pcd::start(*_handle);
+			}
+
 			/* #region 注册回调 */
 
 			void SetSofCallback(std::function<void()> const &callback)

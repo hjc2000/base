@@ -39,6 +39,13 @@ namespace base
 			void initialize_as_device(base::usb::fs_pcd::usb_fs_pcd_handle &self,
 									  base::usb::PhyType phy_type);
 
+			///
+			/// @brief 启动 USB 设备。
+			///
+			/// @param self
+			///
+			void start(base::usb::fs_pcd::usb_fs_pcd_handle &self);
+
 			/* #region 注册回调 */
 
 			void set_sof_callback(base::usb::fs_pcd::usb_fs_pcd_handle &self,
