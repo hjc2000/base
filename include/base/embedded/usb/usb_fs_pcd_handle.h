@@ -64,6 +64,9 @@ namespace base
 			void set_reset_callback(base::usb::fs_pcd::usb_fs_pcd_handle &self,
 									std::function<void()> const &callback);
 
+			void set_suspend_callback(base::usb::fs_pcd::usb_fs_pcd_handle &self,
+									  std::function<void()> const &callback);
+
 			/* #endregion */
 
 			///
