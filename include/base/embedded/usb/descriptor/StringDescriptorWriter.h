@@ -34,6 +34,8 @@ namespace base
 			/// @brief 写入字符串数据。
 			///
 			/// @param span 容纳着 UTF16 编码的字符串的内存段。
+			/// 	@note 要求字节序是小端的。即里面的字节流是 UTF16-LE, 如果不是的话需要自行
+			/// 	转换后再传递给本函数。
 			///
 			void WriteData(base::ReadOnlySpan const &span)
 			{
@@ -55,9 +57,11 @@ namespace base
 			}
 
 			///
-			/// @brief 写入数据。
+			/// @brief 写入字符串数据。
 			///
-			/// @param str
+			/// @param str UTF16 字符串。
+			/// 	@note 要求字节序是小端的。即里面的字节流是 UTF16-LE, 如果不是的话需要自行
+			/// 	转换后再传递给本函数。
 			///
 			void WriteData(std::u16string const &str)
 			{
