@@ -53,6 +53,13 @@ namespace base
 			///
 			void suspend(base::usb::fs_pcd::usb_fs_pcd_handle &self);
 
+			///
+			/// @brief 恢复 USB 设备。
+			///
+			/// @param self
+			///
+			void resume(base::usb::fs_pcd::usb_fs_pcd_handle &self);
+
 			/* #region 注册回调 */
 
 			void set_sof_callback(base::usb::fs_pcd::usb_fs_pcd_handle &self,

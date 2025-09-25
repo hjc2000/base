@@ -40,6 +40,11 @@ namespace base
 				base::usb::fs_pcd::suspend(*_handle);
 			}
 
+			void Resume()
+			{
+				base::usb::fs_pcd::resume(*_handle);
+			}
+
 			/* #region 注册回调 */
 
 			void SetSofCallback(std::function<void()> const &callback)
