@@ -32,6 +32,14 @@ namespace base
 				base::usb::fs_pcd::start(*_handle);
 			}
 
+			///
+			/// @brief 挂起 USB 设备。
+			///
+			void Suspend()
+			{
+				base::usb::fs_pcd::suspend(*_handle);
+			}
+
 			/* #region 注册回调 */
 
 			void SetSofCallback(std::function<void()> const &callback)

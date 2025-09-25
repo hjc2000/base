@@ -46,6 +46,13 @@ namespace base
 			///
 			void start(base::usb::fs_pcd::usb_fs_pcd_handle &self);
 
+			///
+			/// @brief 挂起 USB 设备。
+			///
+			/// @param self
+			///
+			void suspend(base::usb::fs_pcd::usb_fs_pcd_handle &self);
+
 			/* #region 注册回调 */
 
 			void set_sof_callback(base::usb::fs_pcd::usb_fs_pcd_handle &self,
