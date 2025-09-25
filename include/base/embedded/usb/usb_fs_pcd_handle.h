@@ -1,6 +1,7 @@
 #pragma once
 #include "PhyType.h"
 #include <cstdint>
+#include <functional>
 #include <memory>
 
 namespace base
@@ -15,6 +16,16 @@ namespace base
 
 			void initialize_as_device(base::usb::fs_pcd::usb_fs_pcd_handle &self,
 									  base::usb::PhyType phy_type);
+
+			/* #region 注册回调 */
+
+			void set_sof_callback(base::usb::fs_pcd::usb_fs_pcd_handle &self,
+								  std::function<void()> const &callback);
+
+			void set_setup_stage_callback(base::usb::fs_pcd::usb_fs_pcd_handle &self,
+										  std::function<void()> const &callback);
+
+			/* #endregion */
 
 			///
 			/// @brief 底层初始化。

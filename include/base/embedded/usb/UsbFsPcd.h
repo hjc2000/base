@@ -21,9 +21,22 @@ namespace base
 
 			void InitializeAsDevice(base::usb::PhyType phy_type)
 			{
-				base::usb::fs_pcd::initialize_as_device(*_handle,
-														phy_type);
+				base::usb::fs_pcd::initialize_as_device(*_handle, phy_type);
 			}
+
+			/* #region 注册回调 */
+
+			void SetSofCallback(std::function<void()> const callback)
+			{
+				base::usb::fs_pcd::set_sof_callback(*_handle, callback);
+			}
+
+			void SetSetupStageCallback(std::function<void()> const callback)
+			{
+				base::usb::fs_pcd::set_setup_stage_callback(*_handle, callback);
+			}
+
+			/* #endregion */
 		};
 
 		base::Slot<base::usb::fs_pcd::UsbFsPcd> &usb_fs_pcd_slot();
