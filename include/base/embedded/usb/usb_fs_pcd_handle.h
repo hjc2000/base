@@ -30,6 +30,31 @@ namespace base
 				}
 			};
 
+			class DataOutStageCallbackArgs
+			{
+			private:
+				uint8_t _endpoint_number;
+				base::ReadOnlySpan _span;
+
+			public:
+				DataOutStageCallbackArgs(uint8_t endpoint_number,
+										 base::ReadOnlySpan const &span)
+				{
+					_endpoint_number = endpoint_number;
+					_span = span;
+				}
+
+				uint8_t EndpointNumber() const
+				{
+					return _endpoint_number;
+				}
+
+				base::ReadOnlySpan Span() const
+				{
+					return _span;
+				}
+			};
+
 			/* #endregion */
 
 			class usb_fs_pcd_handle;
@@ -82,6 +107,15 @@ namespace base
 
 			void set_disconnect_callback(base::usb::fs_pcd::usb_fs_pcd_handle &self,
 										 std::function<void()> const &callback);
+
+			///
+			/// @brief 设置收到来自主机的输出数据时的回调。
+			///
+			/// @param self
+			/// @param callback
+			///
+			void set_data_out_stage_callback(base::usb::fs_pcd::usb_fs_pcd_handle &self,
+											 std::function<void(base::usb::fs_pcd::DataOutStageCallbackArgs)> const &callback);
 
 			/* #endregion */
 
