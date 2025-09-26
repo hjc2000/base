@@ -30,6 +30,10 @@ namespace base
 				}
 			};
 
+			///
+			/// @brief 数据输出回调的参数类。
+			///
+			///
 			class DataOutStageCallbackArgs
 			{
 			private:
@@ -44,11 +48,21 @@ namespace base
 					_span = span;
 				}
 
+				///
+				/// @brief 端点号。
+				///
+				/// @return
+				///
 				uint8_t EndpointNumber() const
 				{
 					return _endpoint_number;
 				}
 
+				///
+				/// @brief 主机输出的数据放在这个内存段里。
+				///
+				/// @return
+				///
 				base::ReadOnlySpan Span() const
 				{
 					return _span;
