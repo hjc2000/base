@@ -82,7 +82,7 @@ namespace base
 				base::usb::fs_pcd::set_disconnect_callback(*_handle, callback);
 			}
 
-			void SetDataOutStageCallback(std::function<void(base::usb::fs_pcd::DataOutStageCallbackArgs)> const &callback)
+			void SetDataOutStageCallback(std::function<void(base::usb::fs_pcd::DataOutStageCallbackArgs const &)> const &callback)
 			{
 				base::usb::fs_pcd::set_data_out_stage_callback(*_handle, callback);
 			}

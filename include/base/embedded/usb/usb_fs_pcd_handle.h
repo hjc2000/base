@@ -137,7 +137,7 @@ namespace base
 			/// @param callback
 			///
 			void set_data_out_stage_callback(base::usb::fs_pcd::usb_fs_pcd_handle &self,
-											 std::function<void(base::usb::fs_pcd::DataOutStageCallbackArgs)> const &callback);
+											 std::function<void(base::usb::fs_pcd::DataOutStageCallbackArgs const &)> const &callback);
 
 			/* #endregion */
 
