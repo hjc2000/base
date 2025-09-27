@@ -1,6 +1,5 @@
 #pragma once
 #include "base/stream/ReadOnlySpan.h"
-#include "base/stream/Span.h"
 #include "PhyType.h"
 #include <cstdint>
 #include <functional>
@@ -69,21 +68,15 @@ namespace base
 				}
 			};
 
-			///
-			/// @brief 数据输入回调的参数类。
-			///
 			class DataInStageCallbackArgs
 			{
 			private:
 				uint8_t _endpoint_number;
-				base::Span _span;
 
 			public:
-				DataInStageCallbackArgs(uint8_t endpoint_number,
-										base::Span const &span)
+				DataInStageCallbackArgs(uint8_t endpoint_number)
 				{
 					_endpoint_number = endpoint_number;
-					_span = span;
 				}
 
 				///
@@ -94,16 +87,6 @@ namespace base
 				uint8_t EndpointNumber() const
 				{
 					return _endpoint_number;
-				}
-
-				///
-				/// @brief 主机输入的数据放在这个内存段里。
-				///
-				/// @return
-				///
-				base::Span Span() const
-				{
-					return _span;
 				}
 			};
 
