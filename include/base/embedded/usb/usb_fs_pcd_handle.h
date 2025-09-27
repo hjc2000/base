@@ -1,5 +1,6 @@
 #pragma once
 #include "base/stream/ReadOnlySpan.h"
+#include "base/stream/Span.h"
 #include "PhyType.h"
 #include <cstdint>
 #include <functional>
@@ -33,7 +34,6 @@ namespace base
 			///
 			/// @brief 数据输出回调的参数类。
 			///
-			///
 			class DataOutStageCallbackArgs
 			{
 			private:
@@ -64,6 +64,44 @@ namespace base
 				/// @return
 				///
 				base::ReadOnlySpan Span() const
+				{
+					return _span;
+				}
+			};
+
+			///
+			/// @brief 数据输入回调的参数类。
+			///
+			class DataInStageCallbackArgs
+			{
+			private:
+				uint8_t _endpoint_number;
+				base::Span _span;
+
+			public:
+				DataInStageCallbackArgs(uint8_t endpoint_number,
+										base::Span const &span)
+				{
+					_endpoint_number = endpoint_number;
+					_span = span;
+				}
+
+				///
+				/// @brief 端点号。
+				///
+				/// @return
+				///
+				uint8_t EndpointNumber() const
+				{
+					return _endpoint_number;
+				}
+
+				///
+				/// @brief 主机输入的数据放在这个内存段里。
+				///
+				/// @return
+				///
+				base::Span Span() const
 				{
 					return _span;
 				}
@@ -138,6 +176,15 @@ namespace base
 			///
 			void set_data_out_stage_callback(base::usb::fs_pcd::usb_fs_pcd_handle &self,
 											 std::function<void(base::usb::fs_pcd::DataOutStageCallbackArgs const &)> const &callback);
+
+			///
+			/// @brief 设置主机请求读取数据时触发的回调。
+			///
+			/// @param self
+			/// @param callback
+			///
+			void set_data_in_stage_callback(base::usb::fs_pcd::usb_fs_pcd_handle &self,
+											std::function<void(base::usb::fs_pcd::DataInStageCallbackArgs const &)> const &callback);
 
 			/* #endregion */
 

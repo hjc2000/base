@@ -87,6 +87,11 @@ namespace base
 				base::usb::fs_pcd::set_data_out_stage_callback(*_handle, callback);
 			}
 
+			void SetDataInStageCallback(std::function<void(base::usb::fs_pcd::DataInStageCallbackArgs const &)> const &callback)
+			{
+				base::usb::fs_pcd::set_data_in_stage_callback(*_handle, callback);
+			}
+
 			/* #endregion */
 		};
 
