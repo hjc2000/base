@@ -1,5 +1,7 @@
 #pragma once
-#include "base/stream/ReadOnlySpan.h"
+#include "base/embedded/usb/DataInStageCallbackArgs.h"
+#include "base/embedded/usb/DataOutStageCallbackArgs.h"
+#include "base/embedded/usb/SetupStageCallbackArgs.h"
 #include "PhyType.h"
 #include <cstdint>
 #include <functional>
@@ -11,87 +13,6 @@ namespace base
 	{
 		namespace fs_pcd
 		{
-			/* #region 回调参数类 */
-
-			class SetupStageCallbackArgs
-			{
-			private:
-				base::ReadOnlySpan _span;
-
-			public:
-				SetupStageCallbackArgs(base::ReadOnlySpan const &span)
-				{
-					_span = span;
-				}
-
-				base::ReadOnlySpan Span() const
-				{
-					return _span;
-				}
-			};
-
-			///
-			/// @brief 数据输出回调的参数类。
-			///
-			class DataOutStageCallbackArgs
-			{
-			private:
-				uint8_t _endpoint_number;
-				base::ReadOnlySpan _span;
-
-			public:
-				DataOutStageCallbackArgs(uint8_t endpoint_number,
-										 base::ReadOnlySpan const &span)
-				{
-					_endpoint_number = endpoint_number;
-					_span = span;
-				}
-
-				///
-				/// @brief 端点号。
-				///
-				/// @return
-				///
-				uint8_t EndpointNumber() const
-				{
-					return _endpoint_number;
-				}
-
-				///
-				/// @brief 主机输出的数据放在这个内存段里。
-				///
-				/// @return
-				///
-				base::ReadOnlySpan Span() const
-				{
-					return _span;
-				}
-			};
-
-			class DataInStageCallbackArgs
-			{
-			private:
-				uint8_t _endpoint_number;
-
-			public:
-				DataInStageCallbackArgs(uint8_t endpoint_number)
-				{
-					_endpoint_number = endpoint_number;
-				}
-
-				///
-				/// @brief 端点号。
-				///
-				/// @return
-				///
-				uint8_t EndpointNumber() const
-				{
-					return _endpoint_number;
-				}
-			};
-
-			/* #endregion */
-
 			class usb_fs_pcd_handle;
 
 			std::shared_ptr<base::usb::fs_pcd::usb_fs_pcd_handle> open(uint32_t id);
