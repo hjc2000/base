@@ -1,6 +1,8 @@
 #pragma once
 #include "base/embedded/usb/fs-device-pcd/callback-args/DataInStageCallbackArgs.h"
 #include "base/embedded/usb/fs-device-pcd/callback-args/DataOutStageCallbackArgs.h"
+#include "base/embedded/usb/fs-device-pcd/callback-args/IsoInIncompleteCallbackArgs.h"
+#include "base/embedded/usb/fs-device-pcd/callback-args/IsoOutIncompleteCallbackArgs.h"
 #include "base/embedded/usb/fs-device-pcd/callback-args/SetupStageCallbackArgs.h"
 #include "PhyType.h"
 #include <cstdint>
@@ -89,6 +91,24 @@ namespace base
 			///
 			void set_data_in_stage_callback(base::usb::fs_device_pcd::usb_fs_pcd_handle &self,
 											std::function<void(base::usb::fs_device_pcd::DataInStageCallbackArgs const &)> const &callback);
+
+			///
+			/// @brief 等时传输中，如果主机输出的数据没有及时被设备接收，就会触发此回调。
+			///
+			/// @param self
+			/// @param callback
+			///
+			void set_iso_out_incomplete_callback(base::usb::fs_device_pcd::usb_fs_pcd_handle &self,
+												 std::function<void(base::usb::fs_device_pcd::IsoOutIncompleteCallbackArgs const &)> const &callback);
+
+			///
+			/// @brief 等时传输中，主机没有及时取走输入数据，就会触发此回调。
+			///
+			/// @param self
+			/// @param callback
+			///
+			void set_iso_in_incomplete_callback(base::usb::fs_device_pcd::usb_fs_pcd_handle &self,
+												std::function<void(base::usb::fs_device_pcd::IsoInIncompleteCallbackArgs const &)> const &callback);
 
 			/* #endregion */
 

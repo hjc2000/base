@@ -92,6 +92,16 @@ namespace base
 				base::usb::fs_device_pcd::set_data_in_stage_callback(*_handle, callback);
 			}
 
+			void SetIsoOutIncompleteCallback(std::function<void(base::usb::fs_device_pcd::IsoOutIncompleteCallbackArgs const &)> const &callback)
+			{
+				base::usb::fs_device_pcd::set_iso_out_incomplete_callback(*_handle, callback);
+			}
+
+			void SetIsoInIncompleteCallback(std::function<void(base::usb::fs_device_pcd::IsoInIncompleteCallbackArgs const &)> const &callback)
+			{
+				base::usb::fs_device_pcd::set_iso_in_incomplete_callback(*_handle, callback);
+			}
+
 			/* #endregion */
 		};
 
