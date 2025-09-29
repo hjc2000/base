@@ -1,7 +1,7 @@
 #pragma once
-#include "base/embedded/usb/fs_device_pcd/DataInStageCallbackArgs.h"
-#include "base/embedded/usb/fs_device_pcd/DataOutStageCallbackArgs.h"
-#include "base/embedded/usb/fs_device_pcd/SetupStageCallbackArgs.h"
+#include "base/embedded/usb/fs-device-pcd/DataInStageCallbackArgs.h"
+#include "base/embedded/usb/fs-device-pcd/DataOutStageCallbackArgs.h"
+#include "base/embedded/usb/fs-device-pcd/SetupStageCallbackArgs.h"
 #include "PhyType.h"
 #include <cstdint>
 #include <functional>
