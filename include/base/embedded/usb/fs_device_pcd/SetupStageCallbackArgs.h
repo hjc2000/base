@@ -5,7 +5,7 @@ namespace base
 {
 	namespace usb
 	{
-		namespace fs_pcd
+		namespace fs_device_pcd
 		{
 			class SetupStageCallbackArgs
 			{
@@ -24,6 +24,6 @@ namespace base
 				}
 			};
 
-		} // namespace fs_pcd
+		} // namespace fs_device_pcd
 	} // namespace usb
 } // namespace base

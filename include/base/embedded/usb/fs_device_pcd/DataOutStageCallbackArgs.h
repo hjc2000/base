@@ -5,7 +5,7 @@ namespace base
 {
 	namespace usb
 	{
-		namespace fs_pcd
+		namespace fs_device_pcd
 		{
 			///
 			/// @brief 数据输出回调的参数类。
@@ -45,6 +45,6 @@ namespace base
 				}
 			};
 
-		} // namespace fs_pcd
+		} // namespace fs_device_pcd
 	} // namespace usb
 } // namespace base
