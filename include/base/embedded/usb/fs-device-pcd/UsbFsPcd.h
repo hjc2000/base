@@ -17,9 +17,9 @@ namespace base::usb::fs_device_pcd
 			_handle = base::usb::fs_device_pcd::open(id);
 		}
 
-		void InitializeAsDevice(base::usb::PhyType phy_type)
+		void Initialize(base::usb::PhyType phy_type)
 		{
-			base::usb::fs_device_pcd::initialize_as_device(*_handle, phy_type);
+			base::usb::fs_device_pcd::initialize(*_handle, phy_type);
 		}
 
 		///
