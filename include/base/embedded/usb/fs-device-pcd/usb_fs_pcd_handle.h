@@ -18,27 +18,6 @@ namespace base::usb::fs_device_pcd
 	void initialize(base::usb::fs_device_pcd::usb_fs_pcd_handle &self,
 					base::usb::PhyType phy_type);
 
-	///
-	/// @brief 启动 USB 设备。
-	///
-	/// @param self
-	///
-	void start(base::usb::fs_device_pcd::usb_fs_pcd_handle &self);
-
-	///
-	/// @brief 挂起 USB 设备。
-	///
-	/// @param self
-	///
-	void suspend(base::usb::fs_device_pcd::usb_fs_pcd_handle &self);
-
-	///
-	/// @brief 恢复 USB 设备。
-	///
-	/// @param self
-	///
-	void resume(base::usb::fs_device_pcd::usb_fs_pcd_handle &self);
-
 	/* #region 注册回调 */
 
 	void set_sof_callback(base::usb::fs_device_pcd::usb_fs_pcd_handle &self,
@@ -107,6 +86,27 @@ namespace base::usb::fs_device_pcd
 										std::function<void(base::usb::fs_device_pcd::IsoInIncompleteCallbackArgs const &)> const &callback);
 
 	/* #endregion */
+
+	///
+	/// @brief 启动 USB 设备。
+	///
+	/// @param self
+	///
+	void start(base::usb::fs_device_pcd::usb_fs_pcd_handle &self);
+
+	///
+	/// @brief 挂起 USB 设备。
+	///
+	/// @param self
+	///
+	void suspend(base::usb::fs_device_pcd::usb_fs_pcd_handle &self);
+
+	///
+	/// @brief 恢复 USB 设备。
+	///
+	/// @param self
+	///
+	void resume(base::usb::fs_device_pcd::usb_fs_pcd_handle &self);
 
 	///
 	/// @brief 底层初始化。

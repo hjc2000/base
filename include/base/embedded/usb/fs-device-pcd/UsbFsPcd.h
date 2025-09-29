@@ -22,27 +22,6 @@ namespace base::usb::fs_device_pcd
 			base::usb::fs_device_pcd::initialize(*_handle, phy_type);
 		}
 
-		///
-		/// @brief 启动 USB 设备。
-		///
-		void Start()
-		{
-			base::usb::fs_device_pcd::start(*_handle);
-		}
-
-		///
-		/// @brief 挂起 USB 设备。
-		///
-		void Suspend()
-		{
-			base::usb::fs_device_pcd::suspend(*_handle);
-		}
-
-		void Resume()
-		{
-			base::usb::fs_device_pcd::resume(*_handle);
-		}
-
 		/* #region 注册回调 */
 
 		void SetSofCallback(std::function<void()> const &callback)
@@ -101,6 +80,29 @@ namespace base::usb::fs_device_pcd
 		}
 
 		/* #endregion */
+
+		///
+		/// @brief 启动 USB 设备。
+		///
+		/// @warning 先注册回调后再启动。因为注册回调的函数内部会禁用中断。
+		///
+		void Start()
+		{
+			base::usb::fs_device_pcd::start(*_handle);
+		}
+
+		///
+		/// @brief 挂起 USB 设备。
+		///
+		void Suspend()
+		{
+			base::usb::fs_device_pcd::suspend(*_handle);
+		}
+
+		void Resume()
+		{
+			base::usb::fs_device_pcd::resume(*_handle);
+		}
 	};
 
 	base::Slot<base::usb::fs_device_pcd::UsbFsPcd> &usb_fs_pcd_slot();
