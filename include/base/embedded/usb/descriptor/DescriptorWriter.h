@@ -29,8 +29,8 @@ namespace base
 				if (span.Size() < 2)
 				{
 					// 至少需要能够容纳：
-					// 		1 字节的长度字段。
-					// 		1 字节的描述符类型。
+					// 		* 1 字节的长度字段。
+					// 		* 1 字节的描述符类型。
 					// 内容允许为空。
 					throw std::invalid_argument{CODE_POS_STR + "span 过小。"};
 				}
@@ -54,7 +54,11 @@ namespace base
 
 				if (value + 2 > 255)
 				{
-					throw std::invalid_argument{CODE_POS_STR + "数据长度超过描述符能容纳的最大大小: 255 字节。"};
+					// 一个描述符整体最多是 255 字节，包括
+					// 		* 长度字段
+					// 		* 描述符类型字段
+					// 		* 数据
+					throw std::invalid_argument{CODE_POS_STR + "数据长度过长。"};
 				}
 
 				if (value + 2 > _span.Size())

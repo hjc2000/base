@@ -1,48 +1,39 @@
 #pragma once
-#include "base/bit/bit_converte.h"
+#include <algorithm>
 #include <bit>
 #include <cstddef>
 #include <cstdint>
 #include <string>
 
-namespace base
+namespace base::string::encoding
 {
-	namespace string
+	///
+	/// @brief 让传入的 str 的内部缓冲区中的数据变成 UTF16-LE 字节序列。
+	///
+	/// @note 如果本机是小端序，不需要任何处理，std::u16string 中的数据本来就是
+	/// UTF16-LE 字节序列。
+	///
+	/// @note 如果本机是大端序，需要转换，则直接颠倒每个字符的字节序，
+	/// 让缓冲区中的数据变成 UTF16-LE 字节序列。
+	///
+	/// @warning 如果发生了转换，经过处理后的 str 中的字符的值将不再正确，只能够
+	/// 读取其中的缓冲区进行发送，不能够进行字符处理。
+	///
+	/// @param str
+	///
+	inline void convert_to_utf16le_string(std::u16string &str)
 	{
-		namespace encoding
+		if (std::endian::native == std::endian::little)
 		{
-			///
-			/// @brief 让传入的 str 的内部缓冲区中的数据变成 UTF16-LE 字节序列。
-			///
-			/// @note 如果本机是小端序，不需要任何处理，std::u16string 中的数据本来就是
-			/// UTF16-LE 字节序列。
-			///
-			/// @note 如果本机是大端序，需要转换，则直接颠倒每个字符的字节序，
-			/// 让缓冲区中的数据变成 UTF16-LE 字节序列。
-			///
-			/// @warning 如果发生了转换，经过处理后的 str 中的字符的值将不再正确，只能够
-			/// 读取其中的缓冲区进行发送，不能够进行字符处理。
-			///
-			/// @param str
-			///
-			inline void convert_to_utf16le_string(std::u16string &str)
-			{
-				if (std::endian::native == std::endian::little)
-				{
-					return;
-				}
+			return;
+		}
 
-				for (size_t i = 0; i < str.size(); i++)
-				{
-					uint8_t high = str[i] >> 8;
-					uint8_t low = str[i] & 0xFF;
+		// 本机不是小端序，需要转换。
+		for (size_t i = 0; i < str.size(); i++)
+		{
+			std::reverse(reinterpret_cast<uint8_t *>(&str[i]),
+						 reinterpret_cast<uint8_t *>(&str[i]) + sizeof(char16_t));
+		}
+	}
 
-					// 颠倒字节序。
-					uint16_t value = base::bit_converte::ToUInt16(low, high);
-					str[i] = value;
-				}
-			}
-
-		} // namespace encoding
-	} // namespace string
-} // namespace base
+} // namespace base::string::encoding
