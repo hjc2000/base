@@ -1,6 +1,7 @@
 #pragma once
 #include "base/task/task.h" // IWYU pragma: keep
 #include <cstdint>          // IWYU pragma: keep
+#include <new>              // IWYU pragma: keep
 
 namespace base
 {
