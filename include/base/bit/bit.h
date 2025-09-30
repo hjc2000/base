@@ -78,6 +78,19 @@ namespace base
 		}
 
 		///
+		/// @brief 从最高位开始数，有多少个连续的 1.
+		///
+		/// @param num
+		/// @return
+		///
+		template <typename RegisterType>
+			requires(std::is_integral_v<RegisterType>)
+		constexpr int HighOneCount(RegisterType num)
+		{
+			return std::countl_one(num);
+		}
+
+		///
 		/// @brief 从最低位开始数，有多少个连续的 0.
 		/// @return
 		///

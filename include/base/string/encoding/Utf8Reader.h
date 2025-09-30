@@ -1,4 +1,5 @@
 #pragma once
+#include "base/bit/bit.h"
 #include "base/stream/Span.h"
 #include "base/stream/Stream.h"
 #include <cstdint>
@@ -29,11 +30,43 @@ namespace base::string::encoding
 					break;
 				}
 
-				if (byte < 0x80)
+				int high_one_count = base::bit::HighOneCount(byte);
+				switch (high_one_count)
 				{
-					buffer[total_read] = byte;
-					total_read++;
-					continue;
+				case 0:
+					{
+						buffer[total_read] = byte;
+						total_read++;
+						continue;
+					}
+				case 1:
+					{
+						// 读取第 1 个字节旧遇到 0b10 开头的字符，是非法的。
+						buffer[total_read] = 0xfffd;
+						total_read++;
+						continue;
+					}
+				case 2:
+					{
+						// 0b110 开头，除了当前字节，后续还有 1 个字节的数据。
+						continue;
+					}
+				case 3:
+					{
+						// 0b1110 开头，除了当前字节，后续还有 2 个字节的数据。
+						continue;
+					}
+				case 4:
+					{
+						// 0b11110 开头，除了当前字节，后续还有 3 个字节的数据。
+						continue;
+					}
+				default:
+					{
+						buffer[total_read] = 0xfffd;
+						total_read++;
+						continue;
+					}
 				}
 			}
 
