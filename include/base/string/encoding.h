@@ -1,4 +1,5 @@
 #pragma once
+#include "base/stream/ReadOnlySpan.h"
 #include <algorithm>
 #include <bit>
 #include <cstddef>
@@ -34,6 +35,25 @@ namespace base::string::encoding
 			std::reverse(reinterpret_cast<uint8_t *>(&str[i]),
 						 reinterpret_cast<uint8_t *>(&str[i]) + sizeof(char16_t));
 		}
+	}
+
+	///
+	/// @brief 将传入的 span 中的 ASCII 字符串转换成 UTF16 字符串。
+	///
+	/// @param span
+	/// @return
+	///
+	inline std::u16string convert_ascii_to_utf16_string(base::ReadOnlySpan const &span)
+	{
+		std::u16string ret;
+		ret.reserve(span.Size());
+
+		for (int64_t i = 0; i < span.Size(); i++)
+		{
+			ret.push_back(static_cast<char16_t>(span[i]));
+		}
+
+		return ret;
 	}
 
 } // namespace base::string::encoding
