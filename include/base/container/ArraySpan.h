@@ -220,6 +220,56 @@ namespace base
 			return base::ArraySpan<ItemType>{Buffer() + range.Begin(), range.Size()};
 		}
 
+		base::ArraySpan<ItemType> operator[](base::Range const &range) const
+		{
+			if (range.End() > Count())
+			{
+				throw std::out_of_range{"超出范围，无法切片。"};
+			}
+
+			return base::ArraySpan<ItemType>{Buffer() + range.Begin(), range.Size()};
+		}
+
+		ItemType &Get(int64_t index)
+		{
+			if (index < 0 || index >= Count())
+			{
+				throw std::out_of_range{CODE_POS_STR + "index 参数超出范围。"};
+			}
+
+			return Buffer()[index];
+		}
+
+		ItemType const &Get(int64_t index) const
+		{
+			if (index < 0 || index >= Count())
+			{
+				throw std::out_of_range{CODE_POS_STR + "index 索引超出范围。"};
+			}
+
+			return Buffer()[index];
+		}
+
+		ItemType &operator[](int64_t index)
+		{
+			if (index < 0 || index >= Count())
+			{
+				throw std::out_of_range{CODE_POS_STR + "index 索引超出范围。"};
+			}
+
+			return Buffer()[index];
+		}
+
+		ItemType const &operator[](int64_t index) const
+		{
+			if (index < 0 || index >= Count())
+			{
+				throw std::out_of_range{CODE_POS_STR + "index 索引超出范围。"};
+			}
+
+			return Buffer()[index];
+		}
+
 		/* #region Sort */
 
 		///
