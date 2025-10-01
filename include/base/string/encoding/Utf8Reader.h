@@ -144,6 +144,7 @@ namespace base::string::encoding
 		/// @param span
 		///
 		/// @return 成功解码出的字符数。
+		/// 	@note 返回 0 表示流已结束。
 		///
 		int64_t Read(base::ArraySpan<char32_t> const &span)
 		{
