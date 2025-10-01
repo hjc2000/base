@@ -130,6 +130,10 @@ namespace base::string::encoding
 		///
 		void SeekToNextSequence();
 
+		void DecodeOneByteCaracter(uint8_t byte1);
+		void DecodeTwoByteCaracter(uint8_t byte1);
+		void DecodeThreeByteCaracter(uint8_t byte1);
+		void DecodeFourByteCaracter(uint8_t byte1);
 		void DecodeOneCharacter();
 
 	public:

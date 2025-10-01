@@ -72,6 +72,185 @@ void base::string::encoding::Utf8Reader::SeekToNextSequence()
 	}
 }
 
+void base::string::encoding::Utf8Reader::DecodeOneByteCaracter(uint8_t byte1)
+{
+	char32_t decode_result = byte1;
+
+	if (!IsValidOneByteUnicodeCharacter(decode_result))
+	{
+		_span[_total_read] = ReplacementCharacter();
+		_total_read++;
+		return;
+	}
+
+	// 最高位开始数，有 0 个 1, 即以 0 开头。这种 utf8 字符与 ascii 兼容。
+	_span[_total_read] = decode_result;
+	_total_read++;
+}
+
+void base::string::encoding::Utf8Reader::DecodeTwoByteCaracter(uint8_t byte1)
+{
+	// 0b110 开头，除了当前字节，后续还有 1 个字节的数据。
+	FillHalfQueue();
+	if (_queue.Count() < 1)
+	{
+		// 后续还需要 1 个字节，但是已经没有了。
+		_span[_total_read] = ReplacementCharacter();
+		_total_read++;
+		return;
+	}
+
+	uint8_t byte2 = _queue.PopFront();
+
+	if (!IsValidUtf8ContinueByte(byte2))
+	{
+		// 有可能是首字节，所以放回队列，让下个循环的 SeekToNextSequence
+		// 去定位到合法的首字节。
+		_queue.PushFront(byte2);
+		_span[_total_read] = ReplacementCharacter();
+		_total_read++;
+		return;
+	}
+
+	byte1 = base::bit::ReadBits(byte1, 0, 5);
+	byte2 = base::bit::ReadBits(byte2, 0, 6);
+
+	char32_t decode_result = 0;
+	decode_result |= byte1 << (6 * 1);
+	decode_result |= byte2 << (6 * 0);
+
+	if (!IsValidTwoByteUnicodeCharacter(decode_result))
+	{
+		_span[_total_read] = ReplacementCharacter();
+		_total_read++;
+		return;
+	}
+
+	_span[_total_read] = decode_result;
+	_total_read++;
+}
+
+void base::string::encoding::Utf8Reader::DecodeThreeByteCaracter(uint8_t byte1)
+{
+	// 0b1110 开头，除了当前字节，后续还有 2 个字节的数据。
+	FillHalfQueue();
+	if (_queue.Count() < 2)
+	{
+		_span[_total_read] = ReplacementCharacter();
+		_total_read++;
+		return;
+	}
+
+	uint8_t byte2 = _queue.PopFront();
+	uint8_t byte3 = _queue.PopFront();
+
+	if (!IsValidUtf8ContinueByte(byte2))
+	{
+		// 有可能是首字节，所以放回队列，让下个循环的 SeekToNextSequence
+		// 去定位到合法的首字节。
+		_queue.PushFront(byte2);
+		_span[_total_read] = ReplacementCharacter();
+		_total_read++;
+		return;
+	}
+
+	if (!IsValidUtf8ContinueByte(byte3))
+	{
+		// 有可能是首字节，所以放回队列，让下个循环的 SeekToNextSequence
+		// 去定位到合法的首字节。
+		_queue.PushFront(byte3);
+		_span[_total_read] = ReplacementCharacter();
+		_total_read++;
+		return;
+	}
+
+	byte1 = base::bit::ReadBits(byte1, 0, 4);
+	byte2 = base::bit::ReadBits(byte2, 0, 6);
+	byte3 = base::bit::ReadBits(byte3, 0, 6);
+
+	char32_t decode_result = 0;
+	decode_result |= byte1 << (6 * 2);
+	decode_result |= byte2 << (6 * 1);
+	decode_result |= byte3 << (6 * 0);
+
+	if (!IsValidThreeByteUnicodeCharacter(decode_result))
+	{
+		_span[_total_read] = ReplacementCharacter();
+		_total_read++;
+		return;
+	}
+
+	_span[_total_read] = decode_result;
+	_total_read++;
+}
+
+void base::string::encoding::Utf8Reader::DecodeFourByteCaracter(uint8_t byte1)
+{
+	// 0b1111'0 开头，除了当前字节，后续还有 3 个字节的数据。
+	FillHalfQueue();
+	if (_queue.Count() < 3)
+	{
+		_span[_total_read] = ReplacementCharacter();
+		_total_read++;
+		return;
+	}
+
+	uint8_t byte2 = _queue.PopFront();
+	uint8_t byte3 = _queue.PopFront();
+	uint8_t byte4 = _queue.PopFront();
+
+	if (!IsValidUtf8ContinueByte(byte2))
+	{
+		// 有可能是首字节，所以放回队列，让下个循环的 SeekToNextSequence
+		// 去定位到合法的首字节。
+		_queue.PushFront(byte2);
+		_span[_total_read] = ReplacementCharacter();
+		_total_read++;
+		return;
+	}
+
+	if (!IsValidUtf8ContinueByte(byte3))
+	{
+		// 有可能是首字节，所以放回队列，让下个循环的 SeekToNextSequence
+		// 去定位到合法的首字节。
+		_queue.PushFront(byte3);
+		_span[_total_read] = ReplacementCharacter();
+		_total_read++;
+		return;
+	}
+
+	if (!IsValidUtf8ContinueByte(byte4))
+	{
+		// 有可能是首字节，所以放回队列，让下个循环的 SeekToNextSequence
+		// 去定位到合法的首字节。
+		_queue.PushFront(byte4);
+		_span[_total_read] = ReplacementCharacter();
+		_total_read++;
+		return;
+	}
+
+	byte1 = base::bit::ReadBits(byte1, 0, 3);
+	byte2 = base::bit::ReadBits(byte2, 0, 6);
+	byte3 = base::bit::ReadBits(byte3, 0, 6);
+	byte4 = base::bit::ReadBits(byte4, 0, 6);
+
+	char32_t decode_result = 0;
+	decode_result |= byte1 << (6 * 3);
+	decode_result |= byte2 << (6 * 2);
+	decode_result |= byte3 << (6 * 1);
+	decode_result |= byte4 << (6 * 0);
+
+	if (!IsValidFourByteUnicodeCharacter(decode_result))
+	{
+		_span[_total_read] = ReplacementCharacter();
+		_total_read++;
+		return;
+	}
+
+	_span[_total_read] = decode_result;
+	_total_read++;
+}
+
 void base::string::encoding::Utf8Reader::DecodeOneCharacter()
 {
 	uint8_t byte1 = _queue.PopFront();
@@ -92,186 +271,27 @@ void base::string::encoding::Utf8Reader::DecodeOneCharacter()
 	{
 	case 0:
 		{
-			char32_t decode_result = byte1;
-
-			if (!IsValidOneByteUnicodeCharacter(decode_result))
-			{
-				_span[_total_read] = ReplacementCharacter();
-				_total_read++;
-				return;
-			}
-
-			// 最高位开始数，有 0 个 1, 即以 0 开头。这种 utf8 字符与 ascii 兼容。
-			_span[_total_read] = decode_result;
-			_total_read++;
+			DecodeOneByteCaracter(byte1);
 			return;
 		}
 	case 2:
 		{
-			// 0b110 开头，除了当前字节，后续还有 1 个字节的数据。
-			FillHalfQueue();
-			if (_queue.Count() < 1)
-			{
-				// 后续还需要 1 个字节，但是已经没有了。
-				_span[_total_read] = ReplacementCharacter();
-				_total_read++;
-				return;
-			}
-
-			uint8_t byte2 = _queue.PopFront();
-
-			if (!IsValidUtf8ContinueByte(byte2))
-			{
-				// 有可能是首字节，所以放回队列，让下个循环的 SeekToNextSequence
-				// 去定位到合法的首字节。
-				_queue.PushFront(byte2);
-				_span[_total_read] = ReplacementCharacter();
-				_total_read++;
-				return;
-			}
-
-			byte1 = base::bit::ReadBits(byte1, 0, 5);
-			byte2 = base::bit::ReadBits(byte2, 0, 6);
-
-			char32_t decode_result = 0;
-			decode_result |= byte1 << (6 * 1);
-			decode_result |= byte2 << (6 * 0);
-
-			if (!IsValidTwoByteUnicodeCharacter(decode_result))
-			{
-				_span[_total_read] = ReplacementCharacter();
-				_total_read++;
-				return;
-			}
-
-			_span[_total_read] = decode_result;
-			_total_read++;
+			DecodeTwoByteCaracter(byte1);
 			return;
 		}
 	case 3:
 		{
-			// 0b1110 开头，除了当前字节，后续还有 2 个字节的数据。
-			FillHalfQueue();
-			if (_queue.Count() < 2)
-			{
-				_span[_total_read] = ReplacementCharacter();
-				_total_read++;
-				return;
-			}
-
-			uint8_t byte2 = _queue.PopFront();
-			uint8_t byte3 = _queue.PopFront();
-
-			if (!IsValidUtf8ContinueByte(byte2))
-			{
-				// 有可能是首字节，所以放回队列，让下个循环的 SeekToNextSequence
-				// 去定位到合法的首字节。
-				_queue.PushFront(byte2);
-				_span[_total_read] = ReplacementCharacter();
-				_total_read++;
-				return;
-			}
-
-			if (!IsValidUtf8ContinueByte(byte3))
-			{
-				// 有可能是首字节，所以放回队列，让下个循环的 SeekToNextSequence
-				// 去定位到合法的首字节。
-				_queue.PushFront(byte3);
-				_span[_total_read] = ReplacementCharacter();
-				_total_read++;
-				return;
-			}
-
-			byte1 = base::bit::ReadBits(byte1, 0, 4);
-			byte2 = base::bit::ReadBits(byte2, 0, 6);
-			byte3 = base::bit::ReadBits(byte3, 0, 6);
-
-			char32_t decode_result = 0;
-			decode_result |= byte1 << (6 * 2);
-			decode_result |= byte2 << (6 * 1);
-			decode_result |= byte3 << (6 * 0);
-
-			if (!IsValidThreeByteUnicodeCharacter(decode_result))
-			{
-				_span[_total_read] = ReplacementCharacter();
-				_total_read++;
-				return;
-			}
-
-			_span[_total_read] = decode_result;
-			_total_read++;
+			DecodeThreeByteCaracter(byte1);
 			return;
 		}
 	case 4:
 		{
-			// 0b1111'0 开头，除了当前字节，后续还有 3 个字节的数据。
-			FillHalfQueue();
-			if (_queue.Count() < 3)
-			{
-				_span[_total_read] = ReplacementCharacter();
-				_total_read++;
-				return;
-			}
-
-			uint8_t byte2 = _queue.PopFront();
-			uint8_t byte3 = _queue.PopFront();
-			uint8_t byte4 = _queue.PopFront();
-
-			if (!IsValidUtf8ContinueByte(byte2))
-			{
-				// 有可能是首字节，所以放回队列，让下个循环的 SeekToNextSequence
-				// 去定位到合法的首字节。
-				_queue.PushFront(byte2);
-				_span[_total_read] = ReplacementCharacter();
-				_total_read++;
-				return;
-			}
-
-			if (!IsValidUtf8ContinueByte(byte3))
-			{
-				// 有可能是首字节，所以放回队列，让下个循环的 SeekToNextSequence
-				// 去定位到合法的首字节。
-				_queue.PushFront(byte3);
-				_span[_total_read] = ReplacementCharacter();
-				_total_read++;
-				return;
-			}
-
-			if (!IsValidUtf8ContinueByte(byte4))
-			{
-				// 有可能是首字节，所以放回队列，让下个循环的 SeekToNextSequence
-				// 去定位到合法的首字节。
-				_queue.PushFront(byte4);
-				_span[_total_read] = ReplacementCharacter();
-				_total_read++;
-				return;
-			}
-
-			byte1 = base::bit::ReadBits(byte1, 0, 3);
-			byte2 = base::bit::ReadBits(byte2, 0, 6);
-			byte3 = base::bit::ReadBits(byte3, 0, 6);
-			byte4 = base::bit::ReadBits(byte4, 0, 6);
-
-			char32_t decode_result = 0;
-			decode_result |= byte1 << (6 * 3);
-			decode_result |= byte2 << (6 * 2);
-			decode_result |= byte3 << (6 * 1);
-			decode_result |= byte4 << (6 * 0);
-
-			if (!IsValidFourByteUnicodeCharacter(decode_result))
-			{
-				_span[_total_read] = ReplacementCharacter();
-				_total_read++;
-				return;
-			}
-
-			_span[_total_read] = decode_result;
-			_total_read++;
+			DecodeFourByteCaracter(byte1);
 			return;
 		}
 	default:
 		{
-			throw std::runtime_error{CODE_POS_STR + "经过定位到合法的起始字节后，不应该走入此分支。"};
+			throw std::runtime_error{CODE_POS_STR + "经过 SeekToNextSequence 处理后，不应该走入此分支。"};
 		}
 	}
 }
