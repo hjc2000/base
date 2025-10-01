@@ -1,6 +1,7 @@
 #pragma once
 #include "base/bit/bit.h"
-#include "base/stream/Span.h"
+#include "base/container/ArraySpan.h"
+#include "base/container/CircleDeque.h"
 #include "base/stream/Stream.h"
 #include <cstdint>
 
@@ -10,6 +11,54 @@ namespace base::string::encoding
 	{
 	private:
 		base::Stream &_stream;
+		base::CircleDeque<uint8_t, 16> _queue;
+
+		base::ArraySpan<char32_t> _span;
+		int64_t _total_read = 0;
+
+		static constexpr char32_t ReplacementCharacter()
+		{
+			return static_cast<char32_t>(0xfffd);
+		}
+
+		///
+		/// @brief 尝试从流中读取字节，将队列填充到半满。
+		///
+		/// @note 如果调用后队列仍然为空，说明流到尽头了。
+		///
+		void FillHalfQueue();
+
+		///
+		/// @brief 判断一个字节是不是 UTF-8 序列的开头。
+		///
+		/// @param byte
+		/// @return
+		///
+		bool IsValidUtf8SequenceStart(uint8_t byte);
+
+		///
+		/// @brief 判断一个字节是不是 UTF-8 序列继首字节之后的继续字节。
+		///
+		/// @param byte
+		/// @return
+		///
+		bool IsValidUtf8ContinueByte(uint8_t byte)
+		{
+			int high_one_count = base::bit::HighOneCount(byte);
+			return high_one_count == 1;
+		}
+
+		///
+		/// @brief 定位到下一个 UTF-8 序列的开头。
+		///
+		/// @note 调用后，队列中的第 1 个字节将会是 UTF-8 序列的开头。
+		///
+		/// @note 或者队列空了，流也结束了，还是无法定位到 UTF-8 序列开头，
+		/// 这种情况下调用本函数后，队列将为空。
+		///
+		void SeekToNextSequence();
+
+		void DecodeOneCharacter();
 
 	public:
 		Utf8Reader(base::Stream &stream)
@@ -17,60 +66,26 @@ namespace base::string::encoding
 		{
 		}
 
-		int64_t Read(char32_t *buffer, int64_t count)
+		int64_t Read(base::ArraySpan<char32_t> const &span)
 		{
-			int64_t total_read = 0;
+			_span = span;
+			_total_read = 0;
 
 			while (true)
 			{
-				uint8_t byte;
-				int64_t have_read = _stream.Read(base::Span{&byte, 1});
-				if (have_read <= 0)
+				if (_total_read >= _span.Count())
 				{
-					break;
+					return _total_read;
 				}
 
-				int high_one_count = base::bit::HighOneCount(byte);
-				switch (high_one_count)
+				FillHalfQueue();
+				if (_queue.Count() <= 0)
 				{
-				case 0:
-					{
-						buffer[total_read] = byte;
-						total_read++;
-						continue;
-					}
-				case 1:
-					{
-						// 读取第 1 个字节旧遇到 0b10 开头的字符，是非法的。
-						buffer[total_read] = 0xfffd;
-						total_read++;
-						continue;
-					}
-				case 2:
-					{
-						// 0b110 开头，除了当前字节，后续还有 1 个字节的数据。
-						continue;
-					}
-				case 3:
-					{
-						// 0b1110 开头，除了当前字节，后续还有 2 个字节的数据。
-						continue;
-					}
-				case 4:
-					{
-						// 0b11110 开头，除了当前字节，后续还有 3 个字节的数据。
-						continue;
-					}
-				default:
-					{
-						buffer[total_read] = 0xfffd;
-						total_read++;
-						continue;
-					}
+					return _total_read;
 				}
+
+				DecodeOneCharacter();
 			}
-
-			return total_read;
 		}
 	};
 
