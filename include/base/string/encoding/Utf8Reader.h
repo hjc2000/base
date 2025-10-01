@@ -49,6 +49,8 @@ namespace base::string::encoding
 			return high_one_count == 1;
 		}
 
+		/* #region 码点范围检查 */
+
 		static constexpr bool IsValidOneByteUnicodeCharacter(char32_t value)
 		{
 			if (value < 0)
@@ -115,6 +117,8 @@ namespace base::string::encoding
 
 			return true;
 		}
+
+		/* #endregion */
 
 		///
 		/// @brief 定位到下一个 UTF-8 序列的开头。
