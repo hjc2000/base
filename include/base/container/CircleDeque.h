@@ -152,6 +152,21 @@ namespace base
 			return _end - _begin;
 		}
 
+		bool IsFull() const
+		{
+			return _is_full;
+		}
+
+		///
+		/// @brief 队列的容纳能力。即最多容纳多少个元素。
+		///
+		/// @return
+		///
+		int64_t Capacity() const
+		{
+			return Size;
+		}
+
 		///
 		/// @brief 从队列末端入队。
 		///
