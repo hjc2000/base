@@ -1,6 +1,7 @@
 #pragma once
 #include "base/container/iterator/IEnumerable.h"
 #include "base/container/Range.h"
+#include "base/string/define.h"
 #include <cstdint>
 #include <stdexcept>
 
@@ -152,6 +153,26 @@ namespace base
 			}
 
 			return base::ReadOnlyArraySpan<ItemType>{Buffer() + range.Begin(), range.Size()};
+		}
+
+		base::ReadOnlyArraySpan<ItemType> operator[](base::Range const &range) const
+		{
+			return Slice(range);
+		}
+
+		ItemType const &Get(int64_t index) const
+		{
+			if (index < 0 || index >= Count())
+			{
+				throw std::out_of_range{CODE_POS_STR + "index 参数超出范围。"};
+			}
+
+			return Buffer()[index];
+		}
+
+		ItemType const &operator[](int64_t index) const
+		{
+			return Get(index);
 		}
 
 		/* #region GetEnumerator */
