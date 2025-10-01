@@ -138,6 +138,13 @@ namespace base::string::encoding
 		{
 		}
 
+		///
+		/// @brief 从流中读取字节，解码位 UTF-32 字符，放入 span 中。
+		///
+		/// @param span
+		///
+		/// @return 成功解码出的字符数。
+		///
 		int64_t Read(base::ArraySpan<char32_t> const &span)
 		{
 			_span = span;
