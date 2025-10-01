@@ -1,18 +1,18 @@
 #pragma once
 #include "base/embedded/Slot.h"
-#include "usb_fs_pcd_handle.h"
+#include "usb_fs_device_pcd_handle.h"
 #include <cstdint>
 #include <memory>
 
 namespace base::usb::fs_device_pcd
 {
-	class UsbFsPcd
+	class UsbFsDevicePcd
 	{
 	private:
-		std::shared_ptr<base::usb::fs_device_pcd::usb_fs_pcd_handle> _handle;
+		std::shared_ptr<base::usb::fs_device_pcd::usb_fs_device_pcd_handle> _handle;
 
 	public:
-		UsbFsPcd(uint32_t id)
+		UsbFsDevicePcd(uint32_t id)
 		{
 			_handle = base::usb::fs_device_pcd::open(id);
 		}
@@ -105,6 +105,6 @@ namespace base::usb::fs_device_pcd
 		}
 	};
 
-	base::Slot<base::usb::fs_device_pcd::UsbFsPcd> &usb_fs_pcd_slot();
+	base::Slot<base::usb::fs_device_pcd::UsbFsDevicePcd> &usb_fs_pcd_slot();
 
 } // namespace base::usb::fs_device_pcd

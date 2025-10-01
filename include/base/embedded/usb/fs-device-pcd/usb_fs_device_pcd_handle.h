@@ -11,22 +11,22 @@
 
 namespace base::usb::fs_device_pcd
 {
-	class usb_fs_pcd_handle;
+	class usb_fs_device_pcd_handle;
 
-	std::shared_ptr<base::usb::fs_device_pcd::usb_fs_pcd_handle> open(uint32_t id);
+	std::shared_ptr<base::usb::fs_device_pcd::usb_fs_device_pcd_handle> open(uint32_t id);
 
-	void initialize(base::usb::fs_device_pcd::usb_fs_pcd_handle &self,
+	void initialize(base::usb::fs_device_pcd::usb_fs_device_pcd_handle &self,
 					base::usb::PhyType phy_type);
 
 	/* #region 注册回调 */
 
-	void set_sof_callback(base::usb::fs_device_pcd::usb_fs_pcd_handle &self,
+	void set_sof_callback(base::usb::fs_device_pcd::usb_fs_device_pcd_handle &self,
 						  std::function<void()> const &callback);
 
-	void set_setup_stage_callback(base::usb::fs_device_pcd::usb_fs_pcd_handle &self,
+	void set_setup_stage_callback(base::usb::fs_device_pcd::usb_fs_device_pcd_handle &self,
 								  std::function<void(base::usb::fs_device_pcd::SetupStageCallbackArgs const &)> const &callback);
 
-	void set_reset_callback(base::usb::fs_device_pcd::usb_fs_pcd_handle &self,
+	void set_reset_callback(base::usb::fs_device_pcd::usb_fs_device_pcd_handle &self,
 							std::function<void()> const &callback);
 
 	///
@@ -37,16 +37,16 @@ namespace base::usb::fs_device_pcd
 	/// @param self
 	/// @param callback
 	///
-	void set_suspend_callback(base::usb::fs_device_pcd::usb_fs_pcd_handle &self,
+	void set_suspend_callback(base::usb::fs_device_pcd::usb_fs_device_pcd_handle &self,
 							  std::function<void()> const &callback);
 
-	void set_resume_callback(base::usb::fs_device_pcd::usb_fs_pcd_handle &self,
+	void set_resume_callback(base::usb::fs_device_pcd::usb_fs_device_pcd_handle &self,
 							 std::function<void()> const &callback);
 
-	void set_connect_callback(base::usb::fs_device_pcd::usb_fs_pcd_handle &self,
+	void set_connect_callback(base::usb::fs_device_pcd::usb_fs_device_pcd_handle &self,
 							  std::function<void()> const &callback);
 
-	void set_disconnect_callback(base::usb::fs_device_pcd::usb_fs_pcd_handle &self,
+	void set_disconnect_callback(base::usb::fs_device_pcd::usb_fs_device_pcd_handle &self,
 								 std::function<void()> const &callback);
 
 	///
@@ -55,7 +55,7 @@ namespace base::usb::fs_device_pcd
 	/// @param self
 	/// @param callback
 	///
-	void set_data_out_stage_callback(base::usb::fs_device_pcd::usb_fs_pcd_handle &self,
+	void set_data_out_stage_callback(base::usb::fs_device_pcd::usb_fs_device_pcd_handle &self,
 									 std::function<void(base::usb::fs_device_pcd::DataOutStageCallbackArgs const &)> const &callback);
 
 	///
@@ -64,7 +64,7 @@ namespace base::usb::fs_device_pcd
 	/// @param self
 	/// @param callback
 	///
-	void set_data_in_stage_callback(base::usb::fs_device_pcd::usb_fs_pcd_handle &self,
+	void set_data_in_stage_callback(base::usb::fs_device_pcd::usb_fs_device_pcd_handle &self,
 									std::function<void(base::usb::fs_device_pcd::DataInStageCallbackArgs const &)> const &callback);
 
 	///
@@ -73,7 +73,7 @@ namespace base::usb::fs_device_pcd
 	/// @param self
 	/// @param callback
 	///
-	void set_iso_out_incomplete_callback(base::usb::fs_device_pcd::usb_fs_pcd_handle &self,
+	void set_iso_out_incomplete_callback(base::usb::fs_device_pcd::usb_fs_device_pcd_handle &self,
 										 std::function<void(base::usb::fs_device_pcd::IsoOutIncompleteCallbackArgs const &)> const &callback);
 
 	///
@@ -82,7 +82,7 @@ namespace base::usb::fs_device_pcd
 	/// @param self
 	/// @param callback
 	///
-	void set_iso_in_incomplete_callback(base::usb::fs_device_pcd::usb_fs_pcd_handle &self,
+	void set_iso_in_incomplete_callback(base::usb::fs_device_pcd::usb_fs_device_pcd_handle &self,
 										std::function<void(base::usb::fs_device_pcd::IsoInIncompleteCallbackArgs const &)> const &callback);
 
 	/* #endregion */
@@ -92,21 +92,21 @@ namespace base::usb::fs_device_pcd
 	///
 	/// @param self
 	///
-	void start(base::usb::fs_device_pcd::usb_fs_pcd_handle &self);
+	void start(base::usb::fs_device_pcd::usb_fs_device_pcd_handle &self);
 
 	///
 	/// @brief 挂起 USB 设备。
 	///
 	/// @param self
 	///
-	void suspend(base::usb::fs_device_pcd::usb_fs_pcd_handle &self);
+	void suspend(base::usb::fs_device_pcd::usb_fs_device_pcd_handle &self);
 
 	///
 	/// @brief 恢复 USB 设备。
 	///
 	/// @param self
 	///
-	void resume(base::usb::fs_device_pcd::usb_fs_pcd_handle &self);
+	void resume(base::usb::fs_device_pcd::usb_fs_device_pcd_handle &self);
 
 	///
 	/// @brief 底层初始化。
