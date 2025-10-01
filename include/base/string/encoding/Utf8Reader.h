@@ -2,6 +2,7 @@
 #include "base/bit/bit.h"
 #include "base/container/ArraySpan.h"
 #include "base/container/CircleDeque.h"
+#include "base/math/pow.h"
 #include "base/stream/Stream.h"
 #include <cstdint>
 
@@ -46,6 +47,73 @@ namespace base::string::encoding
 		{
 			int high_one_count = base::bit::HighOneCount(byte);
 			return high_one_count == 1;
+		}
+
+		static constexpr bool IsValidOneByteUnicodeCharacter(char32_t value)
+		{
+			if (value < 0)
+			{
+				return false;
+			}
+
+			if (value >= base::pow(2, 7))
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		static constexpr bool IsValidTwoByteUnicodeCharacter(char32_t value)
+		{
+			if (value < base::pow(2, 7))
+			{
+				return false;
+			}
+
+			if (value >= base::pow(2, 11))
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		static constexpr bool IsValidThreeByteUnicodeCharacter(char32_t value)
+		{
+			if (value < base::pow(2, 11))
+			{
+				return false;
+			}
+
+			if (value >= base::pow(2, 16))
+			{
+				return false;
+			}
+
+			// 排除 UTF-16 代理区：U+D800 到 U+DFFF
+			if (value >= 0xD800 && value <= 0xDFFF)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		static constexpr bool IsValidFourByteUnicodeCharacter(char32_t value)
+		{
+			if (value < base::pow(2, 16))
+			{
+				return false;
+			}
+
+			// 注意：这里是 >，因为 0x10FFFF 是合法的。
+			if (value > 0x10FFFF)
+			{
+				return false;
+			}
+
+			return true;
 		}
 
 		///

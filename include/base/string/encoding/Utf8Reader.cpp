@@ -2,6 +2,7 @@
 #include "base/bit/bit.h"
 #include "base/stream/Span.h"
 #include "base/string/define.h"
+#include <cstdint>
 #include <stdexcept>
 
 void base::string::encoding::Utf8Reader::FillHalfQueue()
@@ -83,6 +84,7 @@ void base::string::encoding::Utf8Reader::DecodeOneCharacter()
 		return;
 	}
 
+	// 经过 SeekToNextSequence 处理后，
 	// 到这里可以确定 byte1 是一个 UTF-8 序列的开头。
 	int high_one_count = base::bit::HighOneCount(byte1);
 
@@ -90,8 +92,17 @@ void base::string::encoding::Utf8Reader::DecodeOneCharacter()
 	{
 	case 0:
 		{
+			char32_t ret = byte1;
+
+			if (!IsValidOneByteUnicodeCharacter(ret))
+			{
+				_span[_total_read] = ReplacementCharacter();
+				_total_read++;
+				return;
+			}
+
 			// 最高位开始数，有 0 个 1, 即以 0 开头。这种 utf8 字符与 ascii 兼容。
-			_span[_total_read] = static_cast<char32_t>(byte1);
+			_span[_total_read] = ret;
 			_total_read++;
 			return;
 		}
@@ -125,6 +136,13 @@ void base::string::encoding::Utf8Reader::DecodeOneCharacter()
 			char32_t ret = 0;
 			ret |= byte1 << (6 * 1);
 			ret |= byte2 << (6 * 0);
+
+			if (!IsValidTwoByteUnicodeCharacter(ret))
+			{
+				_span[_total_read] = ReplacementCharacter();
+				_total_read++;
+				return;
+			}
 
 			_span[_total_read] = ret;
 			_total_read++;
@@ -172,6 +190,13 @@ void base::string::encoding::Utf8Reader::DecodeOneCharacter()
 			ret |= byte1 << (6 * 2);
 			ret |= byte2 << (6 * 1);
 			ret |= byte3 << (6 * 0);
+
+			if (!IsValidThreeByteUnicodeCharacter(ret))
+			{
+				_span[_total_read] = ReplacementCharacter();
+				_total_read++;
+				return;
+			}
 
 			_span[_total_read] = ret;
 			_total_read++;
@@ -232,6 +257,13 @@ void base::string::encoding::Utf8Reader::DecodeOneCharacter()
 			ret |= byte2 << (6 * 2);
 			ret |= byte3 << (6 * 1);
 			ret |= byte4 << (6 * 0);
+
+			if (!IsValidFourByteUnicodeCharacter(ret))
+			{
+				_span[_total_read] = ReplacementCharacter();
+				_total_read++;
+				return;
+			}
 
 			_span[_total_read] = ret;
 			_total_read++;
