@@ -92,9 +92,9 @@ void base::string::encoding::Utf8Reader::DecodeOneCharacter()
 	{
 	case 0:
 		{
-			char32_t ret = byte1;
+			char32_t decode_result = byte1;
 
-			if (!IsValidOneByteUnicodeCharacter(ret))
+			if (!IsValidOneByteUnicodeCharacter(decode_result))
 			{
 				_span[_total_read] = ReplacementCharacter();
 				_total_read++;
@@ -102,7 +102,7 @@ void base::string::encoding::Utf8Reader::DecodeOneCharacter()
 			}
 
 			// 最高位开始数，有 0 个 1, 即以 0 开头。这种 utf8 字符与 ascii 兼容。
-			_span[_total_read] = ret;
+			_span[_total_read] = decode_result;
 			_total_read++;
 			return;
 		}
@@ -133,18 +133,18 @@ void base::string::encoding::Utf8Reader::DecodeOneCharacter()
 			byte1 = base::bit::ReadBits(byte1, 0, 5);
 			byte2 = base::bit::ReadBits(byte2, 0, 6);
 
-			char32_t ret = 0;
-			ret |= byte1 << (6 * 1);
-			ret |= byte2 << (6 * 0);
+			char32_t decode_result = 0;
+			decode_result |= byte1 << (6 * 1);
+			decode_result |= byte2 << (6 * 0);
 
-			if (!IsValidTwoByteUnicodeCharacter(ret))
+			if (!IsValidTwoByteUnicodeCharacter(decode_result))
 			{
 				_span[_total_read] = ReplacementCharacter();
 				_total_read++;
 				return;
 			}
 
-			_span[_total_read] = ret;
+			_span[_total_read] = decode_result;
 			_total_read++;
 			return;
 		}
@@ -186,19 +186,19 @@ void base::string::encoding::Utf8Reader::DecodeOneCharacter()
 			byte2 = base::bit::ReadBits(byte2, 0, 6);
 			byte3 = base::bit::ReadBits(byte3, 0, 6);
 
-			char32_t ret = 0;
-			ret |= byte1 << (6 * 2);
-			ret |= byte2 << (6 * 1);
-			ret |= byte3 << (6 * 0);
+			char32_t decode_result = 0;
+			decode_result |= byte1 << (6 * 2);
+			decode_result |= byte2 << (6 * 1);
+			decode_result |= byte3 << (6 * 0);
 
-			if (!IsValidThreeByteUnicodeCharacter(ret))
+			if (!IsValidThreeByteUnicodeCharacter(decode_result))
 			{
 				_span[_total_read] = ReplacementCharacter();
 				_total_read++;
 				return;
 			}
 
-			_span[_total_read] = ret;
+			_span[_total_read] = decode_result;
 			_total_read++;
 			return;
 		}
@@ -252,20 +252,20 @@ void base::string::encoding::Utf8Reader::DecodeOneCharacter()
 			byte3 = base::bit::ReadBits(byte3, 0, 6);
 			byte4 = base::bit::ReadBits(byte4, 0, 6);
 
-			char32_t ret = 0;
-			ret |= byte1 << (6 * 3);
-			ret |= byte2 << (6 * 2);
-			ret |= byte3 << (6 * 1);
-			ret |= byte4 << (6 * 0);
+			char32_t decode_result = 0;
+			decode_result |= byte1 << (6 * 3);
+			decode_result |= byte2 << (6 * 2);
+			decode_result |= byte3 << (6 * 1);
+			decode_result |= byte4 << (6 * 0);
 
-			if (!IsValidFourByteUnicodeCharacter(ret))
+			if (!IsValidFourByteUnicodeCharacter(decode_result))
 			{
 				_span[_total_read] = ReplacementCharacter();
 				_total_read++;
 				return;
 			}
 
-			_span[_total_read] = ret;
+			_span[_total_read] = decode_result;
 			_total_read++;
 			return;
 		}
