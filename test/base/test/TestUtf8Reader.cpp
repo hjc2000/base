@@ -15,17 +15,17 @@ void base::test::TestUtf8Reader()
 	constexpr char32_t utf32_str[6] = {U'你', U'好', U'，', U'世', U'界', U'！'};
 	std::string utf8_str = "你好，世界！";
 
-	base::Span span{
+	base::Span utf8_str_span{
 		reinterpret_cast<uint8_t *>(utf8_str.data()),
 		static_cast<int64_t>(utf8_str.size()),
 	};
 
-	base::MemoryStream stream{span};
-	stream.SetLength(span.Size());
-	base::string::encoding::Utf8Reader reader{stream};
+	base::MemoryStream utf8_str_stream{utf8_str_span};
+	utf8_str_stream.SetLength(utf8_str_span.Size());
+	base::string::encoding::Utf8Reader reader{utf8_str_stream};
 
-	char32_t buffer[6]{};
-	base::ArraySpan<char32_t> out_span{buffer, sizeof(buffer) / sizeof(char32_t)};
+	char32_t out_buffer[6]{};
+	base::ArraySpan<char32_t> out_span{out_buffer, sizeof(out_buffer) / sizeof(char32_t)};
 
 	int64_t have_read = reader.Read(out_span);
 	std::cout << "have read: " << have_read << std::endl;
