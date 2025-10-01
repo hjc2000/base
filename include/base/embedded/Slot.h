@@ -1,4 +1,5 @@
 #pragma once
+#include "base/define.h"
 #include "base/string/define.h"
 #include <cstdint>
 #include <memory>
@@ -19,9 +20,13 @@ namespace base
 	class Slot
 	{
 	private:
+		DELETE_COPY_AND_MOVE(Slot);
+
 		std::vector<std::shared_ptr<T>> _vector;
 
 	public:
+		Slot() = default;
+
 		///
 		/// @brief 插槽中的设备数量。
 		///
