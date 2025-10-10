@@ -53,12 +53,7 @@ namespace base::string::encoding
 
 		static constexpr bool IsValidOneByteUnicodeCharacter(char32_t value)
 		{
-			if (value < 0)
-			{
-				return false;
-			}
-
-			if (value >= base::pow(2, 7))
+			if (value >= base::pow<char32_t>(2, 7))
 			{
 				return false;
 			}
@@ -68,12 +63,12 @@ namespace base::string::encoding
 
 		static constexpr bool IsValidTwoByteUnicodeCharacter(char32_t value)
 		{
-			if (value < base::pow(2, 7))
+			if (value < base::pow<char32_t>(2, 7))
 			{
 				return false;
 			}
 
-			if (value >= base::pow(2, 11))
+			if (value >= base::pow<char32_t>(2, 11))
 			{
 				return false;
 			}
@@ -83,12 +78,12 @@ namespace base::string::encoding
 
 		static constexpr bool IsValidThreeByteUnicodeCharacter(char32_t value)
 		{
-			if (value < base::pow(2, 11))
+			if (value < base::pow<char32_t>(2, 11))
 			{
 				return false;
 			}
 
-			if (value >= base::pow(2, 16))
+			if (value >= base::pow<char32_t>(2, 16))
 			{
 				return false;
 			}
@@ -104,7 +99,7 @@ namespace base::string::encoding
 
 		static constexpr bool IsValidFourByteUnicodeCharacter(char32_t value)
 		{
-			if (value < base::pow(2, 16))
+			if (value < base::pow<char32_t>(2, 16))
 			{
 				return false;
 			}
