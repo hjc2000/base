@@ -180,6 +180,25 @@ namespace base
 		{
 			return Object();
 		}
+
+		///
+		/// @brief 在本对象的字节数组中原地构造 T 对象。
+		///
+		/// @param args
+		/// @return
+		///
+		template <typename... Args>
+		T &Emplace(Args &&...args)
+		{
+			if (_available)
+			{
+				reinterpret_cast<T *>(_buffer)->~T();
+			}
+
+			new (_buffer) T(std::forward<Args>(args)...);
+			_available = true;
+			return Object();
+		}
 	};
 
 } // namespace base
