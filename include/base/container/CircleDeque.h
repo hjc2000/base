@@ -346,6 +346,46 @@ namespace base
 
 		/* #region 索引器 */
 
+		///
+		/// @brief 获取队列最前端的元素。
+		///
+		/// @return
+		///
+		T &Front()
+		{
+			return Get(0);
+		}
+
+		///
+		/// @brief 获取队列最前端的元素。
+		///
+		/// @return
+		///
+		T const &Front() const
+		{
+			return Get(0);
+		}
+
+		///
+		/// @brief 获取队列最末尾的元素。
+		///
+		/// @return
+		///
+		T &Back()
+		{
+			return Get(Count() - 1);
+		}
+
+		///
+		/// @brief 获取队列最末尾的元素。
+		///
+		/// @return
+		///
+		T const &Back() const
+		{
+			return Get(Count() - 1);
+		}
+
 		T &Get(int64_t index)
 		{
 			if (index < 0 || index >= Count())
