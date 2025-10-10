@@ -158,8 +158,6 @@ namespace base
 		///
 		/// @brief 尝试退队
 		///
-		/// @return
-		///
 		virtual void TryDequeue(base::Placement<T> &placement) override
 		{
 			// 在持有互斥锁的条件下检查，避免误触，以及操作

@@ -91,8 +91,6 @@ namespace base
 		///
 		/// @brief 尝试退队
 		///
-		/// @return
-		///
 		virtual void TryDequeue(base::Placement<T> &placement) override
 		{
 			if (_queue.empty())

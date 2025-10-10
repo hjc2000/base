@@ -29,8 +29,6 @@ namespace base
 		///
 		/// @brief 尝试退队。
 		///
-		/// @return
-		///
 		virtual void TryDequeue(base::Placement<T> &placement) = 0;
 
 		///
