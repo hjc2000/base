@@ -386,6 +386,12 @@ namespace base
 			return Get(Count() - 1);
 		}
 
+		///
+		/// @brief 获取指定索引的元素。
+		///
+		/// @param index
+		/// @return
+		///
 		T &Get(int64_t index)
 		{
 			if (index < 0 || index >= Count())
@@ -397,6 +403,12 @@ namespace base
 			return Buffer()[real_index];
 		}
 
+		///
+		/// @brief 获取指定索引的元素。
+		///
+		/// @param index
+		/// @return
+		///
 		T const &Get(int64_t index) const
 		{
 			if (index < 0 || index >= Count())
@@ -408,6 +420,12 @@ namespace base
 			return Buffer()[real_index];
 		}
 
+		///
+		/// @brief 设置指定索引的元素。
+		///
+		/// @param index
+		/// @param value
+		///
 		void Set(int64_t index, T const &value)
 		{
 			if (index < 0 || index >= Count())
@@ -419,11 +437,23 @@ namespace base
 			Buffer()[real_index] = value;
 		}
 
+		///
+		/// @brief 获取指定索引的元素。
+		///
+		/// @param index
+		/// @return
+		///
 		T &operator[](int64_t index)
 		{
 			return Get(index);
 		}
 
+		///
+		/// @brief 获取指定索引的元素。
+		///
+		/// @param index
+		/// @return
+		///
 		T const &operator[](int64_t index) const
 		{
 			return Get(index);
