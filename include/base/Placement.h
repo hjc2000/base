@@ -107,6 +107,11 @@ namespace base
 			return *this;
 		}
 
+		///
+		/// @brief 本对象中占位的字节数组中是否构造了有效的 T 对象。
+		///
+		/// @return
+		///
 		bool Avalable() const
 		{
 			return _available;
@@ -122,21 +127,41 @@ namespace base
 			return reinterpret_cast<T const *>(_buffer);
 		}
 
+		///
+		/// @brief 获取本对象中占位的字节数组中存储的 T 对象。
+		///
+		/// @return
+		///
 		T &operator*()
 		{
 			return *reinterpret_cast<T *>(_buffer);
 		}
 
+		///
+		/// @brief 获取本对象中占位的字节数组中存储的 T 对象。
+		///
+		/// @return
+		///
 		T const &operator*() const
 		{
 			return *reinterpret_cast<T const *>(_buffer);
 		}
 
+		///
+		/// @brief 获取本对象中占位的字节数组中存储的 T 对象。
+		///
+		/// @return
+		///
 		T &Object()
 		{
 			return *reinterpret_cast<T *>(_buffer);
 		}
 
+		///
+		/// @brief 获取本对象中占位的字节数组中存储的 T 对象。
+		///
+		/// @return
+		///
 		T const &Object() const
 		{
 			return *reinterpret_cast<T const *>(_buffer);
