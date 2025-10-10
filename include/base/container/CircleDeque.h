@@ -254,21 +254,17 @@ namespace base
 		///
 		/// @brief 尝试从队列末端退队。
 		///
-		/// @param out
-		/// @return
-		///
-		virtual bool TryPopBack(T &out) override
+		virtual void TryPopBack(base::Placement<T> &placement) override
 		{
 			if (Count() == 0)
 			{
-				return false;
+				return;
 			}
 
 			_end--;
 			_is_full = false;
-			out = std::move(Buffer()[_end.CurrentValue()]);
+			placement.Emplace(std::move(Buffer()[_end.CurrentValue()]));
 			Buffer()[_end.CurrentValue()].~T();
-			return true;
 		}
 
 		///
@@ -310,22 +306,18 @@ namespace base
 		///
 		/// @brief 尝试从队列前端退队。
 		///
-		/// @param out
-		/// @return
-		///
-		virtual bool TryPopFront(T &out) override
+		virtual void TryPopFront(base::Placement<T> &placement) override
 		{
 			if (Count() == 0)
 			{
-				return false;
+				return;
 			}
 
 			int64_t index = _begin.CurrentValue();
-			out = std::move(Buffer()[index]);
+			placement.Emplace(std::move(Buffer()[index]));
 			Buffer()[index].~T();
 			_begin++;
 			_is_full = false;
-			return true;
 		}
 
 		///

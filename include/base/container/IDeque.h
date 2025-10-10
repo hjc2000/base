@@ -1,4 +1,5 @@
 #pragma once
+#include "base/Placement.h"
 #include <cstdint>
 
 namespace base
@@ -38,10 +39,7 @@ namespace base
 		///
 		/// @brief 尝试从队列末端退队。
 		///
-		/// @param out
-		/// @return
-		///
-		virtual bool TryPopBack(T &out) = 0;
+		virtual void TryPopBack(base::Placement<T> &placement) = 0;
 
 		///
 		/// @brief 从队列前端入队。
@@ -65,10 +63,7 @@ namespace base
 		///
 		/// @brief 尝试从队列前端退队。
 		///
-		/// @param out
-		/// @return
-		///
-		virtual bool TryPopFront(T &out) = 0;
+		virtual void TryPopFront(base::Placement<T> &placement) = 0;
 
 		///
 		/// @brief 清空队列。
