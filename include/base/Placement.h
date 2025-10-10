@@ -24,19 +24,17 @@ namespace base
 
 		Placement(Placement &&other)
 		{
-			*this = other;
+			*this = std::move(other);
 		}
 
 		Placement(T const &value)
 		{
-			new (_buffer) T{value};
-			_available = true;
+			*this = value;
 		}
 
 		Placement(T &&value)
 		{
-			new (_buffer) T{value};
-			_available = true;
+			*this = std::move(value);
 		}
 
 		~Placement()
@@ -52,18 +50,7 @@ namespace base
 			if (other._available)
 			{
 				// other 有效。
-				if (_available)
-				{
-					// 本对象有效。
-					Object() = other.Object();
-				}
-				else
-				{
-					// 本对象无效。
-					new (_buffer) T{other.Object()};
-					_available = true;
-				}
-
+				*this = other.Object();
 				return *this;
 			}
 
@@ -83,18 +70,7 @@ namespace base
 			if (other._available)
 			{
 				// other 有效。
-				if (_available)
-				{
-					// 本对象有效。
-					Object() = std::move(other.Object());
-				}
-				else
-				{
-					// 本对象无效。
-					new (_buffer) T{std::move(other.Object())};
-					_available = true;
-				}
-
+				*this = std::move(other.Object());
 				return *this;
 			}
 
@@ -109,12 +85,38 @@ namespace base
 			return *this;
 		}
 
+		Placement &operator=(T const &value)
+		{
+			if (_available)
+			{
+				Object() = value;
+				return *this;
+			}
+
+			new (_buffer) T{value};
+			_available = true;
+			return *this;
+		}
+
+		Placement &operator=(T &&value)
+		{
+			if (_available)
+			{
+				Object() = std::move(value);
+				return *this;
+			}
+
+			new (_buffer) T{std::move(value)};
+			_available = true;
+			return *this;
+		}
+
 		///
 		/// @brief 本对象中占位的字节数组中是否构造了有效的 T 对象。
 		///
 		/// @return
 		///
-		bool Avalable() const
+		bool Available() const
 		{
 			return _available;
 		}
