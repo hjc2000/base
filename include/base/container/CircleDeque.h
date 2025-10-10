@@ -218,6 +218,21 @@ namespace base
 		}
 
 		///
+		/// @brief 丢弃末尾的元素。
+		///
+		virtual void DiscardBack() override
+		{
+			if (Count() == 0)
+			{
+				return;
+			}
+
+			_end--;
+			_is_full = false;
+			Buffer()[_end.CurrentValue()].~T();
+		}
+
+		///
 		/// @brief 从队列末端退队。
 		///
 		/// @return
@@ -254,6 +269,22 @@ namespace base
 			out = std::move(Buffer()[_end.CurrentValue()]);
 			Buffer()[_end.CurrentValue()].~T();
 			return true;
+		}
+
+		///
+		/// @brief 丢弃队列前端的元素。
+		///
+		virtual void DiscardFront() override
+		{
+			if (Count() == 0)
+			{
+				return;
+			}
+
+			int64_t index = _begin.CurrentValue();
+			Buffer()[index].~T();
+			_begin++;
+			_is_full = false;
 		}
 
 		///
