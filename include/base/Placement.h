@@ -1,6 +1,8 @@
 #pragma once
+#include "base/string/define.h"
 #include <cstdint>
 #include <new> // IWYU pragma: keep
+#include <stdexcept>
 #include <utility>
 
 namespace base
@@ -117,36 +119,6 @@ namespace base
 			return _available;
 		}
 
-		T *operator->()
-		{
-			return reinterpret_cast<T *>(_buffer);
-		}
-
-		T const *operator->() const
-		{
-			return reinterpret_cast<T const *>(_buffer);
-		}
-
-		///
-		/// @brief 获取本对象中占位的字节数组中存储的 T 对象。
-		///
-		/// @return
-		///
-		T &operator*()
-		{
-			return *reinterpret_cast<T *>(_buffer);
-		}
-
-		///
-		/// @brief 获取本对象中占位的字节数组中存储的 T 对象。
-		///
-		/// @return
-		///
-		T const &operator*() const
-		{
-			return *reinterpret_cast<T const *>(_buffer);
-		}
-
 		///
 		/// @brief 获取本对象中占位的字节数组中存储的 T 对象。
 		///
@@ -154,6 +126,11 @@ namespace base
 		///
 		T &Object()
 		{
+			if (!_available)
+			{
+				throw std::runtime_error{CODE_POS_STR + "本对象中未构造有效的 T 对象。"};
+			}
+
 			return *reinterpret_cast<T *>(_buffer);
 		}
 
@@ -164,7 +141,42 @@ namespace base
 		///
 		T const &Object() const
 		{
+			if (!_available)
+			{
+				throw std::runtime_error{CODE_POS_STR + "本对象中未构造有效的 T 对象。"};
+			}
+
 			return *reinterpret_cast<T const *>(_buffer);
+		}
+
+		T *operator->()
+		{
+			return &Object();
+		}
+
+		T const *operator->() const
+		{
+			return &Object();
+		}
+
+		///
+		/// @brief 获取本对象中占位的字节数组中存储的 T 对象。
+		///
+		/// @return
+		///
+		T &operator*()
+		{
+			return Object();
+		}
+
+		///
+		/// @brief 获取本对象中占位的字节数组中存储的 T 对象。
+		///
+		/// @return
+		///
+		T const &operator*() const
+		{
+			return Object();
 		}
 	};
 
