@@ -22,7 +22,7 @@ namespace base
 			*this = other;
 		}
 
-		Placement(Placement &&other)
+		Placement(Placement &&other) noexcept
 		{
 			*this = std::move(other);
 		}
@@ -32,7 +32,7 @@ namespace base
 			*this = value;
 		}
 
-		Placement(T &&value)
+		Placement(T &&value) noexcept
 		{
 			*this = std::move(value);
 		}
@@ -65,7 +65,7 @@ namespace base
 			return *this;
 		}
 
-		Placement &operator=(Placement &&other)
+		Placement &operator=(Placement &&other) noexcept
 		{
 			if (other._available)
 			{
@@ -98,7 +98,7 @@ namespace base
 			return *this;
 		}
 
-		Placement &operator=(T &&value)
+		Placement &operator=(T &&value) noexcept
 		{
 			if (_available)
 			{
