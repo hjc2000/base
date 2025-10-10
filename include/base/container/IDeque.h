@@ -24,6 +24,11 @@ namespace base
 		virtual void PushBack(T const &obj) = 0;
 
 		///
+		/// @brief 丢弃末尾的元素。
+		///
+		virtual void DiscardBack() = 0;
+
+		///
 		/// @brief 从队列末端退队。
 		///
 		/// @return
@@ -44,6 +49,11 @@ namespace base
 		/// @param obj
 		///
 		virtual void PushFront(T const &obj) = 0;
+
+		///
+		/// @brief 丢弃队列前端的元素。
+		///
+		virtual void DiscardFront() = 0;
 
 		///
 		/// @brief 从队列前端退队。
