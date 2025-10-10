@@ -263,7 +263,7 @@ namespace base
 
 			_end--;
 			_is_full = false;
-			placement.Emplace(std::move(Buffer()[_end.CurrentValue()]));
+			placement = std::move(Buffer()[_end.CurrentValue()]);
 			Buffer()[_end.CurrentValue()].~T();
 		}
 
@@ -314,7 +314,7 @@ namespace base
 			}
 
 			int64_t index = _begin.CurrentValue();
-			placement.Emplace(std::move(Buffer()[index]));
+			placement = std::move(Buffer()[index]);
 			Buffer()[index].~T();
 			_begin++;
 			_is_full = false;

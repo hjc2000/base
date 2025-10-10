@@ -98,7 +98,7 @@ namespace base
 				return;
 			}
 
-			placement.Emplace(std::move(_queue.front()));
+			placement = std::move(_queue.front());
 			_queue.pop_front();
 		}
 
