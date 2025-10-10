@@ -42,6 +42,7 @@ namespace base
 			if (_available)
 			{
 				reinterpret_cast<T *>(_buffer)->~T();
+				_available = false;
 			}
 		}
 
@@ -193,6 +194,7 @@ namespace base
 			if (_available)
 			{
 				reinterpret_cast<T *>(_buffer)->~T();
+				_available = false;
 			}
 
 			new (_buffer) T{std::forward<Args>(args)...};
