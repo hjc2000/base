@@ -195,7 +195,7 @@ namespace base
 				reinterpret_cast<T *>(_buffer)->~T();
 			}
 
-			new (_buffer) T(std::forward<Args>(args)...);
+			new (_buffer) T{std::forward<Args>(args)...};
 			_available = true;
 			return Object();
 		}
