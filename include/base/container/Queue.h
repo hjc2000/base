@@ -39,6 +39,36 @@ namespace base
 		}
 
 		///
+		/// @brief 获取队首元素。队列为空会抛出异常。
+		///
+		/// @return
+		///
+		T &Peek()
+		{
+			if (_queue.empty())
+			{
+				throw std::underflow_error{CODE_POS_STR + "队列当前为空，无法获取队首元素"};
+			}
+
+			return _queue.front();
+		}
+
+		///
+		/// @brief 获取队首元素。队列为空会抛出异常。
+		///
+		/// @return
+		///
+		T const &Peek() const
+		{
+			if (_queue.empty())
+			{
+				throw std::underflow_error{CODE_POS_STR + "队列当前为空，无法获取队首元素"};
+			}
+
+			return _queue.front();
+		}
+
+		///
 		/// @brief 退队
 		///
 		/// @return
