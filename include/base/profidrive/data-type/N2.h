@@ -73,6 +73,50 @@ namespace base::profidrive
 			int16_t raw_value = static_cast<int16_t>(_value * Factor());
 			base::big_endian_remote_converter.GetBytes(raw_value, span);
 		}
+
+		N2 operator+(N2 const &right_value) const
+		{
+			return profidrive::N2{_value + right_value._value};
+		}
+
+		N2 operator-(N2 const &right_value) const
+		{
+			return profidrive::N2{_value - right_value._value};
+		}
+
+		N2 operator*(N2 const &right_value) const
+		{
+			return profidrive::N2{_value * right_value._value};
+		}
+
+		N2 operator/(N2 const &right_value) const
+		{
+			return profidrive::N2{_value / right_value._value};
+		}
+
+		N2 &operator+=(N2 const &right_value)
+		{
+			_value += right_value._value;
+			return *this;
+		}
+
+		N2 &operator-=(N2 const &right_value)
+		{
+			_value -= right_value._value;
+			return *this;
+		}
+
+		N2 &operator*=(N2 const &right_value)
+		{
+			_value *= right_value._value;
+			return *this;
+		}
+
+		N2 &operator/=(N2 const &right_value)
+		{
+			_value /= right_value._value;
+			return *this;
+		}
 	};
 
 } // namespace base::profidrive

@@ -122,4 +122,5 @@ namespace base::profidrive
 			return *this;
 		}
 	};
+
 } // namespace base::profidrive
