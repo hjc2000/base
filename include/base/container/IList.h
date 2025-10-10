@@ -1,5 +1,4 @@
 #pragma once
-#include "base/container/IQueue.h"
 #include "base/container/iterator/IEnumerable.h"
 #include "base/container/iterator/IRandomAccessEnumerable.h"
 #include "base/container/iterator/IRandomAccessEnumerator.h"
@@ -192,20 +191,6 @@ namespace base
 		void Add(IList<ItemType> const &list)
 		{
 			for (ItemType const &item : list)
-			{
-				Add(item);
-			}
-		}
-
-		///
-		/// @brief 将队列的元素添加到本列表中，添加的同时会退队。
-		///
-		/// @param queue
-		///
-		void Add(base::IQueue<ItemType> &queue)
-		{
-			ItemType item{};
-			while (queue.TryDequeue(item))
 			{
 				Add(item);
 			}

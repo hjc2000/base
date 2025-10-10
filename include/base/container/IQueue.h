@@ -1,4 +1,5 @@
 #pragma once
+#include "base/Placement.h"
 #include <cstdint>
 
 namespace base
@@ -28,11 +29,9 @@ namespace base
 		///
 		/// @brief 尝试退队。
 		///
-		/// @param out
-		///
 		/// @return
 		///
-		virtual bool TryDequeue(T &out) = 0;
+		virtual void TryDequeue(base::Placement<T> &placement) = 0;
 
 		///
 		/// @brief 入队。

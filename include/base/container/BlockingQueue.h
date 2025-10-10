@@ -158,21 +158,17 @@ namespace base
 		///
 		/// @brief 尝试退队
 		///
-		/// @param out
+		/// @return
 		///
-		/// @return 退队成功返回 true，失败返回 false。
-		///
-		virtual bool TryDequeue(T &out) override
+		virtual void TryDequeue(base::Placement<T> &placement) override
 		{
 			// 在持有互斥锁的条件下检查，避免误触，以及操作
 			base::task::MutexGuard g{_lock};
-			bool result = _queue.TryDequeue(out);
-			if (result)
+			_queue.TryDequeue(placement);
+			if (placement.Available())
 			{
 				_queue_consumed_signal.ReleaseAll();
 			}
-
-			return result;
 		}
 
 		///

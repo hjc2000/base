@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <deque>
 #include <stdexcept>
+#include <utility>
 
 namespace base
 {
@@ -90,20 +91,17 @@ namespace base
 		///
 		/// @brief 尝试退队
 		///
-		/// @param out 从队列里拿出来的元素会被赋值给 out，这要求 out 的类要实现赋值运算符。
+		/// @return
 		///
-		/// @return 退队成功返回 true，失败返回 false
-		///
-		virtual bool TryDequeue(T &out) override
+		virtual void TryDequeue(base::Placement<T> &placement) override
 		{
 			if (_queue.empty())
 			{
-				return false;
+				return;
 			}
 
-			out = _queue.front();
+			placement.Emplace(std::move(_queue.front()));
 			_queue.pop_front();
-			return true;
 		}
 
 		///
