@@ -9,7 +9,6 @@ namespace base
 	///
 	/// @brief 线性插值器
 	///
-	///
 	template <typename T>
 	class LinearInterpolator final
 	{
