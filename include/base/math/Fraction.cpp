@@ -258,29 +258,6 @@ base::Fraction base::Fraction::operator+(Fraction const &value) const
 	return ret;
 }
 
-base::Fraction base::Fraction::operator-(Fraction const &value) const
-{
-	Fraction ret = *this + (-value);
-	ret.Simplify();
-	return ret;
-}
-
-base::Fraction base::Fraction::operator*(Fraction const &value) const
-{
-	base::Fraction ret;
-	ret.SetNum(_num * value.Num());
-	ret.SetDen(_den * value.Den());
-	ret.Simplify();
-	return ret;
-}
-
-base::Fraction base::Fraction::operator/(Fraction const &value) const
-{
-	Fraction ret{*this * value.Reciprocal()};
-	ret.Simplify();
-	return ret;
-}
-
 /* #endregion */
 
 std::string base::Fraction::ToString() const
