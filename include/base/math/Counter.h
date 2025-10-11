@@ -1,4 +1,5 @@
 #pragma once
+#include "base/string/define.h"
 #include <limits>
 #include <stdexcept>
 #include <type_traits>
@@ -31,7 +32,12 @@ namespace base
 		{
 			if (max_value == 0)
 			{
-				throw std::invalid_argument{"计数的最大值不允许 == 0"};
+				throw std::invalid_argument{CODE_POS_STR + "计数的最大值不允许 == 0"};
+			}
+
+			if (current_value > max_value)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "计数器的当前值不允许 > 计数器的最大值"};
 			}
 
 			_max_value = max_value;
