@@ -356,7 +356,8 @@ namespace base
 		constexpr Int64Fraction operator-() const
 		{
 			Int64Fraction ret{-_num, _den};
-			return ret.SimplifiedForm();
+			ret.Simplify();
+			return ret;
 		}
 
 		/* #region 四则运算符 */

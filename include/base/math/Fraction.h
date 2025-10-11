@@ -283,7 +283,8 @@ namespace base
 		Fraction operator-() const
 		{
 			Fraction ret{-_num, _den};
-			return ret.SimplifiedForm();
+			ret.Simplify();
+			return ret;
 		}
 
 		/* #region 四则运算符 */
