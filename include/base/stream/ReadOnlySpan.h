@@ -261,7 +261,7 @@ namespace base
 		///
 		/// @param match 匹配项。
 		///
-		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
 		int64_t IndexOf(base::ReadOnlySpan const &match) const
 		{
@@ -304,7 +304,7 @@ namespace base
 		/// @param start 查找的起始索引。从此处往后开始查找。
 		/// @param match 匹配项。
 		///
-		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
 		int64_t IndexOf(int64_t start, base::ReadOnlySpan const &match) const
 		{
@@ -336,7 +336,7 @@ namespace base
 		///
 		/// @param match 匹配项。
 		///
-		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
 		int64_t LastIndexOf(uint8_t match) const
 		{
@@ -357,7 +357,7 @@ namespace base
 		/// @param start 要从后往前查找的起始索引位置。
 		/// @param match 匹配项。
 		///
-		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
 		int64_t LastIndexOf(int64_t start, uint8_t match) const
 		{
@@ -379,7 +379,8 @@ namespace base
 		/// @brief 从后往前查找最后一个匹配位置的索引。
 		///
 		/// @param match 匹配项。
-		/// @return int64_t
+		///
+		/// @return
 		///
 		int64_t LastIndexOf(base::ReadOnlySpan const &match) const
 		{
@@ -417,7 +418,7 @@ namespace base
 		/// @param start 要从后往前查找的起始索引位置。
 		/// @param match 匹配项。
 		///
-		/// @return int64_t 找到了返回匹配位置的索引。没找到返回 -1.
+		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
 		int64_t LastIndexOf(int64_t start, base::ReadOnlySpan const &match) const
 		{
@@ -443,8 +444,8 @@ namespace base
 		/// @brief 检查本内存段是否以 match 开头。
 		///
 		/// @param match
-		/// @return true
-		/// @return false
+		///
+		/// @return
 		///
 		bool StartWith(uint8_t match)
 		{
@@ -460,8 +461,8 @@ namespace base
 		/// @brief 检查本内存段是否以 match 开头。
 		///
 		/// @param match
-		/// @return true
-		/// @return false
+		///
+		/// @return
 		///
 		bool StartWith(base::ReadOnlySpan const &match)
 		{
@@ -477,8 +478,8 @@ namespace base
 		/// @brief 检查本内存段是否以 match 结尾。
 		///
 		/// @param match
-		/// @return true
-		/// @return false
+		///
+		/// @return
 		///
 		bool EndWith(uint8_t match)
 		{
@@ -494,8 +495,8 @@ namespace base
 		/// @brief 检查本内存段是否以 match 结尾。
 		///
 		/// @param match
-		/// @return true
-		/// @return false
+		///
+		/// @return
 		///
 		bool EndWith(base::ReadOnlySpan const &match)
 		{
@@ -515,7 +516,8 @@ namespace base
 		/// @brief 基于字典序的比较逻辑比较两段内存。
 		///
 		/// @param another
-		/// @return int64_t
+		///
+		/// @return
 		///
 		int64_t Compare(base::ReadOnlySpan const &another) const
 		{
@@ -544,8 +546,8 @@ namespace base
 		/// @brief 基于 Compare 方法。
 		///
 		/// @param another
-		/// @return true
-		/// @return false
+		///
+		/// @return
 		///
 		bool operator==(base::ReadOnlySpan const &another) const
 		{
@@ -556,8 +558,8 @@ namespace base
 		/// @brief 基于 Compare 方法。
 		///
 		/// @param another
-		/// @return true
-		/// @return false
+		///
+		/// @return
 		///
 		bool operator<(base::ReadOnlySpan const &another) const
 		{
@@ -568,8 +570,8 @@ namespace base
 		/// @brief 基于 Compare 方法。
 		///
 		/// @param another
-		/// @return true
-		/// @return false
+		///
+		/// @return
 		///
 		bool operator>(base::ReadOnlySpan const &another) const
 		{
@@ -580,8 +582,8 @@ namespace base
 		/// @brief 基于 Compare 方法。
 		///
 		/// @param another
-		/// @return true
-		/// @return false
+		///
+		/// @return
 		///
 		bool operator<=(base::ReadOnlySpan const &another) const
 		{
@@ -592,8 +594,8 @@ namespace base
 		/// @brief 基于 Compare 方法。
 		///
 		/// @param another
-		/// @return true
-		/// @return false
+		///
+		/// @return
 		///
 		bool operator>=(base::ReadOnlySpan const &another) const
 		{
