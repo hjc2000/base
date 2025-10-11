@@ -8,13 +8,12 @@ namespace base::profidrive
 	///
 	/// @brief profidrive 行规特定类型: C4.
 	///
-	///
 	class C4 final
 	{
 	private:
 		base::Int64Fraction _value;
 
-		int32_t Factor() const
+		static constexpr int32_t Factor()
 		{
 			return 10000;
 		}

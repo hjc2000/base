@@ -7,18 +7,12 @@ namespace base::profidrive
 	///
 	/// @brief profidrive 行规特定类型: E2.
 	///
-	///
 	class E2
 	{
 	private:
 		base::Int64Fraction _value;
 
-		///
-		/// @brief 系数。
-		///
-		/// @return int32_t
-		///
-		int32_t Factor() const
+		static constexpr int32_t Factor()
 		{
 			return static_cast<int64_t>(1 << 7);
 		}

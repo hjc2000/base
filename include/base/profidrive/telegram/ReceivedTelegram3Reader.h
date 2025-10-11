@@ -22,7 +22,7 @@ namespace base::profidrive
 		///
 		/// @brief 构造函数。
 		///
-		/// @param span 将控制器发送的报文 3 传进来。
+		/// @param span
 		///
 		ReceivedTelegram3Reader(base::ReadOnlySpan const &span);
 

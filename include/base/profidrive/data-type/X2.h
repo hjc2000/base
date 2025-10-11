@@ -7,7 +7,6 @@ namespace base::profidrive
 	///
 	/// @brief profidrive 行规特定类型: X2.
 	///
-	///
 	class X2 final
 	{
 	private:
@@ -18,7 +17,7 @@ namespace base::profidrive
 		///
 		/// @return int32_t
 		///
-		int32_t Factor() const
+		static constexpr int32_t Factor()
 		{
 			return static_cast<int64_t>(1 << 12);
 		}

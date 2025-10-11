@@ -8,18 +8,12 @@ namespace base::profidrive
 	///
 	/// @brief profidrive 行规特定类型: X4.
 	///
-	///
 	class X4 final
 	{
 	private:
 		base::Int64Fraction _value;
 
-		///
-		/// @brief 系数。
-		///
-		/// @return int32_t
-		///
-		int32_t Factor() const
+		static constexpr int32_t Factor()
 		{
 			return static_cast<int64_t>(1 << 28);
 		}
