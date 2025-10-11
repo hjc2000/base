@@ -12,7 +12,6 @@ namespace base::profidrive
 	///
 	/// @brief 控制器接收的标准报文 3 的内存段读者。
 	///
-	///
 	class ReceivedTelegram3Reader
 	{
 	private:
