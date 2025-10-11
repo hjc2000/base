@@ -172,7 +172,6 @@ namespace base
 		///
 		/// @brief 化简自身。
 		///
-		///
 		constexpr void Simplify()
 		{
 			if (_den == 0)
@@ -218,6 +217,7 @@ namespace base
 
 		///
 		/// @brief 倒数
+		///
 		/// @return
 		///
 		constexpr Int64Fraction Reciprocal() const
@@ -257,11 +257,10 @@ namespace base
 			}
 			else
 			{
-				/* 因为 C++ 除法近 0 截断，所以如果 Div >0 ，本来就是向下取整了，
-				 * 不用再额外的操作了。
-				 *
-				 * Div = 0 就更不用说了，也不用什么额外的操作，直接返回 0 就完事了。
-				 */
+				// 因为 C++ 除法近 0 截断，所以如果 Div > 0 ，本来就是向下取整了，
+				// 不用再额外的操作了。
+				//
+				// Div = 0 就更不用说了，也不用什么额外的操作，直接返回 0 就完事了。
 			}
 
 			return ret;
@@ -511,9 +510,8 @@ namespace base
 		{
 			if (Num() == 0 && another.Num() == 0)
 			{
-				/* 2 个分子都为 0 直接返回相等，这样更加安全，避免分子都为 0
-				 * 分母不相等时错误地将两个分数判断为不相等。
-				 */
+				// 2 个分子都为 0 直接返回相等，这样更加安全，避免分子都为 0
+				// 分母不相等时错误地将两个分数判断为不相等。
 				return true;
 			}
 
@@ -560,8 +558,8 @@ namespace base
 		/// @brief 本对象大于等于 another.
 		///
 		/// @param another
-		/// @return true
-		/// @return false
+		///
+		/// @return
 		///
 		constexpr bool operator>=(Int64Fraction const &another) const
 		{
@@ -582,8 +580,8 @@ namespace base
 		/// @brief 本对象小于等于 another.
 		///
 		/// @param another
-		/// @return true
-		/// @return false
+		///
+		/// @return
 		///
 		constexpr bool operator<=(Int64Fraction const &another) const
 		{
@@ -677,7 +675,8 @@ namespace base
 ///
 /// @param left
 /// @param right
-/// @return base::Int64Fraction
+///
+/// @return
 ///
 inline base::Int64Fraction operator+(int64_t left, base::Int64Fraction const &right)
 {
@@ -689,7 +688,8 @@ inline base::Int64Fraction operator+(int64_t left, base::Int64Fraction const &ri
 ///
 /// @param left
 /// @param right
-/// @return base::Int64Fraction
+///
+/// @return
 ///
 inline base::Int64Fraction operator-(int64_t left, base::Int64Fraction const &right)
 {
@@ -701,7 +701,8 @@ inline base::Int64Fraction operator-(int64_t left, base::Int64Fraction const &ri
 ///
 /// @param left
 /// @param right
-/// @return base::Int64Fraction
+///
+/// @return
 ///
 inline base::Int64Fraction operator*(int64_t left, base::Int64Fraction const &right)
 {
@@ -713,7 +714,8 @@ inline base::Int64Fraction operator*(int64_t left, base::Int64Fraction const &ri
 ///
 /// @param left
 /// @param right
-/// @return base::Int64Fraction
+///
+/// @return
 ///
 inline base::Int64Fraction operator/(int64_t left, base::Int64Fraction const &right)
 {
