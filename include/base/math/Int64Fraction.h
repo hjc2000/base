@@ -223,7 +223,8 @@ namespace base
 		constexpr Int64Fraction Reciprocal() const
 		{
 			base::Int64Fraction ret{_den, _num};
-			return ret.SimplifiedForm();
+			ret.Simplify();
+			return ret;
 		}
 
 		///
@@ -376,13 +377,15 @@ namespace base
 				scaled_den,
 			};
 
-			return ret.SimplifiedForm();
+			ret.Simplify();
+			return ret;
 		}
 
 		constexpr Int64Fraction operator-(Int64Fraction const &value) const
 		{
 			Int64Fraction ret = *this + (-value);
-			return ret.SimplifiedForm();
+			ret.Simplify();
+			return ret;
 		}
 
 		constexpr Int64Fraction operator*(Int64Fraction const &value) const
@@ -390,13 +393,15 @@ namespace base
 			base::Int64Fraction ret;
 			ret.SetNum(_num * value.Num());
 			ret.SetDen(_den * value.Den());
-			return ret.SimplifiedForm();
+			ret.Simplify();
+			return ret;
 		}
 
 		constexpr Int64Fraction operator/(Int64Fraction const &value) const
 		{
 			Int64Fraction ret{*this * value.Reciprocal()};
-			return ret.SimplifiedForm();
+			ret.Simplify();
+			return ret;
 		}
 
 		/* #endregion */

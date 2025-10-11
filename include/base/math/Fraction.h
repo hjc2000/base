@@ -191,7 +191,8 @@ namespace base
 		Fraction Reciprocal() const
 		{
 			base::Fraction ret{_den, _num};
-			return ret.SimplifiedForm();
+			ret.Simplify();
+			return ret;
 		}
 
 		///
