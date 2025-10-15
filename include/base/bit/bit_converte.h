@@ -15,7 +15,8 @@ namespace base::bit_converte
 	/// @brief 从字节序列中反序列化出 ReturnType.
 	///
 	/// @param span
-	/// @return ReturnType
+	///
+	/// @return
 	///
 	template <typename ReturnType>
 	ReturnType FromBytes(base::ReadOnlySpan const &span)
@@ -38,7 +39,8 @@ namespace base::bit_converte
 	/// @brief 从流中反序列化出 ReturnType.
 	///
 	/// @param stream
-	/// @return ReturnType
+	///
+	/// @return
 	///
 	template <typename ReturnType>
 	ReturnType FromBytes(base::Stream &stream)

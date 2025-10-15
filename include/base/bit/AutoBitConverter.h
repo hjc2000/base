@@ -28,8 +28,7 @@ namespace base
 		///
 		/// @brief 是否应该翻转。
 		///
-		/// @return true 远程字节序和本机字节序不同，需要翻转。
-		/// @return false 远程字节序和本机字节序相同，不需要翻转。
+		/// @return 远程字节序和本机字节序不同，需要翻转则返回 true, 否则返回 false.
 		///
 		constexpr bool ShouldReverse() const
 		{
@@ -42,7 +41,8 @@ namespace base
 		/// @brief 从字节序列中反序列化出 ReturnType.
 		///
 		/// @param span
-		/// @return ReturnType
+		///
+		/// @return
 		///
 		template <typename ReturnType>
 		ReturnType FromBytes(base::ReadOnlySpan const &span) const
@@ -61,7 +61,8 @@ namespace base
 		/// @brief 从流中反序列化出 ReturnType.
 		///
 		/// @param stream
-		/// @return ReturnType
+		///
+		/// @return
 		///
 		template <typename ReturnType>
 		ReturnType FromBytes(base::Stream &stream) const
@@ -130,12 +131,10 @@ namespace base
 	///
 	/// @brief 远端是大端序的话使用本转换器。
 	///
-	///
 	constexpr base::AutoBitConverter big_endian_remote_converter{std::endian::big};
 
 	///
 	/// @brief 远端是小端序的话使用本转换器。
-	///
 	///
 	constexpr base::AutoBitConverter little_endian_remote_converter{std::endian::little};
 
