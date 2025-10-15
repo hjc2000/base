@@ -113,7 +113,7 @@ namespace base
 		{
 			if (index < 0 || index >= _size)
 			{
-				throw std::out_of_range{CODE_POS_STR + "索引超出范围"};
+				throw std::out_of_range{CODE_POS_STR + "索引超出范围。"};
 			}
 
 			return _buffer[index];
