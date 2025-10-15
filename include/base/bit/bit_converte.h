@@ -22,7 +22,7 @@ namespace base
 		template <typename ReturnType>
 		ReturnType FromBytes(base::ReadOnlySpan const &span)
 		{
-			if (span.Size() < static_cast<int32_t>(sizeof(ReturnType)))
+			if (span.Size() < static_cast<int64_t>(sizeof(ReturnType)))
 			{
 				throw std::invalid_argument{CODE_POS_STR + "传入的 span 太小。"};
 			}
@@ -49,10 +49,10 @@ namespace base
 
 			base::Span span{
 				buffer,
-				static_cast<int32_t>(sizeof(ReturnType)),
+				static_cast<int64_t>(sizeof(ReturnType)),
 			};
 
-			int32_t have_read = stream.ReadExactly(span);
+			int64_t have_read = stream.ReadExactly(span);
 			if (have_read < span.Size())
 			{
 				throw std::runtime_error{CODE_POS_STR + "流中没有足够的字节。"};
@@ -74,7 +74,7 @@ namespace base
 		template <typename ValueType>
 		void GetBytes(ValueType value, base::Span const &span)
 		{
-			if (span.Size() < static_cast<int32_t>(sizeof(ValueType)))
+			if (span.Size() < static_cast<int64_t>(sizeof(ValueType)))
 			{
 				throw std::invalid_argument{CODE_POS_STR + "传入的 span 太小。"};
 			}
