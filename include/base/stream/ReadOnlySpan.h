@@ -275,9 +275,9 @@ namespace base
 		///
 		int64_t IndexOf(base::ReadOnlySpan const &match) const
 		{
-			if (match.Size() == 0)
+			if (match.Size() <= 0)
 			{
-				throw std::invalid_argument{CODE_POS_STR + "match 的长度不能是 0."};
+				throw std::invalid_argument{CODE_POS_STR + "match 的长度必须大于 0."};
 			}
 
 			if (Size() < match.Size())
@@ -287,6 +287,7 @@ namespace base
 			}
 
 			uint8_t const first_byte_of_match = match[0];
+
 			for (int64_t i = 0; i < Size(); i++)
 			{
 				if (i + match.Size() > Size())
