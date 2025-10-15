@@ -173,9 +173,19 @@ namespace base
 		///
 		base::Span Slice(int64_t start, int64_t size) const
 		{
+			if (start < 0)
+			{
+				throw std::out_of_range{CODE_POS_STR + "start 不能小于 0."};
+			}
+
+			if (size < 0)
+			{
+				throw std::out_of_range{CODE_POS_STR + "size 不能小于 0."};
+			}
+
 			if (start + size > _size)
 			{
-				throw std::out_of_range{CODE_POS_STR + "切片超出范围"};
+				throw std::out_of_range{CODE_POS_STR + "切片超出范围。"};
 			}
 
 			return base::Span{_buffer + start, size};
