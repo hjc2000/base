@@ -395,9 +395,9 @@ namespace base
 		///
 		int64_t LastIndexOf(base::ReadOnlySpan const &match) const
 		{
-			if (match.Size() == 0)
+			if (match.Size() <= 0)
 			{
-				throw std::invalid_argument{CODE_POS_STR + "match 的长度不能是 0."};
+				throw std::invalid_argument{CODE_POS_STR + "match 的长度必须大于 0."};
 			}
 
 			if (Size() < match.Size())
