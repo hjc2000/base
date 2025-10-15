@@ -21,9 +21,9 @@ namespace base::bit_converte
 	template <typename ReturnType>
 	ReturnType FromBytes(base::ReadOnlySpan const &span)
 	{
-		if (span.Size() < static_cast<int64_t>(sizeof(ReturnType)))
+		if (span.Size() != static_cast<int64_t>(sizeof(ReturnType)))
 		{
-			throw std::invalid_argument{CODE_POS_STR + "传入的 span 太小。"};
+			throw std::invalid_argument{CODE_POS_STR + "传入的 span 大小不符。"};
 		}
 
 		ReturnType ret{};
@@ -74,9 +74,9 @@ namespace base::bit_converte
 	template <typename ValueType>
 	void GetBytes(ValueType value, base::Span const &span)
 	{
-		if (span.Size() < static_cast<int64_t>(sizeof(ValueType)))
+		if (span.Size() != static_cast<int64_t>(sizeof(ValueType)))
 		{
-			throw std::invalid_argument{CODE_POS_STR + "传入的 span 太小。"};
+			throw std::invalid_argument{CODE_POS_STR + "传入的 span 大小不符。"};
 		}
 
 		uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
