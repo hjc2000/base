@@ -25,7 +25,7 @@ std::string base::ToHexString(uint64_t number, ToHexStringOptions const &options
 	// 倒着拼接，最后需要翻转
 	while (true)
 	{
-		ret += base::character::number_to_hex_char(number & 0xf);
+		ret += base::character::number_to_hex_char(number & 0xf, options.uppercase);
 		number >>= 4;
 		if (number == 0)
 		{

@@ -24,6 +24,11 @@ namespace base
 		/// 将本字段赋值为大于 0 的值。
 		///
 		int width = -1;
+
+		///
+		/// @brief 转换成的 16 进制数字符串是否使用大写字母。
+		///
+		bool uppercase = false;
 	};
 
 	///
