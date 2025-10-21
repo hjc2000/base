@@ -177,6 +177,19 @@ namespace base
 			}
 		}
 
+		///
+		/// @brief 把另一个字典的元素添加进来。
+		///
+		/// @param other
+		///
+		void Add(IDictionary const &other)
+		{
+			for (auto const &pair : other)
+			{
+				Add(pair);
+			}
+		}
+
 		/* #endregion */
 	};
 
