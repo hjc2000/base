@@ -182,7 +182,7 @@ namespace base
 		///
 		/// @param other
 		///
-		void Add(IDictionary const &other)
+		void Add(IDictionary<KeyType, ValueType> const &other)
 		{
 			for (auto const &pair : other)
 			{
