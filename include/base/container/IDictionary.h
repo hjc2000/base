@@ -159,7 +159,7 @@ namespace base
 		///
 		/// @param pair
 		///
-		void Add(std::pair<KeyType, ValueType> const &pair)
+		void Add(std::pair<KeyType const, ValueType> const &pair)
 		{
 			Add(pair.first, pair.second);
 		}
@@ -169,7 +169,7 @@ namespace base
 		///
 		/// @param list
 		///
-		void Add(std::initializer_list<std::pair<KeyType, ValueType>> const &list)
+		void Add(std::initializer_list<std::pair<KeyType const, ValueType>> const &list)
 		{
 			for (auto &pair : list)
 			{

@@ -99,7 +99,7 @@ namespace base
 			_map = o;
 		}
 
-		Dictionary(std::initializer_list<std::pair<KeyType, ValueType>> const &list)
+		Dictionary(std::initializer_list<std::pair<KeyType const, ValueType>> const &list)
 		{
 			base::IDictionary<KeyType, ValueType>::Add(list);
 		}
