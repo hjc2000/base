@@ -7,7 +7,6 @@ namespace base
 	///
 	/// @brief 字典接口。
 	///
-	///
 	template <typename KeyType, typename ValueType>
 		requires(base::has_equal_operator<KeyType, KeyType> &&
 				 base::has_less_than_operator<KeyType, KeyType> &&

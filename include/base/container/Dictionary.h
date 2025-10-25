@@ -8,7 +8,6 @@ namespace base
 	///
 	/// @brief 字典
 	///
-	///
 	template <typename KeyType, typename ValueType>
 	class Dictionary :
 		public base::IDictionary<KeyType, ValueType>
