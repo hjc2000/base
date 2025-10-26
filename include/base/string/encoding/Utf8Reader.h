@@ -14,8 +14,18 @@ namespace base::string::encoding
 		base::Stream &_stream;
 		base::CircleDeque<uint8_t, 16> _queue;
 
-		base::ArraySpan<char32_t> _span;
-		int64_t _total_read = 0;
+		///
+		/// @brief 每次 Read 函数调用会重置。相当于临时变量，只不过为了能在各个方法之间
+		/// 共享，同时避免繁琐的函数调用传参才安排成上下文类。
+		///
+		struct reading_context
+		{
+			base::ArraySpan<char32_t> _span;
+
+			int64_t _total_read = 0;
+		};
+
+		reading_context _reading_context;
 
 		///
 		/// @brief UTF8 解析遇到非法序列时，每个非法序列将被替换为 1 个该字符。
@@ -150,27 +160,7 @@ namespace base::string::encoding
 		/// @return 成功解码出的字符数。
 		/// 	@note 返回 0 表示流已结束。
 		///
-		int64_t Read(base::ArraySpan<char32_t> const &span)
-		{
-			_span = span;
-			_total_read = 0;
-
-			while (true)
-			{
-				if (_total_read >= _span.Count())
-				{
-					return _total_read;
-				}
-
-				FillHalfQueue();
-				if (_queue.Count() <= 0)
-				{
-					return _total_read;
-				}
-
-				DecodeOneCharacter();
-			}
-		}
+		int64_t Read(base::ArraySpan<char32_t> const &span);
 	};
 
 } // namespace base::string::encoding

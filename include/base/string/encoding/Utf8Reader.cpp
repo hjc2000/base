@@ -82,14 +82,14 @@ void base::string::encoding::Utf8Reader::DecodeOneByteCaracter(uint8_t byte1)
 
 	if (!IsValidOneByteUnicodeCharacter(decode_result))
 	{
-		_span[_total_read] = ReplacementCharacter();
-		_total_read++;
+		_reading_context._span[_reading_context._total_read] = ReplacementCharacter();
+		_reading_context._total_read++;
 		return;
 	}
 
 	// 最高位开始数，有 0 个 1, 即以 0 开头。这种 utf8 字符与 ascii 兼容。
-	_span[_total_read] = decode_result;
-	_total_read++;
+	_reading_context._span[_reading_context._total_read] = decode_result;
+	_reading_context._total_read++;
 }
 
 void base::string::encoding::Utf8Reader::DecodeTwoByteCaracter(uint8_t byte1)
@@ -99,8 +99,8 @@ void base::string::encoding::Utf8Reader::DecodeTwoByteCaracter(uint8_t byte1)
 	if (_queue.Count() < 1)
 	{
 		// 后续还需要 1 个字节，但是已经没有了。
-		_span[_total_read] = ReplacementCharacter();
-		_total_read++;
+		_reading_context._span[_reading_context._total_read] = ReplacementCharacter();
+		_reading_context._total_read++;
 		return;
 	}
 
@@ -111,8 +111,8 @@ void base::string::encoding::Utf8Reader::DecodeTwoByteCaracter(uint8_t byte1)
 		// 有可能是首字节，所以放回队列，让下个循环的 SeekToNextSequence
 		// 去定位到合法的首字节。
 		_queue.PushFront(byte2);
-		_span[_total_read] = ReplacementCharacter();
-		_total_read++;
+		_reading_context._span[_reading_context._total_read] = ReplacementCharacter();
+		_reading_context._total_read++;
 		return;
 	}
 
@@ -125,13 +125,13 @@ void base::string::encoding::Utf8Reader::DecodeTwoByteCaracter(uint8_t byte1)
 
 	if (!IsValidTwoByteUnicodeCharacter(decode_result))
 	{
-		_span[_total_read] = ReplacementCharacter();
-		_total_read++;
+		_reading_context._span[_reading_context._total_read] = ReplacementCharacter();
+		_reading_context._total_read++;
 		return;
 	}
 
-	_span[_total_read] = decode_result;
-	_total_read++;
+	_reading_context._span[_reading_context._total_read] = decode_result;
+	_reading_context._total_read++;
 }
 
 void base::string::encoding::Utf8Reader::DecodeThreeByteCaracter(uint8_t byte1)
@@ -140,8 +140,8 @@ void base::string::encoding::Utf8Reader::DecodeThreeByteCaracter(uint8_t byte1)
 	FillHalfQueue();
 	if (_queue.Count() < 2)
 	{
-		_span[_total_read] = ReplacementCharacter();
-		_total_read++;
+		_reading_context._span[_reading_context._total_read] = ReplacementCharacter();
+		_reading_context._total_read++;
 		return;
 	}
 
@@ -153,8 +153,8 @@ void base::string::encoding::Utf8Reader::DecodeThreeByteCaracter(uint8_t byte1)
 		// 有可能是首字节，所以放回队列，让下个循环的 SeekToNextSequence
 		// 去定位到合法的首字节。
 		_queue.PushFront(byte2);
-		_span[_total_read] = ReplacementCharacter();
-		_total_read++;
+		_reading_context._span[_reading_context._total_read] = ReplacementCharacter();
+		_reading_context._total_read++;
 		return;
 	}
 
@@ -163,8 +163,8 @@ void base::string::encoding::Utf8Reader::DecodeThreeByteCaracter(uint8_t byte1)
 		// 有可能是首字节，所以放回队列，让下个循环的 SeekToNextSequence
 		// 去定位到合法的首字节。
 		_queue.PushFront(byte3);
-		_span[_total_read] = ReplacementCharacter();
-		_total_read++;
+		_reading_context._span[_reading_context._total_read] = ReplacementCharacter();
+		_reading_context._total_read++;
 		return;
 	}
 
@@ -179,13 +179,13 @@ void base::string::encoding::Utf8Reader::DecodeThreeByteCaracter(uint8_t byte1)
 
 	if (!IsValidThreeByteUnicodeCharacter(decode_result))
 	{
-		_span[_total_read] = ReplacementCharacter();
-		_total_read++;
+		_reading_context._span[_reading_context._total_read] = ReplacementCharacter();
+		_reading_context._total_read++;
 		return;
 	}
 
-	_span[_total_read] = decode_result;
-	_total_read++;
+	_reading_context._span[_reading_context._total_read] = decode_result;
+	_reading_context._total_read++;
 }
 
 void base::string::encoding::Utf8Reader::DecodeFourByteCaracter(uint8_t byte1)
@@ -194,8 +194,8 @@ void base::string::encoding::Utf8Reader::DecodeFourByteCaracter(uint8_t byte1)
 	FillHalfQueue();
 	if (_queue.Count() < 3)
 	{
-		_span[_total_read] = ReplacementCharacter();
-		_total_read++;
+		_reading_context._span[_reading_context._total_read] = ReplacementCharacter();
+		_reading_context._total_read++;
 		return;
 	}
 
@@ -208,8 +208,8 @@ void base::string::encoding::Utf8Reader::DecodeFourByteCaracter(uint8_t byte1)
 		// 有可能是首字节，所以放回队列，让下个循环的 SeekToNextSequence
 		// 去定位到合法的首字节。
 		_queue.PushFront(byte2);
-		_span[_total_read] = ReplacementCharacter();
-		_total_read++;
+		_reading_context._span[_reading_context._total_read] = ReplacementCharacter();
+		_reading_context._total_read++;
 		return;
 	}
 
@@ -218,8 +218,8 @@ void base::string::encoding::Utf8Reader::DecodeFourByteCaracter(uint8_t byte1)
 		// 有可能是首字节，所以放回队列，让下个循环的 SeekToNextSequence
 		// 去定位到合法的首字节。
 		_queue.PushFront(byte3);
-		_span[_total_read] = ReplacementCharacter();
-		_total_read++;
+		_reading_context._span[_reading_context._total_read] = ReplacementCharacter();
+		_reading_context._total_read++;
 		return;
 	}
 
@@ -228,8 +228,8 @@ void base::string::encoding::Utf8Reader::DecodeFourByteCaracter(uint8_t byte1)
 		// 有可能是首字节，所以放回队列，让下个循环的 SeekToNextSequence
 		// 去定位到合法的首字节。
 		_queue.PushFront(byte4);
-		_span[_total_read] = ReplacementCharacter();
-		_total_read++;
+		_reading_context._span[_reading_context._total_read] = ReplacementCharacter();
+		_reading_context._total_read++;
 		return;
 	}
 
@@ -246,13 +246,13 @@ void base::string::encoding::Utf8Reader::DecodeFourByteCaracter(uint8_t byte1)
 
 	if (!IsValidFourByteUnicodeCharacter(decode_result))
 	{
-		_span[_total_read] = ReplacementCharacter();
-		_total_read++;
+		_reading_context._span[_reading_context._total_read] = ReplacementCharacter();
+		_reading_context._total_read++;
 		return;
 	}
 
-	_span[_total_read] = decode_result;
-	_total_read++;
+	_reading_context._span[_reading_context._total_read] = decode_result;
+	_reading_context._total_read++;
 }
 
 void base::string::encoding::Utf8Reader::DecodeOneCharacter()
@@ -261,8 +261,8 @@ void base::string::encoding::Utf8Reader::DecodeOneCharacter()
 
 	if (!IsValidUtf8SequenceStart(byte1))
 	{
-		_span[_total_read] = ReplacementCharacter();
-		_total_read++;
+		_reading_context._span[_reading_context._total_read] = ReplacementCharacter();
+		_reading_context._total_read++;
 		SeekToNextSequence();
 		return;
 	}
@@ -297,5 +297,27 @@ void base::string::encoding::Utf8Reader::DecodeOneCharacter()
 		{
 			throw std::runtime_error{CODE_POS_STR + "经过 SeekToNextSequence 处理后，不应该走入此分支。"};
 		}
+	}
+}
+
+int64_t base::string::encoding::Utf8Reader::Read(base::ArraySpan<char32_t> const &span)
+{
+	_reading_context._span = span;
+	_reading_context._total_read = 0;
+
+	while (true)
+	{
+		if (_reading_context._total_read >= _reading_context._span.Count())
+		{
+			return _reading_context._total_read;
+		}
+
+		FillHalfQueue();
+		if (_queue.Count() <= 0)
+		{
+			return _reading_context._total_read;
+		}
+
+		DecodeOneCharacter();
 	}
 }
