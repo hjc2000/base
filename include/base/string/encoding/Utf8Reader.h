@@ -17,6 +17,11 @@ namespace base::string::encoding
 		base::ArraySpan<char32_t> _span;
 		int64_t _total_read = 0;
 
+		///
+		/// @brief UTF8 解析遇到非法序列时，每个非法序列将被替换为 1 个该字符。
+		///
+		/// @return
+		///
 		static constexpr char32_t ReplacementCharacter()
 		{
 			return static_cast<char32_t>(0xfffd);

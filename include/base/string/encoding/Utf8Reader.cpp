@@ -27,22 +27,26 @@ void base::string::encoding::Utf8Reader::FillHalfQueue()
 
 bool base::string::encoding::Utf8Reader::IsValidUtf8SequenceStart(uint8_t byte)
 {
+	// 检查该直接最高位起的连续 1 的个数。
 	int high_one_count = base::bit::HighOneCount(byte);
 
 	switch (high_one_count)
 	{
 	case 0:
 		{
+			// 0 个高位 1 说明是 ascii 兼容字符。
 			return true;
 		}
 	case 1:
 		{
+			// 1 个高位 1 说明是 UTF8 的一个序列中的接续字符，不是起始字符。
 			return false;
 		}
 	case 2:
 	case 3:
 	case 4:
 		{
+			// 2-4 个高位 1 说明是 UTF8 的一个序列中的起始字符。
 			return true;
 		}
 	default:
