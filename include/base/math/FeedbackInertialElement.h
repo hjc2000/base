@@ -15,67 +15,11 @@ namespace base
 		T _current_output = 0;
 
 	public:
-		/* #region 参数类 */
-
-		///
-		/// @brief 偏差乘上的系数
-		///
-		///
-		class KError_t
+		constexpr FeedbackInertialElement(T const &k_error,
+										  T const &feedback_div)
 		{
-		private:
-			T _value = 0;
-
-		public:
-			///
-			/// @brief 偏差乘上的系数
-			///
-			/// @param value
-			///
-			constexpr explicit KError_t(T value)
-			{
-				_value = value;
-			}
-
-			constexpr T Value() const
-			{
-				return _value;
-			}
-		};
-
-		///
-		/// @brief 输出值除以该值后才成为反馈值
-		///
-		///
-		class FeedbackDiv_t
-		{
-		private:
-			T _value = 0;
-
-		public:
-			///
-			/// @brief 输出值除以该值后才成为反馈值
-			///
-			/// @param value
-			///
-			constexpr explicit FeedbackDiv_t(T value)
-			{
-				_value = value;
-			}
-
-			constexpr T Value() const
-			{
-				return _value;
-			}
-		};
-
-		/* #endregion */
-
-		constexpr FeedbackInertialElement(base::FeedbackInertialElement<T>::KError_t const &k_error,
-										  base::FeedbackInertialElement<T>::FeedbackDiv_t const &feedback_div)
-		{
-			_k_error = k_error.Value();
-			_feedback_div = feedback_div.Value();
+			_k_error = k_error;
+			_feedback_div = feedback_div;
 		}
 
 		constexpr T KError() const
@@ -98,8 +42,8 @@ namespace base
 			_feedback_div = value;
 		}
 
-		constexpr void ChangeParameter(base::FeedbackInertialElement<T>::KError_t const &k_error,
-									   base::FeedbackInertialElement<T>::FeedbackDiv_t const &feedback_div)
+		constexpr void ChangeParameter(T const &k_error,
+									   T const &feedback_div)
 		{
 			_k_error = k_error.Value();
 			_feedback_div = feedback_div.Value();

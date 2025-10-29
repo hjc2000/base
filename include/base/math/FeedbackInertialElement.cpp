@@ -12,8 +12,8 @@ void base::Test_ChXFilter()
 	std::cout << "测试 FeedbackInertialElement" << std::endl;
 
 	base::FeedbackInertialElement<double> filter{
-		base::FeedbackInertialElement<double>::KError_t{10},
-		base::FeedbackInertialElement<double>::FeedbackDiv_t{1000},
+		10,
+		1000,
 	};
 
 	std::cout << "惯性时间常数 = " << filter.TimeConstant(sapmle_interval) << std::endl;
