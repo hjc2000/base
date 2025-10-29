@@ -112,7 +112,4 @@ namespace base
 		}
 	};
 
-#if HAS_THREAD
-	void Test_ChXFilter();
-#endif
 } // namespace base
