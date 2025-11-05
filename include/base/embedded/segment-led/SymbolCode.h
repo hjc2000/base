@@ -50,12 +50,12 @@ namespace base::segment_led
 			base::bit::WriteBit(_value, index, value);
 		}
 
-		bool DigitalDot() const
+		constexpr bool ReadDigitalDot() const
 		{
 			return base::bit::ReadBit(_value, 7);
 		}
 
-		void SetDigitalDot(bool value)
+		constexpr void WriteDigitalDot(bool value)
 		{
 			base::bit::WriteBit(_value, 7, value);
 		}
