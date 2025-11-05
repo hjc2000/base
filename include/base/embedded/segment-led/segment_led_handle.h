@@ -9,7 +9,7 @@ namespace base::segment_led
 	std::shared_ptr<base::segment_led::segment_led_handle> open(uint32_t id);
 
 	///
-	/// @brief
+	/// @brief 读其中一个符号的某一个 LED.
 	///
 	/// @param h
 	/// @param symbol_index 符号索引。因为一个数码管面板通常不止能显示 1 个数字。
@@ -35,9 +35,6 @@ namespace base::segment_led
 
 	///
 	/// @brief 写其中一个符号的某一个 LED.
-	///
-	///
-	///
 	///
 	/// @param h
 	/// @param symbol_index 符号索引。因为一个数码管面板通常不止能显示 1 个数字。
