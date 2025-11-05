@@ -283,6 +283,47 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
+		static constexpr base::segment_led::SymbolCode Letter_n()
+		{
+			uint8_t value = 0;
+			value |= base::bit::Bit(2);
+			value |= base::bit::Bit(4);
+			value |= base::bit::Bit(6);
+			return SymbolCode{value};
+		}
+
+		static constexpr base::segment_led::SymbolCode Letter_o()
+		{
+			uint8_t value = 0;
+			value |= base::bit::Bit(2);
+			value |= base::bit::Bit(3);
+			value |= base::bit::Bit(4);
+			value |= base::bit::Bit(6);
+			return SymbolCode{value};
+		}
+
+		static constexpr base::segment_led::SymbolCode Letter_P()
+		{
+			uint8_t value = 0;
+			value |= base::bit::Bit(0);
+			value |= base::bit::Bit(1);
+			value |= base::bit::Bit(2);
+			value |= base::bit::Bit(5);
+			value |= base::bit::Bit(6);
+			return SymbolCode{value};
+		}
+
+		static constexpr base::segment_led::SymbolCode Letter_q()
+		{
+			uint8_t value = 0;
+			value |= base::bit::Bit(0);
+			value |= base::bit::Bit(1);
+			value |= base::bit::Bit(4);
+			value |= base::bit::Bit(5);
+			value |= base::bit::Bit(6);
+			return SymbolCode{value};
+		}
+
 		/// @note 数码管各段 LED 的索引如下：
 		///
 		///				   0
