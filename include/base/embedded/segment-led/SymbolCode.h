@@ -154,6 +154,71 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
+		static constexpr base::segment_led::SymbolCode DigitalDot()
+		{
+			uint8_t value = 0;
+			value |= base::bit::Bit(7);
+			return SymbolCode{value};
+		}
+
+		static constexpr base::segment_led::SymbolCode Letter_A()
+		{
+			uint8_t value = 0;
+			value |= base::bit::Bit(0);
+			value |= base::bit::Bit(1);
+			value |= base::bit::Bit(2);
+			value |= base::bit::Bit(4);
+			value |= base::bit::Bit(5);
+			value |= base::bit::Bit(6);
+			return SymbolCode{value};
+		}
+
+		static constexpr base::segment_led::SymbolCode Letter_b()
+		{
+			uint8_t value = 0;
+			value |= base::bit::Bit(1);
+			value |= base::bit::Bit(2);
+			value |= base::bit::Bit(3);
+			value |= base::bit::Bit(4);
+			value |= base::bit::Bit(6);
+			return SymbolCode{value};
+		}
+
+		static constexpr base::segment_led::SymbolCode Letter_C()
+		{
+			uint8_t value = 0;
+			value |= base::bit::Bit(0);
+			value |= base::bit::Bit(1);
+			value |= base::bit::Bit(2);
+			value |= base::bit::Bit(3);
+			return SymbolCode{value};
+		}
+
+		static constexpr base::segment_led::SymbolCode Letter_c()
+		{
+			uint8_t value = 0;
+			value |= base::bit::Bit(2);
+			value |= base::bit::Bit(3);
+			value |= base::bit::Bit(6);
+			return SymbolCode{value};
+		}
+
+		static constexpr base::segment_led::SymbolCode Letter_d()
+		{
+			uint8_t value = 0;
+			value |= base::bit::Bit(2);
+			value |= base::bit::Bit(3);
+			value |= base::bit::Bit(4);
+			value |= base::bit::Bit(5);
+			value |= base::bit::Bit(6);
+			return SymbolCode{value};
+		}
+
+		static constexpr base::segment_led::SymbolCode Letter_S()
+		{
+			return base::segment_led::SymbolCode::Number_5();
+		}
+
 		/// @note 数码管各段 LED 的索引如下：
 		///
 		///				   0
@@ -167,6 +232,6 @@ namespace base::segment_led
 		///			       3       ．
 	};
 
-	constexpr uint8_t _value{base::segment_led::SymbolCode::Number_6()};
+	constexpr uint8_t _value{base::segment_led::SymbolCode::Letter_S()};
 
 } // namespace base::segment_led
