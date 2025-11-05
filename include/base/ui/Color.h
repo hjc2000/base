@@ -1,15 +1,12 @@
 #pragma once
 
-namespace base
+namespace base::ui
 {
-	namespace ui
+	enum class Color
 	{
-		enum class Color
-		{
-			Red,
-			Green,
-			Blue,
-		};
+		Red,
+		Green,
+		Blue,
+	};
 
-	} // namespace ui
-} // namespace base
+} // namespace base::ui
