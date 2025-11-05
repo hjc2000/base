@@ -59,4 +59,24 @@ namespace base::segment_led
 						  uint32_t led_index,
 						  bool value);
 
+	///
+	/// @brief 读取指定符号的代码。
+	///
+	/// @param h
+	/// @param symbol_index
+	/// @return
+	///
+	uint8_t read_symbol_code(base::segment_led::segment_led_handle &h, uint32_t symbol_index);
+
+	///
+	/// @brief 写指定符号的代码。
+	///
+	/// @param h
+	/// @param symbol_index
+	/// @param code
+	///
+	void write_symbol_code(base::segment_led::segment_led_handle &h,
+						   uint32_t symbol_index,
+						   uint8_t code);
+
 } // namespace base::segment_led
