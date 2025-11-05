@@ -25,7 +25,7 @@ namespace base::segment_led
 	class SymbolCode
 	{
 	private:
-		uint8_t _value{};
+		uint8_t _value = 0;
 
 	public:
 		constexpr SymbolCode() = default;
@@ -40,12 +40,29 @@ namespace base::segment_led
 			return _value;
 		}
 
-		static constexpr base::segment_led::SymbolCode Space()
+		bool DigitalDot() const
+		{
+			return base::bit::ReadBit(_value, 7);
+		}
+
+		void SetDigitalDot(bool value)
+		{
+			base::bit::WriteBit(_value, 7, value);
+		}
+
+		///
+		/// @brief 空白。
+		///
+		/// @note 每一段 LED 灯都熄灭，什么都不显示。
+		///
+		/// @return
+		///
+		static constexpr base::segment_led::SymbolCode space()
 		{
 			return SymbolCode{0};
 		}
 
-		static constexpr base::segment_led::SymbolCode Number_0()
+		static constexpr base::segment_led::SymbolCode number_0()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(0);
@@ -57,7 +74,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Number_1()
+		static constexpr base::segment_led::SymbolCode number_1()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(4);
@@ -65,7 +82,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Number_2()
+		static constexpr base::segment_led::SymbolCode number_2()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(0);
@@ -76,7 +93,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Number_3()
+		static constexpr base::segment_led::SymbolCode number_3()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(0);
@@ -87,7 +104,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Number_4()
+		static constexpr base::segment_led::SymbolCode number_4()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(1);
@@ -97,7 +114,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Number_5()
+		static constexpr base::segment_led::SymbolCode number_5()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(0);
@@ -108,28 +125,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Number_6()
-		{
-			uint8_t value = 0;
-			value |= base::bit::Bit(0);
-			value |= base::bit::Bit(1);
-			value |= base::bit::Bit(2);
-			value |= base::bit::Bit(3);
-			value |= base::bit::Bit(4);
-			value |= base::bit::Bit(6);
-			return SymbolCode{value};
-		}
-
-		static constexpr base::segment_led::SymbolCode Number_7()
-		{
-			uint8_t value = 0;
-			value |= base::bit::Bit(0);
-			value |= base::bit::Bit(5);
-			value |= base::bit::Bit(4);
-			return SymbolCode{value};
-		}
-
-		static constexpr base::segment_led::SymbolCode Number_8()
+		static constexpr base::segment_led::SymbolCode number_6()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(0);
@@ -137,12 +133,33 @@ namespace base::segment_led
 			value |= base::bit::Bit(2);
 			value |= base::bit::Bit(3);
 			value |= base::bit::Bit(4);
+			value |= base::bit::Bit(6);
+			return SymbolCode{value};
+		}
+
+		static constexpr base::segment_led::SymbolCode number_7()
+		{
+			uint8_t value = 0;
+			value |= base::bit::Bit(0);
+			value |= base::bit::Bit(5);
+			value |= base::bit::Bit(4);
+			return SymbolCode{value};
+		}
+
+		static constexpr base::segment_led::SymbolCode number_8()
+		{
+			uint8_t value = 0;
+			value |= base::bit::Bit(0);
+			value |= base::bit::Bit(1);
+			value |= base::bit::Bit(2);
+			value |= base::bit::Bit(3);
+			value |= base::bit::Bit(4);
 			value |= base::bit::Bit(5);
 			value |= base::bit::Bit(6);
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Number_9()
+		static constexpr base::segment_led::SymbolCode number_9()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(0);
@@ -154,14 +171,14 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode DigitalDot()
+		static constexpr base::segment_led::SymbolCode digital_dot()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(7);
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_A()
+		static constexpr base::segment_led::SymbolCode letter_A()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(0);
@@ -173,7 +190,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_b()
+		static constexpr base::segment_led::SymbolCode letter_b()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(1);
@@ -184,7 +201,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_C()
+		static constexpr base::segment_led::SymbolCode letter_C()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(0);
@@ -194,7 +211,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_c()
+		static constexpr base::segment_led::SymbolCode letter_c()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(2);
@@ -203,7 +220,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_d()
+		static constexpr base::segment_led::SymbolCode letter_d()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(2);
@@ -214,7 +231,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_E()
+		static constexpr base::segment_led::SymbolCode letter_E()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(0);
@@ -225,7 +242,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_F()
+		static constexpr base::segment_led::SymbolCode letter_F()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(0);
@@ -235,7 +252,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_G()
+		static constexpr base::segment_led::SymbolCode letter_G()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(0);
@@ -246,7 +263,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_H()
+		static constexpr base::segment_led::SymbolCode letter_H()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(1);
@@ -257,14 +274,14 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_i()
+		static constexpr base::segment_led::SymbolCode letter_i()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(4);
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_J()
+		static constexpr base::segment_led::SymbolCode letter_J()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(2);
@@ -274,7 +291,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_L()
+		static constexpr base::segment_led::SymbolCode letter_L()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(0);
@@ -283,7 +300,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_n()
+		static constexpr base::segment_led::SymbolCode letter_n()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(2);
@@ -292,7 +309,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_o()
+		static constexpr base::segment_led::SymbolCode letter_o()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(2);
@@ -302,7 +319,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_P()
+		static constexpr base::segment_led::SymbolCode letter_P()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(0);
@@ -313,7 +330,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_q()
+		static constexpr base::segment_led::SymbolCode letter_q()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(0);
@@ -324,7 +341,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_r()
+		static constexpr base::segment_led::SymbolCode letter_r()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(2);
@@ -332,12 +349,12 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_S()
+		static constexpr base::segment_led::SymbolCode letter_S()
 		{
-			return base::segment_led::SymbolCode::Number_5();
+			return base::segment_led::SymbolCode::number_5();
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_t()
+		static constexpr base::segment_led::SymbolCode letter_t()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(1);
@@ -347,7 +364,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_U()
+		static constexpr base::segment_led::SymbolCode letter_U()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(1);
@@ -358,7 +375,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_u()
+		static constexpr base::segment_led::SymbolCode letter_u()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(2);
@@ -367,7 +384,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_V()
+		static constexpr base::segment_led::SymbolCode letter_V()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(1);
@@ -378,7 +395,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_v()
+		static constexpr base::segment_led::SymbolCode letter_v()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(2);
@@ -387,7 +404,7 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		static constexpr base::segment_led::SymbolCode Letter_y()
+		static constexpr base::segment_led::SymbolCode letter_y()
 		{
 			uint8_t value = 0;
 			value |= base::bit::Bit(1);
@@ -398,29 +415,81 @@ namespace base::segment_led
 			return SymbolCode{value};
 		}
 
-		/// @note 数码管各段 LED 的索引如下：
 		///
-		///				   0
-		///			      ━━━
-		///			 1 ┃      ┃ 5
-		///			   ┃   6  ┃
-		///			      ━━━
-		///			 2 ┃      ┃ 4
-		///			   ┃      ┃
-		///			      ━━━      7
-		///			       3       ．
+		/// @brief 位于上方的横杠。
+		///
+		/// @return
+		///
+		static constexpr base::segment_led::SymbolCode upper_dash()
+		{
+			uint8_t value = 0;
+			value |= base::bit::Bit(0);
+			return SymbolCode{value};
+		}
 
-		// uint8_t value = 0;
-		// value |= base::bit::Bit(0);
-		// value |= base::bit::Bit(1);
-		// value |= base::bit::Bit(2);
-		// value |= base::bit::Bit(3);
-		// value |= base::bit::Bit(4);
-		// value |= base::bit::Bit(5);
-		// value |= base::bit::Bit(6);
-		// return SymbolCode{value};
+		///
+		/// @brief 位于中间的横杠。
+		///
+		/// @return
+		///
+		static constexpr base::segment_led::SymbolCode middle_dash()
+		{
+			uint8_t value = 0;
+			value |= base::bit::Bit(6);
+			return SymbolCode{value};
+		}
+
+		///
+		/// @brief 位于下方的横杠。
+		///
+		/// @return
+		///
+		static constexpr base::segment_led::SymbolCode lower_dash()
+		{
+			uint8_t value = 0;
+			value |= base::bit::Bit(3);
+			return SymbolCode{value};
+		}
+
+		///
+		/// @brief 位于上方的 2 条横杠。
+		///
+		/// @return
+		///
+		static constexpr base::segment_led::SymbolCode upper_two_dash()
+		{
+			uint8_t value = 0;
+			value |= base::bit::Bit(0);
+			value |= base::bit::Bit(6);
+			return SymbolCode{value};
+		}
+
+		///
+		/// @brief 位于下方的 2 条横杠。
+		///
+		/// @return
+		///
+		static constexpr base::segment_led::SymbolCode lower_two_dash()
+		{
+			uint8_t value = 0;
+			value |= base::bit::Bit(6);
+			value |= base::bit::Bit(3);
+			return SymbolCode{value};
+		}
+
+		///
+		/// @brief 3 条横杠。
+		///
+		/// @return
+		///
+		static constexpr base::segment_led::SymbolCode three_dash()
+		{
+			uint8_t value = 0;
+			value |= base::bit::Bit(0);
+			value |= base::bit::Bit(6);
+			value |= base::bit::Bit(3);
+			return SymbolCode{value};
+		}
 	};
-
-	constexpr uint8_t _value{base::segment_led::SymbolCode::Letter_S()};
 
 } // namespace base::segment_led
