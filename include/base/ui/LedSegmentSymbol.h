@@ -7,6 +7,11 @@ namespace base::ui
 	///
 	enum class LedSegmentSymbol
 	{
+		///
+		/// @brief 空。每一段 LED 灯都熄灭。
+		///
+		Space,
+
 		Number_0,
 		Number_1,
 		Number_2,
@@ -51,11 +56,6 @@ namespace base::ui
 		U_or_V,
 		u_or_v,
 		y,
-
-		///
-		/// @brief 空。每一段 LED 灯都熄灭。
-		///
-		Space,
 
 		///
 		/// @brief 位于上方的横杠。

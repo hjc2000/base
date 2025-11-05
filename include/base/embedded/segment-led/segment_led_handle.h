@@ -1,4 +1,5 @@
 #pragma once
+#include "SymbolCode.h"
 #include <cstdint>
 #include <memory>
 
@@ -57,24 +58,22 @@ namespace base::segment_led
 	///
 	/// @brief 读取指定符号的代码。
 	///
-	/// @note 数码管的代码就是 uint8_t, 每一位代表一个 LED 灯。uint8_t 的位索引与
-	/// "class segment_led_handle" 的注释中定义的各段 LED 的索引一致。
-	///
 	/// @param h
 	/// @param symbol_index 符号索引。
 	/// @return
 	///
-	uint8_t read_symbol_code(base::segment_led::segment_led_handle &h, uint32_t symbol_index);
+	base::segment_led::SymbolCode read_symbol_code(base::segment_led::segment_led_handle &h,
+												   uint32_t symbol_index);
 
 	///
 	/// @brief 写指定符号的代码。
 	///
 	/// @param h
 	/// @param symbol_index 符号索引。
-	/// @param code
+	/// @param value
 	///
 	void write_symbol_code(base::segment_led::segment_led_handle &h,
 						   uint32_t symbol_index,
-						   uint8_t code);
+						   base::segment_led::SymbolCode const &value);
 
 } // namespace base::segment_led
