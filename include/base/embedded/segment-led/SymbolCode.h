@@ -40,6 +40,16 @@ namespace base::segment_led
 			return _value;
 		}
 
+		constexpr bool ReadSegment(uint32_t index) const
+		{
+			return base::bit::ReadBit(_value, index);
+		}
+
+		constexpr void WriteSegment(uint32_t index, bool value)
+		{
+			base::bit::WriteBit(_value, index, value);
+		}
+
 		bool DigitalDot() const
 		{
 			return base::bit::ReadBit(_value, 7);
