@@ -113,9 +113,8 @@ namespace base
 			else
 			{
 				_den = den;
+				Simplify();
 			}
-
-			Simplify();
 		}
 
 		/* #endregion */

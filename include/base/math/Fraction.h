@@ -3,7 +3,6 @@
 #include "base/math/Int64Fraction.h"
 #include "base/string/ICanToString.h"
 #include <cstdint>
-#include <stdexcept>
 #include <string>
 
 namespace base
@@ -126,16 +125,6 @@ namespace base
 		}
 
 		///
-		/// @brief 设置分子。
-		///
-		/// @param value
-		///
-		void SetNum(base::BigInteger value)
-		{
-			_num = value;
-		}
-
-		///
 		/// @brief 获取分母。
 		///
 		/// @return
@@ -143,21 +132,6 @@ namespace base
 		base::BigInteger Den() const
 		{
 			return _den;
-		}
-
-		///
-		/// @brief 设置分母。
-		///
-		/// @param value
-		///
-		void SetDen(base::BigInteger value)
-		{
-			if (value == 0)
-			{
-				throw std::invalid_argument{"分母不能为 0."};
-			}
-
-			_den = value;
 		}
 
 		/* #endregion */
@@ -301,10 +275,11 @@ namespace base
 
 		Fraction operator*(Fraction const &value) const
 		{
-			base::Fraction ret;
-			ret.SetNum(_num * value.Num());
-			ret.SetDen(_den * value.Den());
-			ret.Simplify();
+			base::Fraction ret{
+				_num * value.Num(),
+				_den * value.Den(),
+			};
+
 			return ret;
 		}
 
