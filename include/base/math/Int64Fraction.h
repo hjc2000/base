@@ -200,6 +200,7 @@ namespace base
 
 		///
 		/// @brief 向下取整
+		///
 		/// @return
 		///
 		constexpr int64_t Floor() const
@@ -225,6 +226,7 @@ namespace base
 
 		///
 		/// @brief 向上取整
+		///
 		/// @return
 		///
 		constexpr int64_t Ceil() const
@@ -243,6 +245,7 @@ namespace base
 
 		///
 		/// @brief 获取分子除以分母的值
+		///
 		/// @return
 		///
 		constexpr int64_t Div() const
