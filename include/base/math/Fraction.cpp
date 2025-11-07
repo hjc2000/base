@@ -293,20 +293,12 @@ bool base::Fraction::operator==(Fraction const &another) const
 
 bool base::Fraction::operator>(Fraction const &another) const
 {
-	base::BigInteger num1{Num()};
-	base::BigInteger den1{Den()};
-	base::BigInteger num2{another.Num()};
-	base::BigInteger den2{another.Den()};
-	return num1 * den2 > num2 * den1;
+	return Num() * another.Den() > another.Num() * Den();
 }
 
 bool base::Fraction::operator<(Fraction const &another) const
 {
-	base::BigInteger num1{Num()};
-	base::BigInteger den1{Den()};
-	base::BigInteger num2{another.Num()};
-	base::BigInteger den2{another.Den()};
-	return num1 * den2 < num2 * den1;
+	return Num() * another.Den() < another.Num() * Den();
 }
 
 bool base::Fraction::operator>=(Fraction const &another) const
