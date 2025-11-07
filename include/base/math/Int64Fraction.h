@@ -133,16 +133,6 @@ namespace base
 		}
 
 		///
-		/// @brief 设置分子。
-		///
-		/// @param value
-		///
-		constexpr void SetNum(int64_t value)
-		{
-			_num = value;
-		}
-
-		///
 		/// @brief 获取分母。
 		///
 		/// @return
@@ -150,21 +140,6 @@ namespace base
 		constexpr int64_t Den() const
 		{
 			return _den;
-		}
-
-		///
-		/// @brief 设置分母。
-		///
-		/// @param value
-		///
-		constexpr void SetDen(int64_t value)
-		{
-			if (value == 0)
-			{
-				throw std::invalid_argument{"分母不能为 0."};
-			}
-
-			_den = value;
 		}
 
 		/* #endregion */
@@ -303,7 +278,6 @@ namespace base
 				throw std::invalid_argument{CODE_POS_STR + "分辨率不能 <= 0."};
 			}
 
-			Simplify();
 			if (_den >= resolution._den)
 			{
 				// 本分数的分母比 resolution 的分母大，说明本分数的分辨率大于 resolution.
@@ -364,30 +338,28 @@ namespace base
 				scaled_den,
 			};
 
-			ret.Simplify();
 			return ret;
 		}
 
 		constexpr Int64Fraction operator-(Int64Fraction const &value) const
 		{
 			Int64Fraction ret = *this + (-value);
-			ret.Simplify();
 			return ret;
 		}
 
 		constexpr Int64Fraction operator*(Int64Fraction const &value) const
 		{
-			base::Int64Fraction ret;
-			ret.SetNum(_num * value.Num());
-			ret.SetDen(_den * value.Den());
-			ret.Simplify();
+			base::Int64Fraction ret{
+				_num * value.Num(),
+				_den * value.Den(),
+			};
+
 			return ret;
 		}
 
 		constexpr Int64Fraction operator/(Int64Fraction const &value) const
 		{
 			Int64Fraction ret{*this * value.Reciprocal()};
-			ret.Simplify();
 			return ret;
 		}
 
