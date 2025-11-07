@@ -194,7 +194,7 @@ namespace base
 
 			if (scaled_den < 0)
 			{
-				// 如果分母小于 0，分子分母同时取相反数
+				// 如果分母小于 0，分子分母同时取相反数，保证分母为正。
 				scaled_num = -scaled_num;
 				scaled_den = -scaled_den;
 			}
