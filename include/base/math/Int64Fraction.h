@@ -483,11 +483,7 @@ namespace base
 		///
 		constexpr bool operator>(Int64Fraction const &another) const
 		{
-			int64_t num1{Num()};
-			int64_t den1{Den()};
-			int64_t num2{another.Num()};
-			int64_t den2{another.Den()};
-			return num1 * den2 > num2 * den1;
+			return Num() * another.Den() > another.Num() * Den();
 		}
 
 		///
@@ -497,11 +493,7 @@ namespace base
 		///
 		constexpr bool operator<(Int64Fraction const &another) const
 		{
-			int64_t num1{Num()};
-			int64_t den1{Den()};
-			int64_t num2{another.Num()};
-			int64_t den2{another.Den()};
-			return num1 * den2 < num2 * den1;
+			return Num() * another.Den() < another.Num() * Den();
 		}
 
 		///
