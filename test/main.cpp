@@ -1,12 +1,9 @@
-// IWYU pragma: begin_keep
-
 #include "base/test/test_ertec200p_3_timing_provider.h"
 #include "base/test/TestCircleDeque.h"
 #include "base/test/TestFactorExtractor.h"
+#include "base/test/TestFraction.h"
 #include "base/test/TestParse.h"
 #include "base/test/TestUtf8Reader.h"
-
-// IWYU pragma: end_keep
 
 int main()
 {
@@ -16,5 +13,7 @@ int main()
 	// base::test::TestParseInt64();
 	// base::test::TestParseDouble();
 	// base::test::test_ertec200p_3_timing_provider();
-	base::test::TestUtf8Reader();
+	// base::test::TestUtf8Reader();
+	base::test::TestFraction();
+	base::test::TestInt64Fraction();
 }
