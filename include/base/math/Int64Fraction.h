@@ -114,6 +114,8 @@ namespace base
 			{
 				_den = den;
 			}
+
+			Simplify();
 		}
 
 		/* #endregion */
@@ -170,7 +172,7 @@ namespace base
 		/* #region 计算函数 */
 
 		///
-		/// @brief 化简自身。
+		/// @brief 化简。
 		///
 		constexpr void Simplify()
 		{
@@ -199,20 +201,6 @@ namespace base
 
 			_num = scaled_num;
 			_den = scaled_den;
-		}
-
-		///
-		/// @brief 化简后的形式。
-		///
-		/// @note 返回化简后的值，不改变自身。
-		///
-		/// @return
-		///
-		constexpr Int64Fraction SimplifiedForm() const
-		{
-			base::Int64Fraction ret{*this};
-			ret.Simplify();
-			return ret;
 		}
 
 		///
@@ -357,7 +345,6 @@ namespace base
 		constexpr Int64Fraction operator-() const
 		{
 			Int64Fraction ret{-_num, _den};
-			ret.Simplify();
 			return ret;
 		}
 
@@ -521,9 +508,7 @@ namespace base
 				return true;
 			}
 
-			Int64Fraction f1 = SimplifiedForm();
-			Int64Fraction f2 = another.SimplifiedForm();
-			return f1.Num() == f2.Num() && f1.Den() == f2.Den();
+			return Num() == another.Num() && Den() == another.Den();
 		}
 
 		///
@@ -533,13 +518,10 @@ namespace base
 		///
 		constexpr bool operator>(Int64Fraction const &another) const
 		{
-			// 先化简，避免分母为负数，然后使用交叉乘法比大小。
-			Int64Fraction f1 = SimplifiedForm();
-			Int64Fraction f2 = another.SimplifiedForm();
-			int64_t num1{f1.Num()};
-			int64_t den1{f1.Den()};
-			int64_t num2{f2.Num()};
-			int64_t den2{f2.Den()};
+			int64_t num1{Num()};
+			int64_t den1{Den()};
+			int64_t num2{another.Num()};
+			int64_t den2{another.Den()};
 			return num1 * den2 > num2 * den1;
 		}
 
@@ -550,13 +532,10 @@ namespace base
 		///
 		constexpr bool operator<(Int64Fraction const &another) const
 		{
-			// 先化简，避免分母为负数，然后使用交叉乘法比大小。
-			Int64Fraction f1 = SimplifiedForm();
-			Int64Fraction f2 = another.SimplifiedForm();
-			int64_t num1{f1.Num()};
-			int64_t den1{f1.Den()};
-			int64_t num2{f2.Num()};
-			int64_t den2{f2.Den()};
+			int64_t num1{Num()};
+			int64_t den1{Den()};
+			int64_t num2{another.Num()};
+			int64_t den2{another.Den()};
 			return num1 * den2 < num2 * den1;
 		}
 
