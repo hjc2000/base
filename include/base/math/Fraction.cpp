@@ -167,11 +167,6 @@ void base::Fraction::FromFloat(float value)
 
 void base::Fraction::Simplify()
 {
-	if (_den == 0)
-	{
-		throw std::invalid_argument{"分母不能为 0."};
-	}
-
 	if (_num == 0)
 	{
 		_den = 1;
@@ -201,7 +196,6 @@ void base::Fraction::ReduceResolution(base::Fraction const &resolution)
 		throw std::invalid_argument{CODE_POS_STR + "分辨率不能 <= 0."};
 	}
 
-	Simplify();
 	if (_den >= resolution._den)
 	{
 		// 本分数的分母比 resolution 的分母大，说明本分数的分辨率大于 resolution.
@@ -254,7 +248,6 @@ base::Fraction base::Fraction::operator+(Fraction const &value) const
 		scaled_den,
 	};
 
-	ret.Simplify();
 	return ret;
 }
 
@@ -295,32 +288,24 @@ bool base::Fraction::operator==(Fraction const &another) const
 		return true;
 	}
 
-	Fraction f1 = SimplifiedForm();
-	Fraction f2 = another.SimplifiedForm();
-	return f1.Num() == f2.Num() && f1.Den() == f2.Den();
+	return Num() == another.Num() && Den() == another.Den();
 }
 
 bool base::Fraction::operator>(Fraction const &another) const
 {
-	// 先化简，避免分母为负数，然后使用交叉乘法比大小。
-	Fraction f1 = SimplifiedForm();
-	Fraction f2 = another.SimplifiedForm();
-	base::BigInteger num1{f1.Num()};
-	base::BigInteger den1{f1.Den()};
-	base::BigInteger num2{f2.Num()};
-	base::BigInteger den2{f2.Den()};
+	base::BigInteger num1{Num()};
+	base::BigInteger den1{Den()};
+	base::BigInteger num2{another.Num()};
+	base::BigInteger den2{another.Den()};
 	return num1 * den2 > num2 * den1;
 }
 
 bool base::Fraction::operator<(Fraction const &another) const
 {
-	// 先化简，避免分母为负数，然后使用交叉乘法比大小。
-	Fraction f1 = SimplifiedForm();
-	Fraction f2 = another.SimplifiedForm();
-	base::BigInteger num1{f1.Num()};
-	base::BigInteger den1{f1.Den()};
-	base::BigInteger num2{f2.Num()};
-	base::BigInteger den2{f2.Den()};
+	base::BigInteger num1{Num()};
+	base::BigInteger den1{Den()};
+	base::BigInteger num2{another.Num()};
+	base::BigInteger den2{another.Den()};
 	return num1 * den2 < num2 * den1;
 }
 

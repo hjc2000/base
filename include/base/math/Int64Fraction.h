@@ -150,11 +150,6 @@ namespace base
 		///
 		constexpr void Simplify()
 		{
-			if (_den == 0)
-			{
-				throw std::invalid_argument{"分母不能为 0."};
-			}
-
 			if (_num == 0)
 			{
 				_den = 1;
@@ -185,7 +180,6 @@ namespace base
 		constexpr Int64Fraction Reciprocal() const
 		{
 			base::Int64Fraction ret{_den, _num};
-			ret.Simplify();
 			return ret;
 		}
 

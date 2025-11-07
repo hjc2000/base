@@ -117,7 +117,7 @@ namespace base
 		///
 		/// @brief 获取分子。
 		///
-		/// @return base::BigInteger
+		/// @return
 		///
 		base::BigInteger Num() const
 		{
@@ -145,27 +145,12 @@ namespace base
 		void Simplify();
 
 		///
-		/// @brief 化简后的形式。
-		///
-		/// @note 返回化简后的值，不改变自身。
-		///
-		/// @return
-		///
-		Fraction SimplifiedForm() const
-		{
-			base::Fraction ret{*this};
-			ret.Simplify();
-			return ret;
-		}
-
-		///
 		/// @brief 倒数
 		/// @return
 		///
 		Fraction Reciprocal() const
 		{
 			base::Fraction ret{_den, _num};
-			ret.Simplify();
 			return ret;
 		}
 
@@ -186,6 +171,7 @@ namespace base
 
 		///
 		/// @brief 向下取整
+		///
 		/// @return
 		///
 		base::BigInteger Floor() const
@@ -212,6 +198,7 @@ namespace base
 
 		///
 		/// @brief 向上取整
+		///
 		/// @return
 		///
 		base::BigInteger Ceil() const
@@ -258,7 +245,6 @@ namespace base
 		Fraction operator-() const
 		{
 			Fraction ret{-_num, _den};
-			ret.Simplify();
 			return ret;
 		}
 
@@ -269,7 +255,6 @@ namespace base
 		Fraction operator-(Fraction const &value) const
 		{
 			Fraction ret = *this + (-value);
-			ret.Simplify();
 			return ret;
 		}
 
@@ -286,7 +271,6 @@ namespace base
 		Fraction operator/(Fraction const &value) const
 		{
 			Fraction ret{*this * value.Reciprocal()};
-			ret.Simplify();
 			return ret;
 		}
 
