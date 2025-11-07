@@ -141,11 +141,11 @@ namespace base
 		///
 		/// @brief 化简自身。
 		///
-		///
 		void Simplify();
 
 		///
 		/// @brief 倒数
+		///
 		/// @return
 		///
 		Fraction Reciprocal() const
@@ -217,6 +217,7 @@ namespace base
 
 		///
 		/// @brief 获取分子除以分母的值
+		///
 		/// @return
 		///
 		base::BigInteger Div() const
