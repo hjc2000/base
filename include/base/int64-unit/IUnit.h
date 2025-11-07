@@ -321,7 +321,7 @@ namespace base
 	/// @return
 	///
 	template <typename TUnit>
-		requires(base::is_unit<TUnit>)
+		requires(base::int64_unit::is_unit<TUnit>)
 	inline TUnit floor(base::int64_unit::IUnit<TUnit> const &value)
 	{
 		return value.Floor();
@@ -335,7 +335,7 @@ namespace base
 	/// @return
 	///
 	template <typename TUnit>
-		requires(base::is_unit<TUnit>)
+		requires(base::int64_unit::is_unit<TUnit>)
 	inline TUnit ceil(base::int64_unit::IUnit<TUnit> const &value)
 	{
 		return value.Ceil();
@@ -344,8 +344,8 @@ namespace base
 } // namespace base
 
 template <typename TLeft, typename TRight>
-	requires(base::is_unit<TLeft> &&
-			 base::is_unit<TRight> &&
+	requires(base::int64_unit::is_unit<TLeft> &&
+			 base::int64_unit::is_unit<TRight> &&
 			 std::is_convertible_v<TRight, TLeft>)
 inline bool operator==(TLeft const &left, TRight const &right)
 {
@@ -361,7 +361,7 @@ inline bool operator==(TLeft const &left, TRight const &right)
 /// @return
 ///
 template <typename TLeft, typename TRight>
-	requires(base::is_coefficient<TLeft> && base::is_unit<TRight>)
+	requires(base::is_coefficient<TLeft> && base::int64_unit::is_unit<TRight>)
 inline TRight operator*(TLeft const &left, base::int64_unit::IUnit<TRight> const &right)
 {
 	return reinterpret_cast<TRight const &>(right) * left;
