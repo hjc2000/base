@@ -100,7 +100,7 @@ namespace base
 		public:
 			Iterator() = default;
 
-			Iterator(std::shared_ptr<IEnumerator<item_type>> enumertor)
+			Iterator(std::shared_ptr<IEnumerator<item_type>> const &enumertor)
 			{
 				_enumerator = enumertor;
 			}
