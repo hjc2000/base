@@ -118,7 +118,6 @@ namespace base
 
 		/* #endregion */
 
-	private:
 		ItemType *_buffer = nullptr;
 		int64_t _count = 0;
 

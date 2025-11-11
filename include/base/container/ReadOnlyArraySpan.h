@@ -87,7 +87,6 @@ namespace base
 
 		/* #endregion */
 
-	private:
 		ItemType const *_buffer = nullptr;
 		int64_t _count = 0;
 
