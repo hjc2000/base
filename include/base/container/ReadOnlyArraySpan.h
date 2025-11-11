@@ -7,12 +7,6 @@
 
 namespace base
 {
-	template <typename ItemType>
-	class ArraySpan;
-
-	template <typename ItemType>
-	class ReadOnlyArraySpan;
-
 	///
 	/// @brief 只读的数组内存段。
 	///
