@@ -285,7 +285,6 @@ namespace base
 
 		/* #endregion */
 
-	public:
 		virtual ~IRandomAccessEnumerable() = default;
 
 		/* #region 接口 */
