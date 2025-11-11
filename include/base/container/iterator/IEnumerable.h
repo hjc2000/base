@@ -29,7 +29,7 @@ namespace base
 			bool _has_not_moved = true;
 
 		public:
-			ConstEnumerator(std::shared_ptr<IEnumerator<item_type>> enumerator)
+			ConstEnumerator(std::shared_ptr<IEnumerator<item_type>> const &enumerator)
 			{
 				_enumerator = enumerator;
 			}

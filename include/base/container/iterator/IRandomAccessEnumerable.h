@@ -22,7 +22,7 @@ namespace base
 			bool _has_not_moved = true;
 
 		public:
-			ConstEnumerator(std::shared_ptr<base::IRandomAccessEnumerator<ItemType>> enumerator)
+			ConstEnumerator(std::shared_ptr<base::IRandomAccessEnumerator<ItemType>> const &enumerator)
 			{
 				_enumerator = enumerator;
 			}
