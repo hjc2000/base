@@ -628,28 +628,3 @@ std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> base::filesystem:
 /* #endregion */
 
 #endif // HAS_THREAD
-
-/* #region EnsureDirectory */
-
-void base::filesystem::EnsureDirectory(base::Path const &path)
-{
-	if (!base::filesystem::Exists(path))
-	{
-		// 目标路径不存在，则创建空目录
-		base::filesystem::CreateDirectoryRecursively(path);
-		return;
-	}
-
-	// 目标路径存在
-	if (!base::filesystem::IsDirectory(path))
-	{
-		std::string message = CODE_POS_STR;
-
-		message += std::format("目标路径 {} 已存在但不是目录。",
-							   path.ToString());
-
-		throw std::runtime_error{message};
-	}
-}
-
-/* #endregion */
