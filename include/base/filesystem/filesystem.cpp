@@ -265,6 +265,7 @@ bool base::filesystem::IsDirectory(base::Path const &path)
 {
 	std::error_code error_code{};
 	bool ret = std::filesystem::is_directory(path.ToString(), error_code);
+
 	if (error_code.value() != 0)
 	{
 		std::string message = CODE_POS_STR;
@@ -283,6 +284,7 @@ bool base::filesystem::IsRegularFile(base::Path const &path)
 {
 	std::error_code error_code{};
 	bool ret = std::filesystem::is_regular_file(path.ToString(), error_code);
+
 	if (error_code.value() != 0)
 	{
 		std::string message = CODE_POS_STR;
@@ -301,6 +303,7 @@ bool base::filesystem::IsSymbolicLink(base::Path const &path)
 {
 	std::error_code error_code{};
 	bool ret = std::filesystem::is_symlink(path.ToString(), error_code);
+
 	if (error_code.value() != 0)
 	{
 		std::string message = CODE_POS_STR;
@@ -321,6 +324,7 @@ bool base::filesystem::Exists(base::Path const &path)
 {
 	std::error_code error_code{};
 	bool ret = std::filesystem::exists(path.ToString(), error_code);
+
 	if (error_code.value() != 0)
 	{
 		std::string message = CODE_POS_STR;
@@ -344,6 +348,7 @@ base::Path base::filesystem::ReadSymlink(base::Path const &path)
 
 	std::error_code error_code{};
 	std::filesystem::path target_path = std::filesystem::read_symlink(path.ToString(), error_code);
+
 	if (error_code.value() != 0)
 	{
 		std::string message = CODE_POS_STR;
@@ -371,6 +376,7 @@ void base::filesystem::CreateDirectory(base::Path const &path)
 
 	std::error_code error_code{};
 	bool ret = std::filesystem::create_directory(path.ToString(), error_code);
+
 	if (error_code.value() != 0)
 	{
 		std::string message = CODE_POS_STR;
@@ -400,6 +406,7 @@ void base::filesystem::CreateDirectoryRecursively(base::Path const &path)
 
 	std::error_code error_code{};
 	bool ret = std::filesystem::create_directories(path.ToString(), error_code);
+
 	if (error_code.value() != 0)
 	{
 		std::string message = CODE_POS_STR;
@@ -434,6 +441,7 @@ void base::filesystem::Remove(base::Path const &path)
 
 	// 返回值是 uintmax_t ，含义是递归删除的项目总数。
 	auto removed_count = std::filesystem::remove_all(path.ToString(), error_code);
+
 	if (error_code.value() != 0)
 	{
 		std::string message = std::format("{} 删除失败。错误代码：{}，错误消息：{}",
@@ -582,6 +590,7 @@ void base::filesystem::Move(base::Path const &source_path,
 	// 如果更新则覆盖
 	std::filesystem::directory_entry src_entry{source_path.ToString()};
 	std::filesystem::directory_entry dst_entry{destination_path.ToString()};
+
 	if (src_entry.last_write_time() <= dst_entry.last_write_time())
 	{
 		std::cout << "不更新：" << source_path << " --> " << destination_path << std::endl;
