@@ -62,7 +62,7 @@ namespace base::segment_led
 
 		SymbolCode operator+(SymbolCode const &value)
 		{
-			base::segment_led::SymbolCode copy{*this};
+			SymbolCode copy{*this};
 			copy += value;
 			return copy;
 		}
@@ -75,7 +75,7 @@ namespace base::segment_led
 
 		SymbolCode operator|(SymbolCode const &value)
 		{
-			base::segment_led::SymbolCode copy{*this};
+			SymbolCode copy{*this};
 			copy += value;
 			return copy;
 		}
