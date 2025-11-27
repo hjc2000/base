@@ -102,12 +102,16 @@ namespace base
 			if (num == 0)
 			{
 				_den = 1;
+				return;
 			}
-			else
+
+			if (den == 0)
 			{
-				_den = den;
-				Simplify();
+				throw std::invalid_argument{CODE_POS_STR + "分母不能为 0."};
 			}
+
+			_den = den;
+			Simplify();
 		}
 
 		/* #endregion */
