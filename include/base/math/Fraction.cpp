@@ -7,7 +7,7 @@
 
 void base::Fraction::FromDouble(double value)
 {
-	if (value == 0.0)
+	if (value == 0)
 	{
 		_num = 0;
 		_den = 1;
@@ -87,7 +87,7 @@ void base::Fraction::FromDouble(double value)
 
 void base::Fraction::FromFloat(float value)
 {
-	if (value == 0.0f)
+	if (value == 0)
 	{
 		_num = 0;
 		_den = 1;

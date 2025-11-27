@@ -51,7 +51,7 @@ namespace base
 			requires(std::is_same_v<T, double>)
 		constexpr Int64Fraction(T double_value)
 		{
-			if (double_value == 0.0)
+			if (double_value == 0)
 			{
 				_num = 0;
 				_den = 1;
@@ -79,7 +79,7 @@ namespace base
 			requires(std::is_same_v<T, float>)
 		constexpr Int64Fraction(T float_value)
 		{
-			if (float_value == 0.0f)
+			if (float_value == 0)
 			{
 				_num = 0;
 				_den = 1;
