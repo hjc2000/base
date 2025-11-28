@@ -386,21 +386,30 @@ namespace base
 		/// @param another
 		/// @return
 		///
-		bool operator==(Fraction const &another) const;
+		bool operator==(Fraction const &another) const
+		{
+			return Num() * another.Den() == another.Num() * Den();
+		}
 
 		///
 		/// @brief 本对象大于 another.
 		/// @param another
 		/// @return
 		///
-		bool operator>(Fraction const &another) const;
+		bool operator>(Fraction const &another) const
+		{
+			return Num() * another.Den() > another.Num() * Den();
+		}
 
 		///
 		/// @brief 本对象小于 another.
 		/// @param another
 		/// @return
 		///
-		bool operator<(Fraction const &another) const;
+		bool operator<(Fraction const &another) const
+		{
+			return Num() * another.Den() < another.Num() * Den();
+		}
 
 		///
 		/// @brief 本对象大于等于 another.
@@ -409,7 +418,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator>=(Fraction const &another) const;
+		bool operator>=(Fraction const &another) const
+		{
+			return Num() * another.Den() >= another.Num() * Den();
+		}
 
 		///
 		/// @brief 本对象小于等于 another.
@@ -418,7 +430,10 @@ namespace base
 		/// @return true
 		/// @return false
 		///
-		bool operator<=(Fraction const &another) const;
+		bool operator<=(Fraction const &another) const
+		{
+			return Num() * another.Den() <= another.Num() * Den();
+		}
 
 		/* #endregion */
 	};

@@ -174,19 +174,16 @@ void base::Fraction::Simplify()
 	}
 
 	// 分子分母同时除以最大公约数
-	base::BigInteger gcd_value = boost::multiprecision::gcd(_num, _den);
-	base::BigInteger scaled_num = _num / gcd_value;
-	base::BigInteger scaled_den = _den / gcd_value;
+	base::BigInteger gcd_value = base::gcd(_num, _den);
+	_num /= gcd_value;
+	_den /= gcd_value;
 
-	if (scaled_den < 0)
+	if (_den < 0)
 	{
 		// 如果分母小于 0，分子分母同时取相反数，保证分母为正。
-		scaled_num = -scaled_num;
-		scaled_den = -scaled_den;
+		_num = -_num;
+		_den = -_den;
 	}
-
-	_num = scaled_num;
-	_den = scaled_den;
 }
 
 void base::Fraction::ReduceResolution(base::Fraction const &resolution)
@@ -237,7 +234,7 @@ void base::Fraction::ReduceResolution(base::Fraction const &resolution)
 base::Fraction base::Fraction::operator+(Fraction const &value) const
 {
 	// 通分后的分母为本对象的分母和 value 的分母的最小公倍数
-	base::BigInteger scaled_den = boost::multiprecision::lcm(_den, value.Den());
+	base::BigInteger scaled_den = base::lcm(_den, value.Den());
 
 	// 通分后的分子为本对象的分子乘上分母所乘的倍数
 	base::BigInteger scaled_num = _num * (scaled_den / _den);
@@ -275,60 +272,3 @@ base::Fraction::operator float() const
 	float fraction_part = static_cast<float>(copy.Num()) / static_cast<float>(copy.Den());
 	return int_part + fraction_part;
 }
-
-/* #region 比较运算符 */
-
-bool base::Fraction::operator==(Fraction const &another) const
-{
-	if (Num() == 0 && another.Num() == 0)
-	{
-		/* 2 个分子都为 0 直接返回相等，这样更加安全，避免分子都为 0
-		 * 分母不相等时错误地将两个分数判断为不相等。
-		 */
-		return true;
-	}
-
-	return Num() == another.Num() && Den() == another.Den();
-}
-
-bool base::Fraction::operator>(Fraction const &another) const
-{
-	return Num() * another.Den() > another.Num() * Den();
-}
-
-bool base::Fraction::operator<(Fraction const &another) const
-{
-	return Num() * another.Den() < another.Num() * Den();
-}
-
-bool base::Fraction::operator>=(Fraction const &another) const
-{
-	if (*this == another)
-	{
-		return true;
-	}
-
-	if (*this > another)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-bool base::Fraction::operator<=(Fraction const &another) const
-{
-	if (*this == another)
-	{
-		return true;
-	}
-
-	if (*this < another)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-/* #endregion */

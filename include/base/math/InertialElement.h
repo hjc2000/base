@@ -10,7 +10,6 @@ namespace base
 	///
 	/// @brief 一阶惯性环节。
 	///
-	///
 	template <typename T>
 	class InertialElement final
 	{

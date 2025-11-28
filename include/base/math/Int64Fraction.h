@@ -162,18 +162,15 @@ namespace base
 
 			// 分子分母同时除以最大公约数
 			int64_t gcd_value = std::gcd(_num, _den);
-			int64_t scaled_num = _num / gcd_value;
-			int64_t scaled_den = _den / gcd_value;
+			_num /= gcd_value;
+			_den /= gcd_value;
 
-			if (scaled_den < 0)
+			if (_den < 0)
 			{
 				// 如果分母小于 0，分子分母同时取相反数，保证分母为正。
-				scaled_num = -scaled_num;
-				scaled_den = -scaled_den;
+				_num = -_num;
+				_den = -_den;
 			}
-
-			_num = scaled_num;
-			_den = scaled_den;
 		}
 
 		///
@@ -473,14 +470,7 @@ namespace base
 		///
 		constexpr bool operator==(Int64Fraction const &another) const
 		{
-			if (Num() == 0 && another.Num() == 0)
-			{
-				// 2 个分子都为 0 直接返回相等，这样更加安全，避免分子都为 0
-				// 分母不相等时错误地将两个分数判断为不相等。
-				return true;
-			}
-
-			return Num() == another.Num() && Den() == another.Den();
+			return Num() * another.Den() == another.Num() * Den();
 		}
 
 		///
@@ -512,17 +502,7 @@ namespace base
 		///
 		constexpr bool operator>=(Int64Fraction const &another) const
 		{
-			if (*this == another)
-			{
-				return true;
-			}
-
-			if (*this > another)
-			{
-				return true;
-			}
-
-			return false;
+			return Num() * another.Den() >= another.Num() * Den();
 		}
 
 		///
@@ -534,17 +514,7 @@ namespace base
 		///
 		constexpr bool operator<=(Int64Fraction const &another) const
 		{
-			if (*this == another)
-			{
-				return true;
-			}
-
-			if (*this < another)
-			{
-				return true;
-			}
-
-			return false;
+			return Num() * another.Den() <= another.Num() * Den();
 		}
 
 		/* #endregion */
