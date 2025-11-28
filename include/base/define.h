@@ -21,13 +21,10 @@
 
 /* #endregion */
 
-#define __base_weak __attribute__((weak))
-
 ///
 /// @brief 弱符号。
 ///
-///
-#define __weak __attribute__((weak))
+#define __base_weak __attribute__((weak))
 
 ///
 /// @brief 下面的宏仅用于 C++.
