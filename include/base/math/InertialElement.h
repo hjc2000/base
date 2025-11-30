@@ -1,9 +1,11 @@
 #pragma once
+#include "base/math/FastInt64Fraction.h"
 #include "base/math/Fraction.h"
 #include "base/math/Int64Fraction.h"
 #include "base/math/math.h"
 #include "base/string/define.h"
 #include <stdexcept>
+#include <type_traits>
 
 namespace base
 {
@@ -20,6 +22,35 @@ namespace base
 		T _ky{};
 		T _current_output{};
 		T _resolution{};
+
+		/* #region Simplify */
+
+		static constexpr T &Simplify(T &value)
+			requires(std::is_same_v<T, base::FastInt64Fraction>)
+		{
+			value.Simplify();
+			return value;
+		}
+
+		static constexpr T Simplify(T const &value)
+			requires(std::is_same_v<T, base::FastInt64Fraction>)
+		{
+			T copy{value};
+			copy.Simplify();
+			return copy;
+		}
+
+		static constexpr T &Simplify(T &value)
+		{
+			return value;
+		}
+
+		static constexpr T const &Simplify(T const &value)
+		{
+			return value;
+		}
+
+		/* #endregion */
 
 	public:
 		constexpr InertialElement() = default;
@@ -98,8 +129,8 @@ namespace base
 		constexpr void SetInertialTimeConstant(T value)
 		{
 			_inertial_time_constant = value;
-			_kx = _sample_interval / (_inertial_time_constant + _sample_interval);
-			_ky = _inertial_time_constant / (_inertial_time_constant + _sample_interval);
+			_kx = Simplify(_sample_interval / Simplify(_inertial_time_constant + _sample_interval));
+			_ky = Simplify(_inertial_time_constant / Simplify(_inertial_time_constant + _sample_interval));
 		}
 
 		///
@@ -120,8 +151,8 @@ namespace base
 		constexpr void SetSampleInterval(T value)
 		{
 			_sample_interval = value;
-			_kx = _sample_interval / (_inertial_time_constant + _sample_interval);
-			_ky = _inertial_time_constant / (_inertial_time_constant + _sample_interval);
+			_kx = Simplify(_sample_interval / Simplify(_inertial_time_constant + _sample_interval));
+			_ky = Simplify(_inertial_time_constant / Simplify(_inertial_time_constant + _sample_interval));
 		}
 
 		///
@@ -135,8 +166,8 @@ namespace base
 		{
 			_inertial_time_constant = inertial_time_constant;
 			_sample_interval = sample_interval;
-			_kx = _sample_interval / (_inertial_time_constant + _sample_interval);
-			_ky = _inertial_time_constant / (_inertial_time_constant + _sample_interval);
+			_kx = Simplify(_sample_interval / Simplify(_inertial_time_constant + _sample_interval));
+			_ky = Simplify(_inertial_time_constant / Simplify(_inertial_time_constant + _sample_interval));
 		}
 
 		T Kx() const

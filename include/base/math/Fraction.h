@@ -1,5 +1,6 @@
 #pragma once
 #include "base/math/BigInteger.h"
+#include "base/math/FastInt64Fraction.h"
 #include "base/math/Int64Fraction.h"
 #include "base/string/ICanToString.h"
 #include <cstdint>
@@ -89,6 +90,19 @@ namespace base
 		{
 			_num = int64_frac.Num();
 			_den = int64_frac.Den();
+		}
+
+		///
+		/// @brief 从 base::FastInt64Fraction 类型构造。
+		///
+		/// @param fast_int64_frac
+		///
+		template <typename T>
+			requires(std::is_same_v<T, base::FastInt64Fraction>)
+		Fraction(T const &fast_int64_frac)
+		{
+			_num = fast_int64_frac.Num();
+			_den = fast_int64_frac.Den();
 		}
 
 		///
@@ -372,6 +386,17 @@ namespace base
 			copy.ReduceResolution(base::Fraction{1, INT64_MAX});
 
 			return base::Int64Fraction{
+				static_cast<int64_t>(_num),
+				static_cast<int64_t>(_den),
+			};
+		}
+
+		explicit operator base::FastInt64Fraction() const
+		{
+			base::Fraction copy{*this};
+			copy.ReduceResolution(base::Fraction{1, INT64_MAX});
+
+			return base::FastInt64Fraction{
 				static_cast<int64_t>(_num),
 				static_cast<int64_t>(_den),
 			};

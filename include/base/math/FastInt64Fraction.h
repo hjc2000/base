@@ -1,10 +1,8 @@
 #pragma once
-#include "base/math/FastInt64Fraction.h"
 #include "base/math/math.h"
 #include "base/string/define.h"
 #include "base/string/ICanToString.h"
 #include <cstdint>
-#include <numbers>
 #include <stdexcept>
 #include <string>
 #include <type_traits>
@@ -14,7 +12,7 @@ namespace base
 	///
 	/// @brief 分数类
 	///
-	class Int64Fraction final :
+	class FastInt64Fraction final :
 		public base::ICanToString
 	{
 	private:
@@ -27,7 +25,7 @@ namespace base
 		///
 		/// @brief 默认构造，分子为 0，分母为 1.
 		///
-		constexpr Int64Fraction() = default;
+		constexpr FastInt64Fraction() = default;
 
 		///
 		/// @brief 从整型值构造。分子为 num, 分母为 1.
@@ -36,7 +34,7 @@ namespace base
 		///
 		template <typename T>
 			requires(std::is_integral_v<T>)
-		constexpr Int64Fraction(T int_num)
+		constexpr FastInt64Fraction(T int_num)
 		{
 			_num = int_num;
 			_den = 1;
@@ -49,7 +47,7 @@ namespace base
 		///
 		template <typename T>
 			requires(std::is_same_v<T, double>)
-		constexpr Int64Fraction(T double_value)
+		constexpr FastInt64Fraction(T double_value)
 		{
 			if (double_value == 0)
 			{
@@ -61,13 +59,14 @@ namespace base
 			// 要保证分数计算过程不溢出，需要保证 factor * double_value <= INT64_MAX.
 			int64_t factor = INT64_MAX / base::ceil(double_value);
 
-			base::Int64Fraction int_part{static_cast<int64_t>(double_value)};
+			base::FastInt64Fraction int_part{static_cast<int64_t>(double_value)};
 			double_value -= static_cast<double>(int_part);
 
 			double_value *= factor;
-			base::Int64Fraction fractional_part{static_cast<int64_t>(double_value), factor};
+			base::FastInt64Fraction fractional_part{static_cast<int64_t>(double_value), factor};
 
 			*this += int_part + fractional_part;
+			Simplify();
 		}
 
 		///
@@ -77,7 +76,7 @@ namespace base
 		///
 		template <typename T>
 			requires(std::is_same_v<T, float>)
-		constexpr Int64Fraction(T float_value)
+		constexpr FastInt64Fraction(T float_value)
 		{
 			if (float_value == 0)
 			{
@@ -89,26 +88,14 @@ namespace base
 			// 要保证分数计算过程不溢出，需要保证 factor * float_value <= INT64_MAX.
 			int64_t factor = INT64_MAX / base::ceil(float_value);
 
-			base::Int64Fraction int_part{static_cast<int64_t>(float_value)};
+			base::FastInt64Fraction int_part{static_cast<int64_t>(float_value)};
 			float_value -= static_cast<float>(int_part);
 
 			float_value *= factor;
-			base::Int64Fraction fractional_part{static_cast<int64_t>(float_value), factor};
+			base::FastInt64Fraction fractional_part{static_cast<int64_t>(float_value), factor};
 
 			*this += int_part + fractional_part;
-		}
-
-		///
-		/// @brief 从 base::FastInt64Fraction 类型构造。
-		///
-		/// @param fast_int64_frac
-		///
-		template <typename T>
-			requires(std::is_same_v<T, base::FastInt64Fraction>)
-		Int64Fraction(T const &fast_int64_frac)
-		{
-			_num = fast_int64_frac.Num();
-			_den = fast_int64_frac.Den();
+			Simplify();
 		}
 
 		///
@@ -116,7 +103,7 @@ namespace base
 		/// @param num 分子
 		/// @param den 分母
 		///
-		constexpr Int64Fraction(int64_t num, int64_t den)
+		constexpr FastInt64Fraction(int64_t num, int64_t den)
 		{
 			_num = num;
 			if (num == 0)
@@ -131,7 +118,6 @@ namespace base
 			}
 
 			_den = den;
-			Simplify();
 		}
 
 		/* #endregion */
@@ -191,9 +177,9 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr Int64Fraction Reciprocal() const
+		constexpr FastInt64Fraction Reciprocal() const
 		{
-			base::Int64Fraction ret{_den, _num};
+			base::FastInt64Fraction ret{_den, _num};
 			return ret;
 		}
 
@@ -202,7 +188,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr Int64Fraction Abs() const
+		constexpr FastInt64Fraction Abs() const
 		{
 			if (*this < 0)
 			{
@@ -281,81 +267,58 @@ namespace base
 		///
 		/// @param resolution
 		///
-		constexpr void ReduceResolution(base::Int64Fraction const &resolution)
+		constexpr void ReduceResolution(base::FastInt64Fraction const &resolution)
 		{
 			if (resolution <= 0)
 			{
 				throw std::invalid_argument{CODE_POS_STR + "分辨率不能 <= 0."};
 			}
 
-			// 分辨率调整算法默认分母为正数，所以需要先规范化，如果分数是负数的话，
-			// 需要将负号转移到分子上。
-			if (_den < 0)
+			if (_den >= resolution._den)
 			{
-				_num = -_num;
-				_den = -_den;
-			}
-
-			base::Int64Fraction resolution_copy = resolution;
-			if (resolution_copy._den < 0)
-			{
-				resolution_copy._num = -resolution_copy._num;
-				resolution_copy._den = -resolution_copy._den;
-			}
-
-			if (_den >= resolution_copy._den)
-			{
-				// 本分数的分母比 resolution_copy 的分母大，说明本分数的分辨率大于 resolution_copy.
+				// 本分数的分母比 resolution 的分母大，说明本分数的分辨率大于 resolution.
 				//
 				// 首先需要减小本分数的分母，将分辨率降下来。分子分母同时除以一个系数进行截断，
 				// 从而降低分辨率。
-				int64_t multiple = _den / resolution_copy._den;
+				int64_t multiple = _den / resolution._den;
 
-				// 首先将分辨率降低到 1 / resolution_copy._den.
+				// 首先将分辨率降低到 1 / resolution._den.
 				_num /= multiple;
 				_den /= multiple;
 
-				// 如果 resolution_copy._num > 1, 则还不够，刚才的分辨率降低到
-				// 1 / resolution_copy._den 了，
+				// 如果 resolution._num > 1, 则还不够，刚才的分辨率降低到 1 / resolution._den 了，
 				// 还要继续降低。
-				_num = _num / resolution_copy._num * resolution_copy._num;
+				_num = _num / resolution._num * resolution._num;
 			}
 			else
 			{
-				// 本分数的分母比 resolution_copy 的分母小。但这不能说明本分数的分辨率小于
-				// resolution_copy,
-				// 因为 resolution_copy 的分子可能较大。
+				// 本分数的分母比 resolution 的分母小。但这不能说明本分数的分辨率小于 resolution,
+				// 因为 resolution 的分子可能较大。
 				//
-				// 将 resolution_copy 的分子分母同时除以一个系数，将 resolution_copy
-				// 的分母调整到与本分数的分母
-				// 相等，然后看一下调整后的 resolution_copy 的分子，如果不等于 0,
-				// 即没有被截断成 0, 说明原本的
-				// 分子确实较大，大到足以放大 resolution_copy 的大分母所导致的小步长，
-				// 导致步长很大，分辨率低。
-				// 这种情况下本分数的分辨率才是高于 resolution_copy,
-				// 才需要降低分辨率。
-				int64_t multiple = resolution_copy._den / _den;
-				int64_t div = resolution_copy._num / multiple;
+				// 将 resolution 的分子分母同时除以一个系数，将 resolution 的分母调整到与本分数的分母
+				// 相等，然后看一下调整后的 resolution 的分子，如果不等于 0, 即没有被截断成 0, 说明原本的
+				// 分子确实较大，大到足以放大 resolution 的大分母所导致的小步长，导致步长很大，分辨率低。
+				// 这种情况下本分数的分辨率才是高于 resolution, 才需要降低分辨率。
+				int64_t multiple = resolution._den / _den;
+				int64_t div = resolution._num / multiple;
 				if (div != 0)
 				{
 					_num = _num / div * div;
 				}
 			}
-
-			Simplify();
 		}
 
 		/* #endregion */
 
-		constexpr Int64Fraction operator-() const
+		constexpr FastInt64Fraction operator-() const
 		{
-			Int64Fraction ret{-_num, _den};
+			FastInt64Fraction ret{-_num, _den};
 			return ret;
 		}
 
 		/* #region 四则运算符 */
 
-		constexpr Int64Fraction operator+(Int64Fraction const &value) const
+		constexpr FastInt64Fraction operator+(FastInt64Fraction const &value) const
 		{
 			// 通分后的分母为本对象的分母和 value 的分母的最小公倍数
 			int64_t scaled_den = base::lcm(_den, value.Den());
@@ -364,7 +327,7 @@ namespace base
 			int64_t scaled_num = _num * (scaled_den / _den);
 			int64_t value_scaled_num = value.Num() * (scaled_den / value.Den());
 
-			Int64Fraction ret{
+			FastInt64Fraction ret{
 				scaled_num + value_scaled_num,
 				scaled_den,
 			};
@@ -372,15 +335,15 @@ namespace base
 			return ret;
 		}
 
-		constexpr Int64Fraction operator-(Int64Fraction const &value) const
+		constexpr FastInt64Fraction operator-(FastInt64Fraction const &value) const
 		{
-			Int64Fraction ret = *this + (-value);
+			FastInt64Fraction ret = *this + (-value);
 			return ret;
 		}
 
-		constexpr Int64Fraction operator*(Int64Fraction const &value) const
+		constexpr FastInt64Fraction operator*(FastInt64Fraction const &value) const
 		{
-			base::Int64Fraction ret{
+			base::FastInt64Fraction ret{
 				_num * value.Num(),
 				_den * value.Den(),
 			};
@@ -388,9 +351,9 @@ namespace base
 			return ret;
 		}
 
-		constexpr Int64Fraction operator/(Int64Fraction const &value) const
+		constexpr FastInt64Fraction operator/(FastInt64Fraction const &value) const
 		{
-			Int64Fraction ret{*this * value.Reciprocal()};
+			FastInt64Fraction ret{*this * value.Reciprocal()};
 			return ret;
 		}
 
@@ -398,25 +361,25 @@ namespace base
 
 		/* #region 自改变四则运算符 */
 
-		constexpr Int64Fraction &operator+=(Int64Fraction const &value)
+		constexpr FastInt64Fraction &operator+=(FastInt64Fraction const &value)
 		{
 			*this = *this + value;
 			return *this;
 		}
 
-		constexpr Int64Fraction &operator-=(Int64Fraction const &value)
+		constexpr FastInt64Fraction &operator-=(FastInt64Fraction const &value)
 		{
 			*this = *this - value;
 			return *this;
 		}
 
-		constexpr Int64Fraction &operator*=(Int64Fraction const &value)
+		constexpr FastInt64Fraction &operator*=(FastInt64Fraction const &value)
 		{
 			*this = *this * value;
 			return *this;
 		}
 
-		constexpr Int64Fraction &operator/=(Int64Fraction const &value)
+		constexpr FastInt64Fraction &operator/=(FastInt64Fraction const &value)
 		{
 			*this = *this / value;
 			return *this;
@@ -477,7 +440,9 @@ namespace base
 
 		constexpr explicit operator double() const
 		{
-			base::Int64Fraction copy{*this};
+			base::FastInt64Fraction copy{*this};
+			copy.Simplify();
+
 			double int_part = static_cast<double>(copy.Div());
 			copy -= copy.Div();
 			double fraction_part = static_cast<double>(copy.Num()) / static_cast<double>(copy.Den());
@@ -486,19 +451,13 @@ namespace base
 
 		constexpr explicit operator float() const
 		{
-			base::Int64Fraction copy{*this};
+			base::FastInt64Fraction copy{*this};
+			copy.Simplify();
+
 			float int_part = static_cast<float>(copy.Div());
 			copy -= copy.Div();
 			float fraction_part = static_cast<float>(copy.Num()) / static_cast<float>(copy.Den());
 			return int_part + fraction_part;
-		}
-
-		explicit operator base::FastInt64Fraction() const
-		{
-			return base::FastInt64Fraction{
-				_num,
-				_den,
-			};
 		}
 
 		/* #endregion */
@@ -510,7 +469,7 @@ namespace base
 		/// @param another
 		/// @return
 		///
-		constexpr bool operator==(Int64Fraction const &another) const
+		constexpr bool operator==(FastInt64Fraction const &another) const
 		{
 			return Num() * another.Den() == another.Num() * Den();
 		}
@@ -520,7 +479,7 @@ namespace base
 		/// @param another
 		/// @return
 		///
-		constexpr bool operator>(Int64Fraction const &another) const
+		constexpr bool operator>(FastInt64Fraction const &another) const
 		{
 			return Num() * another.Den() > another.Num() * Den();
 		}
@@ -530,7 +489,7 @@ namespace base
 		/// @param another
 		/// @return
 		///
-		constexpr bool operator<(Int64Fraction const &another) const
+		constexpr bool operator<(FastInt64Fraction const &another) const
 		{
 			return Num() * another.Den() < another.Num() * Den();
 		}
@@ -542,7 +501,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr bool operator>=(Int64Fraction const &another) const
+		constexpr bool operator>=(FastInt64Fraction const &another) const
 		{
 			return Num() * another.Den() >= another.Num() * Den();
 		}
@@ -554,7 +513,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr bool operator<=(Int64Fraction const &another) const
+		constexpr bool operator<=(FastInt64Fraction const &another) const
 		{
 			return Num() * another.Den() <= another.Num() * Den();
 		}
@@ -562,30 +521,13 @@ namespace base
 		/* #endregion */
 	};
 
-	namespace constant
-	{
-		///
-		/// @brief 圆周率 Π.
-		///
-		/// @return
-		///
-		constexpr base::Int64Fraction pi{std::numbers::pi};
-
-		///
-		/// @brief 自然对数 ln 的底。
-		///
-		///
-		constexpr base::Int64Fraction e{std::numbers::e};
-
-	} // namespace constant
-
 	///
 	/// @brief 取绝对值。
 	///
 	/// @param value
 	/// @return
 	///
-	constexpr base::Int64Fraction abs(base::Int64Fraction const &value)
+	constexpr base::FastInt64Fraction abs(base::FastInt64Fraction const &value)
 	{
 		return value.Abs();
 	}
@@ -597,7 +539,7 @@ namespace base
 	///
 	/// @return
 	///
-	constexpr int64_t floor(base::Int64Fraction const &value)
+	constexpr int64_t floor(base::FastInt64Fraction const &value)
 	{
 		return value.Floor();
 	}
@@ -609,7 +551,7 @@ namespace base
 	///
 	/// @return
 	///
-	constexpr int64_t ceil(base::Int64Fraction const &value)
+	constexpr int64_t ceil(base::FastInt64Fraction const &value)
 	{
 		return value.Ceil();
 	}
@@ -619,10 +561,10 @@ namespace base
 	///
 	/// @return 降低分辨率后的值。
 	///
-	constexpr base::Int64Fraction reduce_resolution(base::Int64Fraction const &value,
-													base::Int64Fraction const &resolution)
+	constexpr base::FastInt64Fraction reduce_resolution(base::FastInt64Fraction const &value,
+														base::FastInt64Fraction const &resolution)
 	{
-		base::Int64Fraction copy = value;
+		base::FastInt64Fraction copy = value;
 		copy.ReduceResolution(resolution);
 		return copy;
 	}
@@ -639,9 +581,9 @@ namespace base
 ///
 /// @return
 ///
-inline base::Int64Fraction operator+(int64_t left, base::Int64Fraction const &right)
+inline base::FastInt64Fraction operator+(int64_t left, base::FastInt64Fraction const &right)
 {
-	return base::Int64Fraction{left} + right;
+	return base::FastInt64Fraction{left} + right;
 }
 
 ///
@@ -652,9 +594,9 @@ inline base::Int64Fraction operator+(int64_t left, base::Int64Fraction const &ri
 ///
 /// @return
 ///
-inline base::Int64Fraction operator-(int64_t left, base::Int64Fraction const &right)
+inline base::FastInt64Fraction operator-(int64_t left, base::FastInt64Fraction const &right)
 {
-	return base::Int64Fraction{left} - right;
+	return base::FastInt64Fraction{left} - right;
 }
 
 ///
@@ -665,9 +607,9 @@ inline base::Int64Fraction operator-(int64_t left, base::Int64Fraction const &ri
 ///
 /// @return
 ///
-inline base::Int64Fraction operator*(int64_t left, base::Int64Fraction const &right)
+inline base::FastInt64Fraction operator*(int64_t left, base::FastInt64Fraction const &right)
 {
-	return base::Int64Fraction(left) * right;
+	return base::FastInt64Fraction(left) * right;
 }
 
 ///
@@ -678,9 +620,9 @@ inline base::Int64Fraction operator*(int64_t left, base::Int64Fraction const &ri
 ///
 /// @return
 ///
-inline base::Int64Fraction operator/(int64_t left, base::Int64Fraction const &right)
+inline base::FastInt64Fraction operator/(int64_t left, base::FastInt64Fraction const &right)
 {
-	return base::Int64Fraction{left} / right;
+	return base::FastInt64Fraction{left} / right;
 }
 
 /* #endregion */
