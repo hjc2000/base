@@ -1,5 +1,6 @@
 #pragma once
 #include "base/bit/DoubleBitView.h"
+#include "base/bit/FloatBitView.h"
 #include "base/math/BigInteger.h"
 #include "base/math/FastInt64Fraction.h"
 #include "base/math/Int64Fraction.h"
@@ -18,8 +19,6 @@ namespace base
 	private:
 		base::BigInteger _num = 0;
 		base::BigInteger _den = 1;
-
-		void FromFloat(float value);
 
 	public:
 		/* #region 构造函数 */
@@ -138,7 +137,82 @@ namespace base
 			requires(std::is_same_v<T, float>)
 		Fraction(T float_value)
 		{
-			FromFloat(float_value);
+			if (float_value == 0)
+			{
+				_num = 0;
+				_den = 1;
+				return;
+			}
+
+			base::bit::FloatBitView view{float_value};
+
+			switch (view.ValueType())
+			{
+			case base::bit::FloatValueType::Normalized:
+				{
+					base::Fraction f1{
+						base::BigInteger{1} << view.ExponentBits(),
+						base::BigInteger{1} << 127,
+					};
+
+					base::Fraction f2 = base::Fraction{
+						view.MantissaBits(),
+						base::BigInteger{1} << 23,
+					};
+
+					base::Fraction value = f1 * (f2 + 1);
+					if (view.Positive())
+					{
+						*this = value;
+					}
+					else
+					{
+						*this = -value;
+					}
+
+					break;
+				}
+			case base::bit::FloatValueType::Denormalized:
+				{
+					base::Fraction f1{
+						base::BigInteger{2},
+						base::BigInteger{1} << 126,
+					};
+
+					base::Fraction f2 = base::Fraction{
+						view.MantissaBits(),
+						base::BigInteger{1} << 23,
+					};
+
+					base::Fraction value = f1 * f2;
+					if (view.Positive())
+					{
+						*this = value;
+					}
+					else
+					{
+						*this = -value;
+					}
+
+					break;
+				}
+			case base::bit::FloatValueType::NaN:
+				{
+					throw std::invalid_argument{CODE_POS_STR + "此浮点数是 NaN."};
+				}
+			case base::bit::FloatValueType::PositiveInfinite:
+				{
+					throw std::invalid_argument{CODE_POS_STR + "此浮点数是正无穷。"};
+				}
+			case base::bit::FloatValueType::NegativeInfinite:
+				{
+					throw std::invalid_argument{CODE_POS_STR + "此浮点数是负无穷。"};
+				}
+			default:
+				{
+					throw std::runtime_error{CODE_POS_STR + "非法的枚举值。"};
+				}
+			}
 		}
 
 		///
