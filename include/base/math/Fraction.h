@@ -701,8 +701,7 @@ namespace base
 		/// @brief 本对象大于等于 another.
 		///
 		/// @param another
-		/// @return true
-		/// @return false
+		/// @return
 		///
 		bool operator>=(Fraction const &another) const
 		{
@@ -713,8 +712,7 @@ namespace base
 		/// @brief 本对象小于等于 another.
 		///
 		/// @param another
-		/// @return true
-		/// @return false
+		/// @return
 		///
 		bool operator<=(Fraction const &another) const
 		{
@@ -781,7 +779,7 @@ namespace base
 ///
 /// @param left
 /// @param right
-/// @return base::Fraction
+/// @return
 ///
 inline base::Fraction operator+(base::BigInteger left, base::Fraction const &right)
 {
@@ -793,7 +791,7 @@ inline base::Fraction operator+(base::BigInteger left, base::Fraction const &rig
 ///
 /// @param left
 /// @param right
-/// @return base::Fraction
+/// @return
 ///
 inline base::Fraction operator-(base::BigInteger left, base::Fraction const &right)
 {
@@ -805,7 +803,7 @@ inline base::Fraction operator-(base::BigInteger left, base::Fraction const &rig
 ///
 /// @param left
 /// @param right
-/// @return base::Fraction
+/// @return
 ///
 inline base::Fraction operator*(base::BigInteger left, base::Fraction const &right)
 {
@@ -817,7 +815,7 @@ inline base::Fraction operator*(base::BigInteger left, base::Fraction const &rig
 ///
 /// @param left
 /// @param right
-/// @return base::Fraction
+/// @return
 ///
 inline base::Fraction operator/(base::BigInteger left, base::Fraction const &right)
 {
