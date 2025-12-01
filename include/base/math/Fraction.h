@@ -4,8 +4,11 @@
 #include "base/math/BigInteger.h"
 #include "base/math/FastInt64Fraction.h"
 #include "base/math/Int64Fraction.h"
+#include "base/string/define.h"
 #include "base/string/ICanToString.h"
+#include "BigInteger.h"
 #include <cstdint>
+#include <stdexcept>
 #include <string>
 
 namespace base
@@ -308,7 +311,26 @@ namespace base
 		///
 		/// @brief 化简自身。
 		///
-		void Simplify();
+		void Simplify()
+		{
+			if (_num == 0)
+			{
+				_den = 1;
+				return;
+			}
+
+			// 分子分母同时除以最大公约数
+			base::BigInteger gcd_value = base::gcd(_num, _den);
+			_num /= gcd_value;
+			_den /= gcd_value;
+
+			if (_den < 0)
+			{
+				// 如果分母小于 0，分子分母同时取相反数，保证分母为正。
+				_num = -_num;
+				_den = -_den;
+			}
+		}
 
 		///
 		/// @brief 倒数
@@ -406,7 +428,65 @@ namespace base
 		///
 		/// @param resolution
 		///
-		void ReduceResolution(base::Fraction const &resolution);
+		void ReduceResolution(base::Fraction const &resolution)
+		{
+			if (resolution <= 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "分辨率不能 <= 0."};
+			}
+
+			// 分辨率调整算法默认分母为正数，所以需要先规范化，如果分数是负数的话，
+			// 需要将负号转移到分子上。
+			if (_den < 0)
+			{
+				_num = -_num;
+				_den = -_den;
+			}
+
+			base::Fraction resolution_copy = resolution;
+			if (resolution_copy._den < 0)
+			{
+				resolution_copy._num = -resolution_copy._num;
+				resolution_copy._den = -resolution_copy._den;
+			}
+
+			if (_den >= resolution_copy._den)
+			{
+				// 本分数的分母比 resolution_copy 的分母大，说明本分数的分辨率大于
+				// resolution_copy.
+				//
+				// 首先需要减小本分数的分母，将分辨率降下来。分子分母同时除以一个系数进行截断，
+				// 从而降低分辨率。
+				base::BigInteger multiple = _den / resolution_copy._den;
+
+				// 首先将分辨率降低到 1 / resolution_copy._den.
+				_num /= multiple;
+				_den /= multiple;
+
+				// 如果 resolution_copy._num > 1, 则还不够，刚才的分辨率降低到
+				// 1 / resolution_copy._den 了，还要继续降低。
+				_num = _num / resolution_copy._num * resolution_copy._num;
+			}
+			else
+			{
+				// 本分数的分母比 resolution_copy 的分母小。但这不能说明本分数的分辨率小于
+				// resolution_copy, 因为 resolution_copy 的分子可能较大。
+				//
+				// 将 resolution_copy 的分子分母同时除以一个系数，将 resolution_copy
+				// 的分母调整到与本分数的分母相等，然后看一下调整后的 resolution_copy
+				// 的分子，如果不等于 0, 即没有被截断成 0, 说明原本的分子确实较大，
+				// 大到足以放大 resolution_copy 的大分母所导致的小步长，导致步长很大，分辨率低。
+				// 这种情况下本分数的分辨率才是高于 resolution_copy, 才需要降低分辨率。
+				base::BigInteger multiple = resolution_copy._den / _den;
+				base::BigInteger div = resolution_copy._num / multiple;
+				if (div != 0)
+				{
+					_num = _num / div * div;
+				}
+			}
+
+			Simplify();
+		}
 
 		/* #endregion */
 
@@ -491,7 +571,10 @@ namespace base
 		/// @brief 将分数转化为字符串
 		/// @return
 		///
-		virtual std::string ToString() const override;
+		virtual std::string ToString() const override
+		{
+			return base::to_string(_num) + " / " + base::to_string(_den);
+		}
 
 		/* #region 强制转换运算符 */
 
@@ -540,9 +623,23 @@ namespace base
 			return static_cast<uint8_t>(Div());
 		}
 
-		explicit operator double() const;
+		explicit operator double() const
+		{
+			base::Fraction copy{*this};
+			double int_part = static_cast<double>(copy.Div());
+			copy -= copy.Div();
+			double fraction_part = static_cast<double>(copy.Num()) / static_cast<double>(copy.Den());
+			return int_part + fraction_part;
+		}
 
-		explicit operator float() const;
+		explicit operator float() const
+		{
+			base::Fraction copy{*this};
+			float int_part = static_cast<float>(copy.Div());
+			copy -= copy.Div();
+			float fraction_part = static_cast<float>(copy.Num()) / static_cast<float>(copy.Den());
+			return int_part + fraction_part;
+		}
 
 		explicit operator base::Int64Fraction() const
 		{
