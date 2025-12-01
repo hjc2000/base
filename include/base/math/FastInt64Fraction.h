@@ -341,6 +341,22 @@ namespace base
 
 		constexpr FastInt64Fraction operator+(FastInt64Fraction const &value) const
 		{
+			if (INT64_MAX / base::abs(_den) > base::abs(value.Den()))
+			{
+				// 不会溢出就执行快速加法，不执行缓慢的 lcm 了，直接用两个分母的积通分。
+				int64_t scaled_den = _den * value.Den();
+
+				int64_t scaled_num1 = _num * value.Den();
+				int64_t scaled_num2 = value.Num() * _den;
+
+				FastInt64Fraction ret{
+					scaled_num1 + scaled_num2,
+					scaled_den,
+				};
+
+				return ret;
+			}
+
 			// 通分后的分母为本对象的分母和 value 的分母的最小公倍数
 			int64_t scaled_den = base::lcm(_den, value.Den());
 
