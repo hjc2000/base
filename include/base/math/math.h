@@ -165,6 +165,18 @@ namespace base
 		}
 
 		T gcd = base::gcd(a, b);
+
+		// 如果最大公因数是其中的一个数，则另一个数一定是它们的最小公倍数。
+		if (gcd == a)
+		{
+			return b;
+		}
+
+		if (gcd == b)
+		{
+			return a;
+		}
+
 		return mul / gcd;
 	}
 
