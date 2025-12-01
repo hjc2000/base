@@ -254,11 +254,11 @@ base::Fraction base::Fraction::operator+(Fraction const &value) const
 	base::BigInteger scaled_den = base::lcm(_den, value.Den());
 
 	// 通分后的分子为本对象的分子乘上分母所乘的倍数
-	base::BigInteger scaled_num = _num * (scaled_den / _den);
-	base::BigInteger value_scaled_num = value.Num() * (scaled_den / value.Den());
+	base::BigInteger scaled_num1 = _num * (scaled_den / _den);
+	base::BigInteger scaled_num2 = value.Num() * (scaled_den / value.Den());
 
 	Fraction ret{
-		scaled_num + value_scaled_num,
+		scaled_num1 + scaled_num2,
 		scaled_den,
 	};
 

@@ -345,11 +345,11 @@ namespace base
 			int64_t scaled_den = base::lcm(_den, value.Den());
 
 			// 通分后的分子为本对象的分子乘上分母所乘的倍数
-			int64_t scaled_num = _num * (scaled_den / _den);
-			int64_t value_scaled_num = value.Num() * (scaled_den / value.Den());
+			int64_t scaled_num1 = _num * (scaled_den / _den);
+			int64_t scaled_num2 = value.Num() * (scaled_den / value.Den());
 
 			FastInt64Fraction ret{
-				scaled_num + value_scaled_num,
+				scaled_num1 + scaled_num2,
 				scaled_den,
 			};
 
