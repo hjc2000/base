@@ -339,6 +339,18 @@ namespace base
 
 		/* #region 四则运算符 */
 
+		///
+		/// @brief 加法运算符。
+		///
+		/// @note 如果不会溢出，会直接执行快速加法，不执行缓慢的 lcm 了，直接用两个分母的积通分。
+		///
+		/// @note 执行加法后，即使没有溢出，分母也可能已经很大了，此时有 2 个选择，一个是尝试化简，
+		/// 看能不能减小分母，另一个是降低分数的分辨率，这会造成精度损失，但是在性能比精度优先的场合，
+		/// 例如滤波算法中降低分辨率是合适的。
+		///
+		/// @param value
+		/// @return
+		///
 		constexpr FastInt64Fraction operator+(FastInt64Fraction const &value) const
 		{
 			if (INT64_MAX / base::abs(_den) > base::abs(value.Den()))
