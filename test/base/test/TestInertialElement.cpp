@@ -13,8 +13,8 @@ void base::test::TestInertialElement()
 			  << CODE_POS_STR;
 
 	base::InertialElement<base::FastInt64Fraction> inertial_element{
-		base::FastInt64Fraction{1, static_cast<int64_t>(1e6)},
 		base::FastInt64Fraction{1, static_cast<int64_t>(1e9)},
+		base::FastInt64Fraction{1, static_cast<int64_t>(1e12)},
 		base::FastInt64Fraction{1, static_cast<int64_t>(1) << 31},
 	};
 
