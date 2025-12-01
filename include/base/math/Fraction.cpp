@@ -246,27 +246,6 @@ void base::Fraction::ReduceResolution(base::Fraction const &resolution)
 	Simplify();
 }
 
-/* #region 四则运算符 */
-
-base::Fraction base::Fraction::operator+(Fraction const &value) const
-{
-	// 通分后的分母为本对象的分母和 value 的分母的最小公倍数
-	base::BigInteger scaled_den = base::lcm(_den, value.Den());
-
-	// 通分后的分子为本对象的分子乘上分母所乘的倍数
-	base::BigInteger scaled_num1 = _num * (scaled_den / _den);
-	base::BigInteger scaled_num2 = value.Num() * (scaled_den / value.Den());
-
-	Fraction ret{
-		scaled_num1 + scaled_num2,
-		scaled_den,
-	};
-
-	return ret;
-}
-
-/* #endregion */
-
 std::string base::Fraction::ToString() const
 {
 	return base::to_string(_num) + " / " + base::to_string(_den);
