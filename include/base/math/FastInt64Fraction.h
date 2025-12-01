@@ -3,6 +3,7 @@
 #include "base/string/define.h"
 #include "base/string/ICanToString.h"
 #include <cstdint>
+#include <limits>
 #include <stdexcept>
 #include <string>
 #include <type_traits>
@@ -353,7 +354,7 @@ namespace base
 		///
 		constexpr FastInt64Fraction operator+(FastInt64Fraction const &value) const
 		{
-			if (INT64_MAX / base::abs(_den) > base::abs(value.Den()))
+			if (std::numeric_limits<int64_t>::max() / base::abs(_den) > base::abs(value.Den()))
 			{
 				// 不会溢出就执行快速加法，不执行缓慢的 lcm 了，直接用两个分母的积通分。
 				int64_t scaled_den = _den * value.Den();
