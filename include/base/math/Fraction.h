@@ -1,4 +1,5 @@
 #pragma once
+#include "base/bit/DoubleBitView.h"
 #include "base/math/BigInteger.h"
 #include "base/math/FastInt64Fraction.h"
 #include "base/math/Int64Fraction.h"
@@ -18,7 +19,6 @@ namespace base
 		base::BigInteger _num = 0;
 		base::BigInteger _den = 1;
 
-		void FromDouble(double value);
 		void FromFloat(float value);
 
 	public:
@@ -51,7 +51,82 @@ namespace base
 			requires(std::is_same_v<T, double>)
 		Fraction(T double_value)
 		{
-			FromDouble(double_value);
+			if (double_value == 0)
+			{
+				_num = 0;
+				_den = 1;
+				return;
+			}
+
+			base::bit::DoubleBitView view{double_value};
+
+			switch (view.ValueType())
+			{
+			case base::bit::FloatValueType::Normalized:
+				{
+					base::Fraction f1{
+						base::BigInteger{1} << view.ExponentBits(),
+						base::BigInteger{1} << 1023,
+					};
+
+					base::Fraction f2 = base::Fraction{
+						view.MantissaBits(),
+						base::BigInteger{1} << 52,
+					};
+
+					base::Fraction value = f1 * (f2 + 1);
+					if (view.Positive())
+					{
+						*this = value;
+					}
+					else
+					{
+						*this = -value;
+					}
+
+					break;
+				}
+			case base::bit::FloatValueType::Denormalized:
+				{
+					base::Fraction f1{
+						base::BigInteger{2},
+						base::BigInteger{1} << 1022,
+					};
+
+					base::Fraction f2 = base::Fraction{
+						view.MantissaBits(),
+						base::BigInteger{1} << 52,
+					};
+
+					base::Fraction value = f1 * f2;
+					if (view.Positive())
+					{
+						*this = value;
+					}
+					else
+					{
+						*this = -value;
+					}
+
+					break;
+				}
+			case base::bit::FloatValueType::NaN:
+				{
+					throw std::invalid_argument{CODE_POS_STR + "此浮点数是 NaN."};
+				}
+			case base::bit::FloatValueType::PositiveInfinite:
+				{
+					throw std::invalid_argument{CODE_POS_STR + "此浮点数是正无穷。"};
+				}
+			case base::bit::FloatValueType::NegativeInfinite:
+				{
+					throw std::invalid_argument{CODE_POS_STR + "此浮点数是负无穷。"};
+				}
+			default:
+				{
+					throw std::runtime_error{CODE_POS_STR + "非法的枚举值。"};
+				}
+			}
 		}
 
 		///
