@@ -57,8 +57,8 @@ namespace base
 				return;
 			}
 
-			// 要保证分数计算过程不溢出，需要保证 factor * double_value <= INT64_MAX.
-			int64_t factor = INT64_MAX / base::ceil(double_value);
+			// 要保证分数计算过程不溢出，需要保证 factor * double_value <=  std::numeric_limits<int64_t>::max() .
+			int64_t factor = std::numeric_limits<int64_t>::max() / base::ceil(double_value);
 
 			base::FastInt64Fraction int_part{static_cast<int64_t>(double_value)};
 			double_value -= static_cast<double>(int_part);
@@ -86,8 +86,8 @@ namespace base
 				return;
 			}
 
-			// 要保证分数计算过程不溢出，需要保证 factor * float_value <= INT64_MAX.
-			int64_t factor = INT64_MAX / base::ceil(float_value);
+			// 要保证分数计算过程不溢出，需要保证 factor * float_value <=  std::numeric_limits<int64_t>::max() .
+			int64_t factor = std::numeric_limits<int64_t>::max() / base::ceil(float_value);
 
 			base::FastInt64Fraction int_part{static_cast<int64_t>(float_value)};
 			float_value -= static_cast<float>(int_part);
