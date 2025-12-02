@@ -354,35 +354,9 @@ namespace base
 		///
 		constexpr FastInt64Fraction operator+(FastInt64Fraction const &value) const
 		{
-			if (std::numeric_limits<int64_t>::max() / base::abs(_den) > base::abs(value.Den()))
-			{
-				// 不会溢出就执行快速加法，不执行缓慢的 lcm 了，直接用两个分母的积通分。
-				int64_t scaled_den = _den * value.Den();
-
-				int64_t scaled_num1 = _num * value.Den();
-				int64_t scaled_num2 = value.Num() * _den;
-
-				FastInt64Fraction ret{
-					scaled_num1 + scaled_num2,
-					scaled_den,
-				};
-
-				return ret;
-			}
-
-			// 通分后的分母为本对象的分母和 value 的分母的最小公倍数
-			int64_t scaled_den = base::lcm(_den, value.Den());
-
-			// 通分后的分子为本对象的分子乘上分母所乘的倍数
-			int64_t scaled_num1 = _num * (scaled_den / _den);
-			int64_t scaled_num2 = value.Num() * (scaled_den / value.Den());
-
-			FastInt64Fraction ret{
-				scaled_num1 + scaled_num2,
-				scaled_den,
-			};
-
-			return ret;
+			base::FastInt64Fraction copy{*this};
+			copy += value;
+			return copy;
 		}
 
 		constexpr FastInt64Fraction operator-(FastInt64Fraction const &value) const
@@ -413,7 +387,41 @@ namespace base
 
 		constexpr FastInt64Fraction &operator+=(FastInt64Fraction const &value)
 		{
-			*this = *this + value;
+			if (_den < 0)
+			{
+				_num = -_num;
+				_den = -_den;
+			}
+
+			base::FastInt64Fraction copyed_value = value;
+			if (copyed_value._den < 0)
+			{
+				copyed_value._num = -copyed_value._num;
+				copyed_value._den = -copyed_value._den;
+			}
+
+			if (std::numeric_limits<int64_t>::max() / _den > copyed_value.Den())
+			{
+				// 不会溢出就执行快速加法，不执行缓慢的 lcm 了，直接用两个分母的积通分。
+				int64_t scaled_den = _den * copyed_value.Den();
+
+				int64_t scaled_num1 = _num * copyed_value.Den();
+				int64_t scaled_num2 = copyed_value.Num() * _den;
+
+				_num = scaled_num1 + scaled_num2;
+				_den = scaled_den;
+				return *this;
+			}
+
+			// 通分后的分母为本对象的分母和 value 的分母的最小公倍数
+			int64_t scaled_den = base::lcm(_den, value.Den());
+
+			// 通分后的分子为本对象的分子乘上分母所乘的倍数
+			int64_t scaled_num1 = _num * (scaled_den / _den);
+			int64_t scaled_num2 = value.Num() * (scaled_den / value.Den());
+
+			_num = scaled_num1 + scaled_num2;
+			_den = scaled_den;
 			return *this;
 		}
 
