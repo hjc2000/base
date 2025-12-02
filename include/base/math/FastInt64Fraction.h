@@ -401,14 +401,20 @@ namespace base
 				copyed_value._den = -copyed_value._den;
 			}
 
-			if (_den >= copyed_value.Den() && _den % copyed_value.Den() == 0)
+			if (_den == copyed_value.Den())
+			{
+				_num += copyed_value.Num();
+				return *this;
+			}
+
+			if (_den > copyed_value.Den() && _den % copyed_value.Den() == 0)
 			{
 				int64_t multiple = _den / copyed_value.Den();
 				_num += copyed_value.Num() * multiple;
 				return *this;
 			}
 
-			if (copyed_value.Den() >= _den && copyed_value.Den() % _den == 0)
+			if (copyed_value.Den() > _den && copyed_value.Den() % _den == 0)
 			{
 				int64_t multiple = copyed_value.Den() / _den;
 				_num *= multiple;
