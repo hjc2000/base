@@ -450,7 +450,7 @@ namespace base
 
 		constexpr FastInt64Fraction &operator-=(FastInt64Fraction const &value)
 		{
-			*this = *this - value;
+			*this += -value;
 			return *this;
 		}
 
