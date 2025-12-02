@@ -380,9 +380,19 @@ namespace base
 
 		constexpr Int64Fraction operator*(Int64Fraction const &value) const
 		{
+			// 交换一下分子分母，万一交换后能直接化简了。
+			// 例如
+			// 	(1 / 2) * (2 / 3)
+			// 交换分子分母后变成
+			// 	(2 / 2) * (1 / 3) = (1 / 1) * (1 / 3)
+			//
+			// 注：构造函数中会化简。
+			base::Int64Fraction f1{_num, value.Den()};
+			base::Int64Fraction f2{value.Num(), _den};
+
 			base::Int64Fraction ret{
-				_num * value.Num(),
-				_den * value.Den(),
+				f1.Num() * f2.Num(),
+				f1.Den() * f2.Den(),
 			};
 
 			return ret;
