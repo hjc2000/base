@@ -1,3 +1,5 @@
+#include "base/math/BigInteger.h"
+#include "base/math/Int64Fraction.h"
 #include "base/math/math.h"
 #include "base/test/test_ertec200p_3_timing_provider.h"
 #include "base/test/TestCircleDeque.h"
