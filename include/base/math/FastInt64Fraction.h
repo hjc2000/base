@@ -434,15 +434,23 @@ namespace base
 				return *this;
 			}
 
-			// 通分后的分母为本对象的分母和 copyed_value 的分母的最小公倍数
-			int64_t scaled_den = base::lcm(_den, copyed_value.Den());
+			// 下面就不管能不能整除，都执行分母缩放
+			if (_den > copyed_value.Den())
+			{
+				int64_t multiple = _den / copyed_value.Den();
+				_num += copyed_value.Num() * multiple;
+				return *this;
+			}
 
-			// 通分后的分子为本对象的分子乘上分母所乘的倍数
-			int64_t scaled_num1 = _num * (scaled_den / _den);
-			int64_t scaled_num2 = copyed_value.Num() * (scaled_den / copyed_value.Den());
+			if (copyed_value.Den() > _den)
+			{
+				int64_t multiple = copyed_value.Den() / _den;
+				_num *= multiple;
+				_den = copyed_value.Den();
+				_num += copyed_value.Num();
+				return *this;
+			}
 
-			_num = scaled_num1 + scaled_num2;
-			_den = scaled_den;
 			return *this;
 		}
 
