@@ -82,11 +82,7 @@ namespace base
 			_x[0] = x;
 
 			_current_output += _kp * (_x[0] - _x[1]);
-			_current_output.ReduceResolution(_resolution);
-
 			_current_output += _ki * _x[0];
-			_current_output.ReduceResolution(_resolution);
-
 			_current_output += _kd * (_x[0] - 2 * _x[1] + _x[2]);
 			_current_output.ReduceResolution(_resolution);
 
