@@ -545,18 +545,18 @@ namespace base
 		/* #region 比较 */
 
 		///
-		/// @brief 本对象等于 another.
-		/// @param another
+		/// @brief 本对象等于 other.
+		/// @param other
 		/// @return
 		///
-		constexpr bool operator==(FastInt64Fraction const &another) const
+		constexpr bool operator==(FastInt64Fraction const &other) const
 		{
 			base::FastInt64Fraction f1{*this};
-			base::FastInt64Fraction f2{another};
+			base::FastInt64Fraction f2{other};
 
 			if (f1.Den() == f2.Den())
 			{
-				return Num() == another.Num();
+				return Num() == other.Num();
 			}
 
 			if (f1.Den() > f2.Den() && f1.Den() % f2.Den() == 0)
@@ -575,18 +575,18 @@ namespace base
 		}
 
 		///
-		/// @brief 本对象大于 another.
-		/// @param another
+		/// @brief 本对象大于 other.
+		/// @param other
 		/// @return
 		///
-		constexpr bool operator>(FastInt64Fraction const &another) const
+		constexpr bool operator>(FastInt64Fraction const &other) const
 		{
 			base::FastInt64Fraction f1{*this};
-			base::FastInt64Fraction f2{another};
+			base::FastInt64Fraction f2{other};
 
 			if (f1.Den() == f2.Den())
 			{
-				return Num() > another.Num();
+				return Num() > other.Num();
 			}
 
 			if (f1.Den() > f2.Den() && f1.Den() % f2.Den() == 0)
@@ -605,18 +605,18 @@ namespace base
 		}
 
 		///
-		/// @brief 本对象小于 another.
-		/// @param another
+		/// @brief 本对象小于 other.
+		/// @param other
 		/// @return
 		///
-		constexpr bool operator<(FastInt64Fraction const &another) const
+		constexpr bool operator<(FastInt64Fraction const &other) const
 		{
 			base::FastInt64Fraction f1{*this};
-			base::FastInt64Fraction f2{another};
+			base::FastInt64Fraction f2{other};
 
 			if (f1.Den() == f2.Den())
 			{
-				return Num() < another.Num();
+				return Num() < other.Num();
 			}
 
 			if (f1.Den() > f2.Den() && f1.Den() % f2.Den() == 0)
@@ -635,20 +635,20 @@ namespace base
 		}
 
 		///
-		/// @brief 本对象大于等于 another.
+		/// @brief 本对象大于等于 other.
 		///
-		/// @param another
+		/// @param other
 		///
 		/// @return
 		///
-		constexpr bool operator>=(FastInt64Fraction const &another) const
+		constexpr bool operator>=(FastInt64Fraction const &other) const
 		{
 			base::FastInt64Fraction f1{*this};
-			base::FastInt64Fraction f2{another};
+			base::FastInt64Fraction f2{other};
 
 			if (f1.Den() == f2.Den())
 			{
-				return Num() >= another.Num();
+				return Num() >= other.Num();
 			}
 
 			if (f1.Den() > f2.Den() && f1.Den() % f2.Den() == 0)
@@ -667,20 +667,20 @@ namespace base
 		}
 
 		///
-		/// @brief 本对象小于等于 another.
+		/// @brief 本对象小于等于 other.
 		///
-		/// @param another
+		/// @param other
 		///
 		/// @return
 		///
-		constexpr bool operator<=(FastInt64Fraction const &another) const
+		constexpr bool operator<=(FastInt64Fraction const &other) const
 		{
 			base::FastInt64Fraction f1{*this};
-			base::FastInt64Fraction f2{another};
+			base::FastInt64Fraction f2{other};
 
 			if (f1.Den() == f2.Den())
 			{
-				return Num() <= another.Num();
+				return Num() <= other.Num();
 			}
 
 			if (f1.Den() > f2.Den() && f1.Den() % f2.Den() == 0)
