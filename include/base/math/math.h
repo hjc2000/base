@@ -369,11 +369,6 @@ namespace base
 		ret._high += base::bit::ReadBits(l1h2, 32, 64);
 		ret._high += h1h2;
 
-		if (ret._low == 0 && ret._high == 0)
-		{
-			ret._is_negative = false;
-		}
-
 		return ret;
 	}
 
