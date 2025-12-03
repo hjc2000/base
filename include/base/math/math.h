@@ -315,6 +315,16 @@ namespace base
 	constexpr MultiplyResult multiply(int64_t value1, int64_t value2)
 	{
 		MultiplyResult ret;
+		if (value1 == 0)
+		{
+			return ret;
+		}
+
+		if (value2 == 0)
+		{
+			return ret;
+		}
+
 		if (value1 > 0 && value2 > 0)
 		{
 			ret._is_negative = false;
