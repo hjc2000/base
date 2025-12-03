@@ -79,7 +79,6 @@ base::InputCaptureTimerPll::InputCaptureTimerPll(base::input_capture_timer::Inpu
 		base::FastInt64Fraction{1, 100},
 		base::FastInt64Fraction{1, 1000},
 		0,
-		base::FastInt64Fraction{1, INT32_MAX},
 		static_cast<int64_t>(_timer.CounterPeriod() / 2),
 		-static_cast<int64_t>(_timer.CounterPeriod() / 2),
 	};

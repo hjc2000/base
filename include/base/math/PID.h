@@ -13,7 +13,6 @@ namespace base
 		base::FastInt64Fraction _ki{};
 		base::FastInt64Fraction _kd{};
 		base::FastInt64Fraction _x[3]{};
-		base::FastInt64Fraction _resolution{};
 		base::FastInt64Fraction _max_output{};
 		base::FastInt64Fraction _min_output{};
 
@@ -42,14 +41,12 @@ namespace base
 		/// @param kp 比例系数。
 		/// @param ki 积分系数。
 		/// @param kd 微分系数。
-		/// @param resolution 输出分辨率。
 		/// @param max_output 允许的最大输出。
 		/// @param min_output 允许的最小输出。
 		///
 		constexpr PID(base::FastInt64Fraction kp,
 					  base::FastInt64Fraction ki,
 					  base::FastInt64Fraction kd,
-					  base::FastInt64Fraction resolution,
 					  base::FastInt64Fraction max_output,
 					  base::FastInt64Fraction min_output)
 		{
@@ -62,7 +59,6 @@ namespace base
 			_kp = kp;
 			_ki = ki;
 			_kd = kd;
-			_resolution = resolution;
 			_max_output = max_output;
 			_min_output = min_output;
 		}
@@ -83,7 +79,11 @@ namespace base
 			_current_output += _ki * _x[0];
 			_current_output += _kd * (_x[0] - 2 * _x[1] + _x[2]);
 
-			_current_output = base::reduce_resolution(_current_output, _resolution);
+			_current_output.ReduceResolution(base::FastInt64Fraction{
+				1,
+				_kp.Den() * _ki.Den() * _kd.Den(),
+			});
+
 			LimitOutput();
 			return _current_output;
 		}
