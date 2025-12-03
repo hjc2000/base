@@ -416,7 +416,7 @@ namespace base
 			{
 				int64_t multiple = copyed_value.Den() / _den;
 				_num *= multiple;
-				_den *= multiple;
+				_den = copyed_value.Den();
 				_num += copyed_value.Num();
 				return *this;
 			}
