@@ -14,7 +14,7 @@ void base::test::TestInertialElement()
 
 	base::InertialElement inertial_element{
 		base::FastInt64Fraction{1, static_cast<int64_t>(1e9)},
-		base::FastInt64Fraction{1, static_cast<int64_t>(1e18)},
+		base::FastInt64Fraction{1, static_cast<int64_t>(1e15)},
 	};
 
 	std::cout << "Kx: " << inertial_element.Kx() << std::endl;
