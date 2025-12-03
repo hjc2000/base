@@ -1,8 +1,6 @@
 #pragma once
 #include "base/math/FastInt64Fraction.h"
 #include "base/math/Int64Fraction.h"
-#include "base/string/define.h"
-#include <stdexcept>
 
 namespace base
 {
@@ -17,7 +15,6 @@ namespace base
 		base::FastInt64Fraction _kx{};
 		base::FastInt64Fraction _ky{};
 		base::FastInt64Fraction _current_output{};
-		base::FastInt64Fraction _resolution{};
 
 	public:
 		constexpr InertialElement() = default;
@@ -27,18 +24,10 @@ namespace base
 		///
 		/// @param inertial_time_constant 惯性时间常数。
 		/// @param sample_interval 采样周期。
-		/// @param resolution 计算的分辨率。
 		///
 		constexpr InertialElement(base::FastInt64Fraction inertial_time_constant,
-								  base::FastInt64Fraction sample_interval,
-								  base::FastInt64Fraction resolution)
+								  base::FastInt64Fraction sample_interval)
 		{
-			if (resolution == 0)
-			{
-				throw std::invalid_argument{CODE_POS_STR + "分辨率不能是 0."};
-			}
-
-			_resolution = resolution;
 			SetParameter(inertial_time_constant, sample_interval);
 		}
 
@@ -52,7 +41,7 @@ namespace base
 		constexpr base::FastInt64Fraction Input(base::FastInt64Fraction x)
 		{
 			_current_output = _ky * _current_output + _kx * x;
-			_current_output = base::reduce_resolution(_current_output, _resolution);
+			_current_output.ReduceResolution(base::FastInt64Fraction{1, _kx.Den()});
 			return _current_output;
 		}
 

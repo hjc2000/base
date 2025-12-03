@@ -90,7 +90,6 @@ base::InputCaptureTimerPll::InputCaptureTimerPll(base::input_capture_timer::Inpu
 	_captured_signal_period_filter = base::InertialElement{
 		inertial_time_constant,
 		inertial_time_constant / 10,
-		base::FastInt64Fraction{1, INT32_MAX},
 	};
 
 	_captured_signal_period_filter.SetCurrentOutput(_timer.CounterPeriod() * _frequency_multiple);
