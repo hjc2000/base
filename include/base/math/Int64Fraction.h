@@ -516,157 +516,57 @@ namespace base
 		/* #region 比较 */
 
 		///
-		/// @brief 本对象等于 another.
-		/// @param another
+		/// @brief 本对象等于 other.
+		/// @param other
 		/// @return
 		///
-		constexpr bool operator==(Int64Fraction const &another) const
+		constexpr bool operator==(Int64Fraction const &other) const
 		{
-			base::Int64Fraction f1{*this};
-			base::Int64Fraction f2{another};
-
-			if (f1.Den() == f2.Den())
-			{
-				return Num() == another.Num();
-			}
-
-			if (f1.Den() > f2.Den() && f1.Den() % f2.Den() == 0)
-			{
-				int64_t multiple = f1.Den() / f2.Den();
-				return f1.Num() == f2.Num() * multiple;
-			}
-
-			if (f2.Den() > f1.Den() && f2.Den() % f1.Den() == 0)
-			{
-				int64_t multiple = f2.Den() / f1.Den();
-				return f1.Num() * multiple == f2.Num();
-			}
-
-			return f1.Num() * f2.Den() == f2.Num() * f1.Den();
+			return base::multiply(Num(), other.Den()) == base::multiply(other.Num(), Den());
 		}
 
 		///
-		/// @brief 本对象大于 another.
-		/// @param another
+		/// @brief 本对象大于 other.
+		/// @param other
 		/// @return
 		///
-		constexpr bool operator>(Int64Fraction const &another) const
+		constexpr bool operator>(Int64Fraction const &other) const
 		{
-			base::Int64Fraction f1{*this};
-			base::Int64Fraction f2{another};
-
-			if (f1.Den() == f2.Den())
-			{
-				return Num() > another.Num();
-			}
-
-			if (f1.Den() > f2.Den() && f1.Den() % f2.Den() == 0)
-			{
-				int64_t multiple = f1.Den() / f2.Den();
-				return f1.Num() > f2.Num() * multiple;
-			}
-
-			if (f2.Den() > f1.Den() && f2.Den() % f1.Den() == 0)
-			{
-				int64_t multiple = f2.Den() / f1.Den();
-				return f1.Num() * multiple > f2.Num();
-			}
-
-			return f1.Num() * f2.Den() > f2.Num() * f1.Den();
+			return base::multiply(Num(), other.Den()) > base::multiply(other.Num(), Den());
 		}
 
 		///
-		/// @brief 本对象小于 another.
-		/// @param another
+		/// @brief 本对象小于 other.
+		/// @param other
 		/// @return
 		///
-		constexpr bool operator<(Int64Fraction const &another) const
+		constexpr bool operator<(Int64Fraction const &other) const
 		{
-			base::Int64Fraction f1{*this};
-			base::Int64Fraction f2{another};
-
-			if (f1.Den() == f2.Den())
-			{
-				return Num() < another.Num();
-			}
-
-			if (f1.Den() > f2.Den() && f1.Den() % f2.Den() == 0)
-			{
-				int64_t multiple = f1.Den() / f2.Den();
-				return f1.Num() < f2.Num() * multiple;
-			}
-
-			if (f2.Den() > f1.Den() && f2.Den() % f1.Den() == 0)
-			{
-				int64_t multiple = f2.Den() / f1.Den();
-				return f1.Num() * multiple < f2.Num();
-			}
-
-			return f1.Num() * f2.Den() < f2.Num() * f1.Den();
+			return base::multiply(Num(), other.Den()) < base::multiply(other.Num(), Den());
 		}
 
 		///
-		/// @brief 本对象大于等于 another.
+		/// @brief 本对象大于等于 other.
 		///
-		/// @param another
+		/// @param other
 		///
 		/// @return
 		///
-		constexpr bool operator>=(Int64Fraction const &another) const
+		constexpr bool operator>=(Int64Fraction const &other) const
 		{
-			base::Int64Fraction f1{*this};
-			base::Int64Fraction f2{another};
-
-			if (f1.Den() == f2.Den())
-			{
-				return Num() >= another.Num();
-			}
-
-			if (f1.Den() > f2.Den() && f1.Den() % f2.Den() == 0)
-			{
-				int64_t multiple = f1.Den() / f2.Den();
-				return f1.Num() >= f2.Num() * multiple;
-			}
-
-			if (f2.Den() > f1.Den() && f2.Den() % f1.Den() == 0)
-			{
-				int64_t multiple = f2.Den() / f1.Den();
-				return f1.Num() * multiple >= f2.Num();
-			}
-
-			return f1.Num() * f2.Den() >= f2.Num() * f1.Den();
+			return base::multiply(Num(), other.Den()) >= base::multiply(other.Num(), Den());
 		}
 
 		///
-		/// @brief 本对象小于等于 another.
+		/// @brief 本对象小于等于 other.
 		///
-		/// @param another
+		/// @param other
 		///
 		/// @return
 		///
-		constexpr bool operator<=(Int64Fraction const &another) const
+		constexpr bool operator<=(Int64Fraction const &other) const
 		{
-			base::Int64Fraction f1{*this};
-			base::Int64Fraction f2{another};
-
-			if (f1.Den() == f2.Den())
-			{
-				return Num() <= another.Num();
-			}
-
-			if (f1.Den() > f2.Den() && f1.Den() % f2.Den() == 0)
-			{
-				int64_t multiple = f1.Den() / f2.Den();
-				return f1.Num() <= f2.Num() * multiple;
-			}
-
-			if (f2.Den() > f1.Den() && f2.Den() % f1.Den() == 0)
-			{
-				int64_t multiple = f2.Den() / f1.Den();
-				return f1.Num() * multiple <= f2.Num();
-			}
-
-			return f1.Num() * f2.Den() <= f2.Num() * f1.Den();
+			return base::multiply(Num(), other.Den()) <= base::multiply(other.Num(), Den());
 		}
 
 		/* #endregion */
