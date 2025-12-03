@@ -1,56 +1,23 @@
 #pragma once
 #include "base/math/FastInt64Fraction.h"
-#include "base/math/Fraction.h"
 #include "base/math/Int64Fraction.h"
-#include "base/math/math.h"
 #include "base/string/define.h"
 #include <stdexcept>
-#include <type_traits>
 
 namespace base
 {
 	///
 	/// @brief 一阶惯性环节。
 	///
-	template <typename T>
 	class InertialElement final
 	{
 	private:
-		T _inertial_time_constant{};
-		T _sample_interval{};
-		T _kx{};
-		T _ky{};
-		T _current_output{};
-		T _resolution{};
-
-		/* #region Simplify */
-
-		static constexpr T &Simplify(T &value)
-			requires(std::is_same_v<T, base::FastInt64Fraction>)
-		{
-			value.Simplify();
-			return value;
-		}
-
-		static constexpr T Simplify(T const &value)
-			requires(std::is_same_v<T, base::FastInt64Fraction>)
-		{
-			T copy{value};
-			copy.Simplify();
-			return copy;
-		}
-
-		static constexpr T &Simplify(T &value)
-		{
-			return value;
-		}
-
-		static constexpr T const &Simplify(T const &value)
-		{
-			return value;
-		}
-
-		/* #endregion */
+		base::FastInt64Fraction _inertial_time_constant{};
+		base::FastInt64Fraction _sample_interval{};
+		base::FastInt64Fraction _kx{};
+		base::FastInt64Fraction _ky{};
+		base::FastInt64Fraction _current_output{};
+		base::FastInt64Fraction _resolution{};
 
 	public:
 		constexpr InertialElement() = default;
@@ -62,9 +29,9 @@ namespace base
 		/// @param sample_interval 采样周期。
 		/// @param resolution 计算的分辨率。
 		///
-		constexpr InertialElement(T inertial_time_constant,
-								  T sample_interval,
-								  T resolution)
+		constexpr InertialElement(base::FastInt64Fraction inertial_time_constant,
+								  base::FastInt64Fraction sample_interval,
+								  base::FastInt64Fraction resolution)
 		{
 			if (resolution == 0)
 			{
@@ -82,7 +49,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr T Input(T x)
+		constexpr base::FastInt64Fraction Input(base::FastInt64Fraction x)
 		{
 			_current_output = _ky * _current_output + _kx * x;
 			_current_output = base::reduce_resolution(_current_output, _resolution);
@@ -94,7 +61,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr T CurrentOutput() const
+		constexpr base::FastInt64Fraction CurrentOutput() const
 		{
 			return _current_output;
 		}
@@ -106,7 +73,7 @@ namespace base
 		///
 		/// @param value
 		///
-		constexpr void SetCurrentOutput(T value)
+		constexpr void SetCurrentOutput(base::FastInt64Fraction value)
 		{
 			_current_output = value;
 		}
@@ -116,7 +83,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr T InertialTimeConstant() const
+		constexpr base::FastInt64Fraction InertialTimeConstant() const
 		{
 			return _inertial_time_constant;
 		}
@@ -126,11 +93,13 @@ namespace base
 		///
 		/// @param value
 		///
-		constexpr void SetInertialTimeConstant(T value)
+		constexpr void SetInertialTimeConstant(base::FastInt64Fraction value)
 		{
 			_inertial_time_constant = value;
-			_kx = Simplify(_sample_interval / Simplify(_inertial_time_constant + _sample_interval));
-			_ky = Simplify(_inertial_time_constant / Simplify(_inertial_time_constant + _sample_interval));
+			base::Int64Fraction kx = base::Int64Fraction{_sample_interval} / (base::Int64Fraction{_inertial_time_constant} + base::Int64Fraction{_sample_interval});
+			base::Int64Fraction ky = base::Int64Fraction{_inertial_time_constant} / (base::Int64Fraction{_inertial_time_constant} + base::Int64Fraction{_sample_interval});
+			_kx = static_cast<base::FastInt64Fraction>(kx);
+			_ky = static_cast<base::FastInt64Fraction>(ky);
 		}
 
 		///
@@ -138,7 +107,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr T SampleInterval() const
+		constexpr base::FastInt64Fraction SampleInterval() const
 		{
 			return _sample_interval;
 		}
@@ -148,11 +117,13 @@ namespace base
 		///
 		/// @param value
 		///
-		constexpr void SetSampleInterval(T value)
+		constexpr void SetSampleInterval(base::FastInt64Fraction value)
 		{
 			_sample_interval = value;
-			_kx = Simplify(_sample_interval / Simplify(_inertial_time_constant + _sample_interval));
-			_ky = Simplify(_inertial_time_constant / Simplify(_inertial_time_constant + _sample_interval));
+			base::Int64Fraction kx = base::Int64Fraction{_sample_interval} / (base::Int64Fraction{_inertial_time_constant} + base::Int64Fraction{_sample_interval});
+			base::Int64Fraction ky = base::Int64Fraction{_inertial_time_constant} / (base::Int64Fraction{_inertial_time_constant} + base::Int64Fraction{_sample_interval});
+			_kx = static_cast<base::FastInt64Fraction>(kx);
+			_ky = static_cast<base::FastInt64Fraction>(ky);
 		}
 
 		///
@@ -161,21 +132,23 @@ namespace base
 		/// @param inertial_time_constant
 		/// @param sample_interval
 		///
-		constexpr void SetParameter(T inertial_time_constant,
-									T sample_interval)
+		constexpr void SetParameter(base::FastInt64Fraction inertial_time_constant,
+									base::FastInt64Fraction sample_interval)
 		{
 			_inertial_time_constant = inertial_time_constant;
 			_sample_interval = sample_interval;
-			_kx = Simplify(_sample_interval / Simplify(_inertial_time_constant + _sample_interval));
-			_ky = Simplify(_inertial_time_constant / Simplify(_inertial_time_constant + _sample_interval));
+			base::Int64Fraction kx = base::Int64Fraction{_sample_interval} / (base::Int64Fraction{_inertial_time_constant} + base::Int64Fraction{_sample_interval});
+			base::Int64Fraction ky = base::Int64Fraction{_inertial_time_constant} / (base::Int64Fraction{_inertial_time_constant} + base::Int64Fraction{_sample_interval});
+			_kx = static_cast<base::FastInt64Fraction>(kx);
+			_ky = static_cast<base::FastInt64Fraction>(ky);
 		}
 
-		T Kx() const
+		base::FastInt64Fraction Kx() const
 		{
 			return _kx;
 		}
 
-		T Ky() const
+		base::FastInt64Fraction Ky() const
 		{
 			return _ky;
 		}

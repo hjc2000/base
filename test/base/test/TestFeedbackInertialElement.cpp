@@ -1,6 +1,5 @@
 #include "TestFeedbackInertialElement.h" // IWYU pragma: keep
 #include "base/math/FeedbackInertialElement.h"
-#include "base/math/InertialElement.h"
 #include <iostream>
 
 void base::test::TestFeedbackInertialElement()
@@ -26,15 +25,4 @@ void base::test::TestFeedbackInertialElement()
 			  << std::endl;
 
 	std::cout << "测试 InertialElement" << std::endl;
-
-	base::InertialElement<double> inertial_filter{
-		filter.TimeConstant(sapmle_interval),
-		sapmle_interval,
-		0.001,
-	};
-
-	for (int i = 0; i < 500; i++)
-	{
-		std::cout << inertial_filter.Input(x) << std::endl;
-	}
 }

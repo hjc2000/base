@@ -1,6 +1,6 @@
 #include "InputCaptureTimerPll.h" // IWYU pragma: keep
+#include "base/math/FastInt64Fraction.h"
 #include "base/math/InertialElement.h"
-#include "base/math/Int64Fraction.h"
 #include "base/math/math.h"
 #include "base/string/define.h"
 #include <algorithm>
@@ -15,7 +15,7 @@ void base::InputCaptureTimerPll::LockFrequency()
 	_fll_pid.SetOutputLimit(static_cast<int64_t>(_timer.CounterPeriod() / 2),
 							-static_cast<int64_t>(_timer.CounterPeriod() / 2));
 
-	base::Int64Fraction pid_output = _fll_pid.Input(_frequency_error);
+	base::FastInt64Fraction pid_output = _fll_pid.Input(_frequency_error);
 	int64_t int_pid_output{pid_output};
 	int_pid_output /= _frequency_multiple;
 	_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + int_pid_output);
@@ -75,22 +75,22 @@ base::InputCaptureTimerPll::InputCaptureTimerPll(base::input_capture_timer::Inpu
 	_expected_capture_value = expected_capture_value;
 	_current_capture_value = expected_capture_value;
 
-	_fll_pid = base::PID<base::Int64Fraction>{
-		base::Int64Fraction{1, 100},
-		base::Int64Fraction{1, 1000},
+	_fll_pid = base::PID<base::FastInt64Fraction>{
+		base::FastInt64Fraction{1, 100},
+		base::FastInt64Fraction{1, 1000},
 		0,
-		base::Int64Fraction{1, INT32_MAX},
+		base::FastInt64Fraction{1, INT32_MAX},
 		static_cast<int64_t>(_timer.CounterPeriod() / 2),
 		-static_cast<int64_t>(_timer.CounterPeriod() / 2),
 	};
 
 	// 惯性时间常数是采样间隔的 10 倍，单位不重要，反正滤波器要的是这两个的倍数关系。
-	base::Int64Fraction inertial_time_constant{1};
+	base::FastInt64Fraction inertial_time_constant{1};
 
-	_captured_signal_period_filter = base::InertialElement<base::Int64Fraction>{
+	_captured_signal_period_filter = base::InertialElement{
 		inertial_time_constant,
 		inertial_time_constant / 10,
-		base::Int64Fraction{1, INT32_MAX},
+		base::FastInt64Fraction{1, INT32_MAX},
 	};
 
 	_captured_signal_period_filter.SetCurrentOutput(_timer.CounterPeriod() * _frequency_multiple);
