@@ -1,6 +1,5 @@
 #pragma once
 #include "base/embedded/timer/InputCaptureTimer.h"
-#include "base/math/FastInt64Fraction.h"
 #include "base/math/InertialElement.h"
 #include "base/math/PID.h"
 #include <cstdint>
@@ -27,7 +26,7 @@ namespace base
 		/// @brief 锁频环 PID.
 		///
 		///
-		base::PID<base::FastInt64Fraction> _fll_pid{};
+		base::PID _fll_pid{};
 		int64_t _frequency_error{};
 
 		int64_t _phase_error{};

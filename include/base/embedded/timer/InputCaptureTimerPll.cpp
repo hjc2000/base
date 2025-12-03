@@ -75,7 +75,7 @@ base::InputCaptureTimerPll::InputCaptureTimerPll(base::input_capture_timer::Inpu
 	_expected_capture_value = expected_capture_value;
 	_current_capture_value = expected_capture_value;
 
-	_fll_pid = base::PID<base::FastInt64Fraction>{
+	_fll_pid = base::PID{
 		base::FastInt64Fraction{1, 100},
 		base::FastInt64Fraction{1, 1000},
 		0,

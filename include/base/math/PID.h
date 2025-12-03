@@ -1,24 +1,21 @@
 #pragma once
-#include "base/math/Fraction.h"
-#include "base/math/Int64Fraction.h"
-#include "base/math/math.h"
+#include "base/math/FastInt64Fraction.h"
 #include "base/string/define.h"
 #include <stdexcept>
 
 namespace base
 {
-	template <typename T>
 	class PID
 	{
 	private:
-		T _current_output{};
-		T _kp{};
-		T _ki{};
-		T _kd{};
-		T _x[3]{};
-		T _resolution{};
-		T _max_output{};
-		T _min_output{};
+		base::FastInt64Fraction _current_output{};
+		base::FastInt64Fraction _kp{};
+		base::FastInt64Fraction _ki{};
+		base::FastInt64Fraction _kd{};
+		base::FastInt64Fraction _x[3]{};
+		base::FastInt64Fraction _resolution{};
+		base::FastInt64Fraction _max_output{};
+		base::FastInt64Fraction _min_output{};
 
 		constexpr void LimitOutput()
 		{
@@ -49,12 +46,12 @@ namespace base
 		/// @param max_output 允许的最大输出。
 		/// @param min_output 允许的最小输出。
 		///
-		constexpr PID(T kp,
-					  T ki,
-					  T kd,
-					  T resolution,
-					  T max_output,
-					  T min_output)
+		constexpr PID(base::FastInt64Fraction kp,
+					  base::FastInt64Fraction ki,
+					  base::FastInt64Fraction kd,
+					  base::FastInt64Fraction resolution,
+					  base::FastInt64Fraction max_output,
+					  base::FastInt64Fraction min_output)
 		{
 			if (max_output < min_output)
 			{
@@ -76,7 +73,7 @@ namespace base
 		/// @param x
 		/// @return
 		///
-		constexpr T Input(T x)
+		constexpr base::FastInt64Fraction Input(base::FastInt64Fraction x)
 		{
 			_x[2] = _x[1];
 			_x[1] = _x[0];
@@ -96,7 +93,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr T CurrentOutput() const
+		constexpr base::FastInt64Fraction CurrentOutput() const
 		{
 			return _current_output;
 		}
@@ -106,7 +103,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr T Kp() const
+		constexpr base::FastInt64Fraction Kp() const
 		{
 			return _kp;
 		}
@@ -116,7 +113,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr T Ki() const
+		constexpr base::FastInt64Fraction Ki() const
 		{
 			return _ki;
 		}
@@ -126,7 +123,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr T Kd() const
+		constexpr base::FastInt64Fraction Kd() const
 		{
 			return _kd;
 		}
@@ -136,7 +133,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr T MaxOutput() const
+		constexpr base::FastInt64Fraction MaxOutput() const
 		{
 			return _max_output;
 		}
@@ -149,7 +146,7 @@ namespace base
 		///
 		/// @param value
 		///
-		constexpr void SetMaxOutput(T const &value)
+		constexpr void SetMaxOutput(base::FastInt64Fraction const &value)
 		{
 			_max_output = value;
 		}
@@ -159,7 +156,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr T MinOutput() const
+		constexpr base::FastInt64Fraction MinOutput() const
 		{
 			return _min_output;
 		}
@@ -172,7 +169,7 @@ namespace base
 		///
 		/// @param value
 		///
-		constexpr void SetMinOutput(T const &value)
+		constexpr void SetMinOutput(base::FastInt64Fraction const &value)
 		{
 			_min_output = value;
 		}
@@ -186,7 +183,7 @@ namespace base
 		/// @param max_output
 		/// @param min_output
 		///
-		constexpr void SetOutputLimit(T const &max_output, T const &min_output)
+		constexpr void SetOutputLimit(base::FastInt64Fraction const &max_output, base::FastInt64Fraction const &min_output)
 		{
 			_max_output = max_output;
 			_min_output = min_output;
