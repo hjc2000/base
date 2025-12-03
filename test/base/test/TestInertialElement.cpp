@@ -14,19 +14,20 @@ void base::test::TestInertialElement()
 
 	base::InertialElement inertial_element{
 		base::FastInt64Fraction{1, static_cast<int64_t>(1e9)},
-		base::FastInt64Fraction{1, static_cast<int64_t>(1e12)},
+		base::FastInt64Fraction{1, static_cast<int64_t>(1e18)},
 	};
 
 	std::cout << "Kx: " << inertial_element.Kx() << std::endl;
 	std::cout << "Ky: " << inertial_element.Ky() << std::endl;
 
-	for (int i = 0; i < 1000; i++)
+	for (int64_t i = 0; i < static_cast<int64_t>(1e9); i++)
 	{
 		inertial_element.Input(100);
-		std::cout << inertial_element.CurrentOutput() << std::endl;
-		std::cout << base::floor(inertial_element.CurrentOutput()) << std::endl;
-		std::cout << std::endl;
 	}
+
+	std::cout << inertial_element.CurrentOutput() << std::endl;
+	std::cout << base::floor(inertial_element.CurrentOutput()) << std::endl;
+	std::cout << std::endl;
 }
 
 #endif // HAS_THREAD
