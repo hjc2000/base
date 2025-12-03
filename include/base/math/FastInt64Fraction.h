@@ -405,36 +405,6 @@ namespace base
 				return *this;
 			}
 
-			if (_den > copyed_value.Den() && _den % copyed_value.Den() == 0)
-			{
-				int64_t multiple = _den / copyed_value.Den();
-				_num += copyed_value.Num() * multiple;
-				return *this;
-			}
-
-			if (copyed_value.Den() > _den && copyed_value.Den() % _den == 0)
-			{
-				int64_t multiple = copyed_value.Den() / _den;
-				_num *= multiple;
-				_den = copyed_value.Den();
-				_num += copyed_value.Num();
-				return *this;
-			}
-
-			if (std::numeric_limits<int64_t>::max() / _den > copyed_value.Den())
-			{
-				// 不会溢出就执行快速加法，不执行缓慢的 lcm 了，直接用两个分母的积通分。
-				int64_t scaled_den = _den * copyed_value.Den();
-
-				int64_t scaled_num1 = _num * copyed_value.Den();
-				int64_t scaled_num2 = copyed_value.Num() * _den;
-
-				_num = scaled_num1 + scaled_num2;
-				_den = scaled_den;
-				return *this;
-			}
-
-			// 下面就不管能不能整除，都执行分母缩放
 			if (_den > copyed_value.Den())
 			{
 				int64_t multiple = _den / copyed_value.Den();

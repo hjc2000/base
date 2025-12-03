@@ -22,7 +22,7 @@ void base::test::TestInertialElement()
 
 	for (int64_t i = 0; i < static_cast<int64_t>(1e9); i++)
 	{
-		inertial_element.Input(base::FastInt64Fraction{100});
+		inertial_element.Input(base::FastInt64Fraction{10000, 100});
 	}
 
 	std::cout << inertial_element.CurrentOutput() << std::endl;
