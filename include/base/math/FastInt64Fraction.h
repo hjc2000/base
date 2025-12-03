@@ -523,57 +523,57 @@ namespace base
 		/* #region 比较 */
 
 		///
-		/// @brief 本对象等于 other.
-		/// @param other
+		/// @brief 本对象等于 another.
+		/// @param another
 		/// @return
 		///
-		constexpr bool operator==(FastInt64Fraction const &other) const
+		constexpr bool operator==(FastInt64Fraction const &another) const
 		{
-			return base::multiply(Num(), other.Den()) == base::multiply(other.Num(), Den());
+			return Num() * another.Den() == another.Num() * Den();
 		}
 
 		///
-		/// @brief 本对象大于 other.
-		/// @param other
+		/// @brief 本对象大于 another.
+		/// @param another
 		/// @return
 		///
-		constexpr bool operator>(FastInt64Fraction const &other) const
+		constexpr bool operator>(FastInt64Fraction const &another) const
 		{
-			return base::multiply(Num(), other.Den()) > base::multiply(other.Num(), Den());
+			return Num() * another.Den() > another.Num() * Den();
 		}
 
 		///
-		/// @brief 本对象小于 other.
-		/// @param other
+		/// @brief 本对象小于 another.
+		/// @param another
 		/// @return
 		///
-		constexpr bool operator<(FastInt64Fraction const &other) const
+		constexpr bool operator<(FastInt64Fraction const &another) const
 		{
-			return base::multiply(Num(), other.Den()) < base::multiply(other.Num(), Den());
+			return Num() * another.Den() < another.Num() * Den();
 		}
 
 		///
-		/// @brief 本对象大于等于 other.
+		/// @brief 本对象大于等于 another.
 		///
-		/// @param other
+		/// @param another
 		///
 		/// @return
 		///
-		constexpr bool operator>=(FastInt64Fraction const &other) const
+		constexpr bool operator>=(FastInt64Fraction const &another) const
 		{
-			return base::multiply(Num(), other.Den()) >= base::multiply(other.Num(), Den());
+			return Num() * another.Den() >= another.Num() * Den();
 		}
 
 		///
-		/// @brief 本对象小于等于 other.
+		/// @brief 本对象小于等于 another.
 		///
-		/// @param other
+		/// @param another
 		///
 		/// @return
 		///
-		constexpr bool operator<=(FastInt64Fraction const &other) const
+		constexpr bool operator<=(FastInt64Fraction const &another) const
 		{
-			return base::multiply(Num(), other.Den()) <= base::multiply(other.Num(), Den());
+			return Num() * another.Den() <= another.Num() * Den();
 		}
 
 		/* #endregion */
