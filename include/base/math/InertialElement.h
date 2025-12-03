@@ -40,9 +40,9 @@ namespace base
 		///
 		constexpr base::FastInt64Fraction Input(base::FastInt64Fraction x)
 		{
-			base::FastInt64Fraction resolution{1, _kx.Den()};
 			_current_output *= _ky;
 			_current_output += _kx * x;
+			base::FastInt64Fraction resolution{1, _kx.Den()};
 			_current_output.ReduceResolution(resolution);
 			return _current_output;
 		}
