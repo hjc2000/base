@@ -20,7 +20,7 @@ void base::test::TestInertialElement()
 	std::cout << "Kx: " << inertial_element.Kx() << std::endl;
 	std::cout << "Ky: " << inertial_element.Ky() << std::endl;
 
-	for (int64_t i = 0; i < static_cast<int64_t>(1e9); i++)
+	for (int64_t i = 0; i < static_cast<int64_t>(1e9) * 2; i++)
 	{
 		inertial_element.Input(base::FastInt64Fraction{10000, 100});
 	}
