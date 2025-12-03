@@ -649,7 +649,7 @@ namespace base
 ///
 /// @return
 ///
-inline base::Int64Fraction operator+(int64_t left, base::Int64Fraction const &right)
+constexpr base::Int64Fraction operator+(int64_t left, base::Int64Fraction const &right)
 {
 	return base::Int64Fraction{left} + right;
 }
@@ -662,7 +662,7 @@ inline base::Int64Fraction operator+(int64_t left, base::Int64Fraction const &ri
 ///
 /// @return
 ///
-inline base::Int64Fraction operator-(int64_t left, base::Int64Fraction const &right)
+constexpr base::Int64Fraction operator-(int64_t left, base::Int64Fraction const &right)
 {
 	return base::Int64Fraction{left} - right;
 }
@@ -675,7 +675,7 @@ inline base::Int64Fraction operator-(int64_t left, base::Int64Fraction const &ri
 ///
 /// @return
 ///
-inline base::Int64Fraction operator*(int64_t left, base::Int64Fraction const &right)
+constexpr base::Int64Fraction operator*(int64_t left, base::Int64Fraction const &right)
 {
 	return base::Int64Fraction(left) * right;
 }
@@ -688,7 +688,7 @@ inline base::Int64Fraction operator*(int64_t left, base::Int64Fraction const &ri
 ///
 /// @return
 ///
-inline base::Int64Fraction operator/(int64_t left, base::Int64Fraction const &right)
+constexpr base::Int64Fraction operator/(int64_t left, base::Int64Fraction const &right)
 {
 	return base::Int64Fraction{left} / right;
 }

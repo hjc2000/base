@@ -690,7 +690,7 @@ namespace base
 ///
 /// @return
 ///
-inline base::FastInt64Fraction operator+(int64_t left, base::FastInt64Fraction const &right)
+constexpr base::FastInt64Fraction operator+(int64_t left, base::FastInt64Fraction const &right)
 {
 	return base::FastInt64Fraction{left} + right;
 }
@@ -703,7 +703,7 @@ inline base::FastInt64Fraction operator+(int64_t left, base::FastInt64Fraction c
 ///
 /// @return
 ///
-inline base::FastInt64Fraction operator-(int64_t left, base::FastInt64Fraction const &right)
+constexpr base::FastInt64Fraction operator-(int64_t left, base::FastInt64Fraction const &right)
 {
 	return base::FastInt64Fraction{left} - right;
 }
@@ -716,7 +716,7 @@ inline base::FastInt64Fraction operator-(int64_t left, base::FastInt64Fraction c
 ///
 /// @return
 ///
-inline base::FastInt64Fraction operator*(int64_t left, base::FastInt64Fraction const &right)
+constexpr base::FastInt64Fraction operator*(int64_t left, base::FastInt64Fraction const &right)
 {
 	return base::FastInt64Fraction(left) * right;
 }
@@ -729,7 +729,7 @@ inline base::FastInt64Fraction operator*(int64_t left, base::FastInt64Fraction c
 ///
 /// @return
 ///
-inline base::FastInt64Fraction operator/(int64_t left, base::FastInt64Fraction const &right)
+constexpr base::FastInt64Fraction operator/(int64_t left, base::FastInt64Fraction const &right)
 {
 	return base::FastInt64Fraction{left} / right;
 }
