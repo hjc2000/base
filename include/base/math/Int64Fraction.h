@@ -105,7 +105,7 @@ namespace base
 		///
 		template <typename T>
 			requires(std::is_same_v<T, base::FastInt64Fraction>)
-		Int64Fraction(T const &fast_int64_frac)
+		constexpr Int64Fraction(T const &fast_int64_frac)
 		{
 			_num = fast_int64_frac.Num();
 			_den = fast_int64_frac.Den();
@@ -503,7 +503,7 @@ namespace base
 			return int_part + fraction_part;
 		}
 
-		explicit operator base::FastInt64Fraction() const
+		constexpr explicit operator base::FastInt64Fraction() const
 		{
 			return base::FastInt64Fraction{
 				_num,
