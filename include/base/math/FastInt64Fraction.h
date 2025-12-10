@@ -543,7 +543,13 @@ namespace base
 		///
 		bool operator==(FastInt64Fraction const &other) const
 		{
-			return base::multiply(Num(), other.Den()) == base::multiply(other.Num(), Den());
+			base::Int128 left = Num();
+			left *= other.Den();
+
+			base::Int128 right = other.Num();
+			right *= Den();
+
+			return left == right;
 		}
 
 		///
@@ -553,7 +559,13 @@ namespace base
 		///
 		bool operator>(FastInt64Fraction const &other) const
 		{
-			return base::multiply(Num(), other.Den()) > base::multiply(other.Num(), Den());
+			base::Int128 left = Num();
+			left *= other.Den();
+
+			base::Int128 right = other.Num();
+			right *= Den();
+
+			return left > right;
 		}
 
 		///
@@ -563,7 +575,13 @@ namespace base
 		///
 		bool operator<(FastInt64Fraction const &other) const
 		{
-			return base::multiply(Num(), other.Den()) < base::multiply(other.Num(), Den());
+			base::Int128 left = Num();
+			left *= other.Den();
+
+			base::Int128 right = other.Num();
+			right *= Den();
+
+			return left < right;
 		}
 
 		///
@@ -575,7 +593,13 @@ namespace base
 		///
 		bool operator>=(FastInt64Fraction const &other) const
 		{
-			return base::multiply(Num(), other.Den()) >= base::multiply(other.Num(), Den());
+			base::Int128 left = Num();
+			left *= other.Den();
+
+			base::Int128 right = other.Num();
+			right *= Den();
+
+			return left >= right;
 		}
 
 		///
@@ -587,7 +611,13 @@ namespace base
 		///
 		bool operator<=(FastInt64Fraction const &other) const
 		{
-			return base::multiply(Num(), other.Den()) <= base::multiply(other.Num(), Den());
+			base::Int128 left = Num();
+			left *= other.Den();
+
+			base::Int128 right = other.Num();
+			right *= Den();
+
+			return left <= right;
 		}
 
 		/* #endregion */
