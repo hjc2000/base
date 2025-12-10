@@ -1,4 +1,5 @@
 #pragma once
+#include "base/math/BigInteger.h"
 #include "base/math/math.h"
 #include "base/string/define.h"
 #include "base/string/ICanToString.h"
@@ -19,6 +20,43 @@ namespace base
 	private:
 		int64_t _num = 0;
 		int64_t _den = 1;
+
+		void Scale(base::Int128 num, base::Int128 den)
+		{
+			if (den < 0)
+			{
+				num = -num;
+				den = -den;
+			}
+
+			constexpr int64_t threshold = std::numeric_limits<int64_t>::max() / 2;
+
+			if (den > threshold)
+			{
+				base::Int128 multiple = den / threshold;
+				num /= multiple;
+				den /= multiple;
+			}
+
+			if (base::abs(num) > threshold)
+			{
+				base::Int128 multiple = base::abs(num) / threshold;
+
+				if (den / multiple == 0)
+				{
+					num /= den;
+					den = 1;
+				}
+				else
+				{
+					num /= multiple;
+					den /= multiple;
+				}
+			}
+
+			_num = static_cast<int64_t>(num);
+			_den = static_cast<int64_t>(den);
+		}
 
 	public:
 		/* #region 构造函数 */
@@ -385,42 +423,13 @@ namespace base
 
 		constexpr FastInt64Fraction &operator+=(FastInt64Fraction const &value)
 		{
-			if (_den < 0)
-			{
-				_num = -_num;
-				_den = -_den;
-			}
+			base::Int128 num1 = _num;
+			base::Int128 den1 = _den;
 
-			base::FastInt64Fraction copyed_value = value;
+			base::Int128 num2 = value.Num();
+			base::Int128 den2 = value.Den();
 
-			if (copyed_value._den < 0)
-			{
-				copyed_value._num = -copyed_value._num;
-				copyed_value._den = -copyed_value._den;
-			}
-
-			if (_den == copyed_value.Den())
-			{
-				_num += copyed_value.Num();
-				return *this;
-			}
-
-			if (_den > copyed_value.Den())
-			{
-				int64_t multiple = _den / copyed_value.Den();
-				_num += copyed_value.Num() * multiple;
-				return *this;
-			}
-
-			if (copyed_value.Den() > _den)
-			{
-				int64_t multiple = copyed_value.Den() / _den;
-				_num *= multiple;
-				_den = copyed_value.Den();
-				_num += copyed_value.Num();
-				return *this;
-			}
-
+			Scale(num1 * den2 + num2 * den1, den1 * den2);
 			return *this;
 		}
 
@@ -432,95 +441,13 @@ namespace base
 
 		constexpr FastInt64Fraction &operator*=(FastInt64Fraction const &value)
 		{
-			if (_den < 0)
-			{
-				_num = -_num;
-				_den = -_den;
-			}
+			base::Int128 num = _num;
+			num *= value.Num();
 
-			base::FastInt64Fraction copyed_value = value;
+			base::Int128 den = _den;
+			den *= value.Den();
 
-			if (copyed_value._den < 0)
-			{
-				copyed_value._num = -copyed_value._num;
-				copyed_value._den = -copyed_value._den;
-			}
-
-			if (_num == 0 || copyed_value.Num() == 0)
-			{
-				_num = 0;
-				_den = 1;
-				return *this;
-			}
-
-			int64_t abs_num = base::abs(_num);
-			int64_t abs_copyed_num = base::abs(copyed_value.Num());
-
-			if (std::numeric_limits<int64_t>::max() / abs_num >= abs_copyed_num)
-			{
-				// 分子直接相乘不会溢出。
-				_num *= copyed_value.Num();
-
-				// 让 _num 除以较小的分母。
-				if (_den >= copyed_value.Den())
-				{
-					_num /= copyed_value.Den();
-				}
-				else
-				{
-					_num /= _den;
-					_den = copyed_value.Den();
-				}
-
-				return *this;
-			}
-
-			// _num *= copyed_value.Num() 会溢出，不能直接乘。
-			if (_num >= 0)
-			{
-				_num = std::numeric_limits<int64_t>::max();
-			}
-			else
-			{
-				_num = -std::numeric_limits<int64_t>::max();
-			}
-
-			// _num 乘上多少倍变成 std::numeric_limits<int64_t>::max() 了，
-			// 要让 copyed_value._num 除以这个倍数，得到 remain_num, 这就是
-			// 还没乘的，等会儿要乘到分子上的。
-			int64_t multiple = std::numeric_limits<int64_t>::max() / abs_num;
-			int64_t remain_num = copyed_value._num / multiple;
-
-			int64_t small_den;
-			int64_t big_den;
-
-			if (_den >= copyed_value.Den())
-			{
-				small_den = copyed_value.Den();
-				big_den = _den;
-			}
-			else
-			{
-				small_den = _den;
-				big_den = copyed_value.Den();
-			}
-
-			if (small_den >= base::abs(remain_num))
-			{
-				// 小分母就已经大于 remain_num 的绝对值了，_num 先除以小分母，
-				// 等会儿乘上 remain_num 不会溢出 64 位有符号整型。
-				_num /= small_den;
-				_den = big_den;
-			}
-			else
-			{
-				// 小分母不大于 remain_num 的绝对值，只能让 _num 先除以大分母，
-				// 期望等会儿再乘上 remain_num 不要溢出。但是溢不溢出就看天命了。
-				_num /= big_den;
-				_den = small_den;
-			}
-
-			_num *= remain_num;
+			Scale(num, den);
 			return *this;
 		}
 
