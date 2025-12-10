@@ -476,6 +476,7 @@ namespace base
 
 			// _num *= copyed_value.Num() 会溢出，不能直接乘。
 			int64_t multiple = std::numeric_limits<int64_t>::max() / abs_num1;
+
 			if (_num >= 0)
 			{
 				_num = std::numeric_limits<int64_t>::max();
