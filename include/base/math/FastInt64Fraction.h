@@ -456,46 +456,48 @@ namespace base
 			int64_t abs_num1 = base::abs(_num);
 			int64_t abs_num2 = base::abs(copyed_value.Num());
 
-			if (std::numeric_limits<int64_t>::max() / abs_num1 < abs_num2)
+			if (std::numeric_limits<int64_t>::max() / abs_num1 >= abs_num2)
 			{
-				// _num *= copyed_value.Num() 会溢出，不能直接乘。
-				int64_t multiple = std::numeric_limits<int64_t>::max() / abs_num1;
-				if (_num >= 0)
-				{
-					_num = std::numeric_limits<int64_t>::max();
-				}
-				else
-				{
-					_num = -std::numeric_limits<int64_t>::max();
-				}
+				// 分母直接相乘不会溢出。
+				_num *= copyed_value.Num();
 
-				copyed_value._num /= multiple;
-
-				// 分子分母同时除以最大的分母，把最大的分母干掉。
 				if (_den >= copyed_value.Den())
 				{
-					_num /= _den;
-					_num *= copyed_value.Num();
-					_den = copyed_value.Den();
+					_num /= copyed_value.Den();
 				}
 				else
 				{
-					_num /= copyed_value.Den();
-					_num *= copyed_value.Num();
+					_num /= _den;
+					_den = copyed_value.Den();
 				}
 
 				return *this;
 			}
 
-			_num *= copyed_value.Num();
-			if (_den >= copyed_value.Den())
+			// _num *= copyed_value.Num() 会溢出，不能直接乘。
+			int64_t multiple = std::numeric_limits<int64_t>::max() / abs_num1;
+			if (_num >= 0)
 			{
-				_num /= copyed_value.Den();
+				_num = std::numeric_limits<int64_t>::max();
 			}
 			else
 			{
+				_num = -std::numeric_limits<int64_t>::max();
+			}
+
+			copyed_value._num /= multiple;
+
+			// 分子分母同时除以最大的分母，把最大的分母干掉。
+			if (_den >= copyed_value.Den())
+			{
 				_num /= _den;
+				_num *= copyed_value.Num();
 				_den = copyed_value.Den();
+			}
+			else
+			{
+				_num /= copyed_value.Den();
+				_num *= copyed_value.Num();
 			}
 
 			return *this;
