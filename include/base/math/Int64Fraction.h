@@ -202,7 +202,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr Int64Fraction Abs() const
+		Int64Fraction Abs() const
 		{
 			if (*this < 0)
 			{
@@ -217,7 +217,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr int64_t Floor() const
+		int64_t Floor() const
 		{
 			int64_t ret = Div();
 			if (*this < 0)
@@ -243,7 +243,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr int64_t Ceil() const
+		int64_t Ceil() const
 		{
 			int64_t ret = Div();
 			if (*this > 0)
@@ -281,7 +281,7 @@ namespace base
 		///
 		/// @param resolution
 		///
-		constexpr void ReduceResolution(base::Int64Fraction const &resolution)
+		void ReduceResolution(base::Int64Fraction const &resolution)
 		{
 			if (resolution <= 0)
 			{
@@ -625,7 +625,7 @@ namespace base
 	/// @param value
 	/// @return
 	///
-	constexpr base::Int64Fraction abs(base::Int64Fraction const &value)
+	inline base::Int64Fraction abs(base::Int64Fraction const &value)
 	{
 		return value.Abs();
 	}
@@ -637,7 +637,7 @@ namespace base
 	///
 	/// @return
 	///
-	constexpr int64_t floor(base::Int64Fraction const &value)
+	inline int64_t floor(base::Int64Fraction const &value)
 	{
 		return value.Floor();
 	}
@@ -649,7 +649,7 @@ namespace base
 	///
 	/// @return
 	///
-	constexpr int64_t ceil(base::Int64Fraction const &value)
+	inline int64_t ceil(base::Int64Fraction const &value)
 	{
 		return value.Ceil();
 	}
@@ -659,8 +659,8 @@ namespace base
 	///
 	/// @return 降低分辨率后的值。
 	///
-	constexpr base::Int64Fraction reduce_resolution(base::Int64Fraction const &value,
-													base::Int64Fraction const &resolution)
+	inline base::Int64Fraction reduce_resolution(base::Int64Fraction const &value,
+												 base::Int64Fraction const &resolution)
 	{
 		base::Int64Fraction copy = value;
 		copy.ReduceResolution(resolution);
