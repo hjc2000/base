@@ -4,15 +4,7 @@
 
 namespace base
 {
-	using BigInteger = boost::multiprecision::cpp_int;
-
-	///
-	/// @brief 将大整型转换为字符串。
-	///
-	/// @param value
-	/// @return
-	///
-	std::string to_string(base::BigInteger const &value);
+	using Int128 = boost::multiprecision::int128_t;
 
 	///
 	/// @brief 求绝对值。
@@ -21,7 +13,7 @@ namespace base
 	/// @return
 	///
 	template <typename T>
-		requires(std::is_same_v<T, base::BigInteger>)
+		requires(std::is_same_v<T, base::Int128>)
 	constexpr T abs(T const &value)
 	{
 		if (value < T{})
@@ -36,7 +28,7 @@ namespace base
 	/// @brief 求最大公约数。
 	///
 	template <typename T>
-		requires(std::is_same_v<T, base::BigInteger>)
+		requires(std::is_same_v<T, base::Int128>)
 	constexpr T gcd(T a, T b)
 	{
 		return boost::multiprecision::gcd(a, b);
@@ -46,7 +38,7 @@ namespace base
 	/// @brief 求最小公倍数。
 	///
 	template <typename T>
-		requires(std::is_same_v<T, base::BigInteger>)
+		requires(std::is_same_v<T, base::Int128>)
 	constexpr T lcm(T a, T b)
 	{
 		return boost::multiprecision::lcm(a, b);
