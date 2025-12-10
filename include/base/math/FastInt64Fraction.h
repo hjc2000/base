@@ -29,7 +29,7 @@ namespace base
 				den = -den;
 			}
 
-			constexpr int64_t threshold = std::numeric_limits<int64_t>::max() / 2;
+			int64_t threshold = std::numeric_limits<int64_t>::max() / 2;
 
 			if (den > threshold)
 			{
@@ -64,7 +64,7 @@ namespace base
 		///
 		/// @brief 默认构造，分子为 0，分母为 1.
 		///
-		constexpr FastInt64Fraction() = default;
+		FastInt64Fraction() = default;
 
 		///
 		/// @brief 从整型值构造。分子为 num, 分母为 1.
@@ -73,7 +73,7 @@ namespace base
 		///
 		template <typename T>
 			requires(std::is_integral_v<T>)
-		constexpr FastInt64Fraction(T int_num)
+		FastInt64Fraction(T int_num)
 		{
 			_num = int_num;
 			_den = 1;
@@ -86,7 +86,7 @@ namespace base
 		///
 		template <typename T>
 			requires(std::is_same_v<T, double>)
-		constexpr FastInt64Fraction(T double_value)
+		FastInt64Fraction(T double_value)
 		{
 			if (double_value == 0)
 			{
@@ -115,7 +115,7 @@ namespace base
 		///
 		template <typename T>
 			requires(std::is_same_v<T, float>)
-		constexpr FastInt64Fraction(T float_value)
+		FastInt64Fraction(T float_value)
 		{
 			if (float_value == 0)
 			{
@@ -142,7 +142,7 @@ namespace base
 		/// @param num 分子
 		/// @param den 分母
 		///
-		constexpr FastInt64Fraction(int64_t num, int64_t den)
+		FastInt64Fraction(int64_t num, int64_t den)
 		{
 			_num = num;
 			if (num == 0)
@@ -168,7 +168,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr int64_t Num() const
+		int64_t Num() const
 		{
 			return _num;
 		}
@@ -178,7 +178,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr int64_t Den() const
+		int64_t Den() const
 		{
 			return _den;
 		}
@@ -190,7 +190,7 @@ namespace base
 		///
 		/// @brief 化简。
 		///
-		constexpr void Simplify()
+		void Simplify()
 		{
 			if (_num == 0)
 			{
@@ -216,7 +216,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr FastInt64Fraction Reciprocal() const
+		FastInt64Fraction Reciprocal() const
 		{
 			base::FastInt64Fraction ret{_den, _num};
 			return ret;
@@ -227,7 +227,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr FastInt64Fraction Abs() const
+		FastInt64Fraction Abs() const
 		{
 			if (*this < 0)
 			{
@@ -242,7 +242,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr int64_t Floor() const
+		int64_t Floor() const
 		{
 			int64_t ret = Div();
 			if (*this < 0)
@@ -268,7 +268,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr int64_t Ceil() const
+		int64_t Ceil() const
 		{
 			int64_t ret = Div();
 			if (*this > 0)
@@ -287,7 +287,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr int64_t Div() const
+		int64_t Div() const
 		{
 			return _num / _den;
 		}
@@ -296,7 +296,7 @@ namespace base
 		/// @brief 获取分子除以分母的余数
 		/// @return
 		///
-		constexpr int64_t Mod() const
+		int64_t Mod() const
 		{
 			return _num % _den;
 		}
@@ -306,7 +306,7 @@ namespace base
 		///
 		/// @param resolution
 		///
-		constexpr void ReduceResolution(base::FastInt64Fraction const &resolution)
+		void ReduceResolution(base::FastInt64Fraction const &resolution)
 		{
 			if (resolution <= 0)
 			{
@@ -370,7 +370,7 @@ namespace base
 
 		/* #endregion */
 
-		constexpr FastInt64Fraction operator-() const
+		FastInt64Fraction operator-() const
 		{
 			FastInt64Fraction ret{-_num, _den};
 			return ret;
@@ -390,27 +390,27 @@ namespace base
 		/// @param value
 		/// @return
 		///
-		constexpr FastInt64Fraction operator+(FastInt64Fraction const &value) const
+		FastInt64Fraction operator+(FastInt64Fraction const &value) const
 		{
 			base::FastInt64Fraction copy{*this};
 			copy += value;
 			return copy;
 		}
 
-		constexpr FastInt64Fraction operator-(FastInt64Fraction const &value) const
+		FastInt64Fraction operator-(FastInt64Fraction const &value) const
 		{
 			FastInt64Fraction ret = *this + (-value);
 			return ret;
 		}
 
-		constexpr FastInt64Fraction operator*(FastInt64Fraction const &value) const
+		FastInt64Fraction operator*(FastInt64Fraction const &value) const
 		{
 			base::FastInt64Fraction copy{*this};
 			copy *= value;
 			return copy;
 		}
 
-		constexpr FastInt64Fraction operator/(FastInt64Fraction const &value) const
+		FastInt64Fraction operator/(FastInt64Fraction const &value) const
 		{
 			base::FastInt64Fraction copy{*this};
 			copy /= value;
@@ -421,7 +421,7 @@ namespace base
 
 		/* #region 自改变四则运算符 */
 
-		constexpr FastInt64Fraction &operator+=(FastInt64Fraction const &value)
+		FastInt64Fraction &operator+=(FastInt64Fraction const &value)
 		{
 			base::Int128 num1 = _num;
 			base::Int128 den1 = _den;
@@ -433,13 +433,13 @@ namespace base
 			return *this;
 		}
 
-		constexpr FastInt64Fraction &operator-=(FastInt64Fraction const &value)
+		FastInt64Fraction &operator-=(FastInt64Fraction const &value)
 		{
 			*this += -value;
 			return *this;
 		}
 
-		constexpr FastInt64Fraction &operator*=(FastInt64Fraction const &value)
+		FastInt64Fraction &operator*=(FastInt64Fraction const &value)
 		{
 			base::Int128 num = _num;
 			num *= value.Num();
@@ -451,7 +451,7 @@ namespace base
 			return *this;
 		}
 
-		constexpr FastInt64Fraction &operator/=(FastInt64Fraction const &value)
+		FastInt64Fraction &operator/=(FastInt64Fraction const &value)
 		{
 			*this *= value.Reciprocal();
 			return *this;
@@ -470,47 +470,47 @@ namespace base
 
 		/* #region 强制转换运算符 */
 
-		constexpr explicit operator int64_t() const
+		explicit operator int64_t() const
 		{
 			return Div();
 		}
 
-		constexpr explicit operator uint64_t() const
+		explicit operator uint64_t() const
 		{
 			return static_cast<uint64_t>(Div());
 		}
 
-		constexpr explicit operator int32_t() const
+		explicit operator int32_t() const
 		{
 			return static_cast<int32_t>(Div());
 		}
 
-		constexpr explicit operator uint32_t() const
+		explicit operator uint32_t() const
 		{
 			return static_cast<uint32_t>(Div());
 		}
 
-		constexpr explicit operator int16_t() const
+		explicit operator int16_t() const
 		{
 			return static_cast<int16_t>(Div());
 		}
 
-		constexpr explicit operator uint16_t() const
+		explicit operator uint16_t() const
 		{
 			return static_cast<uint16_t>(Div());
 		}
 
-		constexpr explicit operator int8_t() const
+		explicit operator int8_t() const
 		{
 			return static_cast<int8_t>(Div());
 		}
 
-		constexpr explicit operator uint8_t() const
+		explicit operator uint8_t() const
 		{
 			return static_cast<uint8_t>(Div());
 		}
 
-		constexpr explicit operator double() const
+		explicit operator double() const
 		{
 			base::FastInt64Fraction copy{*this};
 			copy.Simplify();
@@ -521,7 +521,7 @@ namespace base
 			return int_part + fraction_part;
 		}
 
-		constexpr explicit operator float() const
+		explicit operator float() const
 		{
 			base::FastInt64Fraction copy{*this};
 			copy.Simplify();
@@ -541,7 +541,7 @@ namespace base
 		/// @param other
 		/// @return
 		///
-		constexpr bool operator==(FastInt64Fraction const &other) const
+		bool operator==(FastInt64Fraction const &other) const
 		{
 			return base::multiply(Num(), other.Den()) == base::multiply(other.Num(), Den());
 		}
@@ -551,7 +551,7 @@ namespace base
 		/// @param other
 		/// @return
 		///
-		constexpr bool operator>(FastInt64Fraction const &other) const
+		bool operator>(FastInt64Fraction const &other) const
 		{
 			return base::multiply(Num(), other.Den()) > base::multiply(other.Num(), Den());
 		}
@@ -561,7 +561,7 @@ namespace base
 		/// @param other
 		/// @return
 		///
-		constexpr bool operator<(FastInt64Fraction const &other) const
+		bool operator<(FastInt64Fraction const &other) const
 		{
 			return base::multiply(Num(), other.Den()) < base::multiply(other.Num(), Den());
 		}
@@ -573,7 +573,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr bool operator>=(FastInt64Fraction const &other) const
+		bool operator>=(FastInt64Fraction const &other) const
 		{
 			return base::multiply(Num(), other.Den()) >= base::multiply(other.Num(), Den());
 		}
@@ -585,7 +585,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr bool operator<=(FastInt64Fraction const &other) const
+		bool operator<=(FastInt64Fraction const &other) const
 		{
 			return base::multiply(Num(), other.Den()) <= base::multiply(other.Num(), Den());
 		}
@@ -599,7 +599,7 @@ namespace base
 	/// @param value
 	/// @return
 	///
-	constexpr base::FastInt64Fraction abs(base::FastInt64Fraction const &value)
+	inline base::FastInt64Fraction abs(base::FastInt64Fraction const &value)
 	{
 		return value.Abs();
 	}
@@ -611,7 +611,7 @@ namespace base
 	///
 	/// @return
 	///
-	constexpr int64_t floor(base::FastInt64Fraction const &value)
+	inline int64_t floor(base::FastInt64Fraction const &value)
 	{
 		return value.Floor();
 	}
@@ -623,7 +623,7 @@ namespace base
 	///
 	/// @return
 	///
-	constexpr int64_t ceil(base::FastInt64Fraction const &value)
+	inline int64_t ceil(base::FastInt64Fraction const &value)
 	{
 		return value.Ceil();
 	}
@@ -633,8 +633,8 @@ namespace base
 	///
 	/// @return 降低分辨率后的值。
 	///
-	constexpr base::FastInt64Fraction reduce_resolution(base::FastInt64Fraction const &value,
-														base::FastInt64Fraction const &resolution)
+	inline base::FastInt64Fraction reduce_resolution(base::FastInt64Fraction const &value,
+													 base::FastInt64Fraction const &resolution)
 	{
 		base::FastInt64Fraction copy = value;
 		copy.ReduceResolution(resolution);
@@ -653,7 +653,7 @@ namespace base
 ///
 /// @return
 ///
-constexpr base::FastInt64Fraction operator+(int64_t left, base::FastInt64Fraction const &right)
+inline base::FastInt64Fraction operator+(int64_t left, base::FastInt64Fraction const &right)
 {
 	return base::FastInt64Fraction{left} + right;
 }
@@ -666,7 +666,7 @@ constexpr base::FastInt64Fraction operator+(int64_t left, base::FastInt64Fractio
 ///
 /// @return
 ///
-constexpr base::FastInt64Fraction operator-(int64_t left, base::FastInt64Fraction const &right)
+inline base::FastInt64Fraction operator-(int64_t left, base::FastInt64Fraction const &right)
 {
 	return base::FastInt64Fraction{left} - right;
 }
@@ -679,7 +679,7 @@ constexpr base::FastInt64Fraction operator-(int64_t left, base::FastInt64Fractio
 ///
 /// @return
 ///
-constexpr base::FastInt64Fraction operator*(int64_t left, base::FastInt64Fraction const &right)
+inline base::FastInt64Fraction operator*(int64_t left, base::FastInt64Fraction const &right)
 {
 	return base::FastInt64Fraction(left) * right;
 }
@@ -692,7 +692,7 @@ constexpr base::FastInt64Fraction operator*(int64_t left, base::FastInt64Fractio
 ///
 /// @return
 ///
-constexpr base::FastInt64Fraction operator/(int64_t left, base::FastInt64Fraction const &right)
+inline base::FastInt64Fraction operator/(int64_t left, base::FastInt64Fraction const &right)
 {
 	return base::FastInt64Fraction{left} / right;
 }

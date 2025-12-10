@@ -503,7 +503,7 @@ namespace base
 			return int_part + fraction_part;
 		}
 
-		constexpr explicit operator base::FastInt64Fraction() const
+		explicit operator base::FastInt64Fraction() const
 		{
 			return base::FastInt64Fraction{
 				_num,

@@ -16,7 +16,7 @@ namespace base
 		base::FastInt64Fraction _max_output{};
 		base::FastInt64Fraction _min_output{};
 
-		constexpr void LimitOutput()
+		void LimitOutput()
 		{
 			if (_current_output < _min_output)
 			{
@@ -33,7 +33,7 @@ namespace base
 		/// @brief 无参构造。构造的 PID 处于不可用状态。
 		/// 设置这个构造函数是为了支持延迟初始化。
 		///
-		constexpr PID() = default;
+		PID() = default;
 
 		///
 		/// @brief 构造 PID 控制器。
@@ -44,11 +44,11 @@ namespace base
 		/// @param max_output 允许的最大输出。
 		/// @param min_output 允许的最小输出。
 		///
-		constexpr PID(base::FastInt64Fraction kp,
-					  base::FastInt64Fraction ki,
-					  base::FastInt64Fraction kd,
-					  base::FastInt64Fraction max_output,
-					  base::FastInt64Fraction min_output)
+		PID(base::FastInt64Fraction kp,
+			base::FastInt64Fraction ki,
+			base::FastInt64Fraction kd,
+			base::FastInt64Fraction max_output,
+			base::FastInt64Fraction min_output)
 		{
 			if (max_output < min_output)
 			{
@@ -69,7 +69,7 @@ namespace base
 		/// @param x
 		/// @return
 		///
-		constexpr base::FastInt64Fraction Input(base::FastInt64Fraction x)
+		base::FastInt64Fraction Input(base::FastInt64Fraction x)
 		{
 			_x[2] = _x[1];
 			_x[1] = _x[0];
@@ -88,7 +88,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr base::FastInt64Fraction CurrentOutput() const
+		base::FastInt64Fraction CurrentOutput() const
 		{
 			return _current_output;
 		}
@@ -98,7 +98,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr base::FastInt64Fraction Kp() const
+		base::FastInt64Fraction Kp() const
 		{
 			return _kp;
 		}
@@ -108,7 +108,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr base::FastInt64Fraction Ki() const
+		base::FastInt64Fraction Ki() const
 		{
 			return _ki;
 		}
@@ -118,7 +118,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr base::FastInt64Fraction Kd() const
+		base::FastInt64Fraction Kd() const
 		{
 			return _kd;
 		}
@@ -128,7 +128,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr base::FastInt64Fraction MaxOutput() const
+		base::FastInt64Fraction MaxOutput() const
 		{
 			return _max_output;
 		}
@@ -141,7 +141,7 @@ namespace base
 		///
 		/// @param value
 		///
-		constexpr void SetMaxOutput(base::FastInt64Fraction const &value)
+		void SetMaxOutput(base::FastInt64Fraction const &value)
 		{
 			_max_output = value;
 		}
@@ -151,7 +151,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr base::FastInt64Fraction MinOutput() const
+		base::FastInt64Fraction MinOutput() const
 		{
 			return _min_output;
 		}
@@ -164,7 +164,7 @@ namespace base
 		///
 		/// @param value
 		///
-		constexpr void SetMinOutput(base::FastInt64Fraction const &value)
+		void SetMinOutput(base::FastInt64Fraction const &value)
 		{
 			_min_output = value;
 		}
@@ -178,7 +178,7 @@ namespace base
 		/// @param max_output
 		/// @param min_output
 		///
-		constexpr void SetOutputLimit(base::FastInt64Fraction const &max_output, base::FastInt64Fraction const &min_output)
+		void SetOutputLimit(base::FastInt64Fraction const &max_output, base::FastInt64Fraction const &min_output)
 		{
 			_max_output = max_output;
 			_min_output = min_output;
