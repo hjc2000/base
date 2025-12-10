@@ -458,7 +458,7 @@ namespace base
 
 			if (std::numeric_limits<int64_t>::max() / abs_num >= abs_copyed_num)
 			{
-				// 分母直接相乘不会溢出。
+				// 分子直接相乘不会溢出。
 				_num *= copyed_value.Num();
 
 				// 让 _num 除以较小的分母。
