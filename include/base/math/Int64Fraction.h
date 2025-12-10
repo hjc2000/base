@@ -520,9 +520,15 @@ namespace base
 		/// @param other
 		/// @return
 		///
-		constexpr bool operator==(Int64Fraction const &other) const
+		bool operator==(Int64Fraction const &other) const
 		{
-			return base::multiply(Num(), other.Den()) == base::multiply(other.Num(), Den());
+			base::Int128 left = Num();
+			left *= other.Den();
+
+			base::Int128 right = other.Num();
+			right *= Den();
+
+			return left == right;
 		}
 
 		///
@@ -530,9 +536,15 @@ namespace base
 		/// @param other
 		/// @return
 		///
-		constexpr bool operator>(Int64Fraction const &other) const
+		bool operator>(Int64Fraction const &other) const
 		{
-			return base::multiply(Num(), other.Den()) > base::multiply(other.Num(), Den());
+			base::Int128 left = Num();
+			left *= other.Den();
+
+			base::Int128 right = other.Num();
+			right *= Den();
+
+			return left > right;
 		}
 
 		///
@@ -540,9 +552,15 @@ namespace base
 		/// @param other
 		/// @return
 		///
-		constexpr bool operator<(Int64Fraction const &other) const
+		bool operator<(Int64Fraction const &other) const
 		{
-			return base::multiply(Num(), other.Den()) < base::multiply(other.Num(), Den());
+			base::Int128 left = Num();
+			left *= other.Den();
+
+			base::Int128 right = other.Num();
+			right *= Den();
+
+			return left < right;
 		}
 
 		///
@@ -552,9 +570,15 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr bool operator>=(Int64Fraction const &other) const
+		bool operator>=(Int64Fraction const &other) const
 		{
-			return base::multiply(Num(), other.Den()) >= base::multiply(other.Num(), Den());
+			base::Int128 left = Num();
+			left *= other.Den();
+
+			base::Int128 right = other.Num();
+			right *= Den();
+
+			return left >= right;
 		}
 
 		///
@@ -564,9 +588,15 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr bool operator<=(Int64Fraction const &other) const
+		bool operator<=(Int64Fraction const &other) const
 		{
-			return base::multiply(Num(), other.Den()) <= base::multiply(other.Num(), Den());
+			base::Int128 left = Num();
+			left *= other.Den();
+
+			base::Int128 right = other.Num();
+			right *= Den();
+
+			return left <= right;
 		}
 
 		/* #endregion */
