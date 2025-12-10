@@ -43,7 +43,6 @@ namespace base
 		{
 			_current_output *= _ky;
 			_current_output += _kx * x;
-			base::FastInt64Fraction resolution{1, _kx.Den()};
 			return _current_output;
 		}
 
