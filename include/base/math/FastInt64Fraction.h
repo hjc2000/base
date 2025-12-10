@@ -21,7 +21,7 @@ namespace base
 		int64_t _num = 0;
 		int64_t _den = 1;
 
-		void Scale(base::Int128 num, base::Int128 den)
+		void ScaleFromInt128(base::Int128 num, base::Int128 den)
 		{
 			if (den < 0)
 			{
@@ -429,7 +429,7 @@ namespace base
 			base::Int128 num2 = value.Num();
 			base::Int128 den2 = value.Den();
 
-			Scale(num1 * den2 + num2 * den1, den1 * den2);
+			ScaleFromInt128(num1 * den2 + num2 * den1, den1 * den2);
 			return *this;
 		}
 
@@ -447,7 +447,7 @@ namespace base
 			base::Int128 den = _den;
 			den *= value.Den();
 
-			Scale(num, den);
+			ScaleFromInt128(num, den);
 			return *this;
 		}
 
