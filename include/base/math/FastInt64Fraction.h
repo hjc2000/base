@@ -453,10 +453,10 @@ namespace base
 				return *this;
 			}
 
-			int64_t abs_num1 = base::abs(_num);
-			int64_t abs_num2 = base::abs(copyed_value.Num());
+			int64_t abs_num = base::abs(_num);
+			int64_t abs_copyed_num = base::abs(copyed_value.Num());
 
-			if (std::numeric_limits<int64_t>::max() / abs_num1 >= abs_num2)
+			if (std::numeric_limits<int64_t>::max() / abs_num >= abs_copyed_num)
 			{
 				// 分母直接相乘不会溢出。
 				_num *= copyed_value.Num();
@@ -475,8 +475,6 @@ namespace base
 			}
 
 			// _num *= copyed_value.Num() 会溢出，不能直接乘。
-			int64_t multiple = std::numeric_limits<int64_t>::max() / abs_num1;
-
 			if (_num >= 0)
 			{
 				_num = std::numeric_limits<int64_t>::max();
@@ -486,6 +484,7 @@ namespace base
 				_num = -std::numeric_limits<int64_t>::max();
 			}
 
+			int64_t multiple = std::numeric_limits<int64_t>::max() / abs_num;
 			copyed_value._num /= multiple;
 
 			// 分子分母同时除以最大的分母，把最大的分母干掉。
