@@ -15,7 +15,6 @@ namespace base
 		base::FastInt64Fraction _x[3]{};
 		base::FastInt64Fraction _max_output{};
 		base::FastInt64Fraction _min_output{};
-		base::FastInt64Fraction _resolution;
 
 		constexpr void LimitOutput()
 		{
@@ -62,11 +61,6 @@ namespace base
 			_kd = kd;
 			_max_output = max_output;
 			_min_output = min_output;
-
-			_resolution = base::FastInt64Fraction{
-				1,
-				_kp.Den() * _ki.Den() * _kd.Den(),
-			};
 		}
 
 		///
@@ -84,7 +78,6 @@ namespace base
 			_current_output += _kp * (_x[0] - _x[1]);
 			_current_output += _ki * _x[0];
 			_current_output += _kd * (_x[0] - 2 * _x[1] + _x[2]);
-			_current_output.ReduceResolution(_resolution);
 
 			LimitOutput();
 			return _current_output;
