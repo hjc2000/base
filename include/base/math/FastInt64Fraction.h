@@ -461,6 +461,7 @@ namespace base
 				// 分母直接相乘不会溢出。
 				_num *= copyed_value.Num();
 
+				// 让 _num 除以较小的分母。
 				if (_den >= copyed_value.Den())
 				{
 					_num /= copyed_value.Den();
@@ -484,22 +485,42 @@ namespace base
 				_num = -std::numeric_limits<int64_t>::max();
 			}
 
+			// _num 乘上多少倍变成 std::numeric_limits<int64_t>::max() 了，
+			// 要让 copyed_value._num 除以这个倍数，得到 remain_num, 这就是
+			// 还没乘的，等会儿要乘到分子上的。
 			int64_t multiple = std::numeric_limits<int64_t>::max() / abs_num;
-			copyed_value._num /= multiple;
+			int64_t remain_num = copyed_value._num / multiple;
 
-			// 分子分母同时除以最大的分母，把最大的分母干掉。
+			int64_t small_den;
+			int64_t big_den;
+
 			if (_den >= copyed_value.Den())
 			{
-				_num /= _den;
-				_num *= copyed_value.Num();
-				_den = copyed_value.Den();
+				small_den = copyed_value.Den();
+				big_den = _den;
 			}
 			else
 			{
-				_num /= copyed_value.Den();
-				_num *= copyed_value.Num();
+				small_den = _den;
+				big_den = copyed_value.Den();
 			}
 
+			if (small_den >= base::abs(remain_num))
+			{
+				// 小分母就已经大于 remain_num 的绝对值了，_num 先除以小分母，
+				// 等会儿乘上 remain_num 不会溢出 64 位有符号整型。
+				_num /= small_den;
+				_den = big_den;
+			}
+			else
+			{
+				// 小分母不大于 remain_num 的绝对值，只能让 _num 先除以大分母，
+				// 期望等会儿再乘上 remain_num 不要溢出。但是溢不溢出就看天命了。
+				_num /= big_den;
+				_den = small_den;
+			}
+
+			_num *= remain_num;
 			return *this;
 		}
 
