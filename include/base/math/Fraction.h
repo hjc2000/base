@@ -626,8 +626,15 @@ namespace base
 		explicit operator double() const
 		{
 			base::Fraction copy{*this};
-			double int_part = static_cast<double>(copy.Div());
-			copy -= copy.Div();
+			base::BigInteger div = copy.Div();
+
+			// 取出整数部分。
+			double int_part = static_cast<double>(div);
+
+			// 取出整数部分后减掉整数部分。
+			copy -= div;
+
+			// 取出小数部分。
 			double fraction_part = static_cast<double>(copy.Num()) / static_cast<double>(copy.Den());
 			return int_part + fraction_part;
 		}
@@ -635,8 +642,15 @@ namespace base
 		explicit operator float() const
 		{
 			base::Fraction copy{*this};
-			float int_part = static_cast<float>(copy.Div());
-			copy -= copy.Div();
+			base::BigInteger div = copy.Div();
+
+			// 取出整数部分。
+			float int_part = static_cast<float>(div);
+
+			// 取出整数部分后减掉整数部分。
+			copy -= div;
+
+			// 取出小数部分。
 			float fraction_part = static_cast<float>(copy.Num()) / static_cast<float>(copy.Den());
 			return int_part + fraction_part;
 		}
