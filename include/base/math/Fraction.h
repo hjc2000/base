@@ -296,7 +296,7 @@ namespace base
 		/* #region 计算函数 */
 
 		///
-		/// @brief 化简自身。
+		/// @brief 化简。
 		///
 		void Simplify()
 		{
