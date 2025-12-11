@@ -425,11 +425,29 @@ namespace base
 		{
 			base::Int128 num1 = _num;
 			base::Int128 den1 = _den;
+			if (den1 < 0)
+			{
+				num1 = -num1;
+				den1 = -den1;
+			}
 
 			base::Int128 num2 = value.Num();
 			base::Int128 den2 = value.Den();
+			if (den2 < 0)
+			{
+				num2 = -num2;
+				den2 = -den2;
+			}
 
-			ScaleFromInt128(num1 * den2 + num2 * den1, den1 * den2);
+			if (den1 == den2)
+			{
+				ScaleFromInt128(num1 + num2, den1);
+			}
+			else
+			{
+				ScaleFromInt128(num1 * den2 + num2 * den1, den1 * den2);
+			}
+
 			return *this;
 		}
 
