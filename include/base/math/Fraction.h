@@ -241,6 +241,7 @@ namespace base
 		{
 			_num = fast_int64_frac.Num();
 			_den = fast_int64_frac.Den();
+			Simplify();
 		}
 
 		///
