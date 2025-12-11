@@ -3,7 +3,6 @@
 #include "base/bit/FloatBitView.h"
 #include "base/math/BigInteger.h"
 #include "base/math/FastInt64Fraction.h"
-#include "base/math/Int64Fraction.h"
 #include "base/string/define.h"
 #include "base/string/ICanToString.h"
 #include "BigInteger.h"
@@ -229,19 +228,6 @@ namespace base
 		{
 			_num = big_int_num;
 			_den = 1;
-		}
-
-		///
-		/// @brief 从 base::Int64Fraction 类型构造。
-		///
-		/// @param int64_frac
-		///
-		template <typename T>
-			requires(std::is_same_v<T, base::Int64Fraction>)
-		Fraction(T const &int64_frac)
-		{
-			_num = int64_frac.Num();
-			_den = int64_frac.Den();
 		}
 
 		///
@@ -653,17 +639,6 @@ namespace base
 			// 取出小数部分。
 			float fraction_part = static_cast<float>(copy.Num()) / static_cast<float>(copy.Den());
 			return int_part + fraction_part;
-		}
-
-		explicit operator base::Int64Fraction() const
-		{
-			base::Fraction copy{*this};
-			copy.ReduceResolution(base::Fraction{1, INT64_MAX});
-
-			return base::Int64Fraction{
-				static_cast<int64_t>(_num),
-				static_cast<int64_t>(_den),
-			};
 		}
 
 		explicit operator base::FastInt64Fraction() const

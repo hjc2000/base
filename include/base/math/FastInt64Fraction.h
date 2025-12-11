@@ -80,60 +80,6 @@ namespace base
 		}
 
 		///
-		/// @brief 通过浮点数构造。
-		///
-		/// @param value
-		///
-		template <typename T>
-			requires(std::is_same_v<T, double>)
-		FastInt64Fraction(T double_value)
-		{
-			if (double_value == 0)
-			{
-				_num = 0;
-				_den = 1;
-				return;
-			}
-
-			base::FastInt64Fraction int_part{static_cast<int64_t>(double_value)};
-			double_value -= static_cast<double>(int_part);
-
-			int64_t factor = static_cast<int64_t>(1) << 52;
-			double_value *= factor;
-			base::FastInt64Fraction fractional_part{static_cast<int64_t>(double_value), factor};
-
-			*this += int_part + fractional_part;
-			Simplify();
-		}
-
-		///
-		/// @brief 通过浮点数构造。
-		///
-		/// @param value
-		///
-		template <typename T>
-			requires(std::is_same_v<T, float>)
-		FastInt64Fraction(T float_value)
-		{
-			if (float_value == 0)
-			{
-				_num = 0;
-				_den = 1;
-				return;
-			}
-
-			base::FastInt64Fraction int_part{static_cast<int64_t>(float_value)};
-			float_value -= static_cast<float>(int_part);
-
-			int64_t factor = static_cast<int64_t>(1) << 23;
-			float_value *= factor;
-			base::FastInt64Fraction fractional_part{static_cast<int64_t>(float_value), factor};
-
-			*this += int_part + fractional_part;
-			Simplify();
-		}
-
-		///
 		/// @brief 通过分子，分母进行构造。
 		/// @param num 分子
 		/// @param den 分母

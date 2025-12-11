@@ -8,8 +8,6 @@ namespace base
 	{
 		void TestFraction();
 
-		void TestInt64Fraction();
-
 	} // namespace test
 } // namespace base
 

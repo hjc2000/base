@@ -1,6 +1,6 @@
 #pragma once
+#include "base/math/FastInt64Fraction.h"
 #include "base/math/Fraction.h"
-#include "base/math/Int64Fraction.h"
 #include <type_traits>
 
 namespace base
@@ -14,7 +14,7 @@ namespace base
 		requires(std::is_integral_v<T> ||
 				 std::is_floating_point_v<T> ||
 				 std::convertible_to<T, base::Fraction> ||
-				 std::convertible_to<T, base::Int64Fraction>);
+				 std::convertible_to<T, base::FastInt64Fraction>);
 	};
 
 } // namespace base
