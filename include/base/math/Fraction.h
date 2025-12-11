@@ -7,6 +7,7 @@
 #include "base/string/ICanToString.h"
 #include "BigInteger.h"
 #include <cstdint>
+#include <limits>
 #include <stdexcept>
 #include <string>
 
@@ -645,7 +646,13 @@ namespace base
 		explicit operator base::FastInt64Fraction() const
 		{
 			base::Fraction copy{*this};
-			copy.ReduceResolution(base::Fraction{1, INT64_MAX});
+
+			base::Fraction resolution{
+				1,
+				std::numeric_limits<int64_t>::max(),
+			};
+
+			copy.ReduceResolution(resolution);
 
 			return base::FastInt64Fraction{
 				static_cast<int64_t>(_num),

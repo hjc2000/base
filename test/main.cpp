@@ -19,8 +19,8 @@ int main()
 	// base::test::TestParseDouble();
 	// base::test::test_ertec200p_3_timing_provider();
 	// base::test::TestUtf8Reader();
-	// base::test::TestInertialElement();
-	base::test::TestFraction();
+	base::test::TestInertialElement();
+	// base::test::TestFraction();
 	// constexpr int64_t gcd = base::gcd(16, 4);
 	// std::cout << gcd << std::endl;
 	return 0;
