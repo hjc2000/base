@@ -100,6 +100,17 @@ namespace base::bit
 	}
 
 	///
+	/// @brief 从最低位开始数，有多少个连续的 1.
+	/// @return
+	///
+	template <typename RegisterType>
+		requires(std::is_integral_v<RegisterType>)
+	constexpr int LowOneCount(RegisterType num)
+	{
+		return std::countr_one(num);
+	}
+
+	///
 	/// @brief 最高位的 1 的索引。
 	///
 	/// @note 例如 0x1 的 bit0 是最高位的 1，于是返回 0.
