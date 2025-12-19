@@ -99,8 +99,7 @@ namespace base
 	/// @return
 	///
 	template <typename T>
-		requires(std::is_same_v<T, base::BigInteger> ||
-				 std::is_same_v<T, base::Int128>)
+		requires(base::is_big_integer<T>)
 	constexpr T factorial(T const &num)
 	{
 		if (num < 0)
