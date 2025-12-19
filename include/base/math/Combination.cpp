@@ -1,6 +1,5 @@
 #include "Combination.h"
 #include "base/math/BigInteger.h"
-#include "base/math/Factorial.h"
 #include "base/string/define.h"
 #include <cstdint>
 #include <stdexcept>
@@ -81,9 +80,9 @@ bool base::Combination::MoveToNext()
 
 int64_t base::Combination::Count() const
 {
-	base::BigInteger result = base::Factorial(_n) /
-							  base::Factorial(_n - _m) /
-							  base::Factorial(_m);
+	base::BigInteger result = base::factorial<base::BigInteger>(_n) /
+							  base::factorial<base::BigInteger>(_n - _m) /
+							  base::factorial<base::BigInteger>(_m);
 
 	return static_cast<int64_t>(result);
 }

@@ -1,5 +1,7 @@
 #pragma once
+#include "base/string/define.h"
 #include <cstdint>
+#include <stdexcept>
 #include <type_traits>
 
 namespace base
@@ -178,6 +180,71 @@ namespace base
 		}
 
 		return mul / gcd;
+	}
+
+	///
+	/// @brief 阶乘。
+	///
+	/// @param num
+	///
+	/// @return
+	///
+	template <typename T>
+		requires(std::is_signed_v<T>)
+	constexpr T factorial(T num)
+	{
+		if (num < 0)
+		{
+			throw std::invalid_argument{CODE_POS_STR + "负数没有定义阶乘。"};
+		}
+
+		if (num == 0)
+		{
+			return 1;
+		}
+
+		if (num == 1)
+		{
+			return 1;
+		}
+
+		T result = 1;
+		for (T i = 1; i <= num; i++)
+		{
+			result *= i;
+		}
+
+		return result;
+	}
+
+	///
+	/// @brief 阶乘。
+	///
+	/// @param num
+	///
+	/// @return
+	///
+	template <typename T>
+		requires(std::is_unsigned_v<T>)
+	constexpr T factorial(T num)
+	{
+		if (num == 0)
+		{
+			return 1;
+		}
+
+		if (num == 1)
+		{
+			return 1;
+		}
+
+		T result = 1;
+		for (T i = 1; i <= num; i++)
+		{
+			result *= i;
+		}
+
+		return result;
 	}
 
 } // namespace base
