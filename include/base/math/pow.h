@@ -1,5 +1,5 @@
 #pragma once
-#include "base/math/BigInteger.h"
+#include "base/math/math.h"
 #include "base/string/define.h"
 #include "boost/multiprecision/cpp_int.hpp" // IWYU pragma: keep
 #include <stdexcept>

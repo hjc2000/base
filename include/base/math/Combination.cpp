@@ -1,5 +1,5 @@
 #include "Combination.h"
-#include "base/math/BigInteger.h"
+#include "base/math/math.h"
 #include "base/string/define.h"
 #include <cstdint>
 #include <stdexcept>
