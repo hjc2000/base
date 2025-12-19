@@ -370,7 +370,7 @@ namespace base
 	}
 
 	///
-	/// @brief 针对有符号整型的幂函数模板。
+	/// @brief 幂函数。
 	///
 	/// @param x
 	/// @param y
@@ -422,7 +422,7 @@ namespace base
 	}
 
 	///
-	/// @brief 针对无符号整型的幂函数模板。
+	/// @brief 幂函数。
 	///
 	/// @param x
 	/// @param y
@@ -469,7 +469,7 @@ namespace base
 	}
 
 	///
-	/// @brief 针对 base::BigInteger 的幂函数模板。
+	/// @brief 幂函数。
 	///
 	///
 	template <typename T>
