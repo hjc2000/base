@@ -76,7 +76,7 @@ namespace base
 	///
 	template <typename T>
 		requires(base::is_big_integer<T>)
-	constexpr T gcd(T a, T b)
+	constexpr T gcd(T const &a, T const &b)
 	{
 		return boost::multiprecision::gcd(a, b);
 	}
@@ -86,7 +86,7 @@ namespace base
 	///
 	template <typename T>
 		requires(base::is_big_integer<T>)
-	constexpr T lcm(T a, T b)
+	constexpr T lcm(T const &a, T const &b)
 	{
 		return boost::multiprecision::lcm(a, b);
 	}
