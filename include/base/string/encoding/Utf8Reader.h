@@ -2,7 +2,7 @@
 #include "base/bit/bit.h"
 #include "base/container/ArraySpan.h"
 #include "base/container/CircleDeque.h"
-#include "base/math/pow.h"
+#include "base/math/math.h"
 #include "base/stream/Stream.h"
 #include <cstdint>
 
