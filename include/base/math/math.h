@@ -105,7 +105,7 @@ namespace base
 	///
 	template <typename T>
 		requires(std::is_integral_v<T> || std::is_floating_point_v<T>)
-	constexpr T abs(T const &value) noexcept
+	constexpr T abs(T value) noexcept
 	{
 		if (value < T{})
 		{
