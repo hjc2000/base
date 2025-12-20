@@ -584,9 +584,14 @@ namespace base
 		class Constant
 		{
 		public:
-			static base::FastInt64Fraction Pi()
+			static base::FastInt64Fraction pi()
 			{
 				return base::FastInt64Fraction{884279719003555, 281474976710656};
+			}
+
+			static base::FastInt64Fraction e()
+			{
+				return base::FastInt64Fraction{6121026514868073, 2251799813685248};
 			}
 		};
 

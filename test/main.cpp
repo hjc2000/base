@@ -1,3 +1,4 @@
+#include "base/math/Fraction.h"
 #include "base/math/math.h"
 #include "base/test/test_ertec200p_3_timing_provider.h"
 #include "base/test/TestCircleDeque.h"
@@ -8,6 +9,7 @@
 #include "base/test/TestUtf8Reader.h"
 #include <cstdint>
 #include <iostream>
+#include <numbers>
 
 int main()
 {
@@ -19,8 +21,15 @@ int main()
 	// base::test::test_ertec200p_3_timing_provider();
 	// base::test::TestUtf8Reader();
 	// base::test::TestInertialElement();
-	base::test::TestFraction();
+	// base::test::TestFraction();
 	// constexpr int64_t gcd = base::gcd(16, 4);
 	// std::cout << gcd << std::endl;
+
+	{
+		base::Fraction f{std::numbers::e};
+		f.ReduceResolution(base::Fraction{1, std::numeric_limits<int64_t>::max()});
+		std::cout << f << std::endl;
+	}
+
 	return 0;
 }
