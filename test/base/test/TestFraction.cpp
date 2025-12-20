@@ -1,7 +1,9 @@
 #include "TestFraction.h"
 #include "base/math/Fraction.h"
 #include "base/string/define.h"
+#include <cstdint>
 #include <iostream>
+#include <limits>
 #include <numbers>
 
 #if HAS_THREAD
@@ -31,6 +33,9 @@ void base::test::TestFraction()
 				  << std::setprecision(precision)
 				  << static_cast<double>(f) - std::numbers::pi
 				  << std::endl;
+
+		f.ReduceResolution(base::Fraction{1, std::numeric_limits<int64_t>::max()});
+		std::cout << "降低分辨率后的分数: " << f << std::endl;
 	}
 
 	{
@@ -57,6 +62,9 @@ void base::test::TestFraction()
 				  << std::setprecision(precision)
 				  << static_cast<float>(f) - f_pi
 				  << std::endl;
+
+		f.ReduceResolution(base::Fraction{1, std::numeric_limits<int64_t>::max()});
+		std::cout << "降低分辨率后的分数: " << f << std::endl;
 	}
 }
 
