@@ -403,6 +403,7 @@ namespace base
 
 		///
 		/// @brief 获取分子除以分母的余数
+		///
 		/// @return
 		///
 		base::BigInteger Mod() const
@@ -556,6 +557,7 @@ namespace base
 
 		///
 		/// @brief 将分数转化为字符串
+		///
 		/// @return
 		///
 		virtual std::string ToString() const override
@@ -664,55 +666,63 @@ namespace base
 		/* #region 比较 */
 
 		///
-		/// @brief 本对象等于 another.
-		/// @param another
+		/// @brief 本对象等于 other.
+		///
+		/// @param other
+		///
 		/// @return
 		///
-		bool operator==(Fraction const &another) const
+		bool operator==(Fraction const &other) const
 		{
-			return Num() * another.Den() == another.Num() * Den();
+			return Num() * other.Den() == other.Num() * Den();
 		}
 
 		///
-		/// @brief 本对象大于 another.
-		/// @param another
+		/// @brief 本对象大于 other.
+		///
+		/// @param other
+		///
 		/// @return
 		///
-		bool operator>(Fraction const &another) const
+		bool operator>(Fraction const &other) const
 		{
-			return Num() * another.Den() > another.Num() * Den();
+			return Num() * other.Den() > other.Num() * Den();
 		}
 
 		///
-		/// @brief 本对象小于 another.
-		/// @param another
+		/// @brief 本对象小于 other.
+		///
+		/// @param other
+		///
 		/// @return
 		///
-		bool operator<(Fraction const &another) const
+		bool operator<(Fraction const &other) const
 		{
-			return Num() * another.Den() < another.Num() * Den();
+			return Num() * other.Den() < other.Num() * Den();
 		}
 
 		///
-		/// @brief 本对象大于等于 another.
+		/// @brief 本对象大于等于 other.
 		///
-		/// @param another
+		/// @param other
+		///
 		/// @return
 		///
-		bool operator>=(Fraction const &another) const
+		bool operator>=(Fraction const &other) const
 		{
-			return Num() * another.Den() >= another.Num() * Den();
+			return Num() * other.Den() >= other.Num() * Den();
 		}
 
 		///
-		/// @brief 本对象小于等于 another.
+		/// @brief 本对象小于等于 other.
 		///
-		/// @param another
+		/// @param other
+		///
 		/// @return
 		///
-		bool operator<=(Fraction const &another) const
+		bool operator<=(Fraction const &other) const
 		{
-			return Num() * another.Den() <= another.Num() * Den();
+			return Num() * other.Den() <= other.Num() * Den();
 		}
 
 		/* #endregion */
@@ -722,6 +732,7 @@ namespace base
 	/// @brief 取绝对值。
 	///
 	/// @param value
+	///
 	/// @return
 	///
 	inline base::Fraction abs(base::Fraction const &value)
@@ -775,6 +786,7 @@ namespace base
 ///
 /// @param left
 /// @param right
+///
 /// @return
 ///
 inline base::Fraction operator+(base::BigInteger left, base::Fraction const &right)
@@ -787,6 +799,7 @@ inline base::Fraction operator+(base::BigInteger left, base::Fraction const &rig
 ///
 /// @param left
 /// @param right
+///
 /// @return
 ///
 inline base::Fraction operator-(base::BigInteger left, base::Fraction const &right)
@@ -799,6 +812,7 @@ inline base::Fraction operator-(base::BigInteger left, base::Fraction const &rig
 ///
 /// @param left
 /// @param right
+///
 /// @return
 ///
 inline base::Fraction operator*(base::BigInteger left, base::Fraction const &right)
@@ -811,6 +825,7 @@ inline base::Fraction operator*(base::BigInteger left, base::Fraction const &rig
 ///
 /// @param left
 /// @param right
+///
 /// @return
 ///
 inline base::Fraction operator/(base::BigInteger left, base::Fraction const &right)
