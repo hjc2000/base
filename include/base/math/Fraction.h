@@ -727,6 +727,28 @@ namespace base
 
 		/* #endregion */
 
+		class Constant
+		{
+		public:
+			static base::Fraction pi()
+			{
+				base::Fraction ret{base::FastInt64Fraction::Constant::pi()};
+				return ret;
+			}
+
+			static base::Fraction e()
+			{
+				base::Fraction ret{base::FastInt64Fraction::Constant::e()};
+				return ret;
+			}
+
+			static base::Fraction h()
+			{
+				base::Fraction ret{6121026514868073, 2251799813685248};
+				return ret;
+			}
+		};
+
 	}; // class Fraction
 
 	///

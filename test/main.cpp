@@ -26,8 +26,11 @@ int main()
 	// std::cout << gcd << std::endl;
 
 	{
-		base::Fraction f{std::numbers::e};
-		f.ReduceResolution(base::Fraction{1, std::numeric_limits<int64_t>::max()});
+		base::Fraction f{
+			662607015,
+			base::pow<base::BigInteger>(10, 34 + 8),
+		};
+
 		std::cout << f << std::endl;
 	}
 

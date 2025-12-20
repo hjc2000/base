@@ -586,12 +586,14 @@ namespace base
 		public:
 			static base::FastInt64Fraction pi()
 			{
-				return base::FastInt64Fraction{884279719003555, 281474976710656};
+				base::FastInt64Fraction ret{884279719003555, 281474976710656};
+				return ret;
 			}
 
 			static base::FastInt64Fraction e()
 			{
-				return base::FastInt64Fraction{6121026514868073, 2251799813685248};
+				base::FastInt64Fraction ret{6121026514868073, 2251799813685248};
+				return ret;
 			}
 		};
 
