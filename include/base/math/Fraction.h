@@ -744,7 +744,11 @@ namespace base
 
 			static base::Fraction h()
 			{
-				base::Fraction ret{6121026514868073, 2251799813685248};
+				base::Fraction ret{
+					662607015,
+					base::pow<base::BigInteger>(10, 34 + 8),
+				};
+
 				return ret;
 			}
 		};
