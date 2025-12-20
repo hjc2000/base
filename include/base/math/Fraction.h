@@ -746,7 +746,7 @@ namespace base
 			{
 				base::Fraction ret{
 					662607015,
-					base::pow<base::BigInteger>(10, 34 + 8),
+					base::pow<base::BigInteger>(10, 42),
 				};
 
 				return ret;
