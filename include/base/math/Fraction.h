@@ -726,7 +726,8 @@ namespace base
 		}
 
 		/* #endregion */
-	};
+
+	}; // class Fraction
 
 	///
 	/// @brief 取绝对值。

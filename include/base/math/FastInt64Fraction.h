@@ -580,7 +580,8 @@ namespace base
 		}
 
 		/* #endregion */
-	};
+
+	}; // class FastInt64Fraction
 
 	///
 	/// @brief 取绝对值。
