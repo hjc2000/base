@@ -730,6 +730,11 @@ namespace base
 		class Constant
 		{
 		public:
+			///
+			/// @brief 圆周率 Π.
+			///
+			/// @return
+			///
 			static base::Fraction pi()
 			{
 				// 使用 64 位整型分辨率的分数精度是够的，标准库自带的 pi 的 double 常数转换为
@@ -738,6 +743,11 @@ namespace base
 				return ret;
 			}
 
+			///
+			/// @brief 欧拉常数 e, 或者叫自然常数，或者自然对数 ln 的底。
+			///
+			/// @return
+			///
 			static base::Fraction e()
 			{
 				// 使用 64 位整型分辨率的分数精度是够的，标准库自带的 e 的 double 常数转换为
@@ -746,6 +756,11 @@ namespace base
 				return ret;
 			}
 
+			///
+			/// @brief 普朗克常数。
+			///
+			/// @return
+			///
 			static base::Fraction h()
 			{
 				base::Fraction ret{
