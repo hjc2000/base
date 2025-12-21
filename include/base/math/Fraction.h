@@ -732,12 +732,16 @@ namespace base
 		public:
 			static base::Fraction pi()
 			{
+				// 使用 64 位整型分辨率的分数精度是够的，标准库自带的 pi 的 double 常数转换为
+				// 分数，分子分母只需要用 64 位整型就能表示。
 				base::Fraction ret{base::FastInt64Fraction::Constant::pi()};
 				return ret;
 			}
 
 			static base::Fraction e()
 			{
+				// 使用 64 位整型分辨率的分数精度是够的，标准库自带的 e 的 double 常数转换为
+				// 分数，分子分母只需要用 64 位整型就能表示。
 				base::Fraction ret{base::FastInt64Fraction::Constant::e()};
 				return ret;
 			}
