@@ -23,6 +23,8 @@ namespace base
 		base::BigInteger _den = 1;
 
 	public:
+		class Constant;
+
 		/* #region 构造函数 */
 
 		///
@@ -727,52 +729,52 @@ namespace base
 
 		/* #endregion */
 
-		class Constant
-		{
-		public:
-			///
-			/// @brief 圆周率 Π.
-			///
-			/// @return
-			///
-			static base::Fraction pi()
-			{
-				// 使用 64 位整型分辨率的分数精度是够的，标准库自带的 pi 的 double 常数转换为
-				// 分数，分子分母只需要用 64 位整型就能表示。
-				base::Fraction ret{base::FastInt64Fraction::Constant::pi()};
-				return ret;
-			}
-
-			///
-			/// @brief 欧拉常数 e, 或者叫自然常数，或者自然对数 ln 的底。
-			///
-			/// @return
-			///
-			static base::Fraction e()
-			{
-				// 使用 64 位整型分辨率的分数精度是够的，标准库自带的 e 的 double 常数转换为
-				// 分数，分子分母只需要用 64 位整型就能表示。
-				base::Fraction ret{base::FastInt64Fraction::Constant::e()};
-				return ret;
-			}
-
-			///
-			/// @brief 普朗克常数。
-			///
-			/// @return
-			///
-			static base::Fraction h()
-			{
-				base::Fraction ret{
-					662607015,
-					base::pow<base::BigInteger>(10, 42),
-				};
-
-				return ret;
-			}
-		};
-
 	}; // class Fraction
+
+	class Fraction::Constant
+	{
+	public:
+		///
+		/// @brief 圆周率 Π.
+		///
+		/// @return
+		///
+		static base::Fraction pi()
+		{
+			// 使用 64 位整型分辨率的分数精度是够的，标准库自带的 pi 的 double 常数转换为
+			// 分数，分子分母只需要用 64 位整型就能表示。
+			base::Fraction ret{base::FastInt64Fraction::Constant::pi()};
+			return ret;
+		}
+
+		///
+		/// @brief 欧拉常数 e, 或者叫自然常数，或者自然对数 ln 的底。
+		///
+		/// @return
+		///
+		static base::Fraction e()
+		{
+			// 使用 64 位整型分辨率的分数精度是够的，标准库自带的 e 的 double 常数转换为
+			// 分数，分子分母只需要用 64 位整型就能表示。
+			base::Fraction ret{base::FastInt64Fraction::Constant::e()};
+			return ret;
+		}
+
+		///
+		/// @brief 普朗克常数。
+		///
+		/// @return
+		///
+		static base::Fraction h()
+		{
+			base::Fraction ret{
+				662607015,
+				base::pow<base::BigInteger>(10, 42),
+			};
+
+			return ret;
+		}
+	};
 
 	/* #region 数学函数 */
 
