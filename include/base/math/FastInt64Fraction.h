@@ -58,6 +58,8 @@ namespace base
 		}
 
 	public:
+		class Constant;
+
 		/* #region 构造函数 */
 
 		///
@@ -581,33 +583,33 @@ namespace base
 
 		/* #endregion */
 
-		class Constant
-		{
-		public:
-			///
-			/// @brief 圆周率 Π.
-			///
-			/// @return
-			///
-			static base::FastInt64Fraction pi()
-			{
-				base::FastInt64Fraction ret{884279719003555, 281474976710656};
-				return ret;
-			}
-
-			///
-			/// @brief 欧拉常数 e, 或者叫自然常数，或者自然对数 ln 的底。
-			///
-			/// @return
-			///
-			static base::FastInt64Fraction e()
-			{
-				base::FastInt64Fraction ret{6121026514868073, 2251799813685248};
-				return ret;
-			}
-		};
-
 	}; // class FastInt64Fraction
+
+	class FastInt64Fraction::Constant
+	{
+	public:
+		///
+		/// @brief 圆周率 Π.
+		///
+		/// @return
+		///
+		static base::FastInt64Fraction pi()
+		{
+			base::FastInt64Fraction ret{884279719003555, 281474976710656};
+			return ret;
+		}
+
+		///
+		/// @brief 欧拉常数 e, 或者叫自然常数，或者自然对数 ln 的底。
+		///
+		/// @return
+		///
+		static base::FastInt64Fraction e()
+		{
+			base::FastInt64Fraction ret{6121026514868073, 2251799813685248};
+			return ret;
+		}
+	};
 
 	///
 	/// @brief 取绝对值。
