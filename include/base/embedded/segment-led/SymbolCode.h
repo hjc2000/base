@@ -89,6 +89,9 @@ namespace base::segment_led
 		}
 	};
 
+	///
+	/// @brief 常量。
+	///
 	class SymbolCode::Constant
 	{
 	public:
