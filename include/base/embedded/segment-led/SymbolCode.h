@@ -28,6 +28,8 @@ namespace base::segment_led
 		uint8_t _value = 0;
 
 	public:
+		class Constant;
+
 		constexpr SymbolCode() = default;
 
 		explicit constexpr SymbolCode(uint8_t value)
@@ -85,8 +87,6 @@ namespace base::segment_led
 			copy += value;
 			return copy;
 		}
-
-		class Constant;
 	};
 
 	class SymbolCode::Constant
