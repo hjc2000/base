@@ -71,6 +71,12 @@ namespace base::unit
 		{
 			return "mA";
 		}
+
+		operator base::unit::A() const
+		{
+			base::unit::A ret{_value / 1000};
+			return ret;
+		}
 	};
 
 } // namespace base::unit
