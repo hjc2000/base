@@ -60,11 +60,10 @@ namespace base::segment_led
 			base::bit::WriteBit(_value, 7, value);
 		}
 
-		SymbolCode operator+(SymbolCode const &value)
+		SymbolCode &operator|=(SymbolCode const &value)
 		{
-			SymbolCode copy{*this};
-			copy += value;
-			return copy;
+			_value |= value._value;
+			return *this;
 		}
 
 		SymbolCode &operator+=(SymbolCode const &value)
@@ -73,17 +72,18 @@ namespace base::segment_led
 			return *this;
 		}
 
-		SymbolCode operator|(SymbolCode const &value)
+		SymbolCode operator|(SymbolCode const &value) const
 		{
 			SymbolCode copy{*this};
 			copy += value;
 			return copy;
 		}
 
-		SymbolCode &operator|=(SymbolCode const &value)
+		SymbolCode operator+(SymbolCode const &value) const
 		{
-			_value |= value._value;
-			return *this;
+			SymbolCode copy{*this};
+			copy += value;
+			return copy;
 		}
 
 		///
