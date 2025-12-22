@@ -45,7 +45,7 @@ namespace base
 			template <typename T>
 				requires(std::is_convertible_v<T, base::unit::Second>)
 			Nanosecond(T const &value)
-				: Nanosecond(base::unit::Second{value})
+				: Nanosecond{base::unit::Second{value}}
 			{
 			}
 

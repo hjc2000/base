@@ -1,4 +1,5 @@
 #pragma once
+#include "A.h"
 #include "base/math/Fraction.h"
 #include "IUnit.h"
 
@@ -8,28 +9,48 @@ namespace base::unit
 	/// @brief 电流单位：安培。
 	///
 	///
-	class A :
-		public base::unit::IUnit<A>
+	class mA :
+		public base::unit::IUnit<mA>
 	{
 	private:
 		base::Fraction _value;
 
 	public:
-		A() = default;
+		mA() = default;
 
 		template <typename value_type>
 			requires(std::is_integral_v<value_type>)
-		explicit A(value_type value)
+		explicit mA(value_type value)
 		{
 			_value = value;
 		}
 
-		explicit A(base::Fraction const &value)
+		explicit mA(base::Fraction const &value)
 		{
 			_value = value;
 		}
 
-		using base::unit::IUnit<A>::Value;
+		///
+		/// @brief 从 A 构造。
+		///
+		/// @param value
+		///
+		mA(base::unit::A const &value)
+		{
+			_value = value.Value() * 1000;
+		}
+
+		///
+		/// @brief 能转换到 A 的都从 A 构造。
+		///
+		template <typename T>
+			requires(std::is_convertible_v<T, base::unit::A>)
+		mA(T const &value)
+			: mA{base::unit::A{value}}
+		{
+		}
+
+		using base::unit::IUnit<mA>::Value;
 
 		///
 		/// @brief 单位的值。
@@ -48,7 +69,7 @@ namespace base::unit
 		///
 		virtual std::string UnitString() const override
 		{
-			return "A";
+			return "mA";
 		}
 	};
 
