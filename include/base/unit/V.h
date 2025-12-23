@@ -7,7 +7,6 @@ namespace base::unit
 	///
 	/// @brief 电压单位：伏特。
 	///
-	///
 	class V :
 		public base::unit::IUnit<V>
 	{

@@ -8,7 +8,6 @@ namespace base::unit
 	///
 	/// @brief 电流单位：安培。
 	///
-	///
 	class mA :
 		public base::unit::IUnit<mA>
 	{

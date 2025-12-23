@@ -7,7 +7,6 @@ namespace base::unit
 	///
 	/// @brief 功率单位：瓦。
 	///
-	///
 	class W :
 		public base::unit::IUnit<W>
 	{
