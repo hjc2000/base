@@ -14,13 +14,6 @@ namespace base::unit
 	public:
 		Second() = default;
 
-		template <typename value_type>
-			requires(std::is_integral_v<value_type>)
-		explicit Second(value_type value)
-		{
-			_value = value;
-		}
-
 		explicit Second(base::Fraction const &value)
 		{
 			_value = value;

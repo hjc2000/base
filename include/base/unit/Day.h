@@ -15,13 +15,6 @@ namespace base::unit
 	public:
 		Day() = default;
 
-		template <typename value_type>
-			requires(std::is_integral_v<value_type>)
-		explicit Day(value_type value)
-		{
-			_value = value;
-		}
-
 		explicit Day(base::Fraction const &value)
 		{
 			_value = value;

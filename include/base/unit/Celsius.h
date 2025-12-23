@@ -17,13 +17,6 @@ namespace base::unit
 	public:
 		Celsius() = default;
 
-		template <typename value_type>
-			requires(std::is_integral_v<value_type>)
-		explicit Celsius(value_type value)
-		{
-			_value = value;
-		}
-
 		explicit Celsius(base::Fraction const &value)
 		{
 			_value = value;

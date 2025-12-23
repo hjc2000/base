@@ -16,13 +16,6 @@ namespace base::unit
 	public:
 		A() = default;
 
-		template <typename value_type>
-			requires(std::is_integral_v<value_type>)
-		explicit A(value_type value)
-		{
-			_value = value;
-		}
-
 		explicit A(base::Fraction const &value)
 		{
 			_value = value;

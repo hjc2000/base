@@ -18,13 +18,6 @@ namespace base::unit
 	public:
 		Mbps() = default;
 
-		template <typename value_type>
-			requires(std::is_integral_v<value_type>)
-		explicit Mbps(value_type value)
-		{
-			_value = value;
-		}
-
 		explicit Mbps(base::Fraction const &o)
 		{
 			_value = o;

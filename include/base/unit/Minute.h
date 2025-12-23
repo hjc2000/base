@@ -15,13 +15,6 @@ namespace base::unit
 	public:
 		Minute() = default;
 
-		template <typename value_type>
-			requires(std::is_integral_v<value_type>)
-		explicit Minute(value_type value)
-		{
-			_value = value;
-		}
-
 		explicit Minute(base::Fraction const &value)
 		{
 			_value = value;

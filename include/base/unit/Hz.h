@@ -14,13 +14,6 @@ namespace base::unit
 	public:
 		Hz() = default;
 
-		template <typename value_type>
-			requires(std::is_integral_v<value_type>)
-		explicit Hz(value_type value)
-		{
-			_value = value;
-		}
-
 		explicit Hz(base::Fraction const &value)
 		{
 			_value = value;

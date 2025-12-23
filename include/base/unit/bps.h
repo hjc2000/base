@@ -16,13 +16,6 @@ namespace base::unit
 	public:
 		bps() = default;
 
-		template <typename value_type>
-			requires(std::is_integral_v<value_type>)
-		explicit bps(value_type value)
-		{
-			_value = value;
-		}
-
 		explicit bps(base::Fraction const &o)
 		{
 			_value = o;

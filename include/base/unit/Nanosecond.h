@@ -19,13 +19,6 @@ namespace base::unit
 	public:
 		Nanosecond() = default;
 
-		template <typename value_type>
-			requires(std::is_integral_v<value_type>)
-		explicit Nanosecond(value_type value)
-		{
-			_value = value;
-		}
-
 		explicit Nanosecond(base::Fraction const &value)
 		{
 			_value = value;

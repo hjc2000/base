@@ -1,28 +1,24 @@
 #pragma once
 #include "base/math/Fraction.h"
-#include "base/unit/IUnit.h"
+#include "IUnit.h"
 
 namespace base::unit
 {
-	///
-	/// @brief 转矩单位。N·m.
-	///
-	///
-	class Nm :
-		public base::unit::IUnit<Nm>
+	class J :
+		public base::unit::IUnit<J>
 	{
 	private:
 		base::Fraction _value;
 
 	public:
-		Nm() = default;
+		J() = default;
 
-		explicit Nm(base::Fraction const &value)
+		explicit J(base::Fraction const &value)
 		{
 			_value = value;
 		}
 
-		using base::unit::IUnit<Nm>::Value;
+		using base::unit::IUnit<J>::Value;
 
 		///
 		/// @brief 单位的值。
@@ -41,7 +37,7 @@ namespace base::unit
 		///
 		virtual std::string UnitString() const override
 		{
-			return "N·m";
+			return "J";
 		}
 	};
 

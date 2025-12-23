@@ -15,13 +15,6 @@ namespace base::unit
 	public:
 		Hour() = default;
 
-		template <typename value_type>
-			requires(std::is_integral_v<value_type>)
-		explicit Hour(value_type value)
-		{
-			_value = value;
-		}
-
 		explicit Hour(base::Fraction const &value)
 		{
 			_value = value;
