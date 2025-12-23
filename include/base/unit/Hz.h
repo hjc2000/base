@@ -38,7 +38,7 @@ namespace base::unit
 		template <typename T>
 			requires(std::is_convertible_v<T, base::unit::Second>)
 		Hz(T const &value)
-			: Hz(base::unit::Second{value})
+			: Hz{base::unit::Second{value}}
 		{
 		}
 

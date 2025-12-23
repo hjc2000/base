@@ -40,7 +40,7 @@ namespace base::unit
 		template <typename T>
 			requires(std::is_convertible_v<T, base::unit::Second>)
 		Hour(T const &value)
-			: Hour(base::unit::Second{value})
+			: Hour{base::unit::Second{value}}
 		{
 		}
 

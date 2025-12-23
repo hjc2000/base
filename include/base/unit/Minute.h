@@ -39,7 +39,7 @@ namespace base::unit
 		template <typename T>
 			requires(std::is_convertible_v<T, base::unit::Second>)
 		Minute(T const &value)
-			: Minute(base::unit::Second{value})
+			: Minute{base::unit::Second{value}}
 		{
 		}
 

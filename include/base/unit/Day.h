@@ -40,7 +40,7 @@ namespace base::unit
 		template <typename T>
 			requires(std::is_convertible_v<T, base::unit::Second>)
 		Day(T const &value)
-			: Day(base::unit::Second{value})
+			: Day{base::unit::Second{value}}
 		{
 		}
 

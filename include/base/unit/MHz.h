@@ -45,7 +45,7 @@ namespace base::unit
 		template <typename T>
 			requires(std::is_convertible_v<T, base::unit::Second>)
 		MHz(T const &value)
-			: MHz(base::unit::Second{value})
+			: MHz{base::unit::Second{value}}
 		{
 		}
 
