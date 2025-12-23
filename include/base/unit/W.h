@@ -75,6 +75,5 @@ inline base::unit::W operator*(base::unit::V const &lhs, base::unit::A const &rh
 
 inline base::unit::W operator*(base::unit::A const &lhs, base::unit::V const &rhs)
 {
-	base::unit::W ret{lhs.Value() * rhs.Value()};
-	return ret;
+	return rhs * lhs;
 }
