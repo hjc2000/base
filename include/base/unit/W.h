@@ -55,6 +55,8 @@ namespace base::unit
 
 } // namespace base::unit
 
+/* #region 运算符重载 */
+
 ///
 /// @brief W = V * A
 ///
@@ -107,3 +109,5 @@ base::unit::A operator/(TLeft const &left, TRight const &right)
 	base::unit::A ret{w / v};
 	return ret;
 }
+
+/* #endregion */
