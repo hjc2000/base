@@ -52,15 +52,19 @@ namespace base::unit
 			return "W";
 		}
 
-		base::unit::V operator/(base::unit::A const &rhs) const
+		template <typename T>
+			requires(std::is_convertible_v<T, base::unit::A>)
+		base::unit::V operator/(T const &rhs) const
 		{
-			base::unit::V ret{_value / rhs.Value()};
+			base::unit::V ret{_value / base::unit::A{rhs}.Value()};
 			return ret;
 		}
 
-		base::unit::A operator/(base::unit::V const &rhs) const
+		template <typename T>
+			requires(std::is_convertible_v<T, base::unit::V>)
+		base::unit::A operator/(T const &rhs) const
 		{
-			base::unit::A ret{_value / rhs.Value()};
+			base::unit::A ret{_value / base::unit::V{rhs}.Value()};
 			return ret;
 		}
 	};
