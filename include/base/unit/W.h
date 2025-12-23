@@ -2,57 +2,54 @@
 #include "base/math/Fraction.h"
 #include "IUnit.h"
 
-namespace base
+namespace base::unit
 {
-	namespace unit
+	///
+	/// @brief 功率单位：瓦。
+	///
+	///
+	class W :
+		public base::unit::IUnit<W>
 	{
-		///
-		/// @brief 功率单位：瓦。
-		///
-		///
-		class W :
-			public base::unit::IUnit<W>
+	private:
+		base::Fraction _value;
+
+	public:
+		W() = default;
+
+		template <typename value_type>
+			requires(std::is_integral_v<value_type>)
+		explicit W(value_type value)
 		{
-		private:
-			base::Fraction _value;
+			_value = value;
+		}
 
-		public:
-			W() = default;
+		explicit W(base::Fraction const &value)
+		{
+			_value = value;
+		}
 
-			template <typename value_type>
-				requires(std::is_integral_v<value_type>)
-			explicit W(value_type value)
-			{
-				_value = value;
-			}
+		using base::unit::IUnit<W>::Value;
 
-			explicit W(base::Fraction const &value)
-			{
-				_value = value;
-			}
+		///
+		/// @brief 单位的值。
+		///
+		/// @return
+		///
+		virtual base::Fraction &Value() override
+		{
+			return _value;
+		}
 
-			using base::unit::IUnit<W>::Value;
+		///
+		/// @brief 单位的字符串。
+		///
+		/// @return
+		///
+		virtual std::string UnitString() const override
+		{
+			return "W";
+		}
+	};
 
-			///
-			/// @brief 单位的值。
-			///
-			/// @return
-			///
-			virtual base::Fraction &Value() override
-			{
-				return _value;
-			}
-
-			///
-			/// @brief 单位的字符串。
-			///
-			/// @return
-			///
-			virtual std::string UnitString() const override
-			{
-				return "W";
-			}
-		};
-
-	} // namespace unit
-} // namespace base
+} // namespace base::unit
