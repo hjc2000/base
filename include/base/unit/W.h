@@ -55,6 +55,9 @@ namespace base::unit
 
 } // namespace base::unit
 
+///
+/// @brief W = V * A
+///
 template <typename TLeft, typename TRight>
 	requires(std::is_convertible_v<TLeft, base::unit::V> &&
 			 std::is_convertible_v<TRight, base::unit::A>)
@@ -66,6 +69,9 @@ inline base::unit::W operator*(TLeft const &left, TRight const &right)
 	return ret;
 }
 
+///
+/// @brief W = V * A
+///
 template <typename TLeft, typename TRight>
 	requires(std::is_convertible_v<TLeft, base::unit::A> &&
 			 std::is_convertible_v<TRight, base::unit::V>)
@@ -74,6 +80,9 @@ inline base::unit::W operator*(TLeft const &left, TRight const &right)
 	return right * left;
 }
 
+///
+/// @brief V = W / A
+///
 template <typename TLeft, typename TRight>
 	requires(std::is_convertible_v<TLeft, base::unit::W> &&
 			 std::is_convertible_v<TRight, base::unit::A>)
@@ -85,6 +94,9 @@ base::unit::V operator/(TLeft const &left, TRight const &right)
 	return ret;
 }
 
+///
+/// @brief A = W / V
+///
 template <typename TLeft, typename TRight>
 	requires(std::is_convertible_v<TLeft, base::unit::W> &&
 			 std::is_convertible_v<TRight, base::unit::V>)
