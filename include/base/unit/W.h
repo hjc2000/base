@@ -65,16 +65,16 @@ namespace base::unit
 		}
 	};
 
-	inline base::unit::W operator*(base::unit::V const &lhs, base::unit::A const &rhs)
-	{
-		base::unit::W ret{lhs.Value() * rhs.Value()};
-		return ret;
-	}
-
-	inline base::unit::W operator*(base::unit::A const &lhs, base::unit::V const &rhs)
-	{
-		base::unit::W ret{lhs.Value() * rhs.Value()};
-		return ret;
-	}
-
 } // namespace base::unit
+
+inline base::unit::W operator*(base::unit::V const &lhs, base::unit::A const &rhs)
+{
+	base::unit::W ret{lhs.Value() * rhs.Value()};
+	return ret;
+}
+
+inline base::unit::W operator*(base::unit::A const &lhs, base::unit::V const &rhs)
+{
+	base::unit::W ret{lhs.Value() * rhs.Value()};
+	return ret;
+}
