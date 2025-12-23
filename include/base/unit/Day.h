@@ -4,109 +4,106 @@
 #include "base/unit/Second.h"
 #include <chrono>
 
-namespace base
+namespace base::unit
 {
-	namespace unit
+	class Day :
+		public base::unit::IUnit<Day>
 	{
-		class Day :
-			public base::unit::IUnit<Day>
+	private:
+		base::Fraction _value{};
+
+	public:
+		Day() = default;
+
+		template <typename value_type>
+			requires(std::is_integral_v<value_type>)
+		explicit Day(value_type value)
 		{
-		private:
-			base::Fraction _value{};
+			_value = value;
+		}
 
-		public:
-			Day() = default;
+		explicit Day(base::Fraction const &value)
+		{
+			_value = value;
+		}
 
-			template <typename value_type>
-				requires(std::is_integral_v<value_type>)
-			explicit Day(value_type value)
-			{
-				_value = value;
-			}
+		Day(base::unit::Second const &value)
+		{
+			base::unit::Hour hour{value};
+			_value = hour.Value() / 24;
+		}
 
-			explicit Day(base::Fraction const &value)
-			{
-				_value = value;
-			}
+		///
+		/// @brief 能转换到 base::unit::Second 的对象都借助 base::unit::Second
+		/// 进行构造。
+		///
+		template <typename T>
+			requires(std::is_convertible_v<T, base::unit::Second>)
+		Day(T const &value)
+			: Day(base::unit::Second{value})
+		{
+		}
 
-			Day(base::unit::Second const &value)
-			{
-				base::unit::Hour hour{value};
-				_value = hour.Value() / 24;
-			}
+		///
+		/// @brief 单位的值。
+		///
+		/// @return
+		///
+		virtual base::Fraction &Value() override
+		{
+			return _value;
+		}
 
-			///
-			/// @brief 能转换到 base::unit::Second 的对象都借助 base::unit::Second
-			/// 进行构造。
-			///
-			template <typename T>
-				requires(std::is_convertible_v<T, base::unit::Second>)
-			Day(T const &value)
-				: Day(base::unit::Second{value})
-			{
-			}
+		///
+		/// @brief 单位的字符串。
+		///
+		/// @return
+		///
+		virtual std::string UnitString() const override
+		{
+			return "d";
+		}
 
-			///
-			/// @brief 单位的值。
-			///
-			/// @return
-			///
-			virtual base::Fraction &Value() override
-			{
-				return _value;
-			}
+		explicit operator std::chrono::days() const
+		{
+			return std::chrono::days{base::unit::Second{*this}};
+		}
 
-			///
-			/// @brief 单位的字符串。
-			///
-			/// @return
-			///
-			virtual std::string UnitString() const override
-			{
-				return "d";
-			}
+		explicit operator std::chrono::hours() const
+		{
+			return std::chrono::hours{base::unit::Second{*this}};
+		}
 
-			explicit operator std::chrono::days() const
-			{
-				return std::chrono::days{base::unit::Second{*this}};
-			}
+		explicit operator std::chrono::minutes() const
+		{
+			return std::chrono::minutes{base::unit::Second{*this}};
+		}
 
-			explicit operator std::chrono::hours() const
-			{
-				return std::chrono::hours{base::unit::Second{*this}};
-			}
+		explicit operator std::chrono::seconds() const
+		{
+			return std::chrono::seconds{base::unit::Second{*this}};
+		}
 
-			explicit operator std::chrono::minutes() const
-			{
-				return std::chrono::minutes{base::unit::Second{*this}};
-			}
+		explicit operator std::chrono::milliseconds() const
+		{
+			return std::chrono::milliseconds{base::unit::Second{*this}};
+		}
 
-			explicit operator std::chrono::seconds() const
-			{
-				return std::chrono::seconds{base::unit::Second{*this}};
-			}
+		explicit operator std::chrono::microseconds() const
+		{
+			return std::chrono::microseconds{base::unit::Second{*this}};
+		}
 
-			explicit operator std::chrono::milliseconds() const
-			{
-				return std::chrono::milliseconds{base::unit::Second{*this}};
-			}
+		explicit operator std::chrono::nanoseconds() const
+		{
+			return std::chrono::nanoseconds{base::unit::Second{*this}};
+		}
 
-			explicit operator std::chrono::microseconds() const
-			{
-				return std::chrono::microseconds{base::unit::Second{*this}};
-			}
+		operator base::unit::Second() const
+		{
+			base::unit::Hour hour{_value * 24};
+			return base::unit::Second{hour};
+		}
+	};
 
-			explicit operator std::chrono::nanoseconds() const
-			{
-				return std::chrono::nanoseconds{base::unit::Second{*this}};
-			}
-
-			operator base::unit::Second() const
-			{
-				base::unit::Hour hour{_value * 24};
-				return base::unit::Second{hour};
-			}
-		};
-
-	} // namespace unit
-} // namespace base
+} // namespace base::unit

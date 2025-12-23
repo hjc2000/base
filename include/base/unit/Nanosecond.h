@@ -4,114 +4,111 @@
 #include "base/unit/Second.h"
 #include <chrono>
 
-namespace base
+namespace base::unit
 {
-	namespace unit
+	///
+	/// @brief 纳秒
+	///
+	///
+	class Nanosecond :
+		public base::unit::IUnit<Nanosecond>
 	{
-		///
-		/// @brief 纳秒
-		///
-		///
-		class Nanosecond :
-			public base::unit::IUnit<Nanosecond>
+	private:
+		base::Fraction _value{};
+
+	public:
+		Nanosecond() = default;
+
+		template <typename value_type>
+			requires(std::is_integral_v<value_type>)
+		explicit Nanosecond(value_type value)
 		{
-		private:
-			base::Fraction _value{};
+			_value = value;
+		}
 
-		public:
-			Nanosecond() = default;
+		explicit Nanosecond(base::Fraction const &value)
+		{
+			_value = value;
+		}
 
-			template <typename value_type>
-				requires(std::is_integral_v<value_type>)
-			explicit Nanosecond(value_type value)
-			{
-				_value = value;
-			}
+		Nanosecond(base::unit::Second const &value)
+		{
+			_value = static_cast<base::Fraction>(value) * 1000 * 1000 * 1000;
+		}
 
-			explicit Nanosecond(base::Fraction const &value)
-			{
-				_value = value;
-			}
+		///
+		/// @brief 能转换到 base::unit::Second 的对象都借助 base::unit::Second
+		/// 进行构造。
+		///
+		template <typename T>
+			requires(std::is_convertible_v<T, base::unit::Second>)
+		Nanosecond(T const &value)
+			: Nanosecond{base::unit::Second{value}}
+		{
+		}
 
-			Nanosecond(base::unit::Second const &value)
-			{
-				_value = static_cast<base::Fraction>(value) * 1000 * 1000 * 1000;
-			}
+		using base::unit::IUnit<Nanosecond>::Value;
 
-			///
-			/// @brief 能转换到 base::unit::Second 的对象都借助 base::unit::Second
-			/// 进行构造。
-			///
-			template <typename T>
-				requires(std::is_convertible_v<T, base::unit::Second>)
-			Nanosecond(T const &value)
-				: Nanosecond{base::unit::Second{value}}
-			{
-			}
+		///
+		/// @brief 单位的值。
+		///
+		/// @return
+		///
+		virtual base::Fraction &Value() override
+		{
+			return _value;
+		}
 
-			using base::unit::IUnit<Nanosecond>::Value;
+		///
+		/// @brief 单位的字符串。
+		///
+		/// @return
+		///
+		virtual std::string UnitString() const override
+		{
+			return "ns";
+		}
 
-			///
-			/// @brief 单位的值。
-			///
-			/// @return
-			///
-			virtual base::Fraction &Value() override
-			{
-				return _value;
-			}
+		explicit operator std::chrono::days() const
+		{
+			return std::chrono::days{base::unit::Second{*this}};
+		}
 
-			///
-			/// @brief 单位的字符串。
-			///
-			/// @return
-			///
-			virtual std::string UnitString() const override
-			{
-				return "ns";
-			}
+		explicit operator std::chrono::hours() const
+		{
+			return std::chrono::hours{base::unit::Second{*this}};
+		}
 
-			explicit operator std::chrono::days() const
-			{
-				return std::chrono::days{base::unit::Second{*this}};
-			}
+		explicit operator std::chrono::minutes() const
+		{
+			return std::chrono::minutes{base::unit::Second{*this}};
+		}
 
-			explicit operator std::chrono::hours() const
-			{
-				return std::chrono::hours{base::unit::Second{*this}};
-			}
+		explicit operator std::chrono::seconds() const
+		{
+			return std::chrono::seconds{base::unit::Second{*this}};
+		}
 
-			explicit operator std::chrono::minutes() const
-			{
-				return std::chrono::minutes{base::unit::Second{*this}};
-			}
+		explicit operator std::chrono::milliseconds() const
+		{
+			return std::chrono::milliseconds{base::unit::Second{*this}};
+		}
 
-			explicit operator std::chrono::seconds() const
-			{
-				return std::chrono::seconds{base::unit::Second{*this}};
-			}
+		explicit operator std::chrono::microseconds() const
+		{
+			return std::chrono::microseconds{base::unit::Second{*this}};
+		}
 
-			explicit operator std::chrono::milliseconds() const
-			{
-				return std::chrono::milliseconds{base::unit::Second{*this}};
-			}
+		explicit operator std::chrono::nanoseconds() const
+		{
+			return std::chrono::nanoseconds{base::unit::Second{*this}};
+		}
 
-			explicit operator std::chrono::microseconds() const
-			{
-				return std::chrono::microseconds{base::unit::Second{*this}};
-			}
+		operator base::unit::Second() const
+		{
+			base::unit::Second ret{_value / 1000 / 1000 / 1000};
+			return ret;
+		}
+	};
 
-			explicit operator std::chrono::nanoseconds() const
-			{
-				return std::chrono::nanoseconds{base::unit::Second{*this}};
-			}
-
-			operator base::unit::Second() const
-			{
-				base::unit::Second ret{_value / 1000 / 1000 / 1000};
-				return ret;
-			}
-		};
-
-	} // namespace unit
-} // namespace base
+} // namespace base::unit

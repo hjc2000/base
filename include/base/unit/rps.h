@@ -3,79 +3,76 @@
 #include "base/unit/IUnit.h"
 #include "base/unit/rpm.h"
 
-namespace base
+namespace base::unit
 {
-	namespace unit
+	///
+	/// @brief 转速。圈 / 秒。
+	///
+	///
+	class rps :
+		public base::unit::IUnit<rps>
 	{
-		///
-		/// @brief 转速。圈 / 秒。
-		///
-		///
-		class rps :
-			public base::unit::IUnit<rps>
+	private:
+		base::Fraction _value;
+
+	public:
+		rps() = default;
+
+		template <typename value_type>
+			requires(std::is_integral_v<value_type>)
+		explicit rps(value_type value)
 		{
-		private:
-			base::Fraction _value;
+			_value = value;
+		}
 
-		public:
-			rps() = default;
+		explicit rps(base::Fraction const &value)
+		{
+			_value = value;
+		}
 
-			template <typename value_type>
-				requires(std::is_integral_v<value_type>)
-			explicit rps(value_type value)
-			{
-				_value = value;
-			}
+		rps(base::unit::rpm const &value)
+		{
+			_value = value.Value() / 60;
+		}
 
-			explicit rps(base::Fraction const &value)
-			{
-				_value = value;
-			}
+		///
+		/// @brief 能转换到 base::unit::rpm 的都借助 base::unit::rpm 来初始化。
+		///
+		///
+		template <typename T>
+			requires(std::is_convertible_v<T, base::unit::rpm>)
+		rps(T const &value)
+			: rps(base::unit::rpm{value})
+		{
+		}
 
-			rps(base::unit::rpm const &value)
-			{
-				_value = value.Value() / 60;
-			}
+		using base::unit::IUnit<rps>::Value;
 
-			///
-			/// @brief 能转换到 base::unit::rpm 的都借助 base::unit::rpm 来初始化。
-			///
-			///
-			template <typename T>
-				requires(std::is_convertible_v<T, base::unit::rpm>)
-			rps(T const &value)
-				: rps(base::unit::rpm{value})
-			{
-			}
+		///
+		/// @brief 单位的值。
+		///
+		/// @return
+		///
+		virtual base::Fraction &Value() override
+		{
+			return _value;
+		}
 
-			using base::unit::IUnit<rps>::Value;
+		///
+		/// @brief 单位的字符串。
+		///
+		/// @return
+		///
+		virtual std::string UnitString() const override
+		{
+			return "rps";
+		}
 
-			///
-			/// @brief 单位的值。
-			///
-			/// @return
-			///
-			virtual base::Fraction &Value() override
-			{
-				return _value;
-			}
+		operator base::unit::rpm() const
+		{
+			base::unit::rpm ret{_value * 60};
+			return ret;
+		}
+	};
 
-			///
-			/// @brief 单位的字符串。
-			///
-			/// @return
-			///
-			virtual std::string UnitString() const override
-			{
-				return "rps";
-			}
-
-			operator base::unit::rpm() const
-			{
-				base::unit::rpm ret{_value * 60};
-				return ret;
-			}
-		};
-
-	} // namespace unit
-} // namespace base
+} // namespace base::unit

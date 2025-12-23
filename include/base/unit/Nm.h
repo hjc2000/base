@@ -2,57 +2,54 @@
 #include "base/math/Fraction.h"
 #include "base/unit/IUnit.h"
 
-namespace base
+namespace base::unit
 {
-	namespace unit
+	///
+	/// @brief 转矩单位。N·m.
+	///
+	///
+	class Nm :
+		public base::unit::IUnit<Nm>
 	{
-		///
-		/// @brief 转矩单位。N·m.
-		///
-		///
-		class Nm :
-			public base::unit::IUnit<Nm>
+	private:
+		base::Fraction _value;
+
+	public:
+		Nm() = default;
+
+		template <typename value_type>
+			requires(std::is_integral_v<value_type>)
+		explicit Nm(value_type value)
 		{
-		private:
-			base::Fraction _value;
+			_value = value;
+		}
 
-		public:
-			Nm() = default;
+		explicit Nm(base::Fraction const &value)
+		{
+			_value = value;
+		}
 
-			template <typename value_type>
-				requires(std::is_integral_v<value_type>)
-			explicit Nm(value_type value)
-			{
-				_value = value;
-			}
+		using base::unit::IUnit<Nm>::Value;
 
-			explicit Nm(base::Fraction const &value)
-			{
-				_value = value;
-			}
+		///
+		/// @brief 单位的值。
+		///
+		/// @return
+		///
+		virtual base::Fraction &Value() override
+		{
+			return _value;
+		}
 
-			using base::unit::IUnit<Nm>::Value;
+		///
+		/// @brief 单位的字符串。
+		///
+		/// @return
+		///
+		virtual std::string UnitString() const override
+		{
+			return "N·m";
+		}
+	};
 
-			///
-			/// @brief 单位的值。
-			///
-			/// @return
-			///
-			virtual base::Fraction &Value() override
-			{
-				return _value;
-			}
-
-			///
-			/// @brief 单位的字符串。
-			///
-			/// @return
-			///
-			virtual std::string UnitString() const override
-			{
-				return "N·m";
-			}
-		};
-
-	} // namespace unit
-} // namespace base
+} // namespace base::unit

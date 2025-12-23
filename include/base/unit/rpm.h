@@ -2,57 +2,54 @@
 #include "base/math/Fraction.h"
 #include "base/unit/IUnit.h"
 
-namespace base
+namespace base::unit
 {
-	namespace unit
+	///
+	/// @brief 转速。圈 / 分。
+	///
+	///
+	class rpm :
+		public base::unit::IUnit<rpm>
 	{
-		///
-		/// @brief 转速。圈 / 分。
-		///
-		///
-		class rpm :
-			public base::unit::IUnit<rpm>
+	private:
+		base::Fraction _value;
+
+	public:
+		rpm() = default;
+
+		template <typename value_type>
+			requires(std::is_integral_v<value_type>)
+		explicit rpm(value_type value)
 		{
-		private:
-			base::Fraction _value;
+			_value = value;
+		}
 
-		public:
-			rpm() = default;
+		explicit rpm(base::Fraction const &value)
+		{
+			_value = value;
+		}
 
-			template <typename value_type>
-				requires(std::is_integral_v<value_type>)
-			explicit rpm(value_type value)
-			{
-				_value = value;
-			}
+		using base::unit::IUnit<rpm>::Value;
 
-			explicit rpm(base::Fraction const &value)
-			{
-				_value = value;
-			}
+		///
+		/// @brief 单位的值。
+		///
+		/// @return
+		///
+		virtual base::Fraction &Value() override
+		{
+			return _value;
+		}
 
-			using base::unit::IUnit<rpm>::Value;
+		///
+		/// @brief 单位的字符串。
+		///
+		/// @return
+		///
+		virtual std::string UnitString() const override
+		{
+			return "rpm";
+		}
+	};
 
-			///
-			/// @brief 单位的值。
-			///
-			/// @return
-			///
-			virtual base::Fraction &Value() override
-			{
-				return _value;
-			}
-
-			///
-			/// @brief 单位的字符串。
-			///
-			/// @return
-			///
-			virtual std::string UnitString() const override
-			{
-				return "rpm";
-			}
-		};
-
-	} // namespace unit
-} // namespace base
+} // namespace base::unit
