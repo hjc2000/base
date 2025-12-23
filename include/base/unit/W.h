@@ -51,6 +51,18 @@ namespace base::unit
 		{
 			return "W";
 		}
+
+		base::unit::V operator/(base::unit::A const &rhs) const
+		{
+			base::unit::V ret{_value / rhs.Value()};
+			return ret;
+		}
+
+		base::unit::A operator/(base::unit::V const &rhs) const
+		{
+			base::unit::A ret{_value / rhs.Value()};
+			return ret;
+		}
 	};
 
 	inline base::unit::W operator*(base::unit::V const &lhs, base::unit::A const &rhs)
