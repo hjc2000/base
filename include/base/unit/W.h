@@ -51,22 +51,6 @@ namespace base::unit
 		{
 			return "W";
 		}
-
-		template <typename T>
-			requires(std::is_convertible_v<T, base::unit::A>)
-		base::unit::V operator/(T const &rhs) const
-		{
-			base::unit::V ret{_value / base::unit::A{rhs}.Value()};
-			return ret;
-		}
-
-		template <typename T>
-			requires(std::is_convertible_v<T, base::unit::V>)
-		base::unit::A operator/(T const &rhs) const
-		{
-			base::unit::A ret{_value / base::unit::V{rhs}.Value()};
-			return ret;
-		}
 	};
 
 } // namespace base::unit
@@ -74,16 +58,40 @@ namespace base::unit
 template <typename TLeft, typename TRight>
 	requires(std::is_convertible_v<TLeft, base::unit::V> &&
 			 std::is_convertible_v<TRight, base::unit::A>)
-inline base::unit::W operator*(TLeft const &lhs, TRight const &rhs)
+inline base::unit::W operator*(TLeft const &left, TRight const &right)
 {
-	base::unit::W ret{base::unit::V{lhs}.Value() * base::unit::A{rhs}.Value()};
+	base::Fraction v = base::unit::V{left}.Value();
+	base::Fraction a = base::unit::A{right}.Value();
+	base::unit::W ret{v * a};
 	return ret;
 }
 
 template <typename TLeft, typename TRight>
 	requires(std::is_convertible_v<TLeft, base::unit::A> &&
 			 std::is_convertible_v<TRight, base::unit::V>)
-inline base::unit::W operator*(TLeft const &lhs, TRight const &rhs)
+inline base::unit::W operator*(TLeft const &left, TRight const &right)
 {
-	return rhs * lhs;
+	return right * left;
+}
+
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::W> &&
+			 std::is_convertible_v<TRight, base::unit::A>)
+base::unit::V operator/(TLeft const &left, TRight const &right)
+{
+	base::Fraction w = base::unit::W{left}.Value();
+	base::Fraction a = base::unit::A{right}.Value();
+	base::unit::V ret{w / a};
+	return ret;
+}
+
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::W> &&
+			 std::is_convertible_v<TRight, base::unit::V>)
+base::unit::A operator/(TLeft const &left, TRight const &right)
+{
+	base::Fraction w = base::unit::W{left}.Value();
+	base::Fraction v = base::unit::V{right}.Value();
+	base::unit::A ret{w / v};
+	return ret;
 }
