@@ -67,13 +67,19 @@ namespace base::unit
 
 } // namespace base::unit
 
-inline base::unit::W operator*(base::unit::V const &lhs, base::unit::A const &rhs)
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::V> &&
+			 std::is_convertible_v<TRight, base::unit::A>)
+inline base::unit::W operator*(TLeft const &lhs, TRight const &rhs)
 {
-	base::unit::W ret{lhs.Value() * rhs.Value()};
+	base::unit::W ret{base::unit::V{lhs}.Value() * base::unit::A{rhs}.Value()};
 	return ret;
 }
 
-inline base::unit::W operator*(base::unit::A const &lhs, base::unit::V const &rhs)
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::A> &&
+			 std::is_convertible_v<TRight, base::unit::V>)
+inline base::unit::W operator*(TLeft const &lhs, TRight const &rhs)
 {
 	return rhs * lhs;
 }
