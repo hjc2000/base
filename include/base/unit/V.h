@@ -1,6 +1,7 @@
 #pragma once
 #include "base/math/Fraction.h"
 #include "IUnit.h"
+#include <type_traits>
 
 namespace base::unit
 {

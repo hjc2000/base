@@ -2,6 +2,7 @@
 #include "A.h"
 #include "base/math/Fraction.h"
 #include "IUnit.h"
+#include <type_traits>
 
 namespace base::unit
 {

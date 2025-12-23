@@ -2,7 +2,9 @@
 #include "base/math/Fraction.h"
 #include "base/unit/IUnit.h"
 #include "base/unit/Second.h"
+#include "IUnit.h"
 #include <chrono>
+#include <type_traits>
 
 namespace base::unit
 {
