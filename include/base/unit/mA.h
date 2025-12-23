@@ -17,9 +17,11 @@ namespace base::unit
 	public:
 		mA() = default;
 
-		explicit mA(base::Fraction const &value)
+		template <typename T>
+			requires(std::is_convertible_v<T, base::Fraction>)
+		explicit mA(T const &value)
 		{
-			_value = value;
+			_value = base::Fraction{value};
 		}
 
 		///

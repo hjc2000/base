@@ -18,9 +18,11 @@ namespace base::unit
 	public:
 		rps() = default;
 
-		explicit rps(base::Fraction const &value)
+		template <typename T>
+			requires(std::is_convertible_v<T, base::Fraction>)
+		explicit rps(T const &value)
 		{
-			_value = value;
+			_value = base::Fraction{value};
 		}
 
 		rps(base::unit::rpm const &value)

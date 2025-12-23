@@ -20,9 +20,11 @@ namespace base::unit
 	public:
 		MHz() = default;
 
-		explicit MHz(base::Fraction const &value)
+		template <typename T>
+			requires(std::is_convertible_v<T, base::Fraction>)
+		explicit MHz(T const &value)
 		{
-			_value = value;
+			_value = base::Fraction{value};
 		}
 
 		MHz(base::unit::Second const &value)

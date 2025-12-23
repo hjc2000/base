@@ -15,9 +15,11 @@ namespace base::unit
 	public:
 		Minute() = default;
 
-		explicit Minute(base::Fraction const &value)
+		template <typename T>
+			requires(std::is_convertible_v<T, base::Fraction>)
+		explicit Minute(T const &value)
 		{
-			_value = value;
+			_value = base::Fraction{value};
 		}
 
 		Minute(base::unit::Second const &value)

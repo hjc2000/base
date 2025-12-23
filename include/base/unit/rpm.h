@@ -17,9 +17,11 @@ namespace base::unit
 	public:
 		rpm() = default;
 
-		explicit rpm(base::Fraction const &value)
+		template <typename T>
+			requires(std::is_convertible_v<T, base::Fraction>)
+		explicit rpm(T const &value)
 		{
-			_value = value;
+			_value = base::Fraction{value};
 		}
 
 		using base::unit::IUnit<rpm>::Value;

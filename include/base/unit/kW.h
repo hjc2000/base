@@ -18,9 +18,11 @@ namespace base::unit
 	public:
 		kW() = default;
 
-		explicit kW(base::Fraction const &value)
+		template <typename T>
+			requires(std::is_convertible_v<T, base::Fraction>)
+		explicit kW(T const &value)
 		{
-			_value = value;
+			_value = base::Fraction{value};
 		}
 
 		kW(base::unit::W const &value)

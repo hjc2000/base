@@ -16,9 +16,11 @@ namespace base::unit
 	public:
 		V() = default;
 
-		explicit V(base::Fraction const &value)
+		template <typename T>
+			requires(std::is_convertible_v<T, base::Fraction>)
+		explicit V(T const &value)
 		{
-			_value = value;
+			_value = base::Fraction{value};
 		}
 
 		using base::unit::IUnit<V>::Value;

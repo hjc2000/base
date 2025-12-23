@@ -15,9 +15,11 @@ namespace base::unit
 	public:
 		Hour() = default;
 
-		explicit Hour(base::Fraction const &value)
+		template <typename T>
+			requires(std::is_convertible_v<T, base::Fraction>)
+		explicit Hour(T const &value)
 		{
-			_value = value;
+			_value = base::Fraction{value};
 		}
 
 		Hour(base::unit::Second const &value)

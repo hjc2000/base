@@ -18,9 +18,11 @@ namespace base::unit
 	public:
 		Mbps() = default;
 
-		explicit Mbps(base::Fraction const &o)
+		template <typename T>
+			requires(std::is_convertible_v<T, base::Fraction>)
+		explicit Mbps(T const &value)
 		{
-			_value = o;
+			_value = base::Fraction{value};
 		}
 
 		Mbps(base::unit::bps const &o)

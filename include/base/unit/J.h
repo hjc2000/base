@@ -13,9 +13,11 @@ namespace base::unit
 	public:
 		J() = default;
 
-		explicit J(base::Fraction const &value)
+		template <typename T>
+			requires(std::is_convertible_v<T, base::Fraction>)
+		explicit J(T const &value)
 		{
-			_value = value;
+			_value = base::Fraction{value};
 		}
 
 		using base::unit::IUnit<J>::Value;

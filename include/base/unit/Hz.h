@@ -14,9 +14,11 @@ namespace base::unit
 	public:
 		Hz() = default;
 
-		explicit Hz(base::Fraction const &value)
+		template <typename T>
+			requires(std::is_convertible_v<T, base::Fraction>)
+		explicit Hz(T const &value)
 		{
-			_value = value;
+			_value = base::Fraction{value};
 		}
 
 		Hz(base::unit::Second const &value)

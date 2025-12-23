@@ -16,9 +16,11 @@ namespace base::unit
 	public:
 		bps() = default;
 
-		explicit bps(base::Fraction const &o)
+		template <typename T>
+			requires(std::is_convertible_v<T, base::Fraction>)
+		explicit bps(T const &value)
 		{
-			_value = o;
+			_value = base::Fraction{value};
 		}
 
 		using base::unit::IUnit<bps>::Value;

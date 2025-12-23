@@ -14,9 +14,11 @@ namespace base::unit
 	public:
 		Second() = default;
 
-		explicit Second(base::Fraction const &value)
+		template <typename T>
+			requires(std::is_convertible_v<T, base::Fraction>)
+		explicit Second(T const &value)
 		{
-			_value = value;
+			_value = base::Fraction{value};
 		}
 
 		Second(std::chrono::seconds const &value)

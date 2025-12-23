@@ -15,9 +15,11 @@ namespace base::unit
 	public:
 		Day() = default;
 
-		explicit Day(base::Fraction const &value)
+		template <typename T>
+			requires(std::is_convertible_v<T, base::Fraction>)
+		explicit Day(T const &value)
 		{
-			_value = value;
+			_value = base::Fraction{value};
 		}
 
 		Day(base::unit::Second const &value)

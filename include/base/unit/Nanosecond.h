@@ -19,9 +19,11 @@ namespace base::unit
 	public:
 		Nanosecond() = default;
 
-		explicit Nanosecond(base::Fraction const &value)
+		template <typename T>
+			requires(std::is_convertible_v<T, base::Fraction>)
+		explicit Nanosecond(T const &value)
 		{
-			_value = value;
+			_value = base::Fraction{value};
 		}
 
 		Nanosecond(base::unit::Second const &value)
