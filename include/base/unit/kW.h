@@ -38,7 +38,7 @@ namespace base::unit
 		template <typename T>
 			requires(std::is_convertible_v<T, base::unit::W>)
 		kW(T const &value)
-			: kW(base::unit::W{value})
+			: kW{base::unit::W{value}}
 		{
 		}
 

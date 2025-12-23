@@ -42,7 +42,7 @@ namespace base::unit
 		template <typename T>
 			requires(std::is_convertible_v<T, base::unit::bps>)
 		Mbps(T const &value)
-			: Mbps(base::unit::bps{value})
+			: Mbps{base::unit::bps{value}}
 		{
 		}
 
