@@ -7,6 +7,9 @@
 #include "base/test/TestInertialElement.h"
 #include "base/test/TestParse.h"
 #include "base/test/TestUtf8Reader.h"
+#include "base/unit/mA.h"
+#include "base/unit/V.h"
+#include "base/unit/W.h"
 #include <cstdint>
 #include <iostream>
 #include <numbers>
@@ -32,6 +35,15 @@ int main()
 		};
 
 		std::cout << f << std::endl;
+	}
+
+	{
+		base::unit::mA ma{1000};
+		base::unit::V v{100};
+		base::unit::W w = v * ma;
+		std::cout << w << std::endl;
+		std::cout << (w / v) << std::endl;
+		std::cout << (w / ma) << std::endl;
 	}
 
 	return 0;
