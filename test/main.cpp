@@ -51,8 +51,7 @@ int main()
 		base::unit::kW kw = v * ma;
 		base::unit::J j = kw * base::unit::Second{1};
 		base::unit::mWh mwh = j;
-		base::unit::A a{10};
-		base::unit::mAh mah{a * base::unit::Hour{1}};
+		base::unit::mAh mah{ma * base::unit::Hour{1}};
 		std::cout << w << std::endl;
 		std::cout << kw << std::endl;
 		std::cout << (w / v) << std::endl;
