@@ -51,6 +51,8 @@ namespace base::unit
 
 } // namespace base::unit
 
+/* #region mAh = mA * Hour 运算符重载 */
+
 ///
 /// @brief 毫安 * 小时 = 毫安时
 ///
@@ -103,3 +105,5 @@ inline base::unit::mA operator/(TLeft const &left, TRight const &right)
 	base::unit::mA ret{mah / hour};
 	return ret;
 }
+
+/* #endregion */
