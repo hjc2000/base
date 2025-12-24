@@ -7,9 +7,12 @@
 #include "base/test/TestInertialElement.h"
 #include "base/test/TestParse.h"
 #include "base/test/TestUtf8Reader.h"
+#include "base/unit/A.h"
+#include "base/unit/Hour.h"
 #include "base/unit/J.h"
 #include "base/unit/kW.h"
 #include "base/unit/mA.h"
+#include "base/unit/mAh.h"
 #include "base/unit/mWh.h"
 #include "base/unit/Second.h"
 #include "base/unit/V.h"
@@ -48,12 +51,15 @@ int main()
 		base::unit::kW kw = v * ma;
 		base::unit::J j = kw * base::unit::Second{1};
 		base::unit::mWh mwh = j;
+		base::unit::A a{10};
+		base::unit::mAh mah{a * base::unit::Hour{1}};
 		std::cout << w << std::endl;
 		std::cout << kw << std::endl;
 		std::cout << (w / v) << std::endl;
 		std::cout << (w / ma) << std::endl;
 		std::cout << j << std::endl;
 		std::cout << mwh << std::endl;
+		std::cout << mah << std::endl;
 	}
 
 	return 0;
