@@ -7,8 +7,10 @@
 #include "base/test/TestInertialElement.h"
 #include "base/test/TestParse.h"
 #include "base/test/TestUtf8Reader.h"
+#include "base/unit/J.h"
 #include "base/unit/kW.h"
 #include "base/unit/mA.h"
+#include "base/unit/Second.h"
 #include "base/unit/V.h"
 #include "base/unit/W.h"
 #include <cstdint>
@@ -43,10 +45,12 @@ int main()
 		base::unit::V v{100};
 		base::unit::W w = v * ma;
 		base::unit::kW kw = v * ma;
+		base::unit::J j = kw * base::unit::Second{1};
 		std::cout << w << std::endl;
 		std::cout << kw << std::endl;
 		std::cout << (w / v) << std::endl;
 		std::cout << (w / ma) << std::endl;
+		std::cout << j << std::endl;
 	}
 
 	return 0;
