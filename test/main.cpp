@@ -10,6 +10,7 @@
 #include "base/unit/J.h"
 #include "base/unit/kW.h"
 #include "base/unit/mA.h"
+#include "base/unit/mWh.h"
 #include "base/unit/Second.h"
 #include "base/unit/V.h"
 #include "base/unit/W.h"
@@ -46,11 +47,13 @@ int main()
 		base::unit::W w = v * ma;
 		base::unit::kW kw = v * ma;
 		base::unit::J j = kw * base::unit::Second{1};
+		base::unit::mWh mwh = j;
 		std::cout << w << std::endl;
 		std::cout << kw << std::endl;
 		std::cout << (w / v) << std::endl;
 		std::cout << (w / ma) << std::endl;
 		std::cout << j << std::endl;
+		std::cout << mwh << std::endl;
 	}
 
 	return 0;
