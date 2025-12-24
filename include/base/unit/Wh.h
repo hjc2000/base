@@ -1,5 +1,6 @@
 #pragma once
 #include "base/math/Fraction.h"
+#include "base/unit/Ah.h"
 #include "base/unit/J.h"
 #include "IUnit.h"
 #include <type_traits>
@@ -74,3 +75,48 @@ namespace base::unit
 	};
 
 } // namespace base::unit
+
+/* #region 运算符重载 */
+
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::Ah> &&
+			 std::is_convertible_v<TRight, base::unit::V>)
+inline base::unit::Wh operator*(TLeft const &left, TRight const &right)
+{
+	base::Fraction ah = base::unit::Ah{left}.Value();
+	base::Fraction v = base::unit::V{right}.Value();
+	base::unit::Wh ret{ah * v};
+	return ret;
+}
+
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::V> &&
+			 std::is_convertible_v<TRight, base::unit::Ah>)
+inline base::unit::Wh operator*(TLeft const &left, TRight const &right)
+{
+	return right * left;
+}
+
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::Wh> &&
+			 std::is_convertible_v<TRight, base::unit::V>)
+inline base::unit::Ah operator*(TLeft const &left, TRight const &right)
+{
+	base::Fraction wh = base::unit::Wh{left}.Value();
+	base::Fraction v = base::unit::V{right}.Value();
+	base::unit::Ah ret{wh / v};
+	return ret;
+}
+
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::Wh> &&
+			 std::is_convertible_v<TRight, base::unit::Ah>)
+inline base::unit::V operator/(TLeft const &left, TRight const &right)
+{
+	base::Fraction wh = base::unit::Wh{left}.Value();
+	base::Fraction ah = base::unit::Ah{right}.Value();
+	base::unit::V ret{wh / ah};
+	return ret;
+}
+
+/* #endregion */
