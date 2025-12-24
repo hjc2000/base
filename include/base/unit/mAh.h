@@ -7,6 +7,9 @@
 
 namespace base::unit
 {
+	///
+	/// @brief 毫安时。
+	///
 	class mAh :
 		public base::unit::IUnit<mAh>
 	{
