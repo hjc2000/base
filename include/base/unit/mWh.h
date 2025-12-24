@@ -1,7 +1,9 @@
 #pragma once
 #include "base/math/Fraction.h"
 #include "base/unit/Hour.h"
+#include "base/unit/mAh.h"
 #include "base/unit/mW.h"
+#include "base/unit/V.h"
 #include "IUnit.h"
 #include <type_traits>
 
@@ -91,6 +93,51 @@ base::unit::mW operator/(TLeft const &left, TRight const &right)
 	base::Fraction mwh = base::unit::mWh{left}.Value();
 	base::Fraction hour = base::unit::Hour{right}.Value();
 	base::unit::mW ret{mwh / hour};
+	return ret;
+}
+
+/* #endregion */
+
+/* #region mWh = mAh * V 运算符重载 */
+
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::mAh> &&
+			 std::is_convertible_v<TRight, base::unit::V>)
+inline base::unit::mWh operator*(TLeft const &left, TRight const &right)
+{
+	base::Fraction mah = base::unit::mAh{left}.Value();
+	base::Fraction v = base::unit::V{right}.Value();
+	base::unit::mWh ret{mah * v};
+	return ret;
+}
+
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::V> &&
+			 std::is_convertible_v<TRight, base::unit::mAh>)
+inline base::unit::mWh operator*(TLeft const &left, TRight const &right)
+{
+	return right * left;
+}
+
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::mWh> &&
+			 std::is_convertible_v<TRight, base::unit::V>)
+inline base::unit::mAh operator*(TLeft const &left, TRight const &right)
+{
+	base::Fraction mwh = base::unit::mWh{left}.Value();
+	base::Fraction v = base::unit::V{right}.Value();
+	base::unit::mAh ret{mwh / v};
+	return ret;
+}
+
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::mWh> &&
+			 std::is_convertible_v<TRight, base::unit::mAh>)
+inline base::unit::V operator/(TLeft const &left, TRight const &right)
+{
+	base::Fraction mwh = base::unit::mWh{left}.Value();
+	base::Fraction mah = base::unit::mAh{right}.Value();
+	base::unit::V ret{mwh / mah};
 	return ret;
 }
 
