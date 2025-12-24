@@ -75,3 +75,31 @@ inline base::unit::mAh operator*(TLeft const &left, TRight const &right)
 {
 	return right * left;
 }
+
+///
+/// @brief 毫安时 / 毫安 = 小时
+///
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::mAh> &&
+			 std::is_convertible_v<TRight, base::unit::mA>)
+inline base::unit::Hour operator/(TLeft const &left, TRight const &right)
+{
+	base::Fraction mah = base::unit::mAh{left}.Value();
+	base::Fraction ma = base::unit::mA{right}.Value();
+	base::unit::Hour ret{mah / ma};
+	return ret;
+}
+
+///
+/// @brief 毫安时 / 小时 = 毫安
+///
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::mAh> &&
+			 std::is_convertible_v<TRight, base::unit::Hour>)
+inline base::unit::mA operator/(TLeft const &left, TRight const &right)
+{
+	base::Fraction mah = base::unit::mAh{left}.Value();
+	base::Fraction hour = base::unit::Hour{right}.Value();
+	base::unit::mA ret{mah / hour};
+	return ret;
+}
