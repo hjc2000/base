@@ -9,7 +9,6 @@ namespace base::unit
 	///
 	/// @brief 温度单位。摄氏度 ℃.
 	///
-	///
 	class Celsius :
 		public base::unit::IUnit<Celsius>
 	{
