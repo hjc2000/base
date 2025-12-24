@@ -28,7 +28,16 @@ namespace base::unit
 
 		Fahrenheit(base::unit::Celsius const &value)
 		{
-			// ℉ = ℃ * 9 / 5 + 32
+			// 华氏度和摄氏度转换的公式为：
+			// F = C * 9 / 5 + 32
+			// 数字 C 的单位是 ℃
+			// 数字 F 的单位是 ℉
+			//
+			// 按照增量的当量来计算，
+			// ℃ = ℉ * (9 / 5)
+			//
+			// 然后华氏度的零点比摄氏度的零点高，高了 32℉，
+			// 所以换算完的结果要再加上 32℉.
 			_value = value.Value() * 9 / 5 + 32;
 		}
 
@@ -63,9 +72,11 @@ namespace base::unit
 
 		operator base::unit::Celsius() const
 		{
-			// ℉ = ℃ * 9 / 5 + 32
-			// ℉ - 32 = ℃ * 9 / 5
-			// (℉ - 32) * 5 / 9 = ℃
+			// F = C * 9 / 5 + 32
+			// 数字 C 的单位是 ℃
+			// 数字 F 的单位是 ℉
+			//
+			// C = (F - 32) * 5 / 9
 			base::unit::Celsius ret{(_value - 32) * 5 / 9};
 			return ret;
 		}
