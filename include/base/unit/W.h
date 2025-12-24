@@ -51,7 +51,7 @@ namespace base::unit
 
 } // namespace base::unit
 
-/* #region 运算符重载 */
+/* #region W = V * A 运算符重载 */
 
 ///
 /// @brief W = V * A
