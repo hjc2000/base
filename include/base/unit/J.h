@@ -66,3 +66,25 @@ inline base::unit::J operator*(TLeft const &left, TRight const &right)
 {
 	return right * left;
 }
+
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::J> &&
+			 std::is_convertible_v<TRight, base::unit::Second>)
+inline base::unit::W operator/(TLeft const &left, TRight const &right)
+{
+	base::Fraction j = base::unit::J{left}.Value();
+	base::Fraction s = base::unit::Second{right}.Value();
+	base::unit::W ret{j / s};
+	return ret;
+}
+
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::J> &&
+			 std::is_convertible_v<TRight, base::unit::W>)
+inline base::unit::Second operator/(TLeft const &left, TRight const &right)
+{
+	base::Fraction j = base::unit::J{left}.Value();
+	base::Fraction w = base::unit::W{right}.Value();
+	base::unit::Second ret{j / w};
+	return ret;
+}
