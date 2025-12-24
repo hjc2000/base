@@ -48,6 +48,11 @@ namespace base::unit
 
 } // namespace base::unit
 
+/* #region J = W * s 的运算符重载 */
+
+///
+/// @brief J = W * s
+///
 template <typename TLeft, typename TRight>
 	requires(std::is_convertible_v<TLeft, base::unit::W> &&
 			 std::is_convertible_v<TRight, base::unit::Second>)
@@ -59,6 +64,9 @@ inline base::unit::J operator*(TLeft const &left, TRight const &right)
 	return ret;
 }
 
+///
+/// @brief J = W * s
+///
 template <typename TLeft, typename TRight>
 	requires(std::is_convertible_v<TLeft, base::unit::Second> &&
 			 std::is_convertible_v<TRight, base::unit::W>)
@@ -67,6 +75,9 @@ inline base::unit::J operator*(TLeft const &left, TRight const &right)
 	return right * left;
 }
 
+///
+/// @brief W = J / s
+///
 template <typename TLeft, typename TRight>
 	requires(std::is_convertible_v<TLeft, base::unit::J> &&
 			 std::is_convertible_v<TRight, base::unit::Second>)
@@ -78,6 +89,9 @@ inline base::unit::W operator/(TLeft const &left, TRight const &right)
 	return ret;
 }
 
+///
+/// @brief s = J / W
+///
 template <typename TLeft, typename TRight>
 	requires(std::is_convertible_v<TLeft, base::unit::J> &&
 			 std::is_convertible_v<TRight, base::unit::W>)
@@ -88,3 +102,5 @@ inline base::unit::Second operator/(TLeft const &left, TRight const &right)
 	base::unit::Second ret{j / w};
 	return ret;
 }
+
+/* #endregion */
