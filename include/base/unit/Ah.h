@@ -7,6 +7,9 @@
 
 namespace base::unit
 {
+	///
+	/// @brief 安时。
+	///
 	class Ah :
 		public base::unit::IUnit<Ah>
 	{
@@ -50,6 +53,9 @@ namespace base::unit
 
 /* #region 运算符重载 */
 
+///
+/// @brief 安 * 小时 = 安时
+///
 template <typename TLeft, typename TRight>
 	requires(std::is_convertible_v<TLeft, base::unit::A> &&
 			 std::is_convertible_v<TRight, base::unit::Hour>)
@@ -61,6 +67,9 @@ inline base::unit::Ah operator*(TLeft const &left, TRight const &right)
 	return ret;
 }
 
+///
+/// @brief 安 * 小时 = 安时
+///
 template <typename TLeft, typename TRight>
 	requires(std::is_convertible_v<TLeft, base::unit::Hour> &&
 			 std::is_convertible_v<TRight, base::unit::A>)
@@ -69,6 +78,9 @@ inline base::unit::Ah operator*(TLeft const &left, TRight const &right)
 	return right * left;
 }
 
+///
+/// @brief 安时 / 安 = 小时
+///
 template <typename TLeft, typename TRight>
 	requires(std::is_convertible_v<TLeft, base::unit::Ah> &&
 			 std::is_convertible_v<TRight, base::unit::A>)
@@ -80,6 +92,9 @@ inline base::unit::Hour operator/(TLeft const &left, TRight const &right)
 	return ret;
 }
 
+///
+/// @brief 安时 / 小时 = 安
+///
 template <typename TLeft, typename TRight>
 	requires(std::is_convertible_v<TLeft, base::unit::Ah> &&
 			 std::is_convertible_v<TRight, base::unit::Hour>)
