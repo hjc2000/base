@@ -4,6 +4,7 @@
 #include "base/unit/mAh.h"
 #include "base/unit/V.h"
 #include "IUnit.h"
+#include "Wh.h"
 #include <type_traits>
 
 namespace base::unit
@@ -29,16 +30,10 @@ namespace base::unit
 
 		mWh(base::unit::J const &value)
 		{
-			// mWh
-			// = mW * Hour
-			// = W / 1000 * Hour
-			// = W * Hour / 1000
-			// = W * s * 3600 / 1000
-			// = J * 3600 / 1000
-			//
-			// 反过来
-			// J = mWh / 3600 * 1000
-			_value = value.Value() / 3600 * 1000;
+			base::unit::Wh wh{value};
+
+			// Wh = 1000mWh
+			_value = wh.Value() * 1000;
 		}
 
 		template <typename T>
@@ -72,16 +67,11 @@ namespace base::unit
 
 		operator base::unit::J() const
 		{
-			// mWh
-			// = mW * Hour
-			// = W / 1000 * Hour
-			// = W * Hour / 1000
-			// = W * s * 3600 / 1000
-			// = J * 3600 / 1000
-			//
+			// Wh = 1000mWh
 			// 反过来
-			// J = mWh / 3600 * 1000
-			base::unit::J ret{_value * 3600 / 1000};
+			// mWh = Wh / 1000
+			base::unit::Wh wh{_value / 1000};
+			base::unit::J ret{wh};
 			return ret;
 		}
 	};
