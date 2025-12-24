@@ -58,6 +58,12 @@ namespace base::unit
 		{
 			return "mW";
 		}
+
+		operator base::unit::W() const
+		{
+			base::unit::W ret{_value / 1000};
+			return ret;
+		}
 	};
 
 } // namespace base::unit
