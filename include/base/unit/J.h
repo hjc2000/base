@@ -46,23 +46,23 @@ namespace base::unit
 		}
 	};
 
-	template <typename TLeft, typename TRight>
-		requires(std::is_convertible_v<TLeft, base::unit::W> &&
-				 std::is_convertible_v<TRight, base::unit::Second>)
-	inline base::unit::J operator*(TLeft const &left, TRight const &right)
-	{
-		base::Fraction w = base::unit::W{left}.Value();
-		base::Fraction s = base::unit::Second{right}.Value();
-		base::unit::J ret{w * s};
-		return ret;
-	}
-
-	template <typename TLeft, typename TRight>
-		requires(std::is_convertible_v<TLeft, base::unit::Second> &&
-				 std::is_convertible_v<TRight, base::unit::W>)
-	inline base::unit::J operator*(TLeft const &left, TRight const &right)
-	{
-		return right * left;
-	}
-
 } // namespace base::unit
+
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::W> &&
+			 std::is_convertible_v<TRight, base::unit::Second>)
+inline base::unit::J operator*(TLeft const &left, TRight const &right)
+{
+	base::Fraction w = base::unit::W{left}.Value();
+	base::Fraction s = base::unit::Second{right}.Value();
+	base::unit::J ret{w * s};
+	return ret;
+}
+
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::Second> &&
+			 std::is_convertible_v<TRight, base::unit::W>)
+inline base::unit::J operator*(TLeft const &left, TRight const &right)
+{
+	return right * left;
+}
