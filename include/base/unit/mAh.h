@@ -51,6 +51,9 @@ namespace base::unit
 
 } // namespace base::unit
 
+///
+/// @brief 毫安 * 小时 = 毫安时
+///
 template <typename TLeft, typename TRight>
 	requires(std::is_convertible_v<TLeft, base::unit::mA> &&
 			 std::is_convertible_v<TRight, base::unit::Hour>)
@@ -62,6 +65,9 @@ inline base::unit::mAh operator*(TLeft const &left, TRight const &right)
 	return ret;
 }
 
+///
+/// @brief 毫安 * 小时 = 毫安时
+///
 template <typename TLeft, typename TRight>
 	requires(std::is_convertible_v<TLeft, base::unit::Hour> &&
 			 std::is_convertible_v<TRight, base::unit::mA>)
