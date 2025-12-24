@@ -1,6 +1,7 @@
 #pragma once
 #include "base/math/Fraction.h"
 #include "base/unit/Hour.h"
+#include "base/unit/J.h"
 #include "base/unit/mAh.h"
 #include "base/unit/mW.h"
 #include "base/unit/V.h"
@@ -28,6 +29,27 @@ namespace base::unit
 			_value = base::Fraction{value};
 		}
 
+		mWh(base::unit::J const &value)
+		{
+			// mWh
+			// = mW * Hour
+			// = W / 1000 * Hour
+			// = W * Hour / 1000
+			// = W * s * 3600 / 1000
+			// = J * 3600 / 1000
+			//
+			// 反过来
+			// J = mWh / 3600 * 1000
+			_value = value.Value() / 3600 * 1000;
+		}
+
+		template <typename T>
+			requires(std::is_convertible_v<T, base::unit::J>)
+		mWh(T const &value)
+			: mWh{base::unit::J{value}}
+		{
+		}
+
 		using base::unit::IUnit<mWh>::Value;
 
 		///
@@ -48,6 +70,21 @@ namespace base::unit
 		virtual std::string UnitString() const override
 		{
 			return "mWh";
+		}
+
+		operator base::unit::J() const
+		{
+			// mWh
+			// = mW * Hour
+			// = W / 1000 * Hour
+			// = W * Hour / 1000
+			// = W * s * 3600 / 1000
+			// = J * 3600 / 1000
+			//
+			// 反过来
+			// J = mWh / 3600 * 1000
+			base::unit::J ret{_value * 3600 / 1000};
+			return ret;
 		}
 	};
 
