@@ -1,7 +1,9 @@
 #pragma once
 #include "base/math/Fraction.h"
 #include "base/unit/Second.h"
+#include "base/unit/V.h"
 #include "IUnit.h"
+#include "mAh.h"
 #include "W.h"
 #include <type_traits>
 
@@ -101,6 +103,36 @@ inline base::unit::Second operator/(TLeft const &left, TRight const &right)
 	base::Fraction w = base::unit::W{right}.Value();
 	base::unit::Second ret{j / w};
 	return ret;
+}
+
+/* #endregion */
+
+/* #region mAh * V = J * 3600 / 1000 的运算符重载 */
+
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::mAh> &&
+			 std::is_convertible_v<TRight, base::unit::V>)
+inline base::unit::J operator*(TLeft const &left, TRight const &right)
+{
+	// mAh * V
+	// = mA * V * h
+	// = A / 1000 * V * h
+	// = A * V * h / 1000
+	// = A * V * s * 3600 / 1000
+	// = W * s * 3600 / 1000
+	// = J * 3600 / 1000
+	base::Fraction mah = base::unit::mAh{left}.Value();
+	base::Fraction v = base::unit::V{right}.Value();
+	base::unit::J ret{mah * v * 3600 / 1000};
+	return ret;
+}
+
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::V> &&
+			 std::is_convertible_v<TRight, base::unit::mAh>)
+inline base::unit::J operator*(TLeft const &left, TRight const &right)
+{
+	return right * left;
 }
 
 /* #endregion */
