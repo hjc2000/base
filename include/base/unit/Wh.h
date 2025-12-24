@@ -7,6 +7,9 @@
 
 namespace base::unit
 {
+	///
+	/// @brief 瓦时
+	///
 	class Wh :
 		public base::unit::IUnit<Wh>
 	{
@@ -78,6 +81,9 @@ namespace base::unit
 
 /* #region 运算符重载 */
 
+///
+/// @brief Wh = Ah * V
+///
 template <typename TLeft, typename TRight>
 	requires(std::is_convertible_v<TLeft, base::unit::Ah> &&
 			 std::is_convertible_v<TRight, base::unit::V>)
@@ -89,6 +95,9 @@ inline base::unit::Wh operator*(TLeft const &left, TRight const &right)
 	return ret;
 }
 
+///
+/// @brief Wh = Ah * V
+///
 template <typename TLeft, typename TRight>
 	requires(std::is_convertible_v<TLeft, base::unit::V> &&
 			 std::is_convertible_v<TRight, base::unit::Ah>)
@@ -97,6 +106,9 @@ inline base::unit::Wh operator*(TLeft const &left, TRight const &right)
 	return right * left;
 }
 
+///
+/// @brief Ah = Wh / V
+///
 template <typename TLeft, typename TRight>
 	requires(std::is_convertible_v<TLeft, base::unit::Wh> &&
 			 std::is_convertible_v<TRight, base::unit::V>)
@@ -108,6 +120,9 @@ inline base::unit::Ah operator*(TLeft const &left, TRight const &right)
 	return ret;
 }
 
+///
+/// @brief V = Wh / Ah
+///
 template <typename TLeft, typename TRight>
 	requires(std::is_convertible_v<TLeft, base::unit::Wh> &&
 			 std::is_convertible_v<TRight, base::unit::Ah>)
