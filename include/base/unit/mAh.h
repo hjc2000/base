@@ -1,9 +1,11 @@
 #pragma once
 #include "base/math/Fraction.h"
+#include "base/unit/Hour.h"
+#include "base/unit/mA.h"
 #include "IUnit.h"
 #include <type_traits>
 
-namespace base
+namespace base::unit
 {
 	class mAh :
 		public base::unit::IUnit<mAh>
@@ -44,4 +46,23 @@ namespace base
 		}
 	};
 
-} // namespace base
+} // namespace base::unit
+
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::mA> &&
+			 std::is_convertible_v<TRight, base::unit::Hour>)
+inline base::unit::mAh operator*(TLeft const &left, TRight const &right)
+{
+	base::Fraction ma = base::unit::mA{left}.Value();
+	base::Fraction hour = base::unit::Hour{right}.Value();
+	base::unit::mAh ret{ma * hour};
+	return ret;
+}
+
+template <typename TLeft, typename TRight>
+	requires(std::is_convertible_v<TLeft, base::unit::Hour> &&
+			 std::is_convertible_v<TRight, base::unit::mA>)
+inline base::unit::mAh operator*(TLeft const &left, TRight const &right)
+{
+	return right * left;
+}
