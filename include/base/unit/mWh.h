@@ -88,7 +88,7 @@ namespace base::unit
 
 } // namespace base::unit
 
-/* #region mWh = mAh * V 运算符重载 */
+/* #region 运算符重载 */
 
 template <typename TLeft, typename TRight>
 	requires(std::is_convertible_v<TLeft, base::unit::mAh> &&

@@ -48,7 +48,7 @@ namespace base::unit
 
 } // namespace base::unit
 
-/* #region J = W * s 的运算符重载 */
+/* #region 运算符重载 */
 
 ///
 /// @brief J = W * s

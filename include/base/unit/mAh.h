@@ -51,7 +51,7 @@ namespace base::unit
 
 } // namespace base::unit
 
-/* #region mAh = mA * Hour 运算符重载 */
+/* #region 运算符重载 */
 
 ///
 /// @brief 毫安 * 小时 = 毫安时
