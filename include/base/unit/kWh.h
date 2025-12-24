@@ -2,6 +2,7 @@
 #include "base/math/Fraction.h"
 #include "base/unit/J.h"
 #include "IUnit.h"
+#include "Wh.h"
 #include <type_traits>
 
 namespace base::unit
@@ -24,14 +25,11 @@ namespace base::unit
 
 		kWh(base::unit::J const &value)
 		{
+			base::unit::Wh wh{value};
+
 			// kWh = 1000 * Wh
-			// = W * h * 1000
-			// = W * s * 3600 * 1000
-			// = J * 3600 * 1000
-			//
-			// 反过来
-			// J = kWh / 3600 / 1000
-			_value = value.Value() / 3600 / 1000;
+			// Wh = kWh / 1000
+			_value = wh.Value() / 1000;
 		}
 
 		template <typename T>
@@ -66,13 +64,9 @@ namespace base::unit
 		operator base::unit::J() const
 		{
 			// kWh = 1000 * Wh
-			// = W * h * 1000
-			// = W * s * 3600 * 1000
-			// = J * 3600 * 1000
-			//
-			// 反过来
-			// J = kWh / 3600 / 1000
-			base::unit::J ret{_value * 3600 * 1000};
+			// Wh = kWh / 1000
+			base::unit::Wh wh{_value * 1000};
+			base::unit::J ret{wh};
 			return ret;
 		}
 	};
