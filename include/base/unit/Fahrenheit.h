@@ -28,16 +28,8 @@ namespace base::unit
 
 		Fahrenheit(base::unit::Celsius const &value)
 		{
-			// 设 C ℃ 转换到华氏度，结果为 F ℉，则 F 和 C 满足如下关系：
-			// F = C * 9 / 5 + 32
-			// 数字 C 的单位是 ℃
-			// 数字 F 的单位是 ℉
-			//
-			// 按照增量的当量来计算，
-			// ℃ = ℉ * 9 / 5
-			//
-			// 然后华氏度的零点比摄氏度的零点高，高了 32℉，
-			// 所以换算完的结果要再加上 32℉.
+			// 单位转换方法
+			// https://blog.csdn.net/qq_36148047/article/details/156243911?sharetype=blogdetail&sharerId=156243911&sharerefer=PC&sharesource=qq_36148047&spm=1011.2480.3001.8118
 			_value = value.Value() * 9 / 5 + 32;
 		}
 
@@ -72,27 +64,8 @@ namespace base::unit
 
 		operator base::unit::Celsius() const
 		{
-			// 设 C ℃ 转换到华氏度，结果为 F ℉，则 F 和 C 满足如下关系：
-			// F = C * 9 / 5 + 32
-			// 数字 C 的单位是 ℃
-			// 数字 F 的单位是 ℉
-			//
-			// 按照增量的当量来计算，
-			// ℃ = ℉ * 9 / 5
-			//
-			// 然后华氏度的零点比摄氏度的零点高，高了 32℉，
-			// 所以换算完的结果要再加上 32℉.
-			//
-			//
-			// 反过来
-			// C = (F - 32) * 5 / 9
-			//
-			// 按照增量的当量来计算
-			// ℉ = ℃ * 5 / 9
-			// 如果不是计算增量，而是计算绝对刻度，那在替换掉单位之前，华氏度要先
-			// 减去 32℉，调整到与 ℃ 同零点位置，然后再按照
-			// ℉ = ℃ * 5 / 9
-			// 把 ℉ 替换成 ℃ * 5 / 9 这个整体。
+			// 单位转换方法
+			// https://blog.csdn.net/qq_36148047/article/details/156243911?sharetype=blogdetail&sharerId=156243911&sharerefer=PC&sharesource=qq_36148047&spm=1011.2480.3001.8118
 			base::unit::Celsius ret{(_value - 32) * 5 / 9};
 			return ret;
 		}
