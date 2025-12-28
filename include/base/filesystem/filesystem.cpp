@@ -28,9 +28,9 @@ namespace
 	///
 	/// @param overwrite_method
 	///
-	void CopyFile(base::Path const &source_path,
-				  base::Path const &destination_path,
-				  base::filesystem::OverwriteOption overwrite_method)
+	void CopySingleFile(base::Path const &source_path,
+						base::Path const &destination_path,
+						base::filesystem::OverwriteOption overwrite_method)
 	{
 		if (destination_path.IsRootPath())
 		{
@@ -482,7 +482,7 @@ void base::filesystem::Copy(base::Path const &source_path,
 	// 执行到这里说明源路径存在
 	if (base::filesystem::IsFile(source_path))
 	{
-		CopyFile(source_path, destination_path, overwrite_method);
+		CopySingleFile(source_path, destination_path, overwrite_method);
 		return;
 	}
 
@@ -501,7 +501,7 @@ void base::filesystem::Copy(base::Path const &source_path,
 		if (IsFile(src_path))
 		{
 			// 源路径是一个文件
-			CopyFile(src_path, dst_path, overwrite_method);
+			CopySingleFile(src_path, dst_path, overwrite_method);
 		}
 		else
 		{
