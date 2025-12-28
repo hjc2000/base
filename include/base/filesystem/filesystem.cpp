@@ -15,8 +15,6 @@
 
 namespace
 {
-	/* #region CopyFile */
-
 	///
 	/// @brief 拷贝单个文件。
 	///
@@ -44,6 +42,9 @@ namespace
 			// 目标路径不存在，直接复制。
 			base::filesystem::EnsureDirectory(destination_path.ParentPath());
 			std::cout << "复制：" << source_path << " --> " << destination_path << std::endl;
+
+			// 拷贝单个文件。
+			// 没有进行检查，调用者必须确保源路径是一个文件。
 			std::filesystem::copy(source_path.ToString(), destination_path.ToString(), options);
 			return;
 		}
@@ -79,8 +80,6 @@ namespace
 		std::cout << "更新：" << source_path << " --> " << destination_path << std::endl;
 		return;
 	}
-
-	/* #endregion */
 
 	/* #region 目录条目迭代器 */
 
