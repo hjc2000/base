@@ -164,6 +164,11 @@ namespace base
 		///
 		virtual void SetPosition(int64_t value) override
 		{
+			if (!_can_seek)
+			{
+				throw std::runtime_error{CODE_POS_STR + "无法定位文件，所以无法设置文件指针位置。"};
+			}
+
 			/* 必须先清除标志。因为如果不清除，上次读写如果触发了 eof 了，即使在这里 seek 到非尾部
 			 * 下次读写流时仍会因为 eof 已经被设置了而无法读写。
 			 */
@@ -198,6 +203,11 @@ namespace base
 		///
 		virtual void Write(base::ReadOnlySpan const &span) override
 		{
+			if (!_can_write)
+			{
+				throw std::runtime_error{CODE_POS_STR + "无法写入文件。"};
+			}
+
 			_fs->write(reinterpret_cast<char const *>(span.Buffer()), span.Size());
 			SetPosition(_fs->tellp());
 		}
