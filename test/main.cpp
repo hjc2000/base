@@ -1,4 +1,5 @@
 #include "base/filesystem/fix_bilibili_video.h"
+#include "base/filesystem/Path.h"
 #include "base/math/Fraction.h"
 #include "base/math/math.h"
 #include "base/test/test_ertec200p_3_timing_provider.h"
@@ -62,7 +63,10 @@ int main()
 		std::cout << mah << std::endl;
 	}
 
-	base::fix_bilibili_uwp_video("D:/video/哔哩哔哩下载/7948817/1/7948817_1_0.mp4");
+	{
+		base::Path video_path = "D:/video/哔哩哔哩下载/473913823/1/473913823_1_0.mp4";
+		base::fix_bilibili_uwp_video(video_path);
+	}
 
 	return 0;
 }
