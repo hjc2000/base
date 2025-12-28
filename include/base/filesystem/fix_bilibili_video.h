@@ -1,5 +1,6 @@
 #pragma once
 #include "base/filesystem/file.h"
+#include "base/filesystem/filesystem.h"
 #include "base/filesystem/Path.h"
 #include "base/stream/Span.h"
 #include "file.h"
@@ -46,6 +47,17 @@ namespace base
 		}
 
 		source_video->CopyTo(out_video, nullptr);
+	}
+
+	inline void fix_all_bilibili_uwp_video(base::Path const &video_dir)
+	{
+		for (base::DirectoryEntry const &entry : base::filesystem::RecursiveDirectoryEntryEnumerable{video_dir})
+		{
+			if (entry.Path().ExtensionName() == "mp4")
+			{
+				fix_bilibili_uwp_video(entry.Path());
+			}
+		}
 	}
 
 } // namespace base
