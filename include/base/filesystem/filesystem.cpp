@@ -20,7 +20,7 @@ namespace
 	///
 	/// @brief 拷贝单个文件。
 	///
-	/// @param source_path
+	/// @param source_path 源路径。
 	/// 	@warning 这里没有进行检查。必须确保源路径是一个文件。
 	///
 	/// @param destination_path 目标路径

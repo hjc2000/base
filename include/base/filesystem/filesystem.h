@@ -177,7 +177,7 @@ namespace base::filesystem
 	///
 	/// @note 其中的符号链接本身会被复制，不会进入到符号链接指向的实际位置去复制文件。
 	///
-	/// @param source_path
+	/// @param source_path 源路径。
 	///
 	/// @param destination_path 目标路径
 	/// 	@note source_path 指向的对象复制后将是这个路径。也就是复制可以顺便重命名。
