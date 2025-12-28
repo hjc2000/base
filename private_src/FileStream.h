@@ -220,6 +220,11 @@ namespace base
 		///
 		virtual void Flush() override
 		{
+			if (!_can_write)
+			{
+				throw std::runtime_error{CODE_POS_STR + "无法写入文件，所以无法冲洗。"};
+			}
+
 			_fs->flush();
 		}
 
