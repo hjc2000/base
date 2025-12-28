@@ -207,6 +207,8 @@ namespace base::filesystem
 	class DirectoryEntryEnumerable;
 	class RecursiveDirectoryEntryEnumerable;
 
+	/* #region 接口函数 */
+
 	///
 	/// @brief 创建目录条目迭代器。
 	///
@@ -222,6 +224,8 @@ namespace base::filesystem
 	/// @return
 	///
 	std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> CreateDirectoryEntryRecursiveEnumerator(base::Path const &path);
+
+	/* #endregion */
 
 	///
 	/// @brief 包装目录条目迭代器。
