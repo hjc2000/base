@@ -11,6 +11,12 @@
 
 namespace base
 {
+	///
+	/// @brief 修复单个 “哔哩哔哩 UWP 版” 下载的被故意损坏，从而不让用户用
+	/// 自己的其他播放器播放的视频。
+	///
+	/// @param video_path 待修复的视频文件路径。
+	///
 	inline void fix_bilibili_uwp_video(base::Path const &video_path)
 	{
 		std::cout << "尝试修复：" << video_path << std::endl;
@@ -47,6 +53,13 @@ namespace base
 		std::cout << "修复完成" << std::endl;
 	}
 
+	///
+	/// @brief 批量修复所有 “哔哩哔哩 UWP 版” 下载的被故意损坏，从而不让用户用
+	/// 自己的其他播放器播放的视频。
+	///
+	/// @param video_dir 储存着 “哔哩哔哩 UWP 版” 下载的视频的目录。
+	/// 	@note 会递归遍历其中的所有 mp4 文件进行修复。
+	///
 	inline void fix_all_bilibili_uwp_video(base::Path const &video_dir)
 	{
 		std::vector<base::Path> video_paths;
