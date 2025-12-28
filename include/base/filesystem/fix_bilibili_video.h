@@ -12,7 +12,29 @@ namespace base
 {
 	inline void fix_bilibili_uwp_video(base::Path const &video_path)
 	{
+		std::cout << "尝试修复：" << video_path << std::endl;
 		std::shared_ptr<base::Stream> source_video = base::file::OpenReadOnly(video_path);
+
+		// 视频开头有 3 个 0xff 垃圾数据，需要丢弃。
+		uint8_t leading_bytes[3];
+		source_video->Read(base::Span{leading_bytes, sizeof(leading_bytes)});
+
+		bool leading_bytes_are_all_ff = true;
+
+		for (uint64_t i = 0; i < sizeof(leading_bytes); i++)
+		{
+			if (leading_bytes[i] != 0xff)
+			{
+				leading_bytes_are_all_ff = false;
+				break;
+			}
+		}
+
+		if (!leading_bytes_are_all_ff)
+		{
+			std::cout << "不需要修复" << std::endl;
+			return;
+		}
 
 		base::Path out_dir = video_path.ParentPath();
 		std::string out_video_name = "fixed_" + video_path.LastName().ToString();
@@ -20,33 +42,8 @@ namespace base
 		std::cout << "输出文件：" << out_video_path << std::endl;
 		std::shared_ptr<base::Stream> out_video = base::file::CreateNewAnyway(out_video_path);
 
-		// 视频开头有 3 个 0xff 垃圾数据，需要丢弃。
-		uint8_t first_three_bytes[3];
-		source_video->Read(base::Span{first_three_bytes, sizeof(first_three_bytes)});
-
-		bool first_three_bytes_are_all_ff = true;
-
-		for (uint64_t i = 0; i < sizeof(first_three_bytes); i++)
-		{
-			if (first_three_bytes[i] != 0xff)
-			{
-				first_three_bytes_are_all_ff = false;
-				break;
-			}
-		}
-
-		if (!first_three_bytes_are_all_ff)
-		{
-			base::ReadOnlySpan first_three_bytes_span{
-				first_three_bytes,
-				sizeof(first_three_bytes),
-			};
-
-			out_video->Write(first_three_bytes_span);
-			std::cout << "不需要修复" << std::endl;
-		}
-
 		source_video->CopyTo(out_video, nullptr);
+		std::cout << "修复完成" << std::endl;
 	}
 
 	inline void fix_all_bilibili_uwp_video(base::Path const &video_dir)
@@ -56,6 +53,7 @@ namespace base
 			if (entry.Path().ExtensionName() == "mp4")
 			{
 				fix_bilibili_uwp_video(entry.Path());
+				std::cout << std::endl;
 			}
 		}
 	}
