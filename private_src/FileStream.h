@@ -1,7 +1,9 @@
 #pragma once
 #include "base/filesystem/Path.h"
+#include "base/string/define.h"
 #include <filesystem>
 #include <fstream>
+#include <stdexcept>
 
 #if HAS_THREAD
 
@@ -126,6 +128,16 @@ namespace base
 		///
 		virtual void SetLength(int64_t value) override
 		{
+			if (!_can_write)
+			{
+				throw std::runtime_error{CODE_POS_STR + "无法写入文件，所以无法设置文件长度。"};
+			}
+
+			if (!_can_seek)
+			{
+				throw std::runtime_error{CODE_POS_STR + "无法定位文件，所以无法设置文件长度。"};
+			}
+
 			// 防止 Position 属性超出边界
 			int64_t current_pos = Position();
 			SetPosition(std::min(value, current_pos));
