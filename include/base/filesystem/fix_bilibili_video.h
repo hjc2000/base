@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <iostream>
 #include <string>
+#include <vector>
 
 namespace base
 {
@@ -48,13 +49,20 @@ namespace base
 
 	inline void fix_all_bilibili_uwp_video(base::Path const &video_dir)
 	{
+		std::vector<base::Path> video_paths;
+
 		for (base::DirectoryEntry const &entry : base::filesystem::RecursiveDirectoryEntryEnumerable{video_dir})
 		{
 			if (entry.Path().ExtensionName() == "mp4")
 			{
-				fix_bilibili_uwp_video(entry.Path());
-				std::cout << std::endl;
+				video_paths.push_back(entry.Path());
 			}
+		}
+
+		for (base::Path const &path : video_paths)
+		{
+			fix_bilibili_uwp_video(path);
+			std::cout << std::endl;
 		}
 	}
 
