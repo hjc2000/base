@@ -65,9 +65,10 @@ namespace base
 		virtual void PumpDataToConsumers(std::shared_ptr<base::CancellationToken> cancellation_token) override
 		{
 			T data{};
+
 			while (true)
 			{
-				cancellation_token->ThrowIfCancellationIsRequested();
+				base::throw_if_cancellation_is_requested(cancellation_token);
 
 				bool result = _source->ReadData(data);
 				if (!result)

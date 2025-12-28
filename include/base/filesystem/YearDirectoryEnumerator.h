@@ -157,7 +157,7 @@ namespace base
 			{
 				while (true)
 				{
-					if (_cancellation_token->IsCancellationRequested())
+					if (base::is_cancellation_requested(_cancellation_token))
 					{
 						return false;
 					}
@@ -215,7 +215,7 @@ namespace base
 			///
 			virtual bool IsEnd() const override
 			{
-				if (_cancellation_token->IsCancellationRequested())
+				if (base::is_cancellation_requested(_cancellation_token))
 				{
 					return true;
 				}
@@ -237,7 +237,7 @@ namespace base
 			///
 			virtual base::DirectoryEntry const &CurrentValue() override
 			{
-				_cancellation_token->ThrowIfCancellationIsRequested();
+				base::throw_if_cancellation_is_requested(_cancellation_token);
 
 				if (_year_dir_iterator == nullptr || _year_dir_iterator->IsEnd())
 				{
@@ -253,7 +253,7 @@ namespace base
 			///
 			virtual void Add() override
 			{
-				_cancellation_token->ThrowIfCancellationIsRequested();
+				base::throw_if_cancellation_is_requested(_cancellation_token);
 				MoveToNextYear();
 			}
 

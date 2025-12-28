@@ -1,7 +1,7 @@
 #include "Stream.h" // IWYU pragma: keep
 
 void base::Stream::CopyTo(std::shared_ptr<base::Stream> dst_stream,
-						  std::shared_ptr<base::CancellationToken> cancellationToken)
+						  std::shared_ptr<base::CancellationToken> cancellation_token)
 {
 #if HAS_THREAD
 	uint8_t temp_buffer[1024];
@@ -11,7 +11,8 @@ void base::Stream::CopyTo(std::shared_ptr<base::Stream> dst_stream,
 
 	while (true)
 	{
-		cancellationToken->ThrowIfCancellationIsRequested();
+		base::throw_if_cancellation_is_requested(cancellation_token);
+
 		int64_t have_read = Read(temp_buffer, 0, sizeof(temp_buffer));
 		if (have_read == 0)
 		{

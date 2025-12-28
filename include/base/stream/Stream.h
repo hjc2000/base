@@ -182,10 +182,10 @@ namespace base
 		/// @brief 将本流拷贝到 dst_stream 中。
 		///
 		/// @param dst_stream
-		/// @param cancellationToken
+		/// @param cancellation_token
 		///
 		void CopyTo(std::shared_ptr<base::Stream> dst_stream,
-					std::shared_ptr<base::CancellationToken> cancellationToken);
+					std::shared_ptr<base::CancellationToken> cancellation_token);
 
 		/* #endregion */
 	};

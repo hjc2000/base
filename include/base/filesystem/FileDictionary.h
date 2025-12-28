@@ -297,7 +297,7 @@ namespace base
 					// 直接拷贝流，并且不使用取消机制。
 					// 调用者如果怕流太长了，需要手动控制中断拷贝，可以在调用本方法的时候 item
 					// 传入空指针，然后调用一次 Get 方法获取这个文件的文件流，然后手动拷贝。
-					item->CopyTo(_current_file_stream, base::CancellationToken::None());
+					item->CopyTo(_current_file_stream, nullptr);
 				}
 			}
 

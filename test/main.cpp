@@ -1,3 +1,4 @@
+#include "base/filesystem/fix_bilibili_video.h"
 #include "base/math/Fraction.h"
 #include "base/math/math.h"
 #include "base/test/test_ertec200p_3_timing_provider.h"
@@ -60,6 +61,8 @@ int main()
 		std::cout << mwh << std::endl;
 		std::cout << mah << std::endl;
 	}
+
+	base::fix_bilibili_uwp_video("D:/video/哔哩哔哩下载/7948817/1/7948817_1_0.mp4");
 
 	return 0;
 }
