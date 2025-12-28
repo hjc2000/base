@@ -204,9 +204,6 @@ namespace base::filesystem
 
 	/* #region 迭代目录条目 */
 
-	class DirectoryEntryEnumerable;
-	class RecursiveDirectoryEntryEnumerable;
-
 	/* #region 接口函数 */
 
 	///
