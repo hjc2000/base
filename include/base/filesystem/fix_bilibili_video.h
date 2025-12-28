@@ -3,6 +3,7 @@
 #include "base/filesystem/filesystem.h"
 #include "base/filesystem/Path.h"
 #include "base/stream/Span.h"
+#include "base/string/String.h"
 #include "file.h"
 #include <cstdint>
 #include <iostream>
@@ -62,7 +63,7 @@ namespace base
 	///
 	inline void fix_all_bilibili_uwp_video(base::Path const &video_dir)
 	{
-		std::vector<base::Path> video_paths;
+		std::vector<base::Path> video_paths{};
 
 		// 先收集所有待修复的视频文件的路径。
 		//
@@ -70,10 +71,17 @@ namespace base
 		// 文件迭代过程。
 		for (base::DirectoryEntry const &entry : base::filesystem::RecursiveDirectoryEntryEnumerable{video_dir})
 		{
-			if (entry.Path().ExtensionName() == "mp4")
+			if (entry.Path().ExtensionName() != "mp4")
 			{
-				video_paths.push_back(entry.Path());
+				continue;
 			}
+
+			if (base::String{entry.Path().LastName().ToString()}.StartWith("fixed_"))
+			{
+				continue;
+			}
+
+			video_paths.push_back(entry.Path());
 		}
 
 		for (base::Path const &path : video_paths)
