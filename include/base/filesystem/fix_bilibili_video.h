@@ -51,6 +51,10 @@ namespace base
 	{
 		std::vector<base::Path> video_paths;
 
+		// 先收集所有待修复的视频文件的路径。
+		//
+		// 这么做是因为等会修复的时候会产生新文件，会改变目录内容，可能会影响到
+		// 文件迭代过程。
 		for (base::DirectoryEntry const &entry : base::filesystem::RecursiveDirectoryEntryEnumerable{video_dir})
 		{
 			if (entry.Path().ExtensionName() == "mp4")
