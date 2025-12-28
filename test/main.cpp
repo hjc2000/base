@@ -64,8 +64,8 @@ int main()
 	}
 
 	{
-		base::Path video_path = "D:/video/哔哩哔哩下载/473913823/1/473913823_1_0.mp4";
-		base::fix_bilibili_uwp_video(video_path);
+		base::Path video_dir = "C:/Users/huang/disk/ti600_2TB/.temp";
+		base::fix_all_bilibili_uwp_video(video_dir);
 	}
 
 	return 0;
