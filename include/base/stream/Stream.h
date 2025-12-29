@@ -181,6 +181,10 @@ namespace base
 			Write(base::ReadOnlySpan{buffer + offset, count});
 		}
 
+		/* #endregion */
+
+		/* #region CopyTo */
+
 		///
 		/// @brief 将本流拷贝到 dst_stream 中。
 		///
