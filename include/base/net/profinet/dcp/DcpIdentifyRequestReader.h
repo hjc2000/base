@@ -16,7 +16,6 @@ namespace base::profinet
 	///
 	/// @brief DCP Identify 请求帧读者。
 	///
-	///
 	class DcpIdentifyRequestReader :
 		public base::IJsonSerializable
 	{
@@ -81,6 +80,7 @@ namespace base::profinet
 
 		///
 		/// @brief 响应延迟。
+		///
 		/// @return
 		///
 		uint16_t ResponseDelay() const
@@ -90,6 +90,7 @@ namespace base::profinet
 
 		///
 		/// @brief Blocks 的有效数据的长度，包括填充字节。
+		///
 		/// @note 填充是为了 2 字节对齐，每一个 Block 都必须 2 字节对齐，如果没有对齐，
 		/// 尾部需要填充 1 字节。
 		///

@@ -6,7 +6,9 @@ namespace base
 {
 	namespace profinet
 	{
+		///
 		/// @brief DCP 服务类型
+		///
 		enum class DcpServiceTypeEnum : uint8_t
 		{
 			/// @brief 请求。
@@ -18,6 +20,7 @@ namespace base
 			/// @brief 响应，表示请求不被支持。
 			ResponseNotSupport = 0x05,
 		};
+
 	} // namespace profinet
 
 	std::string to_string(base::profinet::DcpServiceTypeEnum value);

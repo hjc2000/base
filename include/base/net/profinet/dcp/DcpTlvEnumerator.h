@@ -4,7 +4,9 @@
 
 namespace base::profinet
 {
+	///
 	/// @brief 迭代一段 base::ReadOnlySpan 中的 TLV.
+	///
 	class DcpTlvEnumerator :
 		public base::IEnumerator<base::ReadOnlySpan>
 	{
