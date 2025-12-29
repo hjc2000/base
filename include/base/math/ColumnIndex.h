@@ -26,4 +26,5 @@ namespace base
 			_value = value;
 		}
 	};
+
 } // namespace base

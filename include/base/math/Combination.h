@@ -9,7 +9,6 @@ namespace base
 	///
 	/// @brief 组合。
 	///
-	///
 	class Combination :
 		public base::ICanToString
 	{
@@ -61,7 +60,7 @@ namespace base
 		///
 		/// @brief 转化为字符串
 		///
-		/// @return std::string
+		/// @return
 		///
 		virtual std::string ToString() const override;
 	};

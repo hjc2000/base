@@ -6,7 +6,6 @@ namespace base
 	///
 	/// @brief 一个功能不被支持时就抛出此异常。
 	///
-	///
 	class NotSupportedException :
 		public std::exception
 	{
