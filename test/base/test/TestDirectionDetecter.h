@@ -16,11 +16,11 @@ namespace base::test
 		for (int i = 0; i < 40; i++)
 		{
 			detecter.Input(i);
-			if (detecter.DirectionChange() == base::DirectionDetecter_DirectionChange::FromFallingToRising)
+			if (detecter.DirectionChange() == base::DirectionDetecter::DirectionChangeEnum::FromFallingToRising)
 			{
 				std::cout << "从下降变成上升。转折点" << detecter.TurningPoint() << std::endl;
 			}
-			else if (detecter.DirectionChange() == base::DirectionDetecter_DirectionChange::FromRisingToFalling)
+			else if (detecter.DirectionChange() == base::DirectionDetecter::DirectionChangeEnum::FromRisingToFalling)
 			{
 				std::cout << "从上升变成下降。转折点" << detecter.TurningPoint() << std::endl;
 			}
@@ -29,11 +29,11 @@ namespace base::test
 		for (int i = 40; i > 0; i--)
 		{
 			detecter.Input(i);
-			if (detecter.DirectionChange() == base::DirectionDetecter_DirectionChange::FromFallingToRising)
+			if (detecter.DirectionChange() == base::DirectionDetecter::DirectionChangeEnum::FromFallingToRising)
 			{
 				std::cout << "从下降变成上升。转折点" << detecter.TurningPoint() << std::endl;
 			}
-			else if (detecter.DirectionChange() == base::DirectionDetecter_DirectionChange::FromRisingToFalling)
+			else if (detecter.DirectionChange() == base::DirectionDetecter::DirectionChangeEnum::FromRisingToFalling)
 			{
 				std::cout << "从上升变成下降。转折点" << detecter.TurningPoint() << std::endl;
 			}

@@ -4,27 +4,6 @@
 namespace base
 {
 	///
-	/// @brief 方向的变化
-	///
-	enum class DirectionDetecter_DirectionChange
-	{
-		///
-		/// @brief 方向没有变化
-		///
-		None,
-
-		///
-		/// @brief 从上升方向变成了下降方向
-		///
-		FromRisingToFalling,
-
-		///
-		/// @brief 从下降方向变成了上升方向
-		///
-		FromFallingToRising,
-	};
-
-	///
 	/// @brief 方向检测器。
 	///
 	class DirectionDetecter
@@ -127,6 +106,27 @@ namespace base
 			}
 		};
 
+		///
+		/// @brief 方向的变化
+		///
+		enum class DirectionChangeEnum
+		{
+			///
+			/// @brief 方向没有变化
+			///
+			None,
+
+			///
+			/// @brief 从上升方向变成了下降方向
+			///
+			FromRisingToFalling,
+
+			///
+			/// @brief 从下降方向变成了上升方向
+			///
+			FromFallingToRising,
+		};
+
 	private:
 		double _rising_threshold = 1;
 		double _fallen_threshold = 1;
@@ -142,7 +142,7 @@ namespace base
 		///
 		double _turning_point = 0;
 
-		DirectionDetecter_DirectionChange _direction_change = DirectionDetecter_DirectionChange::None;
+		base::DirectionDetecter::DirectionChangeEnum _direction_change = base::DirectionDetecter::DirectionChangeEnum::None;
 
 		///
 		/// @brief 更新 _direction_change 字段。
@@ -152,18 +152,18 @@ namespace base
 			if (_last_direction == base::DirectionDetecter::DirectionEnum::Falling &&
 				_current_direction == base::DirectionDetecter::DirectionEnum::Rising)
 			{
-				_direction_change = DirectionDetecter_DirectionChange::FromFallingToRising;
+				_direction_change = base::DirectionDetecter::DirectionChangeEnum::FromFallingToRising;
 				return;
 			}
 
 			if (_last_direction == base::DirectionDetecter::DirectionEnum::Rising &&
 				_current_direction == base::DirectionDetecter::DirectionEnum::Falling)
 			{
-				_direction_change = DirectionDetecter_DirectionChange::FromRisingToFalling;
+				_direction_change = base::DirectionDetecter::DirectionChangeEnum::FromRisingToFalling;
 				return;
 			}
 
-			_direction_change = DirectionDetecter_DirectionChange::None;
+			_direction_change = base::DirectionDetecter::DirectionChangeEnum::None;
 		}
 
 	public:
@@ -239,7 +239,7 @@ namespace base
 				return;
 			}
 
-			_direction_change = base::DirectionDetecter_DirectionChange::None;
+			_direction_change = base::DirectionDetecter::DirectionChangeEnum::None;
 		}
 
 		///
@@ -288,7 +288,7 @@ namespace base
 		///
 		/// @return
 		///
-		DirectionDetecter_DirectionChange DirectionChange() const
+		base::DirectionDetecter::DirectionChangeEnum DirectionChange() const
 		{
 			return _direction_change;
 		}
