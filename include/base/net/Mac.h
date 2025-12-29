@@ -1,8 +1,11 @@
 #pragma once
+#include "base/bit/AutoBitConverter.h"
 #include "base/container/Array.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
+#include "base/string/define.h"
 #include "base/string/ICanToString.h"
+#include "base/string/ToHexString.h"
 #include <bit>
 #include <cstdint>
 
@@ -31,21 +34,48 @@ namespace base
 		/// @brief 构造函数。
 		/// @param mac_buffer MAC 地址数组。该缓冲区内的 MAC 地址必须是按小端序存放。
 		///
-		Mac(base::Array<uint8_t, 6> const &mac_buffer);
+		Mac(base::Array<uint8_t, 6> const &mac_buffer)
+		{
+			_mac_buffer = mac_buffer;
+		}
 
 		///
 		/// @brief 构造函数
 		/// @param endian 你传入的 MAC 地址数组是大端序的还是小端序的
 		/// @param mac_buffer MAC 地址数组。可以是大端序也可以是小端序，只要 endian 参数正确指明就行。
 		///
-		Mac(std::endian endian, base::Array<uint8_t, 6> const &mac_buffer);
+		Mac(std::endian endian, base::Array<uint8_t, 6> const &mac_buffer)
+		{
+			_mac_buffer = mac_buffer;
+			if (std::endian::little != endian)
+			{
+				// 保存到本数组中的 MAC 地址要是小端序，如果传进来的是大端序，需要翻转。
+				_mac_buffer.Reverse();
+			}
+		}
 
 		///
 		/// @brief 从 ReadOnlySpan 中构造 MAC.
+		///
 		/// @param endian span 中的 MAC 地址的字节序。
 		/// @param span 储存着 MAC 地址的内存。会将这段内存的数据拷贝过来。
 		///
-		Mac(std::endian endian, base::ReadOnlySpan const &span);
+		Mac(std::endian endian, base::ReadOnlySpan const &span)
+		{
+			if (span.Size() != 6)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "传进来的 span 的大小必须为 6 字节。"};
+			}
+
+			base::Span buffer{_mac_buffer.Buffer(), _mac_buffer.Count()};
+			buffer.CopyFrom(span);
+
+			if (std::endian::little != endian)
+			{
+				// 保存到本数组中的 MAC 地址要是小端序，如果传进来的是大端序，需要翻转。
+				_mac_buffer.Reverse();
+			}
+		}
 
 		/* #endregion */
 
@@ -53,19 +83,29 @@ namespace base
 		/// @brief 获取本对象内部的用来储存 MAC 地址的数组。
 		/// @return
 		///
-		base::Array<uint8_t, 6> const &InternalArray() const;
+		base::Array<uint8_t, 6> const &InternalArray() const
+		{
+			return _mac_buffer;
+		}
 
 		///
 		/// @brief 获取本对象内部的用来储存 MAC 地址的数组。
+		///
 		/// @return
 		///
-		base::Array<uint8_t, 6> &InternalArray();
+		base::Array<uint8_t, 6> &InternalArray()
+		{
+			return _mac_buffer;
+		}
 
 		///
 		/// @brief 显示将本对象强制转换为 base::Array<uint8_t, 6>.
 		/// 原理是将 MAC 地址拷贝到 base::Array<uint8_t, 6> 中。
 		///
-		explicit operator base::Array<uint8_t, 6>() const;
+		explicit operator base::Array<uint8_t, 6>() const
+		{
+			return _mac_buffer;
+		}
 
 		///
 		/// @brief 将 MAC 地址转换为无符号整型。
