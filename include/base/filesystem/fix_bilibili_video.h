@@ -50,7 +50,10 @@ namespace base
 		std::cout << "输出文件：" << out_video_path << std::endl;
 		std::shared_ptr<base::Stream> out_video = base::file::CreateNewAnyway(out_video_path);
 
-		source_video->CopyTo(out_video, nullptr);
+		source_video->CopyTo(out_video,
+							 static_cast<int64_t>(16) * 1024 * 1024,
+							 nullptr);
+
 		std::cout << "修复完成" << std::endl;
 	}
 
