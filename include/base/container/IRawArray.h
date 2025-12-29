@@ -1,6 +1,7 @@
 #pragma once
 #include "base/container/ArraySpan.h"
 #include "base/container/iterator/IRandomAccessEnumerable.h"
+#include "base/sfinae/Compare.h"
 #include "base/string/define.h"
 
 namespace base
@@ -174,9 +175,7 @@ namespace base
 		/// @return
 		///
 		bool operator==(IRawArray<ItemType> const &o) const
-			requires(base::has_equal_operator<ItemType, ItemType> &&
-					 base::has_less_than_operator<ItemType, ItemType> &&
-					 base::has_greater_than_operator<ItemType, ItemType>)
+			requires(base::has_all_compare_operators<ItemType, ItemType>)
 		{
 			if (this == &o)
 			{
@@ -206,9 +205,7 @@ namespace base
 		/// @return
 		///
 		bool operator<(IRawArray<ItemType> const &o) const
-			requires(base::has_equal_operator<ItemType, ItemType> &&
-					 base::has_less_than_operator<ItemType, ItemType> &&
-					 base::has_greater_than_operator<ItemType, ItemType>)
+			requires(base::has_all_compare_operators<ItemType, ItemType>)
 		{
 			if (this == &o)
 			{
@@ -242,9 +239,7 @@ namespace base
 		/// @return
 		///
 		bool operator>(IRawArray<ItemType> const &o) const
-			requires(base::has_equal_operator<ItemType, ItemType> &&
-					 base::has_less_than_operator<ItemType, ItemType> &&
-					 base::has_greater_than_operator<ItemType, ItemType>)
+			requires(base::has_all_compare_operators<ItemType, ItemType>)
 		{
 			if (this == &o)
 			{
@@ -278,9 +273,7 @@ namespace base
 		/// @return
 		///
 		bool operator<=(IRawArray<ItemType> const &o) const
-			requires(base::has_equal_operator<ItemType, ItemType> &&
-					 base::has_less_than_operator<ItemType, ItemType> &&
-					 base::has_greater_than_operator<ItemType, ItemType>)
+			requires(base::has_all_compare_operators<ItemType, ItemType>)
 		{
 			if (this == &o)
 			{
@@ -314,9 +307,7 @@ namespace base
 		/// @return
 		///
 		bool operator>=(IRawArray<ItemType> const &o) const
-			requires(base::has_equal_operator<ItemType, ItemType> &&
-					 base::has_less_than_operator<ItemType, ItemType> &&
-					 base::has_greater_than_operator<ItemType, ItemType>)
+			requires(base::has_all_compare_operators<ItemType, ItemType>)
 		{
 			if (this == &o)
 			{
