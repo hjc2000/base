@@ -23,7 +23,7 @@ namespace base::profinet
 		void UpdateSize()
 		{
 			base::profinet::DcpHeaderWriter writer{_this_span};
-			writer.SetDataLength(_block_stream->Length());
+			writer.WriteDataLength(_block_stream->Length());
 
 			// 头部长度加上 Blocks 的长度。
 			_fid_apdu_writer.SetValidPayloadSize(base::profinet::DcpHeaderWriter::HeaderSize() + _block_stream->Length());
@@ -56,7 +56,7 @@ namespace base::profinet
 
 			base::profinet::DcpHeaderWriter writer{_this_span};
 			writer.WriteServiceId(base::profinet::DcpServiceIdEnum::Hello);
-			writer.SetServiceType(base::profinet::DcpServiceTypeEnum::Request);
+			writer.WriteServiceType(base::profinet::DcpServiceTypeEnum::Request);
 
 			base::Span block_span = _this_span.Slice(base::Range{base::profinet::DcpHeaderWriter::HeaderSize(), _this_span.Size()});
 			_block_stream = std::shared_ptr<base::MemoryStream>{new base::MemoryStream{block_span}};
@@ -85,7 +85,7 @@ namespace base::profinet
 		void WriteXid(uint32_t value)
 		{
 			base::profinet::DcpHeaderWriter writer{_this_span};
-			writer.SetXid(value);
+			writer.WriteXid(value);
 		}
 
 		///
@@ -105,7 +105,7 @@ namespace base::profinet
 		void ClearAllBlocks()
 		{
 			base::profinet::DcpHeaderWriter writer{_this_span};
-			writer.SetDataLength(0);
+			writer.WriteDataLength(0);
 			_block_stream->Clear();
 
 			// Blocks 区的有效数据长度为 0，只剩下头部是有效数据。
