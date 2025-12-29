@@ -79,15 +79,26 @@ namespace base::profinet
 			return _header_reader->Xid();
 		}
 
+		///
 		/// @brief 响应延迟。
 		/// @return
-		uint16_t ResponseDelay() const;
+		///
+		uint16_t ResponseDelay() const
+		{
+			return _header_reader->ResponseDelay();
+		}
 
+		///
 		/// @brief Blocks 的有效数据的长度，包括填充字节。
 		/// @note 填充是为了 2 字节对齐，每一个 Block 都必须 2 字节对齐，如果没有对齐，
 		/// 尾部需要填充 1 字节。
+		///
 		/// @return
-		uint16_t DataLength() const;
+		///
+		uint16_t DataLength() const
+		{
+			return _header_reader->DataLength();
+		}
 
 		///
 		/// @brief 是否具有站点名称块。
@@ -95,7 +106,10 @@ namespace base::profinet
 		/// @return true 有站点名称块。
 		/// @return false 无站点名称块。
 		///
-		bool HasNameOfStationBlock() const;
+		bool HasNameOfStationBlock() const
+		{
+			return _tlv_reader->HasNameOfStationBlock();
+		}
 
 		///
 		/// @brief 站点名称。
@@ -103,9 +117,12 @@ namespace base::profinet
 		/// @note 只有 HasNameOfStationBlock 属性为 true 时本属性才有效。
 		/// HasNameOfStationBlock 为 false 时访问本属性会抛出异常。
 		///
-		/// @return std::string
+		/// @return
 		///
-		std::string NameOfStation() const;
+		std::string NameOfStation() const
+		{
+			return _tlv_reader->NameOfStation();
+		}
 
 		///
 		/// @brief 序列化为 json
@@ -135,10 +152,26 @@ namespace base::profinet
 	};
 
 #if HAS_THREAD
+
 	namespace test
 	{
-		void TestDcpIdentifyRequestReader();
+		inline void TestDcpIdentifyRequestReader()
+		{
+			uint8_t const buffer[] = {0x1, 0xe, 0xcf, 0x0, 0x0, 0x0, 0xb0, 0x25,
+									  0xaa, 0x39, 0xe9, 0x1c, 0x88, 0x92, 0xfe,
+									  0xfe, 0x5, 0x0, 0x0, 0x0, 0x1, 0x17, 0x0,
+									  0x1, 0x0, 0x10, 0x2, 0x2, 0x0, 0xb, 0x72,
+									  0x74, 0x2d, 0x6c, 0x61, 0x62, 0x73, 0x2d,
+									  0x64, 0x65, 0x76, 0x0, 0x0, 0x0, 0x0, 0x0,
+									  0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+									  0x0, 0x0, 0x0, 0x0, 0x0};
+
+			base::profinet::DcpIdentifyRequestReader reader{base::ReadOnlySpan{buffer, sizeof(buffer)}};
+			std::cout << reader << std::endl;
+		}
+
 	} // namespace test
+
 #endif // HAS_THREAD
 
 } // namespace base::profinet
