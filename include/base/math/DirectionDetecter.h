@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <stdexcept>
 
 namespace base
@@ -140,12 +141,30 @@ namespace base
 		/// @brief 方向切换瞬间的输入值
 		///
 		double _turning_point = 0;
+
 		DirectionDetecter_DirectionChange _direction_change = DirectionDetecter_DirectionChange::None;
 
 		///
 		/// @brief 更新 _direction_change 字段。
 		///
-		void UpdateDirectionChangeField();
+		void UpdateDirectionChangeField()
+		{
+			if (_last_direction == DirectionDetecter_Direction::Falling &&
+				_current_direction == DirectionDetecter_Direction::Rising)
+			{
+				_direction_change = DirectionDetecter_DirectionChange::FromFallingToRising;
+				return;
+			}
+
+			if (_last_direction == DirectionDetecter_Direction::Rising &&
+				_current_direction == DirectionDetecter_Direction::Falling)
+			{
+				_direction_change = DirectionDetecter_DirectionChange::FromRisingToFalling;
+				return;
+			}
+
+			_direction_change = DirectionDetecter_DirectionChange::None;
+		}
 
 	public:
 		///
@@ -159,14 +178,69 @@ namespace base
 		DirectionDetecter(base::DirectionDetecter_RisingThreshold const &rising_threshold,
 						  base::DirectionDetecter_FallenThreshold const &fallen_threshold,
 						  DirectionDetecter_Direction initial_direction,
-						  DirectionDetecter_InitialAnchor const &initial_anchor);
+						  DirectionDetecter_InitialAnchor const &initial_anchor)
+		{
+			_rising_threshold = rising_threshold.Value();
+			_fallen_threshold = fallen_threshold.Value();
+			_last_direction = initial_direction;
+			_current_direction = initial_direction;
+			_anchor_point = initial_anchor.Value();
+			_current_position = initial_anchor.Value();
+		}
 
 		///
 		/// @brief 输入一个值，会与历史比较以检测方向的变化。
 		///
 		/// @param value
 		///
-		void Input(double value);
+		void Input(double value)
+		{
+			_current_position = value;
+
+			// 将当前输入与锚点比较
+			if (_current_position - _anchor_point >= _rising_threshold)
+			{
+				// 移动量超过阈值，不是干扰
+				// 当前是上升方向
+				_current_direction = DirectionDetecter_Direction::Rising;
+
+				if (_last_direction != _current_direction)
+				{
+					// 上次相对锚点移动的的方向与这次相对锚点移动的方向不同，发生了方向变化。
+					// 记录转折点
+					_turning_point = _anchor_point;
+					UpdateDirectionChangeField();
+				}
+
+				// 移动量超过阈值，不是干扰，将锚点移动到当前位置
+				_anchor_point = _current_position;
+				_last_direction = _current_direction;
+				return;
+			}
+
+			// 将当前输入与锚点比较
+			if (_current_position - _anchor_point <= _fallen_threshold)
+			{
+				// 移动量超过阈值，不是干扰
+				// 当前是下降方向
+				_current_direction = DirectionDetecter_Direction::Falling;
+
+				if (_last_direction != _current_direction)
+				{
+					// 上次相对锚点移动的的方向与这次相对锚点移动的方向不同，发生了方向变化。
+					// 记录转折点
+					_turning_point = _anchor_point;
+					UpdateDirectionChangeField();
+				}
+
+				// 移动量超过阈值，不是干扰，将锚点移动到当前位置
+				_anchor_point = _current_position;
+				_last_direction = _current_direction;
+				return;
+			}
+
+			_direction_change = base::DirectionDetecter_DirectionChange::None;
+		}
 
 		///
 		/// @brief 当前位置。
@@ -191,6 +265,7 @@ namespace base
 
 		///
 		/// @brief 最近一次转折点。即最近一次方向切换的点。
+		///
 		/// @return
 		///
 		double TurningPoint() const
@@ -210,6 +285,7 @@ namespace base
 
 		///
 		/// @brief 检查最近一次输入后方向的变化情况。
+		///
 		/// @return
 		///
 		DirectionDetecter_DirectionChange DirectionChange() const
@@ -218,8 +294,40 @@ namespace base
 		}
 	};
 
-#if HAS_THREAD
-	void Test_DirectionDetecter();
-#endif
+	inline void TestDirectionDetecter()
+	{
+		base::DirectionDetecter detecter{
+			base::DirectionDetecter_RisingThreshold{20},
+			base::DirectionDetecter_FallenThreshold{-10},
+			base::DirectionDetecter_Direction::Falling,
+			base::DirectionDetecter_InitialAnchor{0},
+		};
+
+		for (int i = 0; i < 40; i++)
+		{
+			detecter.Input(i);
+			if (detecter.DirectionChange() == base::DirectionDetecter_DirectionChange::FromFallingToRising)
+			{
+				std::cout << "从下降变成上升。转折点" << detecter.TurningPoint() << std::endl;
+			}
+			else if (detecter.DirectionChange() == base::DirectionDetecter_DirectionChange::FromRisingToFalling)
+			{
+				std::cout << "从上升变成下降。转折点" << detecter.TurningPoint() << std::endl;
+			}
+		}
+
+		for (int i = 40; i > 0; i--)
+		{
+			detecter.Input(i);
+			if (detecter.DirectionChange() == base::DirectionDetecter_DirectionChange::FromFallingToRising)
+			{
+				std::cout << "从下降变成上升。转折点" << detecter.TurningPoint() << std::endl;
+			}
+			else if (detecter.DirectionChange() == base::DirectionDetecter_DirectionChange::FromRisingToFalling)
+			{
+				std::cout << "从上升变成下降。转折点" << detecter.TurningPoint() << std::endl;
+			}
+		}
+	}
 
 } // namespace base
