@@ -183,6 +183,37 @@ namespace base
 		/// @brief 将本流拷贝到 dst_stream 中。
 		///
 		/// @param dst_stream 目标流。
+		/// @param temp_buffer_span 拷贝用的临时缓冲区。
+		/// @param cancellation_token 取消令牌。
+		///
+		void CopyTo(std::shared_ptr<base::Stream> dst_stream,
+					base::Span const &temp_buffer_span,
+					std::shared_ptr<base::CancellationToken> cancellation_token)
+		{
+			while (true)
+			{
+				base::throw_if_cancellation_is_requested(cancellation_token);
+
+				int64_t have_read = Read(temp_buffer_span);
+
+				if (have_read == 0)
+				{
+					return;
+				}
+
+				base::ReadOnlySpan have_read_span{
+					temp_buffer_span.Buffer(),
+					have_read,
+				};
+
+				dst_stream->Write(have_read_span);
+			}
+		}
+
+		///
+		/// @brief 将本流拷贝到 dst_stream 中。
+		///
+		/// @param dst_stream 目标流。
 		/// @param temp_buffer 拷贝用的临时缓冲区。
 		/// @param temp_buffer_size 临时缓冲区大小。
 		/// @param cancellation_token 取消令牌。
@@ -192,19 +223,8 @@ namespace base
 					int64_t temp_buffer_size,
 					std::shared_ptr<base::CancellationToken> cancellation_token)
 		{
-			while (true)
-			{
-				base::throw_if_cancellation_is_requested(cancellation_token);
-
-				int64_t have_read = Read(temp_buffer, 0, temp_buffer_size);
-
-				if (have_read == 0)
-				{
-					return;
-				}
-
-				dst_stream->Write(temp_buffer, 0, have_read);
-			}
+			base::Span temp_buffer_span{temp_buffer, temp_buffer_size};
+			CopyTo(dst_stream, temp_buffer_span, cancellation_token);
 		}
 
 		///
