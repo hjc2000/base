@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-namespace base
+namespace base::usage
 {
 	///
 	/// @brief 修复单个 “哔哩哔哩 UWP 版” 下载的被故意损坏，从而不让用户用
@@ -91,4 +91,4 @@ namespace base
 		}
 	}
 
-} // namespace base
+} // namespace base::usage

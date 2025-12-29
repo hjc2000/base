@@ -65,7 +65,7 @@ int main()
 
 	{
 		base::Path video_dir = "C:/Users/huang/disk/ti600_2TB/.temp";
-		base::fix_all_bilibili_uwp_video(video_dir);
+		base::usage::fix_all_bilibili_uwp_video(video_dir);
 	}
 
 	return 0;
