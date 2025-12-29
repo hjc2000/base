@@ -18,8 +18,11 @@ namespace base::profinet
 		bool _is_end = false;
 
 	public:
+		///
 		/// @brief 构造函数。
+		///
 		/// @param span 含有很多 TLV 的 base::ReadOnlySpan.
+		///
 		DcpTlvEnumerator(base::ReadOnlySpan const &span);
 
 		///

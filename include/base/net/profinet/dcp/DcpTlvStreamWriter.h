@@ -27,12 +27,14 @@ namespace base::profinet
 
 		///
 		/// @brief 写入描述站点名称的块。
+		///
 		/// @param station_name
 		///
 		void WriteNameOfStationBlock(std::string const &station_name);
 
 		///
 		/// @brief 写入 IP 地址信息块。
+		///
 		/// @param ip_not_set
 		/// @param ip
 		/// @param gateway
