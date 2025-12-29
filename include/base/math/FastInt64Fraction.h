@@ -609,6 +609,17 @@ namespace base
 			base::FastInt64Fraction ret{6121026514868073, 2251799813685248};
 			return ret;
 		}
+
+		///
+		/// @brief 水的比热容。
+		///
+		/// @return
+		///
+		static base::FastInt64Fraction specific_heat_capacity_of_water()
+		{
+			base::FastInt64Fraction ret{4187, 1000};
+			return ret;
+		}
 	};
 
 	///

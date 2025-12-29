@@ -761,6 +761,17 @@ namespace base
 		}
 
 		///
+		/// @brief 水的比热容。
+		///
+		/// @return
+		///
+		static base::Fraction specific_heat_capacity_of_water()
+		{
+			base::Fraction ret{base::FastInt64Fraction::Constant::specific_heat_capacity_of_water()};
+			return ret;
+		}
+
+		///
 		/// @brief 普朗克常数。
 		///
 		/// @return
