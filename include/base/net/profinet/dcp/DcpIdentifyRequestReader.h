@@ -2,7 +2,11 @@
 #include "base/net/profinet/dcp/DcpServiceIdEnum.h"
 #include "base/net/profinet/dcp/DcpServiceTypeEnum.h"
 #include "base/net/profinet/fid-pdu/FidApduReader.h"
+#include "base/string/define.h"
 #include "base/string/Json.h"
+#include "base/string/ToHexString.h"
+#include "DcpHeaderReader.h"
+#include "DcpTlvReader.h"
 
 namespace base::profinet
 {
@@ -34,13 +38,46 @@ namespace base::profinet
 		///
 		/// @param span 整个以太网帧的内存片段。
 		///
-		DcpIdentifyRequestReader(base::ReadOnlySpan const &span);
+		DcpIdentifyRequestReader(base::ReadOnlySpan const &span)
+			: _fid_pdu_reader(span)
+		{
+			_this_span = _fid_pdu_reader.Payload();
+			if (_this_span.Size() < base::profinet::DcpHeaderReader::HeaderSize())
+			{
+				// DCP 头部要 10 字节，这里连 10 字节都没有。
+				throw std::invalid_argument{CODE_POS_STR + "传入的帧中不含有合法的 DCP 头部。"};
+			}
 
-		base::profinet::DcpServiceIdEnum ServiceId() const;
+			_header_reader = std::shared_ptr<base::profinet::DcpHeaderReader>{new base::profinet::DcpHeaderReader{
+				_this_span,
+			}};
 
-		base::profinet::DcpServiceTypeEnum ServiceType() const;
+			{
+				base::ReadOnlySpan tlv_span = _this_span.Slice(base::Range{
+					base::profinet::DcpHeaderReader::HeaderSize(),
+					_this_span.Size(),
+				});
 
-		uint32_t Xid() const;
+				_tlv_reader = std::shared_ptr<base::profinet::DcpTlvReader>{new base::profinet::DcpTlvReader{
+					tlv_span,
+				}};
+			}
+		}
+
+		base::profinet::DcpServiceIdEnum ServiceId() const
+		{
+			return _header_reader->ServiceId();
+		}
+
+		base::profinet::DcpServiceTypeEnum ServiceType() const
+		{
+			return _header_reader->ServiceType();
+		}
+
+		uint32_t Xid() const
+		{
+			return _header_reader->Xid();
+		}
 
 		/// @brief 响应延迟。
 		/// @return
@@ -51,9 +88,6 @@ namespace base::profinet
 		/// 尾部需要填充 1 字节。
 		/// @return
 		uint16_t DataLength() const;
-
-		/// @brief
-		/// @return
 
 		///
 		/// @brief 是否具有站点名称块。
@@ -76,9 +110,28 @@ namespace base::profinet
 		///
 		/// @brief 序列化为 json
 		///
-		/// @return base::Json
+		/// @return
 		///
-		virtual base::Json ToJson() const override;
+		virtual base::Json ToJson() const override
+		{
+			base::Json root{
+				{"ServiceId", base::to_string(ServiceId())},
+				{"ServiceType", base::to_string(ServiceType())},
+				{"Xid", base::ToHexString(Xid())},
+				{"ResponseDelay", base::ToHexString(ResponseDelay())},
+				{"DataLength", DataLength()},
+			};
+
+			base::Json blocks;
+
+			if (HasNameOfStationBlock())
+			{
+				blocks["NameOfStation"] = NameOfStation();
+			}
+
+			root["Blocks"] = blocks;
+			return root;
+		}
 	};
 
 #if HAS_THREAD
