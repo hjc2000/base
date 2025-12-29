@@ -56,16 +56,12 @@ namespace base::profinet
 
 		///
 		/// @brief Blocks 的有效数据的长度，包括填充字节。
+		///
 		/// @note 填充是为了 2 字节对齐，每一个 Block 都必须 2 字节对齐，如果没有对齐，
 		/// 尾部需要填充 1 字节。
-		/// @return
 		///
-		uint16_t DataLength() const
-		{
-			base::Span span = _span.Slice(base::Range{8, 10});
-			return base::big_endian_remote_converter.FromBytes<uint16_t>(span);
-		}
-
+		/// @param value
+		///
 		void WriteDataLength(uint16_t value)
 		{
 			base::Span span = _span.Slice(base::Range{8, 10});

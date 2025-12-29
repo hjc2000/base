@@ -89,17 +89,6 @@ namespace base::profinet
 		}
 
 		///
-		/// @brief Blocks 的有效数据的长度。
-		///
-		/// @return
-		///
-		uint16_t DataLength() const
-		{
-			base::profinet::DcpHeaderWriter writer{_this_span};
-			return writer.DataLength();
-		}
-
-		///
 		/// @brief 删除 Blocks 区域的所有块。
 		///
 		void ClearAllBlocks()
