@@ -70,6 +70,7 @@ namespace base::profinet
 
 		///
 		/// @brief 头部固定为 10 字节。
+		///
 		/// @return
 		///
 		static constexpr int32_t HeaderSize()
