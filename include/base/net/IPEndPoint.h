@@ -28,26 +28,61 @@ namespace base
 		/// @param ip
 		/// @param port
 		///
-		IPEndPoint(base::IPAddress const &ip, uint16_t port);
+		IPEndPoint(base::IPAddress const &ip, uint16_t port)
+		{
+			_ip_address = ip;
+			_port = port;
+		}
 
 		///
 		/// @brief 此终结点所属的家族。
 		///
-		/// @return base::EndPointFamily
+		/// @return
 		///
-		virtual base::EndPointFamily Family() const override;
+		virtual base::EndPointFamily Family() const override
+		{
+			if (_ip_address.Type() == base::IPAddressType::IPV4)
+			{
+				return base::EndPointFamily::IPV4;
+			}
+			else
+			{
+				return base::EndPointFamily::IPV6;
+			}
+		}
 
-		base::IPAddress IPAddress() const;
-		void SetIPAddress(base::IPAddress const &value);
+		base::IPAddress IPAddress() const
+		{
+			return _ip_address;
+		}
 
-		uint16_t Port() const;
-		void SetPort(uint16_t value);
+		void SetIPAddress(base::IPAddress const &value)
+		{
+			_ip_address = value;
+		}
+
+		uint16_t Port() const
+		{
+			return _port;
+		}
+
+		void SetPort(uint16_t value)
+		{
+			_port = value;
+		}
 
 		///
 		/// @brief 序列化为 json
 		///
-		/// @return Json
+		/// @return
 		///
-		virtual base::Json ToJson() const override;
+		virtual base::Json ToJson() const override
+		{
+			return base::Json{
+				{"ip", _ip_address.ToString()},
+				{"port", _port},
+			};
+		}
 	};
+
 } // namespace base
