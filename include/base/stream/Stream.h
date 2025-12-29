@@ -1,9 +1,11 @@
 #pragma once
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
+#include "base/string/define.h"
 #include "base/task/CancellationToken.h"
 #include <cstdint>
 #include <memory>
+#include <stdexcept>
 
 namespace base
 {
@@ -234,7 +236,21 @@ namespace base
 		/// @param cancellation_token 取消令牌。
 		///
 		void CopyTo(std::shared_ptr<base::Stream> dst_stream,
-					std::shared_ptr<base::CancellationToken> cancellation_token);
+					std::shared_ptr<base::CancellationToken> cancellation_token)
+		{
+#if HAS_THREAD
+
+			uint8_t temp_buffer[1024];
+
+#else
+
+			uint8_t temp_buffer[32];
+
+#endif
+
+			base::Span temp_buffer_span{temp_buffer, sizeof(temp_buffer)};
+			CopyTo(dst_stream, temp_buffer_span, cancellation_token);
+		}
 
 		///
 		/// @brief 将本流拷贝到 dst_stream 中。
@@ -248,7 +264,17 @@ namespace base
 		///
 		void CopyTo(std::shared_ptr<base::Stream> dst_stream,
 					int64_t temp_buffer_size,
-					std::shared_ptr<base::CancellationToken> cancellation_token);
+					std::shared_ptr<base::CancellationToken> cancellation_token)
+		{
+			if (temp_buffer_size <= 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "temp_buffer_size 不能 <= 0."};
+			}
+
+			std::unique_ptr<uint8_t[]> temp_buffer{new uint8_t[temp_buffer_size]};
+			base::Span temp_buffer_span{temp_buffer.get(), temp_buffer_size};
+			CopyTo(dst_stream, temp_buffer_span, cancellation_token);
+		}
 
 		/* #endregion */
 	};
