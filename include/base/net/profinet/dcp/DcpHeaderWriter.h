@@ -27,30 +27,14 @@ namespace base::profinet
 			_span = span;
 		}
 
-		base::profinet::DcpServiceIdEnum ServiceId() const
-		{
-			return static_cast<base::profinet::DcpServiceIdEnum>(_span[0]);
-		}
-
 		void SetServiceId(base::profinet::DcpServiceIdEnum value)
 		{
 			_span[0] = static_cast<uint8_t>(value);
 		}
 
-		base::profinet::DcpServiceTypeEnum ServiceType() const
-		{
-			return static_cast<base::profinet::DcpServiceTypeEnum>(_span[1]);
-		}
-
 		void SetServiceType(base::profinet::DcpServiceTypeEnum value)
 		{
 			_span[1] = static_cast<uint8_t>(value);
-		}
-
-		uint32_t Xid() const
-		{
-			base::Span span = _span.Slice(base::Range{2, 6});
-			return base::big_endian_remote_converter.FromBytes<uint32_t>(span);
 		}
 
 		void SetXid(uint32_t value)
@@ -61,14 +45,9 @@ namespace base::profinet
 
 		///
 		/// @brief 响应延迟。
-		/// @return
 		///
-		uint16_t ResponseDelay() const
-		{
-			base::Span span = _span.Slice(base::Range{6, 8});
-			return base::big_endian_remote_converter.FromBytes<uint16_t>(span);
-		}
-
+		/// @param value
+		///
 		void SetResponseDelay(uint16_t value)
 		{
 			base::Span span = _span.Slice(base::Range{6, 8});

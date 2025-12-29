@@ -82,24 +82,6 @@ namespace base::profinet
 			_fid_apdu_writer.WriteSourceMac(value);
 		}
 
-		base::profinet::DcpServiceIdEnum ServiceId() const
-		{
-			base::profinet::DcpHeaderWriter writer{_this_span};
-			return writer.ServiceId();
-		}
-
-		base::profinet::DcpServiceTypeEnum ServiceType() const
-		{
-			base::profinet::DcpHeaderWriter writer{_this_span};
-			return writer.ServiceType();
-		}
-
-		uint32_t Xid() const
-		{
-			base::profinet::DcpHeaderWriter writer{_this_span};
-			return writer.Xid();
-		}
-
 		void WriteXid(uint32_t value)
 		{
 			base::profinet::DcpHeaderWriter writer{_this_span};
