@@ -55,7 +55,7 @@ namespace base::profinet
 			_this_span = _fid_apdu_writer.Payload();
 
 			base::profinet::DcpHeaderWriter writer{_this_span};
-			writer.SetServiceId(base::profinet::DcpServiceIdEnum::Hello);
+			writer.WriteServiceId(base::profinet::DcpServiceIdEnum::Hello);
 			writer.SetServiceType(base::profinet::DcpServiceTypeEnum::Request);
 
 			base::Span block_span = _this_span.Slice(base::Range{base::profinet::DcpHeaderWriter::HeaderSize(), _this_span.Size()});
@@ -65,7 +65,7 @@ namespace base::profinet
 		///
 		/// @brief 源 MAC 地址。
 		///
-		/// @return base::Mac
+		/// @return
 		///
 		base::Mac SourceMac() const
 		{
@@ -91,7 +91,7 @@ namespace base::profinet
 		///
 		/// @brief Blocks 的有效数据的长度。
 		///
-		/// @return uint16_t
+		/// @return
 		///
 		uint16_t DataLength() const
 		{
@@ -101,7 +101,6 @@ namespace base::profinet
 
 		///
 		/// @brief 删除 Blocks 区域的所有块。
-		///
 		///
 		void ClearAllBlocks()
 		{
@@ -184,7 +183,7 @@ namespace base::profinet
 		///
 		/// @brief 可用来被发送到以太网中的内存段。
 		///
-		/// @return base::ReadOnlySpan
+		/// @return
 		///
 		base::ReadOnlySpan SpanForSending() const
 		{

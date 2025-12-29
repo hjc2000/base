@@ -27,7 +27,7 @@ namespace base::profinet
 			_span = span;
 		}
 
-		void SetServiceId(base::profinet::DcpServiceIdEnum value)
+		void WriteServiceId(base::profinet::DcpServiceIdEnum value)
 		{
 			_span[0] = static_cast<uint8_t>(value);
 		}
