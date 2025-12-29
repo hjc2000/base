@@ -8,7 +8,6 @@ namespace base
 	///
 	/// @brief 只要底层的储存方式是 C 风格的裸数组的容器，都可以继承本接口。
 	///
-	///
 	template <typename ItemType>
 	class IRawArray :
 		public virtual base::IRandomAccessEnumerable<ItemType>
@@ -21,21 +20,21 @@ namespace base
 		///
 		/// @brief 数组的大小。
 		///
-		/// @return int64_t
+		/// @return
 		///
 		virtual int64_t Count() const = 0;
 
 		///
 		/// @brief 获取底层的缓冲区。
 		///
-		/// @return ItemType*
+		/// @return
 		///
 		virtual ItemType *Buffer() = 0;
 
 		///
 		/// @brief 获取底层的缓冲区。
 		///
-		/// @return ItemType const*
+		/// @return
 		///
 		virtual ItemType const *Buffer() const = 0;
 
@@ -132,7 +131,6 @@ namespace base
 		///
 		/// @brief 洗牌。
 		///
-		///
 		void Shuffle()
 		{
 			Span().Shuffle();
@@ -218,6 +216,7 @@ namespace base
 			}
 
 			int64_t count = std::min(Count(), o.Count());
+
 			for (int64_t i = 0; i < count; i++)
 			{
 				if ((*this)[i] < o[i])
@@ -253,6 +252,7 @@ namespace base
 			}
 
 			int64_t count = std::min(Count(), o.Count());
+
 			for (int64_t i = 0; i < count; i++)
 			{
 				if ((*this)[i] > o[i])
@@ -288,6 +288,7 @@ namespace base
 			}
 
 			int64_t count = std::min(Count(), o.Count());
+
 			for (int64_t i = 0; i < count; i++)
 			{
 				if ((*this)[i] < o[i])
@@ -323,6 +324,7 @@ namespace base
 			}
 
 			int64_t count = std::min(Count(), o.Count());
+
 			for (int64_t i = 0; i < count; i++)
 			{
 				if ((*this)[i] > o[i])

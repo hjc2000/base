@@ -8,7 +8,6 @@ namespace base
 	///
 	/// @brief 数组
 	///
-	///
 	template <typename ItemType, int64_t TCount>
 	class Array final :
 		public base::IRawArray<ItemType>
