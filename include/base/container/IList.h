@@ -549,9 +549,7 @@ namespace base
 		/* #region 比较运算符 */
 
 		bool operator==(IList<ItemType> const &o) const
-			requires(base::has_equal_operator<ItemType, ItemType> &&
-					 base::has_less_than_operator<ItemType, ItemType> &&
-					 base::has_greater_than_operator<ItemType, ItemType>)
+			requires(base::has_all_compare_operators<ItemType, ItemType>)
 		{
 			if (this == &o)
 			{
@@ -576,9 +574,7 @@ namespace base
 		}
 
 		bool operator<(IList<ItemType> const &o) const
-			requires(base::has_equal_operator<ItemType, ItemType> &&
-					 base::has_less_than_operator<ItemType, ItemType> &&
-					 base::has_greater_than_operator<ItemType, ItemType>)
+			requires(base::has_all_compare_operators<ItemType, ItemType>)
 		{
 			if (this == &o)
 			{
@@ -606,9 +602,7 @@ namespace base
 		}
 
 		bool operator>(IList<ItemType> const &o) const
-			requires(base::has_equal_operator<ItemType, ItemType> &&
-					 base::has_less_than_operator<ItemType, ItemType> &&
-					 base::has_greater_than_operator<ItemType, ItemType>)
+			requires(base::has_all_compare_operators<ItemType, ItemType>)
 		{
 			if (this == &o)
 			{
@@ -636,9 +630,7 @@ namespace base
 		}
 
 		bool operator<=(IList<ItemType> const &o) const
-			requires(base::has_equal_operator<ItemType, ItemType> &&
-					 base::has_less_than_operator<ItemType, ItemType> &&
-					 base::has_greater_than_operator<ItemType, ItemType>)
+			requires(base::has_all_compare_operators<ItemType, ItemType>)
 		{
 			if (this == &o)
 			{
@@ -666,9 +658,7 @@ namespace base
 		}
 
 		bool operator>=(IList<ItemType> const &o) const
-			requires(base::has_equal_operator<ItemType, ItemType> &&
-					 base::has_less_than_operator<ItemType, ItemType> &&
-					 base::has_greater_than_operator<ItemType, ItemType>)
+			requires(base::has_all_compare_operators<ItemType, ItemType>)
 		{
 			if (this == &o)
 			{
