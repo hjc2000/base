@@ -110,57 +110,124 @@ namespace base
 		///
 		/// @brief 将 MAC 地址转换为无符号整型。
 		///
-		explicit operator uint64_t() const;
+		explicit operator uint64_t() const
+		{
+			/* _mac_buffer 中的数据此时被当作远程字节序，也是小端序。转换成整型，需要根据本机字节序
+			 * 决定是否需要翻转。
+			 */
+			uint64_t value = base::little_endian_remote_converter.FromBytes<uint64_t>(
+				base::ReadOnlySpan{
+					_mac_buffer.Buffer(),
+					_mac_buffer.Count(),
+				});
+
+			return value;
+		}
 
 		///
 		/// @brief 转化为字符串
+		///
 		/// @return
 		///
-		std::string ToString() const override;
+		std::string ToString() const override
+		{
+			std::string ret{};
+			bool first_loop = true;
+
+			base::ToHexStringOptions option{};
+			option.with_0x_prefix = false;
+			option.width = 2;
+
+			for (uint8_t value : _mac_buffer)
+			{
+				if (first_loop)
+				{
+					first_loop = false;
+					ret = base::ToHexString(value, option);
+				}
+				else
+				{
+					ret = base::ToHexString(value, option) + '-' + ret;
+				}
+			}
+
+			return ret;
+		}
 
 		///
 		/// @brief 获取引用着本对象内部缓冲区的 ReadOnlySpan.
+		///
 		/// @return
 		///
-		base::ReadOnlySpan Span() const;
+		base::ReadOnlySpan Span() const
+		{
+			return base::ReadOnlySpan{_mac_buffer.Buffer(), _mac_buffer.Count()};
+		}
 
 		///
 		/// @brief 获取引用着本对象内部缓冲区的 Span.
+		///
 		/// @return
 		///
-		base::Span Span();
+		base::Span Span()
+		{
+			return base::Span{_mac_buffer.Buffer(), _mac_buffer.Count()};
+		}
 
 		///
 		/// @brief 访问 MAC 地址中指定索引的值。
+		///
 		/// @param index
+		///
 		/// @return
 		///
-		uint8_t &operator[](int index);
+		uint8_t &operator[](int index)
+		{
+			return _mac_buffer[index];
+		}
 
 		///
 		/// @brief 访问 MAC 地址中指定索引的值。
+		///
 		/// @param index
+		///
 		/// @return
 		///
-		uint8_t const &operator[](int index) const;
+		uint8_t const &operator[](int index) const
+		{
+			return _mac_buffer[index];
+		}
 
 		///
 		/// @brief 获取 MAC 地址中的 OUI.
 		/// @return
 		///
-		base::Array<uint8_t, 3> Oui() const;
+		base::Array<uint8_t, 3> Oui() const
+		{
+			return base::Array<uint8_t, 3>{_mac_buffer.Span().Slice(base::Range{3, 6})};
+		}
 
 		///
 		/// @brief 设置 OUI.
 		/// @param value
 		///
-		void SetOui(base::Array<uint8_t, 3> const &value);
+		void SetOui(base::Array<uint8_t, 3> const &value)
+		{
+			_mac_buffer.Span().Slice(base::Range{3, 6}).CopyFrom(value.Span());
+		}
 
 		///
 		/// @brief 本地址是否是多播地址。
+		///
 		/// @note 最高字节的最低位为 1 则是多播地址，为 0 则是单播地址。
+		///
 		/// @return 是多播地址返回 true，不是则返回 false.
 		///
-		bool IsMulticastAddress() const;
+		bool IsMulticastAddress() const
+		{
+			// 最高字节的最低位为 1 则是多播地址，为 0 则是单播地址。
+			return _mac_buffer[5] & 0x01;
+		}
 	};
+
 } // namespace base
