@@ -8,8 +8,6 @@
 #include <functional>
 #include <memory>
 
-#if HAS_THREAD
-
 namespace base
 {
 	namespace usage
@@ -243,4 +241,3 @@ namespace base
 
 	} // namespace usage
 } // namespace base
-#endif
