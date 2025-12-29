@@ -10,7 +10,6 @@ namespace base::ethernet
 	///
 	/// @brief 以太网帧读者。
 	///
-	///
 	class EthernetFrameReader :
 		public base::IJsonSerializable
 	{
