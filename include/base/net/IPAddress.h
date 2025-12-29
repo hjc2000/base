@@ -6,6 +6,7 @@
 #include "base/string/ICanToString.h"
 #include "base/string/String.h"
 #include "base/string/ToHexString.h"
+#include <array>
 #include <bit>
 #include <stdexcept>
 
@@ -32,7 +33,7 @@ namespace base
 		class Context
 		{
 		private:
-			base::Array<uint8_t, 16> _ip_address_buffer;
+			std::array<uint8_t, 16> _ip_address_buffer;
 			base::IPAddressType _type = base::IPAddressType::IPV4;
 
 		public:
@@ -47,20 +48,20 @@ namespace base
 			{
 				if (_type == base::IPAddressType::IPV4)
 				{
-					return base::Span{_ip_address_buffer.Buffer(), 4};
+					return base::Span{_ip_address_buffer.data(), 4};
 				}
 
-				return base::Span{_ip_address_buffer.Buffer(), 16};
+				return base::Span{_ip_address_buffer.data(), 16};
 			}
 
 			base::ReadOnlySpan Span() const
 			{
 				if (_type == base::IPAddressType::IPV4)
 				{
-					return base::ReadOnlySpan{_ip_address_buffer.Buffer(), 4};
+					return base::ReadOnlySpan{_ip_address_buffer.data(), 4};
 				}
 
-				return base::ReadOnlySpan{_ip_address_buffer.Buffer(), 16};
+				return base::ReadOnlySpan{_ip_address_buffer.data(), 16};
 			}
 
 			base::IPAddressType IPAddressType() const
