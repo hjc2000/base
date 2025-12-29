@@ -624,6 +624,8 @@ namespace base
 		}
 	};
 
+	/* #region 数学函数 */
+
 	///
 	/// @brief 取绝对值。
 	///
@@ -671,6 +673,8 @@ namespace base
 		copy.ReduceResolution(resolution);
 		return copy;
 	}
+
+	/* #endregion */
 
 } // namespace base
 
