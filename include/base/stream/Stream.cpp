@@ -1,6 +1,8 @@
 #include "Stream.h" // IWYU pragma: keep
+#include "base/string/define.h"
 #include <cstdint>
 #include <memory>
+#include <stdexcept>
 
 void base::Stream::CopyTo(std::shared_ptr<base::Stream> dst_stream,
 						  std::shared_ptr<base::CancellationToken> cancellation_token)
@@ -34,6 +36,11 @@ void base::Stream::CopyTo(std::shared_ptr<base::Stream> dst_stream,
 						  int64_t temp_buffer_size,
 						  std::shared_ptr<base::CancellationToken> cancellation_token)
 {
+	if (temp_buffer_size <= 0)
+	{
+		throw std::invalid_argument{CODE_POS_STR + "temp_buffer_size 不能 <= 0."};
+	}
+
 	std::unique_ptr<uint8_t[]> temp_buffer{new uint8_t[temp_buffer_size]};
 
 	while (true)
