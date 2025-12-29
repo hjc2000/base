@@ -30,7 +30,7 @@ namespace base::ethernet
 		///
 		/// @brief 目的 MAC 地址。
 		///
-		/// @return base::Mac
+		/// @return
 		///
 		base::Mac DestinationMac() const
 		{
@@ -43,7 +43,7 @@ namespace base::ethernet
 		///
 		/// @brief 源 MAC 地址。
 		///
-		/// @return base::Mac
+		/// @return
 		///
 		base::Mac SourceMac() const
 		{

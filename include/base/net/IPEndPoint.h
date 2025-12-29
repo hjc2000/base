@@ -19,7 +19,6 @@ namespace base
 		///
 		/// @brief 无参构造函数。构造出的终结点具有无效的 IP 地址，端口号为 0.
 		///
-		///
 		IPEndPoint() = default;
 
 		///
