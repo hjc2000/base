@@ -4,103 +4,6 @@
 namespace base
 {
 	///
-	/// @brief 上升阈值
-	///
-	/// @note 本次输入值比锚点增加多少就认为当前方向是上升。
-	///
-	class DirectionDetecter_RisingThreshold
-	{
-	private:
-		double _value = 0;
-
-	public:
-		///
-		/// @brief 上升阈值
-		/// @param value
-		///
-		explicit DirectionDetecter_RisingThreshold(double value)
-		{
-			if (value <= 0)
-			{
-				throw std::invalid_argument{"不允许 <= 0"};
-			}
-
-			_value = value;
-		}
-
-		double Value() const
-		{
-			return _value;
-		}
-	};
-
-	///
-	/// @brief 下降阈值
-	///
-	/// @note 本次输入值比锚点减少多少就认为当前方向是下降。
-	///
-	class DirectionDetecter_FallenThreshold
-	{
-	private:
-		double _value = 0;
-
-	public:
-		///
-		/// @brief 下降阈值
-		///
-		/// @param value
-		///
-		explicit DirectionDetecter_FallenThreshold(double value)
-		{
-			if (value >= 0)
-			{
-				throw std::invalid_argument{"不允许 >= 0"};
-			}
-
-			_value = value;
-		}
-
-		double Value() const
-		{
-			return _value;
-		}
-	};
-
-	///
-	/// @brief 初始锚点
-	///
-	class DirectionDetecter_InitialAnchor
-	{
-	private:
-		double _value = 0;
-
-	public:
-		///
-		/// @brief 初始锚点
-		///
-		/// @param value
-		///
-		explicit DirectionDetecter_InitialAnchor(double value)
-		{
-			_value = value;
-		}
-
-		double Value() const
-		{
-			return _value;
-		}
-	};
-
-	///
-	/// @brief 当前方向
-	///
-	enum class DirectionDetecter_Direction
-	{
-		Rising,
-		Falling,
-	};
-
-	///
 	/// @brief 方向的变化
 	///
 	enum class DirectionDetecter_DirectionChange
@@ -126,6 +29,104 @@ namespace base
 	///
 	class DirectionDetecter
 	{
+	public:
+		///
+		/// @brief 上升阈值
+		///
+		/// @note 本次输入值比锚点增加多少就认为当前方向是上升。
+		///
+		class RisingThreshold
+		{
+		private:
+			double _value = 0;
+
+		public:
+			///
+			/// @brief 上升阈值
+			/// @param value
+			///
+			explicit RisingThreshold(double value)
+			{
+				if (value <= 0)
+				{
+					throw std::invalid_argument{"不允许 <= 0"};
+				}
+
+				_value = value;
+			}
+
+			double Value() const
+			{
+				return _value;
+			}
+		};
+
+		///
+		/// @brief 下降阈值
+		///
+		/// @note 本次输入值比锚点减少多少就认为当前方向是下降。
+		///
+		class FallenThreshold
+		{
+		private:
+			double _value = 0;
+
+		public:
+			///
+			/// @brief 下降阈值
+			///
+			/// @param value
+			///
+			explicit FallenThreshold(double value)
+			{
+				if (value >= 0)
+				{
+					throw std::invalid_argument{"不允许 >= 0"};
+				}
+
+				_value = value;
+			}
+
+			double Value() const
+			{
+				return _value;
+			}
+		};
+
+		///
+		/// @brief 当前方向
+		///
+		enum class DirectionEnum
+		{
+			Rising,
+			Falling,
+		};
+
+		///
+		/// @brief 初始锚点
+		///
+		class InitialAnchor
+		{
+		private:
+			double _value = 0;
+
+		public:
+			///
+			/// @brief 初始锚点
+			///
+			/// @param value
+			///
+			explicit InitialAnchor(double value)
+			{
+				_value = value;
+			}
+
+			double Value() const
+			{
+				return _value;
+			}
+		};
+
 	private:
 		double _rising_threshold = 1;
 		double _fallen_threshold = 1;
@@ -133,8 +134,8 @@ namespace base
 		double _current_position = 0;
 		double _anchor_point = 0;
 
-		DirectionDetecter_Direction _current_direction = DirectionDetecter_Direction::Falling;
-		DirectionDetecter_Direction _last_direction = DirectionDetecter_Direction::Falling;
+		base::DirectionDetecter::DirectionEnum _current_direction = base::DirectionDetecter::DirectionEnum::Falling;
+		base::DirectionDetecter::DirectionEnum _last_direction = base::DirectionDetecter::DirectionEnum::Falling;
 
 		///
 		/// @brief 方向切换瞬间的输入值
@@ -148,15 +149,15 @@ namespace base
 		///
 		void UpdateDirectionChangeField()
 		{
-			if (_last_direction == DirectionDetecter_Direction::Falling &&
-				_current_direction == DirectionDetecter_Direction::Rising)
+			if (_last_direction == base::DirectionDetecter::DirectionEnum::Falling &&
+				_current_direction == base::DirectionDetecter::DirectionEnum::Rising)
 			{
 				_direction_change = DirectionDetecter_DirectionChange::FromFallingToRising;
 				return;
 			}
 
-			if (_last_direction == DirectionDetecter_Direction::Rising &&
-				_current_direction == DirectionDetecter_Direction::Falling)
+			if (_last_direction == base::DirectionDetecter::DirectionEnum::Rising &&
+				_current_direction == base::DirectionDetecter::DirectionEnum::Falling)
 			{
 				_direction_change = DirectionDetecter_DirectionChange::FromRisingToFalling;
 				return;
@@ -174,10 +175,10 @@ namespace base
 		/// @param initial_direction 初始方向。
 		/// @param initial_anchor 初始锚点。
 		///
-		DirectionDetecter(base::DirectionDetecter_RisingThreshold const &rising_threshold,
-						  base::DirectionDetecter_FallenThreshold const &fallen_threshold,
-						  DirectionDetecter_Direction initial_direction,
-						  DirectionDetecter_InitialAnchor const &initial_anchor)
+		DirectionDetecter(base::DirectionDetecter::RisingThreshold const &rising_threshold,
+						  base::DirectionDetecter::FallenThreshold const &fallen_threshold,
+						  base::DirectionDetecter::DirectionEnum initial_direction,
+						  base::DirectionDetecter::InitialAnchor const &initial_anchor)
 		{
 			_rising_threshold = rising_threshold.Value();
 			_fallen_threshold = fallen_threshold.Value();
@@ -201,7 +202,7 @@ namespace base
 			{
 				// 移动量超过阈值，不是干扰
 				// 当前是上升方向
-				_current_direction = DirectionDetecter_Direction::Rising;
+				_current_direction = base::DirectionDetecter::DirectionEnum::Rising;
 
 				if (_last_direction != _current_direction)
 				{
@@ -222,7 +223,7 @@ namespace base
 			{
 				// 移动量超过阈值，不是干扰
 				// 当前是下降方向
-				_current_direction = DirectionDetecter_Direction::Falling;
+				_current_direction = base::DirectionDetecter::DirectionEnum::Falling;
 
 				if (_last_direction != _current_direction)
 				{
@@ -272,12 +273,12 @@ namespace base
 			return _turning_point;
 		}
 
-		DirectionDetecter_Direction CurrentDirection() const
+		base::DirectionDetecter::DirectionEnum CurrentDirection() const
 		{
 			return _current_direction;
 		}
 
-		DirectionDetecter_Direction LastDirection() const
+		base::DirectionDetecter::DirectionEnum LastDirection() const
 		{
 			return _last_direction;
 		}
