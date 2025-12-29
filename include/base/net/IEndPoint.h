@@ -6,7 +6,6 @@ namespace base
 	///
 	/// @brief 终结点家族枚举
 	///
-	///
 	enum class EndPointFamily
 	{
 		UNIX = 1,
@@ -47,17 +46,23 @@ namespace base
 	///
 	/// @brief 终结点
 	///
-	///
 	class IEndPoint :
 		public base::IJsonSerializable
 	{
 	public:
+		///
 		/// @brief 终结点所属的协议家族。
+		///
 		/// @return
+		///
 		virtual base::EndPointFamily Family() const = 0;
 
+		///
 		/// @brief 序列化为 json
+		///
 		/// @return
+		///
 		virtual Json ToJson() const = 0;
 	};
+
 } // namespace base
