@@ -14,7 +14,7 @@ namespace base
 		///
 		/// @note 本次输入值比锚点增加多少就认为当前方向是上升。
 		///
-		class RisingThreshold
+		class RisingThreshold_t
 		{
 		private:
 			double _value = 0;
@@ -22,9 +22,10 @@ namespace base
 		public:
 			///
 			/// @brief 上升阈值
+			///
 			/// @param value
 			///
-			explicit RisingThreshold(double value)
+			explicit RisingThreshold_t(double value)
 			{
 				if (value <= 0)
 				{
@@ -45,7 +46,7 @@ namespace base
 		///
 		/// @note 本次输入值比锚点减少多少就认为当前方向是下降。
 		///
-		class FallenThreshold
+		class FallenThreshold_t
 		{
 		private:
 			double _value = 0;
@@ -56,7 +57,7 @@ namespace base
 			///
 			/// @param value
 			///
-			explicit FallenThreshold(double value)
+			explicit FallenThreshold_t(double value)
 			{
 				if (value >= 0)
 				{
@@ -84,7 +85,7 @@ namespace base
 		///
 		/// @brief 初始锚点
 		///
-		class InitialAnchor
+		class InitialAnchor_t
 		{
 		private:
 			double _value = 0;
@@ -95,7 +96,7 @@ namespace base
 			///
 			/// @param value
 			///
-			explicit InitialAnchor(double value)
+			explicit InitialAnchor_t(double value)
 			{
 				_value = value;
 			}
@@ -175,10 +176,10 @@ namespace base
 		/// @param initial_direction 初始方向。
 		/// @param initial_anchor 初始锚点。
 		///
-		DirectionDetecter(base::DirectionDetecter::RisingThreshold const &rising_threshold,
-						  base::DirectionDetecter::FallenThreshold const &fallen_threshold,
+		DirectionDetecter(base::DirectionDetecter::RisingThreshold_t const &rising_threshold,
+						  base::DirectionDetecter::FallenThreshold_t const &fallen_threshold,
 						  base::DirectionDetecter::DirectionEnum initial_direction,
-						  base::DirectionDetecter::InitialAnchor const &initial_anchor)
+						  base::DirectionDetecter::InitialAnchor_t const &initial_anchor)
 		{
 			_rising_threshold = rising_threshold.Value();
 			_fallen_threshold = fallen_threshold.Value();

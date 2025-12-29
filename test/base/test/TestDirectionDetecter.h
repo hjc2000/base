@@ -7,10 +7,10 @@ namespace base::test
 	inline void TestDirectionDetecter()
 	{
 		base::DirectionDetecter detecter{
-			base::DirectionDetecter::RisingThreshold{20},
-			base::DirectionDetecter::FallenThreshold{-10},
+			base::DirectionDetecter::RisingThreshold_t{20},
+			base::DirectionDetecter::FallenThreshold_t{-10},
 			base::DirectionDetecter::DirectionEnum::Falling,
-			base::DirectionDetecter::InitialAnchor{0},
+			base::DirectionDetecter::InitialAnchor_t{0},
 		};
 
 		for (int i = 0; i < 40; i++)
