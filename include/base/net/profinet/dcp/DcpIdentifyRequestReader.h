@@ -4,90 +4,88 @@
 #include "base/net/profinet/fid-pdu/FidApduReader.h"
 #include "base/string/Json.h"
 
-namespace base
+namespace base::profinet
 {
-	namespace profinet
+	class DcpHeaderReader;
+	class DcpTlvReader;
+
+	///
+	/// @brief DCP Identify 请求帧读者。
+	///
+	///
+	class DcpIdentifyRequestReader :
+		public base::IJsonSerializable
 	{
-		class DcpHeaderReader;
-		class DcpTlvReader;
+	private:
+		base::profinet::FidApduReader _fid_pdu_reader;
+		base::ReadOnlySpan _this_span;
 
 		///
-		/// @brief DCP Identify 请求帧读者。
+		/// @brief 这里使用了动态内存分配，会导致速度较慢。但是 DCP 对实时性要求不高，
+		/// 而且 DCP 并不会经常进行，只在配置的时候进行一次就结束了，所以用动态内存分配
+		/// 也没什么大问题。
 		///
+		std::shared_ptr<base::profinet::DcpHeaderReader> _header_reader;
+		std::shared_ptr<base::profinet::DcpTlvReader> _tlv_reader;
+
+	public:
 		///
-		class DcpIdentifyRequestReader :
-			public base::IJsonSerializable
-		{
-		private:
-			base::profinet::FidApduReader _fid_pdu_reader;
-			base::ReadOnlySpan _this_span;
+		/// @brief 构造函数。
+		///
+		/// @param span 整个以太网帧的内存片段。
+		///
+		DcpIdentifyRequestReader(base::ReadOnlySpan const &span);
 
-			///
-			/// @brief 这里使用了动态内存分配，会导致速度较慢。但是 DCP 对实时性要求不高，
-			/// 而且 DCP 并不会经常进行，只在配置的时候进行一次就结束了，所以用动态内存分配
-			/// 也没什么大问题。
-			///
-			std::shared_ptr<base::profinet::DcpHeaderReader> _header_reader;
-			std::shared_ptr<base::profinet::DcpTlvReader> _tlv_reader;
+		base::profinet::DcpServiceIdEnum ServiceId() const;
 
-		public:
-			///
-			/// @brief 构造函数。
-			///
-			/// @param span 整个以太网帧的内存片段。
-			///
-			DcpIdentifyRequestReader(base::ReadOnlySpan const &span);
+		base::profinet::DcpServiceTypeEnum ServiceType() const;
 
-			base::profinet::DcpServiceIdEnum ServiceId() const;
+		uint32_t Xid() const;
 
-			base::profinet::DcpServiceTypeEnum ServiceType() const;
+		/// @brief 响应延迟。
+		/// @return
+		uint16_t ResponseDelay() const;
 
-			uint32_t Xid() const;
+		/// @brief Blocks 的有效数据的长度，包括填充字节。
+		/// @note 填充是为了 2 字节对齐，每一个 Block 都必须 2 字节对齐，如果没有对齐，
+		/// 尾部需要填充 1 字节。
+		/// @return
+		uint16_t DataLength() const;
 
-			/// @brief 响应延迟。
-			/// @return
-			uint16_t ResponseDelay() const;
+		/// @brief
+		/// @return
 
-			/// @brief Blocks 的有效数据的长度，包括填充字节。
-			/// @note 填充是为了 2 字节对齐，每一个 Block 都必须 2 字节对齐，如果没有对齐，
-			/// 尾部需要填充 1 字节。
-			/// @return
-			uint16_t DataLength() const;
+		///
+		/// @brief 是否具有站点名称块。
+		///
+		/// @return true 有站点名称块。
+		/// @return false 无站点名称块。
+		///
+		bool HasNameOfStationBlock() const;
 
-			/// @brief
-			/// @return
+		///
+		/// @brief 站点名称。
+		///
+		/// @note 只有 HasNameOfStationBlock 属性为 true 时本属性才有效。
+		/// HasNameOfStationBlock 为 false 时访问本属性会抛出异常。
+		///
+		/// @return std::string
+		///
+		std::string NameOfStation() const;
 
-			///
-			/// @brief 是否具有站点名称块。
-			///
-			/// @return true 有站点名称块。
-			/// @return false 无站点名称块。
-			///
-			bool HasNameOfStationBlock() const;
-
-			///
-			/// @brief 站点名称。
-			///
-			/// @note 只有 HasNameOfStationBlock 属性为 true 时本属性才有效。
-			/// HasNameOfStationBlock 为 false 时访问本属性会抛出异常。
-			///
-			/// @return std::string
-			///
-			std::string NameOfStation() const;
-
-			///
-			/// @brief 序列化为 json
-			///
-			/// @return base::Json
-			///
-			virtual base::Json ToJson() const override;
-		};
+		///
+		/// @brief 序列化为 json
+		///
+		/// @return base::Json
+		///
+		virtual base::Json ToJson() const override;
+	};
 
 #if HAS_THREAD
-		namespace test
-		{
-			void TestDcpIdentifyRequestReader();
-		} // namespace test
+	namespace test
+	{
+		void TestDcpIdentifyRequestReader();
+	} // namespace test
 #endif // HAS_THREAD
-	} // namespace profinet
-} // namespace base
+
+} // namespace base::profinet
