@@ -14,7 +14,6 @@ namespace base
 	///
 	/// @brief IP 地址类型。
 	///
-	///
 	enum class IPAddressType
 	{
 		IPV4,
@@ -23,7 +22,6 @@ namespace base
 
 	///
 	/// @brief IP 地址。兼容 IPV4 和 IPV6.
-	///
 	///
 	class IPAddress :
 		public base::ICanToString
@@ -74,7 +72,6 @@ namespace base
 		///
 		/// @brief 上下文。
 		///
-		///
 		Context _context;
 
 		/* #endregion */
@@ -84,7 +81,6 @@ namespace base
 
 		///
 		/// @brief 构造一个未指定的 IP 地址。此时表现为 IPV4 的 0.0.0.0.
-		///
 		///
 		IPAddress() = default;
 
@@ -311,7 +307,7 @@ namespace base
 		///
 		/// @brief IP 地址的类型。
 		///
-		/// @return IPAddressType
+		/// @return
 		///
 		IPAddressType Type() const
 		{
@@ -321,7 +317,7 @@ namespace base
 		///
 		/// @brief 转化为字符串。
 		///
-		/// @return std::string
+		/// @return
 		///
 		std::string ToString() const override
 		{
@@ -379,7 +375,7 @@ namespace base
 		///
 		/// @brief 获取引用着本对象缓冲区的 ReadOnlySpan.
 		///
-		/// @return base::ReadOnlySpan
+		/// @return
 		///
 		base::ReadOnlySpan Span() const
 		{
