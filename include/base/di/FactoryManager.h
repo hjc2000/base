@@ -33,9 +33,8 @@ namespace base
 		///
 		std::shared_ptr<FactoryType> Factory()
 		{
-			/* 利用共享指针的赋值运算符是原子操作这一特性，将 _costom_factory
-			 * 捕获到 ret 中，这样就不用在判断过程中对 _costom_factory 加锁了。
-			 */
+			// 利用共享指针的赋值运算符是原子操作这一特性，将 _costom_factory
+			// 捕获到 ret 中，这样就不用在判断过程中对 _costom_factory 加锁了。
 			std::shared_ptr<FactoryType> ret = _costom_factory;
 			if (ret)
 			{
