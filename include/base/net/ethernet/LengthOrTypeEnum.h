@@ -9,18 +9,15 @@ namespace base::ethernet
 	///
 	/// @brief 提供以太网中一些上层协议的类型长度字段。
 	///
-	///
 	enum class LengthOrTypeEnum : uint16_t
 	{
 		///
 		/// @brief IP 协议的类型长度字段。
 		///
-		///
 		IP = 0x0800,
 
 		///
 		/// @brief ARP 协议的类型长度字段。
-		///
 		///
 		ARP = 0x0806,
 
@@ -34,24 +31,20 @@ namespace base::ethernet
 		///
 		/// @brief PROFINET 帧。
 		///
-		///
 		Profinet = 0x8892,
 
 		///
 		/// @brief MRP.
-		///
 		///
 		MRP = 0x88E3,
 
 		///
 		/// @brief EtherCAT.
 		///
-		///
 		EtherCAT = 0x88A4,
 
 		///
 		/// @brief LLDP.
-		///
 		///
 		LLDP = 0x88CC,
 	};
@@ -63,6 +56,7 @@ namespace base
 	inline std::string to_string(base::ethernet::LengthOrTypeEnum value)
 	{
 		std::string ret;
+
 		switch (value)
 		{
 		case base::ethernet::LengthOrTypeEnum::IP:
