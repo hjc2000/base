@@ -56,6 +56,16 @@ namespace base::usage
 		std::cout << "修复完成" << std::endl;
 	}
 
+	///
+	/// @brief 修复单个 “哔哩哔哩客户端” 下载的被故意损坏，从而不让用户用
+	/// 自己的播放器播放的视频。
+	///
+	/// 说的就是网页套壳的那个桌面客户端。
+	///
+	/// 它下载的视频的画面和声音还是分成 2 个 m4s 文件的，修复完后还要混合在一起。
+	///
+	/// @param video_path
+	///
 	inline void fix_bilibili_m4s_video(base::Path const &video_path)
 	{
 		std::cout << "尝试修复：" << video_path << std::endl;
@@ -130,6 +140,16 @@ namespace base::usage
 		}
 	}
 
+	///
+	/// @brief 修复所有 “哔哩哔哩客户端” 下载的被故意损坏，从而不让用户用
+	/// 自己的播放器播放的视频。
+	///
+	/// 说的就是网页套壳的那个桌面客户端。
+	///
+	/// 它下载的视频的画面和声音还是分成 2 个 m4s 文件的，修复完后还要混合在一起。
+	///
+	/// @param video_dir
+	///
 	inline void fix_all_bilibili_video(base::Path const &video_dir)
 	{
 		std::vector<base::Path> m4s_video_paths{};
