@@ -63,16 +63,6 @@ namespace base::profinet
 		}
 
 		///
-		/// @brief 源 MAC 地址。
-		///
-		/// @return
-		///
-		base::Mac SourceMac() const
-		{
-			return _fid_apdu_writer.SourceMac();
-		}
-
-		///
 		/// @brief 设置源 MAC 地址。
 		///
 		/// @param value
