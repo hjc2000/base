@@ -2,69 +2,66 @@
 #include "base/container/iterator/IEnumerator.h"
 #include "base/stream/ReadOnlySpan.h"
 
-namespace base
+namespace base::profinet
 {
-	namespace profinet
+	/// @brief 迭代一段 base::ReadOnlySpan 中的 TLV.
+	class DcpTlvEnumerator :
+		public base::IEnumerator<base::ReadOnlySpan>
 	{
-		/// @brief 迭代一段 base::ReadOnlySpan 中的 TLV.
-		class DcpTlvEnumerator :
-			public base::IEnumerator<base::ReadOnlySpan>
+	private:
+		bool _has_not_moved = true;
+		base::ReadOnlySpan _span;
+		base::ReadOnlySpan _remain_span;
+		base::ReadOnlySpan _current_value;
+		bool _is_end = false;
+
+	public:
+		/// @brief 构造函数。
+		/// @param span 含有很多 TLV 的 base::ReadOnlySpan.
+		DcpTlvEnumerator(base::ReadOnlySpan const &span);
+
+		///
+		/// @brief 迭代器当前是否指向尾后元素。
+		///
+		/// @return
+		///
+		virtual bool IsEnd() const override
 		{
-		private:
-			bool _has_not_moved = true;
-			base::ReadOnlySpan _span;
-			base::ReadOnlySpan _remain_span;
-			base::ReadOnlySpan _current_value;
-			bool _is_end = false;
+			return _is_end;
+		}
 
-		public:
-			/// @brief 构造函数。
-			/// @param span 含有很多 TLV 的 base::ReadOnlySpan.
-			DcpTlvEnumerator(base::ReadOnlySpan const &span);
+		///
+		/// @brief 获取当前值的引用。
+		///
+		/// @return ItemType&
+		///
+		virtual base::ReadOnlySpan &CurrentValue() override;
 
-			///
-			/// @brief 迭代器当前是否指向尾后元素。
-			///
-			/// @return
-			///
-			virtual bool IsEnd() const override
-			{
-				return _is_end;
-			}
+		///
+		/// @brief 递增迭代器的位置。
+		///
+		///
+		virtual void Add() override;
 
-			///
-			/// @brief 获取当前值的引用。
-			///
-			/// @return ItemType&
-			///
-			virtual base::ReadOnlySpan &CurrentValue() override;
+		///
+		/// @brief 从未被调用过 MoveToNext 方法。
+		///
+		/// @return
+		///
+		virtual bool HasNotMoved() override
+		{
+			return _has_not_moved;
+		}
 
-			///
-			/// @brief 递增迭代器的位置。
-			///
-			///
-			virtual void Add() override;
+		///
+		/// @brief 设置是否从未被调用过 MoveToNext 方法。
+		///
+		/// @param value
+		///
+		virtual void SetHasNotMoved(bool value) override
+		{
+			_has_not_moved = value;
+		}
+	};
 
-			///
-			/// @brief 从未被调用过 MoveToNext 方法。
-			///
-			/// @return
-			///
-			virtual bool HasNotMoved() override
-			{
-				return _has_not_moved;
-			}
-
-			///
-			/// @brief 设置是否从未被调用过 MoveToNext 方法。
-			///
-			/// @param value
-			///
-			virtual void SetHasNotMoved(bool value) override
-			{
-				_has_not_moved = value;
-			}
-		};
-
-	} // namespace profinet
-} // namespace base
+} // namespace base::profinet
