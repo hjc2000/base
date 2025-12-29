@@ -763,6 +763,8 @@ namespace base
 		///
 		/// @brief 水的比热容。
 		///
+		/// @note 4.187 kJ/(kg·K)
+		///
 		/// @return
 		///
 		static base::Fraction specific_heat_capacity_of_water()
