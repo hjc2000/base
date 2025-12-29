@@ -9,6 +9,8 @@ namespace base
 	class DirectionDetecter
 	{
 	public:
+		/* #region 类型定义 */
+
 		///
 		/// @brief 上升阈值
 		///
@@ -127,6 +129,8 @@ namespace base
 			///
 			FromFallingToRising,
 		};
+
+		/* #endregion */
 
 	private:
 		double _rising_threshold = 1;
