@@ -2,6 +2,7 @@
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
 #include "base/task/CancellationToken.h"
+#include <cstdint>
 #include <memory>
 
 namespace base
@@ -185,6 +186,17 @@ namespace base
 		/// @param cancellation_token
 		///
 		void CopyTo(std::shared_ptr<base::Stream> dst_stream,
+					std::shared_ptr<base::CancellationToken> cancellation_token);
+
+		///
+		/// @brief 将本流拷贝到 dst_stream 中。
+		///
+		/// @param dst_stream
+		/// @param temp_buffer_size
+		/// @param cancellation_token
+		///
+		void CopyTo(std::shared_ptr<base::Stream> dst_stream,
+					int64_t temp_buffer_size,
 					std::shared_ptr<base::CancellationToken> cancellation_token);
 
 		/* #endregion */
