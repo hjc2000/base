@@ -18,7 +18,7 @@ namespace base
 	///
 	/// @param video_path 待修复的视频文件路径。
 	///
-	inline void fix_bilibili_uwp_video(base::Path const &video_path)
+	inline void fix_bilibili_uwp_mp4_video(base::Path const &video_path)
 	{
 		std::cout << "尝试修复：" << video_path << std::endl;
 		std::shared_ptr<base::Stream> source_video = base::file::OpenReadOnly(video_path);
@@ -66,7 +66,7 @@ namespace base
 	///
 	inline void fix_all_bilibili_uwp_video(base::Path const &video_dir)
 	{
-		std::vector<base::Path> video_paths{};
+		std::vector<base::Path> mp4_video_paths{};
 
 		// 先收集所有待修复的视频文件的路径。
 		//
@@ -74,22 +74,20 @@ namespace base
 		// 文件迭代过程。
 		for (base::DirectoryEntry const &entry : base::filesystem::RecursiveDirectoryEntryEnumerable{video_dir})
 		{
-			if (entry.Path().ExtensionName() != "mp4")
-			{
-				continue;
-			}
-
 			if (base::String{entry.Path().LastName().ToString()}.StartWith("fixed_"))
 			{
 				continue;
 			}
 
-			video_paths.push_back(entry.Path());
+			if (entry.Path().ExtensionName() == "mp4")
+			{
+				mp4_video_paths.push_back(entry.Path());
+			}
 		}
 
-		for (base::Path const &path : video_paths)
+		for (base::Path const &path : mp4_video_paths)
 		{
-			fix_bilibili_uwp_video(path);
+			fix_bilibili_uwp_mp4_video(path);
 			std::cout << std::endl;
 		}
 	}
