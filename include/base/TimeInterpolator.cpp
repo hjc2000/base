@@ -30,9 +30,8 @@ void base::TimeInterpolator::Pause()
 {
 	_paused = true;
 
-	/* 记录当前的时间差，然后直到取消暂停前，让 DeltaTimeInMilliseconds 方法一直返回
-	 * _delta_time_when_pausing_in_milliseconds。
-	 */
+	// 记录当前的时间差，然后直到取消暂停前，让 DeltaTimeInMilliseconds 方法一直返回
+	// _delta_time_when_pausing_in_milliseconds。
 	_delta_time_when_pausing_in_milliseconds = static_cast<std::chrono::milliseconds>(base::time::SteadyClockNow()).count() - _time_at_sync_in_milliseconds;
 }
 
