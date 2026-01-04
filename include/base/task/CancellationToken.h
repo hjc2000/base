@@ -15,7 +15,6 @@ namespace base
 	///
 	/// @brief 取消令牌
 	///
-	///
 	class CancellationToken final
 	{
 	private:
