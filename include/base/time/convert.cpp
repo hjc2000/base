@@ -1,13 +1,6 @@
 #include "convert.h"
-#include "base/time/TimePointSinceEpoch.h"
-#include <chrono>
 
 #if HAS_THREAD
-
-base::TimePointSinceEpoch base::ToTimePointSinceEpoch(ns_time_point const &value)
-{
-	return base::TimePointSinceEpoch{value.time_since_epoch()};
-}
 
 base::TimePointSinceEpoch base::ToTimePointSinceEpoch(us_time_point const &value)
 {

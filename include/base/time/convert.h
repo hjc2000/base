@@ -25,7 +25,12 @@ namespace base
 #if HAS_THREAD
 
 	/* #region 转换为 base::TimePointSinceEpoch */
-	base::TimePointSinceEpoch ToTimePointSinceEpoch(ns_time_point const &value);
+
+	inline base::TimePointSinceEpoch ToTimePointSinceEpoch(ns_time_point const &value)
+	{
+		return base::TimePointSinceEpoch{value.time_since_epoch()};
+	}
+
 	base::TimePointSinceEpoch ToTimePointSinceEpoch(us_time_point const &value);
 	base::TimePointSinceEpoch ToTimePointSinceEpoch(ms_time_point const &value);
 	base::TimePointSinceEpoch ToTimePointSinceEpoch(s_time_point const &value);
