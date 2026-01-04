@@ -7,7 +7,6 @@ namespace base
 	///
 	/// @brief 可释放对象的接口。
 	///
-	///
 	class IDisposable
 	{
 	public:
@@ -24,7 +23,6 @@ namespace base
 
 	///
 	/// @brief 对象被释放之后再次使用就会抛出此异常。
-	///
 	///
 	class ObjectDisposedException :
 		public std::runtime_error
