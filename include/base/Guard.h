@@ -19,12 +19,14 @@ namespace base
 
 		~Guard()
 		{
+			if (_func == nullptr)
+			{
+				return;
+			}
+
 			try
 			{
-				if (_func)
-				{
-					_func();
-				}
+				_func();
 			}
 			catch (...)
 			{
