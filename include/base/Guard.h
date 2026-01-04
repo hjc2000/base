@@ -12,8 +12,24 @@ namespace base
 		std::function<void()> _func;
 
 	public:
-		Guard(std::function<void()> func);
+		Guard(std::function<void()> func)
+		{
+			_func = func;
+		}
 
-		~Guard();
+		~Guard()
+		{
+			try
+			{
+				if (_func)
+				{
+					_func();
+				}
+			}
+			catch (...)
+			{
+			}
+		}
 	};
+
 } // namespace base
