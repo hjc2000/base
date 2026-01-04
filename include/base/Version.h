@@ -23,14 +23,14 @@ namespace base
 		///
 		/// @brief 前缀递增。
 		///
-		/// @return Version&
+		/// @return
 		///
 		base::Version &operator++();
 
 		///
 		/// @brief 后缀递增。
 		///
-		/// @return Version
+		/// @return
 		///
 		base::Version operator++(int);
 
