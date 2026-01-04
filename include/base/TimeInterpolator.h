@@ -2,8 +2,6 @@
 #include "base/time/time.h"
 #include <cstdint>
 
-#if HAS_THREAD
-
 namespace base
 {
 	///
@@ -76,5 +74,3 @@ namespace base
 	};
 
 } // namespace base
-
-#endif // HAS_THREAD
