@@ -55,19 +55,43 @@ namespace base
 
 		/* #region 比较运算符 */
 
-		bool operator==(base::Version const &another) const;
+		bool operator==(base::Version const &another) const
+		{
+			base::task::MutexGuard g[]{_lock, another._lock};
+			return _value == another._value;
+		}
 
-		bool operator<(base::Version const &another) const;
+		bool operator<(base::Version const &another) const
+		{
+			base::task::MutexGuard g[]{_lock, another._lock};
+			return _value < another._value;
+		}
 
-		bool operator>(base::Version const &another) const;
+		bool operator>(base::Version const &another) const
+		{
+			base::task::MutexGuard g[]{_lock, another._lock};
+			return _value > another._value;
+		}
 
-		bool operator<=(base::Version const &another) const;
+		bool operator<=(base::Version const &another) const
+		{
+			base::task::MutexGuard g[]{_lock, another._lock};
+			return _value <= another._value;
+		}
 
-		bool operator>=(base::Version const &another) const;
+		bool operator>=(base::Version const &another) const
+		{
+			base::task::MutexGuard g[]{_lock, another._lock};
+			return _value >= another._value;
+		}
 
 		/* #endregion */
 
-		uint64_t Value() const;
+		uint64_t Value() const
+		{
+			base::task::MutexGuard g{_lock};
+			return _value;
+		}
 	};
 
 } // namespace base
