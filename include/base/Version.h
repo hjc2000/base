@@ -16,23 +16,42 @@ namespace base
 	public:
 		Version() = default;
 
-		Version(base::Version const &o);
+		Version(base::Version const &o)
+		{
+			*this = o;
+		}
 
-		Version &operator=(base::Version const &o);
+		Version &operator=(base::Version const &o)
+		{
+			base::task::MutexGuard g[]{_lock, o._lock};
+			_value = o._value;
+			return *this;
+		}
 
 		///
 		/// @brief 前缀递增。
 		///
 		/// @return
 		///
-		base::Version &operator++();
+		base::Version &operator++()
+		{
+			base::task::MutexGuard g{_lock};
+			++_value;
+			return *this;
+		}
 
 		///
 		/// @brief 后缀递增。
 		///
 		/// @return
 		///
-		base::Version operator++(int);
+		base::Version operator++(int)
+		{
+			base::task::MutexGuard g{_lock};
+			base::Version ret{*this};
+			++(*this);
+			return ret;
+		}
 
 		/* #region 比较运算符 */
 
