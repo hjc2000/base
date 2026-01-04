@@ -113,7 +113,7 @@ namespace base
 		///
 		/// @brief 年月日字符串。
 		///
-		/// @return std::string
+		/// @return
 		///
 		std::string YearMonthDay() const
 		{
@@ -125,7 +125,7 @@ namespace base
 		///
 		/// @brief 时分秒字符串。
 		///
-		/// @return std::string
+		/// @return
 		///
 		std::string HourMinuteSecond() const
 		{
@@ -139,7 +139,7 @@ namespace base
 		///
 		/// @brief 转化为字符串。
 		///
-		/// @return std::string
+		/// @return
 		///
 		virtual std::string ToString() const override
 		{
@@ -181,7 +181,7 @@ namespace base
 		///
 		/// @brief 年月日分隔符。
 		///
-		/// @return char
+		/// @return
 		///
 		char YearMonthDaySeparator() const
 		{
