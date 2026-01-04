@@ -60,7 +60,18 @@ namespace base
 							  std::string const &second,
 							  std::string const &millisecond,
 							  std::string const &microsecond,
-							  std::string const &nanosecond);
+							  std::string const &nanosecond)
+			: _year(year),
+			  _month(month),
+			  _day(day),
+			  _hour(hour),
+			  _minute(minute),
+			  _second(second),
+			  _millisecond(millisecond),
+			  _microsecond(microsecond),
+			  _nanosecond(nanosecond)
+		{
+		}
 
 		/* #region 日期时间的各部分字符串 */
 
@@ -104,14 +115,24 @@ namespace base
 		///
 		/// @return std::string
 		///
-		std::string YearMonthDay() const;
+		std::string YearMonthDay() const
+		{
+			return Year() + _year_month_day_separator +
+				   Month() + _year_month_day_separator +
+				   Day();
+		}
 
 		///
 		/// @brief 时分秒字符串。
 		///
 		/// @return std::string
 		///
-		std::string HourMinuteSecond() const;
+		std::string HourMinuteSecond() const
+		{
+			return Hour() + ':' +
+				   Minute() + ':' +
+				   Second();
+		}
 
 		/* #endregion */
 
@@ -120,7 +141,42 @@ namespace base
 		///
 		/// @return std::string
 		///
-		virtual std::string ToString() const override;
+		virtual std::string ToString() const override
+		{
+			std::string ret = _year + _year_month_day_separator +
+							  _month + _year_month_day_separator +
+							  _day +
+							  ' ' +
+							  _hour + ":" +
+							  _minute + ':' +
+							  _second;
+
+			switch (_display_option)
+			{
+			default:
+			case base::DateTimeStringBuilder::HighResolutionDisplayOptionEnum::DisplayNone:
+				{
+					break;
+				}
+			case base::DateTimeStringBuilder::HighResolutionDisplayOptionEnum::DisplayMillisecond:
+				{
+					ret += '.' + _millisecond;
+					break;
+				}
+			case base::DateTimeStringBuilder::HighResolutionDisplayOptionEnum::DisplayMicrosecond:
+				{
+					ret += '.' + _microsecond;
+					break;
+				}
+			case base::DateTimeStringBuilder::HighResolutionDisplayOptionEnum::DisplayNanosecond:
+				{
+					ret += '.' + _nanosecond;
+					break;
+				}
+			}
+
+			return ret;
+		}
 
 		///
 		/// @brief 年月日分隔符。
