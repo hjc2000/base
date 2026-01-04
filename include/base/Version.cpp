@@ -1,4 +1,4 @@
-#include "Version.h"
+#include "Version.h" // IWYU pragma: keep
 #include "task/Mutex.h"
 
 base::Version::Version(base::Version const &o)

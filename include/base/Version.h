@@ -7,7 +7,6 @@ namespace base
 	///
 	/// @brief 版本号。
 	///
-	///
 	class Version
 	{
 	private:
@@ -51,4 +50,5 @@ namespace base
 
 		uint64_t Value() const;
 	};
+
 } // namespace base
