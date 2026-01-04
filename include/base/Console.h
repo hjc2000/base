@@ -9,7 +9,6 @@ namespace base
 	///
 	/// @brief 控制台。
 	///
-	///
 	class Console
 	{
 	private:
