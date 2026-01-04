@@ -1,4 +1,5 @@
 #pragma once
+#include "base/time/time.h"
 #include <cstdint>
 
 #if HAS_THREAD
@@ -34,7 +35,15 @@ namespace base
 		///
 		/// @return
 		///
-		int64_t DeltaTimeInMilliseconds();
+		int64_t DeltaTimeInMilliseconds()
+		{
+			if (_paused)
+			{
+				return _delta_time_when_pausing_in_milliseconds;
+			}
+
+			return static_cast<std::chrono::milliseconds>(base::time::SteadyClockNow()).count() - _time_at_sync_in_milliseconds;
+		}
 
 	public:
 		///
@@ -43,11 +52,27 @@ namespace base
 		/// @param now_time_in_milliseconds 当前时间。
 		/// 	@note 时间插值器的时间将被同步到 now_time_in_milliseconds。
 		///
-		void SyncTime(int64_t now_time_in_milliseconds);
+		void SyncTime(int64_t now_time_in_milliseconds)
+		{
+			_paused = false;
+			_time_at_sync_in_milliseconds = static_cast<std::chrono::milliseconds>(base::time::SteadyClockNow()).count();
+			_stepping_time_in_milliseconds = now_time_in_milliseconds;
+			_delta_time_when_pausing_in_milliseconds = 0;
+		}
 
-		int64_t InterpolatedTimeInMilliseconds();
+		int64_t InterpolatedTimeInMilliseconds()
+		{
+			return _stepping_time_in_milliseconds + DeltaTimeInMilliseconds();
+		}
 
-		void Pause();
+		void Pause()
+		{
+			_paused = true;
+
+			// 记录当前的时间差，然后直到取消暂停前，让 DeltaTimeInMilliseconds 方法一直返回
+			// _delta_time_when_pausing_in_milliseconds。
+			_delta_time_when_pausing_in_milliseconds = static_cast<std::chrono::milliseconds>(base::time::SteadyClockNow()).count() - _time_at_sync_in_milliseconds;
+		}
 	};
 
 } // namespace base
