@@ -7,7 +7,6 @@ namespace base
 	///
 	/// @brief 时间片。
 	///
-	///
 	class TimeSpan
 	{
 	private:

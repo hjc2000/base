@@ -7,7 +7,6 @@ namespace base
 	///
 	/// @brief 日期时间字符串构建器。
 	///
-	///
 	class DateTimeStringBuilder :
 		public base::ICanToString
 	{
