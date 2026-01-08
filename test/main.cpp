@@ -63,10 +63,5 @@ int main()
 		std::cout << mah << std::endl;
 	}
 
-	{
-		base::Path video_dir = "C:/Users/huang/disk/ti600_2TB/.temp";
-		base::usage::fix_all_bilibili_video(video_dir);
-	}
-
 	return 0;
 }
