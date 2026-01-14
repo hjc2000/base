@@ -51,7 +51,7 @@ namespace base
 				try
 				{
 					base::Path path = _month_dir_iterator->CurrentValue().Path();
-					_month = base::ParseInt64(path.LastName().ToString(), 10);
+					_month = base::Parse<int64_t>(path.LastName().ToString(), 10);
 				}
 				catch (std::exception const &e)
 				{

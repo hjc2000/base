@@ -319,6 +319,13 @@ bool base::filesystem::IsSymbolicLink(base::Path const &path)
 
 /* #endregion */
 
+base::Path base::filesystem::CurrentPath()
+{
+	auto path = std::filesystem::current_path();
+	base::Path ret{path.string()};
+	return ret;
+}
+
 bool base::filesystem::Exists(base::Path const &path)
 {
 	std::error_code error_code{};

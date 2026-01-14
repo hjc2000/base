@@ -51,7 +51,7 @@ namespace base
 				try
 				{
 					base::Path path = _day_dir_iterator->CurrentValue().Path();
-					_day = base::ParseInt64(path.LastName().ToString(), 10);
+					_day = base::Parse<int64_t>(path.LastName().ToString(), 10);
 				}
 				catch (std::exception const &e)
 				{

@@ -1,6 +1,5 @@
 #pragma once
 #include "base/container/iterator/IEnumerable.h"
-#include "base/define.h"
 #include "base/filesystem/Path.h"
 #include "DirectoryEntry.h"
 #include <format>
@@ -84,7 +83,6 @@ namespace base::filesystem
 	///
 	/// @return 是广义的文件返回 true, 否则返回 false.
 	///
-	IMPLEMENTED
 	inline bool IsFile(base::Path const &path)
 	{
 		return !IsDirectory(path);
@@ -100,6 +98,33 @@ namespace base::filesystem
 	bool IsSymbolicLink(base::Path const &path);
 
 	/* #endregion */
+
+	///
+	/// @brief 获取当前路径。
+	///
+	/// @return
+	///
+	base::Path CurrentPath();
+
+	///
+	/// @brief 通过当前路径和字符串处理计算出绝对路径。
+	///
+	/// @warning 得到的路径不一定真实存在，需要自行检查。
+	///
+	/// @param path
+	/// @return
+	///
+	inline base::Path ToAbsolutePath(base::Path const &path)
+	{
+		if (path.IsAbsolutePath())
+		{
+			return path;
+		}
+
+		base::Path current_path = CurrentPath();
+		base::Path ret = current_path + path;
+		return ret;
+	}
 
 	///
 	/// @brief 检查指定路径是否存在。
@@ -141,7 +166,6 @@ namespace base::filesystem
 	///
 	/// @param path 要确保存在的目录路径。
 	///
-	IMPLEMENTED
 	inline void EnsureDirectory(base::Path const &path)
 	{
 		if (!base::filesystem::Exists(path))

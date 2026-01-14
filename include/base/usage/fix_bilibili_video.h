@@ -43,7 +43,10 @@ namespace base::usage
 			return;
 		}
 
-		base::Path out_dir = video_path.ParentPath();
+		base::Path out_dir = video_path;
+		out_dir = base::filesystem::ToAbsolutePath(out_dir);
+		out_dir = out_dir.ParentPath();
+
 		std::string out_video_name = "fixed_" + video_path.LastName().ToString();
 		base::Path out_video_path = out_dir + out_video_name;
 		std::cout << "输出文件：" << out_video_path << std::endl;
@@ -92,7 +95,10 @@ namespace base::usage
 			return;
 		}
 
-		base::Path out_dir = video_path.ParentPath();
+		base::Path out_dir = video_path;
+		out_dir = base::filesystem::ToAbsolutePath(out_dir);
+		out_dir = out_dir.ParentPath();
+
 		std::string out_video_name = "fixed_" + video_path.LastName().ToString();
 		base::Path out_video_path = out_dir + out_video_name;
 		std::cout << "输出文件：" << out_video_path << std::endl;

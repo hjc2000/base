@@ -56,7 +56,7 @@ namespace base
 				try
 				{
 					base::Path year_dir_path = _year_dir_iterator->CurrentValue().Path();
-					_year = base::ParseInt64(year_dir_path.LastName().ToString(), 10);
+					_year = base::Parse<int64_t>(year_dir_path.LastName().ToString(), 10);
 				}
 				catch (std::exception const &e)
 				{

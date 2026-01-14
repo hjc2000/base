@@ -1,3 +1,4 @@
+#include "base/filesystem/filesystem.h"
 #include "base/filesystem/Path.h"
 #include "base/math/Fraction.h"
 #include "base/math/math.h"
@@ -64,8 +65,18 @@ int main()
 	}
 
 	{
-		base::Path video_dir = "C:/Users/huang/disk/ti600_2TB/.temp";
-		base::usage::fix_all_bilibili_video(video_dir);
+		std::cout << base::filesystem::CurrentPath() << std::endl;
+	}
+
+	{
+		base::Path path{""};
+		std::cout << path << std::endl;
+		std::cout << base::filesystem::ToAbsolutePath(path) << std::endl;
+	}
+
+	{
+		base::Path path{"a.mp4"};
+		std::cout << path.NameWithoutExtension() << std::endl;
 	}
 
 	return 0;
