@@ -1,5 +1,6 @@
 #pragma once
-#include "base/container/iterator/IEnumerable.h"
+#include "base/container/iterator/IRandomAccessEnumerable.h"
+#include "base/container/iterator/IRandomAccessEnumerator.h"
 #include "base/container/Range.h"
 #include "base/string/define.h"
 #include <cstdint>
@@ -14,13 +15,13 @@ namespace base
 	///
 	template <typename ItemType>
 	class ReadOnlyArraySpan final :
-		public base::IEnumerable<ItemType const>
+		public base::IRandomAccessEnumerable<ItemType const>
 	{
 	private:
 		/* #region 迭代器 */
 
-		class Enumerator :
-			public base::IEnumerator<ItemType const>
+		class RandomAccessEnumerator :
+			public base::IRandomAccessEnumerator<ItemType const>
 		{
 		private:
 			int64_t _index = 0;
@@ -29,39 +30,63 @@ namespace base
 			bool _has_not_moved = true;
 
 		public:
-			Enumerator(ItemType const *buffer, int64_t count)
+			RandomAccessEnumerator(ItemType const *buffer, int64_t count)
 			{
 				_buffer = buffer;
 				_count = count;
 			}
 
 			///
-			/// @brief 迭代器当前是否指向尾后元素。
+			/// @brief 克隆一个迭代器对象副本。
 			///
 			/// @return
 			///
-			virtual bool IsEnd() const override
+			virtual std::shared_ptr<base::IRandomAccessEnumerator<ItemType const>> Clone() const override
 			{
-				return _index == _count;
+				std::shared_ptr<base::IRandomAccessEnumerator<ItemType const>> ret{new RandomAccessEnumerator{*this}};
+				return ret;
+			}
+
+			///
+			/// @brief 容器中总共有多少个元素。
+			///
+			/// @return
+			///
+			virtual int64_t Count() const override
+			{
+				return _count;
+			}
+
+			///
+			/// @brief 当前迭代到的位置。
+			///
+			/// @return
+			///
+			virtual int64_t Position() const override
+			{
+				return _index;
+			}
+
+			///
+			/// @brief 将迭代器位置增加 value.
+			///
+			/// @param value 增加的值。可以是正数和负数。
+			///
+			virtual void Add(int64_t value) override
+			{
+				_index += value;
 			}
 
 			///
 			/// @brief 获取当前值的引用。
 			///
-			/// @return ItemType&
+			/// @note 迭代器构造后，如果被迭代的集合不为空，要立即让 CurrentValue 指向第一个有效元素。
+			///
+			/// @return
 			///
 			virtual ItemType const &CurrentValue() override
 			{
 				return _buffer[_index];
-			}
-
-			///
-			/// @brief 递增迭代器的位置。
-			///
-			///
-			virtual void Add() override
-			{
-				++_index;
 			}
 
 			///
@@ -170,16 +195,16 @@ namespace base
 
 		/* #region GetEnumerator */
 
-		using base::IEnumerable<ItemType const>::GetEnumerator;
+		using base::IRandomAccessEnumerable<ItemType const>::GetRandomAccessEnumerator;
 
 		///
 		/// @brief 获取迭代器。
 		///
 		/// @return
 		///
-		std::shared_ptr<IEnumerator<ItemType const>> GetEnumerator() override
+		std::shared_ptr<IRandomAccessEnumerator<ItemType const>> GetRandomAccessEnumerator() override
 		{
-			return std::shared_ptr<IEnumerator<ItemType const>>{new Enumerator{Buffer(), Count()}};
+			return std::shared_ptr<IRandomAccessEnumerator<ItemType const>>{new RandomAccessEnumerator{Buffer(), Count()}};
 		}
 
 		/* #endregion */
