@@ -6,6 +6,14 @@ namespace base
 	class IEnumerator
 	{
 	public:
+		class Context_t
+		{
+		private:
+			friend class IEnumerator;
+
+			bool _has_not_moved = true;
+		};
+
 		virtual ~IEnumerator() = default;
 
 		///
@@ -44,26 +52,11 @@ namespace base
 		}
 
 		///
-		/// @brief 从未被调用过 MoveToNext 方法。
-		///
-		/// @note 如果自己派生 IEnumerator，且没有组合其他 IEnumerator 对象，
-		/// 则自己维护一个 _has_not_moved 字段。如果组合了其他 IEnumerator 对象，
-		/// 则转发，不要再自己多一个 _has_not_moved 字段了。
+		/// @brief 派生类需要提供一个该对象。
 		///
 		/// @return
 		///
-		virtual bool HasNotMoved() = 0;
-
-		///
-		/// @brief 设置是否从未被调用过 MoveToNext 方法。
-		///
-		/// @note 如果自己派生 IEnumerator，且没有组合其他 IEnumerator 对象，
-		/// 则自己维护一个 _has_not_moved 字段。如果组合了其他 IEnumerator 对象，
-		/// 则转发，不要再自己多一个 _has_not_moved 字段了。
-		///
-		/// @param value
-		///
-		virtual void SetHasNotMoved(bool value) = 0;
+		virtual base::IEnumerator<ItemType>::Context_t &Context() = 0;
 
 		///
 		/// @brief 本方法让迭代器支持像 C# 那样使用。即一开始拿到迭代器后首先一个 MoveToNext
@@ -73,9 +66,9 @@ namespace base
 		///
 		bool MoveToNext()
 		{
-			if (HasNotMoved())
+			if (Context()._has_not_moved)
 			{
-				SetHasNotMoved(false);
+				Context()._has_not_moved = false;
 			}
 			else if (IsNotEnd())
 			{

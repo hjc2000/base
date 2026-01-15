@@ -11,7 +11,7 @@ namespace base::profinet
 		public base::IEnumerator<base::ReadOnlySpan>
 	{
 	private:
-		bool _has_not_moved = true;
+		base::IEnumerator<base::ReadOnlySpan>::Context_t _context{};
 		base::ReadOnlySpan _span;
 		base::ReadOnlySpan _remain_span;
 		base::ReadOnlySpan _current_value;
@@ -49,23 +49,13 @@ namespace base::profinet
 		virtual void Add() override;
 
 		///
-		/// @brief 从未被调用过 MoveToNext 方法。
+		/// @brief 派生类需要提供一个该对象。
 		///
 		/// @return
 		///
-		virtual bool HasNotMoved() override
+		virtual base::IEnumerator<base::ReadOnlySpan>::Context_t &Context() override
 		{
-			return _has_not_moved;
-		}
-
-		///
-		/// @brief 设置是否从未被调用过 MoveToNext 方法。
-		///
-		/// @param value
-		///
-		virtual void SetHasNotMoved(bool value) override
-		{
-			_has_not_moved = value;
+			return _context;
 		}
 	};
 

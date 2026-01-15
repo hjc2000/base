@@ -256,8 +256,7 @@ namespace base
 		/// @warning 需要 ItemType 实现了比较运算符，否则会引发异常。
 		///
 		void Sort(bool ascending = true)
-			requires(base::has_less_than_operator<ItemType, ItemType> &&
-					 base::has_greater_than_operator<ItemType, ItemType>)
+			requires(has_all_compare_operators<ItemType, ItemType>)
 		{
 			try
 			{
@@ -296,7 +295,9 @@ namespace base
 		/// 	@li 如果 compare 在 left < right 时返回 true, 则实现的是升序排列。
 		/// 	@li 如果 compare 在 left > right 时返回 true, 则实现的是降序排列。
 		///
-		void Sort(std::function<bool(ItemType const &left, ItemType const &right)> const &compare)
+		template <typename parameter_type>
+		void Sort(parameter_type const &compare)
+			requires(std::is_convertible_v<parameter_type, std::function<bool(ItemType const &left, ItemType const &right)>>)
 		{
 			try
 			{

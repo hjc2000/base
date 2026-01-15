@@ -6,13 +6,14 @@
 #include <algorithm>
 #include <cstdint>
 #include <stdexcept>
+#include <string>
+#include <type_traits>
 #include <vector>
 
 namespace base
 {
 	///
 	/// @brief 基于 std::vector 的列表。
-	///
 	///
 	template <typename ItemType>
 	class List final :
@@ -114,6 +115,21 @@ namespace base
 		/* #region 移除元素 */
 
 		///
+		/// @brief 移除指定索引位置的元素。
+		///
+		/// @param index
+		///
+		virtual void RemoveAt(int64_t const index) override
+		{
+			if (index < 0 || index >= static_cast<int64_t>(_vector.size()))
+			{
+				throw std::out_of_range{"索引超出范围"};
+			}
+
+			_vector.erase(_vector.begin() + index);
+		}
+
+		///
 		/// @brief 从列表移除指定元素。
 		///
 		/// @note 如果列表中有重复元素，调用一次本方法只会移除一个。
@@ -142,21 +158,6 @@ namespace base
 
 			// 如果没有找到元素，返回 false.
 			return false;
-		}
-
-		///
-		/// @brief 移除指定索引位置的元素。
-		///
-		/// @param index
-		///
-		virtual void RemoveAt(int64_t const index) override
-		{
-			if (index < 0 || index >= static_cast<int64_t>(_vector.size()))
-			{
-				throw std::out_of_range{"索引超出范围"};
-			}
-
-			_vector.erase(_vector.begin() + index);
 		}
 
 		///
@@ -373,7 +374,9 @@ namespace base
 		/// 	@li 如果 compare 在 left < right 时返回 true, 则实现的是升序排列。
 		/// 	@li 如果 compare 在 left > right 时返回 true, 则实现的是降序排列。
 		///
-		void Sort(std::function<bool(ItemType const &left, ItemType const &right)> const &compare)
+		template <typename parameter_type>
+		void Sort(parameter_type const &compare)
+			requires(std::is_convertible_v<parameter_type, std::function<bool(ItemType const &left, ItemType const &right)>>)
 		{
 			try
 			{
@@ -458,5 +461,25 @@ namespace base
 
 		/* #endregion */
 	};
+
+	///
+	/// @brief 简单的自然排序。
+	///
+	/// @param list
+	///
+	inline void simple_natural_sort(base::List<std::string> &list)
+	{
+		auto compare = [](std::string const &left, std::string const &right) -> bool
+		{
+			if (left.size() != right.size())
+			{
+				return left.size() < right.size();
+			}
+
+			return left < right;
+		};
+
+		list.Sort(compare);
+	}
 
 } // namespace base

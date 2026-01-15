@@ -1,3 +1,4 @@
+#include "base/container/List.h"
 #include "base/filesystem/filesystem.h"
 #include "base/filesystem/Path.h"
 #include "base/math/Fraction.h"
@@ -23,6 +24,7 @@
 #include <cstdint>
 #include <iostream>
 #include <numbers>
+#include <string>
 
 int main()
 {
@@ -77,6 +79,24 @@ int main()
 	{
 		base::Path path{"a.mp4"};
 		std::cout << path.NameWithoutExtension() << std::endl;
+	}
+
+	{
+		base::List<std::string> list{};
+		list.Add("11.mp4");
+		list.Add("1.mp4");
+		list.Add("12.mp4");
+		list.Add("2.mp4");
+		list.Add("5.mp4");
+		list.Add("3.mp4");
+		list.Add("4.mp4");
+		list.Add("10.mp4");
+		base::simple_natural_sort(list);
+
+		for (std::string const &item : list)
+		{
+			std::cout << item << std::endl;
+		}
 	}
 
 	return 0;

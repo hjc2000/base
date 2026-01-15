@@ -112,6 +112,7 @@ namespace base
 		/// @warning 需要 ItemType 实现了比较运算符，否则会引发异常。
 		///
 		void Sort(bool ascending = true)
+			requires(has_all_compare_operators<ItemType, ItemType>)
 		{
 			Span().Sort(ascending);
 		}
@@ -122,7 +123,9 @@ namespace base
 		/// @param compare 谓语。如果希望 left 排到 right 前面，则返回 true. 如果返回 false,
 		/// 则 left 和 right 会保持当前相对顺序，不会调整。
 		///
-		void Sort(std::function<bool(ItemType const &left, ItemType const &right)> const &compare)
+		template <typename parameter_type>
+		void Sort(parameter_type const &compare)
+			requires(std::is_convertible_v<parameter_type, std::function<bool(ItemType const &left, ItemType const &right)>>)
 		{
 			Span().Sort(compare);
 		}

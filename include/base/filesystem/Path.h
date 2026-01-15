@@ -1,4 +1,5 @@
 #pragma once
+#include "base/container/List.h"
 #include "base/container/Range.h"
 #include "base/string/character.h"
 #include "base/string/define.h"
@@ -355,5 +356,28 @@ namespace base
 			return _path == other._path;
 		}
 	};
+
+	///
+	/// @brief 简单的自然排序。
+	///
+	/// @param paths
+	///
+	inline void simple_natural_sort(base::List<base::Path> &paths)
+	{
+		base::List<std::string> path_strings{};
+
+		for (base::Path const &path : paths)
+		{
+			path_strings.Add(path.ToString());
+		}
+
+		base::simple_natural_sort(path_strings);
+		paths.Clear();
+
+		for (std::string const &path_string : path_strings)
+		{
+			paths.Add(base::Path{path_string});
+		}
+	}
 
 } // namespace base

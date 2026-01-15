@@ -29,7 +29,7 @@ namespace base
 		private:
 			base::IList<ItemType> *_list;
 			int64_t _index = 0;
-			bool _has_not_moved = true;
+			base::IEnumerator<ItemType>::Context_t _context{};
 
 		public:
 			RandomAccessEnumerator(base::IList<ItemType> *list)
@@ -91,23 +91,13 @@ namespace base
 			}
 
 			///
-			/// @brief 从未被调用过 MoveToNext 方法。
+			/// @brief 派生类需要提供一个该对象。
 			///
 			/// @return
 			///
-			virtual bool HasNotMoved() override
+			virtual base::IEnumerator<ItemType>::Context_t &Context() override
 			{
-				return _has_not_moved;
-			}
-
-			///
-			/// @brief 设置是否从未被调用过 MoveToNext 方法。
-			///
-			/// @param value
-			///
-			virtual void SetHasNotMoved(bool value) override
-			{
-				_has_not_moved = value;
+				return _context;
 			}
 		};
 
@@ -274,9 +264,7 @@ namespace base
 		/// @return 找到了返回元素的索引，找不到返回 -1.
 		///
 		int64_t AscendingOrderBinarySearch(ItemType const &item) const
-			requires(base::has_equal_operator<ItemType, ItemType> &&
-					 base::has_less_than_operator<ItemType, ItemType> &&
-					 base::has_greater_than_operator<ItemType, ItemType>)
+			requires(base::has_all_compare_operators<ItemType, ItemType>)
 		{
 			int64_t left = 0;
 			int64_t right = Count() - 1;
@@ -348,9 +336,7 @@ namespace base
 		/// @return 找到了返回元素的索引，找不到返回 -1.
 		///
 		int64_t DescendingOrderBinarySearch(ItemType const &item) const
-			requires(base::has_equal_operator<ItemType, ItemType> &&
-					 base::has_less_than_operator<ItemType, ItemType> &&
-					 base::has_greater_than_operator<ItemType, ItemType>)
+			requires(base::has_all_compare_operators<ItemType, ItemType>)
 		{
 			int64_t left = 0;
 			int64_t right = Count() - 1;

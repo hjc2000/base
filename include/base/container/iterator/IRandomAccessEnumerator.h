@@ -52,26 +52,11 @@ namespace base
 		virtual ItemType &CurrentValue() override = 0;
 
 		///
-		/// @brief 从未被调用过 MoveToNext 方法。
-		///
-		/// @note 如果自己派生 IEnumerator，且没有组合其他 IEnumerator 对象，
-		/// 则自己维护一个 _has_not_moved 字段。如果组合了其他 IEnumerator 对象，
-		/// 则转发，不要再自己多一个 _has_not_moved 字段了。
+		/// @brief 派生类需要提供一个该对象。
 		///
 		/// @return
 		///
-		virtual bool HasNotMoved() override = 0;
-
-		///
-		/// @brief 设置是否从未被调用过 MoveToNext 方法。
-		///
-		/// @note 如果自己派生 IEnumerator，且没有组合其他 IEnumerator 对象，
-		/// 则自己维护一个 _has_not_moved 字段。如果组合了其他 IEnumerator 对象，
-		/// 则转发，不要再自己多一个 _has_not_moved 字段了。
-		///
-		/// @param value
-		///
-		virtual void SetHasNotMoved(bool value) override = 0;
+		virtual base::IEnumerator<ItemType>::Context_t &Context() override = 0;
 
 		/* #region 接口扩展 */
 

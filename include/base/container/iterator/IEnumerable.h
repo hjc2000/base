@@ -18,18 +18,15 @@ namespace base
 		///
 		/// @brief const 迭代器
 		///
-		/// @tparam item_type
-		///
-		template <typename item_type>
 		class ConstEnumerator final :
-			public IEnumerator<item_type const>
+			public IEnumerator<ItemType const>
 		{
 		private:
-			std::shared_ptr<IEnumerator<item_type>> _enumerator;
-			bool _has_not_moved = true;
+			std::shared_ptr<IEnumerator<ItemType>> _enumerator;
+			base::IEnumerator<ItemType const>::Context_t _context{};
 
 		public:
-			ConstEnumerator(std::shared_ptr<IEnumerator<item_type>> const &enumerator)
+			ConstEnumerator(std::shared_ptr<IEnumerator<ItemType>> const &enumerator)
 			{
 				_enumerator = enumerator;
 			}
@@ -44,7 +41,7 @@ namespace base
 				return _enumerator->IsEnd();
 			}
 
-			item_type const &CurrentValue() override
+			ItemType const &CurrentValue() override
 			{
 				return _enumerator->CurrentValue();
 			}
@@ -59,23 +56,13 @@ namespace base
 			}
 
 			///
-			/// @brief 从未被调用过 MoveToNext 方法。
+			/// @brief 派生类需要提供一个该对象。
 			///
 			/// @return
 			///
-			virtual bool HasNotMoved() override
+			virtual base::IEnumerator<ItemType const>::Context_t &Context() override
 			{
-				return _has_not_moved;
-			}
-
-			///
-			/// @brief 设置是否从未被调用过 MoveToNext 方法。
-			///
-			/// @param value
-			///
-			virtual void SetHasNotMoved(bool value) override
-			{
-				_has_not_moved = value;
+				return _context;
 			}
 		};
 
@@ -197,9 +184,8 @@ namespace base
 		///
 		std::shared_ptr<base::IEnumerator<ItemType const>> GetEnumerator() const
 		{
-			return std::shared_ptr<base::IEnumerator<ItemType const>>{new ConstEnumerator<ItemType>{
-				const_cast<base::IEnumerable<ItemType> *>(this)->GetEnumerator(),
-			}};
+			auto enumerator = const_cast<base::IEnumerable<ItemType> *>(this)->GetEnumerator();
+			return std::shared_ptr<ConstEnumerator>{new ConstEnumerator{enumerator}};
 		}
 
 		Iterator<ItemType> begin()

@@ -94,7 +94,7 @@ namespace
 		base::DirectoryEntry _current;
 		std::filesystem::directory_iterator _current_it;
 		std::filesystem::directory_iterator _end_it;
-		bool _has_not_moved = true;
+		base::IEnumerator<base::DirectoryEntry const>::Context_t _context{};
 
 	public:
 		DirectoryEntryEnumerator(base::Path const &path)
@@ -139,23 +139,13 @@ namespace
 		}
 
 		///
-		/// @brief 从未被调用过 MoveToNext 方法。
+		/// @brief 派生类需要提供一个该对象。
 		///
 		/// @return
 		///
-		virtual bool HasNotMoved() override
+		virtual base::IEnumerator<base::DirectoryEntry const>::Context_t &Context() override
 		{
-			return _has_not_moved;
-		}
-
-		///
-		/// @brief 设置是否从未被调用过 MoveToNext 方法。
-		///
-		/// @param value
-		///
-		virtual void SetHasNotMoved(bool value) override
-		{
-			_has_not_moved = value;
+			return _context;
 		}
 	};
 
@@ -170,7 +160,7 @@ namespace
 		base::DirectoryEntry _current;
 		std::filesystem::recursive_directory_iterator _current_it;
 		std::filesystem::recursive_directory_iterator _end_it;
-		bool _has_not_moved = true;
+		base::IEnumerator<base::DirectoryEntry const>::Context_t _context{};
 
 	public:
 		RecursiveDirectoryEntryEnumerator(base::Path const &path)
@@ -215,23 +205,13 @@ namespace
 		}
 
 		///
-		/// @brief 从未被调用过 MoveToNext 方法。
+		/// @brief 派生类需要提供一个该对象。
 		///
 		/// @return
 		///
-		virtual bool HasNotMoved() override
+		virtual base::IEnumerator<base::DirectoryEntry const>::Context_t &Context() override
 		{
-			return _has_not_moved;
-		}
-
-		///
-		/// @brief 设置是否从未被调用过 MoveToNext 方法。
-		///
-		/// @param value
-		///
-		virtual void SetHasNotMoved(bool value) override
-		{
-			_has_not_moved = value;
+			return _context;
 		}
 	};
 

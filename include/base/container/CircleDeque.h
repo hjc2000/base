@@ -15,25 +15,25 @@ namespace base
 	/// @brief 循环缓冲区的双端队列。
 	///
 	///
-	template <typename T, int64_t Size>
+	template <typename ItemType, int64_t Size>
 		requires(Size > 0)
 	class CircleDeque final :
-		public base::IDeque<T>,
-		public base::IRandomAccessEnumerable<T>
+		public base::IDeque<ItemType>,
+		public base::IRandomAccessEnumerable<ItemType>
 	{
 	private:
 		/* #region Enumerator */
 
 		class RandomAccessEnumerator final :
-			public base::IRandomAccessEnumerator<T>
+			public base::IRandomAccessEnumerator<ItemType>
 		{
 		private:
-			CircleDeque<T, Size> *_queue;
+			CircleDeque<ItemType, Size> *_queue;
 			int64_t _index = 0;
-			bool _has_not_moved = true;
+			base::IEnumerator<ItemType>::Context_t _context{};
 
 		public:
-			RandomAccessEnumerator(CircleDeque<T, Size> &queue)
+			RandomAccessEnumerator(CircleDeque<ItemType, Size> &queue)
 			{
 				_queue = &queue;
 			}
@@ -45,7 +45,7 @@ namespace base
 			///
 			/// @return
 			///
-			virtual std::shared_ptr<base::IRandomAccessEnumerator<T>> Clone() const override
+			virtual std::shared_ptr<base::IRandomAccessEnumerator<ItemType>> Clone() const override
 			{
 				return std::shared_ptr<RandomAccessEnumerator>{new RandomAccessEnumerator{*this}};
 			}
@@ -87,48 +87,38 @@ namespace base
 			///
 			/// @return
 			///
-			virtual T &CurrentValue() override
+			virtual ItemType &CurrentValue() override
 			{
 				return _queue->Get(_index);
 			}
 
 			///
-			/// @brief 从未被调用过 MoveToNext 方法。
+			/// @brief 派生类需要提供一个该对象。
 			///
 			/// @return
 			///
-			virtual bool HasNotMoved() override
+			virtual base::IEnumerator<ItemType>::Context_t &Context() override
 			{
-				return _has_not_moved;
-			}
-
-			///
-			/// @brief 设置是否从未被调用过 MoveToNext 方法。
-			///
-			/// @param value
-			///
-			virtual void SetHasNotMoved(bool value) override
-			{
-				_has_not_moved = value;
+				return _context;
 			}
 
 		}; // class Enumerator
 
 		/* #endregion */
 
-		alignas(T) uint8_t _memory_block[sizeof(T) * Size]{};
+		alignas(ItemType) uint8_t _memory_block[sizeof(ItemType) * Size]{};
 		base::Counter<uint64_t> _begin{0, Size - 1};
 		base::Counter<uint64_t> _end{0, Size - 1};
 		bool _is_full = false;
 
-		T *Buffer()
+		ItemType *Buffer()
 		{
-			return reinterpret_cast<T *>(_memory_block);
+			return reinterpret_cast<ItemType *>(_memory_block);
 		}
 
-		T const *Buffer() const
+		ItemType const *Buffer() const
 		{
-			return reinterpret_cast<T const *>(_memory_block);
+			return reinterpret_cast<ItemType const *>(_memory_block);
 		}
 
 	public:
@@ -172,14 +162,14 @@ namespace base
 		///
 		/// @param obj
 		///
-		virtual void PushBack(T const &obj) override
+		virtual void PushBack(ItemType const &obj) override
 		{
 			if (_is_full)
 			{
 				throw std::runtime_error{CODE_POS_STR + "队列已满，无法入队。"};
 			}
 
-			new (&Buffer()[_end.Value()]) T{obj};
+			new (&Buffer()[_end.Value()]) ItemType{obj};
 			_end++;
 			if (_begin == _end)
 			{
@@ -192,7 +182,7 @@ namespace base
 		///
 		/// @param obj
 		///
-		virtual void PushFront(T const &obj) override
+		virtual void PushFront(ItemType const &obj) override
 		{
 			if (_is_full)
 			{
@@ -203,7 +193,7 @@ namespace base
 
 			try
 			{
-				new (&Buffer()[_begin.Value()]) T{obj};
+				new (&Buffer()[_begin.Value()]) ItemType{obj};
 				if (_begin == _end)
 				{
 					_is_full = true;
@@ -229,7 +219,7 @@ namespace base
 
 			_end--;
 			_is_full = false;
-			Buffer()[_end.Value()].~T();
+			Buffer()[_end.Value()].~ItemType();
 		}
 
 		///
@@ -237,7 +227,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual T PopBack() override
+		virtual ItemType PopBack() override
 		{
 			if (Count() == 0)
 			{
@@ -246,15 +236,15 @@ namespace base
 
 			_end--;
 			_is_full = false;
-			T ret{std::move(Buffer()[_end.Value()])};
-			Buffer()[_end.Value()].~T();
+			ItemType ret{std::move(Buffer()[_end.Value()])};
+			Buffer()[_end.Value()].~ItemType();
 			return ret;
 		}
 
 		///
 		/// @brief 尝试从队列末端退队。
 		///
-		virtual void TryPopBack(base::Placement<T> &placement) override
+		virtual void TryPopBack(base::Placement<ItemType> &placement) override
 		{
 			if (Count() == 0)
 			{
@@ -264,7 +254,7 @@ namespace base
 			_end--;
 			_is_full = false;
 			placement = std::move(Buffer()[_end.Value()]);
-			Buffer()[_end.Value()].~T();
+			Buffer()[_end.Value()].~ItemType();
 		}
 
 		///
@@ -278,7 +268,7 @@ namespace base
 			}
 
 			int64_t index = _begin.Value();
-			Buffer()[index].~T();
+			Buffer()[index].~ItemType();
 			_begin++;
 			_is_full = false;
 		}
@@ -288,7 +278,7 @@ namespace base
 		///
 		/// @return
 		///
-		virtual T PopFront() override
+		virtual ItemType PopFront() override
 		{
 			if (Count() == 0)
 			{
@@ -296,8 +286,8 @@ namespace base
 			}
 
 			int64_t index = _begin.Value();
-			T ret{std::move(Buffer()[index])};
-			Buffer()[index].~T();
+			ItemType ret{std::move(Buffer()[index])};
+			Buffer()[index].~ItemType();
 			_begin++;
 			_is_full = false;
 			return ret;
@@ -306,7 +296,7 @@ namespace base
 		///
 		/// @brief 尝试从队列前端退队。
 		///
-		virtual void TryPopFront(base::Placement<T> &placement) override
+		virtual void TryPopFront(base::Placement<ItemType> &placement) override
 		{
 			if (Count() == 0)
 			{
@@ -315,7 +305,7 @@ namespace base
 
 			int64_t index = _begin.Value();
 			placement = std::move(Buffer()[index]);
-			Buffer()[index].~T();
+			Buffer()[index].~ItemType();
 			_begin++;
 			_is_full = false;
 		}
@@ -328,7 +318,7 @@ namespace base
 		{
 			for (int64_t i = 0; i < Count(); i++)
 			{
-				Get(i).~T();
+				Get(i).~ItemType();
 			}
 
 			_begin.Reset();
@@ -343,7 +333,7 @@ namespace base
 		///
 		/// @return
 		///
-		T &Front()
+		ItemType &Front()
 		{
 			return Get(0);
 		}
@@ -353,7 +343,7 @@ namespace base
 		///
 		/// @return
 		///
-		T const &Front() const
+		ItemType const &Front() const
 		{
 			return Get(0);
 		}
@@ -363,7 +353,7 @@ namespace base
 		///
 		/// @return
 		///
-		T &Back()
+		ItemType &Back()
 		{
 			return Get(Count() - 1);
 		}
@@ -373,7 +363,7 @@ namespace base
 		///
 		/// @return
 		///
-		T const &Back() const
+		ItemType const &Back() const
 		{
 			return Get(Count() - 1);
 		}
@@ -384,7 +374,7 @@ namespace base
 		/// @param index
 		/// @return
 		///
-		T &Get(int64_t index)
+		ItemType &Get(int64_t index)
 		{
 			if (index < 0 || index >= Count())
 			{
@@ -401,7 +391,7 @@ namespace base
 		/// @param index
 		/// @return
 		///
-		T const &Get(int64_t index) const
+		ItemType const &Get(int64_t index) const
 		{
 			if (index < 0 || index >= Count())
 			{
@@ -418,7 +408,7 @@ namespace base
 		/// @param index
 		/// @param value
 		///
-		void Set(int64_t index, T const &value)
+		void Set(int64_t index, ItemType const &value)
 		{
 			if (index < 0 || index >= Count())
 			{
@@ -435,7 +425,7 @@ namespace base
 		/// @param index
 		/// @return
 		///
-		T &operator[](int64_t index)
+		ItemType &operator[](int64_t index)
 		{
 			return Get(index);
 		}
@@ -446,7 +436,7 @@ namespace base
 		/// @param index
 		/// @return
 		///
-		T const &operator[](int64_t index) const
+		ItemType const &operator[](int64_t index) const
 		{
 			return Get(index);
 		}
@@ -455,14 +445,14 @@ namespace base
 
 		/* #region GetRandomAccessEnumerator */
 
-		using base::IRandomAccessEnumerable<T>::GetRandomAccessEnumerator;
+		using base::IRandomAccessEnumerable<ItemType>::GetRandomAccessEnumerator;
 
 		///
 		/// @brief 获取非 const 迭代器
 		///
 		/// @return
 		///
-		virtual std::shared_ptr<base::IRandomAccessEnumerator<T>> GetRandomAccessEnumerator() override
+		virtual std::shared_ptr<base::IRandomAccessEnumerator<ItemType>> GetRandomAccessEnumerator() override
 		{
 			return std::shared_ptr<RandomAccessEnumerator>{new RandomAccessEnumerator{*this}};
 		}

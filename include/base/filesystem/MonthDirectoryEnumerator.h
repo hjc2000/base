@@ -18,7 +18,7 @@ namespace base
 			public base::IEnumerator<base::DirectoryEntry const>
 		{
 		private:
-			bool _has_not_moved = true;
+			base::IEnumerator<base::DirectoryEntry const>::Context_t _context{};
 			base::Path _year_path;
 			base::UtcHourOffset _utc_hour_offset;
 			bool _should_check_time_range = false;
@@ -270,23 +270,13 @@ namespace base
 			}
 
 			///
-			/// @brief 从未被调用过 MoveToNext 方法。
+			/// @brief 派生类需要提供一个该对象。
 			///
 			/// @return
 			///
-			virtual bool HasNotMoved() override
+			virtual base::IEnumerator<base::DirectoryEntry const>::Context_t &Context() override
 			{
-				return _has_not_moved;
-			}
-
-			///
-			/// @brief 设置是否从未被调用过 MoveToNext 方法。
-			///
-			/// @param value
-			///
-			virtual void SetHasNotMoved(bool value) override
-			{
-				_has_not_moved = value;
+				return _context;
 			}
 		};
 

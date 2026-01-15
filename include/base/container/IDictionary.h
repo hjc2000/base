@@ -8,9 +8,7 @@ namespace base
 	/// @brief 字典接口。
 	///
 	template <typename KeyType, typename ValueType>
-		requires(base::has_equal_operator<KeyType, KeyType> &&
-				 base::has_less_than_operator<KeyType, KeyType> &&
-				 base::has_greater_than_operator<KeyType, KeyType>)
+		requires(base::has_all_compare_operators<KeyType, KeyType>)
 	class IDictionary :
 		public base::IEnumerable<std::pair<KeyType const, ValueType>>
 	{
