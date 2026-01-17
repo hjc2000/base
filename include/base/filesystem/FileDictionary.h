@@ -3,7 +3,6 @@
 #include "base/container/IDictionary.h"
 #include "base/container/iterator/IEnumerator.h"
 #include "base/container/StdPairWrapper.h"
-#include "base/filesystem/DirectoryEntry.h"
 #include "base/filesystem/file.h"
 #include "base/filesystem/filesystem.h"
 #include "base/filesystem/Path.h"
@@ -35,7 +34,7 @@ namespace base
 				public base::IEnumerator<std::pair<std::string const, std::shared_ptr<base::Stream> const>>
 			{
 			private:
-				std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _enumerator;
+				std::shared_ptr<base::IEnumerator<base::filesystem::DirectoryEntry const>> _enumerator;
 				base::StdPairWrapper<std::string const, std::shared_ptr<base::Stream> const> _current_value;
 				base::IEnumerator<std::pair<std::string const, std::shared_ptr<base::Stream> const>>::Context_t _context{};
 
@@ -64,7 +63,7 @@ namespace base
 				///
 				virtual std::pair<std::string const, std::shared_ptr<base::Stream> const> &CurrentValue() override
 				{
-					base::DirectoryEntry entry = _enumerator->CurrentValue();
+					base::filesystem::DirectoryEntry entry = _enumerator->CurrentValue();
 					std::string key = entry.Path().LastName().ToString();
 					std::shared_ptr<base::Stream> file_stream = base::file::OpenExisting(entry.Path());
 
@@ -145,7 +144,7 @@ namespace base
 					return _count;
 				}
 
-				for (base::DirectoryEntry const &entry : base::filesystem::DirectoryEntryEnumerable{_workspace})
+				for (base::filesystem::DirectoryEntry const &entry : base::filesystem::DirectoryEntryEnumerable{_workspace})
 				{
 					(void)entry;
 					_count++;

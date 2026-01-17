@@ -67,21 +67,6 @@ int main()
 	}
 
 	{
-		std::cout << base::filesystem::CurrentPath() << std::endl;
-	}
-
-	{
-		base::Path path{""};
-		std::cout << path << std::endl;
-		std::cout << base::filesystem::ToAbsolutePath(path) << std::endl;
-	}
-
-	{
-		base::Path path{"a.mp4"};
-		std::cout << path.NameWithoutExtension() << std::endl;
-	}
-
-	{
 		base::List<std::string> list{};
 		list.Add("11.mp4");
 		list.Add("1.mp4");

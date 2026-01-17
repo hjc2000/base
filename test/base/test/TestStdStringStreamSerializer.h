@@ -1,14 +1,22 @@
 #pragma once
+#include "base/filesystem/file.h"
+#include "base/filesystem/filesystem.h"
+#include "base/string/String.h"
+#include <iostream>
 
-#if HAS_THREAD
-
-namespace base
+namespace base::test
 {
-	namespace test
+	inline void TestStdStringStreamSerializer()
 	{
-		void TestStdStringStreamSerializer();
+		base::String str{"0123456789"};
 
-	} // namespace test
-} // namespace base
+		base::filesystem::EnsureDirectory("test");
+		std::shared_ptr<base::Stream> fs = base::file::OpenOrCreate("test/TestStdStringStreamSerializer.bin");
+		str.SerializeIntoStream(*fs);
 
-#endif // HAS_THREAD
+		fs->SetPosition(0);
+		str.DeserializeFromStream(*fs);
+		std::cout << str << std::endl;
+	}
+
+} // namespace base::test

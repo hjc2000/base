@@ -15,10 +15,10 @@ namespace base
 	namespace filesystem
 	{
 		class YearMonthDayDirectoryEntryEnumerator final :
-			public base::IEnumerator<base::DirectoryEntry const>
+			public base::IEnumerator<base::filesystem::DirectoryEntry const>
 		{
 		private:
-			base::IEnumerator<base::DirectoryEntry const>::Context_t _context{};
+			base::IEnumerator<base::filesystem::DirectoryEntry const>::Context_t _context{};
 
 			///
 			/// @brief “基路径/年/月/日/文件” 中的 “基路径”。
@@ -36,7 +36,7 @@ namespace base
 			std::shared_ptr<base::filesystem::YearDirectoryEnumerator> _year_dir_iterator;
 			std::shared_ptr<base::filesystem::MonthDirectoryEnumerator> _month_dir_iterator;
 			std::shared_ptr<base::filesystem::DayDirectoryEnumerator> _day_dir_iterator;
-			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _file_iterator;
+			std::shared_ptr<base::IEnumerator<base::filesystem::DirectoryEntry const>> _file_iterator;
 
 			std::shared_ptr<base::CancellationToken> _cancellation_token;
 
@@ -58,7 +58,7 @@ namespace base
 							return false;
 						}
 
-						base::DirectoryEntry entry = _year_dir_iterator->CurrentValue();
+						base::filesystem::DirectoryEntry entry = _year_dir_iterator->CurrentValue();
 						base::Path year_dir_path = entry.Path();
 
 						_month_dir_iterator = std::shared_ptr<base::filesystem::MonthDirectoryEnumerator>{new base::filesystem::MonthDirectoryEnumerator{
@@ -96,7 +96,7 @@ namespace base
 							return false;
 						}
 
-						base::DirectoryEntry entry = _month_dir_iterator->CurrentValue();
+						base::filesystem::DirectoryEntry entry = _month_dir_iterator->CurrentValue();
 						base::Path month_dir_path = entry.Path();
 
 						_day_dir_iterator = std::shared_ptr<base::filesystem::DayDirectoryEnumerator>{new base::filesystem::DayDirectoryEnumerator{
@@ -135,7 +135,7 @@ namespace base
 							return false;
 						}
 
-						base::DirectoryEntry entry = _day_dir_iterator->CurrentValue();
+						base::filesystem::DirectoryEntry entry = _day_dir_iterator->CurrentValue();
 						base::Path day_dir_path = entry.Path();
 						_file_iterator = base::filesystem::CreateDirectoryEntryEnumerator(day_dir_path);
 					}
@@ -209,7 +209,7 @@ namespace base
 			///
 			/// @return
 			///
-			virtual base::DirectoryEntry const &CurrentValue() override
+			virtual base::filesystem::DirectoryEntry const &CurrentValue() override
 			{
 				base::throw_if_cancellation_is_requested(_cancellation_token);
 
@@ -257,7 +257,7 @@ namespace base
 			///
 			/// @return
 			///
-			virtual base::IEnumerator<base::DirectoryEntry const>::Context_t &Context() override
+			virtual base::IEnumerator<base::filesystem::DirectoryEntry const>::Context_t &Context() override
 			{
 				return _context;
 			}

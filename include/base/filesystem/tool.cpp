@@ -9,7 +9,7 @@ void base::filesystem::tool::batch_rename_files_to_numbers(base::Path const &inp
 														   base::Path const &temp_path)
 {
 	uint64_t count = 0;
-	for (base::DirectoryEntry const &entry : base::filesystem::RecursiveDirectoryEntryEnumerable{input_path})
+	for (base::filesystem::DirectoryEntry const &entry : base::filesystem::RecursiveDirectoryEntryEnumerable{input_path})
 	{
 		base::Path dst_path = entry.Path();
 		dst_path.RemoveBasePath(input_path);

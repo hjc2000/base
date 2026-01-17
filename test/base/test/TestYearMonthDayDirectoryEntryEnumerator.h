@@ -1,14 +1,57 @@
 #pragma once
+#include "base/container/iterator/Enumerable.h"
+#include "base/filesystem/Path.h"
+#include "base/filesystem/YearMonthDayDirectoryEntryEnumerator.h"
+#include "base/math/interval/Interval.h"
+#include "base/task/CancellationTokenSource.h"
+#include "base/time/DateTime.h"
+#include "base/time/UtcHourOffset.h"
+#include <iostream>
 
-#if HAS_THREAD
-
-namespace base
+namespace base::test
 {
-	namespace test
+	inline void TestYearMonthDayDirectoryEntryEnumerator()
 	{
-		void TestYearMonthDayDirectoryEntryEnumerator();
+		base::ClosedInterval<base::DateTime> interval{
+			base::DateTime{
+				base::UtcHourOffset{8},
+				2023,
+				8,
+				1,
+				0,
+				0,
+				0,
+				0,
+			},
+			base::DateTime{
+				base::UtcHourOffset{8},
+				2025,
+				1,
+				1,
+				0,
+				0,
+				0,
+				0,
+			},
+		};
 
-	} // namespace test
-} // namespace base
+		base::Path test_path{__test_resource_pasth};
+		test_path += "TestYearMonthDayDirectoryEntryEnumerator";
 
-#endif // HAS_THREAD
+		base::CancellationTokenSource cancellation_source;
+
+		base::filesystem::YearMonthDayDirectoryEntryEnumerator enumerator{
+			test_path,
+			true,
+			interval,
+			base::UtcHourOffset{8},
+			cancellation_source.Token(),
+		};
+
+		for (base::filesystem::DirectoryEntry const &entry : base::Enumerable{enumerator})
+		{
+			std::cout << entry.Path() << std::endl;
+		}
+	}
+
+} // namespace base::test

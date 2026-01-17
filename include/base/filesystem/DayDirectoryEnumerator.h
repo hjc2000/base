@@ -15,15 +15,15 @@ namespace base
 	namespace filesystem
 	{
 		class DayDirectoryEnumerator final :
-			public base::IEnumerator<base::DirectoryEntry const>
+			public base::IEnumerator<base::filesystem::DirectoryEntry const>
 		{
 		private:
-			base::IEnumerator<base::DirectoryEntry const>::Context_t _context{};
+			base::IEnumerator<base::filesystem::DirectoryEntry const>::Context_t _context{};
 			base::Path _year_month_path;
 			base::UtcHourOffset _utc_hour_offset;
 			bool _should_check_time_range = false;
 			base::Interval<base::DateTime> _date_time_interval;
-			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _day_dir_iterator;
+			std::shared_ptr<base::IEnumerator<base::filesystem::DirectoryEntry const>> _day_dir_iterator;
 			std::shared_ptr<base::CancellationToken> _cancellation_token;
 			int64_t _year{};
 			int64_t _month{};
@@ -233,7 +233,7 @@ namespace base
 			///
 			/// @return
 			///
-			virtual base::DirectoryEntry const &CurrentValue() override
+			virtual base::filesystem::DirectoryEntry const &CurrentValue() override
 			{
 				base::throw_if_cancellation_is_requested(_cancellation_token);
 
@@ -265,7 +265,7 @@ namespace base
 			///
 			/// @return
 			///
-			virtual base::IEnumerator<base::DirectoryEntry const>::Context_t &Context() override
+			virtual base::IEnumerator<base::filesystem::DirectoryEntry const>::Context_t &Context() override
 			{
 				return _context;
 			}

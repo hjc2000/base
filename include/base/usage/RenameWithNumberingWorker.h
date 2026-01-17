@@ -25,7 +25,7 @@ namespace base::usage
 		{
 			base::List<base::Path> ret{};
 
-			for (base::DirectoryEntry const &entry : base::filesystem::DirectoryEntryEnumerable{_work_path})
+			for (base::filesystem::DirectoryEntry const &entry : base::filesystem::DirectoryEntryEnumerable{_work_path})
 			{
 				if (!entry.IsRegularFile())
 				{

@@ -15,10 +15,10 @@ namespace base
 	namespace filesystem
 	{
 		class YearDirectoryEnumerator final :
-			public base::IEnumerator<base::DirectoryEntry const>
+			public base::IEnumerator<base::filesystem::DirectoryEntry const>
 		{
 		private:
-			base::IEnumerator<base::DirectoryEntry const>::Context_t _context{};
+			base::IEnumerator<base::filesystem::DirectoryEntry const>::Context_t _context{};
 
 			///
 			/// @brief “基路径/年/月/日/文件” 中的 “基路径”。
@@ -29,7 +29,7 @@ namespace base
 			base::UtcHourOffset _utc_hour_offset;
 			bool _should_check_time_range = false;
 			base::Interval<base::DateTime> _date_time_interval;
-			std::shared_ptr<base::IEnumerator<base::DirectoryEntry const>> _year_dir_iterator;
+			std::shared_ptr<base::IEnumerator<base::filesystem::DirectoryEntry const>> _year_dir_iterator;
 			int64_t _year{};
 
 			std::shared_ptr<base::CancellationToken> _cancellation_token;
@@ -235,7 +235,7 @@ namespace base
 			///
 			/// @return
 			///
-			virtual base::DirectoryEntry const &CurrentValue() override
+			virtual base::filesystem::DirectoryEntry const &CurrentValue() override
 			{
 				base::throw_if_cancellation_is_requested(_cancellation_token);
 
@@ -272,7 +272,7 @@ namespace base
 			///
 			/// @return
 			///
-			virtual base::IEnumerator<base::DirectoryEntry const>::Context_t &Context() override
+			virtual base::IEnumerator<base::filesystem::DirectoryEntry const>::Context_t &Context() override
 			{
 				return _context;
 			}

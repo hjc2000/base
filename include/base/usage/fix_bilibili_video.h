@@ -126,7 +126,7 @@ namespace base::usage
 		//
 		// 这么做是因为等会修复的时候会产生新文件，会改变目录内容，可能会影响到
 		// 文件迭代过程。
-		for (base::DirectoryEntry const &entry : base::filesystem::RecursiveDirectoryEntryEnumerable{video_dir})
+		for (base::filesystem::DirectoryEntry const &entry : base::filesystem::RecursiveDirectoryEntryEnumerable{video_dir})
 		{
 			if (base::String{entry.Path().LastName().ToString()}.StartWith("fixed_"))
 			{
@@ -164,7 +164,7 @@ namespace base::usage
 		//
 		// 这么做是因为等会修复的时候会产生新文件，会改变目录内容，可能会影响到
 		// 文件迭代过程。
-		for (base::DirectoryEntry const &entry : base::filesystem::RecursiveDirectoryEntryEnumerable{video_dir})
+		for (base::filesystem::DirectoryEntry const &entry : base::filesystem::RecursiveDirectoryEntryEnumerable{video_dir})
 		{
 			if (base::String{entry.Path().LastName().ToString()}.StartWith("fixed_"))
 			{
