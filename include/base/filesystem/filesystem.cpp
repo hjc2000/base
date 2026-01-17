@@ -325,15 +325,15 @@ bool base::filesystem::Exists(base::Path const &path)
 	return ret;
 }
 
-base::Path base::filesystem::ReadSymlink(base::Path const &path)
+base::Path base::filesystem::ReadSymboliclink(base::Path const &symbolic_link_obj_path)
 {
-	if (!base::filesystem::IsSymbolicLink(path))
+	if (!base::filesystem::IsSymbolicLink(symbolic_link_obj_path))
 	{
 		throw std::runtime_error{CODE_POS_STR + "传进来的路径必须是一个符号链接的路径。"};
 	}
 
 	std::error_code error_code{};
-	std::filesystem::path target_path = std::filesystem::read_symlink(path.ToString(), error_code);
+	std::filesystem::path target_path = std::filesystem::read_symlink(symbolic_link_obj_path.ToString(), error_code);
 
 	if (error_code.value() != 0)
 	{
@@ -347,6 +347,27 @@ base::Path base::filesystem::ReadSymlink(base::Path const &path)
 	}
 
 	return target_path.string();
+}
+
+void base::filesystem::CreateSymboliclink(base::Path const &symbolic_link_obj_path,
+										  base::Path const &link_to_path)
+{
+	std::error_code error_code{};
+
+	std::filesystem::create_symlink(link_to_path.ToString(),
+									symbolic_link_obj_path.ToString(),
+									error_code);
+
+	if (error_code.value() != 0)
+	{
+		std::string message = CODE_POS_STR;
+
+		message += std::format("创建符号链接失败。错误代码：{}，错误消息：{}",
+							   error_code.value(),
+							   error_code.message());
+
+		throw std::runtime_error{message};
+	}
 }
 
 /* #region 创建目录 */
