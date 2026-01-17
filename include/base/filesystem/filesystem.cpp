@@ -45,7 +45,18 @@ namespace
 
 			// 拷贝单个文件。
 			// 没有进行检查，调用者必须确保源路径是一个文件。
-			std::filesystem::copy(source_path.ToString(), destination_path.ToString(), options);
+			if (base::filesystem::IsSymbolicLink(source_path))
+			{
+				base::filesystem::CreateSymboliclink(destination_path,
+													 base::filesystem::ReadSymboliclink(source_path));
+			}
+			else
+			{
+				std::filesystem::copy(source_path.ToString(),
+									  destination_path.ToString(),
+									  options);
+			}
+
 			return;
 		}
 
@@ -60,7 +71,19 @@ namespace
 		{
 			// 无条件覆盖。
 			base::filesystem::Remove(destination_path);
-			std::filesystem::copy(source_path.ToString(), destination_path.ToString(), options);
+
+			if (base::filesystem::IsSymbolicLink(source_path))
+			{
+				base::filesystem::CreateSymboliclink(destination_path,
+													 base::filesystem::ReadSymboliclink(source_path));
+			}
+			else
+			{
+				std::filesystem::copy(source_path.ToString(),
+									  destination_path.ToString(),
+									  options);
+			}
+
 			std::cout << "覆盖：" << source_path << " --> " << destination_path << std::endl;
 			return;
 		}
@@ -76,7 +99,19 @@ namespace
 
 		// 需要更新
 		base::filesystem::Remove(destination_path);
-		std::filesystem::copy(source_path.ToString(), destination_path.ToString(), options);
+
+		if (base::filesystem::IsSymbolicLink(source_path))
+		{
+			base::filesystem::CreateSymboliclink(destination_path,
+												 base::filesystem::ReadSymboliclink(source_path));
+		}
+		else
+		{
+			std::filesystem::copy(source_path.ToString(),
+								  destination_path.ToString(),
+								  options);
+		}
+
 		std::cout << "更新：" << source_path << " --> " << destination_path << std::endl;
 		return;
 	}
