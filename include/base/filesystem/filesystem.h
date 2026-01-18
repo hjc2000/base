@@ -221,6 +221,20 @@ namespace base::filesystem
 	void Remove(base::Path const &path);
 
 	///
+	/// @brief 拷贝符号链接。
+	///
+	/// @param source_path 源路径。
+	///
+	/// @param destination_path 目标路径
+	/// 	@note source_path 指向的对象复制后将是这个路径。也就是复制可以顺便重命名。
+	///
+	/// @param overwrite_method
+	///
+	void CopySymbolicLink(base::Path const &source_path,
+						  base::Path const &destination_path,
+						  base::filesystem::OverwriteOption overwrite_method);
+
+	///
 	/// @brief 将文件或目录从 source_path 复制到 destination_path.
 	///
 	/// @note 其中的符号链接本身会被复制，不会进入到符号链接指向的实际位置去复制文件。
