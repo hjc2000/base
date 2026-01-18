@@ -220,6 +220,8 @@ namespace base::filesystem
 	///
 	void Remove(base::Path const &path);
 
+	/* #region 拷贝 */
+
 	///
 	/// @brief 拷贝符号链接。
 	///
@@ -310,6 +312,8 @@ namespace base::filesystem
 	void Copy(base::Path const &source_path,
 			  base::Path const &destination_path,
 			  base::filesystem::OverwriteOption overwrite_method);
+
+	/* #endregion */
 
 	///
 	/// @brief 将文件或目录从 source_path 移动到 destination_path.
