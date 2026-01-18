@@ -162,6 +162,9 @@ namespace base::filesystem
 	/// @param is_directory 为 true 表示要创建的符号链接指向一个目录，
 	/// 为 false 表示要创建的符号链接指向一个文件。
 	///
+	/// 	@note windows 的傻逼设计，符号链接自己储存了一个信息来表示链接目标是不是目录。
+	/// 	创建符号链接时就必须向函数传入这个信息。
+	///
 	void CreateSymboliclink(base::Path const &symbolic_link_obj_path,
 							base::Path const &link_to_path,
 							bool is_directory);
