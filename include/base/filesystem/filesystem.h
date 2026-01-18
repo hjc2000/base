@@ -108,7 +108,7 @@ namespace base::filesystem
 	///
 	/// @return
 	///
-	bool IsSymbolicLinkDirectory(std::string const &path);
+	bool IsSymbolicLinkDirectory(base::Path const &path);
 
 	/* #endregion */
 
