@@ -110,6 +110,27 @@ namespace base::filesystem
 	///
 	bool IsSymbolicLinkDirectory(base::Path const &path);
 
+	///
+	/// @brief 是否是符号链接文件。
+	///
+	/// @param path
+	/// @return
+	///
+	inline bool IsSymbolicLinkFile(base::Path const &path)
+	{
+		if (!IsSymbolicLink(path))
+		{
+			return false;
+		}
+
+		if (IsSymbolicLinkDirectory(path))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 	/* #endregion */
 
 	///
