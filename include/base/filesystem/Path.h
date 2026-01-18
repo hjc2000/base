@@ -244,10 +244,7 @@ namespace base
 
 			if (index < 0)
 			{
-				throw std::runtime_error{CODE_POS_STR +
-										 _path.StdString() +
-										 "\n" +
-										 "没有斜杠了，已经无法提取出父路径名了。"};
+				return "";
 			}
 
 			return base::Path{_path[base::Range{0, index}]};
