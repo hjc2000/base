@@ -447,4 +447,62 @@ namespace base::filesystem
 
 	/* #endregion */
 
+	///
+	/// @brief 将 base::Path 转换为 windows 长路径的字符串。
+	///
+	/// @param path
+	/// @return
+	///
+	inline std::string ToWindowsLongPathString(base::Path const &path)
+	{
+		try
+		{
+			base::Path absolute_path = base::filesystem::ToAbsolutePath(path);
+			base::String absolute_path_string = absolute_path.ToString();
+			absolute_path_string.Replace("/", "\\");
+			absolute_path_string = "\\\\?\\" + absolute_path_string;
+			return absolute_path_string.StdString();
+		}
+		catch (std::exception const &e)
+		{
+			throw std::runtime_error{CODE_POS_STR + e.what()};
+		}
+		catch (...)
+		{
+			throw std::runtime_error{CODE_POS_STR + "未知的异常。"};
+		}
+	}
+
+	///
+	/// @brief 将 windows 长路径的字符串转换为 base::Path。
+	///
+	/// @param path_string
+	/// @return
+	///
+	inline base::Path WindowsLongPathStringToPath(std::string const &path_string)
+	{
+		try
+		{
+			base::String result{path_string};
+
+			// 去掉 \\?\ 前缀
+			base::String prefix = "\\\\?\\";
+
+			if (result.StartWith(prefix))
+			{
+				result.Remove(base::Range{0, prefix.Length()});
+			}
+
+			return result;
+		}
+		catch (std::exception const &e)
+		{
+			throw std::runtime_error{CODE_POS_STR + e.what()};
+		}
+		catch (...)
+		{
+			throw std::runtime_error{CODE_POS_STR + "未知的异常。"};
+		}
+	}
+
 } // namespace base::filesystem
