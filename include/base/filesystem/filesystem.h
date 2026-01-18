@@ -73,21 +73,6 @@ namespace base::filesystem
 	bool IsRegularFile(base::Path const &path);
 
 	///
-	/// @brief 是否是广义的文件。
-	///
-	/// @note 广义的文件包括：符号链接、设备文件、套接字等。
-	/// @note 只要不是目录，就是广义的文件。
-	///
-	/// @param path
-	///
-	/// @return 是广义的文件返回 true, 否则返回 false.
-	///
-	inline bool IsFile(base::Path const &path)
-	{
-		return !IsDirectory(path);
-	}
-
-	///
 	/// @brief 检查指定路径是否是一个符号链接。
 	///
 	/// @param path
