@@ -348,19 +348,6 @@ namespace base::filesystem
 		}
 
 		///
-		/// @brief 是广义的文件。
-		///
-		/// @note 广义的文件包括：符号链接、设备文件、套接字等。
-		/// @note 只要不是目录，就是广义的文件。
-		///
-		/// @return
-		///
-		bool IsFile() const
-		{
-			return !IsDirectory();
-		}
-
-		///
 		/// @brief 是符号链接。
 		///
 		/// @return
