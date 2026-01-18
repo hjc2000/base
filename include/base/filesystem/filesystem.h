@@ -447,6 +447,8 @@ namespace base::filesystem
 
 	/* #endregion */
 
+	/* #region windows 长路径处理 */
+
 	///
 	/// @brief 将 base::Path 转换为 windows 长路径的字符串。
 	///
@@ -504,5 +506,7 @@ namespace base::filesystem
 			throw std::runtime_error{CODE_POS_STR + "未知的异常。"};
 		}
 	}
+
+	/* #endregion */
 
 } // namespace base::filesystem
