@@ -357,6 +357,16 @@ namespace base::filesystem
 			return base::filesystem::IsSymbolicLink(_path);
 		}
 
+		///
+		/// @brief 是符号链接目录。
+		///
+		/// @return
+		///
+		bool IsSymbolicLinkDirectory() const
+		{
+			return base::filesystem::IsSymbolicLinkDirectory(_path);
+		}
+
 		/* #endregion */
 	};
 
