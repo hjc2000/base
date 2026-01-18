@@ -127,9 +127,12 @@ namespace base::filesystem
 	///
 	/// @brief 检查指定路径是否存在。
 	///
+	/// @note 如果 path 是一个符号链接文件，则返回值指示文件链接文件本身是否
+	/// 存在，而不是指示符号链接指向的目标是否存在。
+	///
 	/// @param path
 	///
-	/// @return 不管它是目录还是文件，只要存在就返回 true.
+	/// @return
 	///
 	bool Exists(base::Path const &path);
 
