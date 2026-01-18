@@ -253,6 +253,49 @@ namespace base::filesystem
 						 base::filesystem::OverwriteOption overwrite_method);
 
 	///
+	/// @brief 单层拷贝。
+	///
+	/// @param source_path 源路径。
+	///
+	/// @param destination_path 目标路径
+	/// 	@note source_path 指向的对象复制后将是这个路径。也就是复制可以顺便重命名。
+	///
+	/// @param overwrite_method 覆写选项。
+	///
+	inline void CopySingleLayer(base::Path const &source_path,
+								base::Path const &destination_path,
+								base::filesystem::OverwriteOption overwrite_method)
+	{
+		if (base::filesystem::IsSymbolicLink(source_path))
+		{
+			base::filesystem::CopySymbolicLink(source_path,
+											   destination_path,
+											   overwrite_method);
+
+			return;
+		}
+
+		if (base::filesystem::IsRegularFile(source_path))
+		{
+			// 源路径是一个文件
+			CopyRegularFile(source_path,
+							destination_path,
+							overwrite_method);
+
+			return;
+		}
+
+		if (base::filesystem::IsDirectory(source_path))
+		{
+			// 源路径是一个目录
+			EnsureDirectory(destination_path);
+			return;
+		}
+
+		throw std::runtime_error{CODE_POS_STR + source_path.ToString() + " 是未知的目录条目类型。"};
+	}
+
+	///
 	/// @brief 将文件或目录从 source_path 复制到 destination_path.
 	///
 	/// @note 其中的符号链接本身会被复制，不会进入到符号链接指向的实际位置去复制文件。
