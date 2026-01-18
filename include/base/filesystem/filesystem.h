@@ -156,8 +156,11 @@ namespace base::filesystem
 	/// @brief 创建符号链接。
 	///
 	/// @param symbolic_link_obj_path 符号链接这个对象本身所在的路径。
+	///
 	/// @param link_to_path 创建的符号链接指向的路径。
-	/// @param is_directory 要创建的符号链接指向一个目录。
+	///
+	/// @param is_directory 为 true 表示要创建的符号链接指向一个目录，
+	/// 为 false 表示要创建的符号链接指向一个文件。
 	///
 	void CreateSymboliclink(base::Path const &symbolic_link_obj_path,
 							base::Path const &link_to_path,
