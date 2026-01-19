@@ -59,10 +59,7 @@ namespace base
 				base::character::is_alpha(_path[0]) &&
 				_path[1] == ':')
 			{
-				if (!_path.EndWith('/'))
-				{
-					_path += '/';
-				}
+				_path += '/';
 			}
 
 			// 如果是 windows 路径，将盘符统一转为大写。
