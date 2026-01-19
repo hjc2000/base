@@ -315,8 +315,21 @@ namespace base
 				return;
 			}
 
+			if (index == 0)
+			{
+				_path = "/";
+				return;
+			}
+
+			if (index == 2 &&
+				base::character::is_alpha(_path[0]) &&
+				_path[1] == ':')
+			{
+				_path = _path[base::Range{0, 3}];
+				return;
+			}
+
 			_path = _path[base::Range{0, index}];
-			CorrectWindowsRootPath();
 		}
 
 		///
