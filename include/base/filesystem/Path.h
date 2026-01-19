@@ -318,6 +318,7 @@ namespace base
 			}
 
 			_path = _path[base::Range{0, index}];
+			CorrectWindowsPath();
 		}
 
 		///
