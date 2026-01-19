@@ -68,16 +68,19 @@ namespace base
 			}
 		}
 
+		///
+		/// @brief 移除最后一级路径。
+		///
 		void RemoveLastPath()
 		{
 			if (IsRootPath())
 			{
-				throw std::runtime_error{CODE_POS_STR + "已经是根路径了，无法移除。"};
+				throw std::runtime_error{CODE_POS_STR + "已经是根路径了，无法移除最后一级路径。"};
 			}
 
 			if (_path.Length() == 0)
 			{
-				throw std::runtime_error{CODE_POS_STR + "已经为空了，无法移除了。"};
+				throw std::runtime_error{CODE_POS_STR + "路径已经为空了，代表相对当前路径了，无法移除最后一级路径。"};
 			}
 
 			int32_t index = _path.LastIndexOf('/');
