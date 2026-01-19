@@ -229,6 +229,7 @@ namespace base
 		void RemoveBasePath(base::Path const &base_path)
 		{
 			base::String base_path_str = base_path.ToString();
+
 			if (!base_path_str.EndWith('/'))
 			{
 				base_path_str += '/';
