@@ -73,13 +73,9 @@ namespace base
 		///
 		void SimplifyPathInTail()
 		{
+			// 数出路径末尾有多少层 "..".
 			int64_t dot_dot_count = 0;
 
-			// 以 .. 结尾，例如
-			// 		/a/..
-			// 本来末尾应该还有一个斜杠的，即
-			// 		/a/../
-			// 但是在前面的操作中被删掉了，所以变成要检查是否以 .. 结尾。
 			while (_path.EndWith(".."))
 			{
 				RemoveLastPath();
