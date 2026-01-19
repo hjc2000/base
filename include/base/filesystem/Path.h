@@ -17,6 +17,9 @@ namespace base
 	private:
 		base::String _path;
 
+		///
+		/// @brief 基础的路径改正。
+		///
 		void BaseCorrectPath()
 		{
 			_path.Replace('\\', '/');
