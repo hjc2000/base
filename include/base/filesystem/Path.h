@@ -105,17 +105,6 @@ namespace base
 			}
 		}
 
-		///
-		/// @brief 更正路径为标准形式。
-		///
-		///
-		void CorrectPath()
-		{
-			BaseCorrectPath();
-			CorrectWindowsPath();
-			SimplifyPathInTail();
-		}
-
 	public:
 		/* #region 构造函数 */
 
@@ -125,7 +114,10 @@ namespace base
 		{
 			_path = path;
 			_path.Trim();
-			CorrectPath();
+
+			BaseCorrectPath();
+			CorrectWindowsPath();
+			SimplifyPathInTail();
 		}
 
 		Path(std::string const &path)
@@ -352,6 +344,7 @@ namespace base
 			}
 
 			_path = _path[base::Range{0, index}];
+			CorrectWindowsPath();
 		}
 
 		///
