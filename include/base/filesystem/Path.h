@@ -138,6 +138,16 @@ namespace base
 
 		/* #endregion */
 
+		base::String &Value()
+		{
+			return _path;
+		}
+
+		base::String const &Value() const
+		{
+			return _path;
+		}
+
 		///
 		/// @brief 转化为字符串。
 		///
