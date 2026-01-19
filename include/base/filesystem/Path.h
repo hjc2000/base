@@ -68,6 +68,29 @@ namespace base
 			}
 		}
 
+		void RemoveLastPath()
+		{
+			if (IsRootPath())
+			{
+				throw std::runtime_error{CODE_POS_STR + "已经是根路径了，无法移除。"};
+			}
+
+			if (_path.Length() == 0)
+			{
+				throw std::runtime_error{CODE_POS_STR + "已经为空了，无法移除了。"};
+			}
+
+			int32_t index = _path.LastIndexOf('/');
+
+			if (index < 0)
+			{
+				_path = "";
+				return;
+			}
+
+			_path = _path[base::Range{0, index}];
+		}
+
 		///
 		/// @brief 化简尾部的上级路径索引符 ".."
 		///
@@ -80,25 +103,32 @@ namespace base
 			// 本来末尾应该还有一个斜杠的，即
 			// 		/a/../
 			// 但是在前面的操作中被删掉了，所以变成要检查是否以 .. 结尾。
-			while (true)
+			while (_path.EndWith(".."))
 			{
-				if (!_path.EndWith(".."))
-				{
-					break;
-				}
-
-				if (_path == "..")
-				{
-					break;
-				}
-
-				*this = ParentPath();
+				RemoveLastPath();
 				dot_dot_count++;
 			}
 
-			for (int64_t i = 0; i < dot_dot_count; i++)
+			while (dot_dot_count > 0)
 			{
-				*this = ParentPath();
+				if (_path.Length() == 0)
+				{
+					break;
+				}
+
+				RemoveLastPath();
+				dot_dot_count--;
+			}
+
+			while (dot_dot_count > 0)
+			{
+				if (_path.Length() > 0)
+				{
+					_path += "/";
+				}
+
+				_path += "..";
+				dot_dot_count--;
 			}
 		}
 
@@ -292,25 +322,48 @@ namespace base
 		}
 
 		///
-		/// @brief 获取本路径的父路径。
+		/// @brief 将本路径转换为父路径。
 		///
-		/// @return
-		///
-		base::Path ParentPath() const
+		void ToParentPath()
 		{
 			if (IsRootPath())
 			{
 				throw std::runtime_error{CODE_POS_STR + "根路径没有父路径。"};
 			}
 
+			if (_path.Length() == 0)
+			{
+				_path = "..";
+				return;
+			}
+
+			if (_path.EndWith(".."))
+			{
+				_path += "/..";
+				return;
+			}
+
 			int32_t index = _path.LastIndexOf('/');
 
 			if (index < 0)
 			{
-				return "";
+				_path = "";
+				return;
 			}
 
-			return base::Path{_path[base::Range{0, index}]};
+			_path = _path[base::Range{0, index}];
+		}
+
+		///
+		/// @brief 获取本路径的父路径。
+		///
+		/// @return
+		///
+		base::Path ParentPath() const
+		{
+			base::Path ret{*this};
+			ret.ToParentPath();
+			return ret;
 		}
 
 		///
