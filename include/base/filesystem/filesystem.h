@@ -524,17 +524,7 @@ namespace base::filesystem
 	{
 		try
 		{
-			if (base::filesystem::IsSymbolicLink(path))
-			{
-				base::filesystem::RemoveReadOnlyAttribute(path);
-				return;
-			}
-
-			if (base::filesystem::IsRegularFile(path))
-			{
-				base::filesystem::RemoveReadOnlyAttribute(path);
-				return;
-			}
+			base::filesystem::RemoveReadOnlyAttribute(path);
 
 			if (base::filesystem::IsDirectory(path))
 			{
