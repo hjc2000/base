@@ -16,6 +16,96 @@ namespace base::filesystem
 		Overwrite,
 	};
 
+	///
+	/// @brief 目录条目。
+	///
+	/// @note 只要是能放在目录中的条目都是目录条目。例如：目录、符号链接、普通文件、设备文件等。
+	///
+	class DirectoryEntry
+	{
+	private:
+		base::Path _path;
+
+	public:
+		DirectoryEntry() = default;
+
+		///
+		/// @brief 根据路径构造一个目录条目。
+		///
+		/// @param path
+		///
+		DirectoryEntry(base::Path const &path);
+
+		base::Path const &Path() const;
+
+		///
+		/// @brief 本条目在文件系统中是否真实存在。
+		///
+		/// @return
+		///
+		bool Exists() const;
+
+		/* #region 访问权限 */
+
+		///
+		/// @brief 本条目是否可读。
+		///
+		/// @return
+		///
+		bool IsReadable() const;
+
+		///
+		/// @brief 本条目是否可写。
+		///
+		/// @return
+		///
+		bool IsWriteable() const;
+
+		///
+		/// @brief 本条目是否可执行。
+		///
+		/// @return
+		///
+		bool IsExcuteable() const;
+
+		/* #endregion */
+
+		/* #region 类型判断 */
+
+		///
+		/// @brief 检查本条目是否是目录。
+		///
+		/// @return
+		///
+		bool IsDirectory() const;
+
+		///
+		/// @brief 是常规文件。
+		///
+		/// @note 常规文件是文件系统中储存在磁盘等介质中的数据，不是设备文件或套接字之类的抽象出来
+		/// 映射到文件系统中的文件。
+		///
+		/// @return
+		///
+		bool IsRegularFile() const;
+
+		///
+		/// @brief 是符号链接。
+		///
+		/// @return
+		///
+		bool IsSymbolicLink() const;
+
+		///
+		/// @brief 是符号链接目录。
+		///
+		/// @return
+		///
+		bool IsSymbolicLinkDirectory() const;
+
+		/* #endregion */
+	};
+
 	/* #region 访问权限检查 */
 
 	///
@@ -332,126 +422,6 @@ namespace base::filesystem
 			  base::Path const &destination_path,
 			  base::filesystem::OverwriteOption overwrite_method);
 
-	///
-	/// @brief 目录条目。
-	///
-	/// @note 只要是能放在目录中的条目都是目录条目。例如：目录、符号链接、普通文件、设备文件等。
-	///
-	class DirectoryEntry
-	{
-	private:
-		base::Path _path;
-
-	public:
-		DirectoryEntry() = default;
-
-		///
-		/// @brief 根据路径构造一个目录条目。
-		///
-		/// @param path
-		///
-		DirectoryEntry(base::Path const &path)
-			: _path(path)
-		{
-		}
-
-		base::Path const &Path() const
-		{
-			return _path;
-		}
-
-		///
-		/// @brief 本条目在文件系统中是否真实存在。
-		///
-		/// @return
-		///
-		bool Exists() const
-		{
-			return base::filesystem::Exists(_path);
-		}
-
-		/* #region 访问权限 */
-
-		///
-		/// @brief 本条目是否可读。
-		///
-		/// @return
-		///
-		bool IsReadable() const
-		{
-			return base::filesystem::IsReadable(_path);
-		}
-
-		///
-		/// @brief 本条目是否可写。
-		///
-		/// @return
-		///
-		bool IsWriteable() const
-		{
-			return base::filesystem::IsWriteable(_path);
-		}
-
-		///
-		/// @brief 本条目是否可执行。
-		///
-		/// @return
-		///
-		bool IsExcuteable() const
-		{
-			return base::filesystem::IsExcuteable(_path);
-		}
-
-		/* #endregion */
-
-		/* #region 类型判断 */
-
-		///
-		/// @brief 检查本条目是否是目录。
-		///
-		/// @return
-		///
-		bool IsDirectory() const
-		{
-			return base::filesystem::IsDirectory(_path);
-		}
-
-		///
-		/// @brief 是常规文件。
-		///
-		/// @note 常规文件是文件系统中储存在磁盘等介质中的数据，不是设备文件或套接字之类的抽象出来
-		/// 映射到文件系统中的文件。
-		///
-		/// @return
-		///
-		bool IsRegularFile() const
-		{
-			return base::filesystem::IsRegularFile(_path);
-		}
-
-		///
-		/// @brief 是符号链接。
-		///
-		/// @return
-		///
-		bool IsSymbolicLink() const
-		{
-			return base::filesystem::IsSymbolicLink(_path);
-		}
-
-		///
-		/// @brief 是符号链接目录。
-		///
-		/// @return
-		///
-		bool IsSymbolicLinkDirectory() const
-		{
-			return base::filesystem::IsSymbolicLinkDirectory(_path);
-		}
-
-		/* #endregion */
-	};
-
 	/* #region 迭代目录条目 */
 
 	/* #region 接口函数 */
@@ -653,3 +623,57 @@ namespace base::filesystem
 	/* #endregion */
 
 } // namespace base::filesystem
+
+/* #region DirectoryEntry 实现 */
+
+inline base::filesystem::DirectoryEntry::DirectoryEntry(base::Path const &path)
+	: _path(path)
+{
+}
+
+inline base::Path const &base::filesystem::DirectoryEntry::Path() const
+{
+	return _path;
+}
+
+inline bool base::filesystem::DirectoryEntry::Exists() const
+{
+	return base::filesystem::Exists(_path);
+}
+
+inline bool base::filesystem::DirectoryEntry::IsReadable() const
+{
+	return base::filesystem::IsReadable(_path);
+}
+
+inline bool base::filesystem::DirectoryEntry::IsWriteable() const
+{
+	return base::filesystem::IsWriteable(_path);
+}
+
+inline bool base::filesystem::DirectoryEntry::IsExcuteable() const
+{
+	return base::filesystem::IsExcuteable(_path);
+}
+
+inline bool base::filesystem::DirectoryEntry::IsDirectory() const
+{
+	return base::filesystem::IsDirectory(_path);
+}
+
+inline bool base::filesystem::DirectoryEntry::IsRegularFile() const
+{
+	return base::filesystem::IsRegularFile(_path);
+}
+
+inline bool base::filesystem::DirectoryEntry::IsSymbolicLink() const
+{
+	return base::filesystem::IsSymbolicLink(_path);
+}
+
+inline bool base::filesystem::DirectoryEntry::IsSymbolicLinkDirectory() const
+{
+	return base::filesystem::IsSymbolicLinkDirectory(_path);
+}
+
+/* #endregion */
