@@ -258,8 +258,9 @@ namespace base
 				{
 					throw std::invalid_argument{
 						CODE_POS_STR +
+							"本路径 " +
 							_path.StdString() +
-							" 是觉度低路径，不可能是当前路径 ./ 的绝对路径。",
+							" 是绝对路径，不可能是当前路径 ./ 的绝对路径。",
 					};
 				}
 
