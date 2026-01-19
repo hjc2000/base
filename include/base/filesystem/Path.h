@@ -257,6 +257,7 @@ namespace base
 		{
 			if (base_path._path.Length() == 0)
 			{
+				// 长度为 0 表示的是当前路径 "./".
 				if (IsAbsolutePath())
 				{
 					throw std::invalid_argument{
