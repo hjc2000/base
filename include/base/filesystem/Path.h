@@ -17,11 +17,7 @@ namespace base
 	private:
 		base::String _path;
 
-		///
-		/// @brief 更正路径为标准形式。
-		///
-		///
-		void CorrectPath()
+		void BaseCorrectPath()
 		{
 			_path.Replace('\\', '/');
 
@@ -48,17 +44,10 @@ namespace base
 			{
 				_path = _path[base::Range{0, _path.Length() - 1}];
 			}
+		}
 
-			// 以 .. 结尾，例如
-			// 		/a/..
-			// 本来末尾应该还有一个斜杠的，即
-			// 		/a/../
-			// 但是在前面的操作中被删掉了，所以变成要检查是否以 .. 结尾。
-			while (_path.EndWith(".."))
-			{
-				*this = ParentPath();
-			}
-
+		void CorrectWindowsPath()
+		{
 			// 如果是 windows 的类似 C: 这种路径，给它加上结尾的斜杠
 			if (_path.Length() == 2 &&
 				base::character::is_alpha(_path[0]) &&
@@ -77,6 +66,16 @@ namespace base
 			{
 				_path[0] = base::character::to_upper(_path[0]);
 			}
+		}
+
+		///
+		/// @brief 更正路径为标准形式。
+		///
+		///
+		void CorrectPath()
+		{
+			BaseCorrectPath();
+			CorrectWindowsPath();
 		}
 
 	public:
