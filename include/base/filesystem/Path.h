@@ -68,7 +68,10 @@ namespace base
 			}
 		}
 
-		void SimplifyPath()
+		///
+		/// @brief 化简尾部的上级路径索引符 ".."
+		///
+		void SimplifyPathInTail()
 		{
 			int64_t dot_dot_count = 0;
 
@@ -107,7 +110,7 @@ namespace base
 		{
 			BaseCorrectPath();
 			CorrectWindowsPath();
-			SimplifyPath();
+			SimplifyPathInTail();
 		}
 
 	public:
