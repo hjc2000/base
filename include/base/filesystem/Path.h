@@ -181,9 +181,24 @@ namespace base
 		/// @brief 将一个相对路径拼接到本路径的后面。
 		///
 		/// @param another
+		///
 		/// @return
 		///
 		base::Path operator+(base::Path const &another) const
+		{
+			base::Path copy{*this};
+			copy += another;
+			return copy;
+		}
+
+		///
+		/// @brief 将一个相对路径拼接到本路径的后面。
+		///
+		/// @param another
+		///
+		/// @return
+		///
+		base::Path &operator+=(base::Path const &another)
 		{
 			if (another.IsAbsolutePath())
 			{
@@ -192,22 +207,16 @@ namespace base
 
 			if (_path == "")
 			{
-				return base::Path{another._path};
+				_path = another._path;
+				return *this;
 			}
 
-			return base::Path{_path + '/' + another._path};
-		}
+			if (!_path.EndWith("/"))
+			{
+				_path += '/';
+			}
 
-		///
-		/// @brief 将一个相对路径拼接到本路径的后面。
-		///
-		/// @param another
-		/// @return
-		///
-		base::Path &operator+=(base::Path const &another)
-		{
-			base::Path sum = *this + another;
-			*this = sum;
+			_path += another._path;
 			return *this;
 		}
 
