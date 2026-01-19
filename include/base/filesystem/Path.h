@@ -299,6 +299,7 @@ namespace base
 			base::Path base_path{};
 
 			int32_t index = _path.LastIndexOf('/');
+
 			if (index > 0)
 			{
 				base_path = base::Path{_path[base::Range{0, index}]};
