@@ -76,6 +76,26 @@ namespace base
 		{
 			BaseCorrectPath();
 			CorrectWindowsPath();
+
+			// 以 .. 结尾，例如
+			// 		/a/..
+			// 本来末尾应该还有一个斜杠的，即
+			// 		/a/../
+			// 但是在前面的操作中被删掉了，所以变成要检查是否以 .. 结尾。
+			while (true)
+			{
+				if (!_path.EndWith(".."))
+				{
+					break;
+				}
+
+				if (_path == "..")
+				{
+					break;
+				}
+
+				*this = ParentPath().ParentPath();
+			}
 		}
 
 	public:
