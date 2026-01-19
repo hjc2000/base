@@ -60,6 +60,8 @@ namespace base
 				_path[1] == ':')
 			{
 				_path += '/';
+				_path[0] = base::character::to_upper(_path[0]);
+				return;
 			}
 
 			// 如果是 windows 路径，将盘符统一转为大写。
@@ -68,6 +70,7 @@ namespace base
 				_path[1] == ':')
 			{
 				_path[0] = base::character::to_upper(_path[0]);
+				return;
 			}
 		}
 
