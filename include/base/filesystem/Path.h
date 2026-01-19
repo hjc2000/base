@@ -185,9 +185,17 @@ namespace base
 		///
 		base::Path operator+(base::Path const &another) const
 		{
-			base::Path copy{*this};
-			copy += another;
-			return copy;
+			if (another.IsAbsolutePath())
+			{
+				throw std::invalid_argument{CODE_POS_STR + "要被拼接到本路径的路径必须是相对路径。"};
+			}
+
+			if (_path.Length() == 0)
+			{
+				return base::Path{another._path};
+			}
+
+			return base::Path{_path + '/' + another._path};
 		}
 
 		///
@@ -199,23 +207,8 @@ namespace base
 		///
 		base::Path &operator+=(base::Path const &another)
 		{
-			if (another.IsAbsolutePath())
-			{
-				throw std::invalid_argument{CODE_POS_STR + "要被拼接到本路径的路径必须是相对路径。"};
-			}
-
-			if (_path.Length() == 0)
-			{
-				_path = another._path;
-				return *this;
-			}
-
-			if (!_path.EndWith("/"))
-			{
-				_path += '/';
-			}
-
-			_path += another._path;
+			base::Path sum = *this + another;
+			*this = sum;
 			return *this;
 		}
 
