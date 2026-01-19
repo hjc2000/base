@@ -205,7 +205,7 @@ namespace base
 				throw std::invalid_argument{CODE_POS_STR + "要被拼接到本路径的路径必须是相对路径。"};
 			}
 
-			if (_path == "")
+			if (_path.Length() == 0)
 			{
 				_path = another._path;
 				return *this;
