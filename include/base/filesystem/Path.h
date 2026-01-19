@@ -49,7 +49,10 @@ namespace base
 			}
 		}
 
-		void CorrectWindowsPath()
+		///
+		/// @brief 改正 windows 根路径。
+		///
+		void CorrectWindowsRootPath()
 		{
 			// 如果是 windows 的类似 C: 这种路径，给它加上结尾的斜杠
 			if (_path.Length() == 2 &&
@@ -119,7 +122,7 @@ namespace base
 			_path.Trim();
 
 			BaseCorrectPath();
-			CorrectWindowsPath();
+			CorrectWindowsRootPath();
 			SimplifyPathInTail();
 		}
 
@@ -313,7 +316,7 @@ namespace base
 			}
 
 			_path = _path[base::Range{0, index}];
-			CorrectWindowsPath();
+			CorrectWindowsRootPath();
 		}
 
 		///
@@ -347,7 +350,7 @@ namespace base
 			}
 
 			_path = _path[base::Range{0, index}];
-			CorrectWindowsPath();
+			CorrectWindowsRootPath();
 		}
 
 		///
