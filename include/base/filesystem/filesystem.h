@@ -49,6 +49,33 @@ namespace base::filesystem
 
 	/* #endregion */
 
+	///
+	/// @brief 移除指定路径的目录条目的只读属性。
+	///
+	/// @note 如果是个符号链接，则直接跳过。符号链接本身没有只读属性这种机制。
+	///
+	/// @note 如果是个常规文件，则移除该文件的只读属性。
+	///
+	/// @note 如果是个目录，只会移除该目录的只读属性，不会深入目录，递归移除里面
+	/// 每一个目录条目的只读属性。
+	///
+	/// @param path
+	///
+	void RemoveReadOnlyAttribute(base::Path const &path);
+
+	///
+	/// @brief 递归地移除指定路径的目录条目的只读属性。
+	///
+	/// @note 如果是个符号链接，则直接跳过。符号链接本身没有只读属性这种机制。
+	///
+	/// @note 如果是个常规文件，则移除该文件的只读属性。
+	///
+	/// @note 如果是个目录，则递归地移除里面每一个目录条目的只读属性。
+	///
+	/// @param path
+	///
+	void RemoveReadOnlyAttributeRecursively(base::Path const &path);
+
 	/* #region 目标类型检查 */
 
 	///
