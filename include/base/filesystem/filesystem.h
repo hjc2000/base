@@ -529,6 +529,8 @@ namespace base::filesystem
 
 	/* #endregion */
 
+	/* #region 移除只读属性 */
+
 	///
 	/// @brief 移除指定路径的目录条目的只读属性。
 	///
@@ -585,6 +587,8 @@ namespace base::filesystem
 			throw std::runtime_error{CODE_POS_STR + "未知的异常。"};
 		}
 	}
+
+	/* #endregion */
 
 	/* #region windows 长路径处理 */
 
