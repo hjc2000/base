@@ -68,14 +68,9 @@ namespace base
 			}
 		}
 
-		///
-		/// @brief 更正路径为标准形式。
-		///
-		///
-		void CorrectPath()
+		void SimplifyPath()
 		{
-			BaseCorrectPath();
-			CorrectWindowsPath();
+			int64_t dot_dot_count = 0;
 
 			// 以 .. 结尾，例如
 			// 		/a/..
@@ -94,8 +89,25 @@ namespace base
 					break;
 				}
 
-				*this = ParentPath().ParentPath();
+				*this = ParentPath();
+				dot_dot_count++;
 			}
+
+			for (int64_t i = 0; i < dot_dot_count; i++)
+			{
+				*this = ParentPath();
+			}
+		}
+
+		///
+		/// @brief 更正路径为标准形式。
+		///
+		///
+		void CorrectPath()
+		{
+			BaseCorrectPath();
+			CorrectWindowsPath();
+			SimplifyPath();
 		}
 
 	public:
@@ -240,6 +252,20 @@ namespace base
 		///
 		void RemoveBasePath(base::Path const &base_path)
 		{
+			if (base_path._path.Length() == 0)
+			{
+				if (IsAbsolutePath())
+				{
+					throw std::invalid_argument{
+						CODE_POS_STR +
+							_path.StdString() +
+							" 是觉度低路径，不可能是当前路径 ./ 的绝对路径。",
+					};
+				}
+
+				return;
+			}
+
 			base::String base_path_str = base_path.ToString();
 
 			if (!base_path_str.EndWith('/'))
