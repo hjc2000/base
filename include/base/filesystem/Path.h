@@ -337,33 +337,7 @@ namespace base
 		///
 		void ToParentPath()
 		{
-			if (IsRootPath())
-			{
-				throw std::runtime_error{CODE_POS_STR + "根路径没有父路径。"};
-			}
-
-			if (_path.Length() == 0)
-			{
-				_path = "..";
-				return;
-			}
-
-			if (_path.EndWith(".."))
-			{
-				_path += "/..";
-				return;
-			}
-
-			int32_t index = _path.LastIndexOf('/');
-
-			if (index < 0)
-			{
-				_path = "";
-				return;
-			}
-
-			_path = _path[base::Range{0, index}];
-			CorrectWindowsRootPath();
+			*this += "..";
 		}
 
 		///
