@@ -111,6 +111,39 @@ namespace base
 			}
 		}
 
+		void SimplifyPath()
+		{
+			while (true)
+			{
+				int64_t index = _path.LastIndexOf("..");
+
+				if (index <= 0)
+				{
+					return;
+				}
+
+				if (index >= _path.Length() - 2)
+				{
+					SimplifyPathInTail();
+					return;
+				}
+
+				base::String left_part = _path[base::Range{0, index + 2}];
+				base::String right_part = _path[base::Range{index + 2, _path.Length()}];
+
+				_path = left_part;
+				SimplifyPathInTail();
+
+				if (_path == left_part)
+				{
+					_path += right_part;
+					return;
+				}
+
+				_path += right_part;
+			}
+		}
+
 	public:
 		/* #region 构造函数 */
 
@@ -123,7 +156,7 @@ namespace base
 
 			BaseCorrectPath();
 			CorrectWindowsRootPath();
-			SimplifyPathInTail();
+			SimplifyPath();
 		}
 
 		Path(std::string const &path)
