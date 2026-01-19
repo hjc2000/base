@@ -546,15 +546,45 @@ namespace base::filesystem
 	///
 	/// @brief 递归地移除指定路径的目录条目的只读属性。
 	///
-	/// @note 如果是个符号链接，则直接跳过。符号链接本身没有只读属性这种机制。
-	///
-	/// @note 如果是个常规文件，则移除该文件的只读属性。
-	///
-	/// @note 如果是个目录，则递归地移除里面每一个目录条目的只读属性。
-	///
 	/// @param path
 	///
-	void RemoveReadOnlyAttributeRecursively(base::Path const &path);
+	inline void RemoveReadOnlyAttributeRecursively(base::Path const &path)
+	{
+		try
+		{
+			if (base::filesystem::IsSymbolicLink(path))
+			{
+				base::filesystem::RemoveReadOnlyAttribute(path);
+				return;
+			}
+
+			if (base::filesystem::IsRegularFile(path))
+			{
+				base::filesystem::RemoveReadOnlyAttribute(path);
+				return;
+			}
+
+			if (base::filesystem::IsDirectory(path))
+			{
+				for (base::filesystem::DirectoryEntry const &entry : base::filesystem::RecursiveDirectoryEntryEnumerable{path})
+				{
+					base::filesystem::RemoveReadOnlyAttribute(entry.Path());
+				}
+
+				return;
+			}
+
+			throw std::runtime_error{CODE_POS_STR + path.ToString() + " 是未知的目录条目类型。"};
+		}
+		catch (std::exception const &e)
+		{
+			throw std::runtime_error{CODE_POS_STR + e.what()};
+		}
+		catch (...)
+		{
+			throw std::runtime_error{CODE_POS_STR + "未知的异常。"};
+		}
+	}
 
 	/* #region windows 长路径处理 */
 
