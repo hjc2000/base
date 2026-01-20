@@ -119,6 +119,7 @@ namespace base
 
 				if (index <= 0)
 				{
+					// 没有 ".." ，或者只在开头的位置有 "..".
 					return;
 				}
 
