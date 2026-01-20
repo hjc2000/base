@@ -334,6 +334,11 @@ namespace base
 		///
 		base::String Slice(base::Range const &range) const
 		{
+			if (range.Begin() == range.End())
+			{
+				return base::String{};
+			}
+
 			std::string ret{
 				_string.data() + range.Begin(),
 				static_cast<size_t>(range.Size()),
