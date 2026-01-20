@@ -122,12 +122,6 @@ namespace base
 					return;
 				}
 
-				if (index >= _path.Length() - 2)
-				{
-					SimplifyPathInTail();
-					return;
-				}
-
 				base::String left_part = _path[base::Range{0, index + 2}];
 				base::String right_part = _path[base::Range{index + 2, _path.Length()}];
 
