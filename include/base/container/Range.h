@@ -1,5 +1,7 @@
 #pragma once
+#include "base/string/define.h"
 #include <cstdint>
+#include <stdexcept>
 
 namespace base
 {
@@ -25,6 +27,10 @@ namespace base
 			: _begin(begin),
 			  _end(end)
 		{
+			if (begin > end)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "begin 不能大于 end."};
+			}
 		}
 
 		///
