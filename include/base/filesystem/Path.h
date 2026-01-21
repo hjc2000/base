@@ -74,12 +74,8 @@ namespace base
 			}
 		}
 
-		///
-		/// @brief 化简尾部的上级路径索引符 ".."
-		///
-		void SimplifyPathInTail()
+		int64_t RemoveTailDotDot()
 		{
-			// 数出路径末尾有多少层 "..".
 			int64_t dot_dot_count = 0;
 
 			while (_path.EndWith(".."))
@@ -88,8 +84,24 @@ namespace base
 				dot_dot_count++;
 			}
 
-			while (dot_dot_count > 0)
+			return dot_dot_count;
+		}
+
+		///
+		/// @brief 化简尾部的上级路径索引符 ".."
+		///
+		void SimplifyPathInTail()
+		{
+			// 数出路径末尾有多少层 "..".
+			int64_t dot_dot_count = RemoveTailDotDot();
+
+			while (true)
 			{
+				if (dot_dot_count <= 0)
+				{
+					break;
+				}
+
 				if (_path.Length() == 0)
 				{
 					break;
