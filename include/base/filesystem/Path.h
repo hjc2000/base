@@ -93,10 +93,12 @@ namespace base
 		void SimplifyPathInTail()
 		{
 			// 数出路径末尾有多少层 "..".
-			int64_t dot_dot_count = RemoveTailDotDot();
+			int64_t dot_dot_count = 0;
 
 			while (true)
 			{
+				dot_dot_count += RemoveTailDotDot();
+
 				if (dot_dot_count <= 0)
 				{
 					break;
