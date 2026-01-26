@@ -58,8 +58,6 @@ namespace base::ethernet
 			span.Reverse();
 		}
 
-		/* #region VLAN TAG */
-
 		///
 		/// @brief 写入 802.1Q标签。
 		///
@@ -73,16 +71,6 @@ namespace base::ethernet
 			span.CopyFrom(value);
 			_has_vlan_tag = true;
 		}
-
-		///
-		/// @brief 将是否具有 VLAN TAG 的标识置为 false.
-		///
-		void ClearVlanTag()
-		{
-			_has_vlan_tag = false;
-		}
-
-		/* #endregion */
 
 		///
 		/// @brief 写入类型或长度。
