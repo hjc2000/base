@@ -58,6 +58,18 @@ namespace base::ethernet
 		}
 
 		///
+		/// @brief 是否具有 802.1Q标签。
+		///
+		/// @return
+		///
+		bool HasVlanTag() const
+		{
+			uint16_t u16_type_or_length = base::big_endian_remote_converter.FromBytes<uint16_t>(_span[base::Range{12, 14}]);
+			base::ethernet::LengthOrTypeEnum type_or_length = static_cast<base::ethernet::LengthOrTypeEnum>(u16_type_or_length);
+			return type_or_length == base::ethernet::LengthOrTypeEnum::VlanTag;
+		}
+
+		///
 		/// @brief 802.1Q标签。大小：4 字节。
 		///
 		/// @return
@@ -70,18 +82,6 @@ namespace base::ethernet
 			}
 
 			throw std::runtime_error{"本以太网帧不具备 VlanTag."};
-		}
-
-		///
-		/// @brief 是否具有 802.1Q标签。
-		///
-		/// @return
-		///
-		bool HasVlanTag() const
-		{
-			uint16_t foo = base::big_endian_remote_converter.FromBytes<uint16_t>(_span[base::Range{12, 14}]);
-			base::ethernet::LengthOrTypeEnum type_or_length = static_cast<base::ethernet::LengthOrTypeEnum>(foo);
-			return type_or_length == base::ethernet::LengthOrTypeEnum::VlanTag;
 		}
 
 		///
