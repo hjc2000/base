@@ -285,10 +285,39 @@ namespace base
 
 	/* #endregion */
 
+	///
+	/// @brief 将时刻转换为字符串。
+	///
+	/// @param value 时刻。
+	///
+	/// @return
+	///
 	inline std::string to_string(base::TimePointSinceEpoch const &value)
 	{
 		base::DateTime date_time{
 			base::UtcHourOffset{8},
+			value,
+		};
+
+		base::DateTimeStringBuilder date_time_string_builder = date_time.LocalDateTimeStringBuilder();
+		date_time_string_builder.SetYearMonthDaySeparator('/');
+
+		return date_time_string_builder.ToString();
+	}
+
+	///
+	/// @brief 将时刻转换为字符串。
+	///
+	/// @param value 时刻。
+	/// @param utc_hour_offset 要转换为的日期时间的时区。
+	///
+	/// @return
+	///
+	inline std::string to_string(base::TimePointSinceEpoch const &value,
+								 base::UtcHourOffset const &utc_hour_offset)
+	{
+		base::DateTime date_time{
+			utc_hour_offset,
 			value,
 		};
 
