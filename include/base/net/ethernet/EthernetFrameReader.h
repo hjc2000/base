@@ -66,7 +66,7 @@ namespace base::ethernet
 		{
 			if (HasVlanTag())
 			{
-				return base::ReadOnlySpan{_span.Slice(base::Range{12, 16})};
+				return base::ReadOnlySpan{_span[base::Range{12, 16}]};
 			}
 
 			throw std::runtime_error{"本以太网帧不具备 VlanTag."};
@@ -79,7 +79,7 @@ namespace base::ethernet
 		///
 		bool HasVlanTag() const
 		{
-			uint16_t foo = base::big_endian_remote_converter.FromBytes<uint16_t>(_span.Slice(base::Range{12, 14}));
+			uint16_t foo = base::big_endian_remote_converter.FromBytes<uint16_t>(_span[base::Range{12, 14}]);
 			base::ethernet::LengthOrTypeEnum type_or_length = static_cast<base::ethernet::LengthOrTypeEnum>(foo);
 			return type_or_length == base::ethernet::LengthOrTypeEnum::VlanTag;
 		}
