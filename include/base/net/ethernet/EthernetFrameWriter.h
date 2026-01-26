@@ -4,6 +4,7 @@
 #include "base/net/Mac.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/string/define.h"
+#include <algorithm>
 #include <cstdint>
 #include <stdexcept>
 
@@ -35,20 +36,10 @@ namespace base::ethernet
 		{
 			if (_has_vlan_tag)
 			{
-				if (_valid_frame_size < 64)
-				{
-					return 64;
-				}
-
-				return _valid_frame_size;
+				return std::max<int32_t>(_valid_frame_size, 64);
 			}
 
-			if (_valid_frame_size < 60)
-			{
-				return 60;
-			}
-
-			return _valid_frame_size;
+			return std::max<int32_t>(_valid_frame_size, 60);
 		}
 
 	public:
