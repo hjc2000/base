@@ -1,4 +1,6 @@
 #pragma once
+#include "base/time/DateTime.h"
+#include "base/time/DateTimeStringBuilder.h"
 #include "base/time/TimePointSinceEpoch.h"
 #include "base/time/TimeSpan.h"
 #include "base/time/UtcHourOffset.h"
@@ -285,7 +287,15 @@ namespace base
 
 	inline std::string to_string(base::TimePointSinceEpoch const &value)
 	{
-		return base::to_string(base::Convert<base::ns_zoned_time>(base::UtcHourOffset{8}, value));
+		base::DateTime date_time{
+			base::UtcHourOffset{8},
+			value,
+		};
+
+		base::DateTimeStringBuilder date_time_string_builder = date_time.LocalDateTimeStringBuilder();
+		date_time_string_builder.SetYearMonthDaySeparator('/');
+
+		return date_time_string_builder.ToString();
 	}
 
 } // namespace base
