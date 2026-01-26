@@ -5,6 +5,7 @@
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
 #include "base/string/define.h"
+#include "base/string/ToHexString.h"
 #include "ModbusCrc16.h"
 #include <cstdint>
 #include <stdexcept>
@@ -122,7 +123,31 @@ namespace base::modbus
 		///
 		/// @return
 		///
-		std::string SpanForSendingString() const;
+		std::string SpanForSendingString() const
+		{
+			std::string ret;
+			base::ToHexStringOptions option{};
+			option.with_0x_prefix = false;
+			option.width = 2;
+
+			bool is_first_loop = true;
+
+			for (uint8_t b : SpanForSending())
+			{
+				if (is_first_loop)
+				{
+					is_first_loop = false;
+				}
+				else
+				{
+					ret += " ";
+				}
+
+				ret += base::ToHexString(b, option);
+			}
+
+			return ret;
+		}
 	};
 
 } // namespace base::modbus
