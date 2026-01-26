@@ -257,7 +257,7 @@ namespace base
 		requires(std::is_same_v<ReturnType, std::chrono::year_month_day>)
 	constexpr ReturnType Convert(base::TimePointSinceEpoch const &value)
 	{
-		std::chrono::year_month_day ret{static_cast<std::chrono::local_days>(value)};
+		std::chrono::year_month_day ret = static_cast<std::chrono::year_month_day>(value);
 		return ret;
 	}
 
