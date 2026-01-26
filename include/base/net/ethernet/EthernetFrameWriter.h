@@ -141,7 +141,7 @@ namespace base::ethernet
 		///
 		/// @brief 从整个 span 中切割出有效的可以发送到以太网中的 span.
 		///
-		/// @note 切割范围：[0, FrameSize].
+		/// @note 不包括校验和。
 		///
 		/// @return
 		///
