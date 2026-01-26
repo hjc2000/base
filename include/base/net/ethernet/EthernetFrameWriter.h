@@ -39,22 +39,16 @@ namespace base::ethernet
 				{
 					return 64;
 				}
-				else
-				{
-					return _valid_frame_size;
-				}
+
+				return _valid_frame_size;
 			}
-			else
+
+			if (_valid_frame_size < 60)
 			{
-				if (_valid_frame_size < 60)
-				{
-					return 60;
-				}
-				else
-				{
-					return _valid_frame_size;
-				}
+				return 60;
 			}
+
+			return _valid_frame_size;
 		}
 
 	public:
