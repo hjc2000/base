@@ -114,14 +114,14 @@ namespace base::ethernet
 
 		void WritePayload(base::ReadOnlySpan const &span)
 		{
-			int32_t payload_start = 14;
+			int32_t payload_start_offset = 14;
 
 			if (_has_vlan_tag)
 			{
-				payload_start = 18;
+				payload_start_offset = 18;
 			}
 
-			int32_t begin = payload_start + _valid_payload_size;
+			int32_t begin = payload_start_offset + _valid_payload_size;
 			base::Span span_to_write = _span[base::Range{begin, begin + span.Size()}];
 			span_to_write.CopyFrom(span);
 			_valid_payload_size += span.Size();
