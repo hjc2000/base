@@ -259,7 +259,7 @@ namespace base
 		return ret;
 	}
 
-	/* #region std::chrono::zoned_time to_string */
+	/* #region std::chrono::zoned_time 转换为字符串 */
 
 	inline std::string to_string(base::ns_zoned_time const &value)
 	{
