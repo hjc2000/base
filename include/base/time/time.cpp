@@ -2,6 +2,8 @@
 
 #if HAS_THREAD
 
+	#include <pthread_time.h>
+
 base::TimePointSinceEpoch base::time::Now()
 {
 	// epoch 时刻是指 1970 年 1 月 1 日 00:00:00 UTC。
