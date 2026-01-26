@@ -26,27 +26,37 @@ namespace base
 
 	/* #region 转换为 base::TimePointSinceEpoch */
 
-	inline base::TimePointSinceEpoch ToTimePointSinceEpoch(ns_time_point const &value)
+	template <typename ReturnType>
+		requires(std::is_same_v<ReturnType, base::TimePointSinceEpoch>)
+	constexpr ReturnType Convert(ns_time_point const &value)
 	{
 		return base::TimePointSinceEpoch{value.time_since_epoch()};
 	}
 
-	inline base::TimePointSinceEpoch ToTimePointSinceEpoch(us_time_point const &value)
+	template <typename ReturnType>
+		requires(std::is_same_v<ReturnType, base::TimePointSinceEpoch>)
+	constexpr ReturnType Convert(us_time_point const &value)
 	{
 		return base::TimePointSinceEpoch{value.time_since_epoch()};
 	}
 
-	inline base::TimePointSinceEpoch ToTimePointSinceEpoch(ms_time_point const &value)
+	template <typename ReturnType>
+		requires(std::is_same_v<ReturnType, base::TimePointSinceEpoch>)
+	constexpr ReturnType Convert(ms_time_point const &value)
 	{
 		return base::TimePointSinceEpoch{value.time_since_epoch()};
 	}
 
-	inline base::TimePointSinceEpoch ToTimePointSinceEpoch(s_time_point const &value)
+	template <typename ReturnType>
+		requires(std::is_same_v<ReturnType, base::TimePointSinceEpoch>)
+	constexpr ReturnType Convert(s_time_point const &value)
 	{
 		return base::TimePointSinceEpoch{value.time_since_epoch()};
 	}
 
-	inline base::TimePointSinceEpoch ToTimePointSinceEpoch(file_clock_time_point const &value)
+	template <typename ReturnType>
+		requires(std::is_same_v<ReturnType, base::TimePointSinceEpoch>)
+	constexpr ReturnType Convert(file_clock_time_point const &value)
 	{
 		std::chrono::nanoseconds time_since_epoch = value.time_since_epoch();
 
