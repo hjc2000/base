@@ -5,8 +5,10 @@
 #include "base/net/Mac.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
+#include "base/string/define.h"
 #include <algorithm>
 #include <cstdint>
+#include <stdexcept>
 
 namespace base::ethernet
 {
@@ -114,6 +116,11 @@ namespace base::ethernet
 
 		void WritePayload(base::ReadOnlySpan const &span)
 		{
+			if (_valid_payload_size + span.Size() > 1500)
+			{
+				throw std::overflow_error{CODE_POS_STR + "写入的数据将会超出 MTU."};
+			}
+
 			int32_t payload_start_offset = 14;
 
 			if (_has_vlan_tag)
@@ -125,35 +132,6 @@ namespace base::ethernet
 			base::Span span_to_write = _span[base::Range{begin, begin + span.Size()}];
 			span_to_write.CopyFrom(span);
 			_valid_payload_size += span.Size();
-		}
-
-		///
-		/// @brief 载荷数据。
-		///
-		/// @note 字节数的取值范围：[46, 1500].
-		///
-		/// @note 巨型帧可以超过 1500 字节。但是需要网络设备支持，否则会导致无法传输。
-		///
-		/// @note 如果不满 46 字节，需要后面填充 0，使其达到 46 字节。
-		///
-		/// @note 因为可能会有填充，所以需要靠 TypeOrLength 属性来识别出有效字节数。
-		///
-		/// @note 这里返回的 Span 是构造函数中交给本对象的 Span 被填充以太网头部后的全部
-		/// 剩余空间，并不是实际的有效载荷。本类是以太网帧类，无法识别出有效载荷的长度，这种
-		/// 工作只能交给上层。
-		///
-		/// @return
-		///
-		base::Span Payload() const
-		{
-			if (_has_vlan_tag)
-			{
-				return _span[base::Range{18, _span.Size()}];
-			}
-			else
-			{
-				return _span[base::Range{14, _span.Size()}];
-			}
 		}
 
 		///

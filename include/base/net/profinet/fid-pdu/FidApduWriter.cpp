@@ -6,7 +6,6 @@ base::profinet::FidApduWriter::FidApduWriter(base::Span const &span)
 	: _ethernet_frame(span)
 {
 	_ethernet_frame.WriteTypeOrLength(base::ethernet::LengthOrTypeEnum::Profinet);
-	_this_span = _ethernet_frame.Payload();
 }
 
 base::profinet::FrameIdEnum base::profinet::FidApduWriter::FrameId() const
