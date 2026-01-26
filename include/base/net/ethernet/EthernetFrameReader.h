@@ -106,11 +106,9 @@ namespace base::ethernet
 				uint16_t type_or_length = base::big_endian_remote_converter.FromBytes<uint16_t>(_span[base::Range{16, 18}]);
 				return static_cast<base::ethernet::LengthOrTypeEnum>(type_or_length);
 			}
-			else
-			{
-				uint16_t type_or_length = base::big_endian_remote_converter.FromBytes<uint16_t>(_span[base::Range{12, 14}]);
-				return static_cast<base::ethernet::LengthOrTypeEnum>(type_or_length);
-			}
+
+			uint16_t type_or_length = base::big_endian_remote_converter.FromBytes<uint16_t>(_span[base::Range{12, 14}]);
+			return static_cast<base::ethernet::LengthOrTypeEnum>(type_or_length);
 		}
 
 		///
@@ -136,10 +134,8 @@ namespace base::ethernet
 			{
 				return _span[base::Range{18, _span.Size()}];
 			}
-			else
-			{
-				return _span[base::Range{14, _span.Size()}];
-			}
+
+			return _span[base::Range{14, _span.Size()}];
 		}
 
 		///
