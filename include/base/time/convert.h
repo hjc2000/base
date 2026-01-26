@@ -261,29 +261,7 @@ namespace base
 		return ret;
 	}
 
-	/* #region std::chrono::zoned_time 转换为字符串 */
-
-	inline std::string to_string(base::ns_zoned_time const &value)
-	{
-		return std::format("{:%Y-%m-%d %H:%M:%S}", value);
-	}
-
-	inline std::string to_string(base::us_zoned_time const &value)
-	{
-		return std::format("{:%Y-%m-%d %H:%M:%S}", value);
-	}
-
-	inline std::string to_string(base::ms_zoned_time const &value)
-	{
-		return std::format("{:%Y-%m-%d %H:%M:%S}", value);
-	}
-
-	inline std::string to_string(base::s_zoned_time const &value)
-	{
-		return std::format("{:%Y-%m-%d %H:%M:%S}", value);
-	}
-
-	/* #endregion */
+	/* #region 将 base::TimePointSinceEpoch 转换为字符串。 */
 
 	///
 	/// @brief 将时刻转换为字符串。
@@ -326,5 +304,31 @@ namespace base
 
 		return date_time_string_builder.ToString();
 	}
+
+	/* #endregion */
+
+	/* #region std::chrono::zoned_time 转换为字符串 */
+
+	inline std::string to_string(base::ns_zoned_time const &value)
+	{
+		return std::format("{:%Y-%m-%d %H:%M:%S}", value);
+	}
+
+	inline std::string to_string(base::us_zoned_time const &value)
+	{
+		return std::format("{:%Y-%m-%d %H:%M:%S}", value);
+	}
+
+	inline std::string to_string(base::ms_zoned_time const &value)
+	{
+		return std::format("{:%Y-%m-%d %H:%M:%S}", value);
+	}
+
+	inline std::string to_string(base::s_zoned_time const &value)
+	{
+		return std::format("{:%Y-%m-%d %H:%M:%S}", value);
+	}
+
+	/* #endregion */
 
 } // namespace base
