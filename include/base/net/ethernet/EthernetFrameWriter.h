@@ -3,7 +3,9 @@
 #include "base/net/ethernet/LengthOrTypeEnum.h"
 #include "base/net/Mac.h"
 #include "base/stream/ReadOnlySpan.h"
+#include "base/string/define.h"
 #include <cstdint>
+#include <stdexcept>
 
 namespace base::ethernet
 {
@@ -18,7 +20,7 @@ namespace base::ethernet
 	{
 	private:
 		base::Span _span;
-		int _valid_frame_size = 0;
+		int32_t _valid_frame_size = 0;
 		bool _has_vlan_tag = false;
 
 	public:
@@ -133,6 +135,11 @@ namespace base::ethernet
 		///
 		void SetValidPayloadSize(int32_t value)
 		{
+			if (value < 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "有效载荷的大小不能 < 0."};
+			}
+
 			if (_has_vlan_tag)
 			{
 				if (value < 46)
