@@ -5,28 +5,11 @@
 #include "base/time/TimeSpan.h"
 #include "base/time/UtcHourOffset.h"
 #include <chrono>
-#include <filesystem>
 #include <string>
 #include <type_traits>
 
 namespace base
 {
-	/* #region 将 base::TimePointSinceEpoch 转换为 std::chrono::time_point */
-
-	template <typename ReturnType>
-		requires(std::is_same_v<ReturnType, base::file_clock_time_point>)
-	constexpr ReturnType Convert(base::TimePointSinceEpoch const &value)
-	{
-		// 文件时钟不准，并不是当前的 epoch 时间，而是与 epoch 时间之间有一个固定的偏移量。
-		// 获取这个偏移量，然后将 _time_since_epoch 减去这个偏移量就得到了对应的文件时钟时间戳。
-		auto offset = std::chrono::system_clock::now().time_since_epoch() -
-					  std::filesystem::file_time_type::clock::now().time_since_epoch();
-
-		return file_clock_time_point{static_cast<std::chrono::nanoseconds>(value) - offset};
-	}
-
-	/* #endregion */
-
 	/* #region 将 base::TimePointSinceEpoch 转换为 std::chrono::zoned_time */
 
 	///

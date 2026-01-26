@@ -126,6 +126,16 @@ namespace base
 			return s_time_point{static_cast<std::chrono::seconds>(*this)};
 		}
 
+		explicit operator base::file_clock_time_point() const
+		{
+			// 文件时钟不准，并不是当前的 epoch 时间，而是与 epoch 时间之间有一个固定的偏移量。
+			// 获取这个偏移量，然后将 _time_since_epoch 减去这个偏移量就得到了对应的文件时钟时间戳。
+			std::chrono::nanoseconds offset = std::chrono::system_clock::now().time_since_epoch() -
+											  std::filesystem::file_time_type::clock::now().time_since_epoch();
+
+			return file_clock_time_point{static_cast<std::chrono::nanoseconds>(*this) - offset};
+		}
+
 		constexpr explicit operator timespec() const
 		{
 			timespec ts{};
