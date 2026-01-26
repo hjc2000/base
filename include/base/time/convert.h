@@ -259,6 +259,8 @@ namespace base
 		return ret;
 	}
 
+	/* #region std::chrono::zoned_time to_string */
+
 	inline std::string to_string(base::ns_zoned_time const &value)
 	{
 		return std::format("{:%Y-%m-%d %H:%M:%S}", value);
@@ -278,6 +280,8 @@ namespace base
 	{
 		return std::format("{:%Y-%m-%d %H:%M:%S}", value);
 	}
+
+	/* #endregion */
 
 	inline std::string to_string(base::TimePointSinceEpoch const &value)
 	{
