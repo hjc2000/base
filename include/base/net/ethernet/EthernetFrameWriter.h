@@ -23,6 +23,40 @@ namespace base::ethernet
 		int32_t _valid_frame_size = 0;
 		bool _has_vlan_tag = false;
 
+		///
+		/// @brief 帧大小。有 VLAN TAG 时至少是 64 字节，无 VLAN TAG 时至少是 60 字节。
+		/// 载荷的填充字节也被计算在内。
+		///
+		/// @note 本属性受 SetValidPayloadSize 方法的影响。
+		///
+		/// @return
+		///
+		int32_t FrameSize() const
+		{
+			if (_has_vlan_tag)
+			{
+				if (_valid_frame_size < 64)
+				{
+					return 64;
+				}
+				else
+				{
+					return _valid_frame_size;
+				}
+			}
+			else
+			{
+				if (_valid_frame_size < 60)
+				{
+					return 60;
+				}
+				else
+				{
+					return _valid_frame_size;
+				}
+			}
+		}
+
 	public:
 		///
 		/// @brief 构造函数。
@@ -173,40 +207,6 @@ namespace base::ethernet
 		}
 
 		/* #endregion */
-
-		///
-		/// @brief 帧大小。有 VLAN TAG 时至少是 64 字节，无 VLAN TAG 时至少是 60 字节。
-		/// 载荷的填充字节也被计算在内。
-		///
-		/// @note 本属性受 SetValidPayloadSize 方法的影响。
-		///
-		/// @return
-		///
-		int32_t FrameSize() const
-		{
-			if (_has_vlan_tag)
-			{
-				if (_valid_frame_size < 64)
-				{
-					return 64;
-				}
-				else
-				{
-					return _valid_frame_size;
-				}
-			}
-			else
-			{
-				if (_valid_frame_size < 60)
-				{
-					return 60;
-				}
-				else
-				{
-					return _valid_frame_size;
-				}
-			}
-		}
 
 		///
 		/// @brief 从整个 span 中切割出有效的可以发送到以太网中的 span.
