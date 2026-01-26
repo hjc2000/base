@@ -73,7 +73,7 @@ namespace base
 
 	/* #endregion */
 
-	/* #region 转换为 std::chrono::time_point */
+	/* #region 将 base::TimePointSinceEpoch 转换为 std::chrono::time_point */
 
 	template <typename ReturnType>
 		requires(std::is_same_v<ReturnType, base::ns_time_point>)
@@ -117,7 +117,7 @@ namespace base
 
 	/* #endregion */
 
-	/* #region 转换为 std::chrono::zoned_time */
+	/* #region 将 base::TimePointSinceEpoch 转换为 std::chrono::zoned_time */
 
 	///
 	/// @brief 将 value 转换为 UTC + 0 区域时间。
