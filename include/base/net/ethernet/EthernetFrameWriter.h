@@ -127,8 +127,6 @@ namespace base::ethernet
 			}
 		}
 
-		/* #region 载荷 */
-
 		///
 		/// @brief 载荷数据。
 		///
@@ -205,8 +203,6 @@ namespace base::ethernet
 				}
 			}
 		}
-
-		/* #endregion */
 
 		///
 		/// @brief 从整个 span 中切割出有效的可以发送到以太网中的 span.
