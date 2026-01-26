@@ -32,16 +32,6 @@ namespace base::modbus
 		}
 
 		///
-		/// @brief 站号。
-		///
-		/// @return
-		///
-		uint8_t StationNumber() const
-		{
-			return _span[0];
-		}
-
-		///
 		/// @brief 写入站号。
 		///
 		/// @param value
