@@ -1,8 +1,10 @@
 #pragma once
 #include "base/bit/AutoBitConverter.h"
+#include "base/container/Range.h"
 #include "base/net/ethernet/LengthOrTypeEnum.h"
 #include "base/net/Mac.h"
 #include "base/stream/ReadOnlySpan.h"
+#include "base/stream/Span.h"
 #include "base/string/define.h"
 #include <algorithm>
 #include <cstdint>
@@ -21,6 +23,7 @@ namespace base::ethernet
 	{
 	private:
 		base::Span _span;
+		int32_t _valid_payload_size = 0;
 		int32_t _valid_frame_size = 0;
 		bool _has_vlan_tag = false;
 
@@ -110,6 +113,21 @@ namespace base::ethernet
 				base::big_endian_remote_converter.GetBytes(static_cast<uint16_t>(value),
 														   _span[base::Range{12, 14}]);
 			}
+		}
+
+		void WritePayload(base::ReadOnlySpan const &span)
+		{
+			int32_t payload_start = 14;
+
+			if (_has_vlan_tag)
+			{
+				payload_start = 18;
+			}
+
+			int32_t begin = payload_start + _valid_payload_size;
+			base::Span span_to_write = _span[base::Range{begin, begin + span.Size()}];
+			span_to_write.CopyFrom(span);
+			_valid_payload_size += span.Size();
 		}
 
 		///
