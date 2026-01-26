@@ -115,7 +115,8 @@ namespace base
 		/// @brief 将本时刻加上一个时间段，得到新的时刻。
 		///
 		/// @param rhs
-		/// @return base::TimePointSinceEpoch
+		///
+		/// @return
 		///
 		constexpr base::TimePointSinceEpoch operator+(base::TimeSpan const &rhs) const
 		{
@@ -126,7 +127,8 @@ namespace base
 		/// @brief 两个时刻相减，得到时间段。
 		///
 		/// @param rhs
-		/// @return base::TimeSpan
+		///
+		/// @return
 		///
 		constexpr base::TimeSpan operator-(base::TimePointSinceEpoch const &rhs) const
 		{
@@ -137,7 +139,8 @@ namespace base
 		/// @brief 将本时刻减去一个时间段，得到新的时刻。
 		///
 		/// @param rhs
-		/// @return base::TimePointSinceEpoch
+		///
+		/// @return
 		///
 		constexpr base::TimePointSinceEpoch operator-(base::TimeSpan const &rhs) const
 		{
@@ -148,7 +151,8 @@ namespace base
 		/// @brief 将本时刻加上一个时间段，得到新的时刻。
 		///
 		/// @param rhs
-		/// @return base::TimePointSinceEpoch&
+		///
+		/// @return
 		///
 		constexpr base::TimePointSinceEpoch &operator+=(base::TimeSpan const &rhs)
 		{
@@ -160,7 +164,8 @@ namespace base
 		/// @brief 将本时刻减去一个时间段，得到新的时刻。
 		///
 		/// @param rhs
-		/// @return base::TimePointSinceEpoch&
+		///
+		/// @return
 		///
 		constexpr base::TimePointSinceEpoch &operator-=(base::TimeSpan const &rhs)
 		{
