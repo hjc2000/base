@@ -22,7 +22,7 @@ namespace base::test
 		std::cout << static_cast<std::chrono::nanoseconds>(now_time_point) << std::endl;
 		std::cout << static_cast<std::chrono::nanoseconds>(now_date_time.TimePointSinceEpoch()) << std::endl;
 		std::cout << date_time_string_builder << std::endl;
-		std::cout << base::to_string(now_time_point) << std::endl;
+		std::cout << base::to_string(base::Convert<base::ns_zoned_time>(base::UtcHourOffset{8}, now_time_point)) << std::endl;
 	}
 
 } // namespace base::test
