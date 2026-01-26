@@ -1,9 +1,25 @@
 #pragma once
 #include "base/time/TimeSpan.h"
 #include <chrono>
+#include <filesystem>
 
 namespace base
 {
+	/* #region 类型别名 */
+
+	using ns_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>;
+	using us_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds>;
+	using ms_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
+	using s_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>;
+	using file_clock_time_point = decltype(std::filesystem::directory_entry{}.last_write_time());
+
+	using ns_zoned_time = std::chrono::zoned_time<std::chrono::nanoseconds>;
+	using us_zoned_time = std::chrono::zoned_time<std::chrono::microseconds>;
+	using ms_zoned_time = std::chrono::zoned_time<std::chrono::milliseconds>;
+	using s_zoned_time = std::chrono::zoned_time<std::chrono::seconds>;
+
+	/* #endregion */
+
 	///
 	/// @brief 以 epoch 时刻作为零点的时刻。
 	///
