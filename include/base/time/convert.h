@@ -11,53 +11,6 @@
 
 namespace base
 {
-	/* #region 转换为 base::TimePointSinceEpoch */
-
-	template <typename ReturnType>
-		requires(std::is_same_v<ReturnType, base::TimePointSinceEpoch>)
-	constexpr ReturnType Convert(ns_time_point const &value)
-	{
-		return base::TimePointSinceEpoch{value.time_since_epoch()};
-	}
-
-	template <typename ReturnType>
-		requires(std::is_same_v<ReturnType, base::TimePointSinceEpoch>)
-	constexpr ReturnType Convert(us_time_point const &value)
-	{
-		return base::TimePointSinceEpoch{value.time_since_epoch()};
-	}
-
-	template <typename ReturnType>
-		requires(std::is_same_v<ReturnType, base::TimePointSinceEpoch>)
-	constexpr ReturnType Convert(ms_time_point const &value)
-	{
-		return base::TimePointSinceEpoch{value.time_since_epoch()};
-	}
-
-	template <typename ReturnType>
-		requires(std::is_same_v<ReturnType, base::TimePointSinceEpoch>)
-	constexpr ReturnType Convert(s_time_point const &value)
-	{
-		return base::TimePointSinceEpoch{value.time_since_epoch()};
-	}
-
-	template <typename ReturnType>
-		requires(std::is_same_v<ReturnType, base::TimePointSinceEpoch>)
-	constexpr ReturnType Convert(file_clock_time_point const &value)
-	{
-		std::chrono::nanoseconds time_since_epoch = value.time_since_epoch();
-
-		// 文件时钟不准，并不是当前的 epoch 时间，而是与 epoch 时间之间有一个固定的偏移量。
-		// 获取这个偏移量，然后将文件时钟的时间戳加上偏移量就得到了文件时钟时间戳对应的 epoch 时间戳。
-		auto delta = std::chrono::system_clock::now().time_since_epoch() -
-					 std::filesystem::file_time_type::clock::now().time_since_epoch();
-
-		time_since_epoch += delta;
-		return base::TimePointSinceEpoch{time_since_epoch};
-	}
-
-	/* #endregion */
-
 	/* #region 将 base::TimePointSinceEpoch 转换为 std::chrono::time_point */
 
 	template <typename ReturnType>
