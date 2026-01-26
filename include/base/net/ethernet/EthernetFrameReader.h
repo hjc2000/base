@@ -34,10 +34,12 @@ namespace base::ethernet
 		///
 		base::Mac DestinationMac() const
 		{
-			return base::Mac{
+			base::Mac ret{
 				std::endian::big,
-				_span.Slice(base::Range{0, 6}),
+				_span[base::Range{0, 6}],
 			};
+
+			return ret;
 		}
 
 		///
@@ -47,10 +49,12 @@ namespace base::ethernet
 		///
 		base::Mac SourceMac() const
 		{
-			return base::Mac{
+			base::Mac ret{
 				std::endian::big,
-				_span.Slice(base::Range{6, 12}),
+				_span[base::Range{6, 12}],
 			};
+
+			return ret;
 		}
 
 		///
