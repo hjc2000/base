@@ -63,6 +63,8 @@ namespace base::ethernet
 		///
 		/// @brief 写入 802.1Q标签。
 		///
+		/// @note 写入后会自动将是否具有 VLAN TAG 的标识置为 true.
+		///
 		/// @param value
 		///
 		void WriteVlanTag(base::ReadOnlySpan const &value)
@@ -73,12 +75,10 @@ namespace base::ethernet
 		}
 
 		///
-		/// @brief 将 VLAN TAG 所在的 4 个字节清除，变成 0.
+		/// @brief 将是否具有 VLAN TAG 的标识置为 false.
 		///
 		void ClearVlanTag()
 		{
-			base::Span span = _span.Slice(base::Range{12, 16});
-			span.FillWithZero();
 			_has_vlan_tag = false;
 		}
 
