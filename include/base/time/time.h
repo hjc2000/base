@@ -9,7 +9,11 @@ namespace base::time
 	///
 	/// @return
 	///
-	base::TimePointSinceEpoch Now();
+	inline base::TimePointSinceEpoch Now()
+	{
+		// epoch 时刻是指 1970 年 1 月 1 日 00:00:00 UTC。
+		return base::TimePointSinceEpoch{std::chrono::system_clock::now().time_since_epoch()};
+	}
 
 	///
 	/// @brief 获取当前的日期时间。
@@ -26,7 +30,11 @@ namespace base::time
 	///
 	/// @return
 	///
-	base::TimePointSinceEpoch SteadyClockNow();
+	inline base::TimePointSinceEpoch SteadyClockNow()
+	{
+		// epoch 时刻是指 1970 年 1 月 1 日 00:00:00 UTC。
+		return base::TimePointSinceEpoch{std::chrono::steady_clock::now().time_since_epoch()};
+	}
 
 	///
 	/// @brief 设置系统的时间。
