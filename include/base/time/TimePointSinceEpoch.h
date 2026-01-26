@@ -1,5 +1,8 @@
 #pragma once
 #include "base/time/TimeSpan.h"
+#include "base/unit/Day.h"
+#include "base/unit/Nanosecond.h"
+#include "base/unit/Second.h"
 #include <chrono>
 #include <filesystem>
 
@@ -104,6 +107,21 @@ namespace base
 		constexpr explicit operator std::chrono::seconds() const
 		{
 			return std::chrono::duration_cast<std::chrono::seconds>(_time_since_epoch);
+		}
+
+		explicit operator base::unit::Nanosecond() const
+		{
+			return base::unit::Nanosecond{_time_since_epoch};
+		}
+
+		explicit operator base::unit::Second() const
+		{
+			return base::unit::Second{_time_since_epoch};
+		}
+
+		explicit operator base::unit::Day() const
+		{
+			return base::unit::Day{_time_since_epoch};
 		}
 
 		constexpr explicit operator base::ns_time_point() const
