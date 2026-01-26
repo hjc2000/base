@@ -20,7 +20,8 @@ namespace base::ethernet
 		///
 		/// @brief 引用 span 指向的内存段，在此位置解析以太网帧。
 		///
-		/// @param span
+		/// @param span 储存着以太网帧的内存段。
+		/// 	@note 传进来的内存段不要包括以太网帧尾部的 4 个字节的校验和。
 		///
 		EthernetFrameReader(base::ReadOnlySpan const &span)
 		{

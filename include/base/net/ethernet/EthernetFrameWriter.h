@@ -25,6 +25,8 @@ namespace base::ethernet
 		/// @brief 构造函数。
 		///
 		/// @param span 引用的内存。
+		/// 	@note 传进来的内存段不需要为以太网帧尾部的 4 个字节的校验和保留空间，
+		/// 	本来没能力计算和写入校验和，会把尾部的所有空间都当成可以写入载荷的区域。
 		///
 		EthernetFrameWriter(base::Span const &span)
 		{
