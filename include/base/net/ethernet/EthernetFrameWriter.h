@@ -121,11 +121,15 @@ namespace base::ethernet
 				throw std::overflow_error{CODE_POS_STR + "写入的数据将会超出 MTU."};
 			}
 
-			int32_t payload_start_offset = 14;
+			int32_t payload_start_offset;
 
 			if (_has_vlan_tag)
 			{
 				payload_start_offset = 18;
+			}
+			else
+			{
+				payload_start_offset = 14;
 			}
 
 			int32_t begin = payload_start_offset + _valid_payload_size;
