@@ -25,10 +25,10 @@ namespace base::ethernet
 		int32_t _valid_payload_size = 0;
 
 		///
-		/// @brief 帧大小。有 VLAN TAG 时至少是 64 字节，无 VLAN TAG 时至少是 60 字节。
-		/// 载荷的填充字节也被计算在内。
+		/// @brief 整个以太网帧的大小，不包括校验和。
 		///
-		/// @note 本属性受 SetValidPayloadSize 方法的影响。
+		/// @note 整个以太网帧的最小长度限制是 60 字节（不包括校验和），不管有没有
+		/// VLAN TAG 都是 60 字节的限制。
 		///
 		/// @return
 		///
@@ -36,7 +36,7 @@ namespace base::ethernet
 		{
 			if (_has_vlan_tag)
 			{
-				return std::max<int32_t>(_valid_payload_size + 18, 64);
+				return std::max<int32_t>(_valid_payload_size + 18, 60);
 			}
 
 			return std::max<int32_t>(_valid_payload_size + 14, 60);
