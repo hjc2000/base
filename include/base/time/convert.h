@@ -14,13 +14,6 @@ namespace base
 	/* #region 将 base::TimePointSinceEpoch 转换为 std::chrono::time_point */
 
 	template <typename ReturnType>
-		requires(std::is_same_v<ReturnType, base::s_time_point>)
-	constexpr ReturnType Convert(base::TimePointSinceEpoch const &value)
-	{
-		return s_time_point{static_cast<std::chrono::seconds>(value)};
-	}
-
-	template <typename ReturnType>
 		requires(std::is_same_v<ReturnType, base::file_clock_time_point>)
 	constexpr ReturnType Convert(base::TimePointSinceEpoch const &value)
 	{
@@ -146,7 +139,7 @@ namespace base
 		requires(std::is_same_v<ReturnType, base::s_zoned_time>)
 	constexpr ReturnType Convert(base::TimePointSinceEpoch const &value)
 	{
-		auto time_point = Convert<base::s_time_point>(value);
+		auto time_point = static_cast<base::s_time_point>(value);
 		return s_zoned_time{"UTC", time_point};
 	}
 
