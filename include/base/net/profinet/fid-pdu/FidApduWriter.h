@@ -26,16 +26,6 @@ namespace base
 			FidApduWriter(base::Span const &span);
 
 			///
-			/// @brief 目的 MAC 地址。
-			///
-			/// @return base::Mac
-			///
-			base::Mac DestinationMac() const
-			{
-				return _ethernet_frame.DestinationMac();
-			}
-
-			///
 			/// @brief 写入目的 MAC 地址。
 			///
 			/// @param value
@@ -43,16 +33,6 @@ namespace base
 			void WriteDestinationMac(base::Mac const &value)
 			{
 				_ethernet_frame.WriteDestinationMac(value);
-			}
-
-			///
-			/// @brief 源 MAC 地址。
-			///
-			/// @return base::Mac
-			///
-			base::Mac SourceMac() const
-			{
-				return _ethernet_frame.SourceMac();
 			}
 
 			///

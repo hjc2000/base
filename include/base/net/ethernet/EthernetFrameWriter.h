@@ -19,6 +19,7 @@ namespace base::ethernet
 	private:
 		base::Span _span;
 		int _valid_frame_size = 0;
+		bool _has_vlan_tag = false;
 
 	public:
 		///
@@ -33,21 +34,6 @@ namespace base::ethernet
 			_span = span;
 		}
 
-		/* #region 目的 MAC 地址 */
-
-		///
-		/// @brief 目的 MAC 地址。
-		///
-		/// @return
-		///
-		base::Mac DestinationMac() const
-		{
-			return base::Mac{
-				std::endian::big,
-				_span.Slice(base::Range{0, 6}),
-			};
-		}
-
 		///
 		/// @brief 写入目的 MAC 地址。
 		///
@@ -58,23 +44,6 @@ namespace base::ethernet
 			base::Span span = _span.Slice(base::Range{0, 6});
 			span.CopyFrom(value.Span());
 			span.Reverse();
-		}
-
-		/* #endregion */
-
-		/* #region 源 MAC 地址 */
-
-		///
-		/// @brief 源 MAC 地址。
-		///
-		/// @return
-		///
-		base::Mac SourceMac() const
-		{
-			return base::Mac{
-				std::endian::big,
-				_span.Slice(base::Range{6, 12}),
-			};
 		}
 
 		///
@@ -89,25 +58,7 @@ namespace base::ethernet
 			span.Reverse();
 		}
 
-		/* #endregion */
-
 		/* #region VLAN TAG */
-
-		///
-		/// @brief 802.1Q标签。大小：4 字节。
-		///
-		/// @return 如果具有 VLAN TAG，则返回引用这段内存的 Span, 如果没有 VLAN TAG,
-		/// 调用本函数将引发异常。
-		///
-		base::Span VlanTag() const
-		{
-			if (HasVlanTag())
-			{
-				return base::Span{_span.Slice(base::Range{12, 16})};
-			}
-
-			throw std::runtime_error{"本以太网帧不具备 VlanTag."};
-		}
 
 		///
 		/// @brief 写入 802.1Q标签。
@@ -118,68 +69,20 @@ namespace base::ethernet
 		{
 			base::Span span = _span.Slice(base::Range{12, 16});
 			span.CopyFrom(value);
+			_has_vlan_tag = true;
 		}
 
 		///
-		/// @brief 是否具有 VLAN TAG.
-		///
-		/// @return
-		///
-		bool HasVlanTag() const
-		{
-			uint16_t foo = base::big_endian_remote_converter.FromBytes<uint16_t>(_span.Slice(base::Range{12, 14}));
-			base::ethernet::LengthOrTypeEnum type_or_length = static_cast<base::ethernet::LengthOrTypeEnum>(foo);
-			return type_or_length == base::ethernet::LengthOrTypeEnum::VlanTag;
-		}
-
-		///
-		/// @brief 将 VLAN TAG 所在的 4 个字节清除，变成 0. 这么做之后，HasVlanTag
-		/// 属性就会变成 false.
-		///
-		/// @note 本函数会先判断 HasVlanTag，只有 HasVlanTag 为 true 时才会将 VLAN TAG
-		/// 所在的 4 个字节置成 0，这可以避免在不含 VLAN TAG 时破坏帧。
+		/// @brief 将 VLAN TAG 所在的 4 个字节清除，变成 0.
 		///
 		void ClearVlanTag()
 		{
-			if (HasVlanTag())
-			{
-				base::Span span = _span.Slice(base::Range{12, 16});
-				span.FillWithZero();
-			}
+			base::Span span = _span.Slice(base::Range{12, 16});
+			span.FillWithZero();
+			_has_vlan_tag = false;
 		}
 
 		/* #endregion */
-
-		/* #region 类型或长度 */
-
-		///
-		/// @brief 类型或长度。
-		///
-		/// @note 整型值小于等于 1500，则表示长度，大于 1500 则表示帧类型。当含义是帧类型时，
-		/// 这个值是用来给上层的处理程序看的，让上层的处理程序决定将以太网帧送往哪个协议处理程序。
-		///
-		/// @note 1500 的 16 进制：0x05dc.
-		///
-		/// @note 下面这几个值都大于 1500：
-		/// 	@li 0x0800：表示IPv4数据包
-		/// 	@li 0x0806：表示ARP请求
-		/// 	@li 0x86DD：表示IPv6数据包
-		///
-		/// @return
-		///
-		base::ethernet::LengthOrTypeEnum TypeOrLength() const
-		{
-			if (HasVlanTag())
-			{
-				uint16_t type_or_length = base::big_endian_remote_converter.FromBytes<uint16_t>(_span.Slice(base::Range{16, 18}));
-				return static_cast<base::ethernet::LengthOrTypeEnum>(type_or_length);
-			}
-			else
-			{
-				uint16_t type_or_length = base::big_endian_remote_converter.FromBytes<uint16_t>(_span.Slice(base::Range{12, 14}));
-				return static_cast<base::ethernet::LengthOrTypeEnum>(type_or_length);
-			}
-		}
 
 		///
 		/// @brief 写入类型或长度。
@@ -188,7 +91,7 @@ namespace base::ethernet
 		///
 		void WriteTypeOrLength(base::ethernet::LengthOrTypeEnum value)
 		{
-			if (HasVlanTag())
+			if (_has_vlan_tag)
 			{
 				base::big_endian_remote_converter.GetBytes(static_cast<uint16_t>(value),
 														   _span.Slice(base::Range{16, 18}));
@@ -199,8 +102,6 @@ namespace base::ethernet
 														   _span.Slice(base::Range{12, 14}));
 			}
 		}
-
-		/* #endregion */
 
 		/* #region 载荷 */
 
@@ -223,7 +124,7 @@ namespace base::ethernet
 		///
 		base::Span Payload() const
 		{
-			if (HasVlanTag())
+			if (_has_vlan_tag)
 			{
 				return _span.Slice(base::Range{18, _span.Size()});
 			}
@@ -241,7 +142,7 @@ namespace base::ethernet
 		///
 		void SetValidPayloadSize(int32_t value)
 		{
-			if (HasVlanTag())
+			if (_has_vlan_tag)
 			{
 				if (value < 46)
 				{
@@ -295,7 +196,7 @@ namespace base::ethernet
 		///
 		int32_t FrameSize() const
 		{
-			if (HasVlanTag())
+			if (_has_vlan_tag)
 			{
 				if (_valid_frame_size < 64)
 				{
