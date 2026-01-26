@@ -98,8 +98,8 @@ namespace base::modbus
 		{
 			base::modbus::ModbusCrc16 crc{};
 			int32_t data_end_pos = 2 + _data_length;
-			base::ReadOnlySpan to_check = _span[base::Range{0, data_end_pos}];
-			crc.Add(to_check);
+			base::ReadOnlySpan span_to_check = _span[base::Range{0, data_end_pos}];
+			crc.Add(span_to_check);
 
 			base::big_endian_remote_converter.GetBytes(crc.RegisterValue(),
 													   _span[base::Range{data_end_pos, data_end_pos + 2}]);
