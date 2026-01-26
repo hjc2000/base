@@ -69,8 +69,8 @@ namespace base::modbus
 		void WriteData(base::ReadOnlySpan const &span)
 		{
 			int32_t write_pos = 2 + _data_length;
-			base::Span to_write = _span[base::Range{write_pos, write_pos + span.Size()}];
-			to_write.CopyFrom(span);
+			base::Span span_to_write = _span[base::Range{write_pos, write_pos + span.Size()}];
+			span_to_write.CopyFrom(span);
 			_data_length += span.Size();
 		}
 
