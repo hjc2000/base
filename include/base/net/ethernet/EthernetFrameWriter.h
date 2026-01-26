@@ -41,7 +41,7 @@ namespace base::ethernet
 		///
 		void WriteDestinationMac(base::Mac const &value)
 		{
-			base::Span span = _span.Slice(base::Range{0, 6});
+			base::Span span = _span[base::Range{0, 6}];
 			span.CopyFrom(value.Span());
 			span.Reverse();
 		}
@@ -53,7 +53,7 @@ namespace base::ethernet
 		///
 		void WriteSourceMac(base::Mac const &value)
 		{
-			base::Span span = _span.Slice(base::Range{6, 12});
+			base::Span span = _span[base::Range{6, 12}];
 			span.CopyFrom(value.Span());
 			span.Reverse();
 		}
@@ -69,7 +69,7 @@ namespace base::ethernet
 		///
 		void WriteVlanTag(base::ReadOnlySpan const &value)
 		{
-			base::Span span = _span.Slice(base::Range{12, 16});
+			base::Span span = _span[base::Range{12, 16}];
 			span.CopyFrom(value);
 			_has_vlan_tag = true;
 		}
@@ -94,12 +94,12 @@ namespace base::ethernet
 			if (_has_vlan_tag)
 			{
 				base::big_endian_remote_converter.GetBytes(static_cast<uint16_t>(value),
-														   _span.Slice(base::Range{16, 18}));
+														   _span[base::Range{16, 18}]);
 			}
 			else
 			{
 				base::big_endian_remote_converter.GetBytes(static_cast<uint16_t>(value),
-														   _span.Slice(base::Range{12, 14}));
+														   _span[base::Range{12, 14}]);
 			}
 		}
 
@@ -126,11 +126,11 @@ namespace base::ethernet
 		{
 			if (_has_vlan_tag)
 			{
-				return _span.Slice(base::Range{18, _span.Size()});
+				return _span[base::Range{18, _span.Size()}];
 			}
 			else
 			{
-				return _span.Slice(base::Range{14, _span.Size()});
+				return _span[base::Range{14, _span.Size()}];
 			}
 		}
 
@@ -148,7 +148,7 @@ namespace base::ethernet
 				{
 					// 载荷不足 46 字节，需要填充值为 0 的字节，从而达到 46 字节。
 					// 所以有效载荷的最后一个字节后到第 46 字节的这段内存要清零。
-					_span.Slice(base::Range{18 + value, 18 + 46}).FillWithZero();
+					_span[base::Range{18 + value, 18 + 46}].FillWithZero();
 					_valid_frame_size = 18 + 46;
 				}
 				else
@@ -162,7 +162,7 @@ namespace base::ethernet
 				{
 					// 载荷不足 46 字节，需要填充值为 0 的字节，从而达到 46 字节。
 					// 所以有效载荷的最后一个字节后到第 46 字节的这段内存要清零。
-					_span.Slice(base::Range{14 + value, 14 + 46}).FillWithZero();
+					_span[base::Range{14 + value, 14 + 46}].FillWithZero();
 					_valid_frame_size = 14 + 46;
 				}
 				else
@@ -183,7 +183,7 @@ namespace base::ethernet
 		///
 		base::ReadOnlySpan SpanForSending() const
 		{
-			return _span.Slice(base::Range{0, FrameSize()});
+			return _span[base::Range{0, FrameSize()}];
 		}
 
 		///
