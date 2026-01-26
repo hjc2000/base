@@ -116,6 +116,11 @@ namespace base
 			return us_time_point{static_cast<std::chrono::microseconds>(*this)};
 		}
 
+		constexpr explicit operator base::ms_time_point() const
+		{
+			return ms_time_point{static_cast<std::chrono::milliseconds>(*this)};
+		}
+
 		constexpr explicit operator timespec() const
 		{
 			timespec ts{};
