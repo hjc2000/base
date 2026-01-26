@@ -10,6 +10,7 @@
 namespace base
 {
 	/* #region 类型别名 */
+
 	using ns_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>;
 	using us_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds>;
 	using ms_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
@@ -20,9 +21,8 @@ namespace base
 	using us_zoned_time = std::chrono::zoned_time<std::chrono::microseconds>;
 	using ms_zoned_time = std::chrono::zoned_time<std::chrono::milliseconds>;
 	using s_zoned_time = std::chrono::zoned_time<std::chrono::seconds>;
-	/* #endregion */
 
-#if HAS_THREAD
+	/* #endregion */
 
 	/* #region 转换为 base::TimePointSinceEpoch */
 
@@ -273,7 +273,5 @@ namespace base
 	{
 		return base::to_string(base::Convert<base::ns_zoned_time>(base::UtcHourOffset{8}, value));
 	}
-
-#endif // HAS_THREAD
 
 } // namespace base
