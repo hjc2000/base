@@ -5,10 +5,8 @@
 #include "base/net/Mac.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
-#include "base/string/define.h"
 #include <algorithm>
 #include <cstdint>
-#include <stdexcept>
 
 namespace base::ethernet
 {
@@ -23,9 +21,8 @@ namespace base::ethernet
 	{
 	private:
 		base::Span _span;
-		int32_t _valid_payload_size = 0;
-		int32_t _valid_frame_size = 0;
 		bool _has_vlan_tag = false;
+		int32_t _valid_payload_size = 0;
 
 		///
 		/// @brief 帧大小。有 VLAN TAG 时至少是 64 字节，无 VLAN TAG 时至少是 60 字节。
@@ -39,10 +36,10 @@ namespace base::ethernet
 		{
 			if (_has_vlan_tag)
 			{
-				return std::max<int32_t>(_valid_frame_size, 64);
+				return std::max<int32_t>(_valid_payload_size + 18, 64);
 			}
 
-			return std::max<int32_t>(_valid_frame_size, 60);
+			return std::max<int32_t>(_valid_payload_size + 14, 60);
 		}
 
 	public:
@@ -156,54 +153,6 @@ namespace base::ethernet
 			else
 			{
 				return _span[base::Range{14, _span.Size()}];
-			}
-		}
-
-		///
-		/// @brief 设置有效载荷的大小。
-		///
-		/// @note 这只是用来设置本类的字段，并不是以太网帧的一部分。
-		///
-		/// @note 通过本类的 Payload 属性拿到载荷内存段后，向里面写入数据，然后设置本属性，
-		/// 告诉本类刚才写入的数据有多少个字节是有效数据。
-		///
-		/// @param value 有效载荷的大小。
-		/// 	@note 如果小于 46，会在有效载荷后面填充值为 0 的字节，使载荷达到 46 字节。
-		///
-		void SetValidPayloadSize(int32_t value)
-		{
-			if (value < 0)
-			{
-				throw std::invalid_argument{CODE_POS_STR + "有效载荷的大小不能 < 0."};
-			}
-
-			if (_has_vlan_tag)
-			{
-				if (value < 46)
-				{
-					// 载荷不足 46 字节，需要填充值为 0 的字节，从而达到 46 字节。
-					// 所以有效载荷的最后一个字节后到第 46 字节的这段内存要清零。
-					_span[base::Range{18 + value, 18 + 46}].FillWithZero();
-					_valid_frame_size = 18 + 46;
-				}
-				else
-				{
-					_valid_frame_size = 18 + value;
-				}
-			}
-			else
-			{
-				if (value < 46)
-				{
-					// 载荷不足 46 字节，需要填充值为 0 的字节，从而达到 46 字节。
-					// 所以有效载荷的最后一个字节后到第 46 字节的这段内存要清零。
-					_span[base::Range{14 + value, 14 + 46}].FillWithZero();
-					_valid_frame_size = 14 + 46;
-				}
-				else
-				{
-					_valid_frame_size = 14 + value;
-				}
 			}
 		}
 

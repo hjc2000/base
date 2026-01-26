@@ -26,8 +26,3 @@ base::Span base::profinet::FidApduWriter::Payload() const
 {
 	return _this_span.Slice(base::Range{2, _this_span.Size()});
 }
-
-void base::profinet::FidApduWriter::SetValidPayloadSize(int32_t value)
-{
-	_ethernet_frame.SetValidPayloadSize(2 + value);
-}

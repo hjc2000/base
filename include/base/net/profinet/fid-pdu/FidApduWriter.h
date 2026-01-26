@@ -48,7 +48,7 @@ namespace base
 			///
 			/// @brief PROFINET 帧 ID.
 			///
-			/// @return base::profinet::FrameIdEnum
+			/// @return
 			///
 			base::profinet::FrameIdEnum FrameId() const;
 
@@ -67,21 +67,15 @@ namespace base
 			base::Span Payload() const;
 
 			///
-			/// @brief 设置有效载荷的大小。
-			///
-			/// @param value
-			///
-			void SetValidPayloadSize(int32_t value);
-
-			///
 			/// @brief 可用来被发送到以太网的内存段。
 			///
-			/// @return base::ReadOnlySpan
+			/// @return
 			///
 			base::ReadOnlySpan SpanForSending() const
 			{
 				return _ethernet_frame.SpanForSending();
 			}
 		};
+
 	} // namespace profinet
 } // namespace base

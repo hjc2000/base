@@ -24,9 +24,6 @@ namespace base::profinet
 		{
 			base::profinet::DcpHeaderWriter writer{_this_span};
 			writer.WriteDataLength(_block_stream->Length());
-
-			// 头部长度加上 Blocks 的长度。
-			_fid_apdu_writer.SetValidPayloadSize(base::profinet::DcpHeaderWriter::HeaderSize() + _block_stream->Length());
 		}
 
 	public:
@@ -86,9 +83,6 @@ namespace base::profinet
 			base::profinet::DcpHeaderWriter writer{_this_span};
 			writer.WriteDataLength(0);
 			_block_stream->Clear();
-
-			// Blocks 区的有效数据长度为 0，只剩下头部是有效数据。
-			_fid_apdu_writer.SetValidPayloadSize(base::profinet::DcpHeaderWriter::HeaderSize());
 		}
 
 		///
