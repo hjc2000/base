@@ -106,6 +106,11 @@ namespace base
 			return std::chrono::duration_cast<std::chrono::seconds>(_time_since_epoch);
 		}
 
+		constexpr explicit operator base::ns_time_point() const
+		{
+			return ns_time_point{static_cast<std::chrono::nanoseconds>(*this)};
+		}
+
 		constexpr explicit operator timespec() const
 		{
 			timespec ts{};
