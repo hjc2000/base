@@ -93,11 +93,15 @@ namespace base::modbus
 		///
 		/// @brief 写入 CRC16.
 		///
-		///
 		void WriteCrc()
 		{
 			base::modbus::ModbusCrc16 crc{};
+
+			// 数据的最后一个字节的下一个字节的索引是
+			// 		2 + _data_length
+			// 加 2 是因为有 2 字节的头部。
 			int32_t data_end_pos = 2 + _data_length;
+
 			base::ReadOnlySpan span_to_check = _span[base::Range{0, data_end_pos}];
 			crc.Add(span_to_check);
 
@@ -113,7 +117,7 @@ namespace base::modbus
 		///
 		base::ReadOnlySpan SpanForSending() const
 		{
-			// 1 个字节的站好 + 1 个字节的功能码 + 数据 + 2 个字节的 CRC16.
+			// 1 个字节的站号 + 1 个字节的功能码 + 数据 + 2 个字节的 CRC16.
 			return _span[base::Range{0, 2 + _data_length + 2}];
 		}
 
