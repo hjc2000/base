@@ -59,7 +59,7 @@ namespace base::unit
 		///
 		virtual std::string UnitString() const override
 		{
-			return "d";
+			return "day";
 		}
 
 		explicit operator std::chrono::days() const
