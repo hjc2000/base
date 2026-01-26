@@ -107,6 +107,12 @@ namespace base
 			return ret;
 		}
 
+		constexpr explicit operator std::chrono::year_month_day() const
+		{
+			std::chrono::year_month_day ret{static_cast<std::chrono::local_days>(*this)};
+			return ret;
+		}
+
 		/* #endregion */
 
 		/* #region 四则运算 */
