@@ -1,16 +1,5 @@
-#include "base/container/List.h"
-#include "base/filesystem/filesystem.h"
-#include "base/filesystem/Path.h"
 #include "base/math/Fraction.h"
 #include "base/math/math.h"
-#include "base/test/test_ertec200p_3_timing_provider.h"
-#include "base/test/TestCircleDeque.h"
-#include "base/test/TestFactorExtractor.h"
-#include "base/test/TestFraction.h"
-#include "base/test/TestInertialElement.h"
-#include "base/test/TestParse.h"
-#include "base/test/TestUtf8Reader.h"
-#include "base/unit/A.h"
 #include "base/unit/Hour.h"
 #include "base/unit/J.h"
 #include "base/unit/kW.h"
@@ -20,11 +9,7 @@
 #include "base/unit/Second.h"
 #include "base/unit/V.h"
 #include "base/unit/W.h"
-#include "base/usage/fix_bilibili_video.h"
-#include <cstdint>
 #include <iostream>
-#include <numbers>
-#include <string>
 
 int main()
 {
@@ -64,24 +49,6 @@ int main()
 		std::cout << j << std::endl;
 		std::cout << mwh << std::endl;
 		std::cout << mah << std::endl;
-	}
-
-	{
-		base::List<std::string> list{};
-		list.Add("11.mp4");
-		list.Add("1.mp4");
-		list.Add("12.mp4");
-		list.Add("2.mp4");
-		list.Add("5.mp4");
-		list.Add("3.mp4");
-		list.Add("4.mp4");
-		list.Add("10.mp4");
-		base::simple_natural_sort(list);
-
-		for (std::string const &item : list)
-		{
-			std::cout << item << std::endl;
-		}
 	}
 
 	return 0;
