@@ -173,18 +173,6 @@ namespace base::ethernet
 		/* #endregion */
 
 		///
-		/// @brief 从整个 span 中切割出有效的可以发送到以太网中的 span.
-		///
-		/// @note 切割范围：[0, FrameSize].
-		///
-		/// @return
-		///
-		base::ReadOnlySpan SpanForSending() const
-		{
-			return _span[base::Range{0, FrameSize()}];
-		}
-
-		///
 		/// @brief 帧大小。有 VLAN TAG 时至少是 64 字节，无 VLAN TAG 时至少是 60 字节。
 		/// 载荷的填充字节也被计算在内。
 		///
@@ -216,6 +204,18 @@ namespace base::ethernet
 					return _valid_frame_size;
 				}
 			}
+		}
+
+		///
+		/// @brief 从整个 span 中切割出有效的可以发送到以太网中的 span.
+		///
+		/// @note 切割范围：[0, FrameSize].
+		///
+		/// @return
+		///
+		base::ReadOnlySpan SpanForSending() const
+		{
+			return _span[base::Range{0, FrameSize()}];
 		}
 	};
 
