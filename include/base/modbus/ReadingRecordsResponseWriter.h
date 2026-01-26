@@ -8,7 +8,6 @@ namespace base::modbus
 	///
 	/// @brief 读多个记录的响应帧作者。
 	///
-	///
 	class ReadingRecordsResponseWriter
 	{
 	private:

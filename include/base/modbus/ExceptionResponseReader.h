@@ -12,7 +12,6 @@ namespace base::modbus
 	///
 	/// @brief 异常响应报文读者。
 	///
-	///
 	class ExceptionResponseReader
 	{
 	private:

@@ -13,7 +13,6 @@ namespace base::modbus
 	///
 	/// @brief 写入多个位的请求帧读者。
 	///
-	///
 	class WritingBitsRequestReader
 	{
 	private:

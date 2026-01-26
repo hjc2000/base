@@ -11,7 +11,6 @@ namespace base::modbus
 	///
 	/// @brief modbus CRC16 校验器。
 	///
-	///
 	class ModbusCrc16 final
 	{
 	private:

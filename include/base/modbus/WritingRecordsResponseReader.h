@@ -13,7 +13,6 @@ namespace base::modbus
 	///
 	/// @brief 写多个记录的响应帧读者。
 	///
-	///
 	class WritingRecordsResponseReader
 	{
 	private:

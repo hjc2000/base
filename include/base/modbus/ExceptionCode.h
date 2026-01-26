@@ -6,7 +6,6 @@ namespace base::modbus
 	///
 	/// @brief 异常代码。
 	///
-	///
 	class ExceptionCode
 	{
 	private:

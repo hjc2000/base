@@ -13,7 +13,6 @@ namespace base::modbus
 	///
 	/// @brief 读多个记录的请求帧读者。
 	///
-	///
 	class ReadingRecordsRequestReader
 	{
 	private:

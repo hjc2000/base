@@ -11,7 +11,6 @@ namespace base::modbus
 	///
 	/// @brief 写单个位的请求帧读者。
 	///
-	///
 	class WritingSingleBitRequestReader
 	{
 	private:

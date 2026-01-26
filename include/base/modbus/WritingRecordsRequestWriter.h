@@ -8,7 +8,6 @@ namespace base::modbus
 	///
 	/// @brief 写多个记录的请求帧作者。
 	///
-	///
 	class WritingRecordsRequestWriter
 	{
 	private:

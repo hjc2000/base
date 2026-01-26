@@ -8,7 +8,6 @@ namespace base::modbus
 	///
 	/// @brief 写入多个位的请求帧作者。
 	///
-	///
 	class WritingBitsRequestWriter
 	{
 	private:

@@ -10,7 +10,6 @@ namespace base::modbus
 	///
 	/// @brief 读取多个位数据的响应帧读者。
 	///
-	///
 	class ReadingBitsResponseReader
 	{
 	private:
