@@ -14,6 +14,7 @@ namespace base::modbus
 	{
 	private:
 		base::ReadOnlySpan _span{};
+		int64_t _data_reading_position = 0;
 
 		///
 		/// @brief CRC 校验数据的内存段。
@@ -80,6 +81,14 @@ namespace base::modbus
 		base::ReadOnlySpan DataSpan() const
 		{
 			return _span[base::Range{2, _span.Size() - 2}];
+		}
+
+		///
+		/// @brief 重置数据读取指针。
+		///
+		void ResetDataReadingPosition()
+		{
+			_data_reading_position = 0;
 		}
 
 		///
