@@ -17,6 +17,16 @@ namespace base::modbus
 		int64_t _data_reading_position = 0;
 
 		///
+		/// @brief 数据内存段。
+		///
+		/// @return
+		///
+		base::ReadOnlySpan DataSpan() const
+		{
+			return _span[base::Range{2, _span.Size() - 2}];
+		}
+
+		///
 		/// @brief CRC 校验数据的内存段。
 		///
 		/// @return
@@ -71,16 +81,6 @@ namespace base::modbus
 		base::modbus::FunctionCode FunctionCode() const
 		{
 			return base::modbus::FunctionCode{_span[1]};
-		}
-
-		///
-		/// @brief 数据内存段。
-		///
-		/// @return
-		///
-		base::ReadOnlySpan DataSpan() const
-		{
-			return _span[base::Range{2, _span.Size() - 2}];
 		}
 
 		///

@@ -1,5 +1,4 @@
 #pragma once
-#include "base/container/Range.h"
 #include "base/modbus/AduReader.h"
 #include "base/modbus/FunctionCode.h"
 #include "base/stream/ReadOnlySpan.h"
@@ -43,22 +42,33 @@ namespace base::modbus
 		///
 		/// @return
 		///
-		uint8_t DataByteCount() const
+		uint8_t DataByteCount()
 		{
-			return _adu_reader.DataSpan()[0];
+			uint8_t ret = _adu_reader.ReadData<uint8_t>(std::endian::big);
+			return ret;
 		}
 
 		///
-		/// @brief 响应中发回来的数据。字节数为 DataByteCount().
+		/// @brief 读取载荷数据。
 		///
-		/// @note 本读者类无法知道这里面的数据是什么含义和格式，所以只能是返回内存段。
+		/// @param span
+		///
+		void ReadData(base::Span const &span)
+		{
+			_adu_reader.ReadData(span);
+		}
+
+		///
+		/// @brief 读取载荷数据。
+		///
+		/// @param remote_endian
 		///
 		/// @return
 		///
-		base::ReadOnlySpan DataSpan() const
+		template <typename ReturnType>
+		ReturnType ReadData(std::endian remote_endian)
 		{
-			base::ReadOnlySpan adu_data_span = _adu_reader.DataSpan();
-			return adu_data_span[base::Range{1, adu_data_span.Size()}];
+			return _adu_reader.ReadData<ReturnType>(remote_endian);
 		}
 	};
 

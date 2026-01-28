@@ -56,9 +56,10 @@ namespace base::modbus
 		///
 		/// @return
 		///
-		base::modbus::ExceptionCode ExceptionCode() const
+		base::modbus::ExceptionCode ExceptionCode()
 		{
-			return base::modbus::ExceptionCode{_adu_reader.DataSpan()[0]};
+			uint8_t value = _adu_reader.ReadData<uint8_t>(std::endian::big);
+			return base::modbus::ExceptionCode{value};
 		}
 	};
 

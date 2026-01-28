@@ -1,7 +1,5 @@
 #pragma once
 #include "AduReader.h"
-#include "base/bit/AutoBitConverter.h"
-#include "base/container/Range.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/string/define.h"
 #include "FunctionCode.h"
@@ -44,10 +42,9 @@ namespace base::modbus
 		///
 		/// @return
 		///
-		uint16_t StartAddress() const
+		uint16_t StartAddress()
 		{
-			base::ReadOnlySpan span = _adu_reader.DataSpan()[base::Range{0, 2}];
-			uint16_t ret = base::big_endian_remote_converter.FromBytes<uint16_t>(span);
+			uint16_t ret = _adu_reader.ReadData<uint16_t>(std::endian::big);
 			return ret;
 		}
 
@@ -56,10 +53,9 @@ namespace base::modbus
 		///
 		/// @return
 		///
-		uint16_t RecordCount() const
+		uint16_t RecordCount()
 		{
-			base::ReadOnlySpan span = _adu_reader.DataSpan()[base::Range{2, 4}];
-			uint16_t ret = base::big_endian_remote_converter.FromBytes<uint16_t>(span);
+			uint16_t ret = _adu_reader.ReadData<uint16_t>(std::endian::big);
 			return ret;
 		}
 	};

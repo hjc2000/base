@@ -1,6 +1,4 @@
 #pragma once
-#include "base/bit/AutoBitConverter.h"
-#include "base/container/Range.h"
 #include "base/modbus/AduReader.h"
 #include "base/modbus/FunctionCode.h"
 #include "base/stream/ReadOnlySpan.h"
@@ -44,10 +42,10 @@ namespace base::modbus
 		///
 		/// @return
 		///
-		uint16_t StartAddress() const
+		uint16_t StartAddress()
 		{
-			base::ReadOnlySpan span = _adu_reader.DataSpan()[base::Range{0, 2}];
-			return base::big_endian_remote_converter.FromBytes<uint16_t>(span);
+			uint16_t ret = _adu_reader.ReadData<uint16_t>(std::endian::big);
+			return ret;
 		}
 
 		///
@@ -55,10 +53,10 @@ namespace base::modbus
 		///
 		/// @return
 		///
-		uint16_t BitCount() const
+		uint16_t BitCount()
 		{
-			base::ReadOnlySpan span = _adu_reader.DataSpan()[base::Range{2, 4}];
-			return base::big_endian_remote_converter.FromBytes<uint16_t>(span);
+			uint16_t ret = _adu_reader.ReadData<uint16_t>(std::endian::big);
+			return ret;
 		}
 
 		///
@@ -66,20 +64,33 @@ namespace base::modbus
 		///
 		/// @return
 		///
-		uint8_t ByteCount() const
+		uint8_t ByteCount()
 		{
-			return _adu_reader.DataSpan()[4];
+			uint8_t ret = _adu_reader.ReadData<uint8_t>(std::endian::big);
+			return ret;
 		}
 
 		///
-		/// @brief 储存着位数据的字节序列。
+		/// @brief 读取载荷数据。
+		///
+		/// @param span
+		///
+		void ReadData(base::Span const &span)
+		{
+			_adu_reader.ReadData(span);
+		}
+
+		///
+		/// @brief 读取载荷数据。
+		///
+		/// @param remote_endian
 		///
 		/// @return
 		///
-		base::ReadOnlySpan DataSpan() const
+		template <typename ReturnType>
+		ReturnType ReadData(std::endian remote_endian)
 		{
-			base::ReadOnlySpan adu_data_span = _adu_reader.DataSpan();
-			return adu_data_span[base::Range{5, adu_data_span.Size()}];
+			return _adu_reader.ReadData<ReturnType>(remote_endian);
 		}
 	};
 
