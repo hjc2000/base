@@ -29,14 +29,6 @@ namespace base::ethernet
 		///
 		/// @note 巨型帧可以超过 1500 字节。但是需要网络设备支持，否则会导致无法传输。
 		///
-		/// @note 如果不满 46 字节，需要后面填充 0，使其达到 46 字节。
-		///
-		/// @note 因为可能会有填充，所以需要靠 TypeOrLength 属性来识别出有效字节数。
-		///
-		/// @note 这里返回的 ReadOnlySpan 是构造函数中交给本对象的 ReadOnlySpan
-		/// 去除以太网头部后的全部剩余空间，并不是实际的有效载荷。本类是以太网帧类，
-		/// 无法识别出有效载荷的长度，这种工作只能交给上层。
-		///
 		/// @return
 		///
 		base::ReadOnlySpan Payload() const
