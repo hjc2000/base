@@ -5,8 +5,10 @@
 #include "base/net/Mac.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
+#include "base/string/define.h"
 #include "base/string/Json.h"
 #include <cstdint>
+#include <stdexcept>
 
 namespace base::ethernet
 {
@@ -20,6 +22,33 @@ namespace base::ethernet
 		base::ReadOnlySpan _span;
 		int64_t _payload_reading_position = 0;
 
+		///
+		/// @brief 载荷数据。
+		///
+		/// @note 字节数的取值范围：[46, 1500].
+		///
+		/// @note 巨型帧可以超过 1500 字节。但是需要网络设备支持，否则会导致无法传输。
+		///
+		/// @note 如果不满 46 字节，需要后面填充 0，使其达到 46 字节。
+		///
+		/// @note 因为可能会有填充，所以需要靠 TypeOrLength 属性来识别出有效字节数。
+		///
+		/// @note 这里返回的 ReadOnlySpan 是构造函数中交给本对象的 ReadOnlySpan
+		/// 去除以太网头部后的全部剩余空间，并不是实际的有效载荷。本类是以太网帧类，
+		/// 无法识别出有效载荷的长度，这种工作只能交给上层。
+		///
+		/// @return
+		///
+		base::ReadOnlySpan Payload() const
+		{
+			if (HasVlanTag())
+			{
+				return _span[base::Range{18, _span.Size()}];
+			}
+
+			return _span[base::Range{14, _span.Size()}];
+		}
+
 	public:
 		///
 		/// @brief 引用 span 指向的内存段，在此位置解析以太网帧。
@@ -28,8 +57,12 @@ namespace base::ethernet
 		/// 	@note 传进来的内存段不要包括以太网帧尾部的 4 个字节的校验和。
 		///
 		EthernetFrameReader(base::ReadOnlySpan const &span)
+			: _span{span}
 		{
-			_span = span;
+			if (span.Size() < 60)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "内存段过小，以太网帧至少有 60 字节。（不包括校验和）"};
+			}
 		}
 
 		///
@@ -117,47 +150,52 @@ namespace base::ethernet
 		}
 
 		///
-		/// @brief 载荷数据。
+		/// @brief 重置负载读取指针。
 		///
-		/// @note 字节数的取值范围：[46, 1500].
-		///
-		/// @note 巨型帧可以超过 1500 字节。但是需要网络设备支持，否则会导致无法传输。
-		///
-		/// @note 如果不满 46 字节，需要后面填充 0，使其达到 46 字节。
-		///
-		/// @note 因为可能会有填充，所以需要靠 TypeOrLength 属性来识别出有效字节数。
-		///
-		/// @note 这里返回的 ReadOnlySpan 是构造函数中交给本对象的 ReadOnlySpan
-		/// 去除以太网头部后的全部剩余空间，并不是实际的有效载荷。本类是以太网帧类，
-		/// 无法识别出有效载荷的长度，这种工作只能交给上层。
-		///
-		/// @return
-		///
-		base::ReadOnlySpan Payload() const
-		{
-			if (HasVlanTag())
-			{
-				return _span[base::Range{18, _span.Size()}];
-			}
-
-			return _span[base::Range{14, _span.Size()}];
-		}
-
 		void ResetPayloadReadingPosition()
 		{
 			_payload_reading_position = 0;
 		}
 
+		///
+		/// @brief 读取载荷数据。
+		///
+		/// @param span
+		///
 		void ReadPayload(base::Span const &span)
 		{
-			base::Range read_range{
+			base::Range range_to_read{
 				_payload_reading_position,
 				_payload_reading_position + span.Size(),
 			};
 
-			base::ReadOnlySpan span_to_read = Payload()[read_range];
+			base::ReadOnlySpan span_to_read = Payload()[range_to_read];
 			span.CopyFrom(span_to_read);
 			_payload_reading_position += span_to_read.Size();
+		}
+
+		///
+		/// @brief 读取载荷数据。
+		///
+		/// @param remote_endian
+		///
+		/// @return
+		///
+		template <typename ReturnType>
+		ReturnType ReadPayload(std::endian remote_endian)
+		{
+			base::Range range_to_read{
+				_payload_reading_position,
+				_payload_reading_position + static_cast<int64_t>(sizeof(ReturnType)),
+			};
+
+			base::ReadOnlySpan span_to_read = Payload()[range_to_read];
+
+			base::AutoBitConverter conveter{remote_endian};
+			ReturnType ret = conveter.FromBytes<ReturnType>(span_to_read);
+
+			_payload_reading_position += span_to_read.Size();
+			return ret;
 		}
 
 		///

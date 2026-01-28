@@ -3,6 +3,7 @@
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Stream.h"
 #include <bit>
+#include <cstdint>
 
 namespace base
 {
@@ -47,7 +48,8 @@ namespace base
 		template <typename ReturnType>
 		ReturnType FromBytes(base::ReadOnlySpan const &span) const
 		{
-			ReturnType ret = bit_converte::FromBytes<ReturnType>(span);
+			ReturnType ret = base::bit_converte::FromBytes<ReturnType>(span);
+
 			if (ShouldReverse())
 			{
 				uint8_t *p = reinterpret_cast<uint8_t *>(&ret);
@@ -67,20 +69,31 @@ namespace base
 		template <typename ReturnType>
 		ReturnType FromBytes(base::Stream &stream) const
 		{
-			uint8_t buffer[sizeof(ReturnType)];
+			if (!ShouldReverse())
+			{
+				return base::bit_converte::FromBytes<ReturnType>(stream);
+			}
 
-			base::Span span{
-				buffer,
-				static_cast<int32_t>(sizeof(ReturnType)),
+			struct
+			{
+				// 使用普通字节缓冲区，避免 ReturnType 的构造函数被调用。
+				alignas(ReturnType) uint8_t _buffer[sizeof(ReturnType)];
+			} buffer_provider;
+
+			base::Span buffer_span{
+				buffer_provider._buffer,
+				static_cast<int64_t>(sizeof(ReturnType)),
 			};
 
-			int32_t have_read = stream.ReadExactly(span);
-			if (have_read < span.Size())
+			int64_t have_read = stream.ReadExactly(buffer_span);
+
+			if (have_read < buffer_span.Size())
 			{
 				throw std::runtime_error{CODE_POS_STR + "流中没有足够的字节。"};
 			}
 
-			return FromBytes<ReturnType>(span);
+			buffer_span.Reverse();
+			return *reinterpret_cast<ReturnType *>(buffer_provider._buffer);
 		}
 
 		/* #endregion */
@@ -94,13 +107,13 @@ namespace base
 		/// @param span
 		///
 		template <typename ValueType>
-		void GetBytes(ValueType value, base::Span const &span) const
+		void GetBytes(ValueType const &value, base::Span const &span) const
 		{
 			base::bit_converte::GetBytes<ValueType>(value, span);
+
 			if (ShouldReverse())
 			{
-				std::reverse(span.Buffer(),
-							 span.Buffer() + sizeof(ValueType));
+				span.Reverse();
 			}
 		}
 
@@ -113,16 +126,26 @@ namespace base
 		/// @return
 		///
 		template <typename ValueType>
-		void GetBytes(ValueType value, base::Stream &stream) const
+		void GetBytes(ValueType const &value, base::Stream &stream) const
 		{
-			uint8_t *buffer = reinterpret_cast<uint8_t *>(&value);
-			if (ShouldReverse())
+			if (!ShouldReverse())
 			{
-				// 直接翻转位于函数参数栈上的 ValueType.
-				std::reverse(buffer, buffer + sizeof(ValueType));
+				base::bit_converte::GetBytes<ValueType>(value, stream);
+				return;
 			}
 
-			stream.Write(buffer, 0, sizeof(ValueType));
+			uint8_t buffer[sizeof(ValueType)];
+
+			base::Span buffer_span{
+				buffer,
+				static_cast<int64_t>(sizeof(ValueType)),
+			};
+
+			// 借用 bit_converte 执行一次复制，将 value 复制到 buffer 中。
+			base::bit_converte::GetBytes<ValueType>(value, buffer_span);
+
+			buffer_span.Reverse();
+			stream.Write(buffer_span);
 		}
 
 		/* #endregion */
