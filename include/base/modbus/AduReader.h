@@ -92,6 +92,47 @@ namespace base::modbus
 		}
 
 		///
+		/// @brief 读取载荷数据。
+		///
+		/// @param span
+		///
+		void ReadData(base::Span const &span)
+		{
+			base::Range range_to_read{
+				_data_reading_position,
+				_data_reading_position + span.Size(),
+			};
+
+			base::ReadOnlySpan span_to_read = DataSpan()[range_to_read];
+			span.CopyFrom(span_to_read);
+			_data_reading_position += span_to_read.Size();
+		}
+
+		///
+		/// @brief 读取载荷数据。
+		///
+		/// @param remote_endian
+		///
+		/// @return
+		///
+		template <typename ReturnType>
+		ReturnType ReadData(std::endian remote_endian)
+		{
+			base::Range range_to_read{
+				_data_reading_position,
+				_data_reading_position + static_cast<int64_t>(sizeof(ReturnType)),
+			};
+
+			base::ReadOnlySpan span_to_read = DataSpan()[range_to_read];
+
+			base::AutoBitConverter conveter{remote_endian};
+			ReturnType ret = conveter.FromBytes<ReturnType>(span_to_read);
+
+			_data_reading_position += span_to_read.Size();
+			return ret;
+		}
+
+		///
 		/// @brief 进行 CRC 校验。
 		///
 		/// @return true 表示 CRC 校验通过，false 表示 CRC 校验不通过。
