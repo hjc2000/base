@@ -10,7 +10,6 @@
 #include <cstdint>
 #include <stdexcept>
 #include <string>
-#include <type_traits>
 
 namespace base::modbus
 {
@@ -18,7 +17,7 @@ namespace base::modbus
 	{
 	private:
 		base::Span _span{};
-		int32_t _data_length = 0;
+		int32_t _data_writing_position = 0;
 
 	public:
 		AduWriter(base::Span const &span)
@@ -58,10 +57,10 @@ namespace base::modbus
 		///
 		void WriteData(base::ReadOnlySpan const &span)
 		{
-			int32_t write_pos = 2 + _data_length;
+			int32_t write_pos = 2 + _data_writing_position;
 			base::Span span_to_write = _span[base::Range{write_pos, write_pos + span.Size()}];
 			span_to_write.CopyFrom(span);
-			_data_length += span.Size();
+			_data_writing_position += span.Size();
 		}
 
 		///
@@ -70,8 +69,6 @@ namespace base::modbus
 		/// @param value
 		///
 		template <typename ValueType>
-			requires(!std::is_same_v<ValueType, base::ReadOnlySpan> &&
-					 !std::is_same_v<ValueType, base::Span>)
 		void WriteData(ValueType value)
 		{
 			uint8_t buffer[sizeof(ValueType)];
@@ -90,7 +87,7 @@ namespace base::modbus
 			// 数据的最后一个字节的下一个字节的索引是
 			// 		2 + _data_length
 			// 加 2 是因为有 2 字节的头部。
-			int32_t data_end_pos = 2 + _data_length;
+			int32_t data_end_pos = 2 + _data_writing_position;
 
 			base::ReadOnlySpan span_to_check = _span[base::Range{0, data_end_pos}];
 			crc.Add(span_to_check);
@@ -108,7 +105,7 @@ namespace base::modbus
 		base::ReadOnlySpan SpanForSending() const
 		{
 			// 1 个字节的站号 + 1 个字节的功能码 + 数据 + 2 个字节的 CRC16.
-			return _span[base::Range{0, 2 + _data_length + 2}];
+			return _span[base::Range{0, 2 + _data_writing_position + 2}];
 		}
 
 		///
