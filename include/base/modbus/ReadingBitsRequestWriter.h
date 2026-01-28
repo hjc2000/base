@@ -35,7 +35,7 @@ namespace base::modbus
 		///
 		void WriteFunctionCode() const
 		{
-			_adu_writer.WriteFunctionCode(base::modbus::function_code::ReadBits());
+			_adu_writer.WriteFunctionCode(base::modbus::FunctionCode::Constants::ReadBits());
 		}
 
 		///
