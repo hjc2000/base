@@ -1,9 +1,12 @@
 #pragma once
 #include "base/bit/AutoBitConverter.h"
+#include "base/container/Range.h"
 #include "base/net/ethernet/LengthOrTypeEnum.h"
 #include "base/net/Mac.h"
 #include "base/stream/ReadOnlySpan.h"
+#include "base/stream/Span.h"
 #include "base/string/Json.h"
+#include <cstdint>
 
 namespace base::ethernet
 {
@@ -15,6 +18,7 @@ namespace base::ethernet
 	{
 	private:
 		base::ReadOnlySpan _span;
+		int64_t _payload_reading_position = 0;
 
 	public:
 		///
@@ -137,6 +141,23 @@ namespace base::ethernet
 			}
 
 			return _span[base::Range{14, _span.Size()}];
+		}
+
+		void ResetPayloadReadingPosition()
+		{
+			_payload_reading_position = 0;
+		}
+
+		void ReadPayload(base::Span const &span)
+		{
+			base::Range read_range{
+				_payload_reading_position,
+				_payload_reading_position + span.Size(),
+			};
+
+			base::ReadOnlySpan span_to_read = Payload()[read_range];
+			span.CopyFrom(span_to_read);
+			_payload_reading_position += span_to_read.Size();
 		}
 
 		///
