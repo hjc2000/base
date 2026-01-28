@@ -46,7 +46,7 @@ namespace base::modbus
 		///
 		void WriteAddress(uint16_t value)
 		{
-			_adu_writer.WriteData(value);
+			_adu_writer.WriteData(value, std::endian::big);
 		}
 
 		///
@@ -58,11 +58,11 @@ namespace base::modbus
 		{
 			if (value)
 			{
-				_adu_writer.WriteData(static_cast<uint16_t>(0xFF00));
+				_adu_writer.WriteData(static_cast<uint16_t>(0xFF00), std::endian::big);
 			}
 			else
 			{
-				_adu_writer.WriteData(static_cast<uint16_t>(0x0000));
+				_adu_writer.WriteData(static_cast<uint16_t>(0x0000), std::endian::big);
 			}
 		}
 

@@ -7,6 +7,7 @@
 #include "base/string/define.h"
 #include "base/string/ToHexString.h"
 #include "ModbusCrc16.h"
+#include <bit>
 #include <cstdint>
 #include <stdexcept>
 #include <string>
@@ -18,6 +19,11 @@ namespace base::modbus
 	private:
 		base::Span _span{};
 		int32_t _data_writing_position = 0;
+
+		base::Span DataSpan() const
+		{
+			return _span[base::Range{2, _span.Size() - 2}];
+		}
 
 	public:
 		AduWriter(base::Span const &span)
@@ -57,10 +63,15 @@ namespace base::modbus
 		///
 		void WriteData(base::ReadOnlySpan const &span)
 		{
-			int32_t write_pos = 2 + _data_writing_position;
-			base::Span span_to_write = _span[base::Range{write_pos, write_pos + span.Size()}];
+			base::Range range{
+				_data_writing_position,
+				_data_writing_position + span.Size(),
+			};
+
+			base::Span span_to_write = DataSpan()[range];
 			span_to_write.CopyFrom(span);
-			_data_writing_position += span.Size();
+
+			_data_writing_position += span_to_write.Size();
 		}
 
 		///
@@ -69,12 +80,19 @@ namespace base::modbus
 		/// @param value
 		///
 		template <typename ValueType>
-		void WriteData(ValueType value)
+		void WriteData(ValueType value, std::endian remote_endian)
 		{
-			uint8_t buffer[sizeof(ValueType)];
-			base::Span span{buffer, static_cast<int32_t>(sizeof(ValueType))};
-			base::big_endian_remote_converter.GetBytes(value, span);
-			WriteData(base::ReadOnlySpan{span});
+			base::Range range{
+				_data_writing_position,
+				_data_writing_position + static_cast<int64_t>(sizeof(ValueType)),
+			};
+
+			base::Span span_to_write = DataSpan()[range];
+
+			base::AutoBitConverter conveter{remote_endian};
+			conveter.GetBytes(value, span_to_write);
+
+			_data_writing_position += span_to_write.Size();
 		}
 
 		///

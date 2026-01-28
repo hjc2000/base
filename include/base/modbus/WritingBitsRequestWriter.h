@@ -45,7 +45,7 @@ namespace base::modbus
 		///
 		void WriteStartAddress(uint16_t value)
 		{
-			_adu_writer.WriteData(value);
+			_adu_writer.WriteData(value, std::endian::big);
 		}
 
 		///
@@ -55,7 +55,7 @@ namespace base::modbus
 		///
 		void WriteBitCount(uint16_t value)
 		{
-			_adu_writer.WriteData(value);
+			_adu_writer.WriteData(value, std::endian::big);
 		}
 
 		///
@@ -65,7 +65,7 @@ namespace base::modbus
 		///
 		void WriteByteCount(uint8_t value)
 		{
-			_adu_writer.WriteData(value);
+			_adu_writer.WriteData(value, std::endian::big);
 		}
 
 		///
@@ -84,9 +84,9 @@ namespace base::modbus
 		/// @param value
 		///
 		template <typename ValueType>
-		void WriteData(ValueType value)
+		void WriteData(ValueType value, std::endian remote_endian)
 		{
-			_adu_writer.WriteData(value);
+			_adu_writer.WriteData(value, remote_endian);
 		}
 
 		///

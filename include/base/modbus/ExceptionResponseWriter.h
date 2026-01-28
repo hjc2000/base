@@ -3,6 +3,7 @@
 #include "base/modbus/AduWriter.h"
 #include "base/modbus/FunctionCode.h"
 #include "ExceptionCode.h"
+#include <bit>
 #include <cstdint>
 
 namespace base::modbus
@@ -48,7 +49,7 @@ namespace base::modbus
 		///
 		void WriteExceptionCode(base::modbus::ExceptionCode const &value)
 		{
-			_adu_writer.WriteData(value.Value());
+			_adu_writer.WriteData(value.Value(), std::endian::big);
 		}
 
 		///
