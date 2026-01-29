@@ -77,7 +77,7 @@ namespace base::ethernet
 		///
 		/// @param value
 		///
-		void WriteDestinationMac(base::Mac const &value)
+		void WriteDestinationMac(base::Mac const &value) const
 		{
 			base::Span span = _span[base::Range{0, 6}];
 			span.CopyFrom(value.Span());
@@ -89,7 +89,7 @@ namespace base::ethernet
 		///
 		/// @param value
 		///
-		void WriteSourceMac(base::Mac const &value)
+		void WriteSourceMac(base::Mac const &value) const
 		{
 			base::Span span = _span[base::Range{6, 12}];
 			span.CopyFrom(value.Span());
@@ -115,7 +115,7 @@ namespace base::ethernet
 		///
 		/// @param value
 		///
-		void WriteTypeOrLength(base::ethernet::LengthOrTypeEnum value)
+		void WriteTypeOrLength(base::ethernet::LengthOrTypeEnum value) const
 		{
 			if (_has_vlan_tag)
 			{
