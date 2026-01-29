@@ -62,6 +62,16 @@ namespace base::modbus
 
 			return false;
 		}
+
+		///
+		/// @brief 进行 CRC 校验。
+		///
+		/// @return true 表示 CRC 校验通过，false 表示 CRC 校验不通过。
+		///
+		bool CheckCrc()
+		{
+			return _adu_reader.CheckCrc();
+		}
 	};
 
 } // namespace base::modbus

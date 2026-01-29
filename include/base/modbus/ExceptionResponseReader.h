@@ -61,6 +61,16 @@ namespace base::modbus
 			uint8_t value = _adu_reader.ReadData<uint8_t>(std::endian::big);
 			return base::modbus::ExceptionCode{value};
 		}
+
+		///
+		/// @brief 进行 CRC 校验。
+		///
+		/// @return true 表示 CRC 校验通过，false 表示 CRC 校验不通过。
+		///
+		bool CheckCrc()
+		{
+			return _adu_reader.CheckCrc();
+		}
 	};
 
 } // namespace base::modbus

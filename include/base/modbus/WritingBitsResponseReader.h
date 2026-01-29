@@ -53,6 +53,16 @@ namespace base::modbus
 			uint16_t ret = _adu_reader.ReadData<uint16_t>(std::endian::big);
 			return ret;
 		}
+
+		///
+		/// @brief 进行 CRC 校验。
+		///
+		/// @return true 表示 CRC 校验通过，false 表示 CRC 校验不通过。
+		///
+		bool CheckCrc()
+		{
+			return _adu_reader.CheckCrc();
+		}
 	};
 
 } // namespace base::modbus
