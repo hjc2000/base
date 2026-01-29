@@ -61,8 +61,7 @@ namespace base::modbus
 		///
 		/// @brief 写入 CRC.
 		///
-		///
-		void WriteCrc() const
+		void WriteCrc()
 		{
 			_adu_writer.WriteCrc();
 		}
