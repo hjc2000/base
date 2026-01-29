@@ -98,7 +98,7 @@ namespace base::modbus
 		///
 		/// @brief 写入 CRC16.
 		///
-		void WriteCrc()
+		void WriteCrc() const
 		{
 			base::modbus::ModbusCrc16 crc{};
 
