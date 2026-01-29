@@ -122,6 +122,11 @@ namespace base::ethernet
 			}
 		}
 
+		void ResetPayloadWritingPosition()
+		{
+			_payload_writer.ResetPosition();
+		}
+
 		///
 		/// @brief 写入载荷。
 		///
