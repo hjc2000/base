@@ -54,7 +54,7 @@ namespace base::modbus
 		/// 无效字节。传进来的整个内存段都是有效数据。
 		///
 		AduReader(base::ReadOnlySpan const &span)
-			: _span(span)
+			: _span{span}
 		{
 			if (span.Size() < 4)
 			{

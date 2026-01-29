@@ -27,7 +27,7 @@ namespace base::modbus
 
 	public:
 		AduWriter(base::Span const &span)
-			: _span(span)
+			: _span{span}
 		{
 			if (span.Size() <= 4)
 			{
