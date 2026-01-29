@@ -3,6 +3,7 @@
 #include "base/container/Range.h"
 #include "base/net/ethernet/LengthOrTypeEnum.h"
 #include "base/net/Mac.h"
+#include "base/stream/PayloadReader.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
 #include "base/string/define.h"
@@ -20,7 +21,7 @@ namespace base::ethernet
 	{
 	private:
 		base::ReadOnlySpan _span;
-		int64_t _payload_reading_position = 0;
+		base::PayloadReader _payload_reader;
 
 		///
 		/// @brief 载荷数据。
@@ -49,7 +50,8 @@ namespace base::ethernet
 		/// 	@note 传进来的内存段不要包括以太网帧尾部的 4 个字节的校验和。
 		///
 		EthernetFrameReader(base::ReadOnlySpan const &span)
-			: _span{span}
+			: _span{span},
+			  _payload_reader{Payload()}
 		{
 			if (span.Size() < 60)
 			{
@@ -142,28 +144,13 @@ namespace base::ethernet
 		}
 
 		///
-		/// @brief 重置负载读取指针。
-		///
-		void ResetPayloadReadingPosition()
-		{
-			_payload_reading_position = 0;
-		}
-
-		///
 		/// @brief 读取载荷数据。
 		///
 		/// @param span
 		///
 		void ReadPayload(base::Span const &span)
 		{
-			base::Range range_to_read{
-				_payload_reading_position,
-				_payload_reading_position + span.Size(),
-			};
-
-			base::ReadOnlySpan span_to_read = Payload()[range_to_read];
-			span.CopyFrom(span_to_read);
-			_payload_reading_position += span_to_read.Size();
+			_payload_reader.ReadPayload(span);
 		}
 
 		///
@@ -176,18 +163,7 @@ namespace base::ethernet
 		template <typename ReturnType>
 		ReturnType ReadPayload(std::endian remote_endian)
 		{
-			base::Range range_to_read{
-				_payload_reading_position,
-				_payload_reading_position + static_cast<int64_t>(sizeof(ReturnType)),
-			};
-
-			base::ReadOnlySpan span_to_read = Payload()[range_to_read];
-
-			base::AutoBitConverter conveter{remote_endian};
-			ReturnType ret = conveter.FromBytes<ReturnType>(span_to_read);
-
-			_payload_reading_position += span_to_read.Size();
-			return ret;
+			return _payload_reader.ReadPayload<ReturnType>(remote_endian);
 		}
 
 		///
