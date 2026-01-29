@@ -54,13 +54,12 @@ namespace base::modbus
 		/// 无效字节。传进来的整个内存段都是有效数据。
 		///
 		AduReader(base::ReadOnlySpan const &span)
+			: _span(span)
 		{
 			if (span.Size() < 4)
 			{
 				throw std::invalid_argument{CODE_POS_STR + "传入的 span 过小，不可能装下 modbus 帧，无法读取。"};
 			}
-
-			_span = span;
 		}
 
 		///

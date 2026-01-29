@@ -27,13 +27,12 @@ namespace base::modbus
 
 	public:
 		AduWriter(base::Span const &span)
+			: _span(span)
 		{
 			if (span.Size() <= 4)
 			{
 				throw std::invalid_argument{CODE_POS_STR + "传入的 span 过小，无法写入 modbus 帧。"};
 			}
-
-			_span = span;
 		}
 
 		///
