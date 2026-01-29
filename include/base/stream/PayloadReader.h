@@ -18,6 +18,16 @@ namespace base
 		{
 		}
 
+		int64_t Position() const
+		{
+			return _position;
+		}
+
+		void ResetPosition()
+		{
+			_position = 0;
+		}
+
 		///
 		/// @brief 读取载荷数据。
 		///
