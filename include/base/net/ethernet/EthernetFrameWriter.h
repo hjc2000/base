@@ -3,6 +3,7 @@
 #include "base/container/Range.h"
 #include "base/net/ethernet/LengthOrTypeEnum.h"
 #include "base/net/Mac.h"
+#include "base/stream/PayloadWriter.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
 #include "base/string/define.h"
@@ -25,6 +26,7 @@ namespace base::ethernet
 	private:
 		base::Span _span;
 		bool _has_vlan_tag = false;
+		base::PayloadWriter _payload_writer;
 		int32_t _payload_writting_position = 0;
 
 		base::Span Payload() const
@@ -64,7 +66,8 @@ namespace base::ethernet
 		/// 	本来没能力计算和写入校验和，会把尾部的所有空间都当成可以写入载荷的区域。
 		///
 		EthernetFrameWriter(base::Span const &span)
-			: _span{span}
+			: _span{span},
+			  _payload_writer{_span[base::Range{14, _span.Size()}]}
 		{
 			if (span.Size() < 60)
 			{
@@ -108,6 +111,7 @@ namespace base::ethernet
 			base::Span span = _span[base::Range{12, 16}];
 			span.CopyFrom(value);
 			_has_vlan_tag = true;
+			_payload_writer = base::PayloadWriter{_span[base::Range{18, _span.Size()}]};
 		}
 
 		///
