@@ -1,10 +1,10 @@
 #pragma once
 #include "base/container/Range.h"
 #include "base/modbus/FunctionCode.h"
+#include "base/modbus/ModbusCrc16.h"
 #include "base/stream/PayloadReader.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/string/define.h"
-#include "ModbusCrc16.h"
 #include <cstdint>
 #include <stdexcept>
 
