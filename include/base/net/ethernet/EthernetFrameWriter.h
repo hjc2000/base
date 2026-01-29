@@ -27,17 +27,6 @@ namespace base::ethernet
 		base::Span _span;
 		bool _has_vlan_tag = false;
 		base::PayloadWriter _payload_writer;
-		int32_t _payload_writting_position = 0;
-
-		base::Span Payload() const
-		{
-			if (_has_vlan_tag)
-			{
-				return _span[base::Range{18, _span.Size()}];
-			}
-
-			return _span[base::Range{14, _span.Size()}];
-		}
 
 		///
 		/// @brief 整个以太网帧的大小，不包括校验和。
@@ -51,10 +40,10 @@ namespace base::ethernet
 		{
 			if (_has_vlan_tag)
 			{
-				return std::max<int32_t>(_payload_writting_position + 18, 60);
+				return std::max<int32_t>(_payload_writer.Position() + 18, 60);
 			}
 
-			return std::max<int32_t>(_payload_writting_position + 14, 60);
+			return std::max<int32_t>(_payload_writer.Position() + 14, 60);
 		}
 
 	public:
@@ -140,15 +129,7 @@ namespace base::ethernet
 		///
 		void WritePayload(base::ReadOnlySpan const &span)
 		{
-			base::Range range{
-				_payload_writting_position,
-				_payload_writting_position + span.Size(),
-			};
-
-			base::Span span_to_write = Payload()[range];
-			span_to_write.CopyFrom(span);
-
-			_payload_writting_position += span_to_write.Size();
+			_payload_writer.WritePayload(span);
 		}
 
 		///
@@ -160,17 +141,7 @@ namespace base::ethernet
 		template <typename ValueType>
 		void WritePayload(ValueType value, std::endian remote_endian)
 		{
-			base::Range range{
-				_payload_writting_position,
-				_payload_writting_position + static_cast<int64_t>(sizeof(ValueType)),
-			};
-
-			base::Span span_to_write = Payload()[range];
-
-			base::AutoBitConverter conveter{remote_endian};
-			conveter.GetBytes(value, span_to_write);
-
-			_payload_writting_position += span_to_write.Size();
+			_payload_writer.WritePayload<ValueType>(value, remote_endian);
 		}
 
 		///
