@@ -22,7 +22,7 @@ namespace base::digital_circuit
 		bool _have_not_update_output = true;
 
 	public:
-		T GetOutput()
+		T Output() const
 		{
 			return _output;
 		}
@@ -38,7 +38,7 @@ namespace base::digital_circuit
 			_input = value;
 		}
 
-		bool HaveNotUpdateOutput()
+		bool HaveNotUpdateOutput() const
 		{
 			return _have_not_update_output;
 		}
