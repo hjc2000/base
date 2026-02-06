@@ -22,23 +22,23 @@ namespace base::digital_circuit
 		bool _have_not_update_output = true;
 
 	public:
-		T Output() const
+		constexpr T Output() const
 		{
 			return _output;
 		}
 
-		void UpdateOutput()
+		constexpr void UpdateOutput()
 		{
 			_have_not_update_output = false;
 			_output = _input;
 		}
 
-		void Input(T value)
+		constexpr void Input(T value)
 		{
 			_input = value;
 		}
 
-		bool HaveNotUpdateOutput() const
+		constexpr bool HaveNotUpdateOutput() const
 		{
 			return _have_not_update_output;
 		}
