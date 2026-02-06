@@ -1,6 +1,6 @@
 #pragma once
 
-namespace base
+namespace base::digital_circuit
 {
 	///
 	/// @brief 主从触发器。
@@ -44,4 +44,4 @@ namespace base
 		}
 	};
 
-} // namespace base
+} // namespace base::digital_circuit
