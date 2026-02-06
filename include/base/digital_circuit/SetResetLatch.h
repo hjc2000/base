@@ -37,12 +37,12 @@ namespace base::digital_circuit
 		///
 		/// @return 返回当前输入产生影响后的输出。
 		///
-		constexpr void Input(bool value)
+		constexpr bool Input(bool value)
 		{
 			if (_output)
 			{
 				// 输出已经置位了，不需要检查是否达到置位的条件了，直接返回。
-				return;
+				return _output;
 			}
 
 			if (value)
@@ -54,6 +54,8 @@ namespace base::digital_circuit
 			{
 				_output = true;
 			}
+
+			return _output;
 		}
 
 		///
