@@ -11,7 +11,7 @@ namespace base::digital_circuit
 		int64_t _setting_output_trigger_count = 0;
 
 	public:
-		SetResetLatch() = default;
+		constexpr SetResetLatch() = default;
 
 		///
 		/// @brief
@@ -20,7 +20,7 @@ namespace base::digital_circuit
 		/// 让输出置位。
 		/// 	@note 输入 <= 1 的数产生的结果都是输入 1 次为 true 的置位信号后立刻置位输出。
 		///
-		SetResetLatch(int64_t setting_output_trigger_count)
+		constexpr SetResetLatch(int64_t setting_output_trigger_count)
 		{
 			_setting_output_trigger_count = setting_output_trigger_count;
 
@@ -37,12 +37,12 @@ namespace base::digital_circuit
 		///
 		/// @return 返回当前输入产生影响后的输出。
 		///
-		bool Input(bool value)
+		constexpr void Input(bool value)
 		{
 			if (_output)
 			{
-				// 输出已经置位了，不需要检查是否达到置位的条件了，直接返回 true.
-				return true;
+				// 输出已经置位了，不需要检查是否达到置位的条件了，直接返回。
+				return;
 			}
 
 			if (value)
@@ -54,14 +54,12 @@ namespace base::digital_circuit
 			{
 				_output = true;
 			}
-
-			return _output;
 		}
 
 		///
 		/// @brief 复位输出。
 		///
-		void Reset()
+		constexpr void Reset()
 		{
 			_output = false;
 			_count = 0;
@@ -72,7 +70,7 @@ namespace base::digital_circuit
 		///
 		/// @return
 		///
-		bool Output() const
+		constexpr bool Output() const
 		{
 			return _output;
 		}
