@@ -33,7 +33,7 @@ namespace base::digital_circuit
 			_output = _input;
 		}
 
-		void UpdateInput(T value)
+		void Input(T value)
 		{
 			_input = value;
 		}
