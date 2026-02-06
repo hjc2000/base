@@ -8,7 +8,7 @@ namespace base
 	class PID
 	{
 	private:
-		base::FastInt64Fraction _current_output{};
+		base::FastInt64Fraction _output{};
 		base::FastInt64Fraction _kp{};
 		base::FastInt64Fraction _ki{};
 		base::FastInt64Fraction _kd{};
@@ -18,13 +18,13 @@ namespace base
 
 		void LimitOutput()
 		{
-			if (_current_output < _min_output)
+			if (_output < _min_output)
 			{
-				_current_output = _min_output;
+				_output = _min_output;
 			}
-			else if (_current_output > _max_output)
+			else if (_output > _max_output)
 			{
-				_current_output = _max_output;
+				_output = _max_output;
 			}
 		}
 
@@ -75,12 +75,12 @@ namespace base
 			_x[1] = _x[0];
 			_x[0] = x;
 
-			_current_output += _kp * (_x[0] - _x[1]);
-			_current_output += _ki * _x[0];
-			_current_output += _kd * (_x[0] - 2 * _x[1] + _x[2]);
+			_output += _kp * (_x[0] - _x[1]);
+			_output += _ki * _x[0];
+			_output += _kd * (_x[0] - 2 * _x[1] + _x[2]);
 
 			LimitOutput();
-			return _current_output;
+			return _output;
 		}
 
 		///
@@ -88,9 +88,9 @@ namespace base
 		///
 		/// @return
 		///
-		base::FastInt64Fraction CurrentOutput() const
+		base::FastInt64Fraction Output() const
 		{
-			return _current_output;
+			return _output;
 		}
 
 		///
