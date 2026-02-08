@@ -3,6 +3,9 @@
 
 namespace base::digital_circuit
 {
+	///
+	/// @brief SR 锁存器。
+	///
 	class SetResetLatch
 	{
 	private:
