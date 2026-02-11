@@ -74,7 +74,17 @@ namespace base
 		/// @param value
 		///
 		IMPLEMENTED
-		void set_state(base::led::led_handle &h, base::led::State value);
+		inline void set_state(base::led::led_handle &h, base::led::State value)
+		{
+			if (value == base::led::State::On)
+			{
+				turn_on(h);
+			}
+			else
+			{
+				turn_off(h);
+			}
+		}
 
 		///
 		/// @brief 获取 LED 灯得分亮度。
