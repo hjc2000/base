@@ -1,5 +1,7 @@
 #pragma once
+#include "base/string/define.h"
 #include <cstdint>
+#include <stdexcept>
 
 namespace base
 {
@@ -16,7 +18,21 @@ namespace base
 	public:
 		Size() = default;
 
-		Size(int32_t x, int32_t y);
+		Size(int32_t x, int32_t y)
+		{
+			if (x < 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "尺寸不能是负数。"};
+			}
+
+			if (y < 0)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "尺寸不能是负数。"};
+			}
+
+			_x = x;
+			_y = y;
+		}
 
 		///
 		/// @brief x 轴的尺寸，即宽度。
@@ -38,4 +54,5 @@ namespace base
 			return _y;
 		}
 	};
+
 } // namespace base
