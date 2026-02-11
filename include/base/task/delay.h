@@ -42,7 +42,11 @@ namespace base
 		/// @param time
 		///
 		IMPLEMENTED
-		void Delay(base::unit::Nanosecond const &time);
+		inline void Delay(base::unit::Nanosecond const &time)
+		{
+			std::chrono::nanoseconds ns = static_cast<std::chrono::nanoseconds>(time);
+			Delay(ns);
+		}
 
 		///
 		/// @brief 延时。
@@ -50,7 +54,11 @@ namespace base
 		/// @param time
 		///
 		IMPLEMENTED
-		void Delay(base::unit::Second const &time);
+		inline void Delay(base::unit::Second const &time)
+		{
+			std::chrono::nanoseconds ns = static_cast<std::chrono::nanoseconds>(time);
+			Delay(ns);
+		}
 
 	} // namespace task
 } // namespace base
