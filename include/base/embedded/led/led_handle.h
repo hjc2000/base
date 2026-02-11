@@ -26,6 +26,7 @@ namespace base
 		/// @brief 根据 LED 的颜色打开 LED.
 		///
 		/// @param color
+		///
 		/// @return
 		///
 		std::shared_ptr<base::led::led_handle> open(base::ui::Color color);
@@ -63,7 +64,8 @@ namespace base
 		/// @brief 获取 LED 灯的状态。
 		///
 		/// @param h
-		/// @return base::led::State
+		///
+		/// @return
 		///
 		base::led::State state(base::led::led_handle &h);
 
