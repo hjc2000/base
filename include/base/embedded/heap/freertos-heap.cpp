@@ -1,8 +1,9 @@
 #include "base/embedded/heap/heap.h"
 
+#if !HAS_THREAD
+
 ///
 /// @brief 实现 freertos 的函数。
-///
 ///
 extern "C"
 {
@@ -16,3 +17,5 @@ extern "C"
 		base::heap::Free(pv);
 	}
 }
+
+#endif // HAS_THREAD
