@@ -1,5 +1,5 @@
 # 编译目标
-add_library(${ProjectName} STATIC)
+add_library(${ProjectName} OBJECT)
 target_compile_definitions(${ProjectName} PUBLIC __test_resource_pasth="${CMAKE_CURRENT_SOURCE_DIR}/test-resource")
 target_import_src(${ProjectName})
 

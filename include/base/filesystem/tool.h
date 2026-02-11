@@ -1,21 +1,40 @@
 #pragma once
+#include "base/filesystem/filesystem.h"
+#include "base/filesystem/Path.h"
 #include "Path.h"
+#include <cstdint>
 
-namespace base
+namespace base::filesystem::tool
 {
-	namespace filesystem
+	///
+	/// @brief 递归遍历指定路径下的文件，移动到输出目录并重命名为数字。
+	///
+	/// @param input_path 要被处理的文件所在的文件夹。
+	/// @param temp_path 临时输出目录。
+	///
+	inline void batch_rename_files_to_numbers(base::Path const &input_path,
+											  base::Path const &temp_path)
 	{
-		namespace tool
+		uint64_t count = 0;
+		for (base::filesystem::DirectoryEntry const &entry : base::filesystem::RecursiveDirectoryEntryEnumerable{input_path})
 		{
-			///
-			/// @brief 递归遍历指定路径下的文件，移动到输出目录并重命名为数字。
-			///
-			/// @param input_path 要被处理的文件所在的文件夹。
-			/// @param temp_path 临时输出目录。
-			///
-			void batch_rename_files_to_numbers(base::Path const &input_path,
-											   base::Path const &temp_path);
+			base::Path dst_path = entry.Path();
+			dst_path.RemoveBasePath(input_path);
+			dst_path.SetLastName(std::to_string(count++) + '.' + dst_path.ExtensionName());
+			dst_path = temp_path + dst_path;
+			std::cout << dst_path << std::endl;
 
-		} // namespace tool
-	} // namespace filesystem
-} // namespace base
+			base::filesystem::Move(entry.Path(),
+								   dst_path,
+								   base::filesystem::OverwriteOption::Skip);
+		}
+
+		// 将输出目录移动到输入目录，覆盖输入目录
+		base::filesystem::Move(temp_path,
+							   input_path,
+							   base::filesystem::OverwriteOption::Overwrite);
+
+		std::cout << std::format("本次处理了: {} 个文件。", count) << std::endl;
+	}
+
+} // namespace base::filesystem::tool
