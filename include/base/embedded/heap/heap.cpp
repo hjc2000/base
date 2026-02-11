@@ -20,6 +20,7 @@ namespace
 void base::heap::PushBack(std::shared_ptr<base::heap::IHeap> const &heap)
 {
 	base::task::TaskSchedulerSuspendGuard g;
+
 	if (_queue_provider.Instance().Count() == 0)
 	{
 		_queue_provider.Instance().PushBack(base::RentedPtrFactory::Create(&base::heap::Heap()));
@@ -48,6 +49,7 @@ void base::heap::PushBack(base::Span const &span)
 void base::heap::PushFront(std::shared_ptr<base::heap::IHeap> const &heap)
 {
 	base::task::TaskSchedulerSuspendGuard g;
+
 	if (_queue_provider.Instance().Count() == 0)
 	{
 		_queue_provider.Instance().PushFront(base::RentedPtrFactory::Create(&base::heap::Heap()));
@@ -74,6 +76,7 @@ void base::heap::PushFront(base::Span const &span)
 void *base::heap::Malloc(size_t size) noexcept
 {
 	base::task::TaskSchedulerSuspendGuard g;
+
 	if (_queue_provider.Instance().Count() == 0)
 	{
 		void *p = base::heap::Heap().Malloc(size);
@@ -95,6 +98,7 @@ void *base::heap::Malloc(size_t size) noexcept
 void base::heap::Free(void *ptr) noexcept
 {
 	base::task::TaskSchedulerSuspendGuard g;
+
 	if (_queue_provider.Instance().Count() == 0)
 	{
 		base::heap::Heap().Free(ptr);
