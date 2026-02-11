@@ -1,5 +1,6 @@
 #pragma once
 #include "exception.h"
+#include <exception>
 
 namespace base
 {

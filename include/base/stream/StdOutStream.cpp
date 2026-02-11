@@ -1,6 +1,7 @@
 #include "StdOutStream.h" // IWYU pragma: keep
 #include "base/exception/NotSupportedException.h"
 #include "base/RentedPtrFactory.h"
+#include <iostream>
 
 #if HAS_THREAD
 
