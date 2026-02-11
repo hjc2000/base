@@ -1,5 +1,7 @@
 #include "interrupt.h" // IWYU pragma: keep
 
+#if !HAS_THREAD
+
 namespace
 {
 	int32_t volatile _global_interrupt_disable_times = 0;
@@ -21,3 +23,5 @@ void base::interrupt::enable_global_interrupt_recursive() noexcept
 		enable_global_interrupt();
 	}
 }
+
+#endif // HAS_THREAD
