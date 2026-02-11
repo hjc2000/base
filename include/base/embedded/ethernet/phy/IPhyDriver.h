@@ -1,6 +1,9 @@
 #pragma once
+#include "base/container/Array.h"
 #include "base/embedded/ethernet/EthernetController.h"
 #include "base/embedded/ethernet/parameter.h"
+#include "base/string/define.h"
+#include "base/task/delay.h"
 #include "base/unit/Mbps.h"
 
 namespace base

@@ -1,7 +1,4 @@
-#include "IPhyDriver.h"
-#include "base/string/define.h"
-#include "base/task/delay.h"
-#include <base/container/Array.h>
+#include "IPhyDriver.h" // IWYU pragma: keep
 
 void base::ethernet::IPhyDriver::SoftwareReset()
 {
