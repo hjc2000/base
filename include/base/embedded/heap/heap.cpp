@@ -1,14 +1,13 @@
 #include "heap.h" // IWYU pragma: keep
+#include "base/container/CircleDeque.h"
+#include "base/embedded/heap/Heap4.h"
+#include "base/RentedPtrFactory.h"
+#include "base/SingletonProvider.h"
+#include "base/task/task.h"
+#include <cstdint>
+#include <memory>
 
 #if !HAS_THREAD
-
-	#include "base/container/CircleDeque.h"
-	#include "base/embedded/heap/Heap4.h"
-	#include "base/RentedPtrFactory.h"
-	#include "base/SingletonProvider.h"
-	#include "base/task/task.h"
-	#include <cstdint>
-	#include <memory>
 
 namespace
 {
