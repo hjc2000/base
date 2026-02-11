@@ -22,7 +22,10 @@ namespace base
 			/// @param initial_release 二进制信号量初始时是否已经处于已释放的状态。
 			/// 传入 true 表示已释放，传入 false 表示未释放。
 			///
-			BinarySemaphore(bool initial_release);
+			BinarySemaphore(bool initial_release)
+				: _handle(base::task::create_binary_semaphore(initial_release))
+			{
+			}
 
 			///
 			/// @brief 释放信号量。
