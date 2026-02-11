@@ -1,40 +1,36 @@
 #pragma once
-#include "exception.h"
 #include <exception>
 
-namespace base
+namespace base::flash
 {
-	namespace flash
+	class SectorIndexOutOfRangeException :
+		public std::exception
 	{
-		class SectorIndexOutOfRangeException :
-			public std::exception
+	public:
+		virtual char const *what() const noexcept override
 		{
-		public:
-			virtual char const *what() const noexcept override
-			{
-				return "扇区索引超出范围。";
-			}
-		};
+			return "扇区索引超出范围。";
+		}
+	};
 
-		class CrossSectorException :
-			public std::exception
+	class CrossSectorException :
+		public std::exception
+	{
+	public:
+		virtual char const *what() const noexcept override
 		{
-		public:
-			virtual char const *what() const noexcept override
-			{
-				return "不能跨扇区。";
-			}
-		};
+			return "不能跨扇区。";
+		}
+	};
 
-		class AlignmentException :
-			public std::exception
+	class AlignmentException :
+		public std::exception
+	{
+	public:
+		virtual char const *what() const noexcept override
 		{
-		public:
-			virtual char const *what() const noexcept override
-			{
-				return "对齐异常。";
-			}
-		};
+			return "对齐异常。";
+		}
+	};
 
-	} // namespace flash
-} // namespace base
+} // namespace base::flash

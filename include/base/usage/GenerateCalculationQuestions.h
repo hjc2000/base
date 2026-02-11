@@ -5,6 +5,7 @@
 #include "base/stream/StreamWriter.h"
 #include "base/string/ICanToString.h"
 #include <cstdint>
+#include <format>
 #include <functional>
 #include <memory>
 

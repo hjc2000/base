@@ -1,5 +1,5 @@
 #pragma once
-#include <new>
+#include <new> // IWYU pragma: keep
 #include <utility>
 
 namespace base
