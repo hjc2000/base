@@ -1,11 +1,14 @@
-#include "heap.h"
-#include "base/container/CircleDeque.h"
-#include "base/embedded/heap/Heap4.h"
-#include "base/RentedPtrFactory.h"
-#include "base/SingletonProvider.h"
-#include "base/task/task.h"
-#include <cstdint>
-#include <memory>
+#include "heap.h" // IWYU pragma: keep
+
+#if !HAS_THREAD
+
+	#include "base/container/CircleDeque.h"
+	#include "base/embedded/heap/Heap4.h"
+	#include "base/RentedPtrFactory.h"
+	#include "base/SingletonProvider.h"
+	#include "base/task/task.h"
+	#include <cstdint>
+	#include <memory>
 
 namespace
 {
@@ -114,3 +117,5 @@ void base::heap::Free(void *ptr) noexcept
 		}
 	}
 }
+
+#endif // HAS_THREAD
