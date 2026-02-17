@@ -46,4 +46,14 @@
 		Class &operator=(Class const &) = delete; \
 		Class &operator=(Class &&) = delete;
 
+	///
+	/// @brief 作为静态类使用。
+	///
+	#define AS_STATIC_CLASS(Class)                \
+		Class() = delete;                         \
+		Class(Class const &) = delete;            \
+		Class(Class &&) = delete;                 \
+		Class &operator=(Class const &) = delete; \
+		Class &operator=(Class &&) = delete;
+
 #endif // __cplusplus

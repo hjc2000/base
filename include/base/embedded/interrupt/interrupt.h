@@ -7,7 +7,7 @@ namespace base
 	class interrupt
 	{
 	private:
-		DELETE_COPY_AND_MOVE(interrupt);
+		AS_STATIC_CLASS(interrupt);
 
 		inline static int32_t volatile _global_interrupt_disable_times = 0;
 
