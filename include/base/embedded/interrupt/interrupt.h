@@ -1,4 +1,5 @@
 #pragma once
+#include "base/define.h"
 #include <cstdint>
 
 namespace base
@@ -6,6 +7,8 @@ namespace base
 	class interrupt
 	{
 	private:
+		DELETE_COPY_AND_MOVE(interrupt);
+
 		inline static int32_t volatile _global_interrupt_disable_times = 0;
 
 		///
