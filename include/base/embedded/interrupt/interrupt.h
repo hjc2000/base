@@ -1,5 +1,4 @@
 #pragma once
-#include "base/define.h"
 #include <cstdint>
 
 namespace base::interrupt
@@ -37,40 +36,5 @@ namespace base::interrupt
 	///
 	///
 	void enable_global_interrupt() noexcept;
-
-	/* #region 递归禁用，使能全局中断 */
-
-	///
-	/// @brief 递归地禁用全局中断。
-	///
-	///
-	IMPLEMENTED
-	void disable_global_interrupt_recursive() noexcept;
-
-	///
-	/// @brief 递归地使能全局中断。
-	///
-	///
-	IMPLEMENTED
-	void enable_global_interrupt_recursive() noexcept;
-
-	///
-	/// @brief 构造时禁用全局中断，析构时使能全局中断。
-	///
-	class GlobalInterruptionGuard
-	{
-	public:
-		GlobalInterruptionGuard()
-		{
-			disable_global_interrupt_recursive();
-		}
-
-		~GlobalInterruptionGuard()
-		{
-			enable_global_interrupt_recursive();
-		}
-	};
-
-	/* #endregion */
 
 } // namespace base::interrupt
