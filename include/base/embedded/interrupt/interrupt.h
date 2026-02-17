@@ -10,10 +10,10 @@ namespace base::interrupt
 	IMPLEMENTED
 	void enable_global_interrupt_recursive() noexcept;
 
-	class DisableGlobalInterruptionImpelement
+	class DisableGlobalInterruptionImplementation
 	{
 	private:
-		AS_STATIC_CLASS(DisableGlobalInterruptionImpelement)
+		AS_STATIC_CLASS(DisableGlobalInterruptionImplementation)
 
 		friend void disable_global_interrupt_recursive() noexcept;
 		friend void enable_global_interrupt_recursive() noexcept;
@@ -63,8 +63,8 @@ namespace base::interrupt
 	///
 	inline void disable_global_interrupt_recursive() noexcept
 	{
-		DisableGlobalInterruptionImpelement::disable_global_interrupt();
-		DisableGlobalInterruptionImpelement::_global_interrupt_disable_times = DisableGlobalInterruptionImpelement::_global_interrupt_disable_times + 1;
+		DisableGlobalInterruptionImplementation::disable_global_interrupt();
+		DisableGlobalInterruptionImplementation::_global_interrupt_disable_times = DisableGlobalInterruptionImplementation::_global_interrupt_disable_times + 1;
 	}
 
 	///
@@ -73,13 +73,13 @@ namespace base::interrupt
 	///
 	inline void enable_global_interrupt_recursive() noexcept
 	{
-		DisableGlobalInterruptionImpelement::disable_global_interrupt();
-		DisableGlobalInterruptionImpelement::_global_interrupt_disable_times = DisableGlobalInterruptionImpelement::_global_interrupt_disable_times - 1;
+		DisableGlobalInterruptionImplementation::disable_global_interrupt();
+		DisableGlobalInterruptionImplementation::_global_interrupt_disable_times = DisableGlobalInterruptionImplementation::_global_interrupt_disable_times - 1;
 
-		if (DisableGlobalInterruptionImpelement::_global_interrupt_disable_times <= 0)
+		if (DisableGlobalInterruptionImplementation::_global_interrupt_disable_times <= 0)
 		{
-			DisableGlobalInterruptionImpelement::_global_interrupt_disable_times = 0;
-			DisableGlobalInterruptionImpelement::enable_global_interrupt();
+			DisableGlobalInterruptionImplementation::_global_interrupt_disable_times = 0;
+			DisableGlobalInterruptionImplementation::enable_global_interrupt();
 		}
 	}
 
