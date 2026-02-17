@@ -4,7 +4,10 @@
 
 namespace base::interrupt
 {
+	IMPLEMENTED
 	void disable_global_interrupt_recursive() noexcept;
+
+	IMPLEMENTED
 	void enable_global_interrupt_recursive() noexcept;
 
 	class DisableGlobalInterruptionImpelement
