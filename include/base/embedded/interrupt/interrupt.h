@@ -6,7 +6,7 @@ namespace base::interrupt
 	void disable_global_interrupt_recursive() noexcept;
 	void enable_global_interrupt_recursive() noexcept;
 
-	class InterruptContext
+	class Impelement
 	{
 	private:
 		friend void disable_global_interrupt_recursive() noexcept;
@@ -27,7 +27,7 @@ namespace base::interrupt
 		void enable_global_interrupt() noexcept;
 	};
 
-	base::interrupt::InterruptContext &context();
+	base::interrupt::Impelement &impelement();
 
 	///
 	/// @brief 禁用指定的中断。
@@ -59,8 +59,8 @@ namespace base::interrupt
 	///
 	inline void disable_global_interrupt_recursive() noexcept
 	{
-		context().disable_global_interrupt();
-		context()._global_interrupt_disable_times = context()._global_interrupt_disable_times + 1;
+		impelement().disable_global_interrupt();
+		impelement()._global_interrupt_disable_times = impelement()._global_interrupt_disable_times + 1;
 	}
 
 	///
@@ -69,13 +69,13 @@ namespace base::interrupt
 	///
 	inline void enable_global_interrupt_recursive() noexcept
 	{
-		context().disable_global_interrupt();
-		context()._global_interrupt_disable_times = context()._global_interrupt_disable_times - 1;
+		impelement().disable_global_interrupt();
+		impelement()._global_interrupt_disable_times = impelement()._global_interrupt_disable_times - 1;
 
-		if (context()._global_interrupt_disable_times <= 0)
+		if (impelement()._global_interrupt_disable_times <= 0)
 		{
-			context()._global_interrupt_disable_times = 0;
-			context().enable_global_interrupt();
+			impelement()._global_interrupt_disable_times = 0;
+			impelement().enable_global_interrupt();
 		}
 	}
 
