@@ -4,14 +4,16 @@
 
 namespace base::interrupt
 {
-	class GlobalInterruptionGuard;
+	void disable_global_interrupt_recursive() noexcept;
+	void enable_global_interrupt_recursive() noexcept;
 
 	class DisableGlobalInterruptionImpelement
 	{
 	private:
 		AS_STATIC_CLASS(DisableGlobalInterruptionImpelement)
 
-		friend class GlobalInterruptionGuard;
+		friend void disable_global_interrupt_recursive() noexcept;
+		friend void enable_global_interrupt_recursive() noexcept;
 
 		inline static int32_t volatile _global_interrupt_disable_times = 0;
 
@@ -26,36 +28,6 @@ namespace base::interrupt
 		///
 		///
 		static void enable_global_interrupt() noexcept;
-
-		/* #region 递归禁用，使能全局中断 */
-
-		///
-		/// @brief 递归地禁用全局中断。
-		///
-		///
-		static void disable_global_interrupt_recursive() noexcept
-		{
-			disable_global_interrupt();
-			_global_interrupt_disable_times = _global_interrupt_disable_times + 1;
-		}
-
-		///
-		/// @brief 递归地使能全局中断。
-		///
-		///
-		static void enable_global_interrupt_recursive() noexcept
-		{
-			disable_global_interrupt();
-			_global_interrupt_disable_times = _global_interrupt_disable_times - 1;
-
-			if (_global_interrupt_disable_times <= 0)
-			{
-				_global_interrupt_disable_times = 0;
-				enable_global_interrupt();
-			}
-		}
-
-		/* #endregion */
 	};
 
 	///
@@ -80,6 +52,34 @@ namespace base::interrupt
 	///
 	void enable_interrupt(int32_t irq, int32_t priority) noexcept;
 
+	/* #region 递归禁用，使能全局中断 */
+
+	///
+	/// @brief 递归地禁用全局中断。
+	///
+	///
+	inline void disable_global_interrupt_recursive() noexcept
+	{
+		DisableGlobalInterruptionImpelement::disable_global_interrupt();
+		DisableGlobalInterruptionImpelement::_global_interrupt_disable_times = DisableGlobalInterruptionImpelement::_global_interrupt_disable_times + 1;
+	}
+
+	///
+	/// @brief 递归地使能全局中断。
+	///
+	///
+	inline void enable_global_interrupt_recursive() noexcept
+	{
+		DisableGlobalInterruptionImpelement::disable_global_interrupt();
+		DisableGlobalInterruptionImpelement::_global_interrupt_disable_times = DisableGlobalInterruptionImpelement::_global_interrupt_disable_times - 1;
+
+		if (DisableGlobalInterruptionImpelement::_global_interrupt_disable_times <= 0)
+		{
+			DisableGlobalInterruptionImpelement::_global_interrupt_disable_times = 0;
+			DisableGlobalInterruptionImpelement::enable_global_interrupt();
+		}
+	}
+
 	///
 	/// @brief 构造时禁用全局中断，析构时使能全局中断。
 	///
@@ -88,13 +88,15 @@ namespace base::interrupt
 	public:
 		GlobalInterruptionGuard()
 		{
-			DisableGlobalInterruptionImpelement::disable_global_interrupt_recursive();
+			disable_global_interrupt_recursive();
 		}
 
 		~GlobalInterruptionGuard()
 		{
-			DisableGlobalInterruptionImpelement::enable_global_interrupt_recursive();
+			enable_global_interrupt_recursive();
 		}
 	};
+
+	/* #endregion */
 
 } // namespace base::interrupt
