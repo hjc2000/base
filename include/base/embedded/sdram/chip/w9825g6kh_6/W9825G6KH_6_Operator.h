@@ -78,14 +78,17 @@ namespace base::sdram::chip::w9825g6kh_6
 
 		///
 		/// @brief 此 SDRAM 的内存段。
+		///
 		/// @return
 		///
 		base::Span Span() const
 		{
-			return base::Span{
+			base::Span ret{
 				_controller.Span().Buffer(),
 				std::min<int64_t>(32 * 1024 * 1024, _controller.Span().Size()),
 			};
+
+			return ret;
 		}
 	};
 
