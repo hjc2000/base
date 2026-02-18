@@ -1,6 +1,6 @@
 #pragma once
+#include "base/embedded/iic/ISoftwareIicHostPinDriver.h"
 #include "base/unit/Nanosecond.h"
-#include "SoftwareIicHostPinDriver.h"
 #include <cstdint>
 #include <memory>
 #include <string>
