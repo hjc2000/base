@@ -8,7 +8,6 @@ namespace base
 	///
 	/// @brief 使用状态管理器。
 	///
-	///
 	template <typename T>
 	class UsageStateManager
 	{
@@ -43,4 +42,5 @@ namespace base
 			_is_used = false;
 		}
 	};
+
 } // namespace base
