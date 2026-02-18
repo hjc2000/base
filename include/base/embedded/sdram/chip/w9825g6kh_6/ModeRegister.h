@@ -69,6 +69,7 @@ namespace base::sdram::chip::w9825g6kh_6
 		{
 			uint32_t value = base::bit::ReadBits(_value, 0, 3);
 			value *= 2;
+
 			if (value == 0)
 			{
 				value = 1;
