@@ -5,48 +5,7 @@
 
 namespace base::iic
 {
-	/* #region ISoftwareIicHostPinDriver */
-
-	template <typename GpioType>
-	class SoftwareIicHostPinDriver :
-		public base::iic::ISoftwareIicHostPinDriver
-	{
-	public:
-		///
-		/// @brief 写 SCL 引脚的值。
-		///
-		/// @param value
-		///
-		virtual void WriteSCL(bool value) override = 0;
-
-		///
-		/// @brief 更改 SDA 引脚的 IO 方向。
-		///
-		/// @param value
-		///
-		virtual void ChangeSDADirection(base::gpio::Direction value) override = 0;
-
-		///
-		/// @brief 写 SDA 引脚的值。
-		///
-		/// @param value
-		///
-		virtual void WriteSDA(bool value) override = 0;
-
-		///
-		/// @brief 读 SDA 引脚的值。
-		///
-		/// @return
-		///
-		virtual bool ReadSDA() const override = 0;
-	};
-
-	/* #endregion */
-
-	/* #region 针对 base::gpio::GpioPin 特化 */
-
-	template <>
-	class SoftwareIicHostPinDriver<base::gpio::GpioPin> :
+	class GpioPinSoftwareIicHostPinDriver :
 		public base::iic::ISoftwareIicHostPinDriver
 	{
 	private:
@@ -54,8 +13,8 @@ namespace base::iic
 		base::gpio::GpioPin _sda_pin;
 
 	public:
-		SoftwareIicHostPinDriver(base::gpio::GpioPin const &scl_pin,
-								 base::gpio::GpioPin const &sda_pin)
+		GpioPinSoftwareIicHostPinDriver(base::gpio::GpioPin const &scl_pin,
+										base::gpio::GpioPin const &sda_pin)
 			: _scl_pin(scl_pin),
 			  _sda_pin(sda_pin)
 		{
@@ -116,7 +75,5 @@ namespace base::iic
 			return _sda_pin.ReadPin();
 		}
 	};
-
-	/* #endregion */
 
 } // namespace base::iic
