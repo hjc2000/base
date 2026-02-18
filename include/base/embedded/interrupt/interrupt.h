@@ -10,6 +10,9 @@ namespace base::interrupt
 	IMPLEMENTED
 	void enable_global_interrupt_recursive() noexcept;
 
+	///
+	/// @brief 禁用全局中断的实现。
+	///
 	class DisableGlobalInterruptionImplementation
 	{
 	private:
@@ -20,17 +23,19 @@ namespace base::interrupt
 
 		inline static int32_t volatile _global_interrupt_disable_times = 0;
 
+		/* #region 接口 */
+
 		///
 		/// @brief 禁用全局中断。
-		///
 		///
 		static void disable_global_interrupt() noexcept;
 
 		///
 		/// @brief 使能全局中断。
 		///
-		///
 		static void enable_global_interrupt() noexcept;
+
+		/* #endregion */
 	};
 
 	///
