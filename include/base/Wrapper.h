@@ -71,4 +71,5 @@ namespace base
 			return WrappedObj() == o.WrappedObj();
 		}
 	};
+
 } // namespace base
