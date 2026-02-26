@@ -14,7 +14,6 @@ namespace base::usage
 	///
 	/// @brief 运算符。
 	///
-	///
 	enum class Operator
 	{
 		Add,
@@ -25,7 +24,6 @@ namespace base::usage
 
 	///
 	/// @brief 计算题。
-	///
 	///
 	class CalculationQuestion :
 		public base::ICanToString
@@ -124,7 +122,6 @@ namespace base::usage
 
 	///
 	/// @brief 计算题生成器。
-	///
 	///
 	class CalculationQuestionGenerator
 	{

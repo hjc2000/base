@@ -7,7 +7,6 @@ namespace base
 	///
 	/// @brief 让无法拷贝和移动的 std::pair 模板实例类对象支持拷贝和移动。
 	///
-	///
 	template <typename TKey, typename TValue>
 	class StdPairWrapper
 	{
