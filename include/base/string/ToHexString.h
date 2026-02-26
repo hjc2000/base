@@ -16,7 +16,6 @@ namespace base
 		///
 		/// @brief 是否有 0x 前缀
 		///
-		///
 		bool with_0x_prefix = true;
 
 		///

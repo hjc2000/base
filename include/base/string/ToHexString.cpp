@@ -7,6 +7,7 @@ std::string base::ToHexString(uint64_t number, ToHexStringOptions const &options
 {
 	// 64 位数据，每 4 位需要一个 16 进制数来表示
 	int reserve = 64 / 4;
+
 	if (options.width > reserve)
 	{
 		// 填充后宽度大于实际内容，保留的空间定为 options.width.
@@ -27,6 +28,7 @@ std::string base::ToHexString(uint64_t number, ToHexStringOptions const &options
 	{
 		ret += base::character::number_to_hex_char(number & 0xf, options.uppercase);
 		number >>= 4;
+
 		if (number == 0)
 		{
 			break;
