@@ -39,6 +39,7 @@ namespace base
 				uint32_t volatile capture_value = 0;
 
 				timer.SetCaptureCompleteCallback(
+					channel_id,
 					[&](base::input_capture_timer::CaptureCompleteEventArgs const &args)
 					{
 						capture_value = args.CaptureValue();
