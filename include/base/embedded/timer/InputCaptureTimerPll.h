@@ -67,6 +67,7 @@ namespace base
 			}
 
 			_phase_error = _current_capture_register_value - _expected_capture_value;
+
 			if (_phase_error > static_cast<int64_t>(_timer.CounterPeriod()) / 2)
 			{
 				_phase_error -= _timer.CounterPeriod();
@@ -78,6 +79,7 @@ namespace base
 
 			// 把相位误差分给距离下次捕获会经历的 _frequency_multiple 个周期去调整。
 			_phase_ajustment = _phase_error / _frequency_multiple;
+
 			if (_phase_ajustment < -pll_output_limit)
 			{
 				_phase_ajustment = -pll_output_limit;
@@ -170,6 +172,7 @@ namespace base
 			if (_phase_fine_error > 0)
 			{
 				_phase_fine_error--;
+
 				if (_phase_fine_ajustment == 0)
 				{
 					_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() + 1);
@@ -179,6 +182,7 @@ namespace base
 			else if (_phase_fine_error < 0)
 			{
 				_phase_fine_error++;
+
 				if (_phase_fine_ajustment == 0)
 				{
 					_timer.SetCounterPeriodPreloadValue(_timer.CounterPeriod() - 1);
