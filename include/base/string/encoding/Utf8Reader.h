@@ -444,7 +444,7 @@ namespace base::string::encoding
 		}
 
 		///
-		/// @brief 从流中读取字节，解码位 UTF-32 字符，放入 span 中。
+		/// @brief 从流中读取字节，解码为 UTF-32 字符，放入 span 中。
 		///
 		/// @param span
 		///
