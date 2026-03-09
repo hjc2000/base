@@ -68,6 +68,16 @@ namespace base::string::encoding
 	std::string convert_local_string_to_utf8_string(base::ReadOnlySpan const &span);
 
 	///
+	/// @brief 将本地编码的字符串转换为 utf8 编码的字符串。
+	///
+	/// @note windows 中实现时要注意，先检查本地字符编码是不是已经设置为 utf8 了，
+	/// 如果是的话，不需要转换了。
+	///
+	/// @param str
+	///
+	void convert_local_string_to_utf8_string(std::string &str);
+
+	///
 	/// @brief 将 utf8 编码的字符串转换为本地编码的字符串。
 	///
 	/// @note windows 中实现时要注意，先检查本地字符编码是不是已经设置为 utf8 了，
@@ -77,5 +87,15 @@ namespace base::string::encoding
 	/// @return
 	///
 	std::string convert_utf8_string_to_local_string(base::ReadOnlySpan const &span);
+
+	///
+	/// @brief 将 utf8 编码的字符串转换为本地编码的字符串。
+	///
+	/// @note windows 中实现时要注意，先检查本地字符编码是不是已经设置为 utf8 了，
+	/// 如果是的话，不需要转换了。
+	///
+	/// @param str
+	///
+	void convert_utf8_string_to_local_string(std::string &str);
 
 } // namespace base::string::encoding
