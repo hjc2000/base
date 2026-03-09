@@ -56,6 +56,7 @@ namespace base::string::encoding
 
 				uint8_t byte;
 				int64_t have_read = _stream.Read(base::Span{&byte, 1});
+
 				if (have_read <= 0)
 				{
 					return;
@@ -193,6 +194,7 @@ namespace base::string::encoding
 			while (true)
 			{
 				FillHalfQueue();
+
 				if (_queue.Count() <= 0)
 				{
 					return;
@@ -228,6 +230,7 @@ namespace base::string::encoding
 		{
 			// 0b110 开头，除了当前字节，后续还有 1 个字节的数据。
 			FillHalfQueue();
+
 			if (_queue.Count() < 1)
 			{
 				// 后续还需要 1 个字节，但是已经没有了。
@@ -270,6 +273,7 @@ namespace base::string::encoding
 		{
 			// 0b1110 开头，除了当前字节，后续还有 2 个字节的数据。
 			FillHalfQueue();
+
 			if (_queue.Count() < 2)
 			{
 				_reading_context._span[_reading_context._total_read] = ReplacementCharacter();
@@ -324,6 +328,7 @@ namespace base::string::encoding
 		{
 			// 0b1111'0 开头，除了当前字节，后续还有 3 个字节的数据。
 			FillHalfQueue();
+
 			if (_queue.Count() < 3)
 			{
 				_reading_context._span[_reading_context._total_read] = ReplacementCharacter();
@@ -459,6 +464,7 @@ namespace base::string::encoding
 				}
 
 				FillHalfQueue();
+
 				if (_queue.Count() <= 0)
 				{
 					return _reading_context._total_read;
