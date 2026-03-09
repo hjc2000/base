@@ -59,6 +59,9 @@ namespace base::string::encoding
 	///
 	/// @brief 将本地编码的字符串转换为 utf8 编码的字符串。
 	///
+	/// @note windows 中实现时要注意，先检查本地字符编码是不是已经设置为 utf8 了，
+	/// 如果是的话，不需要转换了。
+	///
 	/// @param span
 	/// @return
 	///
@@ -66,6 +69,9 @@ namespace base::string::encoding
 
 	///
 	/// @brief 将 utf8 编码的字符串转换为本地编码的字符串。
+	///
+	/// @note windows 中实现时要注意，先检查本地字符编码是不是已经设置为 utf8 了，
+	/// 如果是的话，不需要转换了。
 	///
 	/// @param span
 	/// @return
