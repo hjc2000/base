@@ -43,7 +43,7 @@ namespace base::string::encoding
 	/// @param span
 	/// @return
 	///
-	inline std::u16string convert_ascii_to_utf16_string(base::ReadOnlySpan const &span)
+	inline std::u16string convert_ascii_string_to_utf16_string(base::ReadOnlySpan const &span)
 	{
 		std::u16string ret;
 		ret.reserve(span.Size());
@@ -55,5 +55,21 @@ namespace base::string::encoding
 
 		return ret;
 	}
+
+	///
+	/// @brief 将本地编码的字符串转换为 utf8 编码的字符串。
+	///
+	/// @param span
+	/// @return
+	///
+	std::string convert_local_string_to_utf8_string(base::ReadOnlySpan const &span);
+
+	///
+	/// @brief 将 utf8 编码的字符串转换为本地编码的字符串。
+	///
+	/// @param span
+	/// @return
+	///
+	std::string convert_utf8_string_to_local_string(base::ReadOnlySpan const &span);
 
 } // namespace base::string::encoding
