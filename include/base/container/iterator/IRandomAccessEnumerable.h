@@ -119,6 +119,9 @@ namespace base
 		template <typename item_type>
 		class Iterator
 		{
+		private:
+			std::shared_ptr<base::IRandomAccessEnumerator<item_type>> _enumerator;
+
 		public:
 			using iterator_category = std::random_access_iterator_tag;
 			using value_type = ItemType const;
@@ -126,10 +129,6 @@ namespace base
 			using pointer = ItemType const *;
 			using reference = ItemType const &;
 
-		private:
-			std::shared_ptr<base::IRandomAccessEnumerator<item_type>> _enumerator;
-
-		public:
 			Iterator() = default;
 
 			Iterator(std::shared_ptr<base::IRandomAccessEnumerator<item_type>> const &enumertor)
