@@ -17,7 +17,6 @@ namespace base
 	///
 	/// @brief 异步的流写入器。
 	///
-	///
 	class AsyncStreamWriter final :
 		public base::TextWriter
 	{
