@@ -148,15 +148,13 @@ namespace base
 
 			Iterator &operator=(Iterator const &other)
 			{
-				if (other._enumerator != nullptr)
+				if (other._enumerator == nullptr)
 				{
-					_enumerator = other._enumerator->Clone();
-				}
-				else
-				{
-					_enumerator = other._enumerator;
+					_enumerator = nullptr;
+					return *this;
 				}
 
+				_enumerator = other._enumerator->Clone();
 				return *this;
 			}
 
