@@ -161,7 +161,7 @@ namespace base
 		///
 		base::ReadOnlySpan Span() const
 		{
-			return base::ReadOnlySpan{_mac_buffer.Buffer(), _mac_buffer.Count()};
+			return base::ReadOnlySpan{_mac_buffer};
 		}
 
 		///
@@ -171,7 +171,7 @@ namespace base
 		///
 		base::Span Span()
 		{
-			return base::Span{_mac_buffer.Buffer(), _mac_buffer.Count()};
+			return base::Span{_mac_buffer};
 		}
 
 		///
