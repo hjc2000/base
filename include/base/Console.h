@@ -17,8 +17,6 @@ namespace base
 		std::shared_ptr<base::TextWriter> _error_writer;
 
 	public:
-		/* #region OutputWriter */
-
 		std::shared_ptr<base::TextWriter> OutputWriter() const
 		{
 			// 共享指针本身不线程安全，在另一个线程会写它的情况下，读写都需要加锁。
@@ -52,8 +50,6 @@ namespace base
 			base::task::MutexGuard g{_lock};
 			_error_writer = value;
 		}
-
-		/* #endregion */
 
 		/* #region 写入 std::string */
 
