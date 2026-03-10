@@ -43,6 +43,7 @@ namespace base
 		Array(std::initializer_list<ItemType> const &list)
 		{
 			int64_t i = 0;
+
 			for (auto &item : list)
 			{
 				_arr[i++] = item;
