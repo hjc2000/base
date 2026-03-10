@@ -129,6 +129,11 @@ namespace base
 			using pointer = ItemType const *;
 			using reference = ItemType const &;
 
+			///
+			/// @brief 无参构造函数。
+			///
+			/// @note 构造出来的迭代器处于 end 位置。此时 _enumerator 是 nullptr.
+			///
 			Iterator() = default;
 
 			Iterator(std::shared_ptr<base::IRandomAccessEnumerator<item_type>> const &enumertor)
@@ -214,6 +219,8 @@ namespace base
 			{
 				if (_enumerator == nullptr && other._enumerator != nullptr)
 				{
+					// 无参构造函数构造出来的迭代器处于 end 位置。此时 _enumerator 是 nullptr.
+					//
 					// 本对象是 end, other 不是 end.
 					// end - other
 					return other._enumerator->Count() - other._enumerator->Position();
@@ -221,6 +228,8 @@ namespace base
 
 				if (_enumerator != nullptr && other._enumerator == nullptr)
 				{
+					// 无参构造函数构造出来的迭代器处于 end 位置。此时 _enumerator 是 nullptr.
+					//
 					// 本对象不是 end, other 是 end.
 					// this - end
 					return _enumerator->Position() - _enumerator->Count();
@@ -243,12 +252,16 @@ namespace base
 			{
 				if (_enumerator != nullptr && other._enumerator == nullptr)
 				{
+					// 无参构造函数构造出来的迭代器处于 end 位置。此时 _enumerator 是 nullptr.
+					//
 					// 本对象不是 end, other 是 end.
 					return _enumerator->IsEnd();
 				}
 
 				if (_enumerator == nullptr && other._enumerator != nullptr)
 				{
+					// 无参构造函数构造出来的迭代器处于 end 位置。此时 _enumerator 是 nullptr.
+					//
 					// 本对象是 end, other 不是 end.
 					return other._enumerator->IsEnd();
 				}
