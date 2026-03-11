@@ -218,6 +218,7 @@ namespace base
 			}
 
 			int64_t i = 0;
+
 			for (uint8_t const &value : list)
 			{
 				_buffer[i] = value;

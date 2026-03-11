@@ -213,6 +213,7 @@ namespace base
 			}
 
 			int64_t result = Slice(base::Range{start, _size}).IndexOf(match);
+
 			if (result < 0)
 			{
 				return result;
@@ -285,6 +286,7 @@ namespace base
 			}
 
 			int64_t result = Slice(base::Range{start, _size}).IndexOf(match);
+
 			if (result < 0)
 			{
 				return result;
