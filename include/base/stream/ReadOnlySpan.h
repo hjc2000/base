@@ -29,7 +29,7 @@ namespace base
 		///
 		/// @note 可以通过 Size 属性判断本对象是否引用到了有效的内存。
 		///
-		constexpr ReadOnlySpan() = default;
+		ReadOnlySpan() = default;
 
 		///
 		/// @brief 引用 buffer 指向的内存。在本对象的生命周期内，buffer 指向的内存必须始终存活。
@@ -37,7 +37,7 @@ namespace base
 		/// @param buffer 要引用的内存。
 		/// @param size buffer 的大小。
 		///
-		constexpr ReadOnlySpan(uint8_t const *buffer, int64_t size)
+		ReadOnlySpan(uint8_t const *buffer, int64_t size)
 		{
 			_buffer = buffer;
 			_size = size;
@@ -82,7 +82,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr uint8_t const &operator[](int64_t index) const
+		uint8_t const &operator[](int64_t index) const
 		{
 			if (index < 0 || index >= _size)
 			{
@@ -99,7 +99,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr base::ReadOnlySpan operator[](base::Range const &range) const
+		base::ReadOnlySpan operator[](base::Range const &range) const
 		{
 			return Slice(range);
 		}
@@ -111,7 +111,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr uint8_t const *Buffer() const
+		uint8_t const *Buffer() const
 		{
 			return _buffer;
 		}
@@ -121,7 +121,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr int64_t Size() const
+		int64_t Size() const
 		{
 			return _size;
 		}
@@ -136,7 +136,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr base::ReadOnlySpan Slice(int64_t start, int64_t size) const
+		base::ReadOnlySpan Slice(int64_t start, int64_t size) const
 		{
 			if (start < 0)
 			{
@@ -163,7 +163,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr base::ReadOnlySpan Slice(base::Range const &range) const
+		base::ReadOnlySpan Slice(base::Range const &range) const
 		{
 			return Slice(range.Begin(), range.Size());
 		}
@@ -179,7 +179,7 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		constexpr int64_t IndexOf(uint8_t match) const
+		int64_t IndexOf(uint8_t match) const
 		{
 			for (int64_t i = 0; i < _size; i++)
 			{
@@ -200,7 +200,7 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		constexpr int64_t IndexOf(int64_t start, uint8_t match) const
+		int64_t IndexOf(int64_t start, uint8_t match) const
 		{
 			if (start < 0)
 			{
@@ -228,7 +228,7 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		constexpr int64_t IndexOf(base::ReadOnlySpan const &match) const
+		int64_t IndexOf(base::ReadOnlySpan const &match) const
 		{
 			if (match.Size() <= 0)
 			{
@@ -272,7 +272,7 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		constexpr int64_t IndexOf(int64_t start, base::ReadOnlySpan const &match) const
+		int64_t IndexOf(int64_t start, base::ReadOnlySpan const &match) const
 		{
 			if (start < 0)
 			{
@@ -304,7 +304,7 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		constexpr int64_t LastIndexOf(uint8_t match) const
+		int64_t LastIndexOf(uint8_t match) const
 		{
 			for (int64_t i = _size - 1; i >= 0; i--)
 			{
@@ -325,7 +325,7 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		constexpr int64_t LastIndexOf(int64_t start, uint8_t match) const
+		int64_t LastIndexOf(int64_t start, uint8_t match) const
 		{
 			if (start < 0)
 			{
@@ -348,7 +348,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr int64_t LastIndexOf(base::ReadOnlySpan const &match) const
+		int64_t LastIndexOf(base::ReadOnlySpan const &match) const
 		{
 			if (match.Size() <= 0)
 			{
@@ -386,7 +386,7 @@ namespace base
 		///
 		/// @return 找到了返回匹配位置的索引。没找到返回 -1.
 		///
-		constexpr int64_t LastIndexOf(int64_t start, base::ReadOnlySpan const &match) const
+		int64_t LastIndexOf(int64_t start, base::ReadOnlySpan const &match) const
 		{
 			if (start < 0)
 			{
@@ -413,7 +413,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr bool StartWith(uint8_t match)
+		bool StartWith(uint8_t match)
 		{
 			if (Size() == 0)
 			{
@@ -430,7 +430,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr bool StartWith(base::ReadOnlySpan const &match)
+		bool StartWith(base::ReadOnlySpan const &match)
 		{
 			if (Size() < match.Size())
 			{
@@ -447,7 +447,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr bool EndWith(uint8_t match)
+		bool EndWith(uint8_t match)
 		{
 			if (Size() == 0)
 			{
@@ -464,7 +464,7 @@ namespace base
 		///
 		/// @return
 		///
-		constexpr bool EndWith(base::ReadOnlySpan const &match)
+		bool EndWith(base::ReadOnlySpan const &match)
 		{
 			if (Size() < match.Size())
 			{
@@ -572,12 +572,12 @@ namespace base
 
 		/* #region 迭代 */
 
-		constexpr uint8_t const *begin() const
+		uint8_t const *begin() const
 		{
 			return _buffer;
 		}
 
-		constexpr uint8_t const *end() const
+		uint8_t const *end() const
 		{
 			return _buffer + _size;
 		}
