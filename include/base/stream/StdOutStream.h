@@ -1,5 +1,6 @@
 #pragma once
 #include "base/exception/NotSupportedException.h"
+#include "base/SingletonProvider.h"
 #include "base/stream/Stream.h"
 #include <iostream>
 #include <memory>
@@ -130,11 +131,22 @@ namespace base
 		/* #endregion */
 	};
 
-	///
-	/// @brief 获取标准输出流实例。
-	///
-	/// @return
-	///
-	std::shared_ptr<base::Stream> std_out_stream();
+	class StdOutStreamProvider
+	{
+	private:
+		class Initializer
+		{
+		public:
+			std::shared_ptr<base::Stream> _instance{new base::StdOutStream{}};
+		};
+
+		inline static base::SingletonProvider<Initializer> _provider{};
+
+	public:
+		static std::shared_ptr<base::Stream> Instance()
+		{
+			return _provider.Instance()._instance;
+		}
+	};
 
 } // namespace base
