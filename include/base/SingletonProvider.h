@@ -25,6 +25,8 @@ namespace base
 	/// @note 可以参考本项目中 StdOutStreamProvider.h 中的 StdOutStreamProvider 类
 	/// 的做法。
 	///
+	/// @todo 重命名为 GlobalObjectProvider.
+	///
 	template <typename T>
 	class SingletonProvider
 	{
