@@ -3,6 +3,13 @@
 #include <cstdint>          // IWYU pragma: keep
 #include <new>              // IWYU pragma: keep
 
+#if HAS_THREAD
+
+	#include <atomic>
+	#include <mutex>
+
+#endif // HAS_THREAD
+
 namespace base
 {
 	///
@@ -26,10 +33,24 @@ namespace base
 
 #if HAS_THREAD
 
+		std::atomic_bool _initialized = false;
+		alignas(T) uint8_t _instance_buffer[sizeof(T)];
+		std::mutex _mutex{};
+
 		T &get_instance()
 		{
-			static T instance{};
-			return instance;
+			if (!_initialized)
+			{
+				std::lock_guard g{_mutex};
+
+				if (!_initialized)
+				{
+					new (_instance_buffer) T{};
+					_initialized = true;
+				}
+			}
+
+			return *reinterpret_cast<T *>(_instance_buffer);
 		}
 
 #else
