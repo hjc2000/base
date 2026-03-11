@@ -2,6 +2,8 @@
 #include "base/container/ArraySpan.h"
 #include "base/container/iterator/IRandomAccessEnumerable.h"
 #include "base/sfinae/Compare.h"
+#include "base/stream/ReadOnlySpan.h"
+#include "base/stream/Span.h"
 #include "base/string/define.h"
 
 namespace base
@@ -153,6 +155,18 @@ namespace base
 		}
 
 		/* #endregion */
+
+		operator base::Span()
+			requires(std::is_same_v<ItemType, uint8_t>)
+		{
+			return base::Span{Buffer(), Count()};
+		}
+
+		operator base::ReadOnlySpan() const
+			requires(std::is_same_v<ItemType, uint8_t>)
+		{
+			return base::ReadOnlySpan{Buffer(), Count()};
+		}
 
 		/* #region GetRandomAccessEnumerator */
 

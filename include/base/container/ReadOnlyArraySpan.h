@@ -2,6 +2,7 @@
 #include "base/container/iterator/IRandomAccessEnumerable.h"
 #include "base/container/iterator/IRandomAccessEnumerator.h"
 #include "base/container/Range.h"
+#include "base/stream/ReadOnlySpan.h"
 #include "base/string/define.h"
 #include <cstdint>
 #include <stdexcept>
@@ -181,6 +182,12 @@ namespace base
 		ItemType const &operator[](int64_t index) const
 		{
 			return Get(index);
+		}
+
+		operator base::ReadOnlySpan() const
+			requires(std::is_same_v<ItemType, uint8_t>)
+		{
+			return base::ReadOnlySpan{Buffer(), Count()};
 		}
 
 		/* #region GetEnumerator */

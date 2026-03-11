@@ -1,6 +1,4 @@
 #pragma once
-#include "base/container/Array.h"
-#include "base/container/ArraySpan.h"
 #include "base/container/Range.h"
 #include "base/string/define.h"
 #include <algorithm>
@@ -70,50 +68,6 @@ namespace base
 
 			_buffer = reinterpret_cast<uint8_t const *>(str);
 			_size = white_char_index;
-		}
-
-		///
-		/// @brief 从 base::ArraySpan<uint8_t> 构造，引用它所引用的内存。
-		///
-		/// @param span
-		///
-		ReadOnlySpan(base::ArraySpan<uint8_t> const &span)
-		{
-			_buffer = span.Buffer();
-			_size = span.Count();
-
-			if (_buffer == nullptr)
-			{
-				_size = 0;
-			}
-		}
-
-		///
-		/// @brief 从 base::ReadOnlyArraySpan<uint8_t> 构造，引用它所引用的内存段。
-		///
-		/// @param span
-		///
-		ReadOnlySpan(base::ReadOnlyArraySpan<uint8_t> const &span)
-		{
-			_buffer = span.Buffer();
-			_size = span.Count();
-
-			if (_buffer == nullptr)
-			{
-				_size = 0;
-			}
-		}
-
-		///
-		/// @brief 从 base::Array<uint8_t, TCount> 构造，引用它所引用的内存。
-		///
-		/// @tparam TCount
-		/// @param array
-		///
-		template <int64_t TCount>
-		ReadOnlySpan(base::Array<uint8_t, TCount> const &array)
-			: base::ReadOnlySpan(array.Span())
-		{
 		}
 
 		/* #endregion */

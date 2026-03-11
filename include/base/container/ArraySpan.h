@@ -5,6 +5,7 @@
 #include "base/container/ReadOnlyArraySpan.h"
 #include "base/math/random.h"
 #include "base/sfinae/Compare.h"
+#include "base/stream/Span.h"
 #include "base/string/define.h"
 #include <algorithm>
 #include <cstdint>
@@ -318,6 +319,18 @@ namespace base
 			};
 
 			CopyFrom(temp_vec_span);
+		}
+
+		operator base::Span() const
+			requires(std::is_same_v<ItemType, uint8_t>)
+		{
+			return base::Span{Buffer(), Count()};
+		}
+
+		operator base::ReadOnlySpan() const
+			requires(std::is_same_v<ItemType, uint8_t>)
+		{
+			return base::ReadOnlySpan{Buffer(), Count()};
 		}
 
 		/* #region GetRandomAccessEnumerator */
