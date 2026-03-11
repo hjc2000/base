@@ -27,7 +27,7 @@ namespace base
 		///
 		/// @note 可以通过 Size 属性判断本对象是否引用到了有效的内存。
 		///
-		Span() = default;
+		constexpr Span() = default;
 
 		///
 		/// @brief 引用 buffer 指向的内存。在本对象的生命周期内，buffer 指向的内存必须始终存活。
@@ -35,7 +35,7 @@ namespace base
 		/// @param buffer 要引用的内存。
 		/// @param size buffer 的大小。
 		///
-		Span(uint8_t *buffer, int64_t size)
+		constexpr Span(uint8_t *buffer, int64_t size)
 		{
 			_buffer = buffer;
 			_size = size;
@@ -51,9 +51,10 @@ namespace base
 		///
 		/// @param str
 		///
-		Span(char *str)
+		constexpr Span(char *str)
 		{
 			int64_t white_char_index = 0;
+
 			while (true)
 			{
 				if (str[white_char_index] == '\0')
