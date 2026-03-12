@@ -1,4 +1,5 @@
 #pragma once
+#include "base/GlobalObjectProvider.h"
 #include "base/task/Mutex.h"
 #include "string/TextWriter.h"
 #include <cstdint>
@@ -540,6 +541,29 @@ namespace base
 		/* #endregion */
 	};
 
-	base::Console &console();
+} // namespace base
+
+namespace base::detail
+{
+	class ConsoleInstanceProvider
+	{
+	private:
+		inline static base::GlobalObjectProvider<base::Console> _provider;
+
+	public:
+		static base::Console &Instance()
+		{
+			return _provider.Instance();
+		}
+	};
+
+} // namespace base::detail
+
+namespace base
+{
+	inline base::Console &console()
+	{
+		return base::detail::ConsoleInstanceProvider::Instance();
+	}
 
 } // namespace base
