@@ -3,6 +3,7 @@
 #include "base/container/List.h"
 #include "base/define.h"
 #include "base/embedded/led/Led.h"
+#include "base/GlobalObjectProvider.h"
 #include "base/string/define.h"
 #include <array>
 #include <cstddef>
@@ -10,102 +11,122 @@
 #include <stdexcept>
 #include <vector>
 
-namespace base
+namespace base::led
 {
-	namespace led
+	///
+	/// @brief 灯条。
+	///
+	///
+	class LedBar
 	{
-		///
-		/// @brief 灯条。
-		///
-		///
-		class LedBar
+	private:
+		DELETE_COPY_AND_MOVE(LedBar)
+
+		base::List<base::led::Led> _leds{};
+
+	public:
+		LedBar() = default;
+
+		/* #region Add */
+
+		void Add(base::IEnumerable<base::led::Led> const &leds)
 		{
-		private:
-			DELETE_COPY_AND_MOVE(LedBar)
+			_leds.Add(leds);
+		}
 
-			base::List<base::led::Led> _leds{};
+		void Add(base::IEnumerable<base::led::Led const> const &leds)
+		{
+			_leds.Add(leds);
+		}
 
-		public:
-			LedBar() = default;
+		void Add(std::vector<base::led::Led> const &leds)
+		{
+			_leds.Add(leds);
+		}
 
-			/* #region Add */
+		template <int32_t Count>
+		void Add(std::array<base::led::Led, Count> const &leds)
+		{
+			_leds.Add(leds);
+		}
 
-			void Add(base::IEnumerable<base::led::Led> const &leds)
-			{
-				_leds.Add(leds);
-			}
-
-			void Add(base::IEnumerable<base::led::Led const> const &leds)
-			{
-				_leds.Add(leds);
-			}
-
-			void Add(std::vector<base::led::Led> const &leds)
-			{
-				_leds.Add(leds);
-			}
-
-			template <int32_t Count>
-			void Add(std::array<base::led::Led, Count> const &leds)
-			{
-				_leds.Add(leds);
-			}
-
-			/* #endregion */
-
-			///
-			/// @brief 灯条中 LED 灯的数量。
-			///
-			/// @return
-			///
-			int32_t Count() const
-			{
-				return _leds.Count();
-			}
-
-			/* #region operator[] */
-
-			base::led::Led &operator[](int32_t index)
-			{
-				try
-				{
-					return _leds[index];
-				}
-				catch (std::exception const &e)
-				{
-					throw std::runtime_error{CODE_POS_STR + e.what()};
-				}
-				catch (...)
-				{
-					throw std::runtime_error{CODE_POS_STR + "未知的异常。"};
-				}
-			}
-
-			base::led::Led const &operator[](size_t index) const
-			{
-				try
-				{
-					return _leds[index];
-				}
-				catch (std::exception const &e)
-				{
-					throw std::runtime_error{CODE_POS_STR + e.what()};
-				}
-				catch (...)
-				{
-					throw std::runtime_error{CODE_POS_STR + "未知的异常。"};
-				}
-			}
-
-			/* #endregion */
-		};
+		/* #endregion */
 
 		///
-		/// @brief 全局的 LED 灯条。可以向这里添加 LED 灯。
+		/// @brief 灯条中 LED 灯的数量。
 		///
 		/// @return
 		///
-		base::led::LedBar &led_bar();
+		int32_t Count() const
+		{
+			return _leds.Count();
+		}
 
-	} // namespace led
-} // namespace base
+		/* #region operator[] */
+
+		base::led::Led &operator[](int32_t index)
+		{
+			try
+			{
+				return _leds[index];
+			}
+			catch (std::exception const &e)
+			{
+				throw std::runtime_error{CODE_POS_STR + e.what()};
+			}
+			catch (...)
+			{
+				throw std::runtime_error{CODE_POS_STR + "未知的异常。"};
+			}
+		}
+
+		base::led::Led const &operator[](size_t index) const
+		{
+			try
+			{
+				return _leds[index];
+			}
+			catch (std::exception const &e)
+			{
+				throw std::runtime_error{CODE_POS_STR + e.what()};
+			}
+			catch (...)
+			{
+				throw std::runtime_error{CODE_POS_STR + "未知的异常。"};
+			}
+		}
+
+		/* #endregion */
+	};
+
+} // namespace base::led
+
+namespace base::detail::led
+{
+	class LedBarProvider
+	{
+	private:
+		inline static base::GlobalObjectProvider<base::led::LedBar> _led_bar_instance_provider{};
+
+	public:
+		static base::led::LedBar &Instance()
+		{
+			return _led_bar_instance_provider.Instance();
+		}
+	};
+
+} // namespace base::detail::led
+
+namespace base::led
+{
+	///
+	/// @brief 全局的 LED 灯条。可以向这里添加 LED 灯。
+	///
+	/// @return
+	///
+	inline base::led::LedBar &led_bar()
+	{
+		return base::detail::led::LedBarProvider::Instance();
+	}
+
+} // namespace base::led
