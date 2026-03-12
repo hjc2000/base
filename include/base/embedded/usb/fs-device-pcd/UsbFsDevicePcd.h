@@ -1,5 +1,6 @@
 #pragma once
 #include "base/embedded/Slot.h"
+#include "base/GlobalObjectProvider.h"
 #include "usb_fs_device_pcd_handle.h"
 #include <cstdint>
 #include <memory>
@@ -105,6 +106,29 @@ namespace base::usb::fs_device_pcd
 		}
 	};
 
-	base::Slot<base::usb::fs_device_pcd::UsbFsDevicePcd> &usb_fs_pcd_slot();
+} // namespace base::usb::fs_device_pcd
+
+namespace base::detail::usb::fs_device_pcd
+{
+	class UsbFsDevicePcdSlotProvider
+	{
+	private:
+		inline static base::GlobalObjectProvider<base::Slot<base::usb::fs_device_pcd::UsbFsDevicePcd>> _provider{};
+
+	public:
+		static base::Slot<base::usb::fs_device_pcd::UsbFsDevicePcd> &Instance()
+		{
+			return _provider.Instance();
+		}
+	};
+
+} // namespace base::detail::usb::fs_device_pcd
+
+namespace base::usb::fs_device_pcd
+{
+	inline base::Slot<base::usb::fs_device_pcd::UsbFsDevicePcd> &usb_fs_pcd_slot()
+	{
+		return base::detail::usb::fs_device_pcd::UsbFsDevicePcdSlotProvider::Instance();
+	}
 
 } // namespace base::usb::fs_device_pcd
