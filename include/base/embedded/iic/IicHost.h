@@ -2,6 +2,7 @@
 #include "base/define.h"
 #include "base/embedded/iic/iic_host_handle.h"
 #include "base/embedded/Slot.h"
+#include "base/GlobalObjectProvider.h"
 #include "base/task/Mutex.h"
 #include <cstdint>
 #include <memory>
@@ -123,10 +124,32 @@ namespace base::iic
 		}
 	};
 
+} // namespace base::iic
+
+namespace base::detail::iic
+{
+	class IicHostSlotProvider
+	{
+	private:
+		inline static base::GlobalObjectProvider<base::Slot<base::iic::IicHost>> _provider{};
+
+	public:
+		static base::Slot<base::iic::IicHost> &Instance()
+		{
+			return _provider.Instance();
+		}
+	};
+
+} // namespace base::detail::iic
+
+namespace base::iic
+{
 	///
 	/// @brief IIC 主机接口插槽。
 	///
-	///
-	base::Slot<base::iic::IicHost> &iic_host_slot();
+	inline base::Slot<base::iic::IicHost> &iic_host_slot()
+	{
+		return base::detail::iic::IicHostSlotProvider::Instance();
+	}
 
 } // namespace base::iic
