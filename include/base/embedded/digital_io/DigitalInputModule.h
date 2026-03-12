@@ -1,59 +1,80 @@
 #pragma once
 #include "base/embedded/Slot.h"
+#include "base/GlobalObjectProvider.h"
 #include "digital_input_module_handle.h"
 #include <cstdint>
 #include <memory>
 
-namespace base
+namespace base::digital_input_module
 {
-	namespace digital_input_module
+	class DigitalInputModule
 	{
-		class DigitalInputModule
+	private:
+		std::shared_ptr<base::digital_input_module::digital_input_module_handle> _handle;
+
+	public:
+		/* #region 构造函数 */
+
+		DigitalInputModule(std::string const &name)
 		{
-		private:
-			std::shared_ptr<base::digital_input_module::digital_input_module_handle> _handle;
+			_handle = base::digital_input_module::open(name);
+		}
 
-		public:
-			/* #region 构造函数 */
+		DigitalInputModule(uint32_t id)
+		{
+			_handle = base::digital_input_module::open(id);
+		}
 
-			DigitalInputModule(std::string const &name)
-			{
-				_handle = base::digital_input_module::open(name);
-			}
+		/* #endregion */
 
-			DigitalInputModule(uint32_t id)
-			{
-				_handle = base::digital_input_module::open(id);
-			}
+		int32_t GroupCount() const
+		{
+			return base::digital_input_module::group_count(*_handle);
+		}
 
-			/* #endregion */
+		int32_t BitCountPerGroup() const
+		{
+			return base::digital_input_module::bit_count_per_group(*_handle);
+		}
 
-			int32_t GroupCount() const
-			{
-				return base::digital_input_module::group_count(*_handle);
-			}
+		bool ReadBit(int32_t group_index, int32_t bit_index) const
+		{
+			return base::digital_input_module::read_bit(*_handle, group_index, bit_index);
+		}
 
-			int32_t BitCountPerGroup() const
-			{
-				return base::digital_input_module::bit_count_per_group(*_handle);
-			}
+		uint64_t ReadGroup(int32_t group_index) const
+		{
+			return base::digital_input_module::read_group(*_handle, group_index);
+		}
+	};
 
-			bool ReadBit(int32_t group_index, int32_t bit_index) const
-			{
-				return base::digital_input_module::read_bit(*_handle, group_index, bit_index);
-			}
+} // namespace base::digital_input_module
 
-			uint64_t ReadGroup(int32_t group_index) const
-			{
-				return base::digital_input_module::read_group(*_handle, group_index);
-			}
-		};
+namespace base::detail::digital_input_module
+{
+	class DigitalInputModuleSlotProvider
+	{
+	private:
+		inline static base::GlobalObjectProvider<base::Slot<base::digital_input_module::DigitalInputModule>> _provider{};
 
-		///
-		/// @brief 数字输入模块插槽。
-		///
-		///
-		base::Slot<base::digital_input_module::DigitalInputModule> &digital_input_module_slot();
+	public:
+		static base::Slot<base::digital_input_module::DigitalInputModule> &Instance()
+		{
+			return _provider.Instance();
+		}
+	};
 
-	} // namespace digital_input_module
-} // namespace base
+} // namespace base::detail::digital_input_module
+
+namespace base::digital_input_module
+{
+	///
+	/// @brief 数字输入模块插槽。
+	///
+	///
+	inline base::Slot<base::digital_input_module::DigitalInputModule> &digital_input_module_slot()
+	{
+		return base::detail::digital_input_module::DigitalInputModuleSlotProvider::Instance();
+	}
+
+} // namespace base::digital_input_module
