@@ -131,6 +131,10 @@ namespace base
 		/* #endregion */
 	};
 
+} // namespace base
+
+namespace base::detail
+{
 	class StdOutStreamProvider
 	{
 	private:
@@ -148,5 +152,14 @@ namespace base
 			return _provider.Instance()._instance;
 		}
 	};
+
+} // namespace base::detail
+
+namespace base
+{
+	inline std::shared_ptr<base::Stream> std_out_stream()
+	{
+		return base::detail::StdOutStreamProvider::Instance();
+	}
 
 } // namespace base
