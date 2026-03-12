@@ -1,6 +1,6 @@
 #pragma once
 #include "base/exception/NotSupportedException.h"
-#include "base/SingletonProvider.h"
+#include "base/GlobalObjectProvider.h"
 #include "base/stream/Stream.h"
 #include <iostream>
 #include <memory>
@@ -140,7 +140,7 @@ namespace base
 			std::shared_ptr<base::Stream> _instance{new base::StdOutStream{}};
 		};
 
-		inline static base::SingletonProvider<Initializer> _provider{};
+		inline static base::GlobalObjectProvider<Initializer> _provider{};
 
 	public:
 		static std::shared_ptr<base::Stream> Instance()

@@ -28,7 +28,7 @@ namespace base
 	/// @todo 重命名为 GlobalObjectProvider.
 	///
 	template <typename T>
-	class SingletonProvider
+	class GlobalObjectProvider
 	{
 	private:
 		/* #region get_instance */

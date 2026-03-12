@@ -1,9 +1,9 @@
 #include "Console.h" // IWYU pragma: keep
-#include "base/SingletonProvider.h"
+#include "base/GlobalObjectProvider.h"
 
 namespace
 {
-	base::SingletonProvider<base::Console> _console_instance_provider;
+	base::GlobalObjectProvider<base::Console> _console_instance_provider;
 
 } // namespace
 

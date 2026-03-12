@@ -1,9 +1,9 @@
 #include "DigitalOutputModule.h"
-#include "base/SingletonProvider.h"
+#include "base/GlobalObjectProvider.h"
 
 namespace
 {
-	base::SingletonProvider<base::Slot<base::digital_output_module::DigitalOutputModule>> _provider{};
+	base::GlobalObjectProvider<base::Slot<base::digital_output_module::DigitalOutputModule>> _provider{};
 
 }
 

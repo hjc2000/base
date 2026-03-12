@@ -1,9 +1,9 @@
 #include "PCF8574.h" // IWYU pragma: keep
-#include "base/SingletonProvider.h"
+#include "base/GlobalObjectProvider.h"
 
 namespace
 {
-	base::SingletonProvider<base::Slot<base::extended_io::PCF8574>> _provider{};
+	base::GlobalObjectProvider<base::Slot<base::extended_io::PCF8574>> _provider{};
 }
 
 base::Slot<base::extended_io::PCF8574> &base::extended_io::pcf8574_slot()

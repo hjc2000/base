@@ -1,9 +1,9 @@
 #include "IicHost.h"
-#include "base/SingletonProvider.h"
+#include "base/GlobalObjectProvider.h"
 
 namespace
 {
-	base::SingletonProvider<base::Slot<base::iic::IicHost>> _provider{};
+	base::GlobalObjectProvider<base::Slot<base::iic::IicHost>> _provider{};
 }
 
 base::Slot<base::iic::IicHost> &base::iic::iic_host_slot()

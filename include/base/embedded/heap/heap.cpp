@@ -1,11 +1,12 @@
 #include "heap.h" // IWYU pragma: keep
 #include "base/container/CircleDeque.h"
 #include "base/embedded/heap/Heap4.h"
+#include "base/GlobalObjectProvider.h"
 #include "base/RentedPtrFactory.h"
-#include "base/SingletonProvider.h"
 #include "base/task/task.h"
 #include <cstdint>
 #include <memory>
+
 
 #if !HAS_THREAD
 
@@ -13,7 +14,7 @@ namespace
 {
 	using Queue = base::CircleDeque<std::shared_ptr<base::heap::IHeap>, 10>;
 
-	base::SingletonProvider<Queue> _queue_provider{};
+	base::GlobalObjectProvider<Queue> _queue_provider{};
 
 } // namespace
 
