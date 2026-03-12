@@ -1,82 +1,103 @@
 #pragma once
 #include "base/embedded/Slot.h"
+#include "base/GlobalObjectProvider.h"
 #include "digital_output_module_handle.h"
 #include <cstdint>
 #include <memory>
 
-namespace base
+namespace base::digital_output_module
 {
-	namespace digital_output_module
+	class DigitalOutputModule
 	{
-		class DigitalOutputModule
+	private:
+		std::shared_ptr<base::digital_output_module::digital_output_module_handle> _handle;
+
+	public:
+		/* #region 构造函数 */
+
+		DigitalOutputModule(std::string const &name)
 		{
-		private:
-			std::shared_ptr<base::digital_output_module::digital_output_module_handle> _handle;
+			_handle = base::digital_output_module::open(name);
+		}
 
-		public:
-			/* #region 构造函数 */
+		DigitalOutputModule(uint32_t id)
+		{
+			_handle = base::digital_output_module::open(id);
+		}
 
-			DigitalOutputModule(std::string const &name)
-			{
-				_handle = base::digital_output_module::open(name);
-			}
+		/* #endregion */
 
-			DigitalOutputModule(uint32_t id)
-			{
-				_handle = base::digital_output_module::open(id);
-			}
+		int32_t GroupCount() const
+		{
+			return base::digital_output_module::group_count(*_handle);
+		}
 
-			/* #endregion */
+		int32_t BitCountPerGroup() const
+		{
+			return base::digital_output_module::bit_count_per_group(*_handle);
+		}
 
-			int32_t GroupCount() const
-			{
-				return base::digital_output_module::group_count(*_handle);
-			}
+		/* #region 读写单个位 */
 
-			int32_t BitCountPerGroup() const
-			{
-				return base::digital_output_module::bit_count_per_group(*_handle);
-			}
+		bool ReadBit(int32_t group_index, int32_t bit_index) const
+		{
+			return base::digital_output_module::read_bit(*_handle, group_index, bit_index);
+		}
 
-			/* #region 读写单个位 */
+		void WriteBit(int32_t group_index, int32_t bit_index, bool value)
+		{
+			base::digital_output_module::write_bit(*_handle, group_index, bit_index, value);
+		}
 
-			bool ReadBit(int32_t group_index, int32_t bit_index) const
-			{
-				return base::digital_output_module::read_bit(*_handle, group_index, bit_index);
-			}
+		void ToggleBit(int32_t group_index, int32_t bit_index)
+		{
+			base::digital_output_module::toggle_bit(*_handle, group_index, bit_index);
+		}
 
-			void WriteBit(int32_t group_index, int32_t bit_index, bool value)
-			{
-				base::digital_output_module::write_bit(*_handle, group_index, bit_index, value);
-			}
+		/* #endregion */
 
-			void ToggleBit(int32_t group_index, int32_t bit_index)
-			{
-				base::digital_output_module::toggle_bit(*_handle, group_index, bit_index);
-			}
+		/* #region 读写一整个组 */
 
-			/* #endregion */
+		uint64_t ReadGroup(int32_t group_index) const
+		{
+			return base::digital_output_module::read_group(*_handle, group_index);
+		}
 
-			/* #region 读写一整个组 */
+		void WriteGroup(int32_t group_index, uint64_t value)
+		{
+			base::digital_output_module::write_group(*_handle, group_index, value);
+		}
 
-			uint64_t ReadGroup(int32_t group_index) const
-			{
-				return base::digital_output_module::read_group(*_handle, group_index);
-			}
+		/* #endregion */
+	};
 
-			void WriteGroup(int32_t group_index, uint64_t value)
-			{
-				base::digital_output_module::write_group(*_handle, group_index, value);
-			}
+} // namespace base::digital_output_module
 
-			/* #endregion */
-		};
+namespace base::detail::digital_output_module
+{
+	class DigitalOutputModuleSlotProvider
+	{
+	private:
+		inline static base::GlobalObjectProvider<base::Slot<base::digital_output_module::DigitalOutputModule>> _provider{};
 
-		///
-		/// @brief 数字输出模块插槽。
-		///
-		///
-		base::Slot<base::digital_output_module::DigitalOutputModule> &digital_output_module_slot();
+	public:
+		static base::Slot<base::digital_output_module::DigitalOutputModule> &Instance()
+		{
+			return _provider.Instance();
+		}
+	};
 
-	} // namespace digital_output_module
-} // namespace base
+} // namespace base::detail::digital_output_module
+
+namespace base::digital_output_module
+{
+	///
+	/// @brief 数字输出模块插槽。
+	///
+	///
+	inline base::Slot<base::digital_output_module::DigitalOutputModule> &digital_output_module_slot()
+	{
+		return base::detail::digital_output_module::DigitalOutputModuleSlotProvider::Instance();
+	}
+
+} // namespace base::digital_output_module
