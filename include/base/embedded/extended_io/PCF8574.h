@@ -2,6 +2,7 @@
 #include "base/embedded/gpio/GpioPin.h"
 #include "base/embedded/iic/IicHost.h"
 #include "base/embedded/Slot.h"
+#include "base/GlobalObjectProvider.h"
 #include "base/stream/Span.h"
 #include "base/task/delay.h"
 #include "base/task/Mutex.h"
@@ -303,8 +304,6 @@ namespace base::extended_io
 		/* #endregion */
 	};
 
-	base::Slot<base::extended_io::PCF8574> &pcf8574_slot();
-
 } // namespace base::extended_io
 
 inline base::extended_io::PCF8574::PCF8574(base::gpio::GpioPin interrupt_pin,
@@ -329,3 +328,28 @@ inline base::extended_io::PCF8574::PCF8574(base::gpio::GpioPin interrupt_pin,
 	PCF8574Operator op{*this};
 	op.WriteByte(0, 0xff);
 }
+
+namespace base::detail::extended_io
+{
+	class PCF8574_Slot_Provider
+	{
+	private:
+		inline static base::GlobalObjectProvider<base::Slot<base::extended_io::PCF8574>> _provider{};
+
+	public:
+		static base::Slot<base::extended_io::PCF8574> &Instance()
+		{
+			return _provider.Instance();
+		}
+	};
+
+} // namespace base::detail::extended_io
+
+namespace base::extended_io
+{
+	inline base::Slot<base::extended_io::PCF8574> &pcf8574_slot()
+	{
+		return base::detail::extended_io::PCF8574_Slot_Provider::Instance();
+	}
+
+} // namespace base::extended_io
