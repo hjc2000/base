@@ -3,12 +3,6 @@
 
 namespace base::detail::interface::interrupt
 {
-	class Context
-	{
-	public:
-		inline static int32_t volatile _global_interrupt_disable_times = 0;
-	};
-
 	///
 	/// @brief 禁用全局中断。
 	///
@@ -20,6 +14,16 @@ namespace base::detail::interface::interrupt
 	void enable_global_interrupt() noexcept;
 
 } // namespace base::detail::interface::interrupt
+
+namespace base::detail::interrupt
+{
+	class Context
+	{
+	public:
+		inline static int32_t volatile _global_interrupt_disable_times = 0;
+	};
+
+} // namespace base::detail::interrupt
 
 namespace base::interrupt
 {
@@ -54,7 +58,7 @@ namespace base::interrupt
 	inline void disable_global_interrupt_recursive() noexcept
 	{
 		base::detail::interface::interrupt::disable_global_interrupt();
-		base::detail::interface::interrupt::Context::_global_interrupt_disable_times = base::detail::interface::interrupt::Context::_global_interrupt_disable_times + 1;
+		base::detail::interrupt::Context::_global_interrupt_disable_times = base::detail::interrupt::Context::_global_interrupt_disable_times + 1;
 	}
 
 	///
@@ -64,11 +68,11 @@ namespace base::interrupt
 	inline void enable_global_interrupt_recursive() noexcept
 	{
 		base::detail::interface::interrupt::disable_global_interrupt();
-		base::detail::interface::interrupt::Context::_global_interrupt_disable_times = base::detail::interface::interrupt::Context::_global_interrupt_disable_times - 1;
+		base::detail::interrupt::Context::_global_interrupt_disable_times = base::detail::interrupt::Context::_global_interrupt_disable_times - 1;
 
-		if (base::detail::interface::interrupt::Context::_global_interrupt_disable_times <= 0)
+		if (base::detail::interrupt::Context::_global_interrupt_disable_times <= 0)
 		{
-			base::detail::interface::interrupt::Context::_global_interrupt_disable_times = 0;
+			base::detail::interrupt::Context::_global_interrupt_disable_times = 0;
 			base::detail::interface::interrupt::enable_global_interrupt();
 		}
 	}
