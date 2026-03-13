@@ -1,43 +1,28 @@
 #pragma once
-#include "base/define.h"
 #include <cstdint>
+
+namespace base::detail::interface::interrupt
+{
+	class Context
+	{
+	public:
+		inline static int32_t volatile _global_interrupt_disable_times = 0;
+	};
+
+	///
+	/// @brief 禁用全局中断。
+	///
+	void disable_global_interrupt() noexcept;
+
+	///
+	/// @brief 使能全局中断。
+	///
+	void enable_global_interrupt() noexcept;
+
+} // namespace base::detail::interface::interrupt
 
 namespace base::interrupt
 {
-	IMPLEMENTED
-	void disable_global_interrupt_recursive() noexcept;
-
-	IMPLEMENTED
-	void enable_global_interrupt_recursive() noexcept;
-
-	///
-	/// @brief 禁用全局中断的实现。
-	///
-	class DisableGlobalInterruptionImplementation
-	{
-	private:
-		AS_STATIC_CLASS(DisableGlobalInterruptionImplementation)
-
-		friend void disable_global_interrupt_recursive() noexcept;
-		friend void enable_global_interrupt_recursive() noexcept;
-
-		inline static int32_t volatile _global_interrupt_disable_times = 0;
-
-		/* #region 接口 */
-
-		///
-		/// @brief 禁用全局中断。
-		///
-		static void disable_global_interrupt() noexcept;
-
-		///
-		/// @brief 使能全局中断。
-		///
-		static void enable_global_interrupt() noexcept;
-
-		/* #endregion */
-	};
-
 	///
 	/// @brief 禁用指定的中断。
 	///
@@ -68,8 +53,8 @@ namespace base::interrupt
 	///
 	inline void disable_global_interrupt_recursive() noexcept
 	{
-		DisableGlobalInterruptionImplementation::disable_global_interrupt();
-		DisableGlobalInterruptionImplementation::_global_interrupt_disable_times = DisableGlobalInterruptionImplementation::_global_interrupt_disable_times + 1;
+		base::detail::interface::interrupt::disable_global_interrupt();
+		base::detail::interface::interrupt::Context::_global_interrupt_disable_times = base::detail::interface::interrupt::Context::_global_interrupt_disable_times + 1;
 	}
 
 	///
@@ -78,13 +63,13 @@ namespace base::interrupt
 	///
 	inline void enable_global_interrupt_recursive() noexcept
 	{
-		DisableGlobalInterruptionImplementation::disable_global_interrupt();
-		DisableGlobalInterruptionImplementation::_global_interrupt_disable_times = DisableGlobalInterruptionImplementation::_global_interrupt_disable_times - 1;
+		base::detail::interface::interrupt::disable_global_interrupt();
+		base::detail::interface::interrupt::Context::_global_interrupt_disable_times = base::detail::interface::interrupt::Context::_global_interrupt_disable_times - 1;
 
-		if (DisableGlobalInterruptionImplementation::_global_interrupt_disable_times <= 0)
+		if (base::detail::interface::interrupt::Context::_global_interrupt_disable_times <= 0)
 		{
-			DisableGlobalInterruptionImplementation::_global_interrupt_disable_times = 0;
-			DisableGlobalInterruptionImplementation::enable_global_interrupt();
+			base::detail::interface::interrupt::Context::_global_interrupt_disable_times = 0;
+			base::detail::interface::interrupt::enable_global_interrupt();
 		}
 	}
 
