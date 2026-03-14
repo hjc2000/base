@@ -1,11 +1,12 @@
 #pragma once
 #include "base/bit/AutoBitConverter.h"
 #include "base/bit/bit.h"
-#include "base/container/ArraySpan.h"
+#include "base/container/ReadOnlyArraySpan.h"
 #include "base/stream/Stream.h"
 #include "base/string/define.h"
 #include <cstdint>
 #include <stdexcept>
+#include <string>
 
 namespace base::string::encoding
 {
@@ -61,12 +62,54 @@ namespace base::string::encoding
 			throw std::invalid_argument{CODE_POS_STR + "非法码点。"};
 		}
 
-		void Write(base::ArraySpan<char32_t> const &span)
+		///
+		/// @brief 将字符串用 UTF16LE 编码后写入流中。
+		///
+		/// @param span
+		///
+		void Write(base::ReadOnlyArraySpan<char32_t> const &span)
 		{
 			for (int64_t i = 0; i < span.Count(); i++)
 			{
 				Write(span[i]);
 			}
+		}
+
+		///
+		/// @brief 将字符串用 UTF16LE 编码后写入流中。
+		///
+		/// @param str
+		///
+		void Write(std::u32string const &str)
+		{
+			base::ReadOnlyArraySpan<char32_t> span{
+				str.data(),
+				static_cast<int64_t>(str.size()),
+			};
+
+			Write(span);
+		}
+
+		///
+		/// @brief 将字符串用 UTF16LE 编码后写入流中。
+		///
+		/// @param str
+		///
+		void Write(char32_t const *str)
+		{
+			int64_t length = 0;
+
+			while (str[length] != 0)
+			{
+				length++;
+			}
+
+			base::ReadOnlyArraySpan<char32_t> span{
+				str,
+				length,
+			};
+
+			Write(span);
 		}
 	};
 
