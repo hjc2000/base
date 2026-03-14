@@ -439,7 +439,7 @@ namespace base::string::encoding
 
 	public:
 		Utf8Reader(base::Stream &stream)
-			: _stream(stream)
+			: _stream{stream}
 		{
 		}
 
