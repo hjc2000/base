@@ -14,11 +14,24 @@ namespace base::string::encoding
 	{
 	private:
 		base::Stream &_stream;
+		int64_t _utf16_unit_count = 0;
 
 	public:
 		Utf16LeWriter(base::Stream &stream)
 			: _stream{stream}
 		{
+		}
+
+		///
+		/// @brief 总计写入的 UTF16LE 单元的数量。
+		///
+		/// @note 1 个代理对算成 2 个 UTF16LE 单元。
+		///
+		/// @return
+		///
+		int64_t Utf16UnitCount() const
+		{
+			return _utf16_unit_count;
 		}
 
 		///
@@ -35,6 +48,7 @@ namespace base::string::encoding
 				// 非法码点，替换为错误字符 0xfffd.
 				uint16_t c = 0xfffd;
 				base::little_endian_remote_converter.GetBytes(c, _stream);
+				_utf16_unit_count++;
 				return;
 			}
 
@@ -43,6 +57,7 @@ namespace base::string::encoding
 				// 剔除掉非法码点后，小于 0x10000 的码点可以直接赋值。
 				uint16_t c = static_cast<uint16_t>(value);
 				base::little_endian_remote_converter.GetBytes(c, _stream);
+				_utf16_unit_count++;
 				return;
 			}
 
@@ -57,6 +72,8 @@ namespace base::string::encoding
 
 				base::little_endian_remote_converter.GetBytes(high, _stream);
 				base::little_endian_remote_converter.GetBytes(low, _stream);
+				_utf16_unit_count += 2;
+				return;
 			}
 
 			throw std::invalid_argument{CODE_POS_STR + "非法码点。"};
