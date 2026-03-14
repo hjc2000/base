@@ -247,6 +247,7 @@ namespace base
 					  Span().Buffer() + _position);
 
 			_position += span.Size();
+
 			if (_position > _length)
 			{
 				// 写完后当前位置超过流的长度，则将流的长度设为当前位置，使流的长度增大。
