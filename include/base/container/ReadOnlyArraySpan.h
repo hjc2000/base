@@ -15,7 +15,6 @@ namespace base
 	template <typename ItemType>
 	class ReadOnlyArraySpan final
 	{
-	private:
 	public:
 		/* #region 迭代器 */
 
@@ -23,7 +22,7 @@ namespace base
 		class Iterator
 		{
 		private:
-			ReadOnlyArraySpan *_span = nullptr;
+			ReadOnlyArraySpan *_container = nullptr;
 			int64_t _index = 0;
 
 		public:
@@ -35,20 +34,20 @@ namespace base
 
 			Iterator() = default;
 
-			Iterator(ReadOnlyArraySpan *span, int64_t index)
+			Iterator(ReadOnlyArraySpan *container, int64_t index)
 			{
-				_span = span;
+				_container = container;
 				_index = index;
 			}
 
 			reference operator*()
 			{
-				if (_span == nullptr)
+				if (_container == nullptr)
 				{
 					throw std::invalid_argument{CODE_POS_STR + "迭代器处于无效状态。"};
 				}
 
-				return (*_span)[_index];
+				return (*_container)[_index];
 			}
 
 			pointer operator->()

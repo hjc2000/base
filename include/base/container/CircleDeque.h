@@ -16,7 +16,6 @@ namespace base
 	class CircleDeque final :
 		public base::IDeque<ItemType>
 	{
-	private:
 	public:
 		/* #region 迭代器 */
 
@@ -24,7 +23,7 @@ namespace base
 		class Iterator
 		{
 		private:
-			CircleDeque *_span = nullptr;
+			CircleDeque *_container = nullptr;
 			int64_t _index = 0;
 
 		public:
@@ -36,24 +35,25 @@ namespace base
 
 			Iterator() = default;
 
-			Iterator(CircleDeque *span, int64_t index)
+			Iterator(CircleDeque *container, int64_t index)
 			{
-				_span = span;
+				_container = container;
 				_index = index;
 			}
 
-			item_type &operator*()
+			reference operator*()
 			{
-				if (_span == nullptr)
+				if (_container == nullptr)
 				{
 					throw std::invalid_argument{CODE_POS_STR + "迭代器处于无效状态。"};
 				}
 
-				return (*_span)[_index];
+				return (*_container)[_index];
 			}
 
-			item_type *operator->()
+			pointer operator->()
 			{
+				// 基于 reference operator*() 实现。
 				return &operator*();
 			}
 
@@ -109,12 +109,13 @@ namespace base
 
 			Iterator operator+(int64_t value) const
 			{
+				// 基于 Iterator &operator+=(int64_t value) 实现。
 				Iterator copy{*this};
 				copy += value;
 				return copy;
 			}
 
-			int64_t operator-(Iterator const &other) const
+			difference_type operator-(Iterator const &other) const
 			{
 				return _index - other._index;
 			}
