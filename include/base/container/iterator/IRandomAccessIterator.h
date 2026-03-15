@@ -10,8 +10,18 @@ namespace base
 	class IRandomAccessIterator
 	{
 	public:
+		///
+		/// @brief 派生类利用拷贝构造函数拷贝一个自己，然后返回。
+		///
+		/// @return
+		///
 		virtual std::shared_ptr<IRandomAccessIterator> Clone() = 0;
 
+		///
+		/// @brief 返回当前迭代器指向的对象的引用。
+		///
+		/// @return
+		///
 		virtual ItemType &Current() = 0;
 
 		virtual void Increment() = 0;
