@@ -1,6 +1,5 @@
 #pragma once
 #include "base/container/iterator/IBidirectionalIterator.h"
-#include "base/container/iterator/IEnumerable.h"
 #include "iterator/IBidirectionalIterator.h"
 #include <memory>
 
@@ -69,32 +68,6 @@ namespace base
 		void Add(ISet<ItemType> const &set)
 		{
 			for (ItemType const &item : set)
-			{
-				Add(item);
-			}
-		}
-
-		///
-		/// @brief 将另一个可迭代容器的元素添加到本容器。
-		///
-		/// @param items
-		///
-		void Add(base::IEnumerable<ItemType> const &items)
-		{
-			for (ItemType const &item : items)
-			{
-				Add(item);
-			}
-		}
-
-		///
-		/// @brief 将另一个可迭代容器的元素添加到本容器。
-		///
-		/// @param items
-		///
-		void Add(base::IEnumerable<ItemType const> const &items)
-		{
-			for (ItemType const &item : items)
 			{
 				Add(item);
 			}

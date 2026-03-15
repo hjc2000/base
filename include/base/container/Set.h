@@ -87,17 +87,10 @@ namespace base
 
 		Set(ISet<ItemType> const &set)
 		{
-			Add(set);
-		}
-
-		Set(base::IEnumerable<ItemType> const &items)
-		{
-			Add(items);
-		}
-
-		Set(base::IEnumerable<ItemType const> const &items)
-		{
-			Add(items);
+			for (ItemType const &item : set)
+			{
+				Add(item);
+			}
 		}
 
 		/* #endregion */

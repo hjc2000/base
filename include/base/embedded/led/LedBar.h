@@ -1,5 +1,4 @@
 #pragma once
-#include "base/container/iterator/IEnumerable.h"
 #include "base/container/List.h"
 #include "base/define.h"
 #include "base/embedded/led/Led.h"
@@ -28,16 +27,6 @@ namespace base::led
 		LedBar() = default;
 
 		/* #region Add */
-
-		void Add(base::IEnumerable<base::led::Led> const &leds)
-		{
-			_leds.Add(leds);
-		}
-
-		void Add(base::IEnumerable<base::led::Led const> const &leds)
-		{
-			_leds.Add(leds);
-		}
 
 		void Add(std::vector<base::led::Led> const &leds)
 		{

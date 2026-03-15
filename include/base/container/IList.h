@@ -1,5 +1,4 @@
 #pragma once
-#include "base/container/iterator/IEnumerable.h"
 #include "base/math/math.h"
 #include "base/sfinae/Compare.h"
 #include <array>
@@ -211,32 +210,6 @@ namespace base
 		void Add(IList<ItemType> const &list)
 		{
 			for (ItemType const &item : list)
-			{
-				Add(item);
-			}
-		}
-
-		///
-		/// @brief 将另一个可迭代容器的元素添加到本容器。
-		///
-		/// @param items
-		///
-		void Add(base::IEnumerable<ItemType> const &items)
-		{
-			for (ItemType const &item : items)
-			{
-				Add(item);
-			}
-		}
-
-		///
-		/// @brief 将另一个可迭代容器的元素添加到本容器。
-		///
-		/// @param items
-		///
-		void Add(base::IEnumerable<ItemType const> const &items)
-		{
-			for (ItemType const &item : items)
 			{
 				Add(item);
 			}
