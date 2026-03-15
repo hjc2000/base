@@ -36,6 +36,10 @@ namespace base
 		virtual bool Equal(IRandomAccessIterator const &other) const = 0;
 	};
 
+	///
+	/// @brief 先派生 IRandomAccessIterator 类，然后就可以用本类包装 IRandomAccessIterator
+	/// 派生类对象，并在 being 和 end 中返回本类对象。
+	///
 	template <typename ItemType>
 	class RandomAccessIterator final
 	{
