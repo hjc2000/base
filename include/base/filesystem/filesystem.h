@@ -1,6 +1,6 @@
 #pragma once
 #include "base/container/iterator/IEnumerable.h"
-#include "base/container/iterator/IForwardIterator.h"
+#include "base/container/iterator/IInputIterator.h"
 #include "base/filesystem/Path.h"
 #include "base/string/define.h"
 #include "Path.h"
@@ -507,13 +507,13 @@ namespace base::filesystem
 
 namespace base::detail::interface::filesystem
 {
-	std::shared_ptr<base::IForwardIterator<base::filesystem::DirectoryEntry const>> GetDirectoryEntryBeginIterator(base::Path const &path);
+	std::shared_ptr<base::IInputIterator<base::filesystem::DirectoryEntry const>> GetDirectoryEntryBeginIterator(base::Path const &path);
 
-	std::shared_ptr<base::IForwardIterator<base::filesystem::DirectoryEntry const>> GetDirectoryEntryEndIterator();
+	std::shared_ptr<base::IInputIterator<base::filesystem::DirectoryEntry const>> GetDirectoryEntryEndIterator();
 
-	std::shared_ptr<base::IForwardIterator<base::filesystem::DirectoryEntry const>> GetDirectoryEntryRecursiveBeginIterator(base::Path const &path);
+	std::shared_ptr<base::IInputIterator<base::filesystem::DirectoryEntry const>> GetDirectoryEntryRecursiveBeginIterator(base::Path const &path);
 
-	std::shared_ptr<base::IForwardIterator<base::filesystem::DirectoryEntry const>> GetDirectoryEntryRecursiveEndIterator();
+	std::shared_ptr<base::IInputIterator<base::filesystem::DirectoryEntry const>> GetDirectoryEntryRecursiveEndIterator();
 
 } // namespace base::detail::interface::filesystem
 
@@ -535,27 +535,27 @@ namespace base::filesystem
 		{
 		}
 
-		base::ForwardIterator<base::filesystem::DirectoryEntry const> begin()
+		base::InputIterator<base::filesystem::DirectoryEntry const> begin()
 		{
-			base::ForwardIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryBeginIterator(_path)};
+			base::InputIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryBeginIterator(_path)};
 			return ret;
 		}
 
-		base::ForwardIterator<base::filesystem::DirectoryEntry const> end()
+		base::InputIterator<base::filesystem::DirectoryEntry const> end()
 		{
-			base::ForwardIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryEndIterator()};
+			base::InputIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryEndIterator()};
 			return ret;
 		}
 
-		base::ConstForwardIterator<base::filesystem::DirectoryEntry const> begin() const
+		base::ConstInputIterator<base::filesystem::DirectoryEntry const> begin() const
 		{
-			base::ConstForwardIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryBeginIterator(_path)};
+			base::ConstInputIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryBeginIterator(_path)};
 			return ret;
 		}
 
-		base::ConstForwardIterator<base::filesystem::DirectoryEntry const> end() const
+		base::ConstInputIterator<base::filesystem::DirectoryEntry const> end() const
 		{
-			base::ConstForwardIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryEndIterator()};
+			base::ConstInputIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryEndIterator()};
 			return ret;
 		}
 	};
@@ -576,27 +576,27 @@ namespace base::filesystem
 		{
 		}
 
-		base::ForwardIterator<base::filesystem::DirectoryEntry const> begin()
+		base::InputIterator<base::filesystem::DirectoryEntry const> begin()
 		{
-			base::ForwardIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryRecursiveBeginIterator(_path)};
+			base::InputIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryRecursiveBeginIterator(_path)};
 			return ret;
 		}
 
-		base::ForwardIterator<base::filesystem::DirectoryEntry const> end()
+		base::InputIterator<base::filesystem::DirectoryEntry const> end()
 		{
-			base::ForwardIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryRecursiveEndIterator()};
+			base::InputIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryRecursiveEndIterator()};
 			return ret;
 		}
 
-		base::ConstForwardIterator<base::filesystem::DirectoryEntry const> begin() const
+		base::ConstInputIterator<base::filesystem::DirectoryEntry const> begin() const
 		{
-			base::ConstForwardIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryRecursiveBeginIterator(_path)};
+			base::ConstInputIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryRecursiveBeginIterator(_path)};
 			return ret;
 		}
 
-		base::ConstForwardIterator<base::filesystem::DirectoryEntry const> end() const
+		base::ConstInputIterator<base::filesystem::DirectoryEntry const> end() const
 		{
-			base::ConstForwardIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryRecursiveEndIterator()};
+			base::ConstInputIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryRecursiveEndIterator()};
 			return ret;
 		}
 	};

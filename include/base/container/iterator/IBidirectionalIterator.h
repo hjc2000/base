@@ -40,7 +40,7 @@ namespace base
 	class BidirectionalIterator final
 	{
 	public:
-		using iterator_category = std::random_access_iterator_tag;
+		using iterator_category = std::bidirectional_iterator_tag;
 		using value_type = ItemType;
 		using pointer = ItemType *;
 		using reference = ItemType &;
@@ -145,7 +145,7 @@ namespace base
 	class ConstBidirectionalIterator final
 	{
 	public:
-		using iterator_category = std::random_access_iterator_tag;
+		using iterator_category = std::bidirectional_iterator_tag;
 		using value_type = ItemType;
 		using pointer = ItemType const *;
 		using reference = ItemType const &;
