@@ -13,7 +13,6 @@ namespace base
 	///
 	/// @brief 列表接口。
 	///
-	///
 	template <typename ItemType>
 	class IList
 	{
@@ -688,6 +687,8 @@ namespace base
 
 		/* #endregion */
 
+		/* #region 索引器 */
+
 		ItemType &operator[](int64_t index)
 		{
 			return Get(index);
@@ -697,6 +698,10 @@ namespace base
 		{
 			return Get(index);
 		}
+
+		/* #endregion */
+
+		/* #region 迭代 */
 
 		Iterator<ItemType> begin()
 		{
@@ -717,6 +722,8 @@ namespace base
 		{
 			return Iterator<ItemType const>{const_cast<IList *>(this), Count()};
 		}
+
+		/* #endregion */
 	};
 
 } // namespace base
