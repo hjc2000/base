@@ -1,7 +1,4 @@
 #include "Path.h"
-#include "base/container/List.h"
-#include "base/container/Set.h"
-#include <cstdint>
 
 base::math::Path::Path(base::List<base::math::Point> const &points)
 {
@@ -101,9 +98,4 @@ std::string base::math::Path::ToString() const
 	}
 
 	return ret;
-}
-
-std::shared_ptr<base::IEnumerator<base::math::Point const>> base::math::Path::GetEnumerator()
-{
-	return const_cast<base::math::Path const &>(*this)._points.GetEnumerator();
 }

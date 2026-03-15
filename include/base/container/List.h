@@ -421,22 +421,6 @@ namespace base
 
 		/* #endregion */
 
-		/* #region GetRandomAccessEnumerator */
-
-		using base::IRandomAccessEnumerable<ItemType>::GetRandomAccessEnumerator;
-
-		///
-		/// @brief 获取非 const 迭代器
-		///
-		/// @return
-		///
-		virtual std::shared_ptr<base::IRandomAccessEnumerator<ItemType>> GetRandomAccessEnumerator() override
-		{
-			return base::IRawArray<ItemType>::GetRandomAccessEnumerator();
-		}
-
-		/* #endregion */
-
 		/* #region 比较运算符 */
 
 		using base::IRawArray<ItemType>::operator==;
@@ -460,6 +444,26 @@ namespace base
 		}
 
 		/* #endregion */
+
+		auto begin()
+		{
+			return base::IRawArray<ItemType>::begin();
+		}
+
+		auto end()
+		{
+			return base::IRawArray<ItemType>::end();
+		}
+
+		auto begin() const
+		{
+			return base::IRawArray<ItemType>::begin();
+		}
+
+		auto end() const
+		{
+			return base::IRawArray<ItemType>::end();
+		}
 	};
 
 	///

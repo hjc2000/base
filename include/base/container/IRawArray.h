@@ -1,6 +1,5 @@
 #pragma once
 #include "base/container/ArraySpan.h"
-#include "base/container/iterator/IRandomAccessEnumerable.h"
 #include "base/sfinae/Compare.h"
 #include "base/stream/ReadOnlySpan.h"
 #include "base/stream/Span.h"
@@ -12,9 +11,124 @@ namespace base
 	/// @brief 只要底层的储存方式是 C 风格的裸数组的容器，都可以继承本接口。
 	///
 	template <typename ItemType>
-	class IRawArray :
-		public virtual base::IRandomAccessEnumerable<ItemType>
+	class IRawArray
 	{
+	private:
+	public:
+		/* #region 迭代器 */
+
+		template <typename item_type>
+		class Iterator
+		{
+		private:
+			IRawArray *_array = nullptr;
+			int64_t _index = 0;
+
+		public:
+			using iterator_category = std::random_access_iterator_tag;
+			using value_type = item_type;
+			using difference_type = int64_t;
+			using pointer = item_type *;
+			using reference = item_type &;
+
+			Iterator() = default;
+
+			Iterator(IRawArray *array, int64_t index)
+			{
+				_array = array;
+				_index = index;
+			}
+
+			item_type &operator*()
+			{
+				if (_array == nullptr)
+				{
+					throw std::invalid_argument{CODE_POS_STR + "迭代器处于无效状态。"};
+				}
+
+				return (*_array)[_index];
+			}
+
+			item_type *operator->()
+			{
+				return &operator*();
+			}
+
+			///
+			/// @brief 前缀递增
+			///
+			/// @return
+			///
+			Iterator &operator++()
+			{
+				_index++;
+				return *this;
+			}
+
+			///
+			/// @brief 后缀递增。
+			///
+			Iterator operator++(int)
+			{
+				Iterator copy{*this};
+				_index++;
+				return copy;
+			}
+
+			///
+			/// @brief 前缀递减。
+			///
+			/// @return
+			///
+			Iterator &operator--()
+			{
+				_index--;
+				return *this;
+			}
+
+			///
+			/// @brief 后缀递减。
+			///
+			/// @return
+			///
+			Iterator operator--(int)
+			{
+				Iterator copy{*this};
+				_index--;
+				return copy;
+			}
+
+			Iterator &operator+=(int64_t value)
+			{
+				_index += value;
+				return *this;
+			}
+
+			Iterator operator+(int64_t value) const
+			{
+				Iterator copy{*this};
+				copy += value;
+				return copy;
+			}
+
+			int64_t operator-(Iterator const &other) const
+			{
+				return _index - other._index;
+			}
+
+			bool operator==(Iterator const &other) const
+			{
+				return _index == other._index;
+			}
+
+			bool operator!=(Iterator const &other) const
+			{
+				return !(*this == other);
+			}
+		};
+
+		/* #endregion */
+
 	public:
 		virtual ~IRawArray() = default;
 
@@ -167,22 +281,6 @@ namespace base
 		{
 			return base::ReadOnlySpan{Buffer(), Count()};
 		}
-
-		/* #region GetRandomAccessEnumerator */
-
-		using base::IRandomAccessEnumerable<ItemType>::GetRandomAccessEnumerator;
-
-		///
-		/// @brief 获取非 const 迭代器
-		///
-		/// @return
-		///
-		virtual std::shared_ptr<base::IRandomAccessEnumerator<ItemType>> GetRandomAccessEnumerator() override
-		{
-			return Span().GetRandomAccessEnumerator();
-		}
-
-		/* #endregion */
 
 		/* #region 比较运算符 */
 
@@ -353,6 +451,26 @@ namespace base
 		}
 
 		/* #endregion */
+
+		Iterator<ItemType> begin()
+		{
+			return Iterator<ItemType>{this, 0};
+		}
+
+		Iterator<ItemType> end()
+		{
+			return Iterator<ItemType>{this, Count()};
+		}
+
+		Iterator<ItemType const> begin() const
+		{
+			return Iterator<ItemType const>{const_cast<IRawArray *>(this), 0};
+		}
+
+		Iterator<ItemType const> end() const
+		{
+			return Iterator<ItemType const>{const_cast<IRawArray *>(this), Count()};
+		}
 	};
 
 } // namespace base

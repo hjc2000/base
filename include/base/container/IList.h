@@ -1,7 +1,5 @@
 #pragma once
 #include "base/container/iterator/IEnumerable.h"
-#include "base/container/iterator/IRandomAccessEnumerable.h"
-#include "base/container/iterator/IRandomAccessEnumerator.h"
 #include "base/math/math.h"
 #include "base/sfinae/Compare.h"
 #include <array>
@@ -17,92 +15,125 @@ namespace base
 	///
 	///
 	template <typename ItemType>
-	class IList :
-		public virtual base::IRandomAccessEnumerable<ItemType>
+	class IList
 	{
 	private:
+	public:
 		/* #region 迭代器 */
 
-		class RandomAccessEnumerator final :
-			public base::IRandomAccessEnumerator<ItemType>
+		template <typename item_type>
+		class Iterator
 		{
 		private:
-			base::IList<ItemType> *_list;
+			IList *_array = nullptr;
 			int64_t _index = 0;
-			base::IEnumerator<ItemType>::Context_t _context{};
 
 		public:
-			RandomAccessEnumerator(base::IList<ItemType> *list)
+			using iterator_category = std::random_access_iterator_tag;
+			using value_type = item_type;
+			using difference_type = int64_t;
+			using pointer = item_type *;
+			using reference = item_type &;
+
+			Iterator() = default;
+
+			Iterator(IList *array, int64_t index)
 			{
-				_list = list;
+				_array = array;
+				_index = index;
+			}
+
+			item_type &operator*()
+			{
+				if (_array == nullptr)
+				{
+					throw std::invalid_argument{CODE_POS_STR + "迭代器处于无效状态。"};
+				}
+
+				return (*_array)[_index];
+			}
+
+			item_type *operator->()
+			{
+				return &operator*();
 			}
 
 			///
-			/// @brief 克隆一个迭代器对象副本。
+			/// @brief 前缀递增
 			///
 			/// @return
 			///
-			virtual std::shared_ptr<base::IRandomAccessEnumerator<ItemType>> Clone() const override
+			Iterator &operator++()
 			{
-				std::shared_ptr<base::IRandomAccessEnumerator<ItemType>> ret{new RandomAccessEnumerator{*this}};
-				return ret;
+				_index++;
+				return *this;
 			}
 
 			///
-			/// @brief 容器中总共有多少个元素。
+			/// @brief 后缀递增。
+			///
+			Iterator operator++(int)
+			{
+				Iterator copy{*this};
+				_index++;
+				return copy;
+			}
+
+			///
+			/// @brief 前缀递减。
 			///
 			/// @return
 			///
-			virtual int64_t Count() const override
+			Iterator &operator--()
 			{
-				return _list->Count();
+				_index--;
+				return *this;
 			}
 
 			///
-			/// @brief 当前迭代到的位置。
+			/// @brief 后缀递减。
 			///
 			/// @return
 			///
-			virtual int64_t Position() const override
+			Iterator operator--(int)
 			{
-				return _index;
+				Iterator copy{*this};
+				_index--;
+				return copy;
 			}
 
-			///
-			/// @brief 将迭代器位置增加 value.
-			///
-			/// @param value 增加的值。可以是正数和负数。
-			///
-			virtual void Add(int64_t value) override
+			Iterator &operator+=(int64_t value)
 			{
 				_index += value;
+				return *this;
 			}
 
-			///
-			/// @brief 获取当前值的引用。
-			///
-			/// @note 迭代器构造后，如果被迭代的集合不为空，要立即让 CurrentValue 指向第一个有效元素。
-			///
-			/// @return
-			///
-			virtual ItemType &CurrentValue() override
+			Iterator operator+(int64_t value) const
 			{
-				return _list->Get(_index);
+				Iterator copy{*this};
+				copy += value;
+				return copy;
 			}
 
-			///
-			/// @brief 派生类需要提供一个该对象。
-			///
-			/// @return
-			///
-			virtual base::IEnumerator<ItemType>::Context_t &Context() override
+			int64_t operator-(Iterator const &other) const
 			{
-				return _context;
+				return _index - other._index;
+			}
+
+			bool operator==(Iterator const &other) const
+			{
+				return _index == other._index;
+			}
+
+			bool operator!=(Iterator const &other) const
+			{
+				return !(*this == other);
 			}
 		};
 
 		/* #endregion */
 
+	private:
 	public:
 		virtual ~IList() = default;
 
@@ -516,22 +547,6 @@ namespace base
 
 		/* #endregion */
 
-		/* #region GetRandomAccessEnumerator */
-
-		using base::IRandomAccessEnumerable<ItemType>::GetRandomAccessEnumerator;
-
-		///
-		/// @brief 获取非 const 迭代器
-		///
-		/// @return
-		///
-		virtual std::shared_ptr<base::IRandomAccessEnumerator<ItemType>> GetRandomAccessEnumerator() override
-		{
-			return std::shared_ptr<base::IRandomAccessEnumerator<ItemType>>{new RandomAccessEnumerator{this}};
-		}
-
-		/* #endregion */
-
 		/* #region 比较运算符 */
 
 		bool operator==(IList<ItemType> const &o) const
@@ -672,6 +687,36 @@ namespace base
 		}
 
 		/* #endregion */
+
+		ItemType &operator[](int64_t index)
+		{
+			return Get(index);
+		}
+
+		ItemType const &operator[](int64_t index) const
+		{
+			return Get(index);
+		}
+
+		Iterator<ItemType> begin()
+		{
+			return Iterator<ItemType>{this, 0};
+		}
+
+		Iterator<ItemType> end()
+		{
+			return Iterator<ItemType>{this, Count()};
+		}
+
+		Iterator<ItemType const> begin() const
+		{
+			return Iterator<ItemType const>{const_cast<IList *>(this), 0};
+		}
+
+		Iterator<ItemType const> end() const
+		{
+			return Iterator<ItemType const>{const_cast<IList *>(this), Count()};
+		}
 	};
 
 } // namespace base
