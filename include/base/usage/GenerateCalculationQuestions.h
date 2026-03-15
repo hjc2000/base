@@ -218,6 +218,7 @@ namespace base::usage
 		};
 
 		base::Set<std::string> questions;
+
 		while (questions.Count() < 24)
 		{
 			base::usage::CalculationQuestion question = generator.Generate();
@@ -225,8 +226,14 @@ namespace base::usage
 		}
 
 		base::List<std::string> question_list;
-		question_list.Add(questions);
+
+		for (std::string const &question : questions)
+		{
+			question_list.Add(question);
+		}
+
 		question_list.Shuffle();
+
 		for (std::string const &question : question_list)
 		{
 			std::cout << question << std::endl;

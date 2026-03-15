@@ -1,11 +1,13 @@
 #pragma once
+#include "base/container/iterator/IBidirectionalIterator.h"
 #include "base/container/iterator/IEnumerable.h"
+#include "iterator/IBidirectionalIterator.h"
+#include <memory>
 
 namespace base
 {
 	template <typename ItemType>
-	class ISet :
-		public base::IEnumerable<ItemType const>
+	class ISet
 	{
 	public:
 		/* #region 接口 */
@@ -51,14 +53,9 @@ namespace base
 		///
 		virtual int64_t Count() const = 0;
 
-		using base::IEnumerable<ItemType const>::GetEnumerator;
+		virtual std::shared_ptr<base::IBidirectionalIterator<ItemType const>> BeginIterator() = 0;
 
-		///
-		/// @brief 获取非 const 迭代器
-		///
-		/// @return
-		///
-		virtual std::shared_ptr<base::IEnumerator<ItemType const>> GetEnumerator() = 0;
+		virtual std::shared_ptr<base::IBidirectionalIterator<ItemType const>> EndIterator() = 0;
 
 		/* #endregion */
 
@@ -116,6 +113,36 @@ namespace base
 			{
 				Remove(item);
 			}
+		}
+
+		base::BidirectionalIterator<ItemType const> begin()
+		{
+			base::BidirectionalIterator<ItemType const> ret{BeginIterator()};
+			return ret;
+		}
+
+		base::BidirectionalIterator<ItemType const> end()
+		{
+			base::BidirectionalIterator<ItemType const> ret{EndIterator()};
+			return ret;
+		}
+
+		base::ConstBidirectionalIterator<ItemType const> begin() const
+		{
+			base::ConstBidirectionalIterator<ItemType const> ret{
+				const_cast<ISet *>(this)->BeginIterator(),
+			};
+
+			return ret;
+		}
+
+		base::ConstBidirectionalIterator<ItemType const> end() const
+		{
+			base::ConstBidirectionalIterator<ItemType const> ret{
+				const_cast<ISet *>(this)->EndIterator(),
+			};
+
+			return ret;
 		}
 	};
 

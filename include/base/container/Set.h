@@ -2,8 +2,10 @@
 #include "base/container/ISet.h"
 #include "base/container/iterator/IEnumerator.h"
 #include "ISet.h"
+#include "iterator/IBidirectionalIterator.h"
 #include <cstdint>
 #include <initializer_list>
+#include <memory>
 #include <set>
 
 namespace base
@@ -17,6 +19,57 @@ namespace base
 	class Set :
 		public base::ISet<ItemType>
 	{
+	private:
+		using std_set_iterator_type = decltype(std::set<ItemType>{}.begin());
+
+		class Iterator :
+			public base::IBidirectionalIterator<ItemType const>
+		{
+		private:
+			std_set_iterator_type _it{};
+
+		public:
+			Iterator(std_set_iterator_type const &iterator)
+				: _it{iterator}
+			{
+			}
+
+			///
+			/// @brief 派生类利用拷贝构造函数拷贝一个自己，然后返回。
+			///
+			/// @return
+			///
+			virtual std::shared_ptr<base::IBidirectionalIterator<ItemType const>> Clone() override
+			{
+				return std::shared_ptr<Iterator>{new Iterator{*this}};
+			}
+
+			///
+			/// @brief 返回当前迭代器指向的对象的引用。
+			///
+			/// @return
+			///
+			virtual ItemType const &Current() override
+			{
+				return *_it;
+			}
+
+			virtual void Increment() override
+			{
+				++_it;
+			}
+
+			virtual void Decrement() override
+			{
+				--_it;
+			}
+
+			virtual bool Equal(base::IBidirectionalIterator<ItemType const> const &other) const override
+			{
+				return _it == static_cast<Iterator const &>(other)._it;
+			}
+		};
+
 	private:
 		std::set<ItemType> _set;
 
@@ -172,19 +225,17 @@ namespace base
 			return _set.size();
 		}
 
-		/* #region GetEnumerator */
-
-		using base::IEnumerable<ItemType const>::GetEnumerator;
-
-		///
-		/// @brief 获取非 const 迭代器
-		///
-		/// @return std::shared_ptr<base::IEnumerator<ItemType const>>
-		///
-		virtual std::shared_ptr<base::IEnumerator<ItemType const>> GetEnumerator() override
+		virtual std::shared_ptr<base::IBidirectionalIterator<ItemType const>> BeginIterator() override
 		{
-			return std::shared_ptr<base::IEnumerator<ItemType const>>{new Enumerator{_set}};
+			return std::shared_ptr<Iterator>{new Iterator{_set.begin()}};
 		}
+
+		virtual std::shared_ptr<base::IBidirectionalIterator<ItemType const>> EndIterator() override
+		{
+			return std::shared_ptr<Iterator>{new Iterator{_set.end()}};
+		}
+
+		/* #region GetEnumerator */
 
 		/* #endregion */
 
