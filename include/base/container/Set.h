@@ -166,10 +166,6 @@ namespace base
 			return std::shared_ptr<Iterator>{new Iterator{_set.end()}};
 		}
 
-		/* #region GetEnumerator */
-
-		/* #endregion */
-
 		/* #region 集合运算符 */
 
 		///

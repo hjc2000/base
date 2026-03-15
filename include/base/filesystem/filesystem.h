@@ -1,8 +1,12 @@
 #pragma once
 #include "base/container/iterator/IEnumerable.h"
+#include "base/container/iterator/IForwardIterator.h"
 #include "base/filesystem/Path.h"
+#include "base/string/define.h"
+#include "Path.h"
 #include <format>
 #include <memory>
+#include <stdexcept>
 
 namespace base::filesystem
 {
@@ -498,6 +502,54 @@ namespace base::filesystem
 	};
 
 	/* #endregion */
+
+} // namespace base::filesystem
+
+namespace base::detail::interface::filesystem
+{
+	std::shared_ptr<base::IForwardIterator<base::filesystem::DirectoryEntry const>> GetDirectoryEntryBeginIterator(base::Path const &path);
+
+	std::shared_ptr<base::IForwardIterator<base::filesystem::DirectoryEntry const>> GetDirectoryEntryEndIterator();
+
+} // namespace base::detail::interface::filesystem
+
+namespace base::filesystem
+{
+	class DirectoryEntryIterator
+	{
+	private:
+		base::Path const &_path{};
+
+	public:
+		DirectoryEntryIterator(base::Path const &path)
+			: _path{path}
+		{
+		}
+
+		base::ForwardIterator<base::filesystem::DirectoryEntry const> begin()
+		{
+			base::ForwardIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryBeginIterator(_path)};
+			return ret;
+		}
+
+		base::ForwardIterator<base::filesystem::DirectoryEntry const> end()
+		{
+			base::ForwardIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryEndIterator()};
+			return ret;
+		}
+
+		base::ConstForwardIterator<base::filesystem::DirectoryEntry const> begin() const
+		{
+			base::ConstForwardIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryBeginIterator(_path)};
+			return ret;
+		}
+
+		base::ConstForwardIterator<base::filesystem::DirectoryEntry const> end() const
+		{
+			base::ConstForwardIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryEndIterator()};
+			return ret;
+		}
+	};
 
 	/* #region 移除只读属性 */
 
