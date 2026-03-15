@@ -138,6 +138,12 @@ namespace base
 			return *this;
 		}
 
+		RandomAccessIterator &operator-=(int64_t value)
+		{
+			_iterator->Add(-value);
+			return *this;
+		}
+
 		RandomAccessIterator operator+(int64_t value) const
 		{
 			// 基于 Iterator &operator+=(int64_t value) 实现。
@@ -260,6 +266,12 @@ namespace base
 		ConstRandomAccessIterator &operator+=(int64_t value)
 		{
 			_iterator->Add(value);
+			return *this;
+		}
+
+		ConstRandomAccessIterator &operator-=(int64_t value)
+		{
+			_iterator->Add(-value);
 			return *this;
 		}
 
