@@ -10,6 +10,8 @@ namespace base
 	class IRandomAccessIterator
 	{
 	public:
+		virtual ~IRandomAccessIterator() = default;
+
 		///
 		/// @brief 派生类利用拷贝构造函数拷贝一个自己，然后返回。
 		///

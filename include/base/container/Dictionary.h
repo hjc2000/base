@@ -1,7 +1,9 @@
 #pragma once
 #include "base/container/IDictionary.h"
+#include "iterator/IBidirectionalIterator.h"
 #include <cstdint>
 #include <map>
+#include <memory>
 
 namespace base
 {
@@ -72,6 +74,57 @@ namespace base
 		};
 
 		/* #endregion */
+
+		using std_map_iterator_type = decltype(std::map<KeyType, ValueType>{}.begin());
+
+		class Iterator :
+			public base::IBidirectionalIterator<std::pair<KeyType const, ValueType>>
+		{
+		private:
+			std_map_iterator_type _it{};
+
+		public:
+			Iterator(std_map_iterator_type const &it)
+				: _it{it}
+			{
+			}
+
+			///
+			/// @brief 派生类利用拷贝构造函数拷贝一个自己，然后返回。
+			///
+			/// @return
+			///
+			virtual std::shared_ptr<base::IBidirectionalIterator<std::pair<KeyType const, ValueType>>> Clone() override
+			{
+				std::shared_ptr<Iterator> ret{new Iterator{*this}};
+				return ret;
+			}
+
+			///
+			/// @brief 返回当前迭代器指向的对象的引用。
+			///
+			/// @return
+			///
+			virtual std::pair<KeyType const, ValueType> &Current() override
+			{
+				return *_it;
+			}
+
+			virtual void Increment() override
+			{
+				++_it;
+			}
+
+			virtual void Decrement() override
+			{
+				--_it;
+			}
+
+			virtual bool Equal(base::IBidirectionalIterator<std::pair<KeyType const, ValueType>> const &other) const override
+			{
+				return _it == static_cast<Iterator const &>(other)._it;
+			}
+		};
 
 		std::map<KeyType, ValueType> _map{};
 
@@ -174,6 +227,16 @@ namespace base
 		virtual std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>> GetEnumerator() override
 		{
 			return std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>>{new Enumerator{_map}};
+		}
+
+		virtual std::shared_ptr<base::IBidirectionalIterator<std::pair<KeyType const, ValueType>>> BeginIterator()
+		{
+			return std::shared_ptr<Iterator>{new Iterator{_map.begin()}};
+		}
+
+		virtual std::shared_ptr<base::IBidirectionalIterator<std::pair<KeyType const, ValueType>>> EndIterator()
+		{
+			return std::shared_ptr<Iterator>{new Iterator{_map.end()}};
 		}
 	};
 

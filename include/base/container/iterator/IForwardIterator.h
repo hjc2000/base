@@ -9,6 +9,8 @@ namespace base
 	class IForwardIterator
 	{
 	public:
+		virtual ~IForwardIterator() = default;
+
 		///
 		/// @brief 派生类利用拷贝构造函数拷贝一个自己，然后返回。
 		///

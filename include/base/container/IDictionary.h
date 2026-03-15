@@ -1,6 +1,7 @@
 #pragma once
 #include "base/container/iterator/IEnumerable.h"
 #include "base/sfinae/Compare.h"
+#include "iterator/IBidirectionalIterator.h"
 
 namespace base
 {
