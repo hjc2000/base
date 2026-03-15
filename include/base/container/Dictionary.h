@@ -15,66 +15,6 @@ namespace base
 		public base::IDictionary<KeyType, ValueType>
 	{
 	private:
-		/* #region Enumerator */
-
-		class Enumerator :
-			public IEnumerator<std::pair<KeyType const, ValueType>>
-		{
-		private:
-			using IteratorType = decltype(std::map<KeyType, ValueType>{}.begin());
-			IteratorType _current;
-			IteratorType _end;
-			base::IEnumerator<std::pair<KeyType const, ValueType>>::Context_t _context{};
-
-		public:
-			Enumerator(std::map<KeyType, ValueType> &map)
-			{
-				_current = map.begin();
-				_end = map.end();
-			}
-
-			///
-			/// @brief 迭代器当前是否指向尾后元素。
-			///
-			/// @return
-			///
-			virtual bool IsEnd() const override
-			{
-				return _current == _end;
-			}
-
-			///
-			/// @brief 获取当前值的引用。
-			///
-			/// @return ItemType&
-			///
-			virtual std::pair<KeyType const, ValueType> &CurrentValue() override
-			{
-				return *_current;
-			}
-
-			///
-			/// @brief 递增迭代器的位置。
-			///
-			///
-			virtual void Add() override
-			{
-				++_current;
-			}
-
-			///
-			/// @brief 派生类需要提供一个该对象。
-			///
-			/// @return
-			///
-			virtual base::IEnumerator<std::pair<KeyType const, ValueType>>::Context_t &Context() override
-			{
-				return _context;
-			}
-		};
-
-		/* #endregion */
-
 		using std_map_iterator_type = decltype(std::map<KeyType, ValueType>{}.begin());
 
 		class Iterator :
@@ -126,6 +66,7 @@ namespace base
 			}
 		};
 
+	private:
 		std::map<KeyType, ValueType> _map{};
 
 	public:
@@ -217,24 +158,12 @@ namespace base
 			_map[key] = value;
 		}
 
-		using base::IEnumerable<std::pair<KeyType const, ValueType>>::GetEnumerator;
-
-		///
-		/// @brief 获取迭代器
-		///
-		/// @return
-		///
-		virtual std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>> GetEnumerator() override
-		{
-			return std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>>{new Enumerator{_map}};
-		}
-
-		virtual std::shared_ptr<base::IBidirectionalIterator<std::pair<KeyType const, ValueType>>> BeginIterator()
+		virtual std::shared_ptr<base::IBidirectionalIterator<std::pair<KeyType const, ValueType>>> BeginIterator() override
 		{
 			return std::shared_ptr<Iterator>{new Iterator{_map.begin()}};
 		}
 
-		virtual std::shared_ptr<base::IBidirectionalIterator<std::pair<KeyType const, ValueType>>> EndIterator()
+		virtual std::shared_ptr<base::IBidirectionalIterator<std::pair<KeyType const, ValueType>>> EndIterator() override
 		{
 			return std::shared_ptr<Iterator>{new Iterator{_map.end()}};
 		}

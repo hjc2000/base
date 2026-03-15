@@ -1,5 +1,4 @@
 #pragma once
-#include "base/container/iterator/IEnumerable.h"
 #include "base/sfinae/Compare.h"
 #include "iterator/IBidirectionalIterator.h"
 
@@ -10,8 +9,7 @@ namespace base
 	///
 	template <typename KeyType, typename ValueType>
 		requires(base::has_all_compare_operators<KeyType, KeyType>)
-	class IDictionary :
-		public base::IEnumerable<std::pair<KeyType const, ValueType>>
+	class IDictionary
 	{
 	public:
 		/* #region 接口 */
@@ -55,14 +53,9 @@ namespace base
 		///
 		virtual void Set(KeyType const &key, ValueType const &item) = 0;
 
-		using base::IEnumerable<std::pair<KeyType const, ValueType>>::GetEnumerator;
+		virtual std::shared_ptr<base::IBidirectionalIterator<std::pair<KeyType const, ValueType>>> BeginIterator() = 0;
 
-		///
-		/// @brief 获取迭代器
-		///
-		/// @return
-		///
-		virtual std::shared_ptr<IEnumerator<std::pair<KeyType const, ValueType>>> GetEnumerator() override = 0;
+		virtual std::shared_ptr<base::IBidirectionalIterator<std::pair<KeyType const, ValueType>>> EndIterator() = 0;
 
 		/* #endregion */
 
@@ -188,6 +181,36 @@ namespace base
 		}
 
 		/* #endregion */
+
+		base::BidirectionalIterator<std::pair<KeyType const, ValueType>> begin()
+		{
+			base::BidirectionalIterator<std::pair<KeyType const, ValueType>> ret{BeginIterator()};
+			return ret;
+		}
+
+		base::BidirectionalIterator<std::pair<KeyType const, ValueType>> end()
+		{
+			base::BidirectionalIterator<std::pair<KeyType const, ValueType>> ret{EndIterator()};
+			return ret;
+		}
+
+		base::ConstBidirectionalIterator<std::pair<KeyType const, ValueType>> begin() const
+		{
+			base::ConstBidirectionalIterator<std::pair<KeyType const, ValueType>> ret{
+				const_cast<IDictionary *>(this)->BeginIterator(),
+			};
+
+			return ret;
+		}
+
+		base::ConstBidirectionalIterator<std::pair<KeyType const, ValueType>> end() const
+		{
+			base::ConstBidirectionalIterator<std::pair<KeyType const, ValueType>> ret{
+				const_cast<IDictionary *>(this)->EndIterator(),
+			};
+
+			return ret;
+		}
 	};
 
 } // namespace base
