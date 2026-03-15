@@ -86,9 +86,9 @@ namespace base::string::encoding
 		///
 		void Write(base::ReadOnlyArraySpan<char32_t> const &span)
 		{
-			for (int64_t i = 0; i < span.Count(); i++)
+			for (char32_t c : span)
 			{
-				Write(span[i]);
+				Write(c);
 			}
 		}
 
