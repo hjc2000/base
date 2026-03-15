@@ -1,6 +1,5 @@
 #pragma once
 #include "base/bit/bit.h"
-#include "base/container/iterator/IEnumerable.h"
 #include "base/stream/ReadOnlySpan.h"
 #include <array>
 #include <stdint.h>
@@ -90,14 +89,6 @@ namespace base::modbus
 		}
 
 		void Add(std::vector<uint8_t> const &datas)
-		{
-			for (uint8_t data : datas)
-			{
-				Add(data);
-			}
-		}
-
-		void Add(base::IEnumerable<uint8_t> const &datas)
 		{
 			for (uint8_t data : datas)
 			{
