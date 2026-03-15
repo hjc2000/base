@@ -519,13 +519,13 @@ namespace base::detail::interface::filesystem
 
 namespace base::filesystem
 {
-	class DirectoryEntryIterator
+	class DirectoryEntryCollector
 	{
 	private:
 		base::Path const &_path{};
 
 	public:
-		DirectoryEntryIterator(base::Path const &path)
+		DirectoryEntryCollector(base::Path const &path)
 			: _path{path}
 		{
 		}
@@ -555,13 +555,13 @@ namespace base::filesystem
 		}
 	};
 
-	class DirectoryEntryRecursiveIterator
+	class DirectoryEntryRecursiveCollector
 	{
 	private:
 		base::Path const &_path{};
 
 	public:
-		DirectoryEntryRecursiveIterator(base::Path const &path)
+		DirectoryEntryRecursiveCollector(base::Path const &path)
 			: _path{path}
 		{
 		}
