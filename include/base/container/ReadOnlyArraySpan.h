@@ -53,6 +53,7 @@ namespace base
 
 			pointer operator->()
 			{
+				// 基于 reference operator*() 实现。
 				return &operator*();
 			}
 
@@ -108,6 +109,7 @@ namespace base
 
 			Iterator operator+(int64_t value) const
 			{
+				// 基于 Iterator &operator+=(int64_t value) 实现。
 				Iterator copy{*this};
 				copy += value;
 				return copy;
