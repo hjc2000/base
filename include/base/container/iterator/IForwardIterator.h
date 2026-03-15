@@ -2,7 +2,6 @@
 #include "base/string/define.h"
 #include <memory>
 #include <stdexcept>
-#include <type_traits>
 
 namespace base
 {
@@ -43,12 +42,12 @@ namespace base
 		using reference = ItemType &;
 
 	private:
-		std::shared_ptr<IForwardIterator<std::remove_const_t<ItemType>>> _iterator{};
+		std::shared_ptr<IForwardIterator<ItemType>> _iterator{};
 
 	public:
 		ForwardIterator() = default;
 
-		ForwardIterator(std::shared_ptr<IForwardIterator<std::remove_const_t<ItemType>>> const &iterator)
+		ForwardIterator(std::shared_ptr<IForwardIterator<ItemType>> const &iterator)
 			: _iterator{iterator}
 		{
 		}
@@ -106,6 +105,88 @@ namespace base
 		}
 
 		bool operator!=(ForwardIterator const &other) const
+		{
+			return !(*this == other);
+		}
+	};
+
+	///
+	/// @brief 先派生 IForwardIterator 类，然后就可以用本类包装 IForwardIterator
+	/// 派生类对象，并在 being 和 end 中返回本类对象。
+	///
+	template <typename ItemType>
+	class ConstForwardIterator final
+	{
+	public:
+		using iterator_category = std::forward_iterator_tag;
+		using value_type = ItemType;
+		using pointer = ItemType const *;
+		using reference = ItemType const &;
+
+	private:
+		std::shared_ptr<IForwardIterator<ItemType>> _iterator{};
+
+	public:
+		ConstForwardIterator() = default;
+
+		ConstForwardIterator(std::shared_ptr<IForwardIterator<ItemType>> const &iterator)
+			: _iterator{iterator}
+		{
+		}
+
+		ConstForwardIterator(ConstForwardIterator const &other)
+		{
+			*this = other;
+		}
+
+		ConstForwardIterator &operator=(ConstForwardIterator const &other)
+		{
+			_iterator = other._iterator->Clone();
+			return *this;
+		}
+
+		reference operator*()
+		{
+			if (_iterator == nullptr)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "迭代器处于无效状态。"};
+			}
+
+			return _iterator->Current();
+		}
+
+		pointer operator->()
+		{
+			return &_iterator->Current();
+		}
+
+		///
+		/// @brief 前缀递增
+		///
+		/// @return
+		///
+		ConstForwardIterator &operator++()
+		{
+			_iterator->Increment();
+			return *this;
+		}
+
+		///
+		/// @brief 后缀递增。
+		///
+		ConstForwardIterator operator++(int)
+		{
+			ConstForwardIterator copy{*this};
+			_iterator->Increment();
+			return copy;
+		}
+
+		bool operator==(ConstForwardIterator const &other) const
+		{
+			return _iterator->Equal(*other._iterator);
+		}
+
+		bool operator!=(ConstForwardIterator const &other) const
 		{
 			return !(*this == other);
 		}

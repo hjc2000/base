@@ -3,7 +3,6 @@
 #include <cstdint>
 #include <memory>
 #include <stdexcept>
-#include <type_traits>
 
 namespace base
 {
@@ -51,12 +50,12 @@ namespace base
 		using reference = ItemType &;
 
 	private:
-		std::shared_ptr<IRandomAccessIterator<std::remove_const_t<ItemType>>> _iterator{};
+		std::shared_ptr<IRandomAccessIterator<ItemType>> _iterator{};
 
 	public:
 		RandomAccessIterator() = default;
 
-		RandomAccessIterator(std::shared_ptr<IRandomAccessIterator<std::remove_const_t<ItemType>>> const &iterator)
+		RandomAccessIterator(std::shared_ptr<IRandomAccessIterator<ItemType>> const &iterator)
 			: _iterator{iterator}
 		{
 		}
@@ -156,6 +155,131 @@ namespace base
 		}
 
 		bool operator!=(RandomAccessIterator const &other) const
+		{
+			return !(*this == other);
+		}
+	};
+
+	///
+	/// @brief 先派生 IRandomAccessIterator 类，然后就可以用本类包装 IRandomAccessIterator
+	/// 派生类对象，并在 being 和 end 中返回本类对象。
+	///
+	template <typename ItemType>
+	class ConstRandomAccessIterator final
+	{
+	public:
+		using iterator_category = std::random_access_iterator_tag;
+		using value_type = ItemType;
+		using difference_type = int64_t;
+		using pointer = ItemType const *;
+		using reference = ItemType const &;
+
+	private:
+		std::shared_ptr<IRandomAccessIterator<ItemType>> _iterator{};
+
+	public:
+		ConstRandomAccessIterator() = default;
+
+		ConstRandomAccessIterator(std::shared_ptr<IRandomAccessIterator<ItemType>> const &iterator)
+			: _iterator{iterator}
+		{
+		}
+
+		ConstRandomAccessIterator(ConstRandomAccessIterator const &other)
+		{
+			*this = other;
+		}
+
+		ConstRandomAccessIterator &operator=(ConstRandomAccessIterator const &other)
+		{
+			_iterator = other._iterator->Clone();
+			return *this;
+		}
+
+		reference operator*()
+		{
+			if (_iterator == nullptr)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "迭代器处于无效状态。"};
+			}
+
+			return _iterator->Current();
+		}
+
+		pointer operator->()
+		{
+			return &_iterator->Current();
+		}
+
+		///
+		/// @brief 前缀递增
+		///
+		/// @return
+		///
+		ConstRandomAccessIterator &operator++()
+		{
+			_iterator->Increment();
+			return *this;
+		}
+
+		///
+		/// @brief 后缀递增。
+		///
+		ConstRandomAccessIterator operator++(int)
+		{
+			ConstRandomAccessIterator copy{*this};
+			_iterator->Increment();
+			return copy;
+		}
+
+		///
+		/// @brief 前缀递减。
+		///
+		/// @return
+		///
+		ConstRandomAccessIterator &operator--()
+		{
+			_iterator->Decrement();
+			return *this;
+		}
+
+		///
+		/// @brief 后缀递减。
+		///
+		/// @return
+		///
+		ConstRandomAccessIterator operator--(int)
+		{
+			ConstRandomAccessIterator copy{*this};
+			_iterator->Decrement();
+			return copy;
+		}
+
+		ConstRandomAccessIterator &operator+=(int64_t value)
+		{
+			_iterator->Add(value);
+			return *this;
+		}
+
+		ConstRandomAccessIterator operator+(int64_t value) const
+		{
+			// 基于 Iterator &operator+=(int64_t value) 实现。
+			ConstRandomAccessIterator copy{*this};
+			copy += value;
+			return copy;
+		}
+
+		difference_type operator-(ConstRandomAccessIterator const &other) const
+		{
+			return _iterator->Subtract(*other._iterator);
+		}
+
+		bool operator==(ConstRandomAccessIterator const &other) const
+		{
+			return _iterator->Equal(*other._iterator);
+		}
+
+		bool operator!=(ConstRandomAccessIterator const &other) const
 		{
 			return !(*this == other);
 		}

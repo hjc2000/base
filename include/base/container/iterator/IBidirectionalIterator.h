@@ -1,9 +1,7 @@
 #pragma once
 #include "base/string/define.h"
-#include <cstdint>
 #include <memory>
 #include <stdexcept>
-#include <type_traits>
 
 namespace base
 {
@@ -42,17 +40,16 @@ namespace base
 	public:
 		using iterator_category = std::random_access_iterator_tag;
 		using value_type = ItemType;
-		using difference_type = int64_t;
 		using pointer = ItemType *;
 		using reference = ItemType &;
 
 	private:
-		std::shared_ptr<IBidirectionalIterator<std::remove_const_t<ItemType>>> _iterator{};
+		std::shared_ptr<IBidirectionalIterator<ItemType>> _iterator{};
 
 	public:
 		BidirectionalIterator() = default;
 
-		BidirectionalIterator(std::shared_ptr<IBidirectionalIterator<std::remove_const_t<ItemType>>> const &iterator)
+		BidirectionalIterator(std::shared_ptr<IBidirectionalIterator<ItemType>> const &iterator)
 			: _iterator{iterator}
 		{
 		}
@@ -133,6 +130,111 @@ namespace base
 		}
 
 		bool operator!=(BidirectionalIterator const &other) const
+		{
+			return !(*this == other);
+		}
+	};
+
+	///
+	/// @brief 先派生 IBidirectionalIterator 类，然后就可以用本类包装 IBidirectionalIterator
+	/// 派生类对象，并在 being 和 end 中返回本类对象。
+	///
+	template <typename ItemType>
+	class ConstBidirectionalIterator final
+	{
+	public:
+		using iterator_category = std::random_access_iterator_tag;
+		using value_type = ItemType;
+		using pointer = ItemType const *;
+		using reference = ItemType const &;
+
+	private:
+		std::shared_ptr<IBidirectionalIterator<ItemType>> _iterator{};
+
+	public:
+		ConstBidirectionalIterator() = default;
+
+		ConstBidirectionalIterator(std::shared_ptr<IBidirectionalIterator<ItemType>> const &iterator)
+			: _iterator{iterator}
+		{
+		}
+
+		ConstBidirectionalIterator(ConstBidirectionalIterator const &other)
+		{
+			*this = other;
+		}
+
+		ConstBidirectionalIterator &operator=(ConstBidirectionalIterator const &other)
+		{
+			_iterator = other._iterator->Clone();
+			return *this;
+		}
+
+		reference operator*()
+		{
+			if (_iterator == nullptr)
+			{
+				throw std::invalid_argument{CODE_POS_STR + "迭代器处于无效状态。"};
+			}
+
+			return _iterator->Current();
+		}
+
+		pointer operator->()
+		{
+			return &_iterator->Current();
+		}
+
+		///
+		/// @brief 前缀递增
+		///
+		/// @return
+		///
+		ConstBidirectionalIterator &operator++()
+		{
+			_iterator->Increment();
+			return *this;
+		}
+
+		///
+		/// @brief 后缀递增。
+		///
+		ConstBidirectionalIterator operator++(int)
+		{
+			ConstBidirectionalIterator copy{*this};
+			_iterator->Increment();
+			return copy;
+		}
+
+		///
+		/// @brief 前缀递减。
+		///
+		/// @return
+		///
+		ConstBidirectionalIterator &operator--()
+		{
+			_iterator->Decrement();
+			return *this;
+		}
+
+		///
+		/// @brief 后缀递减。
+		///
+		/// @return
+		///
+		ConstBidirectionalIterator operator--(int)
+		{
+			ConstBidirectionalIterator copy{*this};
+			_iterator->Decrement();
+			return copy;
+		}
+
+		bool operator==(ConstBidirectionalIterator const &other) const
+		{
+			return _iterator->Equal(*other._iterator);
+		}
+
+		bool operator!=(ConstBidirectionalIterator const &other) const
 		{
 			return !(*this == other);
 		}
