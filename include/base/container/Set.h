@@ -1,6 +1,5 @@
 #pragma once
 #include "base/container/ISet.h"
-#include "base/container/iterator/IEnumerator.h"
 #include "ISet.h"
 #include "iterator/IBidirectionalIterator.h"
 #include <cstdint>
@@ -72,67 +71,6 @@ namespace base
 
 	private:
 		std::set<ItemType> _set;
-
-	private:
-		/* #region 迭代器。 */
-
-		class Enumerator :
-			public base::IEnumerator<ItemType const>
-		{
-		private:
-			using it_type = decltype(std::set<ItemType>{}.begin());
-			it_type _current;
-			it_type _end;
-			base::IEnumerator<ItemType const>::Context_t _context{};
-
-		public:
-			Enumerator(std::set<ItemType> &set)
-			{
-				_current = set.begin();
-				_end = set.end();
-			}
-
-			///
-			/// @brief 迭代器当前是否指向尾后元素。
-			///
-			/// @return
-			///
-			virtual bool IsEnd() const override
-			{
-				return _current == _end;
-			}
-
-			///
-			/// @brief 获取当前值的引用。
-			///
-			/// @return ItemType&
-			///
-			virtual ItemType const &CurrentValue() override
-			{
-				return *_current;
-			}
-
-			///
-			/// @brief 递增迭代器的位置。
-			///
-			///
-			virtual void Add() override
-			{
-				++_current;
-			}
-
-			///
-			/// @brief 派生类需要提供一个该对象。
-			///
-			/// @return
-			///
-			virtual base::IEnumerator<ItemType const>::Context_t &Context() override
-			{
-				return _context;
-			}
-		};
-
-		/* #endregion */
 
 	public:
 		/* #region 构造函数 */
