@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <memory>
 #include <stdexcept>
+#include <type_traits>
 
 namespace base
 {
@@ -46,12 +47,12 @@ namespace base
 		using reference = ItemType &;
 
 	private:
-		std::shared_ptr<IRandomAccessIterator<ItemType>> _iterator{};
+		std::shared_ptr<IRandomAccessIterator<std::remove_const_t<ItemType>>> _iterator{};
 
 	public:
 		RandomAccessIterator() = default;
 
-		RandomAccessIterator(std::shared_ptr<IRandomAccessIterator<ItemType>> const &iterator)
+		RandomAccessIterator(std::shared_ptr<IRandomAccessIterator<std::remove_const_t<ItemType>>> const &iterator)
 			: _iterator{iterator}
 		{
 		}
