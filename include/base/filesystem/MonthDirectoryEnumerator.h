@@ -10,275 +10,272 @@
 #include <cstdint>
 #include <stdexcept>
 
-namespace base
+namespace base::filesystem
 {
-	namespace filesystem
+	class MonthDirectoryEnumerator final :
+		public base::IEnumerator<base::filesystem::DirectoryEntry const>
 	{
-		class MonthDirectoryEnumerator final :
-			public base::IEnumerator<base::filesystem::DirectoryEntry const>
+	private:
+		base::IEnumerator<base::filesystem::DirectoryEntry const>::Context_t _context{};
+		base::Path _year_path;
+		base::UtcHourOffset _utc_hour_offset;
+		bool _should_check_time_range = false;
+		base::Interval<base::DateTime> _date_time_interval;
+		std::shared_ptr<base::IEnumerator<base::filesystem::DirectoryEntry const>> _month_dir_iterator;
+		int64_t _year{};
+		int64_t _month{};
+
+		std::shared_ptr<base::CancellationToken> _cancellation_token;
+
+		/* #region 检查 */
+
+		///
+		/// @brief 检查当前 _month_dir_iterator 指向的条目是否是目录。
+		///
+		/// @return 是目录返回 true, 不是目录返回 false.
+		///
+		bool CheckIsDirectory()
 		{
-		private:
-			base::IEnumerator<base::filesystem::DirectoryEntry const>::Context_t _context{};
-			base::Path _year_path;
-			base::UtcHourOffset _utc_hour_offset;
-			bool _should_check_time_range = false;
-			base::Interval<base::DateTime> _date_time_interval;
-			std::shared_ptr<base::IEnumerator<base::filesystem::DirectoryEntry const>> _month_dir_iterator;
-			int64_t _year{};
-			int64_t _month{};
-
-			std::shared_ptr<base::CancellationToken> _cancellation_token;
-
-			/* #region 检查 */
-
-			///
-			/// @brief 检查当前 _month_dir_iterator 指向的条目是否是目录。
-			///
-			/// @return 是目录返回 true, 不是目录返回 false.
-			///
-			bool CheckIsDirectory()
+			if (!_month_dir_iterator->CurrentValue().IsDirectory())
 			{
-				if (!_month_dir_iterator->CurrentValue().IsDirectory())
-				{
-					return false;
-				}
+				return false;
+			}
 
+			return true;
+		}
+
+		bool CheckDirName()
+		{
+			try
+			{
+				base::Path path = _month_dir_iterator->CurrentValue().Path();
+				_month = base::Parse<int64_t>(path.LastName().ToString(), 10);
+			}
+			catch (std::exception const &e)
+			{
+				base::console().WriteError(CODE_POS_STR + e.what());
+				return false;
+			}
+			catch (...)
+			{
+				base::console().WriteError(CODE_POS_STR + "未知异常。");
+				return false;
+			}
+
+			return true;
+		}
+
+		bool CheckTimeRange()
+		{
+			if (!_should_check_time_range)
+			{
 				return true;
 			}
 
-			bool CheckDirName()
+			try
 			{
-				try
-				{
-					base::Path path = _month_dir_iterator->CurrentValue().Path();
-					_month = base::Parse<int64_t>(path.LastName().ToString(), 10);
-				}
-				catch (std::exception const &e)
-				{
-					base::console().WriteError(CODE_POS_STR + e.what());
-					return false;
-				}
-				catch (...)
-				{
-					base::console().WriteError(CODE_POS_STR + "未知异常。");
-					return false;
-				}
+				base::DateTime right{
+					_utc_hour_offset,
+					_year,
+					_month,
+					10,
+					23,
+					59,
+					59,
+					static_cast<int64_t>(1e9) - 1,
+				};
 
-				return true;
-			}
-
-			bool CheckTimeRange()
-			{
-				if (!_should_check_time_range)
-				{
-					return true;
-				}
-
-				try
-				{
-					base::DateTime right{
+				base::ClosedInterval<base::DateTime> interval{
+					base::DateTime{
 						_utc_hour_offset,
 						_year,
 						_month,
-						10,
+						1,
+						0,
+						0,
+						0,
+						0,
+					},
+					base::DateTime{
+						_utc_hour_offset,
+						_year,
+						_month,
+						right.CurrentMonthDayCount(),
 						23,
 						59,
 						59,
 						static_cast<int64_t>(1e9) - 1,
-					};
+					},
+				};
 
-					base::ClosedInterval<base::DateTime> interval{
-						base::DateTime{
-							_utc_hour_offset,
-							_year,
-							_month,
-							1,
-							0,
-							0,
-							0,
-							0,
-						},
-						base::DateTime{
-							_utc_hour_offset,
-							_year,
-							_month,
-							right.CurrentMonthDayCount(),
-							23,
-							59,
-							59,
-							static_cast<int64_t>(1e9) - 1,
-						},
-					};
-
-					if (!_date_time_interval.HasIntersection(interval))
-					{
-						return false;
-					}
-				}
-				catch (std::exception const &e)
+				if (!_date_time_interval.HasIntersection(interval))
 				{
-					base::console().WriteError(CODE_POS_STR + e.what());
 					return false;
 				}
-				catch (...)
-				{
-					base::console().WriteError(CODE_POS_STR + "未知异常。");
-					return false;
-				}
-
-				return true;
 			}
-
-			bool Check()
+			catch (std::exception const &e)
 			{
-				// 按顺序调用上方的检查函数。
-				// 一定要按顺序，因为检查过程会为字段赋值，后一个检查会依赖前面检查的结果。
-				if (!CheckIsDirectory())
-				{
-					return false;
-				}
-
-				if (!CheckDirName())
-				{
-					return false;
-				}
-
-				if (!CheckTimeRange())
-				{
-					return false;
-				}
-
-				return true;
+				base::console().WriteError(CODE_POS_STR + e.what());
+				return false;
 			}
-
-			/* #endregion */
-
-			///
-			/// @brief 移动到下一个月目录。
-			///
-			/// @return 移动完之后如果 _month_dir_iterator 指向有效的年目录，则返回 true, 否则返回 false.
-			///
-			bool MoveToNextMonth()
+			catch (...)
 			{
-				while (true)
-				{
-					if (base::is_cancellation_requested(_cancellation_token))
-					{
-						return false;
-					}
-
-					if (_month_dir_iterator == nullptr)
-					{
-						_month_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(_year_path);
-					}
-
-					if (!_month_dir_iterator->MoveToNext())
-					{
-						return false;
-					}
-
-					// 已经成功让年目录迭代器指向下一个有效项目了，接下来需要进行一些过滤，确保它是有效的年目录。
-					if (!Check())
-					{
-						continue;
-					}
-
-					// 历经重重考验，终于确认年迭代器指向的是有效的年目录了。
-					return true;
-				}
+				base::console().WriteError(CODE_POS_STR + "未知异常。");
+				return false;
 			}
 
-		public:
-			MonthDirectoryEnumerator(base::Path const &year_path,
-									 bool should_check_time_range,
-									 int64_t year,
-									 base::Interval<base::DateTime> const &date_time_range,
-									 base::UtcHourOffset const &utc_hour_offset,
-									 std::shared_ptr<base::CancellationToken> cancellation_token)
+			return true;
+		}
+
+		bool Check()
+		{
+			// 按顺序调用上方的检查函数。
+			// 一定要按顺序，因为检查过程会为字段赋值，后一个检查会依赖前面检查的结果。
+			if (!CheckIsDirectory())
 			{
-				_year_path = year_path;
-				_should_check_time_range = should_check_time_range;
-				_cancellation_token = cancellation_token;
-
-				_year = year;
-				_date_time_interval = base::GetYearMonthDateTimeInterval(date_time_range);
-				_utc_hour_offset = utc_hour_offset;
-				MoveToNextMonth();
+				return false;
 			}
 
-			MonthDirectoryEnumerator(base::Path const &base_path, std::shared_ptr<base::CancellationToken> cancellation_token)
+			if (!CheckDirName())
 			{
-				_year_path = base_path;
-				_should_check_time_range = false;
-				_cancellation_token = cancellation_token;
-
-				MoveToNextMonth();
+				return false;
 			}
 
-			///
-			/// @brief 迭代器当前是否指向尾后元素。
-			///
-			/// @return
-			///
-			virtual bool IsEnd() const override
+			if (!CheckTimeRange())
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		/* #endregion */
+
+		///
+		/// @brief 移动到下一个月目录。
+		///
+		/// @return 移动完之后如果 _month_dir_iterator 指向有效的年目录，则返回 true, 否则返回 false.
+		///
+		bool MoveToNextMonth()
+		{
+			while (true)
 			{
 				if (base::is_cancellation_requested(_cancellation_token))
 				{
-					return true;
+					return false;
 				}
 
 				if (_month_dir_iterator == nullptr)
 				{
-					return true;
+					_month_dir_iterator = base::filesystem::CreateDirectoryEntryEnumerator(_year_path);
 				}
 
-				return _month_dir_iterator->IsEnd();
-			}
-
-			///
-			/// @brief 获取当前值的引用。
-			///
-			/// @note 迭代器构造后，如果被迭代的集合不为空，要立即让 CurrentValue 指向第一个有效元素。
-			///
-			/// @return
-			///
-			virtual base::filesystem::DirectoryEntry const &CurrentValue() override
-			{
-				base::throw_if_cancellation_is_requested(_cancellation_token);
-
-				if (_month_dir_iterator == nullptr || _month_dir_iterator->IsEnd())
+				if (!_month_dir_iterator->MoveToNext())
 				{
-					throw std::runtime_error{CODE_POS_STR + "没有当前值可用。"};
+					return false;
 				}
 
-				return _month_dir_iterator->CurrentValue();
-			}
+				// 已经成功让年目录迭代器指向下一个有效项目了，接下来需要进行一些过滤，确保它是有效的年目录。
+				if (!Check())
+				{
+					continue;
+				}
 
-			///
-			/// @brief 递增迭代器的位置。
-			///
-			///
-			virtual void Add() override
+				// 历经重重考验，终于确认年迭代器指向的是有效的年目录了。
+				return true;
+			}
+		}
+
+	public:
+		MonthDirectoryEnumerator(base::Path const &year_path,
+								 bool should_check_time_range,
+								 int64_t year,
+								 base::Interval<base::DateTime> const &date_time_range,
+								 base::UtcHourOffset const &utc_hour_offset,
+								 std::shared_ptr<base::CancellationToken> cancellation_token)
+		{
+			_year_path = year_path;
+			_should_check_time_range = should_check_time_range;
+			_cancellation_token = cancellation_token;
+
+			_year = year;
+			_date_time_interval = base::GetYearMonthDateTimeInterval(date_time_range);
+			_utc_hour_offset = utc_hour_offset;
+			MoveToNextMonth();
+		}
+
+		MonthDirectoryEnumerator(base::Path const &base_path, std::shared_ptr<base::CancellationToken> cancellation_token)
+		{
+			_year_path = base_path;
+			_should_check_time_range = false;
+			_cancellation_token = cancellation_token;
+
+			MoveToNextMonth();
+		}
+
+		///
+		/// @brief 迭代器当前是否指向尾后元素。
+		///
+		/// @return
+		///
+		virtual bool IsEnd() const override
+		{
+			if (base::is_cancellation_requested(_cancellation_token))
 			{
-				base::throw_if_cancellation_is_requested(_cancellation_token);
-				MoveToNextMonth();
+				return true;
 			}
 
-			int64_t Month() const
+			if (_month_dir_iterator == nullptr)
 			{
-				return _month;
+				return true;
 			}
 
-			///
-			/// @brief 派生类需要提供一个该对象。
-			///
-			/// @return
-			///
-			virtual base::IEnumerator<base::filesystem::DirectoryEntry const>::Context_t &Context() override
+			return _month_dir_iterator->IsEnd();
+		}
+
+		///
+		/// @brief 获取当前值的引用。
+		///
+		/// @note 迭代器构造后，如果被迭代的集合不为空，要立即让 CurrentValue 指向第一个有效元素。
+		///
+		/// @return
+		///
+		virtual base::filesystem::DirectoryEntry const &CurrentValue() override
+		{
+			base::throw_if_cancellation_is_requested(_cancellation_token);
+
+			if (_month_dir_iterator == nullptr || _month_dir_iterator->IsEnd())
 			{
-				return _context;
+				throw std::runtime_error{CODE_POS_STR + "没有当前值可用。"};
 			}
-		};
 
-	} // namespace filesystem
-} // namespace base
+			return _month_dir_iterator->CurrentValue();
+		}
+
+		///
+		/// @brief 递增迭代器的位置。
+		///
+		///
+		virtual void Add() override
+		{
+			base::throw_if_cancellation_is_requested(_cancellation_token);
+			MoveToNextMonth();
+		}
+
+		int64_t Month() const
+		{
+			return _month;
+		}
+
+		///
+		/// @brief 派生类需要提供一个该对象。
+		///
+		/// @return
+		///
+		virtual base::IEnumerator<base::filesystem::DirectoryEntry const>::Context_t &Context() override
+		{
+			return _context;
+		}
+	};
+
+} // namespace base::filesystem
