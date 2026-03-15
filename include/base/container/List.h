@@ -445,6 +445,8 @@ namespace base
 
 		/* #endregion */
 
+		/* #region 迭代 */
+
 		auto begin()
 		{
 			return base::IRawArray<ItemType>::begin();
@@ -464,6 +466,8 @@ namespace base
 		{
 			return base::IRawArray<ItemType>::end();
 		}
+
+		/* #endregion */
 	};
 
 	///
