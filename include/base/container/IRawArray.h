@@ -452,6 +452,8 @@ namespace base
 
 		/* #endregion */
 
+		/* #region 迭代 */
+
 		Iterator<ItemType> begin()
 		{
 			return Iterator<ItemType>{this, 0};
@@ -471,6 +473,8 @@ namespace base
 		{
 			return Iterator<ItemType const>{const_cast<IRawArray *>(this), Count()};
 		}
+
+		/* #endregion */
 	};
 
 } // namespace base

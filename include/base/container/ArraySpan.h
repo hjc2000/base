@@ -373,6 +373,8 @@ namespace base
 			return ret;
 		}
 
+		/* #region 迭代 */
+
 		Iterator<ItemType> begin()
 		{
 			return Iterator<ItemType>{this, 0};
@@ -392,6 +394,8 @@ namespace base
 		{
 			return Iterator<ItemType const>{const_cast<ArraySpan *>(this), Count()};
 		}
+
+		/* #endregion */
 	};
 
 } // namespace base
