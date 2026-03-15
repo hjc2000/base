@@ -41,7 +41,7 @@ namespace base
 				_index = index;
 			}
 
-			item_type &operator*()
+			reference operator*()
 			{
 				if (_span == nullptr)
 				{
@@ -51,7 +51,7 @@ namespace base
 				return (*_span)[_index];
 			}
 
-			item_type *operator->()
+			pointer operator->()
 			{
 				return &operator*();
 			}
@@ -113,7 +113,7 @@ namespace base
 				return copy;
 			}
 
-			int64_t operator-(Iterator const &other) const
+			difference_type operator-(Iterator const &other) const
 			{
 				return _index - other._index;
 			}
