@@ -43,7 +43,6 @@ namespace base
 		///
 		/// @brief 清空所有元素。
 		///
-		///
 		virtual void Clear() = 0;
 
 		///

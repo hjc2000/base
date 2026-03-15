@@ -78,11 +78,16 @@ namespace base
 	public:
 		/* #region 构造函数 */
 
+		///
 		/// @brief 构造一个空字典。
+		///
 		Dictionary() = default;
 
+		///
 		/// @brief 从 map 中构造。将 map 的元素复制过来。
+		///
 		/// @param o
+		///
 		Dictionary(std::map<KeyType, ValueType> const &o)
 		{
 			_map = o;
@@ -142,7 +147,6 @@ namespace base
 
 		///
 		/// @brief 清空所有元素。
-		///
 		///
 		virtual void Clear() override
 		{
