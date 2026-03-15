@@ -522,7 +522,7 @@ namespace base::filesystem
 	///
 	/// @brief 目录条目收集者。
 	///
-	/// @note 收集指定路径下的目录条目，然后支持遍历。
+	/// @note 收集指定路径下的目录条目，并支持遍历。
 	///
 	class DirectoryEntryCollector
 	{
@@ -563,7 +563,7 @@ namespace base::filesystem
 	///
 	/// @brief 递归的目录条目收集者。
 	///
-	/// @note 递归收集指定路径下的目录条目，然后支持遍历。
+	/// @note 递归收集指定路径下的目录条目，并支持遍历。
 	///
 	class DirectoryEntryRecursiveCollector
 	{
