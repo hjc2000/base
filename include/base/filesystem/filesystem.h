@@ -511,6 +511,10 @@ namespace base::detail::interface::filesystem
 
 	std::shared_ptr<base::IForwardIterator<base::filesystem::DirectoryEntry const>> GetDirectoryEntryEndIterator();
 
+	std::shared_ptr<base::IForwardIterator<base::filesystem::DirectoryEntry const>> GetDirectoryEntryRecursiveBeginIterator(base::Path const &path);
+
+	std::shared_ptr<base::IForwardIterator<base::filesystem::DirectoryEntry const>> GetDirectoryEntryRecursiveEndIterator();
+
 } // namespace base::detail::interface::filesystem
 
 namespace base::filesystem
@@ -547,6 +551,42 @@ namespace base::filesystem
 		base::ConstForwardIterator<base::filesystem::DirectoryEntry const> end() const
 		{
 			base::ConstForwardIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryEndIterator()};
+			return ret;
+		}
+	};
+
+	class DirectoryEntryRecursiveIterator
+	{
+	private:
+		base::Path const &_path{};
+
+	public:
+		DirectoryEntryRecursiveIterator(base::Path const &path)
+			: _path{path}
+		{
+		}
+
+		base::ForwardIterator<base::filesystem::DirectoryEntry const> begin()
+		{
+			base::ForwardIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryRecursiveBeginIterator(_path)};
+			return ret;
+		}
+
+		base::ForwardIterator<base::filesystem::DirectoryEntry const> end()
+		{
+			base::ForwardIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryRecursiveEndIterator()};
+			return ret;
+		}
+
+		base::ConstForwardIterator<base::filesystem::DirectoryEntry const> begin() const
+		{
+			base::ConstForwardIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryRecursiveBeginIterator(_path)};
+			return ret;
+		}
+
+		base::ConstForwardIterator<base::filesystem::DirectoryEntry const> end() const
+		{
+			base::ConstForwardIterator<base::filesystem::DirectoryEntry const> ret{base::detail::interface::filesystem::GetDirectoryEntryRecursiveEndIterator()};
 			return ret;
 		}
 	};
