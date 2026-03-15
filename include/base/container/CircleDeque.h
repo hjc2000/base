@@ -11,7 +11,6 @@ namespace base
 	///
 	/// @brief 循环缓冲区的双端队列。
 	///
-	///
 	template <typename ItemType, int64_t Size>
 		requires(Size > 0)
 	class CircleDeque final :
